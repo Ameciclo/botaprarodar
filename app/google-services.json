@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "392780736653",
+    "firebase_url": "https://bota-pra-rodar.firebaseio.com",
+    "project_id": "bota-pra-rodar",
+    "storage_bucket": "bota-pra-rodar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392780736653:android:69435ad55e682c3c",
+        "android_client_info": {
+          "package_name": "app.igormatos.botaprarodar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392780736653-ujo9a5fc7hi718kmu1ccpk65v68v44pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.igormatos.botaprarodar",
+            "certificate_hash": "8a67c556f9050268d43240ac84bda8f3352c4b93"
+          }
+        },
+        {
+          "client_id": "392780736653-b902sukhcuaivts09jji432dehcgio3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWtb-QC9lD0fXBW_ucvcdbm-L5ZlFn160"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392780736653-b902sukhcuaivts09jji432dehcgio3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
