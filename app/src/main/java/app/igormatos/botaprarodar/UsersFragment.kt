@@ -1,11 +1,13 @@
 package app.igormatos.botaprarodar
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class UsersFragment : Fragment() {
@@ -21,6 +23,17 @@ class UsersFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         FirebaseDatabase.getInstance().reference.setValue("Teste")
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        addItemFab.setOnClickListener {
+            val intent = Intent(it.context, AddUserActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }
