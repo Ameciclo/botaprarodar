@@ -4,11 +4,12 @@
                                              android:layout_height="match_parent"
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/text_test"
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Text" />
+        android:id="@+id/recyclerView">
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/addItemFab"
@@ -21,5 +22,14 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/colorPrimaryDark" />
+
+    <com.leinardi.android.speeddial.SpeedDialView
+            android:visibility="gone"
+            android:id="@+id/speedDial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:sdMainFabClosedSrc="@drawable/ic_directions_bike" />
 
 </android.support.constraint.ConstraintLayout>

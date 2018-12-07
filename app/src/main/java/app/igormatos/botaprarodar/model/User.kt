@@ -1,29 +1,40 @@
 package app.igormatos.botaprarodar.model
 
+import com.google.firebase.database.IgnoreExtraProperties
+import java.text.SimpleDateFormat
+import java.util.*
+
+@IgnoreExtraProperties
 class User : Item {
 
-    var id: Int = 0
-    lateinit var name: String
-    lateinit var created_date: String
-    lateinit var birthday: String
-    lateinit var address: String
-    lateinit var gender: String
-    lateinit var profile_picture: String
-    lateinit var residence_proof_picture: String
+    var id: String? = null
+    var name: String? = null
+    var created_date: String? = null
+    var birthday: String? = null
+    var address: String? = null
+    var gender: String? = null
+    var profile_picture: String? = null
+    var residence_proof_picture: String? = null
     var doc_type: Int = 0
     var doc_number: Long = 0
 
 
+    init {
+        val date = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        created_date = dateFormat.format(date)
+    }
+
     override fun title(): String {
-        return name
+        return name ?: "Title"
     }
 
     override fun iconPath(): String {
-        return profile_picture
+        return profile_picture ?: "profilepic"
     }
 
     override fun subtitle(): String {
-        return "Cadastrado desde "
+        return "Cadastrado desde $created_date"
     }
 
 }

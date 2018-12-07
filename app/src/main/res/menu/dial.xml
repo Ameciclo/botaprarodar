@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/withdraw"
+      android:icon="@drawable/ic_directions_bike"
+      android:title="Retirar" />
+<item android:id="@+id/giveback"
+          android:icon="@drawable/ic_directions_bike"
+          android:title="Devolver" />
+</menu>

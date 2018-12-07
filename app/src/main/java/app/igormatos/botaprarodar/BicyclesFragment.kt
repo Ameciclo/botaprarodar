@@ -11,7 +11,6 @@ class BicyclesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
-        rootView.text_test.text = "Bicycle"
         return rootView
     }
 

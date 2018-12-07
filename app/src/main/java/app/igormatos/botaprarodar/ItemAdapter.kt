@@ -1,17 +1,52 @@
 package app.igormatos.botaprarodar
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import app.igormatos.botaprarodar.model.Item
+import com.bumptech.glide.Glide
 
-class ItemAdapter {
-//    : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-//
-//    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-//    }
-//
-//    override fun getItemCount(): Int {
-//    }
-//
-//    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-//    }
+class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    var itemsList: MutableList<Item> = mutableListOf()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_cell, parent, false)
+        return ItemCellViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return itemsList.count()
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
+        (holder as ItemCellViewHolder).bind(itemsList[index])
+    }
+
+    fun updateList(newList: List<Item>) {
+        itemsList = newList.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun addItem(item: Item) {
+        itemsList.add(item)
+        notifyDataSetChanged()
+//        notifyItemInserted(itemsList.size - 1)
+    }
+    class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(item: Item) {
+            itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
+            itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
+
+            val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
+
+            Glide.with(itemView.context)
+                .load(item.iconPath())
+                .into(imageView)
+        }
+    }
 }

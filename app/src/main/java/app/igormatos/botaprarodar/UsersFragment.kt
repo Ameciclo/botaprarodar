@@ -3,26 +3,33 @@ package app.igormatos.botaprarodar
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import app.igormatos.botaprarodar.model.Item
+import app.igormatos.botaprarodar.model.User
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class UsersFragment : Fragment() {
 
+    val usersReference = FirebaseDatabase.getInstance().getReference("users")
+    val itemAdapter = ItemAdapter()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
 
-        rootView.text_test.text = "Users"
         return rootView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        FirebaseDatabase.getInstance().reference.setValue("Teste")
 
     }
 
@@ -34,6 +41,29 @@ class UsersFragment : Fragment() {
             startActivity(intent)
         }
 
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = itemAdapter
+
+        val usersListener = object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val user = p0.getValue(User::class.java)
+                itemAdapter.addItem(user as Item)
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+        }
+
+        usersReference.addChildEventListener(usersListener)
     }
 
 }
