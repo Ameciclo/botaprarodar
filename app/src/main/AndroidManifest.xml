@@ -42,6 +42,8 @@
 
         <activity android:name=".AddBikeActivity">
         </activity>
+        <activity android:name=".BicycleWithdrawActivity">
+        </activity>
     </application>
 
 </manifest>

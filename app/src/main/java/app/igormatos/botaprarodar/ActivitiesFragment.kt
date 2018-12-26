@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +34,8 @@ class ActivitiesFragment : Fragment() {
         speedDial.setOnActionSelectedListener { speedDialActionItem ->
             when (speedDialActionItem.id) {
                 R.id.withdraw -> {
-                    Toast.makeText(this@ActivitiesFragment.context, "Clicou", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@ActivitiesFragment.context, BicycleWithdrawActivity::class.java)
+                    startActivity(intent)
                     false // true to keep the Speed Dial open
                 }
                 else -> false
