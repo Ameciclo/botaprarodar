@@ -30,7 +30,7 @@ class User : Item {
     }
 
     override fun iconPath(): String {
-        return profile_picture ?: "profilepic"
+        return profile_picture ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 
     override fun subtitle(): String {
