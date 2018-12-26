@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
+import app.igormatos.botaprarodar.model.User
 import com.bumptech.glide.Glide
 
 class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -36,6 +39,13 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         notifyDataSetChanged()
 //        notifyItemInserted(itemsList.size - 1)
     }
+
+    fun removeItem(item: Item) {
+        val index = itemsList.indexOfFirst { it -> it.id == item.id }
+        itemsList.removeAt(index)
+        notifyItemRemoved(index)
+    }
+
     class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: Item) {
@@ -47,6 +57,13 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
             Glide.with(itemView.context)
                 .load(item.iconPath())
                 .into(imageView)
+
+            itemView.setOnLongClickListener {
+                item.removeRemote()
+                Toast.makeText(itemView.context, "Item removido", Toast.LENGTH_SHORT).show()
+                true
+            }
+
         }
     }
 }

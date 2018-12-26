@@ -7,7 +7,9 @@ import java.util.*
 @IgnoreExtraProperties
 class User : Item {
 
-    var id: String? = null
+    override val path: String = "users"
+
+    override var id: String? = null
     var name: String? = null
     var created_date: String? = null
     var birthday: String? = null

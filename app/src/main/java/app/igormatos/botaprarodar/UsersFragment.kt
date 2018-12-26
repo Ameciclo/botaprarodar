@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
 
 class UsersFragment : Fragment() {
 
-    val usersReference = FirebaseDatabase.getInstance().getReference("users")
+    private val usersReference = FirebaseDatabase.getInstance().getReference("users")
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,6 +58,8 @@ class UsersFragment : Fragment() {
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
+                val user = p0.getValue(User::class.java)
+                itemAdapter.removeItem(user as Item)
             }
         }
 

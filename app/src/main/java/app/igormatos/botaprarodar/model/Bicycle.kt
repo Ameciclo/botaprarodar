@@ -5,7 +5,9 @@ import java.util.*
 
 class Bicycle : Item {
 
-    var id: String? = null
+    override val path: String = "bicycles"
+
+    override var id: String? = null
     var name: String? = null
     var serial_number: Long? = null
     var order_number: Long? = null

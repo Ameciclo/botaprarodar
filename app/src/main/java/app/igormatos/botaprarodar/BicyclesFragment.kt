@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
-import app.igormatos.botaprarodar.model.User
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 class BicyclesFragment : Fragment() {
 
-    val bicyclesFragment = FirebaseDatabase.getInstance().getReference("bicycles")
+    private val bicyclesFragment = FirebaseDatabase.getInstance().getReference("bicycles")
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,6 +57,8 @@ class BicyclesFragment : Fragment() {
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
+                val bicycle = p0.getValue(Bicycle::class.java)
+                itemAdapter.removeItem(bicycle as Item)
             }
         }
 
