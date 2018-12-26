@@ -48,7 +48,6 @@
 <EditText android:layout_width="250dp" android:layout_height="wrap_content"
           app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView"
           android:id="@+id/serieNumber"
-          android:inputType="number"
           android:hint="Número de série da bicicleta"
           android:layout_marginTop="8dp"
           app:layout_constraintLeft_toLeftOf="@id/bikePhotoImageView"  />
