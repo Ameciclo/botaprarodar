@@ -3,46 +3,40 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.provider.MediaStore
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_add_user.*
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
+import android.os.Parcelable
+import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import app.igormatos.botaprarodar.model.User
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_add_user.*
+import org.parceler.Parcels
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+val USER_EXTRA = "USER_EXTRA"
 
 class AddUserActivity : AppCompatActivity() {
-
-    val REQUEST_FILE = 2
-    val REQUEST_IMAGE_CAPTURE = 1
-    val REQUEST_TAKE_PHOTO = 1
 
     val REQUEST_PROFILE_PHOTO = 1
     val REQUEST_ID_PHOTO = 2
     val REQUEST_RESIDENCE_PHOTO = 3
 
-    val CODE_EXTRA = "CODE_EXTRA"
-    val FILE_NAME_EXTRA = "FILE_NAME_EXTRA"
-
-    lateinit var bitmapToUpload: Bitmap
-
     var userToSend = User()
     var usersReference = FirebaseDatabase.getInstance().getReference("users")
+    var userCopy = User()
+    var profilePhotoHasChanged: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +59,7 @@ class AddUserActivity : AppCompatActivity() {
 
             saveButton.isEnabled = false
 
-            uploadImage { addUserToServer() }
+            uploadImageFromImageView { addUserToServer() }
         }
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -84,6 +78,9 @@ class AddUserActivity : AppCompatActivity() {
 
         radioGroup.check(R.id.rgCheck)
 
+        val userParcelable = if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) as Parcelable else null
+        checkIfEditMode(userParcelable)
+
 //        residenceProofField.setOnClickListener {
 //            val intent = Intent(Intent.ACTION_GET_CONTENT)
 //            intent.type = "file/*"
@@ -92,13 +89,43 @@ class AddUserActivity : AppCompatActivity() {
 //        }
     }
 
+    private fun checkIfEditMode(userParcelable: Parcelable?) {
+        if (userParcelable == null) return
+
+        userParcelable?.let {
+            val user = Parcels.unwrap(it) as User
+            userToSend = user
+            userCopy = user
+
+            user.profile_picture?.let { profileImageView.loadPath(it) }
+            user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
+            user.name?.let { completeNameField.setText(it) }
+            when(user.doc_type) {
+                1 -> {
+                    rgCheck.isChecked = true
+                }
+                2 -> {
+                    cpfCheck.isChecked = true
+                }
+            }
+
+            idNumberField.setText(user.doc_number.toString())
+
+            user.address?.let { addressField.setText(it) }
+            saveButton.text = "Salvar alterações"
+//            saveButton.isEnabled = false
+        }
+    }
+
     private fun addUserToServer() {
         userToSend.name = completeNameField.text.toString()
         userToSend.address = addressField.text.toString()
         userToSend.doc_number = idNumberField.text.toString().toLong()
 
-        val key = usersReference.push().key!!
-        userToSend.id = key
+        val key = userToSend.id ?: usersReference.push().key!!
+//        val key = usersReference.push().key!!
+//        userToSend.id = key
+
         usersReference.child(key).setValue(userToSend).addOnSuccessListener {
             Toast.makeText(this@AddUserActivity, "Usuário adicionado com sucesso", Toast.LENGTH_SHORT).show()
             finish()
@@ -113,7 +140,12 @@ class AddUserActivity : AppCompatActivity() {
             idNumberField.text.isNullOrEmpty()
     }
 
-    private fun uploadImage(afterSuccess: () -> Unit) {
+    private fun uploadImageFromImageView(afterSuccess: () -> Unit) {
+        if (!profilePhotoHasChanged) {
+            afterSuccess()
+            return
+        }
+
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 
@@ -188,6 +220,7 @@ class AddUserActivity : AppCompatActivity() {
 
             val loadImageView = when (requestCode) {
                 REQUEST_PROFILE_PHOTO -> {
+                    profilePhotoHasChanged = true
                     profileImageView
                 }
 
@@ -202,11 +235,7 @@ class AddUserActivity : AppCompatActivity() {
                 else -> profileImageView
             }
 
-            Glide.with(this)
-                .load(mCurrentPhotoPath)
-                .apply(RequestOptions.fitCenterTransform())
-                .into(loadImageView)
-
+            loadImageView.loadPath(mCurrentPhotoPath)
         }
     }
 

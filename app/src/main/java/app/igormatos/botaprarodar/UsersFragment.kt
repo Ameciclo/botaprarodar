@@ -50,6 +50,8 @@ class UsersFragment : Fragment() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val user = p0.getValue(User::class.java)
+                itemAdapter.updateItem(user as Item)
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {

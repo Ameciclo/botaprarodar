@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -46,6 +47,13 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version" // sdk15, sdk19, sdk21, sdk23 are also available
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
+
+    // Utils
+    implementation 'org.parceler:parceler-api:1.1.11'
+    kapt 'org.parceler:parceler:1.1.11'
+
+//    // Rx
+//    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
 
 }
 
