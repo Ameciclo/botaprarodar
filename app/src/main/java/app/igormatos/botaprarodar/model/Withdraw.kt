@@ -15,6 +15,9 @@ class Withdraw: Item {
     var user_name: String? = null
     var bicycle_name: String? = null
     var bicycle_id: String? = null
+    var destination: String? = null
+    var trip_reason: List<Int>? = null
+    var bicycle_rating: Int? = null
 
     init {
         val date = Calendar.getInstance().time
@@ -27,7 +30,7 @@ class Withdraw: Item {
     }
 
     override fun subtitle(): String {
-        return "$user_id retirou a bicicleta no dia $created_date"
+        return "$user_name retirou a bicicleta no dia $created_date"
     }
 
     override fun iconPath(): String {
