@@ -59,7 +59,7 @@ class AddBikeActivity : AppCompatActivity() {
 
     fun addUserToServer() {
         bicycleToAdd.name = bikeName.text.toString()
-        bicycleToAdd.serial_number = serieNumber.text.toString().toLong()
+        bicycleToAdd.serial_number = serieNumber.text.toString()
         bicycleToAdd.order_number = orderNumber.text.toString().toLong()
 
         val key = bicyclesReference.push().key!!

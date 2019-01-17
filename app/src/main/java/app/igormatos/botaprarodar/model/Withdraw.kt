@@ -3,14 +3,18 @@ package app.igormatos.botaprarodar.model
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Withdraw (var user_id: String) : Item {
+class Withdraw: Item {
 
     override val path: String = "activities"
 
     override var id: String? = null
 
+    var user_id: String? = null
     var created_date: String?
     var return_date: String? = null
+    var user_name: String? = null
+    var bicycle_name: String? = null
+    var bicycle_id: String? = null
 
     init {
         val date = Calendar.getInstance().time

@@ -9,7 +9,7 @@ class Bicycle : Item {
 
     override var id: String? = null
     var name: String? = null
-    var serial_number: Long? = null
+    var serial_number: String? = null
     var order_number: Long? = null
     var photo_path: String? = null
     var created_date: String? = null

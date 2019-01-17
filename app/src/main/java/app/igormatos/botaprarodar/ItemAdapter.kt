@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.User
+import app.igormatos.botaprarodar.model.Withdraw
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_cell.view.*
+import org.jetbrains.anko.backgroundColor
 import org.parceler.Parcels
 
-class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     var itemsList: MutableList<Item> = mutableListOf()
 
@@ -27,7 +31,14 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
-        (holder as ItemCellViewHolder).bind(itemsList[index])
+        val bicycle = itemsList[index]
+        val withdrawal = withdrawalsList?.firstOrNull {
+            (it.bicycle_id == bicycle.id) && (it.return_date.isNullOrEmpty())
+        }
+
+        val isAvailable = withdrawal == null
+
+        (holder as ItemCellViewHolder).bind(bicycle, isAvailable)
     }
 
     fun updateList(newList: List<Item>) {
@@ -54,11 +65,16 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         notifyItemChanged(index)
     }
 
+    fun updateWithdrawals(withdrawals: List<Withdraw>) {
+        withdrawalsList = withdrawals
+    }
+
     class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: Item) {
+        fun bind(item: Item, isAvailable: Boolean) {
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
             itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
+
 
             val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
 
@@ -77,6 +93,21 @@ class ItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     val intent = Intent(itemView.context, AddUserActivity::class.java)
                     intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
                     itemView.context.startActivity(intent)
+                }
+            }
+
+            if (item is Bicycle) {
+                if (!isAvailable) {
+                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
+                }
+
+                itemView.setOnClickListener {
+                    if (isAvailable) {
+                        Toast.makeText(it.context, "Está disponivel", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(it.context, "Não está disponível", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
             }
 
