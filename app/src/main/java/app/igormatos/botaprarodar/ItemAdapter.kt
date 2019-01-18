@@ -14,7 +14,6 @@ import app.igormatos.botaprarodar.model.User
 import app.igormatos.botaprarodar.model.Withdraw
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
-import org.jetbrains.anko.backgroundColor
 import org.parceler.Parcels
 
 class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -33,12 +32,12 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
         val bicycle = itemsList[index]
         val withdrawal = withdrawalsList?.firstOrNull {
-            (it.bicycle_id == bicycle.id) && (it.return_date.isNullOrEmpty())
+            (it.bicycle_id == bicycle.id) && (it.returned_date.isNullOrEmpty())
         }
 
         val isAvailable = withdrawal == null
 
-        (holder as ItemCellViewHolder).bind(bicycle, isAvailable)
+        (holder as ItemCellViewHolder).bind(bicycle, isAvailable, withdrawal)
     }
 
     fun updateList(newList: List<Item>) {
@@ -71,7 +70,7 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
 
     class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: Item, isAvailable: Boolean) {
+        fun bind(item: Item, isAvailable: Boolean, withdrawal: Withdraw? = null) {
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
             itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
 
@@ -106,6 +105,13 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
                         Toast.makeText(it.context, "Está disponivel", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(it.context, "Não está disponível", Toast.LENGTH_SHORT).show()
+
+                        withdrawal?.let { withdrawal ->
+                            val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
+                            intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawal))
+                            itemView.context.startActivity(intent)
+                        }
+
                     }
 
                 }

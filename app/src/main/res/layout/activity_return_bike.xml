@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ReturnBikeActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:title="@string/confirmar_devolucao"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"/>
+
+    </android.support.design.widget.AppBarLayout>
+    <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/userImageView" android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userName"
+            app:layout_constraintTop_toTopOf="@+id/userImageView" app:layout_constraintStart_toEndOf="@+id/userImageView"
+            android:layout_marginStart="8dp" tools:text="Nome" android:textSize="18sp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bikeName"
+            tools:text="Nome" android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="@+id/bicycleImageView" app:layout_constraintStart_toEndOf="@+id/bicycleImageView"
+            android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/userName" app:layout_constraintStart_toEndOf="@+id/userImageView"
+            android:layout_marginStart="8dp"/>
+    <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/bicycleImageView" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/userImageView" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"/>
+    <Button
+            android:text="Confirmar devolução"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirmBikeReturn" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/bicycleImageView"/>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="complete_name">Nome completo</string>
     <string name="add_user_title">Cadastrar usuário</string>
+    <string name="confirmar_devolucao">Confirmar devolução</string>
 </resources>

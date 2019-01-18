@@ -57,6 +57,8 @@ class ActivitiesFragment : Fragment() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val withdraw = p0.getValue(Withdraw::class.java)
+                itemAdapter.updateItem(withdraw as Item)
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
