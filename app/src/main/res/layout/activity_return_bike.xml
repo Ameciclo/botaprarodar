@@ -30,40 +30,56 @@
             android:id="@+id/userImageView" android:layout_marginTop="24dp"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp"/>
+            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/userName"
-            app:layout_constraintTop_toTopOf="@+id/userImageView" app:layout_constraintStart_toEndOf="@+id/userImageView"
-            android:layout_marginStart="8dp" tools:text="Nome" android:textSize="18sp"/>
+            tools:text="Nome" android:textSize="18sp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/userImageView"
+            app:layout_constraintStart_toStartOf="@+id/userImageView"
+            app:layout_constraintEnd_toEndOf="@+id/userImageView"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bikeName"
             tools:text="Nome" android:textSize="18sp"
-            app:layout_constraintTop_toTopOf="@+id/bicycleImageView" app:layout_constraintStart_toEndOf="@+id/bicycleImageView"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintEnd_toEndOf="@+id/bicycleImageView"
+            app:layout_constraintTop_toBottomOf="@id/bicycleImageView"
+            app:layout_constraintStart_toStartOf="@+id/bicycleImageView" app:layout_constraintHorizontal_bias="0.51"/>
     <TextView
-            android:text="TextView"
             android:layout_width="wrap_content"
+            tools:text="RG: 88444454"
             android:layout_height="wrap_content"
-            android:id="@+id/textView3" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/userName" app:layout_constraintStart_toEndOf="@+id/userImageView"
-            android:layout_marginStart="8dp"/>
+            android:id="@+id/userDoc" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/userName"
+            app:layout_constraintStart_toStartOf="@+id/userImageView"
+            app:layout_constraintEnd_toEndOf="@+id/userImageView"/>
     <ImageView
             android:layout_width="96dp"
             android:layout_height="96dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/bicycleImageView" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/userImageView" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp"/>
+            android:id="@+id/bicycleImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/userDoc"/>
     <Button
             android:text="Confirmar devolução"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/confirmBikeReturn" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/bicycleImageView"/>
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <Button
+            android:text="Responder questionário"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fillRideQuiz"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/confirmBikeReturn" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/bikeName"/>
 
 
 </android.support.constraint.ConstraintLayout>

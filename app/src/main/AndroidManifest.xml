@@ -48,6 +48,8 @@
         </activity>
         <activity android:name=".ReturnBikeActivity">
         </activity>
+        <activity android:name=".RideQuizActivity">
+        </activity>
     </application>
 
 </manifest>

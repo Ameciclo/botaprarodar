@@ -21,6 +21,7 @@ class Withdraw: Item {
     var bicycle_name: String? = null
     var bicycle_id: String? = null
     var bicycle_image_path: String? = null
+    var user: User? = null
 
     // End of Trip questions
     var destination: String? = null
