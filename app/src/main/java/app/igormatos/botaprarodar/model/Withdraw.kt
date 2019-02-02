@@ -25,8 +25,8 @@ class Withdraw: Item {
 
     // End of Trip questions
     var destination: String? = null
-    var trip_reason: List<Int>? = null
-    var bicycle_rating: Int? = null
+    var trip_reason: String? = null
+    var bicycle_rating: String? = null
 
     init {
         val date = Calendar.getInstance().time
