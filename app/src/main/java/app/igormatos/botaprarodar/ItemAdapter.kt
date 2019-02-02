@@ -104,8 +104,6 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
                     if (isAvailable) {
                         Toast.makeText(it.context, "Está disponivel", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(it.context, "Não está disponível", Toast.LENGTH_SHORT).show()
-
                         withdrawal?.let { withdrawal ->
                             val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
                             intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawal))
