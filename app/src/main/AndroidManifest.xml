@@ -50,6 +50,8 @@
         </activity>
         <activity android:name=".RideQuizActivity">
         </activity>
+        <activity android:name=".ChooseUserActivity">
+        </activity>
     </application>
 
 </manifest>

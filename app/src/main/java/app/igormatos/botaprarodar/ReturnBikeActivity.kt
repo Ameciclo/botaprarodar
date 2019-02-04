@@ -43,7 +43,6 @@ class ReturnBikeActivity : AppCompatActivity() {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy")
             withdrawalToSend.returned_date = dateFormat.format(date)
 
-
             withdrawalsReference.child(withdrawal.id!!).setValue(withdrawalToSend).addOnSuccessListener {
                 finish()
             }

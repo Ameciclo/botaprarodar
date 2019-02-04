@@ -8,8 +8,6 @@ import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.Withdraw
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_rent.*
-import kotlinx.android.synthetic.main.fragment_list.*
-
 
 class WithdrawActivity : AppCompatActivity() {
 
@@ -57,7 +55,6 @@ class WithdrawActivity : AppCompatActivity() {
             }
 
         })
-
 
 
     }

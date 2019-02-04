@@ -1,5 +1,8 @@
 package app.igormatos.botaprarodar
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,9 +19,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
 
-class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemsList: MutableList<Item> = mutableListOf()
+    var withdrawalInProgress: Withdraw? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_cell, parent, false)
@@ -30,14 +35,19 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
-        val bicycle = itemsList[index]
+        val item = itemsList[index]
         val withdrawal = withdrawalsList?.firstOrNull {
-            (it.bicycle_id == bicycle.id) && (it.returned_date.isNullOrEmpty())
+            (it.bicycle_id == item.id) && (it.returned_date.isNullOrEmpty())
         }
 
         val isAvailable = withdrawal == null
 
-        (holder as ItemCellViewHolder).bind(bicycle, isAvailable, withdrawal)
+        if (withdrawalInProgress == null) {
+            (holder as ItemCellViewHolder).bind(item, isAvailable, withdrawal, withdrawalsList != null)
+        } else {
+            (holder as ItemCellViewHolder).bindUserSelection(item, withdrawalInProgress!!)
+        }
+
     }
 
     fun updateList(newList: List<Item>) {
@@ -70,7 +80,39 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
 
     class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: Item, isAvailable: Boolean, withdrawal: Withdraw? = null) {
+        fun bindUserSelection(item: Item, withdrawalInProgress: Withdraw) {
+            itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
+            itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
+
+            val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
+            Glide.with(itemView.context)
+                .load(item.iconPath())
+                .into(imageView)
+
+            itemView.setOnClickListener {
+                val user = item as User
+                withdrawalInProgress.user_id = user.id
+                withdrawalInProgress.user = user
+                withdrawalInProgress.user_name = user.name
+                withdrawalInProgress.user_image_path = user.iconPath()
+
+                val alertDialog = AlertDialog.Builder(itemView.context)
+                alertDialog.setTitle("Confirmar retirada?")
+                alertDialog.setMessage("Bicicleta: ${withdrawalInProgress.bicycle_name} \n Usuário: ${withdrawalInProgress.user_name}")
+                alertDialog.setOnCancelListener { (itemView.context as Activity).finish() }
+                alertDialog.setPositiveButton("Confirmar", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        withdrawalInProgress.saveRemote {
+                            (itemView.context as Activity).finish()
+                        }
+                    }
+
+                }).show()
+            }
+
+        }
+
+        fun bind(item: Item, isAvailable: Boolean, withdrawal: Withdraw? = null, isWithdrawal: Boolean = false) {
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
             itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
 
@@ -95,23 +137,27 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null) : Recycle
                 }
             }
 
-            if (item is Bicycle) {
+            if (item is Bicycle && isWithdrawal) {
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
                 }
 
                 itemView.setOnClickListener {
                     if (isAvailable) {
-                        Toast.makeText(it.context, "Está disponivel", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(itemView.context, ChooseUserActivity::class.java)
+                        val withdrawalInProgress = Withdraw()
+                        withdrawalInProgress.bicycle_name = item.name
+                        withdrawalInProgress.bicycle_id = item.id
+                        withdrawalInProgress.bicycle_image_path = item.photo_path
+
+                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
+                        itemView.context.startActivity(intent)
                     } else {
-                        withdrawal?.let { withdrawal ->
-                            val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
-                            intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawal))
-                            itemView.context.startActivity(intent)
-                        }
+                        val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
+                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawal))
+                        itemView.context.startActivity(intent)
 
                     }
-
                 }
             }
 

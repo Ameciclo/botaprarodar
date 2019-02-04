@@ -7,9 +7,9 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class Withdraw: Item {
+class Withdraw : Item {
 
-    override val path: String = "activities"
+    override val path: String = "withdrawals"
 
     override var id: String? = null
 
@@ -45,4 +45,5 @@ class Withdraw: Item {
     override fun iconPath(): String {
         return "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
+
 }

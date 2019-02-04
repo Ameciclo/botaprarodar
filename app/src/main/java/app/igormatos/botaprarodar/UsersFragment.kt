@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -9,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.User
+import app.igormatos.botaprarodar.model.Withdraw
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_list.*
+import org.parceler.Parcels
 
 class UsersFragment : Fragment() {
 
@@ -26,17 +29,21 @@ class UsersFragment : Fragment() {
         return rootView
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         addItemFab.setOnClickListener {
             val intent = Intent(it.context, AddUserActivity::class.java)
             startActivity(intent)
+        }
+
+        arguments?.let {
+            it.getParcelable<Parcelable>(WITHDRAWAL_EXTRA)?.let {
+                addItemFab.visibility = View.GONE
+
+                val withdrawal = Parcels.unwrap(it) as Withdraw
+                itemAdapter.withdrawalInProgress = withdrawal
+            }
         }
 
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -66,6 +73,19 @@ class UsersFragment : Fragment() {
         }
 
         usersReference.addChildEventListener(usersListener)
+    }
+
+    companion object {
+
+        fun newInstance(withdraw: Withdraw): UsersFragment {
+            val fragment = UsersFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdraw))
+            fragment.arguments = bundle
+
+            return fragment
+        }
+
     }
 
 }
