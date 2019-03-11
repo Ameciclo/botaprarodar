@@ -1,8 +1,11 @@
 package app.igormatos.botaprarodar
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.Withdraw
@@ -27,7 +30,7 @@ class WithdrawActivity : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val withdrawals = snapshot.children.map { it.getValue(Withdraw::class.java)!! }
-                itemAdapter = ItemAdapter(withdrawals)
+                itemAdapter = ItemAdapter(withdrawals, this@WithdrawActivity)
                 logRecyclerView.adapter = itemAdapter
 
                 val bicyclesListener = object : ChildEventListener {
@@ -55,7 +58,14 @@ class WithdrawActivity : AppCompatActivity() {
             }
 
         })
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
+        Log.d("result", "teste")
+        if (resultCode == Activity.RESULT_OK) {
+            finish()
+        }
     }
 }

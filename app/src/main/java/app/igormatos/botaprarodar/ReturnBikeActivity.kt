@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -40,10 +41,12 @@ class ReturnBikeActivity : AppCompatActivity() {
 
         confirmBikeReturn.setOnClickListener {
             val date = Calendar.getInstance().time
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            withdrawalToSend.returned_date = dateFormat.format(date)
+//            val dateFormat = SimpleDateFormat("dd/MM/yyyy") / dateFormat.format(date)
+            withdrawalToSend.returned_date = date.time
+            withdrawalToSend.modified_time = date.time
 
             withdrawalsReference.child(withdrawal.id!!).setValue(withdrawalToSend).addOnSuccessListener {
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }

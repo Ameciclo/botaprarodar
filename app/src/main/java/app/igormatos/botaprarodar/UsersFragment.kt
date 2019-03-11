@@ -21,7 +21,7 @@ import org.parceler.Parcels
 class UsersFragment : Fragment() {
 
     private val usersReference = FirebaseDatabase.getInstance().getReference("users")
-    val itemAdapter = ItemAdapter()
+    lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
@@ -31,6 +31,8 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        itemAdapter = ItemAdapter(activity = this.activity)
 
         addItemFab.setOnClickListener {
             val intent = Intent(it.context, AddUserActivity::class.java)
@@ -48,7 +50,7 @@ class UsersFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
-
+    
         val usersListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }

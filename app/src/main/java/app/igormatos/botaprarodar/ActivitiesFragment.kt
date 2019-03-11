@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 class ActivitiesFragment : Fragment() {
 
-    private val withdrawalsReference = FirebaseDatabase.getInstance().getReference("withdrawals")
+    private val withdrawalsReference = FirebaseDatabase.getInstance().getReference("withdrawals").orderByChild("modified_time")
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
