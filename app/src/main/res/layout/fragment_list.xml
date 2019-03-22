@@ -21,7 +21,7 @@
             app:fabSize="normal"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/colorPrimaryDark" />
+            android:backgroundTint="@color/colorAccent" />
 
     <!--<com.leinardi.android.speeddial.SpeedDialView-->
             <!--android:visibility="gone"-->

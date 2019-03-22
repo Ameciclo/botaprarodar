@@ -10,4 +10,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="bprButton" parent="Widget.AppCompat.Button.Colored">
+    </style>
+
 </resources>
