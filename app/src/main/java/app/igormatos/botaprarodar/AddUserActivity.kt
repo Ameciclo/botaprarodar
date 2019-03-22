@@ -62,7 +62,7 @@ class AddUserActivity : AppCompatActivity() {
             uploadImageFromImageView { addUserToServer() }
         }
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId) {
                 R.id.rgCheck -> {
                     idTitle.text = "Número do RG"
@@ -76,7 +76,29 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
 
+        gender.setOnCheckedChangeListener { _, checkedId ->
+            when(checkedId) {
+                R.id.maleCheck -> {
+                    userToSend.gender = 0
+                }
+
+                R.id.femaleCheck -> {
+                    userToSend.gender = 1
+                }
+
+                R.id.otherCheck -> {
+                    userToSend.gender = 2
+                }
+
+                R.id.dontNeedCheck -> {
+                    userToSend.gender = 3
+                }
+            }
+        }
+
         radioGroup.check(R.id.rgCheck)
+        gender.check(R.id.dontNeedCheck)
+
 
         val userParcelable = if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) as Parcelable else null
         checkIfEditMode(userParcelable)
