@@ -16,7 +16,6 @@ import app.igormatos.botaprarodar.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_user.*
-import kotlinx.android.synthetic.main.activity_fullscreen_image.*
 import org.parceler.Parcels
 import java.io.File
 import java.io.IOException
@@ -144,6 +143,7 @@ class AddUserActivity : AppCompatActivity() {
         user.doc_picture?.let { idImageView.loadPath(it) }
         user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
         user.name?.let { completeNameField.setText(it) }
+
         when (user.doc_type) {
             1 -> {
                 rgCheck.isChecked = true
@@ -154,16 +154,16 @@ class AddUserActivity : AppCompatActivity() {
         }
 
         when (user.gender) {
-            1 -> {
+            0 -> {
                 maleCheck.isChecked = true
             }
-            2 -> {
+            1 -> {
                 femaleCheck.isChecked = true
             }
-            3 -> {
+            2 -> {
                 otherCheck.isChecked = true
             }
-            4 -> {
+            3 -> {
                 dontNeedCheck.isChecked = true
             }
         }
