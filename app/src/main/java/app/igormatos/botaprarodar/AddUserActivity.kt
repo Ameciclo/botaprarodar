@@ -2,8 +2,6 @@ package app.igormatos.botaprarodar
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -19,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.parceler.Parcels
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -37,6 +34,8 @@ class AddUserActivity : AppCompatActivity() {
     var usersReference = FirebaseDatabase.getInstance().getReference("users")
     var userCopy = User()
     var profilePhotoHasChanged: Boolean = false
+    var idPhotoHasChanged: Boolean = false
+    var residencePhotoHasChanged: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +54,19 @@ class AddUserActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            if(hasEmptyField()) return@setOnClickListener
+            if (hasEmptyField()) return@setOnClickListener
 
             saveButton.isEnabled = false
 
-            uploadImageFromImageView { addUserToServer() }
+            if (profilePhotoHasChanged) {
+                uploadImage(0) { addUserToServer() }
+            }
+
+
         }
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.rgCheck -> {
                     idTitle.text = "Número do RG"
                     userToSend.doc_type = 1
@@ -77,7 +80,7 @@ class AddUserActivity : AppCompatActivity() {
         }
 
         gender.setOnCheckedChangeListener { _, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.maleCheck -> {
                     userToSend.gender = 0
                 }
@@ -99,16 +102,9 @@ class AddUserActivity : AppCompatActivity() {
         radioGroup.check(R.id.rgCheck)
         gender.check(R.id.dontNeedCheck)
 
-
-        val userParcelable = if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) as Parcelable else null
+        val userParcelable =
+            if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) as Parcelable else null
         checkIfEditMode(userParcelable)
-
-//        residenceProofField.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "file/*"
-//            intent.putExtra("CONTENT_TYPE", "*/*")
-//            startActivityForResult(intent, REQUEST_FILE)
-//        }
 
     }
 
@@ -128,11 +124,11 @@ class AddUserActivity : AppCompatActivity() {
 
         profileImageView.setOnClickListener {
             val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
-            fullscreenIntent.putExtra(EXTRA_IMAGE_PATH,  user.profile_picture)
+            fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.profile_picture)
             startActivity(fullscreenIntent)
         }
 
-        editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)  }
+        editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
 
         user.profile_picture?.let { profileImageView.loadPath(it) }
         user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
@@ -186,18 +182,32 @@ class AddUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasEmptyField() : Boolean {
+    private fun hasEmptyField(): Boolean {
         return completeNameField.text.isNullOrEmpty() ||
-            addressField.text.isNullOrEmpty() ||
-            idNumberField.text.isNullOrEmpty()
+                addressField.text.isNullOrEmpty() ||
+                idNumberField.text.isNullOrEmpty()
     }
 
-    private fun uploadImageFromImageView(afterSuccess: () -> Unit) {
-        if (!profilePhotoHasChanged) {
-            afterSuccess()
-            return
-        }
+    private fun getImagePath(imageCode: Int): String? {
+        when(imageCode) {
+            0 -> {
+                return userToSend.profile_picture!!
+            }
 
+            1 -> {
+                return userToSend.doc_picture!!
+            }
+
+            2 -> {
+                return userToSend.residence_proof_picture!!
+            }
+            else -> {
+                return null
+            }
+        }
+    }
+
+    private fun uploadImage(whichImageCode: Int, afterSuccess: () -> Unit) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 
@@ -205,25 +215,20 @@ class AddUserActivity : AppCompatActivity() {
         val ts = tsLong.toString()
         val mountainsRef = storageRef.child("$ts.jpg")
 
-        profileImageView.setDrawingCacheEnabled(true)
-        profileImageView.buildDrawingCache()
+        val file = Uri.fromFile(File(getImagePath(whichImageCode)))
+        val uploadTask = mountainsRef.putFile(file)
 
-        val bitmap = (profileImageView.drawable as BitmapDrawable).bitmap
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        val uploadTask = mountainsRef.putBytes(data)
         uploadTask.addOnProgressListener {
             profileProgressBar.visibility = View.VISIBLE
             val progress = (it.bytesTransferred / it.totalByteCount) * 100
 
-            Log.d("BPR-ADDUSER", "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}" )
-//            profileProgressBar.
+            Log.d(
+                "BPR-ADDUSER",
+                "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}"
+            )
 
             if (progress.toInt() == 100) {
                 profileProgressBar.visibility = View.GONE
-//                profileProgressBar.progress = 0
             }
         }
         uploadTask.addOnFailureListener {
@@ -236,8 +241,6 @@ class AddUserActivity : AppCompatActivity() {
                     afterSuccess()
                 }
             }
-            // taskSnapshot.getMetadata() contains file metada  ta such as size, content-type, etc.
-            // ...
         }
     }
 
@@ -260,7 +263,6 @@ class AddUserActivity : AppCompatActivity() {
                         it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-//                    takePictureIntent.putExtra(CODE_EXTRA, code)
                     startActivityForResult(takePictureIntent, code)
                 }
             }
@@ -273,19 +275,26 @@ class AddUserActivity : AppCompatActivity() {
             val loadImageView = when (requestCode) {
                 REQUEST_PROFILE_PHOTO -> {
                     profilePhotoHasChanged = true
+                    userToSend.profile_picture = mCurrentPhotoPath
                     profileImageView
                 }
 
                 REQUEST_ID_PHOTO -> {
+                    idPhotoHasChanged = true
+                    userToSend.doc_picture = mCurrentPhotoPath
                     idImageView
                 }
 
                 REQUEST_RESIDENCE_PHOTO -> {
+                    residencePhotoHasChanged = true
+                    userToSend.residence_proof_picture = mCurrentPhotoPath
                     residenceProofImageView
                 }
 
                 else -> profileImageView
             }
+
+            Log.d("BFLW-PICTURE", "Image path $mCurrentPhotoPath")
 
             loadImageView.loadPath(mCurrentPhotoPath)
         }
