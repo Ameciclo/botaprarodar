@@ -166,7 +166,7 @@ class AddUserActivity : AppCompatActivity() {
         userToSend.id = key
 
         usersReference.child(key).setValue(userToSend).addOnSuccessListener {
-            Toast.makeText(this@AddUserActivity, "Usuário adicionado com sucesso", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@AddUserActivity, "Operação realizada com sucesso", Toast.LENGTH_SHORT).show()
             finish()
         }.addOnFailureListener {
             saveButton.isEnabled = true
