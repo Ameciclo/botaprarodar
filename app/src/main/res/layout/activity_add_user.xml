@@ -28,6 +28,15 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:indeterminate="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appBarLayout" android:visibility="gone"/>
+
         <TextView
                 android:text="@string/complete_name"
                 android:layout_width="wrap_content"
@@ -59,9 +68,9 @@
                 android:src="@drawable/ic_image" android:padding="6dp"/>
 
         <ImageView
-                android:layout_width="56dp"
+                android:layout_width="80dp"
                 android:background="@color/grey"
-                android:layout_height="56dp"
+                android:layout_height="80dp"
                 android:id="@+id/idImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/idNumberField"
@@ -70,9 +79,9 @@
                 app:layout_constraintBottom_toBottomOf="@+id/idNumberField"/>
 
         <ImageView
-                android:layout_width="56dp"
+                android:layout_width="80dp"
                 android:background="@color/grey"
-                android:layout_height="56dp"
+                android:layout_height="80dp"
                 android:id="@+id/residenceProofImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/addressField"
@@ -116,15 +125,6 @@
                 android:id="@+id/idNumberField"
                 app:layout_constraintStart_toStartOf="@+id/idTitle" android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@+id/idTitle" android:hint="0000000"/>
-
-        <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:indeterminate="true"
-                android:layout_height="wrap_content"
-                android:id="@+id/profileProgressBar" app:layout_constraintStart_toStartOf="@+id/profileImageView"
-                app:layout_constraintEnd_toEndOf="@+id/profileImageView" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/profileImageView" android:visibility="invisible"/>
 
         <TextView
                 android:text="Endereço"
@@ -184,10 +184,10 @@
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_edit_white_24dp"
                 android:id="@+id/editProfilePhotoButton"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/profileImageView"
+                android:layout_marginEnd="16dp"
+                style="@style/bprButton.image"
                 app:layout_constraintTop_toTopOf="@+id/profileImageView"
-                app:layout_constraintBottom_toTopOf="@+id/profileProgressBar"
-                style="@style/bprButton.image"/>
+                app:layout_constraintBottom_toBottomOf="@+id/profileImageView"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

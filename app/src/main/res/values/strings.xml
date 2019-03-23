@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="complete_name">Nome completo</string>
-    <string name="add_user_title">Cadastrar usuário</string>
+    <string name="add_user_title">Cadastrar pessoa</string>
     <string name="confirmar_devolucao">Confirmar devolução</string>
     <string name="quiz_title">Questionário</string>
 </resources>

@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def work_version = "1.0.0"
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -22,6 +24,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -44,9 +47,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     // Anko Layouts
-    implementation "org.jetbrains.anko:anko-sdk25:$anko_version" // sdk15, sdk19, sdk21, sdk23 are also available
+    implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
-    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
+    implementation "org.jetbrains.anko:anko-design:$anko_version"
 
     // Utils
     implementation 'org.parceler:parceler-api:1.1.11'
@@ -54,6 +57,9 @@ dependencies {
 
 //    // Rx
 //    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
+
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
+
 
 }
 

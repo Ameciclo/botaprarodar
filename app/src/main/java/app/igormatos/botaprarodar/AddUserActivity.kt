@@ -57,12 +57,7 @@ class AddUserActivity : AppCompatActivity() {
             if (hasEmptyField()) return@setOnClickListener
 
             saveButton.isEnabled = false
-
-            if (profilePhotoHasChanged) {
-                uploadImage(0) { addUserToServer() }
-            }
-
-
+            addUserToServer()
         }
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -128,6 +123,20 @@ class AddUserActivity : AppCompatActivity() {
             startActivity(fullscreenIntent)
         }
 
+        idImageView.setOnLongClickListener {
+            val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
+            fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.doc_picture)
+            startActivity(fullscreenIntent)
+            return@setOnLongClickListener  true
+        }
+
+        residenceProofImageView.setOnLongClickListener {
+            val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
+            fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.residence_proof_picture)
+            startActivity(fullscreenIntent)
+            return@setOnLongClickListener  true
+        }
+
         editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
 
         user.profile_picture?.let { profileImageView.loadPath(it) }
@@ -166,6 +175,7 @@ class AddUserActivity : AppCompatActivity() {
     }
 
     private fun addUserToServer() {
+        progressBar.visibility = View.VISIBLE
         userToSend.name = completeNameField.text.toString()
         userToSend.address = addressField.text.toString()
         userToSend.doc_number = idNumberField.text.toString().toLong()
@@ -175,9 +185,12 @@ class AddUserActivity : AppCompatActivity() {
         userToSend.id = key
 
         usersReference.child(key).setValue(userToSend).addOnSuccessListener {
+            progressBar.visibility = View.GONE
             Toast.makeText(this@AddUserActivity, "Operação realizada com sucesso", Toast.LENGTH_SHORT).show()
             finish()
         }.addOnFailureListener {
+            progressBar.visibility = View.GONE
+            Toast.makeText(this@AddUserActivity, "Ocorreu algum erro", Toast.LENGTH_SHORT).show()
             saveButton.isEnabled = true
         }
     }
@@ -207,7 +220,8 @@ class AddUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(whichImageCode: Int, afterSuccess: () -> Unit) {
+    private fun uploadImage(whichImageCode: Int) {
+
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 
@@ -219,7 +233,7 @@ class AddUserActivity : AppCompatActivity() {
         val uploadTask = mountainsRef.putFile(file)
 
         uploadTask.addOnProgressListener {
-            profileProgressBar.visibility = View.VISIBLE
+            progressBar.visibility = View.VISIBLE
             val progress = (it.bytesTransferred / it.totalByteCount) * 100
 
             Log.d(
@@ -228,7 +242,7 @@ class AddUserActivity : AppCompatActivity() {
             )
 
             if (progress.toInt() == 100) {
-                profileProgressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
         }
         uploadTask.addOnFailureListener {
@@ -237,10 +251,24 @@ class AddUserActivity : AppCompatActivity() {
 
             mountainsRef.downloadUrl.addOnCompleteListener {
                 it.result?.let {
-                    userToSend.profile_picture = it.toString()
-                    afterSuccess()
+                    updateUserImagePath(whichImageCode, it.toString())
                 }
             }
+        }
+    }
+
+    private fun updateUserImagePath(whichImageCode: Int, newPath: String) {
+        when (whichImageCode) {
+            0 -> {
+                userToSend.profile_picture = newPath
+            }
+            1 -> {
+                userToSend.doc_picture = newPath
+            }
+            2 -> {
+                userToSend.residence_proof_picture = newPath
+            }
+
         }
     }
 
@@ -276,18 +304,21 @@ class AddUserActivity : AppCompatActivity() {
                 REQUEST_PROFILE_PHOTO -> {
                     profilePhotoHasChanged = true
                     userToSend.profile_picture = mCurrentPhotoPath
+                    uploadImage(0)
                     profileImageView
                 }
 
                 REQUEST_ID_PHOTO -> {
                     idPhotoHasChanged = true
                     userToSend.doc_picture = mCurrentPhotoPath
+                    uploadImage(1)
                     idImageView
                 }
 
                 REQUEST_RESIDENCE_PHOTO -> {
                     residencePhotoHasChanged = true
                     userToSend.residence_proof_picture = mCurrentPhotoPath
+                    uploadImage(2)
                     residenceProofImageView
                 }
 
