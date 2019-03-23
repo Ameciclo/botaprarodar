@@ -131,7 +131,24 @@ class AddUserActivity : AppCompatActivity() {
                 }
             }
 
+            when(user.gender) {
+                1 -> {
+                    maleCheck.isChecked = true
+                }
+                2 -> {
+                    femaleCheck.isChecked = true
+                }
+                3 -> {
+                    otherCheck.isChecked = true
+                }
+                4 -> {
+                    dontNeedCheck.isChecked = true
+                }
+            }
+
+
             idNumberField.setText(user.doc_number.toString())
+
 
             user.address?.let { addressField.setText(it) }
             saveButton.text = "Salvar alterações"
@@ -146,7 +163,7 @@ class AddUserActivity : AppCompatActivity() {
 
         val key = userToSend.id ?: usersReference.push().key!!
 //        val key = usersReference.push().key!!
-//        userToSend.id = key
+        userToSend.id = key
 
         usersReference.child(key).setValue(userToSend).addOnSuccessListener {
             Toast.makeText(this@AddUserActivity, "Usuário adicionado com sucesso", Toast.LENGTH_SHORT).show()
