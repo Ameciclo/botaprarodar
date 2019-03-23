@@ -109,51 +109,64 @@ class AddUserActivity : AppCompatActivity() {
 //            intent.putExtra("CONTENT_TYPE", "*/*")
 //            startActivityForResult(intent, REQUEST_FILE)
 //        }
+
     }
 
     private fun checkIfEditMode(userParcelable: Parcelable?) {
         if (userParcelable == null) return
 
         userParcelable?.let {
-            val user = Parcels.unwrap(it) as User
-            userToSend = user
-            userCopy = user
-
-            user.profile_picture?.let { profileImageView.loadPath(it) }
-            user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
-            user.name?.let { completeNameField.setText(it) }
-            when(user.doc_type) {
-                1 -> {
-                    rgCheck.isChecked = true
-                }
-                2 -> {
-                    cpfCheck.isChecked = true
-                }
-            }
-
-            when(user.gender) {
-                1 -> {
-                    maleCheck.isChecked = true
-                }
-                2 -> {
-                    femaleCheck.isChecked = true
-                }
-                3 -> {
-                    otherCheck.isChecked = true
-                }
-                4 -> {
-                    dontNeedCheck.isChecked = true
-                }
-            }
-
-
-            idNumberField.setText(user.doc_number.toString())
-
-
-            user.address?.let { addressField.setText(it) }
-            saveButton.text = "Salvar alterações"
-//            saveButton.isEnabled = false
+            setupUser(it)
         }
+    }
+
+    private fun setupUser(userParcelable: Parcelable) {
+        val user = Parcels.unwrap(userParcelable) as User
+
+        userToSend = user
+        userCopy = user
+
+        profileImageView.setOnClickListener {
+            val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
+            fullscreenIntent.putExtra(EXTRA_IMAGE_PATH,  user.profile_picture)
+            startActivity(fullscreenIntent)
+        }
+
+        editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)  }
+
+        user.profile_picture?.let { profileImageView.loadPath(it) }
+        user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
+        user.name?.let { completeNameField.setText(it) }
+        when (user.doc_type) {
+            1 -> {
+                rgCheck.isChecked = true
+            }
+            2 -> {
+                cpfCheck.isChecked = true
+            }
+        }
+
+        when (user.gender) {
+            1 -> {
+                maleCheck.isChecked = true
+            }
+            2 -> {
+                femaleCheck.isChecked = true
+            }
+            3 -> {
+                otherCheck.isChecked = true
+            }
+            4 -> {
+                dontNeedCheck.isChecked = true
+            }
+        }
+
+
+        idNumberField.setText(user.doc_number.toString())
+
+
+        user.address?.let { addressField.setText(it) }
+        saveButton.text = "Salvar alterações"
     }
 
     private fun addUserToServer() {
@@ -223,7 +236,7 @@ class AddUserActivity : AppCompatActivity() {
                     afterSuccess()
                 }
             }
-            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+            // taskSnapshot.getMetadata() contains file metada  ta such as size, content-type, etc.
             // ...
         }
     }

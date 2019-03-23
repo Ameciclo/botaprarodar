@@ -13,4 +13,8 @@
     <style name="bprButton" parent="Widget.AppCompat.Button.Colored">
     </style>
 
+    <style name="bprButton.image" parent="@style/Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
 </resources>
