@@ -54,7 +54,10 @@ class AddUserActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            if (hasEmptyField()) return@setOnClickListener
+            if (hasEmptyField()) {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             saveButton.isEnabled = false
             addUserToServer()
@@ -142,7 +145,7 @@ class AddUserActivity : AppCompatActivity() {
         editIdPhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
 
         editResidencePhotoButton.visibility = View.VISIBLE
-        editResidencePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO ) }
+        editResidencePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO) }
 
         user.profile_picture?.let { profileImageView.loadPath(it) }
         user.doc_picture?.let { idImageView.loadPath(it) }
@@ -205,11 +208,14 @@ class AddUserActivity : AppCompatActivity() {
     private fun hasEmptyField(): Boolean {
         return completeNameField.text.isNullOrEmpty() ||
                 addressField.text.isNullOrEmpty() ||
-                idNumberField.text.isNullOrEmpty()
+                idNumberField.text.isNullOrEmpty() ||
+                userToSend.doc_picture.isNullOrEmpty() ||
+                userToSend.profile_picture.isNullOrEmpty() ||
+                userToSend.residence_proof_picture.isNullOrEmpty()
     }
 
     private fun getImagePath(imageCode: Int): String? {
-        when(imageCode) {
+        when (imageCode) {
             0 -> {
                 return userToSend.profile_picture!!
             }
