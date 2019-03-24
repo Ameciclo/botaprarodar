@@ -132,11 +132,9 @@ class AddBikeActivity : AppCompatActivity() {
             val progress = (it.bytesTransferred / it.totalByteCount) * 100
 
             Log.d("BPR-ADDBIKE", "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}" )
-//            profileProgressBar.
 
             if (progress.toInt() == 100) {
                 progressBar.visibility = View.GONE
-//                profileProgressBar.progress = 0
             }
         }
         uploadTask.addOnFailureListener {
