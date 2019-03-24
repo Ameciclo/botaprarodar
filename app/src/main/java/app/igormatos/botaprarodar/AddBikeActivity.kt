@@ -38,7 +38,7 @@ class AddBikeActivity : AppCompatActivity() {
         bikePhotoImageView.setOnClickListener { dispatchTakePictureIntent() }
 
         saveButton.setOnClickListener {
-            if(hasEmptyField()) {
+            if (hasEmptyField()) {
                 Toast.makeText(this@AddBikeActivity, "Preencha todos campos obrigatórios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -50,7 +50,7 @@ class AddBikeActivity : AppCompatActivity() {
 
     }
 
-    fun hasEmptyField() : Boolean {
+    fun hasEmptyField(): Boolean {
         return orderNumber.text.isNullOrEmpty() ||
                 serieNumber.text.isNullOrEmpty() ||
                 bikeName.text.isNullOrEmpty() ||
@@ -118,27 +118,24 @@ class AddBikeActivity : AppCompatActivity() {
         val ts = tsLong.toString()
         val mountainsRef = storageRef.child("$ts.jpg")
 
-        bikePhotoImageView.setDrawingCacheEnabled(true)
-        bikePhotoImageView.buildDrawingCache()
+        val file = Uri.fromFile(File(mCurrentPhotoPath))
+        val uploadTask = mountainsRef.putFile(file)
 
-        val bitmap = (bikePhotoImageView.drawable as BitmapDrawable).bitmap
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        val uploadTask = mountainsRef.putBytes(data)
         uploadTask.addOnProgressListener {
             progressBar.visibility = View.VISIBLE
             val progress = (it.bytesTransferred / it.totalByteCount) * 100
 
-            Log.d("BPR-ADDBIKE", "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}" )
+            Log.d(
+                "BPR-ADDBIKE",
+                "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}"
+            )
 
             if (progress.toInt() == 100) {
                 progressBar.visibility = View.GONE
             }
         }
         uploadTask.addOnFailureListener {
-            Toast.makeText(this, "pegou não :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Upload da imagem não funcionou :/", Toast.LENGTH_SHORT).show()
         }.addOnSuccessListener {
 
             mountainsRef.downloadUrl.addOnCompleteListener {
