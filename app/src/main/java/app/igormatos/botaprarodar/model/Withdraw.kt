@@ -32,8 +32,6 @@ class Withdraw : Item {
 
     init {
         val date = Calendar.getInstance().time
-//        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-//        dateFormat.format(date)
         created_date = date.time
         modified_time = date.time
     }
@@ -47,14 +45,9 @@ class Withdraw : Item {
     }
 
     override fun subtitle(): String {
-        return """"$user_name" em ${readableDate()}"""
-    }
+        val timestamp = if (isRent()) created_date else returned_date
 
-    private fun readableDate(): String {
-        var timestamp = if (isRent()) created_date else returned_date
-        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-        val inputDate = Date(timestamp!!)
-        return outputFormat.format(inputDate)
+        return """"$user_name" em ${getReadableDate(timestamp!!)}"""
     }
 
     override fun iconPath(): String {

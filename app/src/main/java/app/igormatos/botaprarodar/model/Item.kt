@@ -1,13 +1,14 @@
 package app.igormatos.botaprarodar.model
 
-import android.content.Context
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 
 interface Item {
 
-    val path : String
+    val path: String
 
-    var id : String?
+    var id: String?
 
     fun title(): String
 
@@ -15,7 +16,7 @@ interface Item {
 
     fun iconPath(): String
 
-    fun removeRemote() : Boolean {
+    fun removeRemote(): Boolean {
         val reference = FirebaseDatabase.getInstance().getReference("$path/$id")
         reference.removeValue()
         return true
@@ -29,5 +30,11 @@ interface Item {
         reference.child(key).setValue(this).addOnSuccessListener {
             onSuccess()
         }
+    }
+
+    fun getReadableDate(timestamp: Long): String {
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        val inputDate = Date(timestamp)
+        return outputFormat.format(inputDate)
     }
 }

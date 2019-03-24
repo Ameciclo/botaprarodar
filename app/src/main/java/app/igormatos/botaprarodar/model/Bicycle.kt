@@ -26,7 +26,7 @@ class Bicycle : Item {
     }
 
     override fun subtitle(): String {
-        return "Cadastrado desde $created_date"
+        return "Ordem: $order_number | Série: $serial_number"
     }
 
     override fun iconPath(): String {
