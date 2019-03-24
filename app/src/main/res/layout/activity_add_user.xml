@@ -72,22 +72,22 @@
                 android:background="@color/grey"
                 android:layout_height="80dp"
                 android:id="@+id/idImageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/idNumberField"
+                app:layout_constraintStart_toEndOf="@+id/idNumberField"
                 android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="@+id/idNumberField"
                 android:src="@drawable/ic_image" android:padding="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/idNumberField"/>
+                app:layout_constraintBottom_toBottomOf="@+id/idNumberField"
+                app:layout_constraintEnd_toStartOf="@+id/editIdPhotoButton" android:layout_marginEnd="8dp"/>
 
         <ImageView
                 android:layout_width="80dp"
                 android:background="@color/grey"
                 android:layout_height="80dp"
                 android:id="@+id/residenceProofImageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/addressField"
+                app:layout_constraintStart_toEndOf="@+id/addressField"
                 android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="@+id/addressField"
                 android:src="@drawable/ic_image" android:padding="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/addressField"/>
+                app:layout_constraintBottom_toBottomOf="@+id/addressField"
+                app:layout_constraintEnd_toStartOf="@+id/editResidencePhotoButton" android:layout_marginEnd="8dp"/>
 
         <RadioGroup android:layout_width="match_parent"
                     android:id="@+id/radioGroup"
@@ -187,7 +187,26 @@
                 android:layout_marginEnd="16dp"
                 style="@style/bprButton.image"
                 app:layout_constraintTop_toTopOf="@+id/profileImageView"
-                app:layout_constraintBottom_toBottomOf="@+id/profileImageView"/>
+                app:layout_constraintBottom_toBottomOf="@+id/profileImageView" android:visibility="gone"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_edit_white_24dp"
+                android:id="@+id/editIdPhotoButton"
+                style="@style/bprButton.image"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toTopOf="@+id/idImageView"
+                app:layout_constraintBottom_toBottomOf="@+id/idImageView" android:visibility="gone"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_edit_white_24dp"
+                android:id="@+id/editResidencePhotoButton"
+                style="@style/bprButton.image"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toTopOf="@+id/residenceProofImageView"
+                app:layout_constraintBottom_toBottomOf="@+id/residenceProofImageView" android:visibility="gone"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -123,21 +123,26 @@ class AddUserActivity : AppCompatActivity() {
             startActivity(fullscreenIntent)
         }
 
-        idImageView.setOnLongClickListener {
+        idImageView.setOnClickListener {
             val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
             fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.doc_picture)
             startActivity(fullscreenIntent)
-            return@setOnLongClickListener  true
         }
 
-        residenceProofImageView.setOnLongClickListener {
+        residenceProofImageView.setOnClickListener {
             val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
             fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.residence_proof_picture)
             startActivity(fullscreenIntent)
-            return@setOnLongClickListener  true
         }
 
+        editProfilePhotoButton.visibility = View.VISIBLE
         editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
+
+        editIdPhotoButton.visibility = View.VISIBLE
+        editIdPhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
+
+        editResidencePhotoButton.visibility = View.VISIBLE
+        editResidencePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO ) }
 
         user.profile_picture?.let { profileImageView.loadPath(it) }
         user.doc_picture?.let { idImageView.loadPath(it) }
