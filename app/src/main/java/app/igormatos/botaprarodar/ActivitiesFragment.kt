@@ -4,24 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.Withdraw
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
 class ActivitiesFragment : Fragment() {
 
-    private val withdrawalsReference = FirebaseDatabase.getInstance().getReference("withdrawals").orderByChild("modified_time")
+    private val withdrawalsReference =
+        FirebaseDatabase.getInstance().getReference("withdrawals").orderByChild("modified_time")
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,13 +42,15 @@ class ActivitiesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addItemFab.setOnClickListener { it ->
+        addItemFab.setOnClickListener {
             val intent = Intent(it.context, WithdrawActivity::class.java)
             startActivity(intent)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+
 
         val bicyclesListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {

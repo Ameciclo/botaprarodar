@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,7 @@ class UsersFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
     
         val usersListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {

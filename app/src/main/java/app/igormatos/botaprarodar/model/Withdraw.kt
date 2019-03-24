@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 import org.parceler.Parcel
+import java.text.SimpleDateFormat
 import java.util.*
 
 @IgnoreExtraProperties
@@ -37,20 +38,23 @@ class Withdraw : Item {
         modified_time = date.time
     }
 
-    fun isRent() : Boolean {
+    fun isRent(): Boolean {
         return returned_date == null
     }
 
     override fun title(): String {
-        return if (isRent())
-            "Bicicleta retirada" else
-            "Bicicleta devolvida"
+        return bicycle_name ?: "_"
     }
 
     override fun subtitle(): String {
-        return if (isRent())
-            "$user_name retirou a bicicleta no dia $created_date" else
-            "$user_name devolveu a bicicleta no dia $returned_date"
+        return """"$user_name" em ${readableDate()}"""
+    }
+
+    private fun readableDate(): String {
+        var timestamp = if (isRent()) created_date else returned_date
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        val inputDate = Date(timestamp!!)
+        return outputFormat.format(inputDate)
     }
 
     override fun iconPath(): String {

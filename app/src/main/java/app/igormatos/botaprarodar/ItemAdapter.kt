@@ -133,10 +133,6 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
 
             val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
 
-            Glide.with(itemView.context)
-                .load(item.iconPath())
-                .into(imageView)
-
             if (item !is Withdraw && !isWithdrawal) {
                 itemView.setOnLongClickListener {
                     confirmToRemove(item, "Deseja remover o item?", item.title())
@@ -175,6 +171,19 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
 
                     }
                 }
+            }
+
+            if (item is Withdraw) {
+                var withdrawIcon = if (item.isRent())
+                    R.drawable.ic_bike_left_24dp
+                else
+                    R.drawable.ic_bike_returned_24dp
+
+                imageView.setImageResource(withdrawIcon)
+            } else {
+                Glide.with(itemView.context)
+                    .load(item.iconPath())
+                    .into(imageView)
             }
 
         }
