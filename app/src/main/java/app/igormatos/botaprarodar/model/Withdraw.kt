@@ -41,13 +41,14 @@ class Withdraw : Item {
     }
 
     override fun title(): String {
-        return bicycle_name ?: "_"
+        return bicycle_name?.capitalize() ?: "_"
     }
 
     override fun subtitle(): String {
         val timestamp = if (isRent()) created_date else returned_date
+        val firstName = user_name?.split(" ")?.toList()?.first()?.capitalize() ?: "Usuário"
 
-        return """"$user_name" em ${getReadableDate(timestamp!!)}"""
+        return """$firstName em ${getReadableDate(timestamp!!)}"""
     }
 
     override fun iconPath(): String {
