@@ -6,9 +6,8 @@ import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.widget.SearchView
+import android.view.*
 import app.igormatos.botaprarodar.model.Item
 import app.igormatos.botaprarodar.model.User
 import app.igormatos.botaprarodar.model.Withdraw
@@ -16,8 +15,10 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.parceler.Parcels
+
 
 class UsersFragment : Fragment() {
 
@@ -25,9 +26,13 @@ class UsersFragment : Fragment() {
     lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_list, container, false)
+    }
 
-        return rootView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +57,7 @@ class UsersFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
-    
+
         val usersListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
@@ -90,6 +95,39 @@ class UsersFragment : Fragment() {
             return fragment
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        if (activity is ChooseUserActivity) {
+            val activityMenu = activity!!.toolbar.menu
+            val aMenuInflater = activity!!.menuInflater
+
+            activityMenu.clear()
+            aMenuInflater.inflate(R.menu.menu_main, menu)
+
+            val searchView = SearchView((context as ChooseUserActivity).supportActionBar!!.themedContext)
+            searchView.queryHint = "Busque pelo nome ou RG/CPF"
+
+            activityMenu.findItem(R.id.action_search).apply {
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                actionView = searchView
+            }
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    itemAdapter.filter.filter(query)
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    itemAdapter.filter.filter(newText)
+                    return true
+                }
+            })
+
+            searchView.setOnClickListener { view -> }
+
+        }
     }
 
 }
