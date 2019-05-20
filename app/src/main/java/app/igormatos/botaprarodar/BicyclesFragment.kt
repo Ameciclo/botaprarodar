@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 class BicyclesFragment : Fragment() {
 
     private val bicyclesFragment = FirebaseDatabase.getInstance().getReference("bicycles")
-    val itemAdapter = ItemAdapter()
+    lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
@@ -29,6 +29,7 @@ class BicyclesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        itemAdapter = ItemAdapter(activity = activity)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +52,8 @@ class BicyclesFragment : Fragment() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val user = p0.getValue(Bicycle::class.java)
+                itemAdapter.updateItem(user as Item)
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {

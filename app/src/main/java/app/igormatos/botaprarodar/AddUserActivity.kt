@@ -109,9 +109,7 @@ class AddUserActivity : AppCompatActivity() {
     private fun checkIfEditMode(userParcelable: Parcelable?) {
         if (userParcelable == null) return
 
-        userParcelable?.let {
-            setupUser(it)
-        }
+        setupUser(userParcelable)
     }
 
     private fun setupUser(userParcelable: Parcelable) {

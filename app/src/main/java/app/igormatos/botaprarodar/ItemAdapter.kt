@@ -221,6 +221,15 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
                 }
             }
 
+            if (item is Bicycle && !isWithdrawal && activity != null) {
+                itemView.setOnClickListener {
+                    val intent = Intent(it.context, AddBikeActivity::class.java)
+                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bicycle::class.java, item))
+                    activity.startActivity(intent)
+                }
+
+            }
+
             if (item is Withdraw) {
                 val withdrawIcon = if (item.isRent())
                     R.drawable.ic_bike_left_24dp

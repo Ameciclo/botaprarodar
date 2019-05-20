@@ -1,8 +1,12 @@
 package app.igormatos.botaprarodar.model
 
+import com.google.firebase.database.IgnoreExtraProperties
+import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@IgnoreExtraProperties
+@Parcel
 class Bicycle : Item {
 
     override val path: String = "bicycles"
