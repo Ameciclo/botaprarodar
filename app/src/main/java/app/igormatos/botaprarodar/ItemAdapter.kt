@@ -200,6 +200,8 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
             if (item is Bicycle && isWithdrawal && activity != null) {
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
+                } else {
+                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.white))
                 }
 
                 itemView.setOnClickListener {
