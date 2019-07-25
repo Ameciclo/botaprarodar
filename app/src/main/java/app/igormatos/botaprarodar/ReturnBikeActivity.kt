@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import app.igormatos.botaprarodar.model.Withdraw
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_add_user.*
 import kotlinx.android.synthetic.main.activity_return_bike.*
 import org.parceler.Parcels
-import java.text.SimpleDateFormat
 import java.util.*
 
 val WITHDRAWAL_EXTRA = "WITHDRAWAL_EXTRA"
@@ -40,8 +38,13 @@ class ReturnBikeActivity : AppCompatActivity() {
         userImageView.loadPath(withdrawal.user_image_path!!)
 
         confirmBikeReturn.setOnClickListener {
+
+            if (!isSurveyAnswered()) {
+                Toast.makeText(this, "É obrigatório responder o questionário", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val date = Calendar.getInstance().time
-//            val dateFormat = SimpleDateFormat("dd/MM/yyyy") / dateFormat.format(date)
             withdrawalToSend.returned_date = date.time
             withdrawalToSend.modified_time = date.time
 
@@ -68,8 +71,12 @@ class ReturnBikeActivity : AppCompatActivity() {
                 withdrawalToSend.trip_reason = withdrawal.trip_reason
                 withdrawalToSend.destination = withdrawal.destination
             }
-
-
         }
+    }
+
+    fun isSurveyAnswered() : Boolean {
+        return withdrawalToSend.bicycle_rating != null &&
+                withdrawalToSend.trip_reason != null &&
+                withdrawalToSend.destination != null
     }
 }
