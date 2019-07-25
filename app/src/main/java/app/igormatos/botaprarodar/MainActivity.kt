@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
+
 
     private val activitiesFragment: Fragment = ActivitiesFragment()
     private val usersFragment: Fragment = UsersFragment()
@@ -46,16 +48,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        window.statusBarColor = R.color.white
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigation.itemIconTintList = ColorStateList.valueOf(resources.getColor(R.color.tintColor))
-
 
         if (fm.fragments.isEmpty()) {
             fm.beginTransaction().add(R.id.main_container, bicycleFragment, "3").hide(bicycleFragment).commit()
             fm.beginTransaction().add(R.id.main_container, usersFragment, "2").hide(usersFragment).commit()
-            fm.beginTransaction().add(R.id.main_container,activitiesFragment, "1").commit()
+            fm.beginTransaction().add(R.id.main_container, activitiesFragment, "1").commit()
         }
     }
 }
