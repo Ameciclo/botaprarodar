@@ -8,27 +8,33 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragment1: Fragment = ActivitiesFragment()
-    private val fragment2: Fragment = UsersFragment()
-    private val fragment3: Fragment = BicyclesFragment()
+    private val activitiesFragment: Fragment = ActivitiesFragment()
+    private val usersFragment: Fragment = UsersFragment()
+    private val bicycleFragment: Fragment = BicyclesFragment()
     val fm = supportFragmentManager
-    var active = fragment1
+    var active = activitiesFragment
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                fm.beginTransaction().hide(active).show(fragment1).commit()
-                active = fragment1
+                fm.beginTransaction().hide(active).show(activitiesFragment).commit()
+                active = activitiesFragment
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.navigation_users -> {
+                fm.beginTransaction().hide(active).show(usersFragment).commit()
+                active = usersFragment
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_bicycles -> {
+                fm.beginTransaction().hide(active).show(bicycleFragment).commit()
+                active = bicycleFragment
+                return@OnNavigationItemSelectedListener true
+            }
+
             R.id.navigation_dashboard -> {
-                fm.beginTransaction().hide(active).show(fragment2).commit()
-                active = fragment2
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_notifications -> {
-                fm.beginTransaction().hide(active).show(fragment3).commit()
-                active = fragment3
+                fm.beginTransaction().hide(active).show(bicycleFragment).commit()
+                active = bicycleFragment
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -42,9 +48,9 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         if (fm.fragments.isEmpty()) {
-            fm.beginTransaction().add(R.id.main_container, fragment3, "3").hide(fragment3).commit()
-            fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit()
-            fm.beginTransaction().add(R.id.main_container,fragment1, "1").commit()
+            fm.beginTransaction().add(R.id.main_container, bicycleFragment, "3").hide(bicycleFragment).commit()
+            fm.beginTransaction().add(R.id.main_container, usersFragment, "2").hide(usersFragment).commit()
+            fm.beginTransaction().add(R.id.main_container,activitiesFragment, "1").commit()
         }
     }
 }

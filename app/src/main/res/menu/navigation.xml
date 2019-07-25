@@ -7,18 +7,18 @@
             android:title="Atividades"/>
 
     <item
-            android:id="@+id/navigation_dashboard"
+            android:id="@+id/navigation_users"
             android:icon="@drawable/ic_person"
             android:title="Usuários"/>
 
     <item
-            android:id="@+id/navigation_notifications"
+            android:id="@+id/navigation_bicycles"
             android:icon="@drawable/ic_directions_bike_black"
             android:title="Bicicletas"/>
 
     <item
-            android:id="@+id/navigation_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="Configurações"/>
+            android:id="@+id/navigation_dashboard"
+            android:icon="@drawable/ic_dashboard_black"
+            android:title="Painel"/>
 
 </menu>
