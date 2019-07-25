@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -45,7 +46,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        window.statusBarColor = R.color.white
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.itemIconTintList = ColorStateList.valueOf(resources.getColor(R.color.tintColor))
+
 
         if (fm.fragments.isEmpty()) {
             fm.beginTransaction().add(R.id.main_container, bicycleFragment, "3").hide(bicycleFragment).commit()

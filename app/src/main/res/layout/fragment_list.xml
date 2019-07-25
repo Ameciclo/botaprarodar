@@ -21,7 +21,7 @@
             app:fabSize="normal"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/colorAccent"/>
+            app:backgroundTint="@color/tintColor"/>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -20,9 +20,10 @@
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 app:title="@string/app_name"
+                app:titleTextColor="@color/dark_gray"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary" />
+                android:background="@color/white" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -39,6 +40,7 @@
             android:id="@+id/navigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:itemTextColor="@color/tintColor"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
             android:background="?android:attr/windowBackground"
