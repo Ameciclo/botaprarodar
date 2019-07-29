@@ -3,10 +3,11 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -48,12 +49,12 @@ class LoginActivity : AppCompatActivity() {
     private fun chooseCommunityDialog() {
         val currentUser = FirebaseAuth.getInstance().currentUser
 
-//        MaterialAlertDialogBuilder(this)
-//            .setTitle("Comunidades")
-//            .setMessage("Escolha qual comunidade entrar")
-//            .setItems(arrayOf("Caranguejo Tabaiares", "Peixinhos")) { dialog, int ->
-//                Toast.makeText(this@LoginActivity, "Dialog $dialog Int ${int}", Toast.LENGTH_SHORT).show()
-//            }
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Comunidades")
+            .setMessage("Escolha qual comunidade entrar")
+            .setItems(arrayOf("Caranguejo Tabaiares", "Peixinhos")) { dialog, int ->
+                Toast.makeText(this@LoginActivity, "Dialog $dialog Int ${int}", Toast.LENGTH_SHORT).show()
+            }
 
 //        goToMainActivity()
 
