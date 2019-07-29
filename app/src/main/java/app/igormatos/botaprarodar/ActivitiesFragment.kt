@@ -2,10 +2,10 @@ package app.igormatos.botaprarodar
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
-class ActivitiesFragment : Fragment() {
+class ActivitiesFragment : androidx.fragment.app.Fragment() {
 
     private val withdrawalsReference =
         FirebaseDatabase.getInstance().getReference("withdrawals").orderByChild("modified_time")
@@ -47,9 +47,14 @@ class ActivitiesFragment : Fragment() {
             startActivity(intent)
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
-        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            androidx.recyclerview.widget.DividerItemDecoration(
+                recyclerView.context,
+                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+            )
+        )
 
 
         val bicyclesListener = object : ChildEventListener {

@@ -2,9 +2,9 @@ package app.igormatos.botaprarodar
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_list.*
 
-class BicyclesFragment : Fragment() {
+class BicyclesFragment : androidx.fragment.app.Fragment() {
 
     private val bicyclesFragment = FirebaseDatabase.getInstance().getReference("bicycles")
     lateinit var itemAdapter: ItemAdapter
@@ -40,9 +40,14 @@ class BicyclesFragment : Fragment() {
             startActivity(intent)
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
-        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            androidx.recyclerview.widget.DividerItemDecoration(
+                recyclerView.context,
+                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+            )
+        )
 
         val bicyclesListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {

@@ -5,12 +5,12 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".AddUserActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -19,14 +19,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     app:title="@string/add_user_title"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colorPrimary"/>
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
@@ -208,5 +208,5 @@
                 app:layout_constraintTop_toTopOf="@+id/residenceProofImageView"
                 app:layout_constraintBottom_toBottomOf="@+id/residenceProofImageView" android:visibility="gone"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

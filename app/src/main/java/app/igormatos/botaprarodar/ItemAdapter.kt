@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
 
 class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private var activity: Activity? = null) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), Filterable {
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -62,7 +62,7 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
     var filteredList: MutableList<Item> = mutableListOf()
     var withdrawalInProgress: Withdraw? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
         return ItemCellViewHolder(view)
     }
@@ -71,7 +71,7 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
         return filteredList.count()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
         val item = filteredList[index]
         val withdrawal = withdrawalsList?.firstOrNull {
             (it.bicycle_id == item.id) && (it.isRent())
@@ -125,7 +125,7 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
         withdrawalsList = withdrawals
     }
 
-    class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ItemCellViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         fun bindUserSelection(item: Item, withdrawalInProgress: Withdraw, activity: Activity) {
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
