@@ -102,7 +102,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity is ChooseUserActivity) {
             val activityMenu = activity!!.toolbar.menu
             val aMenuInflater = activity!!.menuInflater
