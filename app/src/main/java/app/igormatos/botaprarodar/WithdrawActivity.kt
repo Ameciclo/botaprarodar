@@ -3,8 +3,8 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import app.igormatos.botaprarodar.model.Bicycle
 import app.igormatos.botaprarodar.model.Item
@@ -22,7 +22,7 @@ class WithdrawActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rent)
 
-        logRecyclerView.layoutManager = LinearLayoutManager(this)
+        logRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
         withdrawalsReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {

@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.igormatos.botaprarodar.model.Withdraw
 import kotlinx.android.synthetic.main.activity_ride_quiz.*

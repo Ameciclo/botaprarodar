@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_fullscreen_image.*
 
 var EXTRA_IMAGE_PATH = "EXTRA_IMAGE_PATH"

@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.SearchView
 import app.igormatos.botaprarodar.model.Withdraw
