@@ -11,3 +11,5 @@
 .externalNativeBuild
 
 \.idea/
+
+app/src/debug/google-services\.json

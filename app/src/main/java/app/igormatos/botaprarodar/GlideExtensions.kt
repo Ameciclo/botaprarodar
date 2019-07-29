@@ -10,3 +10,11 @@ fun ImageView.loadPath(path: String) {
         .apply(RequestOptions.fitCenterTransform())
         .into(this)
 }
+
+fun ImageView.loadPathOnCircle(path: String) {
+    Glide.with(context)
+        .load(path)
+        .apply(RequestOptions.fitCenterTransform())
+        .apply(RequestOptions().circleCrop())
+        .into(this)
+}
