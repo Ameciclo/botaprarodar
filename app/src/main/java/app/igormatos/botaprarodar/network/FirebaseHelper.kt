@@ -29,7 +29,11 @@ class FirebaseHelper {
             })
         }
 
-        fun getCommunities(uid: String, listener: SingleRequestListener<List<Community>>) {
+        fun getCommunities(
+            uid: String,
+            email: String,
+            listener: SingleRequestListener<Pair<Boolean, List<Community>>>
+        ) {
             val childReference = adminsReference.child(uid)
             childReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -46,7 +50,24 @@ class FirebaseHelper {
                                     communitySnapshot.getValue(Community::class.java)
                                 }
 
-                                listener.onCompleted(communities)
+                                listener.onCompleted(Pair(true, communities))
+                            }
+
+                        })
+                    } else {
+                        communitiesPreview.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                listener.onError(RequestError.DEFAULT)
+                            }
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val communities = snapshot.children.mapNotNull { communitySnapshot ->
+                                    communitySnapshot.getValue(Community::class.java)
+                                }.filter {
+                                    it.org_email == email
+                                }
+
+                                listener.onCompleted(Pair(false, communities))
                             }
 
                         })

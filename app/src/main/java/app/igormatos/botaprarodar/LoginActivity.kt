@@ -53,30 +53,43 @@ class LoginActivity : AppCompatActivity() {
     private fun chooseCommunityDialog() {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: return
 
-        FirebaseHelper.getCommunities(currentUser.uid, object : SingleRequestListener<List<Community>> {
-            override fun onStart() {
-                // loading
-            }
+        FirebaseHelper.getCommunities(
+            currentUser.uid,
+            currentUser.email!!,
+            object : SingleRequestListener<Pair<Boolean, List<Community>>> {
+                override fun onStart() {
+                    // loading
+                }
 
-            override fun onCompleted(communities: List<Community>) {
-                val communitiesTitle = communities.mapNotNull { it.name }
+                override fun onCompleted(result: Pair<Boolean, List<Community>>) {
+                    val communitiesTitle = result.second.mapNotNull { it.name }
 
-                MaterialAlertDialogBuilder(this@LoginActivity)
-                    .setTitle(title)
-                    .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
-                        val joinedCommunity = communities[which]
-                        Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
-                        goToMainActivity()
+                    val alertBuilder = MaterialAlertDialogBuilder(this@LoginActivity)
+                        .setTitle(title)
+                        .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
+                            val joinedCommunity = result.second[which]
+                            Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
+                            goToMainActivity()
+                        }
+
+                    if (result.first) {
+                        alertBuilder.setPositiveButton("Adicionar comunidade", { it, a -> })
                     }
-                    .setPositiveButton("Adicionar comunidade", { it, a -> })
-                    .show()
-            }
 
-            override fun onError(error: RequestError) {
+                    alertBuilder.show()
 
-            }
+                }
 
-        })
+                override fun onError(error: RequestError) {
+                    MaterialAlertDialogBuilder(this@LoginActivity)
+                        .setTitle(title)
+                        .setMessage("Solicite acesso a Ameciclo")
+                        .show()
+
+                    FirebaseAuth.getInstance().signOut()
+                }
+
+            })
 
 
     }
