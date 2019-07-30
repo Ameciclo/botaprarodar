@@ -4,11 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
-import app.igormatos.botaprarodar.model.Bicycle
-import app.igormatos.botaprarodar.model.Item
-import app.igormatos.botaprarodar.model.Withdraw
+import app.igormatos.botaprarodar.local.model.Bicycle
+import app.igormatos.botaprarodar.local.model.Item
+import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_rent.*
 

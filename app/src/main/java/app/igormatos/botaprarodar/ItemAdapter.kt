@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import app.igormatos.botaprarodar.model.Bicycle
-import app.igormatos.botaprarodar.model.Item
-import app.igormatos.botaprarodar.model.User
-import app.igormatos.botaprarodar.model.Withdraw
+import app.igormatos.botaprarodar.local.model.Bicycle
+import app.igormatos.botaprarodar.local.model.Item
+import app.igormatos.botaprarodar.local.model.User
+import app.igormatos.botaprarodar.local.model.Withdraw
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels

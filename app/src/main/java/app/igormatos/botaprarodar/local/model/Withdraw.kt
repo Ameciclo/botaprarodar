@@ -1,8 +1,7 @@
-package app.igormatos.botaprarodar.model
+package app.igormatos.botaprarodar.local.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 import org.parceler.Parcel
-import java.text.SimpleDateFormat
 import java.util.*
 
 @IgnoreExtraProperties

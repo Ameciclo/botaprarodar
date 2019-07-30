@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestError
@@ -58,13 +59,17 @@ class LoginActivity : AppCompatActivity() {
                 // loading
             }
 
-            override fun onCompleted(result: List<Community>) {
-                val communitiesTitle = result.mapNotNull { it.name }
+            override fun onCompleted(communities: List<Community>) {
+                val communitiesTitle = communities.mapNotNull { it.name }
+
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(title)
                     .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
-                        Toast.makeText(this@LoginActivity, "Dialog $dialog Int $which", Toast.LENGTH_SHORT).show()
+                        val joinedCommunity = communities[which]
+                        Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
+                        goToMainActivity()
                     }
+                    .setPositiveButton("Adicionar comunidade", { it, a -> })
                     .show()
             }
 
@@ -74,8 +79,6 @@ class LoginActivity : AppCompatActivity() {
 
         })
 
-
-//        goToMainActivity()
 
     }
 

@@ -1,11 +1,9 @@
 package app.igormatos.botaprarodar.network
 
-import app.igormatos.botaprarodar.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.lang.Error
 
 class FirebaseHelper {
 

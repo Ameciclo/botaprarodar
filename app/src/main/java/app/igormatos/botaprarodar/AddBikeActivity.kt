@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import app.igormatos.botaprarodar.model.Bicycle
+import app.igormatos.botaprarodar.local.model.Bicycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.FirebaseDatabase
