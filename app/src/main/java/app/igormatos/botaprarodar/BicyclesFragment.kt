@@ -2,14 +2,11 @@ package app.igormatos.botaprarodar
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.igormatos.botaprarodar.model.Bicycle
-import app.igormatos.botaprarodar.model.Item
+import app.igormatos.botaprarodar.local.model.Bicycle
+import app.igormatos.botaprarodar.local.model.Item
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -2,27 +2,21 @@ package app.igormatos.botaprarodar
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.igormatos.botaprarodar.model.Item
-import app.igormatos.botaprarodar.model.Withdraw
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import androidx.core.content.ContextCompat
+import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.model.Item
+import app.igormatos.botaprarodar.local.model.Withdraw
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
 class ActivitiesFragment : androidx.fragment.app.Fragment() {
 
-    private val withdrawalsReference =
-        FirebaseDatabase.getInstance().getReference("withdrawals").orderByChild("modified_time")
+    lateinit var withdrawalsReference: DatabaseReference
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,6 +31,9 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        withdrawalsReference =
+            FirebaseDatabase.getInstance().getReference("communities/$joinedCommunityId").child("withdrawals")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,7 +77,7 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
             }
         }
 
-        withdrawalsReference.addChildEventListener(bicyclesListener)
+        withdrawalsReference.orderByChild("modified_time").addChildEventListener(bicyclesListener)
     }
 
 }

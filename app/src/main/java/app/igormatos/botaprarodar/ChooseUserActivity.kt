@@ -5,7 +5,7 @@ import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.SearchView
-import app.igormatos.botaprarodar.model.Withdraw
+import app.igormatos.botaprarodar.local.model.Withdraw
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import org.parceler.Parcels
 

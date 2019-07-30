@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.model
+package app.igormatos.botaprarodar.local.model
 
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat

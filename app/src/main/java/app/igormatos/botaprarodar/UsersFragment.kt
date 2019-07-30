@@ -3,18 +3,13 @@ package app.igormatos.botaprarodar
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
 import android.view.*
-import app.igormatos.botaprarodar.model.Item
-import app.igormatos.botaprarodar.model.User
-import app.igormatos.botaprarodar.model.Withdraw
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import androidx.appcompat.widget.SearchView
+import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.model.Item
+import app.igormatos.botaprarodar.local.model.User
+import app.igormatos.botaprarodar.local.model.Withdraw
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.parceler.Parcels
@@ -22,7 +17,7 @@ import org.parceler.Parcels
 
 class UsersFragment : androidx.fragment.app.Fragment() {
 
-    private val usersReference = FirebaseDatabase.getInstance().getReference("users")
+    lateinit var usersReference: DatabaseReference
     lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,6 +27,8 @@ class UsersFragment : androidx.fragment.app.Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        usersReference = FirebaseDatabase.getInstance().getReference("communities/$joinedCommunityId").child("users")
         setHasOptionsMenu(true)
     }
 

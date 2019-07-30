@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import app.igormatos.botaprarodar.model.User
+import app.igormatos.botaprarodar.local.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_user.*

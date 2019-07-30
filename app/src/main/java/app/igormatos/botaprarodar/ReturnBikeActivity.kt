@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
-import app.igormatos.botaprarodar.model.Withdraw
+import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_return_bike.*
 import org.parceler.Parcels

@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import app.igormatos.botaprarodar.model.Withdraw
+import app.igormatos.botaprarodar.local.model.Withdraw
 import kotlinx.android.synthetic.main.activity_ride_quiz.*
 import org.parceler.Parcels
 
