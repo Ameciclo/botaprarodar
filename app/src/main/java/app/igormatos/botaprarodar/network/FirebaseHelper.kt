@@ -125,6 +125,38 @@ class FirebaseHelper {
             withdrawalsReference.orderByChild("modified_time").addChildEventListener(withdrawalsListener)
         }
 
+        fun getBicycles(communityId: String, listener: RequestListener<Item>) {
+            val usersReference = communities.child(communityId).child("bicycles")
+
+            val usersListener = object : ChildEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                }
+
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    snapshotToBicycle(p0)?.let {
+                        listener.onChildChanged(it)
+                    }
+                }
+
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    snapshotToBicycle(p0)?.let {
+                        listener.onChildAdded(it)
+                    }
+                }
+
+                override fun onChildRemoved(p0: DataSnapshot) {
+                    snapshotToBicycle(p0)?.let {
+                        listener.onChildRemoved(it)
+                    }
+                }
+            }
+
+            usersReference.addChildEventListener(usersListener)
+        }
+
         private fun snapshotToWithdraw(snapshot: DataSnapshot): Withdraw? {
             return snapshot.getValue(Withdraw::class.java)
         }

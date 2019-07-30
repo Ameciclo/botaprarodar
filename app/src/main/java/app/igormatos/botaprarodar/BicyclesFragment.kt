@@ -5,17 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import app.igormatos.botaprarodar.local.model.Bicycle
+import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.local.model.Item
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.RequestListener
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class BicyclesFragment : androidx.fragment.app.Fragment() {
 
-    private val bicyclesFragment = FirebaseDatabase.getInstance().getReference("bicycles")
     lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,29 +43,21 @@ class BicyclesFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-        val bicyclesListener = object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        FirebaseHelper.getBicycles(joinedCommunityId, object : RequestListener<Item> {
+            override fun onChildChanged(result: Item) {
+                itemAdapter.updateItem(result)
             }
 
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            override fun onChildAdded(result: Item) {
+                itemAdapter.addItem(result)
             }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val user = p0.getValue(Bicycle::class.java)
-                itemAdapter.updateItem(user as Item)
+            override fun onChildRemoved(result: Item) {
+                itemAdapter.removeItem(result)
+
             }
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val bicycle = p0.getValue(Bicycle::class.java)
-                itemAdapter.addItem(bicycle as Item)
-            }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-                val bicycle = p0.getValue(Bicycle::class.java)
-                itemAdapter.removeItem(bicycle as Item)
-            }
-        }
-
-        bicyclesFragment.addChildEventListener(bicyclesListener)
+        })
     }
 }
