@@ -5,6 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import app.igormatos.botaprarodar.network.Community
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.RequestError
+import app.igormatos.botaprarodar.network.RequestListener
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -47,14 +51,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun chooseCommunityDialog() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Comunidades")
-            .setMessage("Escolha qual comunidade entrar")
-            .setItems(arrayOf("Caranguejo Tabaiares", "Peixinhos")) { dialog, int ->
-                Toast.makeText(this@LoginActivity, "Dialog $dialog Int ${int}", Toast.LENGTH_SHORT).show()
+        FirebaseHelper.getCommunities(currentUser.uid, object : RequestListener<List<Community>> {
+            override fun onStart() {
+                // loading
             }
+
+            override fun onCompleted(result: List<Community>) {
+                val communitiesTitle = result.mapNotNull { it.name }
+                MaterialAlertDialogBuilder(this@LoginActivity)
+                    .setTitle(title)
+                    .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
+                        Toast.makeText(this@LoginActivity, "Dialog $dialog Int $which", Toast.LENGTH_SHORT).show()
+                    }
+                    .show()
+            }
+
+            override fun onError(error: RequestError) {
+
+            }
+
+        })
+
 
 //        goToMainActivity()
 
