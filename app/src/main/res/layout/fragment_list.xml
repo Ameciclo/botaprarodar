@@ -21,7 +21,8 @@
             app:fabSize="normal"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/tintColor"/>
+            app:backgroundTint="@color/tintColor"
+            app:tint="@color/white"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.local.model.Item
-import app.igormatos.botaprarodar.local.model.Withdraw
-import com.google.firebase.database.*
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.RequestListener
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
 class ActivitiesFragment : androidx.fragment.app.Fragment() {
 
-    lateinit var withdrawalsReference: DatabaseReference
     val itemAdapter = ItemAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,14 +25,6 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
         rootView.addItemFab.setImageDrawable(bitmap)
 
         return rootView
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        withdrawalsReference =
-            FirebaseDatabase.getInstance().getReference("communities/$joinedCommunityId").child("withdrawals")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,30 +45,21 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
         )
 
 
-        val bicyclesListener = object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        FirebaseHelper.getWithdrawals(joinedCommunityId, object : RequestListener<Item> {
+            override fun onChildChanged(result: Item) {
+                itemAdapter.updateItem(result)
             }
 
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            override fun onChildAdded(result: Item) {
+                itemAdapter.addItem(result)
             }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val withdraw = p0.getValue(Withdraw::class.java)
-                itemAdapter.updateItem(withdraw as Item)
+            override fun onChildRemoved(result: Item) {
+                itemAdapter.removeItem(result)
             }
+        })
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val withdraw = p0.getValue(Withdraw::class.java)
-                itemAdapter.addItem(withdraw as Item)
-            }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-                val withdraw = p0.getValue(Withdraw::class.java)
-                itemAdapter.removeItem(withdraw as Item)
-            }
-        }
-
-        withdrawalsReference.orderByChild("modified_time").addChildEventListener(bicyclesListener)
     }
 
 }

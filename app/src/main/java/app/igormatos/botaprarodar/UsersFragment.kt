@@ -7,9 +7,9 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.local.model.Item
-import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
-import com.google.firebase.database.*
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.RequestListener
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.parceler.Parcels
@@ -17,7 +17,6 @@ import org.parceler.Parcels
 
 class UsersFragment : androidx.fragment.app.Fragment() {
 
-    lateinit var usersReference: DatabaseReference
     lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,8 +26,6 @@ class UsersFragment : androidx.fragment.app.Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        usersReference = FirebaseDatabase.getInstance().getReference("communities/$joinedCommunityId").child("users")
         setHasOptionsMenu(true)
     }
 
@@ -60,30 +57,24 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-        val usersListener = object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        FirebaseHelper.getUsers(joinedCommunityId, object : RequestListener<Item> {
+            override fun onChildChanged(result: Item) {
+                itemAdapter.updateItem(result)
             }
 
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            override fun onChildAdded(result: Item) {
+                itemAdapter.addItem(result)
             }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val user = p0.getValue(User::class.java)
-                itemAdapter.updateItem(user as Item)
+
+            override fun onChildRemoved(result: Item) {
+                itemAdapter.removeItem(result)
             }
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val user = p0.getValue(User::class.java)
-                itemAdapter.addItem(user as Item)
-            }
+        })
 
-            override fun onChildRemoved(p0: DataSnapshot) {
-                val user = p0.getValue(User::class.java)
-                itemAdapter.removeItem(user as Item)
-            }
-        }
 
-        usersReference.addChildEventListener(usersListener)
     }
 
     companion object {

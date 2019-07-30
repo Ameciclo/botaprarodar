@@ -3,13 +3,12 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.RequestListener
+import app.igormatos.botaprarodar.network.SingleRequestListener
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -54,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
     private fun chooseCommunityDialog() {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: return
 
-        FirebaseHelper.getCommunities(currentUser.uid, object : RequestListener<List<Community>> {
+        FirebaseHelper.getCommunities(currentUser.uid, object : SingleRequestListener<List<Community>> {
             override fun onStart() {
                 // loading
             }
