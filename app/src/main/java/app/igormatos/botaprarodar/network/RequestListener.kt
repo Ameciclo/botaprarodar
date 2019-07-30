@@ -1,14 +1,10 @@
 package app.igormatos.botaprarodar.network
 
 interface RequestListener<T> {
+    fun onChildChanged(result: T)
 
-    fun onStart()
+    fun onChildAdded(result: T)
 
-    fun onCompleted(result: T)
+    fun onChildRemoved(result: T)
 
-    fun onError(error: RequestError)
-}
-
-enum class RequestError {
-    DEFAULT, PARSE
 }
