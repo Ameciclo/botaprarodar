@@ -1,10 +1,13 @@
 package app.igormatos.botaprarodar.network
 
+import android.view.View
+import android.widget.Toast
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_add_user.*
 
 class FirebaseHelper {
 
@@ -27,6 +30,19 @@ class FirebaseHelper {
                 }
 
             })
+        }
+
+        fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
+            val communityKey = communitiesPreview.push().key!!
+            community.id = communityKey
+
+            listener.onStart()
+            communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
+                listener.onCompleted(true)
+            }.addOnFailureListener {
+                listener.onError(RequestError.DEFAULT)
+            }
+
         }
 
         fun getCommunities(

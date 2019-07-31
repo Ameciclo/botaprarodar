@@ -8,4 +8,15 @@
     <string name="confirmar_devolucao">Confirmar devolução</string>
     <string name="quiz_title">Questionário</string>
     <string name="action_search">action_search</string>
+    <string name="add_community_title">Adicionar comunidade</string>
+    <string name="community_name_hint">Nome</string>
+    <string name="community_description_hint">Descrição</string>
+    <string name="community_address_hint">Endereço</string>
+    <string name="community_org_name_hint">Nome do responsável</string>
+    <string name="community_org_email_hint">Email do responsável</string>
+    <string name="community_add_button">Adicionar</string>
+    <string name="community_add_success_message">Comunidade adicionada com sucesso</string>
+    <string name="community_add_confirm">Tudo certo!</string>
+    <string name="community_confirm_title">Os dados estão corretos?</string>
+    <string name="community_empties_inputs_error">Preencha todos os campos</string>
 </resources>

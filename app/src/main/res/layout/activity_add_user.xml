@@ -24,7 +24,8 @@
                     app:title="@string/add_user_title"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"/>
+                    app:titleTextColor="@color/dark_gray"
+                    android:background="@color/white"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -100,11 +101,11 @@
             <RadioButton android:id="@+id/rgCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="RG" />
+                         android:text="RG"/>
             <RadioButton android:id="@+id/cpfCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="CPF" />
+                         android:text="CPF"/>
         </RadioGroup>
 
         <TextView
@@ -155,19 +156,19 @@
             <RadioButton android:id="@+id/maleCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="Masculino" />
+                         android:text="Masculino"/>
             <RadioButton android:id="@+id/femaleCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="Feminino" />
+                         android:text="Feminino"/>
             <RadioButton android:id="@+id/otherCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="Outro" />
+                         android:text="Outro"/>
             <RadioButton android:id="@+id/dontNeedCheck"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         android:text="Prefere não responder" />
+                         android:text="Prefere não responder"/>
         </RadioGroup>
 
         <Button android:layout_width="0dp" android:layout_height="wrap_content"

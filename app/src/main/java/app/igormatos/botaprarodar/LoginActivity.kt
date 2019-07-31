@@ -73,7 +73,10 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     if (result.first) {
-                        alertBuilder.setPositiveButton("Adicionar comunidade", { it, a -> })
+                        alertBuilder.setPositiveButton("Adicionar comunidade") { it, a ->
+                            val intent = Intent(this@LoginActivity, AddCommunityActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
 
                     alertBuilder.show()
