@@ -62,17 +62,20 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onCompleted(result: Pair<Boolean, List<Community>>) {
-                    val communitiesTitle = result.second.mapNotNull { it.name }
+                    val isAdmin = result.first
+                    val communities = result.second
+
+                    val communitiesTitle = communities.mapNotNull { it.name }
 
                     val alertBuilder = MaterialAlertDialogBuilder(this@LoginActivity)
                         .setTitle(title)
                         .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
-                            val joinedCommunity = result.second[which]
+                            val joinedCommunity = communities[which]
                             Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
                             goToMainActivity()
                         }
 
-                    if (result.first) {
+                    if (isAdmin) {
                         alertBuilder.setPositiveButton("Adicionar comunidade") { it, a ->
                             val intent = Intent(this@LoginActivity, AddCommunityActivity::class.java)
                             startActivity(intent)
