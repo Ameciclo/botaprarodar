@@ -6,9 +6,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/grey</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppThemeWithActionbar" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="actionBarTheme">@style/ActionBar</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/grey</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:titleTextStyle">@color/grey</item>
+        <item name="android:background">@color/white</item>
+    </style>
 
     <style name="bprButton" parent="Widget.AppCompat.Button.Colored">
     </style>

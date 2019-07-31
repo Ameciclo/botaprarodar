@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (FirebaseAuth.getInstance().currentUser == null) {
-            startLoginFlow()
+//            startLoginFlow()
         } else {
             goToMainActivity()
         }
@@ -111,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setTheme(R.style.AppTheme)
+                .setTheme(R.style.AppThemeWithActionbar)
                 .build(),
             SIGN_IN_REQUEST
         )
