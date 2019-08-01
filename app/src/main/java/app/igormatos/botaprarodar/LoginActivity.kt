@@ -27,8 +27,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        if (isLogged() && isCommunitySelected()) {
             goToMainActivity()
+        } else if (isLogged()) {
+            chooseCommunityDialog()
         }
 
         loginButton.setOnClickListener {
@@ -46,6 +48,14 @@ class LoginActivity : AppCompatActivity() {
                 Snackbar.make(loginContainer, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun isCommunitySelected(): Boolean {
+        return Preferences.isCommunitySelected(this)
+    }
+
+    private fun isLogged(): Boolean {
+        return FirebaseAuth.getInstance().currentUser != null
     }
 
     private fun chooseCommunityDialog() {
