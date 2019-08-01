@@ -18,8 +18,9 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
 
-class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private var activity: Activity? = null) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), Filterable {
+class ItemAdapter(private var activity: Activity? = null) :
+    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(),
+    Filterable {
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -61,7 +62,10 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
     var filteredList: MutableList<Item> = mutableListOf()
     var withdrawalInProgress: Withdraw? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
         return ItemCellViewHolder(view)
     }
@@ -72,24 +76,13 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
 
     override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
         val item = filteredList[index]
-        val withdrawal = withdrawalsList?.firstOrNull {
-            (it.bicycle_id == item.id) && (it.isRent())
-        }
-
-        val isAvailable = withdrawal == null
 
         if (withdrawalInProgress == null) {
-            (holder as ItemCellViewHolder).bind(item, isAvailable, withdrawal, withdrawalsList != null, activity)
+            (holder as ItemCellViewHolder).bind(item, activity)
         } else {
             (holder as ItemCellViewHolder).bindUserSelection(item, withdrawalInProgress!!, activity!!)
         }
 
-    }
-
-    fun updateList(newList: List<Item>) {
-        itemsList = newList.toMutableList()
-        filteredList = newList.toMutableList()
-        notifyDataSetChanged()
     }
 
     fun addItem(item: Item) {
@@ -118,10 +111,6 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
         filteredList.add(0, item)
 
         notifyDataSetChanged()
-    }
-
-    fun updateWithdrawals(withdrawals: List<Withdraw>) {
-        withdrawalsList = withdrawals
     }
 
     class ItemCellViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
@@ -168,9 +157,6 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
 
         fun bind(
             item: Item,
-            isAvailable: Boolean,
-            withdrawal: Withdraw? = null,
-            isWithdrawal: Boolean = false,
             activity: Activity? = null
         ) {
 
@@ -180,7 +166,7 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
 
             val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
 
-            if (item !is Withdraw && !isWithdrawal) {
+            if (item !is Withdraw) {
                 itemView.setOnLongClickListener {
                     confirmToRemove(item, "Deseja remover o item?", item.title())
                     true
@@ -196,7 +182,8 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
                 }
             }
 
-            if (item is Bicycle && isWithdrawal && activity != null) {
+            if (item is Bicycle && activity is WithdrawActivity) {
+                val isAvailable = item.is_available ?: false
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
                 } else {
@@ -215,14 +202,14 @@ class ItemAdapter(private var withdrawalsList: List<Withdraw>? = null, private v
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
                         val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
-                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawal))
+                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, Withdraw()))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
 
                     }
                 }
             }
 
-            if (item is Bicycle && !isWithdrawal && activity != null) {
+            if (item is Bicycle && activity != null && activity !is WithdrawActivity) {
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, AddBikeActivity::class.java)
                     intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bicycle::class.java, item))

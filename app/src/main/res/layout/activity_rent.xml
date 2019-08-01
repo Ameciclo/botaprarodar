@@ -15,7 +15,6 @@
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +24,8 @@
                     app:title="Retirada de bicicleta"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"/>
+                    app:titleTextColor="@color/dark_gray"
+                    android:background="@color/white"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,7 +34,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/logRecyclerView" />
+                android:id="@+id/logRecyclerView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

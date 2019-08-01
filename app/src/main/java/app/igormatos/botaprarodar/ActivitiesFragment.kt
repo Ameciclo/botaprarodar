@@ -10,6 +10,7 @@ import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
+import app.igormatos.botaprarodar.util.getSelectedCommunityId
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -44,9 +45,7 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-
-        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        FirebaseHelper.getWithdrawals(joinedCommunityId, object : RequestListener<Item> {
+        FirebaseHelper.getWithdrawals(context!!.getSelectedCommunityId(), object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
             }

@@ -17,6 +17,7 @@ class Bicycle : Item {
     var order_number: Long? = null
     var photo_path: String? = null
     var created_date: String? = null
+    var is_available: Boolean? = true
 
     init {
         val date = Calendar.getInstance().time
