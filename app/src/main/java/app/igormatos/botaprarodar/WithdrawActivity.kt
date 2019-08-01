@@ -3,18 +3,16 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.model.Bicycle
-import app.igormatos.botaprarodar.local.model.Item
-import app.igormatos.botaprarodar.local.model.Withdraw
-import com.google.firebase.database.*
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.RequestListener
+import app.igormatos.botaprarodar.util.getSelectedCommunityId
 import kotlinx.android.synthetic.main.activity_rent.*
 
 class WithdrawActivity : AppCompatActivity() {
 
-    private val bicyclesReference = FirebaseDatabase.getInstance().getReference("bicycles")
-    private val withdrawalsReference = FirebaseDatabase.getInstance().getReference("withdrawals")
     lateinit var itemAdapter: ItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,41 +20,24 @@ class WithdrawActivity : AppCompatActivity() {
         setContentView(R.layout.activity_rent)
 
         logRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        itemAdapter = ItemAdapter(activity = this)
+        logRecyclerView.adapter = itemAdapter
 
-        withdrawalsReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+        FirebaseHelper.getBicycles(getSelectedCommunityId(), object : RequestListener<Bicycle> {
+            override fun onChildChanged(result: Bicycle) {
+                itemAdapter.updateItem(result)
             }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val withdrawals = snapshot.children.map { it.getValue(Withdraw::class.java)!! }
-                itemAdapter = ItemAdapter(withdrawals, this@WithdrawActivity)
-                logRecyclerView.adapter = itemAdapter
+            override fun onChildAdded(result: Bicycle) {
+                itemAdapter.addItem(result)
+            }
 
-                val bicyclesListener = object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                    }
-
-                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                    }
-
-                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                    }
-
-                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                        val withdraw = p0.getValue(Bicycle::class.java)
-                        itemAdapter.addItem(withdraw as Item)
-                    }
-
-                    override fun onChildRemoved(p0: DataSnapshot) {
-                        val withdraw = p0.getValue(Bicycle::class.java)
-                        itemAdapter.removeItem(withdraw as Item)
-                    }
-                }
-
-                bicyclesReference.addChildEventListener(bicyclesListener)
+            override fun onChildRemoved(result: Bicycle) {
+                itemAdapter.removeItem(result)
             }
 
         })
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

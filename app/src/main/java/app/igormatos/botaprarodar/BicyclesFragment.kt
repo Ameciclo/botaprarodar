@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
@@ -44,16 +45,16 @@ class BicyclesFragment : androidx.fragment.app.Fragment() {
         )
 
         val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        FirebaseHelper.getBicycles(joinedCommunityId, object : RequestListener<Item> {
-            override fun onChildChanged(result: Item) {
+        FirebaseHelper.getBicycles(joinedCommunityId, object : RequestListener<Bicycle> {
+            override fun onChildChanged(result: Bicycle) {
                 itemAdapter.updateItem(result)
             }
 
-            override fun onChildAdded(result: Item) {
+            override fun onChildAdded(result: Bicycle) {
                 itemAdapter.addItem(result)
             }
 
-            override fun onChildRemoved(result: Item) {
+            override fun onChildRemoved(result: Bicycle) {
                 itemAdapter.removeItem(result)
 
             }

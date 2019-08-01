@@ -168,7 +168,7 @@ class FirebaseHelper {
             withdrawalsReference.orderByChild("modified_time").addChildEventListener(withdrawalsListener)
         }
 
-        fun getBicycles(communityId: String, listener: RequestListener<Item>) {
+        fun getBicycles(communityId: String, listener: RequestListener<Bicycle>) {
             val usersReference = communities.child(communityId).child("bicycles")
 
             val usersListener = object : ChildEventListener {
