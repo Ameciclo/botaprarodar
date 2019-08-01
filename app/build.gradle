@@ -74,6 +74,9 @@ dependencies {
     implementation "android.arch.work:work-runtime-ktx:$work_version"
 
     implementation 'com.google.android.material:material:1.1.0-alpha08'
+
+    implementation 'com.airbnb.android:lottie:3.0.7'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

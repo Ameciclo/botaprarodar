@@ -3,15 +3,17 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestError
 import app.igormatos.botaprarodar.network.SingleRequestListener
+import app.igormatos.botaprarodar.util.showLoadingDialog
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -19,15 +21,13 @@ import java.util.*
 class LoginActivity : AppCompatActivity() {
 
     private val SIGN_IN_REQUEST: Int = 200
+    lateinit var loadingDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
-        if (FirebaseAuth.getInstance().currentUser == null) {
-//            startLoginFlow()
-        } else {
+        if (FirebaseAuth.getInstance().currentUser != null) {
             goToMainActivity()
         }
 
@@ -40,12 +40,10 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == SIGN_IN_REQUEST) {
-            val response = IdpResponse.fromResultIntent(data)
-
             if (resultCode == Activity.RESULT_OK) {
                 chooseCommunityDialog()
             } else {
-//                erronologin snackbar
+                Snackbar.make(loginContainer, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -58,10 +56,12 @@ class LoginActivity : AppCompatActivity() {
             currentUser.email!!,
             object : SingleRequestListener<Pair<Boolean, List<Community>>> {
                 override fun onStart() {
-                    // loading
+                    loadingDialog = showLoadingDialog()
                 }
 
                 override fun onCompleted(result: Pair<Boolean, List<Community>>) {
+                    loadingDialog.dismiss()
+
                     val isAdmin = result.first
                     val communities = result.second
 
@@ -69,14 +69,15 @@ class LoginActivity : AppCompatActivity() {
 
                     val alertBuilder = MaterialAlertDialogBuilder(this@LoginActivity)
                         .setTitle(title)
-                        .setItems(communitiesTitle.toTypedArray()) { dialog, which ->
+                        .setItems(communitiesTitle.toTypedArray()) { _, which ->
                             val joinedCommunity = communities[which]
+
                             Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
                             goToMainActivity()
                         }
 
                     if (isAdmin) {
-                        alertBuilder.setPositiveButton("Adicionar comunidade") { it, a ->
+                        alertBuilder.setPositiveButton(getString(R.string.add_community)) { it, a ->
                             val intent = Intent(this@LoginActivity, AddCommunityActivity::class.java)
                             startActivity(intent)
                         }
@@ -87,9 +88,11 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onError(error: RequestError) {
+                    loadingDialog.dismiss()
+
                     MaterialAlertDialogBuilder(this@LoginActivity)
                         .setTitle(title)
-                        .setMessage("Solicite acesso a Ameciclo")
+                        .setMessage(getString(R.string.login_no_communities_allowed))
                         .show()
 
                     FirebaseAuth.getInstance().signOut()

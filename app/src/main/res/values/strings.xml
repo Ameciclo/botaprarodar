@@ -19,4 +19,7 @@
     <string name="community_add_confirm">Tudo certo!</string>
     <string name="community_confirm_title">Os dados estão corretos?</string>
     <string name="community_empties_inputs_error">Preencha todos os campos</string>
+    <string name="login_error">Falha no login</string>
+    <string name="add_community">Adicionar comunidade</string>
+    <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
 </resources>
