@@ -19,7 +19,11 @@ class FirebaseHelper {
         val communities = instance.getReference("communities")
 
         fun isUserAdmin(uid: String, listener: SingleRequestListener<Boolean>) {
+
+
             val childReference = adminsReference.child(uid)
+
+            listener.onStart()
             childReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     listener.onCompleted(snapshot.value != null)
@@ -50,6 +54,8 @@ class FirebaseHelper {
             email: String,
             listener: SingleRequestListener<Pair<Boolean, List<Community>>>
         ) {
+
+            listener.onStart()
             val childReference = adminsReference.child(uid)
             childReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
