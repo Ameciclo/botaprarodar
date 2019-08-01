@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
 import app.igormatos.botaprarodar.util.getSelectedCommunityId
+import app.igormatos.botaprarodar.util.showLoadingDialog
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_list.view.*
 class ActivitiesFragment : androidx.fragment.app.Fragment() {
 
     val itemAdapter = ItemAdapter()
+    var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
@@ -45,12 +48,15 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
             )
         )
 
+        loadingDialog = context?.showLoadingDialog()
+
         FirebaseHelper.getWithdrawals(context!!.getSelectedCommunityId(), object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
             }
 
             override fun onChildAdded(result: Item) {
+                loadingDialog?.dismiss()
                 itemAdapter.addItem(result)
             }
 
