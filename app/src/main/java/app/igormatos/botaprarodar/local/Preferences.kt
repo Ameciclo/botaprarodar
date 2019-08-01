@@ -32,5 +32,9 @@ class Preferences {
             return context.getSharedPreferences("BPR-SHARED", Context.MODE_PRIVATE)
         }
 
+        fun isCommunitySelected(context: Context): Boolean {
+            return getSharedPreferences(context).getString(COMMUNITY_ID, "").isNullOrEmpty().not()
+        }
+
     }
 }
