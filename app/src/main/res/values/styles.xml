@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/grey</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/ubuntu_light</item>
+        <item name="actionBarTheme">@style/ActionBar</item>
     </style>
 
     <style name="AppThemeWithActionbar" parent="Theme.MaterialComponents.Light">
@@ -17,11 +18,16 @@
         <item name="android:fontFamily">@font/ubuntu_light</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:editTextColor">@color/dark_gray</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
+        <item name="colorControlNormal">@color/dark_gray</item>
+    </style>
 
     <style name="ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:titleTextStyle">@color/grey</item>
         <item name="android:background">@color/white</item>
+        <item name="colorControlNormal">@color/dark_gray</item>
     </style>
 
     <style name="bprButton" parent="Widget.AppCompat.Button.Colored">
