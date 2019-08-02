@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/grey</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/ubuntu_light</item>
     </style>
 
     <style name="AppThemeWithActionbar" parent="Theme.MaterialComponents.Light">
@@ -13,6 +14,7 @@
         <item name="actionBarTheme">@style/ActionBar</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/grey</item>
+        <item name="android:fontFamily">@font/ubuntu_light</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
