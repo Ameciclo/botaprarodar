@@ -1,13 +1,23 @@
 package app.igormatos.botaprarodar.network
 
 import com.google.firebase.database.IgnoreExtraProperties
+import java.util.*
 
 @IgnoreExtraProperties
-data class Community(
-    val name: String? = "",
-    val description: String? = "",
-    val address: String? = "",
-    val org_name: String? = "",
-    val org_email: String? = "",
+class Community(
+    var name: String? = "",
+    var description: String? = "",
+    var address: String? = "",
+    var org_name: String? = "",
+    var org_email: String? = "",
     var id: String? = ""
-)
+
+) {
+    var created_date: Long?
+
+
+    init {
+        val date = Calendar.getInstance().time
+        created_date = date.time
+    }
+}
