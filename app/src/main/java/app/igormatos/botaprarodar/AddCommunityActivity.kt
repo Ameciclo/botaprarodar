@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestError
 import app.igormatos.botaprarodar.network.SingleRequestListener
+import app.igormatos.botaprarodar.util.showLoadingDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -38,11 +39,11 @@ class AddCommunityActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.community_confirm_title))
             .setMessage(
-                "${community.name} \n " +
-                "${community.description} \n " +
-                "${community.address} \n " +
-                "${community.org_name} \n " +
-                "${community.org_email}"
+                "${community.name} \n" +
+                        "${community.description} \n" +
+                        "${community.address} \n" +
+                        "${community.org_name} \n" +
+                        "${community.org_email}"
             )
             .setPositiveButton(getString(R.string.community_add_confirm)) { a, b ->
                 sendCommunityToServer(community)
@@ -63,21 +64,31 @@ class AddCommunityActivity : AppCompatActivity() {
     }
 
     private fun sendCommunityToServer(community: Community) {
+        val loadingDialog = showLoadingDialog()
+
         FirebaseHelper.addCommunity(community, object : SingleRequestListener<Boolean> {
             override fun onStart() {
-//
             }
 
             override fun onCompleted(result: Boolean) {
+                loadingDialog.dismiss()
+
                 Snackbar.make(
                     addCommunityContainer,
                     getString(R.string.community_add_success_message),
                     Snackbar.LENGTH_SHORT
                 ).show()
+
+                finish()
             }
 
             override fun onError(error: RequestError) {
-                //
+                loadingDialog.dismiss()
+                Snackbar.make(
+                    addCommunityContainer,
+                    getString(R.string.add_community_error),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
 
         })

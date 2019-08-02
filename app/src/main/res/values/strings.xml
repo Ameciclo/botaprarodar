@@ -22,4 +22,7 @@
     <string name="login_error">Falha no login</string>
     <string name="add_community">Adicionar comunidade</string>
     <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
+    <string name="add_community_error">Não foi possível cadastrar a comunidade</string>
+    <string name="login_confirm_email_error">Confirme seu cadastro no email</string>
+    <string name="resend_email">Reenviar email</string>
 </resources>

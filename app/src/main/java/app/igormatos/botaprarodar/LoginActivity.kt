@@ -27,15 +27,20 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        loginButton.setOnClickListener {
+            startLoginFlow()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         if (isLogged() && isCommunitySelected()) {
             goToMainActivity()
         } else if (isLogged()) {
             chooseCommunityDialog()
         }
 
-        loginButton.setOnClickListener {
-            startLoginFlow()
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -60,6 +65,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun chooseCommunityDialog() {
         val currentUser = FirebaseAuth.getInstance().currentUser ?: return
+
+        if (!currentUser.isEmailVerified) {
+            val snackbar = Snackbar.make(
+                loginContainer,
+                getString(R.string.login_confirm_email_error),
+                Snackbar.LENGTH_INDEFINITE
+            )
+
+            snackbar.setAction(getString(R.string.resend_email)) {
+                currentUser.sendEmailVerification().addOnCompleteListener {
+                    snackbar.dismiss()
+                }
+            }.show()
+
+            return
+        }
 
         FirebaseHelper.getCommunities(
             currentUser.uid,
