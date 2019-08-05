@@ -21,90 +21,109 @@
                 app:title="@string/quiz_title"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"/>
+                app:titleTextColor="@color/dark_gray"
+                android:background="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/destionation" android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" android:hint="Qual foi o bairro de destino?"/>
-    <Button
-            android:text="Confirmar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirmQuizButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/rideTypeGroup"/>
-    <TextView
-            android:text="Qual nota você da para a bicicleta?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" app:layout_constraintStart_toStartOf="@+id/destionation"
-            android:layout_marginStart="8dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/destionation" android:textSize="18sp"/>
 
-    <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" app:layout_constraintStart_toStartOf="@+id/textView3"
-            android:id="@+id/bikeRateGroup">
-        <RadioButton
-                android:text="Ótima"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/greatCheck"/>
-        <RadioButton
-                android:text="Boa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/goodCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/regularCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Ruim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/badCheck" android:layout_weight="1"/>
-    </RadioGroup>
-    <TextView
-            android:text="Motivo de uso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/bikeRateGroup"
-            app:layout_constraintStart_toStartOf="@+id/bikeRateGroup"
-            android:textSize="18sp"/>
-    <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" app:layout_constraintStart_toStartOf="@+id/textView4"
-            android:id="@+id/rideTypeGroup">
-        <RadioButton
-                android:text="Compras"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buyCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Trabalho"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/workCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Uso de trabalho"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/workUseCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Lazer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/recreationCheck" android:layout_weight="1"/>
-        <RadioButton
-                android:text="Outro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/otherCheck" android:layout_weight="1"/>
-    </RadioGroup>
+    <ScrollView app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/destionation" android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:hint="@string/withdrawal_quiz_destiny_hint"/>
 
+            <TextView
+                    android:text="@string/withdrawal_bicycle_rating_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView3" app:layout_constraintStart_toStartOf="@+id/destionation"
+                    android:layout_marginStart="8dp" android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/destionation" android:textSize="18sp"/>
+
+            <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    app:layout_constraintStart_toStartOf="@+id/textView3"
+                    android:id="@+id/bikeRateGroup">
+                <RadioButton
+                        android:text="@string/withdrawal_bicycle_rating_great"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/greatCheck"/>
+                <RadioButton
+                        android:text="@string/withdrawal_bicycle_rating_good"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/goodCheck" android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/withdrawal_bicycle_rating_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/regularCheck" android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/withdrawal_bicycle_rating_bad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/badCheck" android:layout_weight="1"/>
+            </RadioGroup>
+            <TextView
+                    android:text="@string/withdrawal_quiz_trip_reason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4" android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/bikeRateGroup"
+                    app:layout_constraintStart_toStartOf="@+id/bikeRateGroup"
+                    android:textSize="18sp"/>
+            <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="@+id/textView4"
+                    android:id="@+id/rideTypeGroup">
+                <RadioButton
+                        android:text="@string/trip_reason_shopping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/buyCheck" android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/trip_reason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/workCheck" android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/trip_reason_bicycle_as_work"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/workUseCheck" android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/trip_reason_leisure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/recreationCheck"
+                        android:layout_weight="1"/>
+                <RadioButton
+                        android:text="@string/trip_reason_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/otherCheck" android:layout_weight="1"/>
+            </RadioGroup>
+
+            <Button
+                    android:text="@string/confirm"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/confirmQuizButton" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/rideTypeGroup"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

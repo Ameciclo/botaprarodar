@@ -167,7 +167,10 @@ object FirebaseHelper {
     }
 
     fun updateItem(item: Item, block: (Boolean) -> Unit) {
-        if (communityId == null || item.id == null) block(false)
+        if (communityId == null || item.id == null) {
+            block(false)
+            return
+        }
 
         val reference = communities.child(communityId!!).child(item.path).child(item.id!!)
 
@@ -179,7 +182,10 @@ object FirebaseHelper {
     }
 
     fun updateBicycleStatus(id: String, isAvailable: Boolean, block: (Boolean) -> Unit) {
-        if (communityId == null) block(false)
+        if (communityId == null) {
+            block(false)
+            return
+        }
 
         val bicycleReference = communities.child(communityId!!).child("bicycles").child(id)
 
@@ -188,6 +194,51 @@ object FirebaseHelper {
         }.addOnFailureListener {
             block(false)
         }
+
+    }
+
+    fun getWithdrawalFromBicycle(bicycleId: String, block: (Withdraw?) -> Unit) {
+        if (communityId == null) {
+            block(null)
+            return
+        }
+
+        val withdrawalsQuery =
+            communities.child(
+                communityId!!
+            ).child("withdrawals").orderByChild("bicycle_id").equalTo(bicycleId).limitToLast(1)
+        withdrawalsQuery.addChildEventListener(object : ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                block(null)
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                block(null)
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                block(null)
+            }
+
+            override fun onChildAdded(snapshot: DataSnapshot, p1: String?) {
+                snapshotToWithdraw(snapshot)?.let {
+                    if (it.isRent()) {
+                        block(it)
+                    } else {
+                        block(null)
+                    }
+
+                }
+
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+                block(null)
+            }
+
+        })
+
+
     }
 
     fun getBicycles(communityId: String, listener: RequestListener<Bicycle>) {

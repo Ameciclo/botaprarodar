@@ -23,6 +23,10 @@ interface Item {
         return true
     }
 
+    fun updateRemote(block: (Boolean) -> Unit) {
+        FirebaseHelper.updateItem(this, block)
+    }
+
     fun saveRemote(block: (Boolean) -> Unit) {
         FirebaseHelper.saveItem(this, block)
     }
