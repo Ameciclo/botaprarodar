@@ -32,7 +32,7 @@ class ReturnBikeActivity : AppCompatActivity() {
         confirmBikeReturn.setOnClickListener {
 
             if (!isSurveyAnswered()) {
-                Toast.makeText(this, "É obrigatório responder o questionário", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.fill_quiz_error), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -95,9 +95,9 @@ class ReturnBikeActivity : AppCompatActivity() {
                 val withdrawalParcelable =
                     if (it.hasExtra(WITHDRAWAL_EXTRA)) it.getParcelableExtra(WITHDRAWAL_EXTRA) as Parcelable else null
                 val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
-                withdrawal.bicycle_rating = withdrawal.bicycle_rating
-                withdrawal.trip_reason = withdrawal.trip_reason
-                withdrawal.destination = withdrawal.destination
+                this.withdrawal.bicycle_rating = withdrawal.bicycle_rating
+                this.withdrawal.trip_reason = withdrawal.trip_reason
+                this.withdrawal.destination = withdrawal.destination
             }
         }
     }
