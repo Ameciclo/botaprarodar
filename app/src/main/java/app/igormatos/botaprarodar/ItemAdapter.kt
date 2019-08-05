@@ -209,7 +209,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
                         val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
-                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, Withdraw()))
+                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bicycle::class.java, item))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
 
                     }

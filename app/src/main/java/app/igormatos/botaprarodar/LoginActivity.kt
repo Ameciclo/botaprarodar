@@ -136,6 +136,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun goToMainActivity() {
+        FirebaseHelper.setCommunityId(Preferences.getJoinedCommunity(this).id!!)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

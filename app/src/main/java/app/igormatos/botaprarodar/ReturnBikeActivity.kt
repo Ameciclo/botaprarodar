@@ -4,38 +4,30 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Withdraw
-import com.google.firebase.database.FirebaseDatabase
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.util.showLoadingDialog
 import kotlinx.android.synthetic.main.activity_return_bike.*
 import org.parceler.Parcels
 import java.util.*
 
 val WITHDRAWAL_EXTRA = "WITHDRAWAL_EXTRA"
+val WITHDRAWAL_BICYCLE = "BICYCLE_EXTRA"
 
 class ReturnBikeActivity : AppCompatActivity() {
 
-    private val withdrawalsReference = FirebaseDatabase.getInstance().getReference("withdrawals")
-    private var withdrawalToSend = Withdraw()
+    private var loadingDialog: AlertDialog? = null
+    private var withdrawal: Withdraw = Withdraw()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_return_bike)
 
-        val withdrawalParcelable =
-            if (intent.hasExtra(WITHDRAWAL_EXTRA)) intent.getParcelableExtra(WITHDRAWAL_EXTRA) as Parcelable else null
-
-        val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
-        withdrawalToSend = withdrawal
-
-        userName.text = withdrawal.user_name
-        withdrawal.user?.let { userDoc.text = it.doc_number.toString() }
-
-        bikeName.text = withdrawal.bicycle_name
-
-        bicycleImageView.loadPath(withdrawal.bicycle_image_path!!)
-        userImageView.loadPath(withdrawal.user_image_path!!)
+        getWithdrawal()
 
         confirmBikeReturn.setOnClickListener {
 
@@ -45,13 +37,16 @@ class ReturnBikeActivity : AppCompatActivity() {
             }
 
             val date = Calendar.getInstance().time
-            withdrawalToSend.returned_date = date.time
-            withdrawalToSend.modified_time = date.time
+            withdrawal.returned_date = date.time
+            withdrawal.modified_time = date.time
 
-            withdrawalsReference.child(withdrawal.id!!).setValue(withdrawalToSend).addOnSuccessListener {
-                setResult(Activity.RESULT_OK)
-                finish()
+            withdrawal.updateRemote {
+                FirebaseHelper.updateBicycleStatus(withdrawal.bicycle_id!!, true) {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
+
         }
 
         fillRideQuiz.setOnClickListener {
@@ -60,23 +55,56 @@ class ReturnBikeActivity : AppCompatActivity() {
         }
     }
 
+    fun getWithdrawal() {
+        loadingDialog = showLoadingDialog()
+
+        val bicycleParcelable = (if (intent.hasExtra(WITHDRAWAL_BICYCLE)) {
+            intent.getParcelableExtra<Parcelable>(WITHDRAWAL_BICYCLE)
+        } else {
+            null
+        }) ?: return
+
+        val bicycle = Parcels.unwrap<Bicycle>(bicycleParcelable)
+
+        FirebaseHelper.getWithdrawalFromBicycle(bicycleId = bicycle.id!!) {
+            loadingDialog?.dismiss()
+
+            if (it == null) {
+                return@getWithdrawalFromBicycle
+            }
+
+            withdrawal = it
+            setWithdrawInfo(it)
+        }
+
+    }
+
+    fun setWithdrawInfo(withdraw: Withdraw) {
+        userName.text = withdraw.user_name
+        withdraw.user?.let { userDoc.text = it.doc_number.toString() }
+        bikeName.text = withdraw.bicycle_name
+        bicycleImageView.loadPath(withdraw.bicycle_image_path!!)
+        userImageView.loadPath(withdraw.user_image_path!!)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == 10) {
             data?.let {
-                val withdrawalParcelable = if (it.hasExtra(WITHDRAWAL_EXTRA)) it.getParcelableExtra(WITHDRAWAL_EXTRA) as Parcelable else null
+                val withdrawalParcelable =
+                    if (it.hasExtra(WITHDRAWAL_EXTRA)) it.getParcelableExtra(WITHDRAWAL_EXTRA) as Parcelable else null
                 val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
-                withdrawalToSend.bicycle_rating = withdrawal.bicycle_rating
-                withdrawalToSend.trip_reason = withdrawal.trip_reason
-                withdrawalToSend.destination = withdrawal.destination
+                withdrawal.bicycle_rating = withdrawal.bicycle_rating
+                withdrawal.trip_reason = withdrawal.trip_reason
+                withdrawal.destination = withdrawal.destination
             }
         }
     }
 
-    fun isSurveyAnswered() : Boolean {
-        return withdrawalToSend.bicycle_rating != null &&
-                withdrawalToSend.trip_reason != null &&
-                withdrawalToSend.destination != null
+    private fun isSurveyAnswered(): Boolean {
+        return withdrawal.bicycle_rating != null &&
+                withdrawal.trip_reason != null &&
+                withdrawal.destination != null
     }
 }
