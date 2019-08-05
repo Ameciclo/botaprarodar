@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.local.model
 
+import app.igormatos.botaprarodar.network.FirebaseHelper
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,14 +23,8 @@ interface Item {
         return true
     }
 
-    fun saveRemote(onSuccess: () -> Unit) {
-        val reference = FirebaseDatabase.getInstance().getReference("$path")
-        val key = reference.push().key!!
-        id = key
-
-        reference.child(key).setValue(this).addOnSuccessListener {
-            onSuccess()
-        }
+    fun saveRemote(block: (Boolean) -> Unit) {
+        FirebaseHelper.saveItem(this, block)
     }
 
     fun getReadableDate(timestamp: Long): String {

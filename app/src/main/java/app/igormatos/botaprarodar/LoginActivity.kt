@@ -104,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
                             val joinedCommunity = communities[which]
 
                             Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
+                            FirebaseHelper.setCommunityId(joinedCommunity.id!!)
                             goToMainActivity()
                         }
 
@@ -137,6 +138,7 @@ class LoginActivity : AppCompatActivity() {
     fun goToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun startLoginFlow() {

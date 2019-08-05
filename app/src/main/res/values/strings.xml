@@ -25,4 +25,7 @@
     <string name="add_community_error">Não foi possível cadastrar a comunidade</string>
     <string name="login_confirm_email_error">Confirme seu cadastro no email</string>
     <string name="resend_email">Reenviar email</string>
+    <string name="withdraw_select_bike_title">Retirada de bicicleta</string>
+    <string name="withdraw_confirm">Confirmar</string>
+    <string name="withdraw_confirm_title">Confirmar retirada?</string>
 </resources>
