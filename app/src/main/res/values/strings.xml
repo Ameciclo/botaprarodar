@@ -33,7 +33,7 @@
     <string name="withdrawal_quiz_trip_reason">Motivo de uso</string>
     <string name="trip_reason_shopping">Fazer compras</string>
     <string name="trip_reason_leisure">Pedalar por lazer</string>
-    <string name="trip_reason">Ir ao trabalho</string>
+    <string name="trip_reason_to_work">Ir ao trabalho</string>
     <string name="trip_reason_bicycle_as_work">Ferramenta de trabalho</string>
     <string name="trip_reason_other">Outro</string>
     <string name="withdrawal_bicycle_rating_great">Ótima</string>
@@ -41,4 +41,5 @@
     <string name="withdrawal_bicycle_rating_regular">Regular</string>
     <string name="withdrawal_bicycle_rating_bad">Ruim</string>
     <string name="withdrawal_bicycle_rating_question">Qual nota você da para a bicicleta?</string>
+    <string name="fill_quiz_error">É obrigatório responder o questionário</string>
 </resources>
