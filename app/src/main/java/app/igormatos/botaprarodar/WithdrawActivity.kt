@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.network.FirebaseHelper
@@ -43,7 +42,6 @@ class WithdrawActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("result", "teste")
         if (resultCode == Activity.RESULT_OK) {
             finish()
         }

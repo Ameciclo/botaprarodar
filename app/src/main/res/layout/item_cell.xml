@@ -17,7 +17,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="parent"/>
     <TextView
-            android:text="TextView"
+            tools:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cellTitle"
@@ -27,7 +27,7 @@
             android:maxLength="20"/>
 
     <TextView
-            android:text="TextView"
+            tools:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cellSubtitle" android:layout_marginTop="8dp"

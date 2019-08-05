@@ -14,6 +14,7 @@ import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
+import app.igormatos.botaprarodar.network.FirebaseHelper
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
@@ -125,6 +126,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 .into(imageView)
 
             itemView.setOnClickListener {
+                val context = it.context
                 val user = item as User
                 withdrawalInProgress.user_id = user.id
                 withdrawalInProgress.user = user
@@ -132,14 +134,19 @@ class ItemAdapter(private var activity: Activity? = null) :
                 withdrawalInProgress.user_image_path = user.iconPath()
 
                 val alertDialog = AlertDialog.Builder(itemView.context)
-                alertDialog.setTitle("Confirmar retirada?")
+                alertDialog.setTitle(context.getString(R.string.withdraw_confirm_title))
                 alertDialog.setMessage("Bicicleta: ${withdrawalInProgress.bicycle_name} \nUsuário: ${withdrawalInProgress.user_name}")
-                alertDialog.setOnCancelListener { }
-                alertDialog.setPositiveButton("Confirmar") { dialog, which ->
-                    withdrawalInProgress.saveRemote {
-                        activity.setResult(Activity.RESULT_OK)
-                        activity.finish()
+                alertDialog.setPositiveButton(context.getString(R.string.withdraw_confirm)) { dialog, which ->
+                    
+                    FirebaseHelper.updateBicycleStatus(withdrawalInProgress.bicycle_id!!, false) {
+                        if (!it) { return@updateBicycleStatus } 
+                        
+                        withdrawalInProgress.saveRemote {
+                            activity.setResult(Activity.RESULT_OK)
+                            activity.finish()
+                        }
                     }
+                   
                 }.show()
             }
 
@@ -152,7 +159,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             alertDialog.setOnCancelListener {
 
             }
-            alertDialog.setPositiveButton("Confirmar") { dialog, which -> item.removeRemote() }.show()
+            alertDialog.setPositiveButton("Confirmar") { _, _ -> item.removeRemote() }.show()
         }
 
         fun bind(
@@ -183,7 +190,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             }
 
             if (item is Bicycle && activity is WithdrawActivity) {
-                val isAvailable = item.is_available ?: false
+                val isAvailable = item.is_available ?: true
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
                 } else {
