@@ -1,17 +1,12 @@
 package app.igormatos.botaprarodar.network
 
 import android.net.Uri
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_add_bike.*
 import java.io.File
 
 object FirebaseHelper {

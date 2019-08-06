@@ -2,24 +2,17 @@ package app.igormatos.botaprarodar
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import app.igormatos.botaprarodar.local.model.User
-import com.google.firebase.storage.FirebaseStorage
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.util.takePictureIntent
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.parceler.Parcels
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 val USER_EXTRA = "USER_EXTRA"
 
@@ -211,60 +204,18 @@ class AddUserActivity : AppCompatActivity() {
                 userToSend.residence_proof_picture.isNullOrEmpty()
     }
 
-    private fun getImagePath(imageCode: Int): String? {
-        when (imageCode) {
-            0 -> {
-                return userToSend.profile_picture!!
-            }
-
-            1 -> {
-                return userToSend.doc_picture!!
-            }
-
-            2 -> {
-                return userToSend.residence_proof_picture!!
-            }
-            else -> {
-                return null
-            }
-        }
-    }
-
     private fun uploadImage(whichImageCode: Int) {
 
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
-
-        val tsLong = System.currentTimeMillis() / 1000
-        val ts = tsLong.toString()
-        val mountainsRef = storageRef.child("$ts.jpg")
-
-        val file = Uri.fromFile(File(getImagePath(whichImageCode)))
-        val uploadTask = mountainsRef.putFile(file)
-
-        uploadTask.addOnProgressListener {
-            progressBar.visibility = View.VISIBLE
-            val progress = (it.bytesTransferred / it.totalByteCount) * 100
-
-            Log.d(
-                "BPR-ADDUSER",
-                "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}"
-            )
-
-            if (progress.toInt() == 100) {
-                progressBar.visibility = View.GONE
+        FirebaseHelper.uploadImage(mCurrentPhotoPath) { success, path ->
+            if (success) {
+                updateUserImagePath(whichImageCode, path.toString())
+            } else {
+                Toast.makeText(
+                    this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
+                ).show()
             }
         }
-        uploadTask.addOnFailureListener {
-            Toast.makeText(this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener {
 
-            mountainsRef.downloadUrl.addOnCompleteListener {
-                it.result?.let {
-                    updateUserImagePath(whichImageCode, it.toString())
-                }
-            }
-        }
     }
 
     private fun updateUserImagePath(whichImageCode: Int, newPath: String) {
@@ -283,31 +234,14 @@ class AddUserActivity : AppCompatActivity() {
     }
 
     private fun dispatchTakePictureIntent(code: Int) {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "app.igormatos.botaprarodar.provider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, code)
-                }
-            }
+        takePictureIntent(code) { path ->
+            mCurrentPhotoPath = path
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
         if (resultCode == Activity.RESULT_OK) {
 
             val loadImageView = when (requestCode) {
@@ -342,19 +276,4 @@ class AddUserActivity : AppCompatActivity() {
     }
 
     lateinit var mCurrentPhotoPath: String
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            mCurrentPhotoPath = absolutePath
-        }
-    }
 }
