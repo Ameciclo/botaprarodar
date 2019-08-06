@@ -137,16 +137,18 @@ class ItemAdapter(private var activity: Activity? = null) :
                 alertDialog.setTitle(context.getString(R.string.withdraw_confirm_title))
                 alertDialog.setMessage("Bicicleta: ${withdrawalInProgress.bicycle_name} \nUsuário: ${withdrawalInProgress.user_name}")
                 alertDialog.setPositiveButton(context.getString(R.string.withdraw_confirm)) { dialog, which ->
-                    
+
                     FirebaseHelper.updateBicycleStatus(withdrawalInProgress.bicycle_id!!, false) {
-                        if (!it) { return@updateBicycleStatus } 
-                        
+                        if (!it) {
+                            return@updateBicycleStatus
+                        }
+
                         withdrawalInProgress.saveRemote {
                             activity.setResult(Activity.RESULT_OK)
                             activity.finish()
                         }
                     }
-                   
+
                 }.show()
             }
 
@@ -206,9 +208,11 @@ class ItemAdapter(private var activity: Activity? = null) :
                         withdrawalInProgress.bicycle_image_path = item.photo_path
 
                         intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
                         val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bicycle::class.java, item))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
 
