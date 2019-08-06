@@ -156,7 +156,7 @@ object FirebaseHelper {
         if (communityId == null) block(false)
 
         val reference = communities.child(communityId!!).child(item.path)
-        val key = reference.push().key!!
+        val key = item.id ?: reference.push().key!!
         item.id = key
 
         reference.child(key).setValue(item).addOnSuccessListener {
@@ -166,20 +166,20 @@ object FirebaseHelper {
         }
     }
 
-    fun updateItem(item: Item, block: (Boolean) -> Unit) {
-        if (communityId == null || item.id == null) {
-            block(false)
-            return
-        }
-
-        val reference = communities.child(communityId!!).child(item.path).child(item.id!!)
-
-        reference.setValue(item).addOnSuccessListener {
-            block(true)
-        }.addOnFailureListener {
-            block(false)
-        }
-    }
+//    fun updateItem(item: Item, block: (Boolean) -> Unit) {
+//        if (communityId == null || item.id == null) {
+//            block(false)
+//            return
+//        }
+//
+//        val reference = communities.child(communityId!!).child(item.path).child(item.id!!)
+//
+//        reference.setValue(item).addOnSuccessListener {
+//            block(true)
+//        }.addOnFailureListener {
+//            block(false)
+//        }
+//    }
 
     fun updateBicycleStatus(id: String, isAvailable: Boolean, block: (Boolean) -> Unit) {
         if (communityId == null) {
