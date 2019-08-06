@@ -24,7 +24,8 @@
                     app:title="@string/add_user_title"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"/>
+                    app:titleTextColor="@color/dark_gray"
+                    android:background="@color/white"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
