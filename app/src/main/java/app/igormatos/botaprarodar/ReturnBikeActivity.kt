@@ -40,7 +40,7 @@ class ReturnBikeActivity : AppCompatActivity() {
             withdrawal.returned_date = date.time
             withdrawal.modified_time = date.time
 
-            withdrawal.updateRemote {
+            withdrawal.saveRemote {
                 FirebaseHelper.updateBicycleStatus(withdrawal.bicycle_id!!, true) {
                     setResult(Activity.RESULT_OK)
                     finish()

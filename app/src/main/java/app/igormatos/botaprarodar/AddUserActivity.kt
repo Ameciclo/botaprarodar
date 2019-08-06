@@ -188,19 +188,18 @@ class AddUserActivity : AppCompatActivity() {
         userToSend.address = addressField.text.toString()
         userToSend.doc_number = idNumberField.text.toString().toLong()
 
-        val key = userToSend.id ?: usersReference.push().key!!
-//        val key = usersReference.push().key!!
-        userToSend.id = key
-
-        usersReference.child(key).setValue(userToSend).addOnSuccessListener {
-            progressBar.visibility = View.GONE
-            Toast.makeText(this@AddUserActivity, "Operação realizada com sucesso", Toast.LENGTH_SHORT).show()
-            finish()
-        }.addOnFailureListener {
-            progressBar.visibility = View.GONE
-            Toast.makeText(this@AddUserActivity, "Ocorreu algum erro", Toast.LENGTH_SHORT).show()
-            saveButton.isEnabled = true
+        userToSend.saveRemote { success ->
+            if (success) {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this@AddUserActivity, "Operação realizada com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                progressBar.visibility = View.GONE
+                Toast.makeText(this@AddUserActivity, "Ocorreu algum erro", Toast.LENGTH_SHORT).show()
+                saveButton.isEnabled = true
+            }
         }
+
     }
 
     private fun hasEmptyField(): Boolean {
