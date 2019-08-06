@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     if (isAdmin) {
-                        alertBuilder.setPositiveButton(getString(R.string.add_community)) { it, a ->
+                        alertBuilder.setPositiveButton(getString(R.string.add_community)) { _, _ ->
                             val intent = Intent(this@LoginActivity, AddCommunityActivity::class.java)
                             startActivity(intent)
                         }

@@ -45,7 +45,7 @@ class AddCommunityActivity : AppCompatActivity() {
                         "${community.org_name} \n" +
                         "${community.org_email}"
             )
-            .setPositiveButton(getString(R.string.community_add_confirm)) { a, b ->
+            .setPositiveButton(getString(R.string.community_add_confirm)) { _, _ ->
                 sendCommunityToServer(community)
             }
             .show()

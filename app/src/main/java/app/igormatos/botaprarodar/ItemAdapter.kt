@@ -136,7 +136,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 val alertDialog = AlertDialog.Builder(itemView.context)
                 alertDialog.setTitle(context.getString(R.string.withdraw_confirm_title))
                 alertDialog.setMessage("Bicicleta: ${withdrawalInProgress.bicycle_name} \nUsuário: ${withdrawalInProgress.user_name}")
-                alertDialog.setPositiveButton(context.getString(R.string.withdraw_confirm)) { dialog, which ->
+                alertDialog.setPositiveButton(context.getString(R.string.withdraw_confirm)) { _, _ ->
 
                     FirebaseHelper.updateBicycleStatus(withdrawalInProgress.bicycle_id!!, false) {
                         if (!it) {

@@ -15,7 +15,7 @@ class RideQuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ride_quiz)
 
-        bikeRateGroup.setOnCheckedChangeListener { group, checkedId ->
+        bikeRateGroup.setOnCheckedChangeListener { _, checkedId ->
             withdrawQuiz.bicycle_rating = when (checkedId) {
                 R.id.badCheck -> getString(R.string.withdrawal_bicycle_rating_bad)
                 R.id.regularCheck -> getString(R.string.withdrawal_bicycle_rating_regular)
@@ -25,7 +25,7 @@ class RideQuizActivity : AppCompatActivity() {
             }
         }
 
-        rideTypeGroup.setOnCheckedChangeListener { group, checkedId ->
+        rideTypeGroup.setOnCheckedChangeListener { _, checkedId ->
             withdrawQuiz.trip_reason = when (checkedId) {
                 R.id.buyCheck -> getString(R.string.trip_reason_shopping)
                 R.id.workCheck -> getString(R.string.trip_reason_to_work)
