@@ -25,7 +25,7 @@ class AddCommunityActivity : AppCompatActivity() {
             if (!isInputsFilled()) {
                 Toast.makeText(
                     this@AddCommunityActivity,
-                    getString(R.string.community_empties_inputs_error),
+                    getString(R.string.empties_fields_error),
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -18,7 +18,7 @@
     <string name="community_add_success_message">Comunidade adicionada com sucesso</string>
     <string name="community_add_confirm">Tudo certo!</string>
     <string name="community_confirm_title">Os dados estão corretos?</string>
-    <string name="community_empties_inputs_error">Preencha todos os campos</string>
+    <string name="empties_fields_error">Preencha todos os campos</string>
     <string name="login_error">Falha no login</string>
     <string name="add_community">Adicionar comunidade</string>
     <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
@@ -42,4 +42,13 @@
     <string name="withdrawal_bicycle_rating_bad">Ruim</string>
     <string name="withdrawal_bicycle_rating_question">Qual nota você da para a bicicleta?</string>
     <string name="fill_quiz_error">É obrigatório responder o questionário</string>
+    <string name="rg_number_hit">Número do RG</string>
+    <string name="cpf_number_hint">Número do CPF</string>
+    <string name="update_button">Salvar alterações</string>
+    <string name="something_happened_error">Ocorreu algum erro</string>
+    <string name="operation_success_message">Operação realizada com sucesso</string>
+    <string name="bicycle_update_success">Bicicleta atualizada com sucesso</string>
+    <string name="bicycle_add_success">Bicicleta adicionada com sucesso</string>
+    <string name="bicycle_add_button">Adicionar bicicleta</string>
+    <string name="bicycle_update_button">Editar bicicleta</string>
 </resources>

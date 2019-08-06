@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
-import androidx.core.content.FileProvider
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import app.igormatos.botaprarodar.local.model.User
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.parceler.Parcels
@@ -31,7 +30,6 @@ class AddUserActivity : AppCompatActivity() {
     val REQUEST_RESIDENCE_PHOTO = 3
 
     var userToSend = User()
-    var usersReference = FirebaseDatabase.getInstance().getReference("users")
     var userCopy = User()
     var profilePhotoHasChanged: Boolean = false
     var idPhotoHasChanged: Boolean = false
@@ -55,7 +53,7 @@ class AddUserActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             if (hasEmptyField()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.empties_fields_error), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -66,12 +64,12 @@ class AddUserActivity : AppCompatActivity() {
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rgCheck -> {
-                    idTitle.text = "Número do RG"
+                    idTitle.text = getString(R.string.rg_number_hit)
                     userToSend.doc_type = 1
                 }
 
                 R.id.cpfCheck -> {
-                    idTitle.text = "Número do CPF"
+                    idTitle.text = getString(R.string.cpf_number_hint)
                     userToSend.doc_type = 2
                 }
             }
@@ -179,7 +177,7 @@ class AddUserActivity : AppCompatActivity() {
 
 
         user.address?.let { addressField.setText(it) }
-        saveButton.text = "Salvar alterações"
+        saveButton.text = getString(R.string.update_button)
     }
 
     private fun addUserToServer() {
@@ -191,11 +189,13 @@ class AddUserActivity : AppCompatActivity() {
         userToSend.saveRemote { success ->
             if (success) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(this@AddUserActivity, "Operação realizada com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AddUserActivity, getString(R.string.operation_success_message), Toast.LENGTH_SHORT)
+                    .show()
                 finish()
             } else {
                 progressBar.visibility = View.GONE
-                Toast.makeText(this@AddUserActivity, "Ocorreu algum erro", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AddUserActivity, getString(R.string.something_happened_error), Toast.LENGTH_SHORT)
+                    .show()
                 saveButton.isEnabled = true
             }
         }
@@ -256,7 +256,7 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
         uploadTask.addOnFailureListener {
-            Toast.makeText(this, "pegou não :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT).show()
         }.addOnSuccessListener {
 
             mountainsRef.downloadUrl.addOnCompleteListener {
