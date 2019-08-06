@@ -1,10 +1,18 @@
 package app.igormatos.botaprarodar.network
 
+import android.net.Uri
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_add_bike.*
+import java.io.File
 
 object FirebaseHelper {
 
@@ -98,7 +106,6 @@ object FirebaseHelper {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                //todo: refactor
                 val user = p0.getValue(User::class.java)
                 listener.onChildChanged(user as Item)
             }
@@ -165,21 +172,6 @@ object FirebaseHelper {
             block(false)
         }
     }
-
-//    fun updateItem(item: Item, block: (Boolean) -> Unit) {
-//        if (communityId == null || item.id == null) {
-//            block(false)
-//            return
-//        }
-//
-//        val reference = communities.child(communityId!!).child(item.path).child(item.id!!)
-//
-//        reference.setValue(item).addOnSuccessListener {
-//            block(true)
-//        }.addOnFailureListener {
-//            block(false)
-//        }
-//    }
 
     fun updateBicycleStatus(id: String, isAvailable: Boolean, block: (Boolean) -> Unit) {
         if (communityId == null) {
@@ -273,6 +265,30 @@ object FirebaseHelper {
         usersReference.addChildEventListener(usersListener)
     }
 
+
+    fun uploadImage(imagePath: String, block: (Boolean, String?) -> Unit) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+
+        val tsLong = System.currentTimeMillis() / 1000
+        val ts = tsLong.toString()
+        val mountainsRef = storageRef.child("$ts.jpg")
+
+        val file = Uri.fromFile(File(imagePath))
+        val uploadTask = mountainsRef.putFile(file)
+
+        uploadTask.addOnFailureListener {
+            block(false, null)
+        }.addOnSuccessListener {
+            mountainsRef.downloadUrl.addOnCompleteListener {
+                it.result?.let {
+                    block(true, it.toString())
+                }
+            }
+        }
+    }
+
+
     private fun snapshotToWithdraw(snapshot: DataSnapshot): Withdraw? {
         return snapshot.getValue(Withdraw::class.java)
     }
@@ -285,6 +301,4 @@ object FirebaseHelper {
         return snapshot.getValue(Bicycle::class.java)
     }
 
-
-//    }
 }

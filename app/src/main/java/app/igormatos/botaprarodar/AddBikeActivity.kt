@@ -4,39 +4,39 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import app.igormatos.botaprarodar.local.model.Bicycle
+import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.util.REQUEST_PHOTO
+import app.igormatos.botaprarodar.util.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_bike.*
 import org.parceler.Parcels
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 val BIKE_EXTRA = "Bike_extra"
 
 class AddBikeActivity : AppCompatActivity() {
 
-    var REQUEST_PHOTO = 1
     var bicycleToAdd = Bicycle()
     var editMode: Boolean = false
+    var imagePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bike)
 
-        bikePhotoImageView.setOnClickListener { dispatchTakePictureIntent() }
+        bikePhotoImageView.setOnClickListener {
+            takePictureIntent { path ->
+                this.imagePath = path
+            }
+        }
 
         saveButton.setOnClickListener {
             if (hasEmptyField()) {
@@ -119,94 +119,34 @@ class AddBikeActivity : AppCompatActivity() {
         return if (editMode) getString(R.string.bicycle_update_success) else getString(R.string.bicycle_add_success)
     }
 
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "app.igormatos.botaprarodar.provider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_PHOTO)
-                }
-            }
-        }
-    }
-
-    lateinit var mCurrentPhotoPath: String
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK) {
-            Glide.with(this)
-                .load(mCurrentPhotoPath)
-                .apply(RequestOptions.fitCenterTransform())
-                .into(bikePhotoImageView)
+            imagePath?.let {
+                Glide.with(this)
+                    .load(it)
+                    .apply(RequestOptions.fitCenterTransform())
+                    .into(bikePhotoImageView)
+            }
 
         }
     }
 
     private fun uploadImage(afterSuccess: () -> Unit) {
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
-
-        val tsLong = System.currentTimeMillis() / 1000
-        val ts = tsLong.toString()
-        val mountainsRef = storageRef.child("$ts.jpg")
-
-        val file = Uri.fromFile(File(mCurrentPhotoPath))
-        val uploadTask = mountainsRef.putFile(file)
-
-        uploadTask.addOnProgressListener {
-            progressBar.visibility = View.VISIBLE
-            val progress = (it.bytesTransferred / it.totalByteCount) * 100
-
-            Log.d(
-                "BPR-ADDBIKE",
-                "Bytestransfered: ${it.bytesTransferred} Progress: $progress and int ${progress.toInt()}"
-            )
-
-            if (progress.toInt() == 100) {
-                progressBar.visibility = View.GONE
-            }
-        }
-        uploadTask.addOnFailureListener {
-            Toast.makeText(this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener {
-
-            mountainsRef.downloadUrl.addOnCompleteListener {
-                it.result?.let {
-                    bicycleToAdd.photo_path = it.toString()
+        imagePath?.let {
+            FirebaseHelper.uploadImage(it) { success, path ->
+                if (success) {
+                    bicycleToAdd.photo_path = path
                     afterSuccess()
+                } else {
+                    Toast.makeText(
+                        this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
+
     }
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            mCurrentPhotoPath = absolutePath
-        }
-    }
 }
