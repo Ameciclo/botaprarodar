@@ -43,6 +43,7 @@ class WithdrawActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
+            setResult(Activity.RESULT_OK)
             finish()
         }
     }
