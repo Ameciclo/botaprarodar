@@ -2,11 +2,8 @@ package app.igormatos.botaprarodar
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.model.Bicycle
@@ -15,10 +12,8 @@ import app.igormatos.botaprarodar.util.REQUEST_PHOTO
 import app.igormatos.botaprarodar.util.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_bike.*
 import org.parceler.Parcels
-import java.io.File
 
 val BIKE_EXTRA = "Bike_extra"
 
@@ -33,7 +28,7 @@ class AddBikeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_bike)
 
         bikePhotoImageView.setOnClickListener {
-            takePictureIntent { path ->
+            takePictureIntent(REQUEST_PHOTO) { path ->
                 this.imagePath = path
             }
         }

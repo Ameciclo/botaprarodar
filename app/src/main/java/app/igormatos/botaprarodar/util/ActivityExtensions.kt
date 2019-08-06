@@ -1,5 +1,7 @@
 package app.igormatos.botaprarodar.util
 
+// Code by Igor Matos adapted from https://developer.android.com/training/camera/photobasics
+
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -9,9 +11,8 @@ import java.io.File
 import java.io.IOException
 
 const val REQUEST_PHOTO = 1
-const val EXTRA_IMAGE_PATH = "EXTRA_IMAGE_PATH"
 
-fun Activity.takePictureIntent(block: (String) -> Unit) {
+fun Activity.takePictureIntent(requestCode: Int, block: (String) -> Unit) {
     Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
         // Ensure that there's a camera activity to handle the intent
         takePictureIntent.resolveActivity(packageManager)?.also {
@@ -32,7 +33,7 @@ fun Activity.takePictureIntent(block: (String) -> Unit) {
                     it
                 )
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_PHOTO)
+                startActivityForResult(takePictureIntent, requestCode)
             }
         }
     }
