@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -206,9 +207,9 @@ class AddUserActivity : AppCompatActivity() {
 
     private fun uploadImage(whichImageCode: Int) {
 
-        FirebaseHelper.uploadImage(mCurrentPhotoPath) { success, path ->
+        FirebaseHelper.uploadImage(mCurrentPhotoPath) { success, path, thumbPath ->
             if (success) {
-                updateUserImagePath(whichImageCode, path.toString())
+                updateUserImagePath(whichImageCode, path.toString(), thumbPath.toString())
             } else {
                 Toast.makeText(
                     this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
@@ -218,10 +219,11 @@ class AddUserActivity : AppCompatActivity() {
 
     }
 
-    private fun updateUserImagePath(whichImageCode: Int, newPath: String) {
+    private fun updateUserImagePath(whichImageCode: Int, newPath: String, thumbPath: String) {
         when (whichImageCode) {
             0 -> {
                 userToSend.profile_picture = newPath
+                userToSend.profile_picture_thumbnail = thumbPath
             }
             1 -> {
                 userToSend.doc_picture = newPath
