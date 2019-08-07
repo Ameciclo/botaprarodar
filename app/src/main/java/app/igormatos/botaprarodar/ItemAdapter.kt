@@ -261,6 +261,8 @@ class ItemAdapter(private var activity: Activity? = null) :
                     R.drawable.ic_bike_returned_24dp
 
                 imageView.setImageResource(withdrawIcon)
+            } else if (item is User) {
+                imageView.loadPathOnCircle(item.iconPath())
             } else {
                 Glide.with(itemView.context)
                     .load(item.iconPath())
