@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.util.REQUEST_PHOTO
+import app.igormatos.botaprarodar.util.showLoadingDialog
 import app.igormatos.botaprarodar.util.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -22,6 +24,7 @@ class AddBikeActivity : AppCompatActivity() {
     var bicycleToAdd = Bicycle()
     var editMode: Boolean = false
     var imagePath: String? = null
+    var loadingDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +110,8 @@ class AddBikeActivity : AppCompatActivity() {
             } else {
                 saveButton.isEnabled = true
             }
+
+            loadingDialog?.dismiss()
         }
     }
 
@@ -129,12 +134,17 @@ class AddBikeActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(afterSuccess: () -> Unit) {
+        loadingDialog = showLoadingDialog()
+
         imagePath?.let {
-            FirebaseHelper.uploadImage(it) { success, path ->
+            FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
                 if (success) {
                     bicycleToAdd.photo_path = path
+                    bicycleToAdd.photo_thumbnail_path = thumbnailPath
                     afterSuccess()
                 } else {
+                    loadingDialog?.dismiss()
+                    saveButton.isEnabled = true
                     Toast.makeText(
                         this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
                     ).show()

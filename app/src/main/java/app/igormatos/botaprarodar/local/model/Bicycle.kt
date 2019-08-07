@@ -17,6 +17,7 @@ class Bicycle : Item {
     var order_number: Long? = null
     var photo_path: String? = null
     var created_date: String? = null
+    var photo_thumbnail_path: String? = null
 
     @field:JvmField
     var is_available: Boolean? = null
@@ -37,6 +38,6 @@ class Bicycle : Item {
     }
 
     override fun iconPath(): String {
-        return photo_path ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return photo_thumbnail_path ?: photo_path ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 }

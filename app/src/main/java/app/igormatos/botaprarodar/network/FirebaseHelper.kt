@@ -119,10 +119,6 @@ object FirebaseHelper {
         usersReference.addChildEventListener(usersListener)
     }
 
-    fun saveUser(communityId: String, user: User, listener: SingleRequestListener<Boolean>) {
-
-    }
-
     fun getWithdrawals(communityId: String, listener: RequestListener<Item>) {
         val withdrawalsReference = communities.child(communityId).child("withdrawals")
         val withdrawalsListener = object : ChildEventListener {
@@ -261,26 +257,35 @@ object FirebaseHelper {
     }
 
 
-    fun uploadImage(imagePath: String, block: (Boolean, String?) -> Unit) {
+    fun uploadImage(imagePath: String, block: (Boolean, String?, String?) -> Unit) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
-        val mountainsRef = storageRef.child("$ts.jpg")
+        val fileReference = storageRef.child("$ts.jpg")
+        val thumbReference = storageRef.child("thumb_$ts.jpg")
 
         val file = Uri.fromFile(File(imagePath))
-        val uploadTask = mountainsRef.putFile(file)
+        val uploadTask = fileReference.putFile(file)
 
-        uploadTask.addOnFailureListener {
-            block(false, null)
-        }.addOnSuccessListener {
-            mountainsRef.downloadUrl.addOnCompleteListener {
-                it.result?.let {
-                    block(true, it.toString())
+        uploadTask
+            .addOnFailureListener {
+                block(false, null, null)
+            }
+            .addOnSuccessListener {
+                fileReference.downloadUrl.addOnSuccessListener { fullImagePath ->
+
+                    Thread.sleep(4000) // Workaround - wait the Firebase Function make the thumbnail
+
+                    thumbReference.downloadUrl.addOnSuccessListener { thumbPath ->
+                        block(true, fullImagePath.toString(), thumbPath.toString())
+                    }.addOnFailureListener {
+                        block(true, fullImagePath.toString(), null)
+                    }
                 }
             }
-        }
+
     }
 
 

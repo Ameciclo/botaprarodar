@@ -22,6 +22,7 @@ class User : Item {
     var doc_picture: String? = null
     var doc_type: Int = 0
     var doc_number: Long = 0
+    var profile_picture_thumbnail: String? = null
 
     init {
         val date = Calendar.getInstance().time
@@ -36,7 +37,7 @@ class User : Item {
     }
 
     override fun iconPath(): String {
-        return profile_picture ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return profile_picture_thumbnail ?: profile_picture ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 
     override fun subtitle(): String {
