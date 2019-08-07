@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
+                                   app:cardCornerRadius="6dp"
+                                   app:cardElevation="8dp"
+                                   android:id="@+id/cellContainer"
+                                   app:cardUseCompatPadding="true"
+                                   android:background="@color/white"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="260dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/cellImageView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:srcCompat="@tools:sample/avatars"
+                android:contentDescription="@string/bicycle_image_view_descripition"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="160dp" android:cropToPadding="false" android:adjustViewBounds="false"
+                android:scaleType="centerCrop"/>
+
+        <TextView
+                tools:text="Nome da bici"
+                app:layout_constraintTop_toBottomOf="@id/cellImageView"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textSize="20sp"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@+id/cellSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="26dp" android:id="@+id/cellTitle" android:textFontWeight="500"/>
+
+        <TextView
+                app:layout_constraintTop_toBottomOf="@+id/cellTitle"
+                tools:text="Ordem: 123 / Número de serie: 1231baeac"
+                app:layout_constraintLeft_toLeftOf="@+id/cellTitle"
+                app:layout_constraintRight_toRightOf="@+id/cellTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp" android:layout_height="18dp"
+                android:id="@+id/cellSubtitle" android:layout_marginBottom="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

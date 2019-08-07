@@ -67,8 +67,22 @@ class ItemAdapter(private var activity: Activity? = null) :
         parent: ViewGroup,
         viewType: Int
     ): androidx.recyclerview.widget.RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
+
+        val view = if (viewType == 0) {
+            LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
+        } else {
+            LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
+        }
+
         return ItemCellViewHolder(view)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (itemsList[position] is Bicycle && activity !is WithdrawActivity) {
+            0
+        } else {
+            1
+        }
     }
 
     override fun getItemCount(): Int {
@@ -120,7 +134,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
             itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
 
-            val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
+            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
             Glide.with(itemView.context)
                 .load(item.iconPath())
                 .into(imageView)
@@ -162,7 +176,6 @@ class ItemAdapter(private var activity: Activity? = null) :
 
             }
 
-            alertDialog.setNegativeButton("Cancelar") { _, _ -> }
             alertDialog.setPositiveButton(R.string.confirm) { _, _ ->
                 item.toggleAvailability {
 
@@ -177,9 +190,7 @@ class ItemAdapter(private var activity: Activity? = null) :
 
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
             itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
-
-
-            val imageView = itemView.findViewById<ImageView>(R.id.cellAvatar)
+            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
 
             if (item !is Withdraw) {
                 itemView.setOnLongClickListener {
