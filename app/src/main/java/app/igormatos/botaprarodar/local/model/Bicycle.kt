@@ -12,6 +12,9 @@ class Bicycle : Item {
     override val path: String = "bicycles"
 
     override var id: String? = null
+
+    override var isAvailable: Boolean = true
+
     var name: String? = null
     var serial_number: String? = null
     var order_number: Long? = null
@@ -20,7 +23,7 @@ class Bicycle : Item {
     var photo_thumbnail_path: String? = null
 
     @field:JvmField
-    var is_available: Boolean? = null
+    var in_use: Boolean = false
 
     init {
         val date = Calendar.getInstance().time

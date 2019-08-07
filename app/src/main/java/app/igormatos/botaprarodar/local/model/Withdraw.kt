@@ -12,6 +12,8 @@ class Withdraw : Item {
 
     override var id: String? = null
 
+    override var isAvailable: Boolean = true
+
     var user_id: String? = null
     var created_date: Long?
     var returned_date: Long? = null
@@ -22,7 +24,6 @@ class Withdraw : Item {
     var bicycle_id: String? = null
     var bicycle_image_path: String? = null
     var user: User? = null
-
 
     // End of Trip questions
     var destination: String? = null
@@ -51,7 +52,7 @@ class Withdraw : Item {
     }
 
     override fun iconPath(): String {
-        return "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return "https://api.adorable.i  o/avatars/135/abott@adorable.png"
     }
 
 }
