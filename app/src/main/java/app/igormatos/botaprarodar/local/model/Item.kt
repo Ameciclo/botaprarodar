@@ -11,16 +11,17 @@ interface Item {
 
     var id: String?
 
+    var isAvailable: Boolean
+
     fun title(): String
 
     fun subtitle(): String
 
     fun iconPath(): String
 
-    fun removeRemote(): Boolean {
-        val reference = FirebaseDatabase.getInstance().getReference("$path/$id")
-        reference.removeValue()
-        return true
+    fun toggleAvailability(block: (Boolean) -> Unit) {
+        isAvailable = !isAvailable
+        saveRemote { block(it) }
     }
 
     fun saveRemote(block: (Boolean) -> Unit) {

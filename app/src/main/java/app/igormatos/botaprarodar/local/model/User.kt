@@ -12,6 +12,9 @@ class User : Item {
     override val path: String = "users"
 
     override var id: String? = null
+
+    override var isAvailable: Boolean = true
+
     var name: String? = null
     var created_date: String? = null
     var birthday: String? = null

@@ -138,7 +138,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 alertDialog.setMessage("Bicicleta: ${withdrawalInProgress.bicycle_name} \nUsuário: ${withdrawalInProgress.user_name}")
                 alertDialog.setPositiveButton(context.getString(R.string.withdraw_confirm)) { _, _ ->
 
-                    FirebaseHelper.updateBicycleStatus(withdrawalInProgress.bicycle_id!!, false) {
+                    FirebaseHelper.updateBicycleStatus(withdrawalInProgress.bicycle_id!!, true) {
                         if (!it) {
                             return@updateBicycleStatus
                         }
@@ -154,14 +154,20 @@ class ItemAdapter(private var activity: Activity? = null) :
 
         }
 
-        fun confirmToRemove(item: Item, title: String, subtitle: String = "") {
+        fun confirmDialog(item: Item, title: String, subtitle: String = "") {
             val alertDialog = AlertDialog.Builder(itemView.context)
             alertDialog.setTitle(title)
             alertDialog.setMessage(subtitle)
             alertDialog.setOnCancelListener {
 
             }
-            alertDialog.setPositiveButton("Confirmar") { _, _ -> item.removeRemote() }.show()
+
+            alertDialog.setNegativeButton("Cancelar") { _, _ -> }
+            alertDialog.setPositiveButton(R.string.confirm) { _, _ ->
+                item.toggleAvailability {
+
+                }
+            }.show()
         }
 
         fun bind(
@@ -177,7 +183,14 @@ class ItemAdapter(private var activity: Activity? = null) :
 
             if (item !is Withdraw) {
                 itemView.setOnLongClickListener {
-                    confirmToRemove(item, "Deseja remover o item?", item.title())
+
+                    val subtitle = if (item.isAvailable)
+                        "Deseja tornar esse item inativo? ele não mais poderá ser selecionado para retirada"
+                    else
+                        "Deseja habilitar esse item? ele voltará a poder ser selecionado para retirada"
+
+                    confirmDialog(item, item.title(), subtitle)
+
                     true
                 }
             }
@@ -192,7 +205,8 @@ class ItemAdapter(private var activity: Activity? = null) :
             }
 
             if (item is Bicycle && activity is WithdrawActivity) {
-                val isAvailable = item.is_available ?: true
+                val isAvailable = item.in_use?.not() ?: true
+
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(R.color.rent))
                 } else {
