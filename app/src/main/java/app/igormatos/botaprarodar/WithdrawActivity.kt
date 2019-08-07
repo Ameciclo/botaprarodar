@@ -22,7 +22,7 @@ class WithdrawActivity : AppCompatActivity() {
         itemAdapter = ItemAdapter(activity = this)
         logRecyclerView.adapter = itemAdapter
 
-        FirebaseHelper.getBicycles(getSelectedCommunityId(), object : RequestListener<Bicycle> {
+        FirebaseHelper.getBicycles(getSelectedCommunityId(), true, object : RequestListener<Bicycle> {
             override fun onChildChanged(result: Bicycle) {
                 itemAdapter.updateItem(result)
             }

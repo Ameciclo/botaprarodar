@@ -45,7 +45,7 @@ class BicyclesFragment : androidx.fragment.app.Fragment() {
         )
 
         val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        FirebaseHelper.getBicycles(joinedCommunityId, object : RequestListener<Bicycle> {
+        FirebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bicycle> {
             override fun onChildChanged(result: Bicycle) {
                 itemAdapter.updateItem(result)
             }
