@@ -45,7 +45,8 @@
                    app:layout_constraintTop_toBottomOf="@id/progressBar" android:layout_marginTop="16dp"
                    android:padding="64dp"
                    app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent"
-                   android:background="@color/grey" tools:srcCompat="@drawable/ic_image"/>
+                   android:background="@color/grey" tools:srcCompat="@drawable/ic_image"
+                   android:scaleType="centerCrop"/>
 
         <EditText android:layout_width="250dp" android:layout_height="wrap_content"
                   app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView"

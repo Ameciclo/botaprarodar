@@ -51,4 +51,5 @@
     <string name="bicycle_add_success">Bicicleta adicionada com sucesso</string>
     <string name="bicycle_add_button">Adicionar bicicleta</string>
     <string name="bicycle_update_button">Editar bicicleta</string>
+    <string name="bicycle_image_view_descripition">Imagem da bicicleta</string>
 </resources>

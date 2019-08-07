@@ -37,12 +37,6 @@ class BicyclesFragment : androidx.fragment.app.Fragment() {
 
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         recyclerView.adapter = itemAdapter
-        recyclerView.addItemDecoration(
-            androidx.recyclerview.widget.DividerItemDecoration(
-                recyclerView.context,
-                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-            )
-        )
 
         val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
         FirebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bicycle> {
