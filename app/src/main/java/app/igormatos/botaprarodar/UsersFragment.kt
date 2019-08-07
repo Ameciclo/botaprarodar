@@ -58,7 +58,9 @@ class UsersFragment : androidx.fragment.app.Fragment() {
         )
 
         val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
-        FirebaseHelper.getUsers(joinedCommunityId, object : RequestListener<Item> {
+        val filterOnlyAvailable = activity is ChooseUserActivity
+
+        FirebaseHelper.getUsers(joinedCommunityId, filterOnlyAvailable, object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
             }

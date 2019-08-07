@@ -90,7 +90,7 @@ object FirebaseHelper {
         })
     }
 
-    fun getUsers(communityId: String, listener: RequestListener<Item>) {
+    fun getUsers(communityId: String, onlyAvailable: Boolean? = false, listener: RequestListener<Item>) {
         val usersReference = communities.child(communityId).child("users")
 
         val usersListener = object : ChildEventListener {
@@ -116,7 +116,14 @@ object FirebaseHelper {
             }
         }
 
-        usersReference.addChildEventListener(usersListener)
+        onlyAvailable?.let {
+            if (it) {
+                usersReference.orderByChild("available").equalTo(true).addChildEventListener(usersListener)
+            } else {
+                usersReference.addChildEventListener(usersListener)
+            }
+        }
+
     }
 
     fun getWithdrawals(communityId: String, listener: RequestListener<Item>) {
@@ -164,7 +171,7 @@ object FirebaseHelper {
         }
     }
 
-    fun updateBicycleStatus(id: String, isAvailable: Boolean, block: (Boolean) -> Unit) {
+    fun updateBicycleStatus(id: String, inUse: Boolean, block: (Boolean) -> Unit) {
         if (communityId == null) {
             block(false)
             return
@@ -172,7 +179,7 @@ object FirebaseHelper {
 
         val bicycleReference = communities.child(communityId!!).child("bicycles").child(id)
 
-        bicycleReference.child("is_available").setValue(isAvailable).addOnSuccessListener {
+        bicycleReference.child("in_use").setValue(inUse).addOnSuccessListener {
             block(true)
         }.addOnFailureListener {
             block(false)
@@ -224,10 +231,10 @@ object FirebaseHelper {
 
     }
 
-    fun getBicycles(communityId: String, listener: RequestListener<Bicycle>) {
-        val usersReference = communities.child(communityId).child("bicycles")
+    fun getBicycles(communityId: String, onlyAvailable: Boolean? = false, listener: RequestListener<Bicycle>) {
+        val bicyclesReference = communities.child(communityId).child("bicycles")
 
-        val usersListener = object : ChildEventListener {
+        val bicyclesListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -253,7 +260,13 @@ object FirebaseHelper {
             }
         }
 
-        usersReference.addChildEventListener(usersListener)
+        onlyAvailable?.let {
+            if (it) {
+                bicyclesReference.orderByChild("available").equalTo(true).addChildEventListener(bicyclesListener)
+            } else {
+                bicyclesReference.addChildEventListener(bicyclesListener)
+            }
+        }
     }
 
 
