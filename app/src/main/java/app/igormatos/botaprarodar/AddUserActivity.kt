@@ -2,7 +2,6 @@ package app.igormatos.botaprarodar
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -37,7 +36,7 @@ class AddUserActivity : AppCompatActivity() {
             dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
         }
 
-        idImageView.setOnClickListener {
+        idFrontImageView.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_ID_PHOTO)
         }
 
@@ -55,21 +54,7 @@ class AddUserActivity : AppCompatActivity() {
             addUserToServer()
         }
 
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.rgCheck -> {
-                    idTitle.text = getString(R.string.rg_number_hit)
-                    userToSend.doc_type = 1
-                }
-
-                R.id.cpfCheck -> {
-                    idTitle.text = getString(R.string.cpf_number_hint)
-                    userToSend.doc_type = 2
-                }
-            }
-        }
-
-        gender.setOnCheckedChangeListener { _, checkedId ->
+        genderRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.maleCheck -> {
                     userToSend.gender = 0
@@ -89,8 +74,7 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
 
-        radioGroup.check(R.id.rgCheck)
-        gender.check(R.id.dontNeedCheck)
+        genderRadioGroup.check(R.id.dontNeedCheck)
 
         val userParcelable =
             if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) as Parcelable else null
@@ -116,7 +100,7 @@ class AddUserActivity : AppCompatActivity() {
             startActivity(fullscreenIntent)
         }
 
-        idImageView.setOnClickListener {
+        idFrontImageView.setOnClickListener {
             val fullscreenIntent = Intent(this, FullscreenImageActivity::class.java)
             fullscreenIntent.putExtra(EXTRA_IMAGE_PATH, user.doc_picture)
             startActivity(fullscreenIntent)
@@ -131,23 +115,26 @@ class AddUserActivity : AppCompatActivity() {
         editProfilePhotoButton.visibility = View.VISIBLE
         editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
 
-        editIdPhotoButton.visibility = View.VISIBLE
-        editIdPhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
+        idFrontImageView.setOnLongClickListener {
+            dispatchTakePictureIntent(REQUEST_ID_PHOTO)
+            return@setOnLongClickListener true
+        }
+//        editIdPhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
 
         editResidencePhotoButton.visibility = View.VISIBLE
         editResidencePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO) }
 
         user.profile_picture?.let { profileImageView.loadPath(it) }
-        user.doc_picture?.let { idImageView.loadPath(it) }
+        user.doc_picture?.let { idFrontImageView.loadPath(it) }
         user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
         user.name?.let { completeNameField.setText(it) }
 
         when (user.doc_type) {
             1 -> {
-                rgCheck.isChecked = true
+                idLayout.hint = "Número do RG"
             }
             2 -> {
-                cpfCheck.isChecked = true
+                idLayout.hint = "Número do CPF"
             }
         }
 
@@ -258,7 +245,7 @@ class AddUserActivity : AppCompatActivity() {
                     idPhotoHasChanged = true
                     userToSend.doc_picture = mCurrentPhotoPath
                     uploadImage(1)
-                    idImageView
+                    idFrontImageView
                 }
 
                 REQUEST_RESIDENCE_PHOTO -> {
