@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.network
 
 import android.net.Uri
+import android.os.Handler
 import app.igormatos.botaprarodar.local.model.Bicycle
 import app.igormatos.botaprarodar.local.model.Item
 import app.igormatos.botaprarodar.local.model.User
@@ -8,6 +9,7 @@ import app.igormatos.botaprarodar.local.model.Withdraw
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+import java.util.*
 
 object FirebaseHelper {
 
@@ -289,13 +291,13 @@ object FirebaseHelper {
             .addOnSuccessListener {
                 fileReference.downloadUrl.addOnSuccessListener { fullImagePath ->
 
-                    Thread.sleep(4000) // Workaround - wait the Firebase Function make the thumbnail
-
-                    thumbReference.downloadUrl.addOnSuccessListener { thumbPath ->
-                        block(true, fullImagePath.toString(), thumbPath.toString())
-                    }.addOnFailureListener {
-                        block(true, fullImagePath.toString(), null)
-                    }
+                    Handler().postDelayed({
+                        thumbReference.downloadUrl.addOnSuccessListener { thumbPath ->
+                            block(true, fullImagePath.toString(), thumbPath.toString())
+                        }.addOnFailureListener {
+                            block(true, fullImagePath.toString(), null)
+                        }
+                    }, 4000) // Workaround - wait the time to Firebase Function make the thumbnail
                 }
             }
 
