@@ -23,6 +23,7 @@ class User : Item {
     var profile_picture: String? = null
     var residence_proof_picture: String? = null
     var doc_picture: String? = null
+    var doc_picture_back: String? = null
     var doc_type: Int = 0
     var doc_number: Long = 0
     var profile_picture_thumbnail: String? = null
