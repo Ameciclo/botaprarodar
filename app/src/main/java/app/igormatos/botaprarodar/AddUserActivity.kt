@@ -44,7 +44,7 @@ class AddUserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_user)
 
         profileImageView.setOnClickListener {
-            showTipDialog(R.drawable.iconfinder_face_id,
+            showTipDialog(R.drawable.iconfinder_user_profile_imagee,
                 "Foto do perfil",
                 "Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.") {
                 if (it) { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
