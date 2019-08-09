@@ -52,4 +52,6 @@
     <string name="bicycle_add_button">Adicionar bicicleta</string>
     <string name="bicycle_update_button">Editar bicicleta</string>
     <string name="bicycle_image_view_descripition">Imagem da bicicleta</string>
+    <string name="warning">Atenção</string>
+    <string name="id_picture_tip">Tire uma foto que mostre todo o documento e que esteja legível</string>
 </resources>
