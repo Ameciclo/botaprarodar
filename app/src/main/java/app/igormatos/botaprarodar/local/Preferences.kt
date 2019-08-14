@@ -12,6 +12,7 @@ class Preferences {
         private const val COMMUNITY_NAME = "COMMUNITY_NAME"
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val COMMUNITY_ORG_NAME = "COMMUNITY_ORG_NAME"
+        private const val TRIPS_COUNT = "TRIPS_COUNT"
 
         fun saveJoinedCommmunity(context: Context, community: Community) {
             val editor = getSharedPreferences(context).edit()
@@ -34,6 +35,17 @@ class Preferences {
 
         fun isCommunitySelected(context: Context): Boolean {
             return getSharedPreferences(context).getString(COMMUNITY_ID, "").isNullOrEmpty().not()
+        }
+
+        fun incrementTripCount(context: Context) {
+            val editor = getSharedPreferences(context).edit()
+            val newCount = getTripsCount(context) + 1
+            editor.putInt(TRIPS_COUNT, newCount)
+            editor.apply()
+        }
+
+        fun getTripsCount(context: Context) : Int {
+            return getSharedPreferences(context).getInt(TRIPS_COUNT, 0)
         }
 
     }

@@ -7,9 +7,9 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class User : Item {
+open class User : Item {
 
-    override val path: String = "users"
+    override var path: String = "users"
 
     override var id: String? = null
 
@@ -37,7 +37,7 @@ class User : Item {
     override fun title(): String {
         val nameCapitalized = name?.split(" ")?.take(2)?.map { it.capitalize() }?.joinToString(separator = " ") { it }
 
-        return nameCapitalized  ?: "erro_01"
+        return nameCapitalized ?: "erro_01"
     }
 
     override fun iconPath(): String {

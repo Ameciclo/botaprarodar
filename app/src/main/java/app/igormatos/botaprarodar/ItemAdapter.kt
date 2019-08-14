@@ -3,6 +3,8 @@ package app.igormatos.botaprarodar
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.local.model.Withdraw
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_fullscreen_image.view.*
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
 
@@ -246,6 +249,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             }
 
             if (item is Bicycle && activity != null && activity !is WithdrawActivity) {
+
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, AddBikeActivity::class.java)
                     intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bicycle::class.java, item))
@@ -263,6 +267,16 @@ class ItemAdapter(private var activity: Activity? = null) :
                 imageView.setImageResource(withdrawIcon)
             } else if (item is User) {
                 imageView.loadPathOnCircle(item.iconPath())
+            } else if (item is Bicycle && !item.isAvailable){
+                Glide.with(itemView.context)
+                    .load(item.iconPath())
+                    .into(imageView)
+
+                val colorMatrix =  ColorMatrix()
+                colorMatrix.setSaturation(0.0f)
+                val filter =  ColorMatrixColorFilter(colorMatrix)
+                imageView.colorFilter = filter
+
             } else {
                 Glide.with(itemView.context)
                     .load(item.iconPath())

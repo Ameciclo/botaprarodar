@@ -5,15 +5,17 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import app.igormatos.botaprarodar.usecases.DashboardFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
 
-    private val activitiesFragment: androidx.fragment.app.Fragment = ActivitiesFragment()
-    private val usersFragment: androidx.fragment.app.Fragment = UsersFragment()
-    private val bicycleFragment: androidx.fragment.app.Fragment = BicyclesFragment()
+    private val activitiesFragment: Fragment = TripsFragment()
+    private val usersFragment: Fragment = UsersFragment()
+    private val bicycleFragment: Fragment = BicyclesFragment()
+    private val dashboardFragment: Fragment = DashboardFragment()
     val fm = supportFragmentManager
     var active = activitiesFragment
 
@@ -36,8 +38,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.navigation_dashboard -> {
-                fm.beginTransaction().hide(active).show(bicycleFragment).commit()
-                active = bicycleFragment
+                fm.beginTransaction().hide(active).show(dashboardFragment).commit()
+                active = dashboardFragment
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         navigation.itemIconTintList = ColorStateList.valueOf(resources.getColor(R.color.tintColor))
 
         if (fm.fragments.isEmpty()) {
+            fm.beginTransaction().add(R.id.main_container, dashboardFragment, "4").hide(dashboardFragment).commit()
             fm.beginTransaction().add(R.id.main_container, bicycleFragment, "3").hide(bicycleFragment).commit()
             fm.beginTransaction().add(R.id.main_container, usersFragment, "2").hide(usersFragment).commit()
             fm.beginTransaction().add(R.id.main_container, activitiesFragment, "1").commit()

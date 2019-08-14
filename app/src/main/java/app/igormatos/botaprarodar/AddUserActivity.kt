@@ -5,15 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import app.igormatos.botaprarodar.local.model.User
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.util.takePictureIntent
@@ -35,7 +32,9 @@ class AddUserActivity : AppCompatActivity() {
     var userCopy = User()
     var profilePhotoHasChanged: Boolean = false
     var idPhotoHasChanged: Boolean = false
+    var idBackPhotosHasChanged: Boolean = false
     var residencePhotoHasChanged: Boolean = false
+
 
     lateinit var mCurrentPhotoPath: String
 
@@ -44,26 +43,38 @@ class AddUserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_user)
 
         profileImageView.setOnClickListener {
-            showTipDialog(R.drawable.iconfinder_user_profile_imagee,
-                "Foto do perfil",
-                "Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.") {
-                if (it) { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
+            showTipDialog(
+                R.drawable.iconfinder_user_profile_imagee,
+                getString(R.string.profile_picture),
+                getString(R.string.profile_picture_tip)
+            ) {
+                if (it) {
+                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
+                }
             }
         }
 
         idFrontImageView.setOnClickListener {
-            showTipDialog(R.drawable.id_front,
+            showTipDialog(
+                R.drawable.id_front,
                 getString(R.string.warning),
-                getString(R.string.id_picture_tip)) {
-                if (it) { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
+                getString(R.string.id_picture_tip)
+            ) {
+                if (it) {
+                    dispatchTakePictureIntent(REQUEST_ID_PHOTO)
+                }
             }
         }
 
         idBackImageView.setOnClickListener {
-            showTipDialog(R.drawable.id_back,
-                "Atenção",
-                "Tire uma foto clara que enquadre todo o documento") {
-                if (it) { dispatchTakePictureIntent(REQUEST_ID_PHOTO_BACK) }
+            showTipDialog(
+                R.drawable.id_back,
+                getString(R.string.warning),
+                getString(R.string.id_picture_tip)
+            ) {
+                if (it) {
+                    dispatchTakePictureIntent(REQUEST_ID_PHOTO_BACK)
+                }
             }
         }
 
@@ -217,7 +228,8 @@ class AddUserActivity : AppCompatActivity() {
                 idNumberField.text.isNullOrEmpty() ||
                 userToSend.doc_picture.isNullOrEmpty() ||
                 userToSend.profile_picture.isNullOrEmpty() ||
-                userToSend.residence_proof_picture.isNullOrEmpty()
+                userToSend.residence_proof_picture.isNullOrEmpty() ||
+                userToSend.doc_picture_back.isNullOrEmpty()
     }
 
     private fun uploadImage(whichImageCode: Int) {
@@ -226,9 +238,7 @@ class AddUserActivity : AppCompatActivity() {
             if (success) {
                 updateUserImagePath(whichImageCode, path.toString(), thumbPath.toString())
             } else {
-                Toast.makeText(
-                    this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -267,27 +277,29 @@ class AddUserActivity : AppCompatActivity() {
             val loadImageView = when (requestCode) {
                 REQUEST_PROFILE_PHOTO -> {
                     profilePhotoHasChanged = true
-                    userToSend.profile_picture = mCurrentPhotoPath
                     uploadImage(requestCode)
                     profileImageView
                 }
 
                 REQUEST_ID_PHOTO -> {
                     idPhotoHasChanged = true
-                    userToSend.doc_picture = mCurrentPhotoPath
-                    uploadImage(requestCode)
                     idFrontImageView
                 }
 
                 REQUEST_RESIDENCE_PHOTO -> {
                     residencePhotoHasChanged = true
-                    userToSend.residence_proof_picture = mCurrentPhotoPath
-                    uploadImage(requestCode)
                     residenceProofImageView
+                }
+
+                REQUEST_ID_PHOTO_BACK -> {
+                    idBackPhotosHasChanged = true
+                    idBackImageView
                 }
 
                 else -> profileImageView
             }
+
+            uploadImage(requestCode)
 
             Log.d("BFLW-PICTURE", "Image path $mCurrentPhotoPath")
 

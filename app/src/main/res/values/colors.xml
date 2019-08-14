@@ -3,9 +3,14 @@
     <color name="colorPrimary">#2A9698</color>
     <color name="tintColor">#037F83</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#C24439</color>
+    <color name="colorAccent">@color/red</color>
     <color name="grey">#cccccc</color>
     <color name="white">#ffffff</color>
     <color name="rent">#cdcdcd</color>
     <color name="dark_gray">#4E4E4E</color>
+    <color name="orange">#ffab00</color>
+    <color name="purple">#7b1fa2</color>
+    <color name="green">#388e3c</color>
+    <color name="blue">#1976d2</color>
+    <color name="red">#C24439</color>
 </resources>

@@ -41,7 +41,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
 
-
         <ImageView
                 android:id="@+id/profileImageView"
                 android:layout_width="120dp"

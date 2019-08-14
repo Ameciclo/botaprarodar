@@ -63,10 +63,12 @@ class UsersFragment : androidx.fragment.app.Fragment() {
         FirebaseHelper.getUsers(joinedCommunityId, filterOnlyAvailable, object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
+//                RealmHelper.insertUser(result as User)
             }
 
             override fun onChildAdded(result: Item) {
                 itemAdapter.addItem(result)
+//                RealmHelper.insertUser(result as User)
             }
 
 

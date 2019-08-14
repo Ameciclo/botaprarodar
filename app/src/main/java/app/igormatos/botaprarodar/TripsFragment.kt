@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
-class ActivitiesFragment : androidx.fragment.app.Fragment() {
+class TripsFragment : androidx.fragment.app.Fragment() {
 
     val itemAdapter = ItemAdapter()
     var loadingDialog: AlertDialog? = null
@@ -58,6 +58,7 @@ class ActivitiesFragment : androidx.fragment.app.Fragment() {
             override fun onChildAdded(result: Item) {
                 loadingDialog?.dismiss()
                 itemAdapter.addItem(result)
+                Preferences.incrementTripCount(context!!)
             }
 
             override fun onChildRemoved(result: Item) {
