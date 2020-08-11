@@ -128,10 +128,11 @@ object FirebaseHelper {
 
     }
 
-    fun getWithdrawals(communityId: String, listener: RequestListener<Item>) {
+    fun getWithdrawals(communityId: String, error: () -> Unit, listener: RequestListener<Item>) {
         val withdrawalsReference = communities.child(communityId).child("withdrawals")
         val withdrawalsListener = object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
+                error()
             }
 
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {

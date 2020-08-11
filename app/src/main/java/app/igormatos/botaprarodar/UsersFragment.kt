@@ -100,7 +100,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             val aMenuInflater = activity!!.menuInflater
 
             activityMenu.clear()
-            aMenuInflater.inflate(R.menu.menu_main, menu)
+            aMenuInflater.inflate(R.menu.search_users, menu)
 
             val searchView = SearchView((context as ChooseUserActivity).supportActionBar!!.themedContext)
             searchView.queryHint = "Busque pelo nome ou RG/CPF"

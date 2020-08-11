@@ -77,16 +77,15 @@ class DashboardFragment : Fragment() {
 
     private fun setTripsChart() {
         val lineDataSet = LineDataSet(tripsEntries, "Total de viagens")
+        val lineData = LineData(lineDataSet)
 
         tripsChart.apply {
-            data = LineData(lineDataSet)
+            this.data = lineData
             description = null
             xAxis.apply {
                 granularity = 1f
                 valueFormatter = tripsFormatter
             }
-
-            invalidate()
 
         }
     }
@@ -95,15 +94,19 @@ class DashboardFragment : Fragment() {
         tripsEntries.clear()
 
         tripsEntries.apply {
-            add(Entry(0f, dashboardInformation.lastMonth.tripsCount.toFloat()))
-            add(Entry(1f, dashboardInformation.currentMonth.tripsCount.toFloat()))
+            add(Entry(0f, 100f))
+            add(Entry(1f, 200f))
+//            add(Entry(0f, dashboardInformation.lastMonth.tripsCount.toFloat()))
+//            add(Entry(1f, dashboardInformation.currentMonth.tripsCount.toFloat()))
         }
 
         months.clear()
 
         months.apply {
-            add(dashboardInformation.lastMonth.name)
-            add(dashboardInformation.currentMonth.name)
+            add("julho")
+            add("agosto")
+//            add(dashboardInformation.lastMonth.name)
+//            add(dashboardInformation.currentMonth.name)
         }
 
         tripsChart.invalidate()
@@ -126,15 +129,21 @@ class DashboardFragment : Fragment() {
 
                 updateTripsChart(dashboardInformation)
             }
+        }.addOnFailureListener {
+
         }
 
 
     }
 
     private fun getDashboardInformation(): Task<Map<String, Any>> {
+        val data = hashMapOf(
+            "communityId" to communityId
+        )
+
         return functions
             .getHttpsCallable("getDashboardInformation")
-            .call()
+            .call(data)
             .continueWith { task ->
                 val result = task.result?.data as Map<String, Any>
                 result
@@ -217,7 +226,6 @@ class DashboardFragment : Fragment() {
 
         })
 
-
         val availableDataSet = PieDataSet(bicyclesEntries, "Bicicletas disponiveis").apply {
             colors = pieChartColors
             valueTextSize = 14f
@@ -231,8 +239,8 @@ class DashboardFragment : Fragment() {
             this.data = data
             description = null
             setUsePercentValues(true)
-            invalidate()
             legend.isEnabled = false
+            invalidate()
         }
 
     }

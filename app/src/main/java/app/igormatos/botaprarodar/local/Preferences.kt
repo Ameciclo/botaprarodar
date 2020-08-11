@@ -37,6 +37,10 @@ class Preferences {
             return getSharedPreferences(context).getString(COMMUNITY_ID, "").isNullOrEmpty().not()
         }
 
+        fun clear(context: Context): Boolean {
+            return getSharedPreferences(context).edit().clear().commit()
+        }
+
         fun incrementTripCount(context: Context) {
             val editor = getSharedPreferences(context).edit()
             val newCount = getTripsCount(context) + 1

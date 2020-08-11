@@ -48,9 +48,9 @@ class TripsFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-        loadingDialog = context?.showLoadingDialog()
+//        loadingDialog = context?.showLoadingDialog()
 
-        FirebaseHelper.getWithdrawals(context!!.getSelectedCommunityId(), object : RequestListener<Item> {
+        FirebaseHelper.getWithdrawals(context!!.getSelectedCommunityId(), { loadingDialog?.dismiss() } , object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
             }

@@ -1,12 +1,20 @@
 package app.igormatos.botaprarodar
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.usecases.DashboardFragment
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.toolbar as toolbar1
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,9 +41,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_bicycles -> {
                 fm.beginTransaction().hide(active).show(bicycleFragment).commit()
-                active = bicycleFragment
-                return@OnNavigationItemSelectedListener true
-            }
+                    active = bicycleFragment
+                    return@OnNavigationItemSelectedListener true
+        }
 
             R.id.navigation_dashboard -> {
                 fm.beginTransaction().hide(active).show(dashboardFragment).commit()
@@ -50,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbar)
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigation.itemIconTintList = ColorStateList.valueOf(resources.getColor(R.color.tintColor))
 
@@ -60,4 +70,27 @@ class MainActivity : AppCompatActivity() {
             fm.beginTransaction().add(R.id.main_container, activitiesFragment, "1").commit()
         }
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.logout -> {
+                FirebaseAuth.getInstance().signOut()
+                Preferences.clear(this)
+
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
