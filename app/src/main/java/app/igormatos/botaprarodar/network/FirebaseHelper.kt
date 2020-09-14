@@ -2,14 +2,13 @@ package app.igormatos.botaprarodar.network
 
 import android.net.Uri
 import android.os.Handler
-import app.igormatos.botaprarodar.local.model.Bicycle
-import app.igormatos.botaprarodar.local.model.Item
-import app.igormatos.botaprarodar.local.model.User
-import app.igormatos.botaprarodar.local.model.Withdraw
+import app.igormatos.botaprarodar.data.model.Bicycle
+import app.igormatos.botaprarodar.data.model.Item
+import app.igormatos.botaprarodar.data.model.User
+import app.igormatos.botaprarodar.data.model.Withdraw
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
-import java.util.*
 
 object FirebaseHelper {
 

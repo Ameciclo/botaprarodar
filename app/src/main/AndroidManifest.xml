@@ -13,28 +13,28 @@
 
     <application
             android:allowBackup="true"
-            android:name=".BprApplication"
+            android:name=".common.BprApplication"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".AddCommunityActivity">
+        <activity android:name=".screens.createcommunity.AddCommunityActivity">
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".screens.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".FullscreenImageActivity">
+        <activity android:name=".screens.fullscreenimage.FullscreenImageActivity">
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".screens.main.MainActivity"
                 android:label="@string/app_name">
         </activity>
-        <activity android:name=".AddUserActivity">
+        <activity android:name=".screens.adduser.AddUserActivity">
         </activity>
 
         <provider
@@ -47,17 +47,17 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".AddBikeActivity">
+        <activity android:name=".screens.addbicycle.AddBikeActivity">
         </activity>
-        <activity android:name=".BicycleWithdrawActivity">
+        <activity android:name="app.igormatos.botaprarodar.screens.bicyclewithdrawal.choosebicycle.BicycleWithdrawActivity">
         </activity>
-        <activity android:name=".WithdrawActivity">
+        <activity android:name=".screens.bicyclewithdrawal.choosebicycle.WithdrawActivity">
         </activity>
-        <activity android:name=".ReturnBikeActivity">
+        <activity android:name=".screens.returnbicycle.ReturnBikeActivity">
         </activity>
-        <activity android:name=".RideQuizActivity">
+        <activity android:name=".screens.returnbicycle.RideQuizActivity">
         </activity>
-        <activity android:name=".ChooseUserActivity">
+        <activity android:name="app.igormatos.botaprarodar.screens.bicyclewithdrawal.chooseuser.ChooseUserActivity">
             <meta-data
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable"/>

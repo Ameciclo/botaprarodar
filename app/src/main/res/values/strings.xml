@@ -55,10 +55,7 @@
     <string name="warning">Atenção</string>
     <string name="id_picture_tip">Tire uma foto que mostre todo o documento e que esteja legível</string>
     <string name="profile_picture">Foto do perfil</string>
-    <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se
-        aproxime da pessoa e verifique se é possível identificá-la depois.
+    <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

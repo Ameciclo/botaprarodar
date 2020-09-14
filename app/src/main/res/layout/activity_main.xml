@@ -6,7 +6,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="app.igormatos.botaprarodar.MainActivity">
+        tools:context="app.igormatos.botaprarodar.screens.main.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/mainToolbar"
                 app:title="@string/app_name"
                 app:titleTextColor="@color/dark_gray"
                 android:layout_width="match_parent"
