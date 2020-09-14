@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/addCommunityContainer"
-        tools:context=".AddCommunityActivity">
+        tools:context=".screens.createcommunity.AddCommunityActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"

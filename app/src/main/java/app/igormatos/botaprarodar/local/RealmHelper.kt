@@ -1,6 +1,6 @@
 //package app.igormatos.botaprarodar.local
 //
-//import app.igormatos.botaprarodar.local.model.User
+//import app.igormatos.botaprarodar.data.model.User
 //import io.realm.Realm
 //import org.jetbrains.anko.doAsync
 //import org.jetbrains.anko.uiThread
