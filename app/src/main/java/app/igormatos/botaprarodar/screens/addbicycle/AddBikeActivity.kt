@@ -29,6 +29,12 @@ class AddBikeActivity : AppCompatActivity() {
     var imagePath: String? = null
     var loadingDialog: AlertDialog? = null
 
+    companion object {
+        fun start(){
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bike)
@@ -61,11 +67,11 @@ class AddBikeActivity : AppCompatActivity() {
 
         }
 
-        val userParcelable =
+        val bicycleParcelable =
             if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(
                 BIKE_EXTRA
             ) as Parcelable else null
-        checkIfEditMode(userParcelable)
+        checkIfEditMode(bicycleParcelable)
 
         toolbar.title = if (editMode) {
             getString(R.string.bicycle_update_button)
@@ -80,9 +86,9 @@ class AddBikeActivity : AppCompatActivity() {
         setupBicycle(parcelable)
     }
 
-    private fun setupBicycle(userParcelable: Parcelable) {
+    private fun setupBicycle(bicycleParcelable: Parcelable) {
         editMode = true
-        val bicycle = Parcels.unwrap(userParcelable) as Bicycle
+        val bicycle = Parcels.unwrap(bicycleParcelable) as Bicycle
 
         bicycleToAdd = bicycle
 
