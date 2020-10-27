@@ -66,7 +66,6 @@ class BicyclesAdapter(
 
             itemView.setOnLongClickListener {
                 bicycleAdapterListener.onBicycleLongClicked(bicycle)
-                true
             }
 
             itemView.setOnClickListener {
@@ -95,7 +94,7 @@ class BicyclesAdapter(
         bicycleAdapterListener.onBicycleClicked(bicycle)
     }
 
-    override fun onBicycleLongClicked(bicycle: Bicycle) {
-        bicycleAdapterListener.onBicycleLongClicked(bicycle)
+    override fun onBicycleLongClicked(bicycle: Bicycle): Boolean {
+        return bicycleAdapterListener.onBicycleLongClicked(bicycle)
     }
 }
