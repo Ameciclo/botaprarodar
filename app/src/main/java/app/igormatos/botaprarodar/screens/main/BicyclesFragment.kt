@@ -68,7 +68,8 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         Toast.makeText(context!!, bicycle.name, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onBicycleLongClicked(bicycle: Bicycle) {
+    override fun onBicycleLongClicked(bicycle: Bicycle) : Boolean {
         Toast.makeText(context!!, bicycle.name, Toast.LENGTH_SHORT).show()
+        return true
     }
 }
