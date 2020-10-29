@@ -15,7 +15,7 @@ class FullscreenImageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fullscreen_image)
 
-        val imagePath = intent.getStringExtra(extraImagePath)
+        val imagePath: String = intent.getStringExtra(extraImagePath)!!
         imageView.loadPath(imagePath)
     }
 

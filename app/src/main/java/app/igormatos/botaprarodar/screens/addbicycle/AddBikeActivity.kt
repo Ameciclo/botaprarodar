@@ -30,7 +30,7 @@ class AddBikeActivity : AppCompatActivity() {
     var loadingDialog: AlertDialog? = null
 
     companion object {
-        fun start(){
+        fun start() {
 
         }
     }
@@ -67,10 +67,10 @@ class AddBikeActivity : AppCompatActivity() {
 
         }
 
-        val bicycleParcelable =
+        val bicycleParcelable: Parcelable? =
             if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(
                 BIKE_EXTRA
-            ) as Parcelable else null
+            ) else null
         checkIfEditMode(bicycleParcelable)
 
         toolbar.title = if (editMode) {
