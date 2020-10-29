@@ -118,10 +118,10 @@ class AddUserActivity : AppCompatActivity() {
 
         genderRadioGroup.check(R.id.dontNeedCheck)
 
-        val userParcelable =
+        val userParcelable: Parcelable? =
             if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(
                 USER_EXTRA
-            ) as Parcelable else null
+            ) else null
         checkIfEditMode(userParcelable)
 
     }

@@ -25,7 +25,7 @@ class ChooseUserActivity : AppCompatActivity() {
         withdrawalParcelable =
             if (intent.hasExtra(WITHDRAWAL_EXTRA)) intent.getParcelableExtra(
                 WITHDRAWAL_EXTRA
-            ) as Parcelable else null
+            ) else null
 
         val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
         val fragment =

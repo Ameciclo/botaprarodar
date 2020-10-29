@@ -94,10 +94,10 @@ class ReturnBikeActivity : AppCompatActivity() {
 
         if (resultCode == 10) {
             data?.let {
-                val withdrawalParcelable =
+                val withdrawalParcelable: Parcelable? =
                     if (it.hasExtra(WITHDRAWAL_EXTRA)) it.getParcelableExtra(
                         WITHDRAWAL_EXTRA
-                    ) as Parcelable else null
+                    ) else null
                 val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
                 this.withdrawal.bicycle_rating = withdrawal.bicycle_rating
                 this.withdrawal.trip_reason = withdrawal.trip_reason
