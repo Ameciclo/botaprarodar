@@ -26,7 +26,7 @@ fun Context.getSelectedCommunityId(): String {
 @Throws(IOException::class)
 fun Context.createImageFile(): File {
     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-    val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
     return File.createTempFile(
         "JPEG_${timeStamp}_", /* prefix */
         ".jpg", /* suffix */
