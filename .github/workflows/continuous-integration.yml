@@ -34,7 +34,7 @@ jobs:
 #           disable-animations: true
 #           script: ./gradlew data:connectedCheck
       - name: Generate APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew clean assembleDebug
       - name: Rename APK
         run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/botaprarodar.apk
       - name: Upload APK
