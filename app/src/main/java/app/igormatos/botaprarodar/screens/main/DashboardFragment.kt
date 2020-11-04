@@ -210,7 +210,7 @@ class DashboardFragment : Fragment() {
     private fun setAvailablePieChart() {
         FirebaseHelper.getBicycles(communityId, false, object : RequestListener<Bicycle> {
             override fun onChildChanged(result: Bicycle) {
-                bicycleList.find { it.id == result.id }.let { it?.in_use = true }
+                bicycleList.find { it.id == result.id }.let { it?.in_use = result.in_use }
                 updateAvailabilityChart()
             }
 
