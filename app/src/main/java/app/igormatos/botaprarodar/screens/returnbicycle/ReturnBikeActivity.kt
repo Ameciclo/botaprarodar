@@ -9,10 +9,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.util.loadPath
+import app.igormatos.botaprarodar.common.util.showLoadingDialog
 import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.data.model.Withdraw
 import app.igormatos.botaprarodar.network.FirebaseHelper
-import app.igormatos.botaprarodar.common.util.showLoadingDialog
 import kotlinx.android.synthetic.main.activity_return_bike.*
 import org.parceler.Parcels
 import java.util.*
@@ -85,8 +85,8 @@ class ReturnBikeActivity : AppCompatActivity() {
         userName.text = withdraw.user_name
         withdraw.user?.let { userDoc.text = it.doc_number.toString() }
         bikeName.text = withdraw.bicycle_name
-        bicycleImageView.loadPath(withdraw.bicycle_image_path!!)
-        userImageView.loadPath(withdraw.user_image_path!!)
+        bicycleImageView.loadPath(withdraw.bicycle_image_path!!, applicationContext)
+        userImageView.loadPath(withdraw.user_image_path!!, applicationContext)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
