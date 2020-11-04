@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.data.model.DashboardInformation
 import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.User
+import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
 import com.github.mikephil.charting.components.AxisBase
@@ -210,7 +210,7 @@ class DashboardFragment : Fragment() {
     private fun setAvailablePieChart() {
         FirebaseHelper.getBicycles(communityId, false, object : RequestListener<Bicycle> {
             override fun onChildChanged(result: Bicycle) {
-                bicycleList[bicycleList.indexOf(result)] = result
+                bicycleList.find { it.id == result.id }.let { it?.in_use = true }
                 updateAvailabilityChart()
             }
 
