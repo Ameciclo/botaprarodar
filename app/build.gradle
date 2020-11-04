@@ -103,6 +103,12 @@ dependencies {
     // Koin AndroidX Fragment features
     implementation "org.koin:koin-androidx-fragment:$koin_version"
 
+    // Activity Rule
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Mockito Framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
