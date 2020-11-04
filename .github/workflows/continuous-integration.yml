@@ -1,0 +1,44 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+      - name: SetUp Java
+        uses: actions/setup-java@v1.4.3
+        with: 
+          java-version: 1.8
+      
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+#       - name: Run unit tests
+#         run: ./gradlew clean test
+#       - name: Run instrumentation tests
+#         uses: reactivecircus/android-emulator-runner@v2
+#         with:
+#           api-level: 26
+#           arch: x86
+#           profile: Nexus 6
+#           avd-name: test
+#           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+#           disable-animations: true
+#           script: ./gradlew data:connectedCheck
+      - name: Generate APK
+        run: ./gradlew clean assembleDebug
+      - name: Rename APK
+        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/botaprarodar.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: APK generated
+          path: app/build/outputs/apk/debug/botaprarodar.apk
