@@ -63,10 +63,27 @@ class LoginTest {
     }
 
     @Test
-    fun should4DoLoginSuccessful() {
+    fun should4SignUpNewUser() {
+        login {
+            clickLogin()
+            fillUserField("new-user@gmail.com")
+            clickNext()
+        } verify {
+            checkMessage("Sign up")
+            checkMessage("new-user@gmail.com")
+            checkMessageOnHint("Password")
+            checkMessage("SAVE")
+        }
+    }
+
+    @Test
+    fun should5DoLoginSuccessful() {
         login {
             doLogin("brunotmg@gmail.com", "abcd1234")
             sleep(2000)
+        } verify {
+            checkMessage("Bota pra Rodar")
+            checkMessage("ADICIONAR COMUNIDADE")
         }
     }
 
