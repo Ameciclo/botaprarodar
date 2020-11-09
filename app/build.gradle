@@ -40,6 +40,12 @@ android {
     }
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
+
+    testOptions{
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -47,6 +53,7 @@ dependencies {
 
     // Test
     testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -104,11 +111,31 @@ dependencies {
     implementation "org.koin:koin-androidx-fragment:$koin_version"
 
     // Activity Rule
+    testImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
 
     // Mockito Framework
     testImplementation 'org.mockito:mockito-core:1.10.19'
 
+    // Robolectric
+    testImplementation 'org.robolectric:robolectric:4.4'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+task clearData(type: Exec) {
+    def rootDir = project.rootDir
+    def clearDataCommand = ""
+    def localProperties = new File(rootDir, "local.properties")
+    if (localProperties.exists()) {
+        Properties properties = new Properties()
+        localProperties.withInputStream {
+            instr -> properties.load(instr)
+        }
+        def sdkDir = properties.getProperty('sdk.dir')
+        def adb = "$sdkDir/platform-tools/adb"
+        clearDataCommand = ["$adb", 'shell', 'pm', 'clear', 'app.igormatos.botaprarodar']
+    }
+    commandLine clearDataCommand
+}
