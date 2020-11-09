@@ -32,7 +32,7 @@ jobs:
 #           avd-name: test
 #           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
 #           disable-animations: true
-#           script: ./gradlew data:connectedCheck
+#           script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK
