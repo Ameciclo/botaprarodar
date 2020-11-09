@@ -35,7 +35,7 @@ class AddComunityTest {
             saveNewCommunity()
             sleep(2000)
         }.verify {
-            checkMessage("None Org Teste")
+            checkMessage("Nome Org Teste")
         }
     }
 

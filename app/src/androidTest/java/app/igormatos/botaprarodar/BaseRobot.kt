@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import java.lang.Exception
 
 abstract class BaseRobot {
 
@@ -21,7 +20,7 @@ abstract class BaseRobot {
     }
 
     fun fillFieldById(resId: Int, content: String) {
-        onView(withId(resId)).perform(typeText(content), closeSoftKeyboard())
+        onView(withId(resId)).perform(replaceText(content))
     }
 
     fun checkMessage(message: String) {
