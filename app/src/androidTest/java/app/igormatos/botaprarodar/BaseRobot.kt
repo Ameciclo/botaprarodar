@@ -28,6 +28,10 @@ abstract class BaseRobot {
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
+    fun checkMessageOnHint(hintMessage: String) {
+        onView(withHint(hintMessage)).check(matches(isDisplayed()))
+    }
+
     fun sleep(times: Long) = apply {
         Thread.sleep(times)
     }
