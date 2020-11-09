@@ -80,7 +80,7 @@ class LoginTest {
     fun should5DoLoginSuccessful() {
         login {
             doLogin("brunotmg@gmail.com", "abcd1234")
-            sleep(2000)
+            sleep(4000)
         } verify {
             checkMessage("Bota pra Rodar")
             checkMessage("ADICIONAR COMUNIDADE")
