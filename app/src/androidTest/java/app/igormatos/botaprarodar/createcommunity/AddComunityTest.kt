@@ -28,19 +28,14 @@ class AddComunityTest {
     @Test
     fun shouldAddNewCommunity_fillDataFields_clickAddCommunity() {
         login {
-            clickLogin()
-            fillUserField("brunotmg@gmail.com")
-            clickNext()
-            sleep(2000)
-            fillPasswordField("abcd1234")
-            clickSignIn()
+            doLogin("brunotmg@gmail.com", "abcd1234")
             sleep(4000)
         }
         addCommunity {
             saveNewCommunity()
             sleep(2000)
         }.verify {
-            checkMessage("Nome Org Teste")
+            checkMessage("None Org Teste")
         }
     }
 
