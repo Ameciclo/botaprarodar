@@ -1,14 +1,12 @@
 package app.igormatos.botaprarodar.createcommunity
 
+import android.util.Log
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import app.igormatos.botaprarodar.login.login
 import app.igormatos.botaprarodar.screens.login.LoginActivity
-import org.junit.Before
-import org.junit.FixMethodOrder
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
@@ -44,6 +42,11 @@ class AddComunityTest {
         }.verify {
             checkMessage("Nome Org Teste")
         }
+    }
+
+    @After
+    fun deleteTestCommunity() {
+        Log.i("DELET", "DELET")
     }
 
 }

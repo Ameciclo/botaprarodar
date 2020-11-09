@@ -1,23 +1,11 @@
 package app.igormatos.botaprarodar.createcommunity
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
 fun addCommunity(executeFun: AddCommunityRobot.() -> Unit) = AddCommunityRobot().apply{ executeFun() }
 
 class AddCommunityRobot : BaseRobot() {
-
-
-    fun fillFieldById(resId: Int, content: String) {
-        onView(withId(resId)).perform(typeText(content), closeSoftKeyboard())
-    }
 
     fun clickAddCommunity() {
         clickButtonByText("ADICIONAR COMUNIDADE")
@@ -54,6 +42,7 @@ class AddCommunityRobot : BaseRobot() {
         fillAddressField("Rua Teste, 123")
         fillOrgNameField("Nome Org Teste")
         fillOrgEmailField("orgtest@orgtest.com")
+        clickSaveCommunity()
     }
 
     infix fun verify(executeFun: AddCommunityRobot.() -> Unit) {
