@@ -11,6 +11,10 @@ class AddCommunityRobot : BaseRobot() {
         clickButtonByText("ADICIONAR COMUNIDADE")
     }
 
+    fun confirmDataInput() {
+        clickButtonByText("TUDO CERTO!")
+    }
+
     fun fillNameField(name: String) {
         fillFieldById(R.id.communityNameInput, name)
     }
@@ -42,6 +46,12 @@ class AddCommunityRobot : BaseRobot() {
         fillAddressField("Rua Teste, 123")
         fillOrgNameField("Nome Org Teste")
         fillOrgEmailField("orgtest@orgtest.com")
+        clickSaveCommunity()
+        confirmDataInput()
+    }
+
+    fun saveCommunityWithNoData() {
+        clickAddCommunity()
         clickSaveCommunity()
     }
 
