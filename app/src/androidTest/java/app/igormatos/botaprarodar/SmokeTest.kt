@@ -41,7 +41,7 @@ class SmokeTest {
     @LargeTest
     fun userJourney_loginToAddComunity() {
         try {
-            onView(withId(R.id.loginButton)).perform(click())
+            onView(withId(R.id.login_button)).perform(click())
             onView(withHint("Email")).perform(replaceText("teste"))
             onView(withText("Next")).perform(click())
             onView(withText("That email address isn't correct")).check(matches(isDisplayed()))
