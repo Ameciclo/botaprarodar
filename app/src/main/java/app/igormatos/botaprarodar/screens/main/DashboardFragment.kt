@@ -12,7 +12,7 @@ import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.data.model.DashboardInformation
 import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.User
-import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
 import com.github.mikephil.charting.components.AxisBase
@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import org.koin.android.ext.android.inject
 
 
 class DashboardFragment : Fragment() {
@@ -48,6 +49,7 @@ class DashboardFragment : Fragment() {
     private val usersList = mutableListOf<User>()
     private val bicycleList = mutableListOf<Bicycle>()
 
+    private val preferencesModule: SharedPreferencesModule by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,13 +61,13 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        communityId = Preferences.getJoinedCommunity(activity!!.applicationContext).id!!
+        communityId = preferencesModule.getJoinedCommunity().id!!
 
         pieChartColors = listOf(
-            ContextCompat.getColor(context!!, R.color.orange),
-            ContextCompat.getColor(context!!, R.color.purple),
-            ContextCompat.getColor(context!!, R.color.green),
-            ContextCompat.getColor(context!!, R.color.red)
+            ContextCompat.getColor(requireContext(), R.color.orange),
+            ContextCompat.getColor(requireContext(), R.color.purple),
+            ContextCompat.getColor(requireContext(), R.color.green),
+            ContextCompat.getColor(requireContext(), R.color.red)
         )
 
         functions = FirebaseFunctions.getInstance()

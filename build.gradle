@@ -10,6 +10,8 @@ buildscript {
         glide_version = "4.8.0"
         nav_version = "2.1.0"
         daggerVersion = '2.14.1'
+        espresso_version = "3.3.0"
+        mockk_version = "1.10.2"
     }
 
     repositories {
@@ -17,7 +19,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.4'
         classpath "io.realm:realm-gradle-plugin:6.1.0"

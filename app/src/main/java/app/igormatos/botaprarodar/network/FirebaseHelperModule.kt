@@ -10,8 +10,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
-@Deprecated("use FirebaseHelperModule instead")
-object FirebaseHelper {
+class FirebaseHelperModule {
 
     val instance = FirebaseDatabase.getInstance()
 
