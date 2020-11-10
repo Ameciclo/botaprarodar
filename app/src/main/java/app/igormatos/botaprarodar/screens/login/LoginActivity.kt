@@ -1,163 +1,154 @@
 package app.igormatos.botaprarodar.screens.login
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.local.Preferences
-import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.network.FirebaseHelper
-import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.SingleRequestListener
-import app.igormatos.botaprarodar.common.util.showLoadingDialog
-import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityActivity
-import app.igormatos.botaprarodar.screens.main.MainActivity
+import app.igormatos.botaprarodar.data.model.UserCommunityInfo
+import app.igormatos.botaprarodar.databinding.ActivityLoginBinding
+import com.brunotmgomes.ui.SnackbarModule
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
-    private val SIGN_IN_REQUEST: Int = 200
-    lateinit var loadingDialog: AlertDialog
+    private lateinit var views: ActivityLoginBinding
+    private lateinit var loadingDialog: AlertDialog
+    private lateinit var resendEmailSnackbar: Snackbar
+    private var communityDialog: AlertDialog? = null
+
+    private val viewModel: LoginActivityViewModel by koinViewModel()
+    private val snackbarModule: SnackbarModule by inject()
+    private val navigator: LoginActivityNavigator by inject()
+
+    private val loginActivityResultLauncher = registerForActivityResult(
+        StartActivityForResult()
+    ) { result ->
+        val resultCode = result.resultCode
+        if (resultCode == Activity.RESULT_OK) {
+            viewModel.onUserLoggedIn()
+        } else {
+            snackbarModule.make(
+                views.loginContainer,
+                getString(R.string.login_error),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
-        loginButton.setOnClickListener {
+        views = ActivityLoginBinding.inflate(layoutInflater)
+        val rootView = views.root
+        setContentView(rootView)
+        views.loginButton.setOnClickListener {
             startLoginFlow()
         }
+        initScreenObjects()
+        bindViewModel()
+    }
+
+    private fun initScreenObjects() {
+        resendEmailSnackbar = snackbarModule.make(
+            views.loginContainer,
+            getString(R.string.login_confirm_email_error),
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            setAction(R.string.resend_email) {
+                viewModel.sendEmailVerification()
+            }
+        }
+        loadingDialog = MaterialAlertDialogBuilder(this)
+            .setView(R.layout.loading_dialog_animation)
+            .setCancelable(false)
+            .create()
     }
 
     override fun onStart() {
         super.onStart()
-
-        if (isLogged() && isCommunitySelected()) {
-            goToMainActivity()
-        } else if (isLogged()) {
-            chooseCommunityDialog()
-        }
-
+        viewModel.checkPreviousState()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == SIGN_IN_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                chooseCommunityDialog()
+    private fun bindViewModel() {
+        viewModel.navigateMain.observe(this) { event ->
+            if (event.getContentIfNotHandled() != null) {
+                navigator.goToMainActivity(this)
+            }
+        }
+        viewModel.showResendEmailSnackBar.observe(this) { event ->
+            val show = event.getContentIfNotHandled()
+            if (show != null) {
+                if (show) {
+                    resendEmailSnackbar.show()
+                } else {
+                    resendEmailSnackbar.dismiss()
+                }
+            }
+        }
+        viewModel.loading.observe(this) { isLoading ->
+            if (isLoading) {
+                loadingDialog.show()
             } else {
-                Snackbar.make(loginContainer, getString(R.string.login_error), Snackbar.LENGTH_SHORT).show()
+                if (loadingDialog.isShowing) {
+                    loadingDialog.dismiss()
+                }
+            }
+        }
+        viewModel.loadedCommunities.observe(this) { event ->
+            val content = event.getContentIfNotHandled()
+            if (content != null) {
+                showChooseCommunityDialog(content)
             }
         }
     }
 
-    private fun isCommunitySelected(): Boolean {
-        return Preferences.isCommunitySelected(this)
-    }
-
-    private fun isLogged(): Boolean {
-        return FirebaseAuth.getInstance().currentUser != null
-    }
-
-    private fun chooseCommunityDialog() {
-        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
-
-        if (!currentUser.isEmailVerified) {
-            val snackbar = Snackbar.make(
-                loginContainer,
-                getString(R.string.login_confirm_email_error),
-                Snackbar.LENGTH_INDEFINITE
-            )
-
-            snackbar.setAction(getString(R.string.resend_email)) {
-                currentUser.sendEmailVerification().addOnCompleteListener {
-                    snackbar.dismiss()
-                }
-            }.show()
-
-            return
-        }
-
-        FirebaseHelper.getCommunities(
-            currentUser.uid,
-            currentUser.email!!,
-            object : SingleRequestListener<Pair<Boolean, List<Community>>> {
-                override fun onStart() {
-                    loadingDialog = showLoadingDialog()
-                }
-
-                override fun onCompleted(result: Pair<Boolean, List<Community>>) {
-                    loadingDialog.dismiss()
-
-                    val isAdmin = result.first
-                    val communities = result.second
-
-                    val communitiesTitle = communities.mapNotNull { it.name }
-
-                    val alertBuilder = MaterialAlertDialogBuilder(this@LoginActivity)
-                        .setTitle(title)
-                        .setItems(communitiesTitle.toTypedArray()) { _, which ->
-                            val joinedCommunity = communities[which]
-
-                            Preferences.saveJoinedCommmunity(this@LoginActivity, joinedCommunity)
-                            FirebaseHelper.setCommunityId(joinedCommunity.id!!)
-                            goToMainActivity()
-                        }
-
-                    if (isAdmin) {
-                        alertBuilder.setPositiveButton(getString(R.string.add_community)) { _, _ ->
-                            val intent = Intent(this@LoginActivity, AddCommunityActivity::class.java)
-                            startActivity(intent)
-                        }
+    private fun showChooseCommunityDialog(userCommunityInfo: UserCommunityInfo) {
+        communityDialog?.dismiss()
+        if (!userCommunityInfo.isAdmin && userCommunityInfo.communities.isNullOrEmpty()) {
+            communityDialog = showNoCommunitiesDialog()
+        } else {
+            val communitiesTitle = userCommunityInfo.communities.mapNotNull { it.name }
+            val alertBuilder: MaterialAlertDialogBuilder =
+                MaterialAlertDialogBuilder(this@LoginActivity)
+                    .setTitle(title)
+                    .setItems(communitiesTitle.toTypedArray()) { _, which ->
+                        val joinedCommunity = userCommunityInfo.communities[which]
+                        viewModel.chooseCommunity(joinedCommunity)
                     }
 
-                    alertBuilder.show()
-
+            if (userCommunityInfo.isAdmin) {
+                alertBuilder.setPositiveButton(getString(R.string.add_community)) { _, _ ->
+                    navigator.goToAddCommunityActivity(this@LoginActivity)
                 }
+            }
 
-                override fun onError(error: RequestError) {
-                    loadingDialog.dismiss()
-
-                    MaterialAlertDialogBuilder(this@LoginActivity)
-                        .setTitle(title)
-                        .setMessage(getString(R.string.login_no_communities_allowed))
-                        .show()
-
-                    FirebaseAuth.getInstance().signOut()
-                }
-
-            })
-
-
+            communityDialog = alertBuilder.show()
+        }
     }
 
-    fun goToMainActivity() {
-        FirebaseHelper.setCommunityId(Preferences.getJoinedCommunity(this).id!!)
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun showNoCommunitiesDialog(): AlertDialog {
+        return MaterialAlertDialogBuilder(this@LoginActivity)
+            .setTitle(title)
+            .setMessage(getString(R.string.login_no_communities_allowed))
+            .show()
     }
 
-    fun startLoginFlow() {
-        val providers = Arrays.asList(
+    private fun startLoginFlow() {
+        val providers = listOf(
             AuthUI.IdpConfig.EmailBuilder().build()
         )
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setTheme(R.style.AppThemeWithActionbar)
+            .build()
 
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setTheme(R.style.AppThemeWithActionbar)
-                .build(),
-            SIGN_IN_REQUEST
-        )
+        loginActivityResultLauncher.launch(intent)
     }
 
 }

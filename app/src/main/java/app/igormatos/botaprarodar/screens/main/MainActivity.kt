@@ -8,14 +8,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.screens.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val preferencesModule: SharedPreferencesModule by inject()
 
     private val activitiesFragment: Fragment = TripsFragment()
     private val usersFragment: Fragment = UsersFragment()
@@ -82,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
-                Preferences.clear(this)
+                preferencesModule.clear()
 
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
