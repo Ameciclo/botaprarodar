@@ -8,18 +8,20 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.util.getSelectedCommunityId
 import app.igormatos.botaprarodar.data.model.Withdraw
-import app.igormatos.botaprarodar.local.Preferences
+import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
 import app.igormatos.botaprarodar.screens.WithdrawAdapter
 import app.igormatos.botaprarodar.screens.bicyclewithdrawal.choosebicycle.WithdrawActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import org.koin.android.ext.android.inject
 
 
 class TripsFragment : androidx.fragment.app.Fragment() {
+
+    private val preferencesModule: SharedPreferencesModule by inject()
 
     val itemAdapter = WithdrawAdapter()
     var loadingDialog: AlertDialog? = null
@@ -32,7 +34,7 @@ class TripsFragment : androidx.fragment.app.Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
 
         val bitmap = ContextCompat.getDrawable(
-            context!!,
+            requireContext(),
             R.drawable.ic_directions_bike
         )
         rootView.addItemFab.setImageDrawable(bitmap)
@@ -59,8 +61,9 @@ class TripsFragment : androidx.fragment.app.Fragment() {
 
 //        loadingDialog = context?.showLoadingDialog()
 
+        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
         FirebaseHelper.getWithdrawals(
-            context!!.getSelectedCommunityId(),
+            selectedCommunityId,
             { loadingDialog?.dismiss() },
             object : RequestListener<Withdraw> {
                 override fun onChildChanged(result: Withdraw) {
@@ -70,7 +73,7 @@ class TripsFragment : androidx.fragment.app.Fragment() {
                 override fun onChildAdded(result: Withdraw) {
                     loadingDialog?.dismiss()
                     itemAdapter.addItem(result)
-                    Preferences.incrementTripCount(context!!)
+                    preferencesModule.incrementTripCount()
                 }
 
                 override fun onChildRemoved(result: Withdraw) {

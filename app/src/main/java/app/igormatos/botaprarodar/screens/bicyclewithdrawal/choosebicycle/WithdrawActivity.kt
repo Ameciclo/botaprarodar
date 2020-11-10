@@ -8,13 +8,16 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
-import app.igormatos.botaprarodar.common.util.getSelectedCommunityId
+import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.screens.ItemAdapter
 import kotlinx.android.synthetic.main.activity_rent.*
+import org.koin.android.ext.android.inject
 
 class WithdrawActivity : AppCompatActivity() {
 
     lateinit var itemAdapter: ItemAdapter
+
+    private val preferencesModule: SharedPreferencesModule by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +28,9 @@ class WithdrawActivity : AppCompatActivity() {
             ItemAdapter(activity = this)
         logRecyclerView.adapter = itemAdapter
 
+        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
         FirebaseHelper.getBicycles(
-            getSelectedCommunityId(),
+            selectedCommunityId,
             true,
             object : RequestListener<Bicycle> {
                 override fun onChildChanged(result: Bicycle) {

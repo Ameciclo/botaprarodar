@@ -1,2 +1,3 @@
+include ':toolkit'
 include ':core'
 include ':app'

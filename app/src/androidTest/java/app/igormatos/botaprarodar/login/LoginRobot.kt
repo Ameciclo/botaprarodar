@@ -9,7 +9,7 @@ fun login(executeFun: LoginRobot.() -> Unit) = LoginRobot().apply{ executeFun() 
 class LoginRobot : BaseRobot() {
 
     fun clickLogin() {
-        clickButton(R.id.loginButton)
+        clickButton(R.id.login_button)
     }
 
     fun clickSignIn() {

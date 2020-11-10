@@ -6,9 +6,9 @@ import android.os.Parcelable
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.local.Preferences
 import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.Withdraw
+import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.network.RequestListener
 import app.igormatos.botaprarodar.screens.ItemAdapter
@@ -17,10 +17,13 @@ import app.igormatos.botaprarodar.screens.bicyclewithdrawal.chooseuser.ChooseUse
 import app.igormatos.botaprarodar.screens.returnbicycle.WITHDRAWAL_EXTRA
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import org.koin.android.ext.android.inject
 import org.parceler.Parcels
 
 
 class UsersFragment : androidx.fragment.app.Fragment() {
+
+    private val preferencesModule: SharedPreferencesModule by inject()
 
     lateinit var itemAdapter: ItemAdapter
 
@@ -67,7 +70,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-        val joinedCommunityId = Preferences.getJoinedCommunity(context!!).id!!
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id!!
         val filterOnlyAvailable = activity is ChooseUserActivity
 
         FirebaseHelper.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
@@ -107,8 +110,8 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity is ChooseUserActivity) {
-            val activityMenu = activity!!.toolbar.menu
-            val aMenuInflater = activity!!.menuInflater
+            val activityMenu = requireActivity().toolbar.menu
+            val aMenuInflater = requireActivity().menuInflater
 
             activityMenu.clear()
             aMenuInflater.inflate(R.menu.search_users, menu)
