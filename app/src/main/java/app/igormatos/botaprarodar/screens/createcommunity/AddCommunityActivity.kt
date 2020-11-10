@@ -24,15 +24,11 @@ class AddCommunityActivity : AppCompatActivity() {
 
         addCommunityButton.setOnClickListener {
             if (!isInputsFilled()) {
-                Toast.makeText(
-                    this@AddCommunityActivity,
-                    getString(R.string.empties_fields_error),
-                    Toast.LENGTH_SHORT
-                ).show()
+                showRequiredFieldWarningDialog()
+            } else {
+                val community = getCommunityFromInputs()
+                showConfirmationDialog(community)
             }
-
-            val community = getCommunityFromInputs()
-            showConfirmationDialog(community)
         }
     }
 
@@ -52,16 +48,22 @@ class AddCommunityActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun isInputsFilled(): Boolean {
-        for (view in contentView!!.rootView.childrenSequence()) {
-            if (view is TextInputEditText) {
-                if (view.text.isNullOrEmpty()) {
-                    return false
-                }
-            }
-        }
+    private fun showRequiredFieldWarningDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Atenção!")
+            .setMessage(R.string.empties_fields_error)
+            .show()
+    }
 
-        return true
+    private fun isInputsFilled(): Boolean {
+        return when {
+            communityNameInput.text.isNullOrEmpty() -> false
+            communityDescriptionInput.text.isNullOrEmpty() -> false
+            communityAddressInput.text.isNullOrEmpty() -> false
+            communityOrgNameInput.text.isNullOrEmpty() -> false
+            communityOrgEmailInput.text.isNullOrEmpty() -> false
+            else -> true
+        }
     }
 
     private fun sendCommunityToServer(community: Community) {
