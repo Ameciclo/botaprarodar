@@ -1,6 +1,9 @@
 package app.igormatos.botaprarodar.login
 
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -37,7 +40,12 @@ class LoginRobot : BaseRobot() {
         fillUserField(user)
         clickNext()
         fillPasswordField(password)
+        pressBack()
         clickSignIn()
+    }
+
+    private fun pressBack(){
+        onView(isRoot()).perform(ViewActions.pressBack())
     }
 
     infix fun verify(executeFun: LoginRobot.() -> Unit) {
