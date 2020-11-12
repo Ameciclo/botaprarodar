@@ -3,9 +3,9 @@ package app.igormatos.botaprarodar.createcommunity
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-fun addCommunity(executeFun: AddCommunityRobot.() -> Unit) = AddCommunityRobot().apply{ executeFun() }
+fun addCommunity(executeFun: AddCommunityActivityRobot.() -> Unit) = AddCommunityActivityRobot().apply{ executeFun() }
 
-class AddCommunityRobot : BaseRobot() {
+class AddCommunityActivityRobot : BaseRobot() {
 
     fun clickAddCommunity() {
         clickButtonByText("ADICIONAR COMUNIDADE")
@@ -55,7 +55,7 @@ class AddCommunityRobot : BaseRobot() {
         clickSaveCommunity()
     }
 
-    infix fun verify(executeFun: AddCommunityRobot.() -> Unit) {
+    infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
         executeFun()
     }
 
