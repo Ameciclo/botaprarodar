@@ -44,7 +44,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        dataBinding true
     }
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -106,6 +106,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$room_version"
+    kapt 'com.android.databinding:compiler:3.1.4'
     implementation "androidx.room:room-ktx:$room_version"
 
     //Kotlin

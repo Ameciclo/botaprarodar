@@ -18,8 +18,7 @@ import org.junit.runners.MethodSorters
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@LargeTest
-class AddComunityTest {
+class AddCommunityActivityTest {
 
     @get:Rule
     val loginActivityRule = ActivityTestRule(LoginActivity::class.java)
@@ -30,24 +29,26 @@ class AddComunityTest {
     fun setUp() {
         loginActivity = loginActivityRule.activity
         FirebaseApp.initializeApp(loginActivity)
+        login {
+            clickLogin()
+            fillUserField("brunotmg@gmail.com")
+            clickNext()
+            sleep(2000)
+            fillPasswordField("abcd1234")
+            clickSignIn()
+            sleep(3000)
+        }
     }
 
     @Test
-    fun shouldAddNewCommunity_fillDataFields_clickAddCommunity() {
-        login {
-            doLogin("brunotmg@gmail.com", "abcd1234")
-            sleep(3000)
-        }
+    @LargeTest
+    fun shouldAddNewCommunityUserJourney() {
         addCommunity {
             saveNewCommunity()
             sleep(2000)
         } verify {
             checkMessage("Nome Teste")
         }
-    }
-
-    @Test
-    fun shouldVerifyRequiredField_whenClickAddCommunity() {
         addCommunity {
             sleep(2000)
             saveCommunityWithNoData()
@@ -58,7 +59,7 @@ class AddComunityTest {
 
     @After
     fun deleteTestCommunity() {
-        Log.i("DELETE", "DELETE")
+
     }
 
 }
