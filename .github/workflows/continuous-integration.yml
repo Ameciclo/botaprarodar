@@ -31,7 +31,7 @@ jobs:
           profile: Nexus 6
           avd-name: test
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
+          disable-animations: false
           script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
