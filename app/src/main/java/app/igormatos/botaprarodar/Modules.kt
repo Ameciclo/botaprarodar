@@ -4,7 +4,6 @@ import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.FirebaseAuthModule
 import app.igormatos.botaprarodar.network.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityViewModelImpl
 import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.screens.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.screens.login.LoginActivityViewModel
@@ -30,8 +29,8 @@ val bprModule = module {
         )
     }
 
-    viewModel<AddCommunityViewModel> {
-        AddCommunityViewModelImpl(
+    viewModel{
+        AddCommunityViewModel(
             firebaseHelperModule = get()
         )
     }

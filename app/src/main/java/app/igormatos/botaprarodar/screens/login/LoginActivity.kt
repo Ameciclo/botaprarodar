@@ -2,16 +2,21 @@ package app.igormatos.botaprarodar.screens.login
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.model.UserCommunityInfo
 import app.igormatos.botaprarodar.databinding.ActivityLoginBinding
+import app.igormatos.botaprarodar.network.Community
 import com.brunotmgomes.ui.SnackbarModule
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.adapter_community.view.*
+import org.jetbrains.anko.linearLayout
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -20,6 +25,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private lateinit var views: ActivityLoginBinding
     private lateinit var loadingDialog: AlertDialog
     private lateinit var resendEmailSnackbar: Snackbar
+    private lateinit var chooseCommunityAdapter: CommunityAdapter
     private var communityDialog: AlertDialog? = null
 
     private val viewModel: LoginActivityViewModel by koinViewModel()
@@ -67,6 +73,10 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             .setView(R.layout.loading_dialog_animation)
             .setCancelable(false)
             .create()
+
+        chooseCommunityAdapter = CommunityAdapter(arrayListOf()) {
+            viewModel.chooseCommunity(it)
+        }
     }
 
     override fun onStart() {
@@ -107,19 +117,23 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         }
     }
 
+    private fun inflateChooseCommunityDialogView() : View {
+        val view = layoutInflater.inflate(R.layout.adapter_community, null)
+        view.rvCommunityList.apply {
+            adapter = chooseCommunityAdapter
+        }
+        return view
+    }
+
     private fun showChooseCommunityDialog(userCommunityInfo: UserCommunityInfo) {
         communityDialog?.dismiss()
         if (!userCommunityInfo.isAdmin && userCommunityInfo.communities.isNullOrEmpty()) {
             communityDialog = showNoCommunitiesDialog()
         } else {
-            val communitiesTitle = userCommunityInfo.communities.mapNotNull { it.name }
             val alertBuilder: MaterialAlertDialogBuilder =
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(title)
-                    .setItems(communitiesTitle.toTypedArray()) { _, which ->
-                        val joinedCommunity = userCommunityInfo.communities[which]
-                        viewModel.chooseCommunity(joinedCommunity)
-                    }
+                    .setView(inflateChooseCommunityDialogView())
 
             if (userCommunityInfo.isAdmin) {
                 alertBuilder.setPositiveButton(getString(R.string.add_community)) { _, _ ->
@@ -127,6 +141,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
                 }
             }
 
+            chooseCommunityAdapter.updateList(userCommunityInfo.communities)
             communityDialog = alertBuilder.show()
         }
     }
