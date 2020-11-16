@@ -47,6 +47,9 @@ class AddCommunityActivity : AppCompatActivity() {
         viewModel.inputFieldsWarning.observe(this, Observer {
             snackBarMaker(getString(R.string.empties_fields_error))
         })
+        viewModel.emailFormatWarning.observe(this, Observer {
+            snackBarMaker(getString(R.string.emailFormatWarning))
+        })
         viewModel.communityData.observe(this, Observer {
             showConfirmationDialog(it)
         })

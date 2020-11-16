@@ -57,5 +57,6 @@
     <string name="profile_picture">Foto do perfil</string>
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
+    <string name="emailFormatWarning">Insira um email válido</string>
 
 </resources>
