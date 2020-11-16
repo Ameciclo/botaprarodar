@@ -30,6 +30,7 @@ jobs:
           target: default
           arch: x86
           profile: Nexus 6
+          disable-animations: false
           script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
