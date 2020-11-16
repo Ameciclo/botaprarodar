@@ -26,12 +26,10 @@ jobs:
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 26
+          api-level: 23
+          target: default
           arch: x86
           profile: Nexus 6
-          avd-name: test
-#           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
           script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
