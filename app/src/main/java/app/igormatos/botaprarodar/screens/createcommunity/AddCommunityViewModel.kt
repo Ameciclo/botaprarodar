@@ -1,43 +1,60 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
-import android.app.Application
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.igormatos.botaprarodar.common.BprApplication
+import app.igormatos.botaprarodar.common.util.isValidEmail
 import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.network.FirebaseHelperModule
 import app.igormatos.botaprarodar.network.RequestError
 import app.igormatos.botaprarodar.network.SingleRequestListener
-import org.koin.dsl.koinApplication
-import kotlin.reflect.full.declaredMemberExtensionProperties
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.valueParameters
 
-abstract class AddCommunityViewModel() : ViewModel() {
+class AddCommunityViewModel(
+    private var firebaseHelperModule: FirebaseHelperModule,
+) : ViewModel() {
 
-    abstract val loading: MutableLiveData<Boolean>
+    private val loading = MutableLiveData<Boolean>()
+    fun getLoadingValue() : LiveData<Boolean> = loading
 
-    abstract val success: MutableLiveData<Boolean>
+    private val success = MutableLiveData<Boolean>()
+    fun getSuccessValue() : LiveData<Boolean> = success
 
-    abstract val inputFieldsWarning: MutableLiveData<Boolean>
+    private val communityData = MutableLiveData<Community>()
+    fun getCommunityDataValue() : LiveData<Community> = communityData
 
-    abstract val emailFormatWarning: MutableLiveData<Boolean>
+    private lateinit var community : Community
 
-    abstract val communityData: MutableLiveData<Community>
+    fun createCommunity(
+        name: String,
+        description: String,
+        address: String,
+        orgName: String,
+        orgEmail: String
+    ) {
+        community = Community(name, description, address, orgName, orgEmail)
+        communityData.value = community
+    }
 
-    abstract val community: Community
+    fun sendCommunityToServer() {
+        firebaseHelperModule.addCommunity(
+            community,
+            object : SingleRequestListener<Boolean> {
+                override fun onStart() {
+                    loading.value = true
+                }
 
-    abstract fun addCommunity()
+                override fun onCompleted(result: Boolean) {
+                    loading.value = false
+                    success.value = result
+                }
 
-    abstract fun sendCommunityToServer()
+                override fun onError(error: RequestError) {
+                    loading.value = false
+                    success.value = false
+                }
 
-    abstract fun inputsFilled() : Boolean
-
-    abstract fun getCommunityFromInputs()
-
-    abstract fun verifyEmailFormat() : Boolean
+            }
+        )
+    }
 
 }
