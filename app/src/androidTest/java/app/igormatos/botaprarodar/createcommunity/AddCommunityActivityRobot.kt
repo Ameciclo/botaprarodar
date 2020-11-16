@@ -1,5 +1,9 @@
 package app.igormatos.botaprarodar.createcommunity
 
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -39,9 +43,9 @@ class AddCommunityActivityRobot : BaseRobot() {
         clickButton(R.id.addCommunityButton)
     }
 
-    fun saveNewCommunity() {
+    fun saveNewCommunity(name: String) {
         clickAddCommunity()
-        fillNameField("Nome Teste")
+        fillNameField(name)
         fillDescriptionField("Descricao teste")
         fillAddressField("Rua Teste, 123")
         fillOrgNameField("Nome Org Teste")
@@ -53,6 +57,10 @@ class AddCommunityActivityRobot : BaseRobot() {
     fun saveCommunityWithNoData() {
         clickAddCommunity()
         clickSaveCommunity()
+    }
+
+    fun checkTextInItemList(name: String) {
+        onView(withText(name)).inRoot(isDialog()).perform(scrollTo())
     }
 
     infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
