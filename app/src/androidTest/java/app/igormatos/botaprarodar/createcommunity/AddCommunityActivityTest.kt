@@ -1,6 +1,12 @@
 package app.igormatos.botaprarodar.createcommunity
 
-import android.util.Log
+import android.content.Context
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.launchActivity
+import androidx.test.ext.junit.rules.activityScenarioRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
@@ -8,27 +14,30 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.login.login
 import app.igormatos.botaprarodar.screens.login.LoginActivity
 import com.google.firebase.FirebaseApp
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-@RunWith(AndroidJUnit4ClassRunner::class)
+@RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class AddCommunityActivityTest {
 
-    @get:Rule
-    val loginActivityRule = ActivityTestRule(LoginActivity::class.java)
+    private val intent = Intent(ApplicationProvider.getApplicationContext(), LoginActivity::class.java)
 
-    private lateinit var loginActivity: LoginActivity
+    @get:Rule
+    val loginActivityRule = activityScenarioRule<LoginActivity>(intent)
+
+    private lateinit var loginActivity: ActivityScenario<LoginActivity>
+
+    private lateinit var mContext: Context
 
     @Before
     fun setUp() {
-        loginActivity = loginActivityRule.activity
-        FirebaseApp.initializeApp(loginActivity)
+        loginActivity = loginActivityRule.scenario
+        loginActivity.onActivity {
+            FirebaseApp.initializeApp(it)
+            mContext = it
+        }
         login {
             clickLogin()
             fillUserField("brunotmg@gmail.com")
@@ -53,8 +62,9 @@ class AddCommunityActivityTest {
             sleep(2000)
             saveCommunityWithNoData()
         } verify {
-            checkMessage(loginActivity.getString(R.string.empties_fields_error))
+            checkMessage(mContext.getString(R.string.empties_fields_error))
         }
+
     }
 
     @After

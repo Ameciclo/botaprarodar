@@ -16,57 +16,28 @@ import kotlin.reflect.full.declaredMemberExtensionProperties
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.valueParameters
 
-class AddCommunityViewModel(private var firebaseHelperModule: FirebaseHelperModule) : ViewModel() {
+abstract class AddCommunityViewModel() : ViewModel() {
 
-    val loading = MutableLiveData<Boolean>()
-    val success = MutableLiveData<Boolean>()
-    val inputFieldsWarning = MutableLiveData<Boolean>()
-    val communityData = MutableLiveData<Community>()
-    val community = Community()
+    abstract val loading: MutableLiveData<Boolean>
 
-    fun addCommunity() {
-        if (inputsFilled()) {
-            getCommunityFromInputs()
-        } else {
-            inputFieldsWarning.value = true
-        }
-    }
+    abstract val success: MutableLiveData<Boolean>
 
-    fun sendCommunityToServer() {
-        firebaseHelperModule.addCommunity(
-            community,
-            object : SingleRequestListener<Boolean> {
-                override fun onStart() {
-                    loading.value = true
-                }
+    abstract val inputFieldsWarning: MutableLiveData<Boolean>
 
-                override fun onCompleted(result: Boolean) {
-                    loading.value = false
-                    success.value = result
-                }
+    abstract val emailFormatWarning: MutableLiveData<Boolean>
 
-                override fun onError(error: RequestError) {
-                    loading.value = false
-                    success.value = false
-                }
+    abstract val communityData: MutableLiveData<Community>
 
-            }
-        )
-    }
+    abstract val community: Community
 
-    fun inputsFilled() : Boolean {
-        return when {
-            community.name.isNullOrEmpty() -> false
-            community.address.isNullOrEmpty() -> false
-            community.description.isNullOrEmpty() -> false
-            community.org_email.isNullOrEmpty() -> false
-            community.org_name.isNullOrEmpty() -> false
-            else -> true
-        }
-    }
+    abstract fun addCommunity()
 
-    fun getCommunityFromInputs() {
-        communityData.value = community
-    }
+    abstract fun sendCommunityToServer()
+
+    abstract fun inputsFilled() : Boolean
+
+    abstract fun getCommunityFromInputs()
+
+    abstract fun verifyEmailFormat() : Boolean
 
 }
