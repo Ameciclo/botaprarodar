@@ -36,11 +36,11 @@ class AddCommunityViewModel(
     }
 
     fun sendCommunityToServer() {
+        loading.value = true
         firebaseHelperModule.addCommunity(
             community,
             object : SingleRequestListener<Boolean> {
                 override fun onStart() {
-                    loading.value = true
                 }
 
                 override fun onCompleted(result: Boolean) {
