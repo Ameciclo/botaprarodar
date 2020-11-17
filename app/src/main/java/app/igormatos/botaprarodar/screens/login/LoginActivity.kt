@@ -22,10 +22,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
+    private lateinit var chooseCommunityAdapter: CommunityAdapter
+
     private lateinit var views: ActivityLoginBinding
     private lateinit var loadingDialog: AlertDialog
     private lateinit var resendEmailSnackbar: Snackbar
-    private lateinit var chooseCommunityAdapter: CommunityAdapter
     private var communityDialog: AlertDialog? = null
 
     private val viewModel: LoginActivityViewModel by koinViewModel()
