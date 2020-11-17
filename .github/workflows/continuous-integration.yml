@@ -2,9 +2,9 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches: [ master, development ]
+#   pull_request:
+#     branches: [ master, development ]
 
 jobs:
   build:
@@ -23,16 +23,12 @@ jobs:
         run: echo $FIREBASE_SECRET_DEV > app/google-services.json
 #       - name: Run unit tests
 #         run: ./gradlew clean test
-#       - name: Run instrumentation tests
-#         uses: reactivecircus/android-emulator-runner@v2
-#         with:
-#           api-level: 26
-#           arch: x86
-#           profile: Nexus 6
-#           avd-name: test
-#           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-#           disable-animations: true
-#           script: ./gradlew connectedCheck
+      - name: Run instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK

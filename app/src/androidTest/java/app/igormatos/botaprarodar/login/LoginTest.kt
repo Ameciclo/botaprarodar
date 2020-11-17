@@ -44,6 +44,7 @@ class LoginTest {
             fillUserField("brunotmg@gmail.com")
             clickNext()
             fillPasswordField("abc")
+            pressBack()
             clickSignIn()
         } verify {
             checkMessageIncorrectPassword()
@@ -56,6 +57,7 @@ class LoginTest {
             clickLogin()
             fillUserField("brunotmg@gmail.com")
             clickNext()
+            pressBack()
             clickRecoveryPassword()
         } verify {
             checkMessage("brunotmg@gmail.com")
