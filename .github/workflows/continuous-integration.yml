@@ -27,8 +27,10 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          disable-animations: false
+          emulator-options: -noaudio
           arch: x86_64
-          script: ./gradlew connectedDebugAndroidTest
+          script: ./gradlew connectedCheck
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK
