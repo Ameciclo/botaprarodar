@@ -28,7 +28,7 @@ jobs:
         with:
           api-level: 29
           arch: x86_64
-          script: ./gradlew connectedCheck
+          script: ./gradlew connectedCheck --stacktrace
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK
