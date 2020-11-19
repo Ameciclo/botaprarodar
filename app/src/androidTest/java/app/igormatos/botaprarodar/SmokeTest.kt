@@ -7,8 +7,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -42,23 +41,23 @@ class SmokeTest {
     fun userJourney_loginToAddComunity() {
         try {
             onView(withId(R.id.login_button)).perform(click())
-            onView(withHint("Email")).perform(replaceText("teste"))
+            onView(withHint("Email")).perform(replaceText("teste"), closeSoftKeyboard())
             onView(withText("Next")).perform(click())
             onView(withText("That email address isn't correct")).check(matches(isDisplayed()))
             onView(withHint("Email")).perform(replaceText("brunotmg@gmail.com"))
             onView(withText("Next")).perform(click())
             onView(isRoot()).perform(waitId(2000))
-            onView(withHint("Password")).perform(replaceText("abcd1234"))
+            onView(withHint("Password")).perform(replaceText("abcd1234"), closeSoftKeyboard())
             onView(withText("SIGN IN")).perform(click())
             onView(isRoot()).perform(waitId(4000))
             onView(withText("Bota pra Rodar")).check(matches(isDisplayed()))
             onView(withText("ADICIONAR COMUNIDADE")).perform(click())
             onView(isRoot()).perform(waitId(2000))
-            onView(withHint("Nome")).perform(replaceText("Nome teste"))
-            onView(withHint("Descrição")).perform(replaceText("Descrição teste"))
-            onView(withHint("Endereço")).perform(replaceText("Rua Teste, 123"))
-            onView(withHint("Nome do responsável")).perform(replaceText("Responsável teste"))
-            onView(withHint("Email do responsável")).perform(replaceText("teste@respnsavel.com"))
+            onView(withHint("Nome")).perform(replaceText("Nome teste"), closeSoftKeyboard())
+            onView(withHint("Descrição")).perform(replaceText("Descrição teste"), closeSoftKeyboard())
+            onView(withHint("Endereço")).perform(replaceText("Rua Teste, 123"), closeSoftKeyboard())
+            onView(withHint("Nome do responsável")).perform(replaceText("Responsável teste"), closeSoftKeyboard())
+            onView(withHint("Email do responsável")).perform(replaceText("teste@respnsavel.com"), closeSoftKeyboard())
             pressBack()
             onView(isRoot()).perform(waitId(2000))
         } catch (exception: NoMatchingViewException){
