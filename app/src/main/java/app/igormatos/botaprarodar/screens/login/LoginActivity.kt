@@ -102,9 +102,26 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         viewModel.loadedCommunities.observe(this) { event ->
             val content = event.getContentIfNotHandled()
             if (content != null) {
-                showChooseCommunityDialog(content)
+                if (content.isSuccess) {
+                    showChooseCommunityDialog(content.getOrThrow())
+                } else {
+                    showCommunityErrorSnackbar()
+                }
             }
         }
+    }
+
+    private fun showCommunityErrorSnackbar() {
+        snackbarModule.make(
+            views.loginContainer,
+            getString(R.string.login_load_communities_error),
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            setAction(R.string.login_retry_load_community) {
+                viewModel.retryLoadCommunities()
+                dismiss()
+            }
+        }.show()
     }
 
     private fun showChooseCommunityDialog(userCommunityInfo: UserCommunityInfo) {
