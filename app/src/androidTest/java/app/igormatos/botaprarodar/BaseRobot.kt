@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -17,11 +18,11 @@ abstract class BaseRobot {
     }
 
     fun fillFieldByHint(hint: String, content: String) {
-        onView(withHint(hint)).perform(replaceText(content), closeSoftKeyboard())
+        performTypeTextWithCloseSoftKeyboard(onView(withHint(hint)), content)
     }
 
     fun fillFieldById(resId: Int, content: String) {
-        onView(withId(resId)).perform(replaceText(content), closeSoftKeyboard())
+        performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
     }
 
     fun checkMessage(message: String) {
@@ -38,6 +39,10 @@ abstract class BaseRobot {
 
     fun pressBack(){
         onView(isRoot()).perform(ViewActions.pressBack())
+    }
+
+    fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+        view.perform(replaceText(content), closeSoftKeyboard())
     }
 
 }
