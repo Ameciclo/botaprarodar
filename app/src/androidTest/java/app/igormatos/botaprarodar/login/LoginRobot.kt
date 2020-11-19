@@ -37,7 +37,6 @@ class LoginRobot : BaseRobot() {
         fillUserField(user)
         clickNext()
         fillPasswordField(password)
-        pressBack()
         clickSignIn()
     }
 
