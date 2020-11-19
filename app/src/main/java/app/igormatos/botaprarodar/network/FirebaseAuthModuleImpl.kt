@@ -7,4 +7,10 @@ class FirebaseAuthModuleImpl : FirebaseAuthModule {
     override fun getCurrentUser(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
     }
+
+    override fun signOut() {
+        FirebaseAuth.getInstance().signOut()
+    }
+
+
 }

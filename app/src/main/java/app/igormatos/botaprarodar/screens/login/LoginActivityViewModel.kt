@@ -10,11 +10,13 @@ abstract class LoginActivityViewModel: ViewModel() {
 
     abstract val navigateMain: LiveData<ViewEvent<Boolean>>
 
-    abstract val loadedCommunities: LiveData<ViewEvent<UserCommunityInfo>>
+    abstract val loadedCommunities: LiveData<ViewEvent<Result<UserCommunityInfo>>>
 
     abstract val loading: LiveData<Boolean>
 
     abstract val showResendEmailSnackBar: LiveData<ViewEvent<Boolean>>
+
+    abstract fun retryLoadCommunities()
 
     abstract fun checkPreviousState()
 
