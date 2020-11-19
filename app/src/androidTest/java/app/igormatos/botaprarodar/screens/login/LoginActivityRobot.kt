@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.screens.login
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
@@ -18,8 +19,10 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.data.model.RequestException
 import app.igormatos.botaprarodar.data.model.UserCommunityInfo
 import app.igormatos.botaprarodar.network.Community
+import app.igormatos.botaprarodar.network.RequestError
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.ViewEvent
 import com.google.android.material.snackbar.Snackbar
@@ -39,21 +42,30 @@ class LoginActivityRobot(
     private val scenario: ActivityScenario<LoginActivity>
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private val testModule: Module
-    private val mockEmailSnackbar = mockk<Snackbar>(relaxed = true)
+    private val mockEmailSnackbar = mockk<Snackbar>(relaxed = true) {
+        every {
+            setAction(
+                any<Int>(),
+                any()
+            )
+        } returns this
+    }
     private val mockLoginErrorSnackbar = mockk<Snackbar>(relaxed = true)
+    private val loadCommunitiesSnackbarClickAction: CapturingSlot<View.OnClickListener> = slot()
+    private val mockLoadCommunitiesErrorSnackbar = mockk<Snackbar>(relaxed = true) {
+        every {
+            setAction(
+                any<Int>(),
+                capture(loadCommunitiesSnackbarClickAction)
+            )
+        } returns this
+    }
 
     private val navigator: LoginActivityNavigator = mockk(relaxed = true)
 
     private val viewModel: LoginActivityViewModelFake
 
     init {
-        every {
-            mockEmailSnackbar.setAction(
-                R.string.resend_email,
-                any()
-            )
-        } returns mockEmailSnackbar
-
         viewModel = LoginActivityViewModelFake(
             showResendEmailSnackBar = if (emailNotVerified) {
                 MutableLiveData(ViewEvent(true))
@@ -66,9 +78,17 @@ class LoginActivityRobot(
             single<SnackbarModule> {
                 val emailError = context.getString(R.string.login_confirm_email_error)
                 val loginError = context.getString(R.string.login_error)
+                val communityErrorText = context.getString(R.string.login_load_communities_error)
                 mockk {
                     every { make(any(), emailError, any()) } returns mockEmailSnackbar
                     every { make(any(), loginError, any()) } returns mockLoginErrorSnackbar
+                    every {
+                        make(
+                            any(),
+                            communityErrorText,
+                            any()
+                        )
+                    } returns mockLoadCommunitiesErrorSnackbar
                 }
             }
             single<LoginActivityNavigator> {
@@ -111,16 +131,24 @@ class LoginActivityRobot(
         onView(withId(R.id.login_button)).perform(click())
     }
 
-    fun clickCommunity(community: Community){
+    fun clickCommunity(community: Community) {
         onView(withText(community.name)).perform(click())
     }
 
-    fun clickAddCommunity(){
+    fun clickAddCommunity() {
         addCommunityButton().perform(click())
     }
 
-    fun triggerCommunitiesLoaded(communities: UserCommunityInfo){
-        viewModel.loadedCommunities.postValue(ViewEvent(communities))
+    fun clickRetryLoadCommunities() {
+        loadCommunitiesSnackbarClickAction.captured.onClick(mockk())
+    }
+
+    fun triggerCommunitiesLoaded(communities: UserCommunityInfo) {
+        viewModel.loadedCommunities.postValue(ViewEvent(Result.success(communities)))
+    }
+
+    fun triggerCommunitiesLoadError(err: RequestError = RequestError.DEFAULT) {
+        viewModel.loadedCommunities.postValue(ViewEvent(Result.failure(RequestException(err))))
     }
 
     fun startResendEmail() {
@@ -149,9 +177,15 @@ class LoginActivityRobot(
         }
     }
 
-    fun verifyErrorSnackbarShown() {
+    fun verifyLoginErrorSnackbarShown() {
         viewAssertion {
             verify { mockLoginErrorSnackbar.show() }
+        }
+    }
+
+    fun verifyLoadCommunitiesErrorSnackbarShown() {
+        viewAssertion {
+            verify { mockLoadCommunitiesErrorSnackbar.show() }
         }
     }
 
@@ -175,7 +209,7 @@ class LoginActivityRobot(
         onView(withId(R.id.loading_dialog)).check(isShownMatcher(isShown))
     }
 
-    fun verifyNoCommunityDialogShown(){
+    fun verifyNoCommunityDialogShown() {
         val text = context.getString(R.string.login_no_communities_allowed)
         onView(withText(text)).check(isShownMatcher(true))
     }
@@ -184,17 +218,27 @@ class LoginActivityRobot(
         onView(withText(community.name)).check(matches(isDisplayed()))
     }
 
-    fun verifyCommunityChosen(community: Community){
+    fun verifyCommunityChosen(community: Community) {
         viewAssertion {
             assertThat(viewModel.chosenCommunity, `is`(community))
         }
     }
 
-    fun verifyAddCommunityButtonShown(isShown: Boolean){
+    fun verifyAddCommunityButtonShown(isShown: Boolean) {
         addCommunityButton().check(isShownMatcher(isShown))
     }
 
-    private fun isShownMatcher(isShown: Boolean): ViewAssertion{
+    fun verifyReloadCommunitiesTriggered() {
+        viewAssertion {
+            assertThat(viewModel.retryLoadedCommunity, `is`(true))
+        }
+    }
+
+    fun verifyLoadCommunitiesErrorSnackbarDismissed() {
+        verify { mockLoadCommunitiesErrorSnackbar.dismiss() }
+    }
+
+    private fun isShownMatcher(isShown: Boolean): ViewAssertion {
         return if (isShown) {
             matches(isDisplayed())
         } else {
@@ -203,7 +247,7 @@ class LoginActivityRobot(
 
     }
 
-    // View assertions must use the MainThread
+    // View assertions must use the Main Thread
     private fun viewAssertion(block: () -> Unit) {
         scenario.onActivity {
             block()
