@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
 import app.igormatos.botaprarodar.network.*
+import utils.Result
 import java.lang.Exception
 
 class AddCommunityInteractor(

@@ -59,6 +59,15 @@ class AddCommunityActivityRobot : BaseRobot() {
         clickSaveCommunity()
     }
 
+    fun fillCommunityDataWithWrongEmailFormat() {
+        fillNameField("Name")
+        fillDescriptionField("Descricao teste")
+        fillAddressField("Rua Teste, 123")
+        fillOrgNameField("Nome Org Teste")
+        fillOrgEmailField("orgtest.com")
+        clickSaveCommunity()
+    }
+
     infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
         executeFun()
     }

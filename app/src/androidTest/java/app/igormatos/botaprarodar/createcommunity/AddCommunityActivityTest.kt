@@ -61,6 +61,11 @@ class AddCommunityActivityTest {
         } verify {
             checkMessage(mContext.getString(R.string.empties_fields_error))
         }
+        addCommunity {
+            fillCommunityDataWithWrongEmailFormat()
+        } verify {
+            checkMessage(mContext.getString(R.string.emailFormatWarning))
+        }
 
     }
 
