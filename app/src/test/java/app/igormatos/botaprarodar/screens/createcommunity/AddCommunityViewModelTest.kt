@@ -1,68 +1,70 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
-import androidx.arch.core.executor.JunitTaskExecutorRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.runner.AndroidJUnitRunner
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.SingleRequestListener
-import com.brunotmgomes.ui.getOrAwaitValue
 import io.mockk.every
 import io.mockk.mockk
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
-import org.hamcrest.MatcherAssert.assertThat
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.runner.RunWith
-import java.util.*
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
+import java.lang.Exception
 
 class AddCommunityViewModelTest {
 
-    val firebaseHelperModuleMock = mockk<FirebaseHelperModule>()
-    lateinit var viewModel: AddCommunityViewModel
-
-    val name = "Teste"
-    val description = "Teste"
-    val address = "Teste"
-    val orgName = "Teste"
-    val orgEmail = "orgtest@orgtest.com"
-
-    @Rule
-    @JvmField
+    @get:Rule
     var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+
+    private val addCommunityInteractorMock = mockk<AddCommunityInteractor>()
+
+    private val observerMock = mockk<Observer<Boolean>>(relaxed = true)
+
+    private val exceptionMock = mockk<Exception>(relaxed = true)
+
+    lateinit var viewModelTest: AddCommunityViewModel
 
     @Before
     fun setUp() {
-        viewModel = AddCommunityViewModel(firebaseHelperModuleMock)
+        viewModelTest = AddCommunityViewModel(addCommunityInteractorMock)
     }
 
     @Test
-    fun `GIVEN community data, WHEN createCommunity called, THEN update live data for community data`() {
-        viewModel.createCommunity(name, description, address, orgName, orgEmail)
+    fun `GIVEN loading state, WHEN sendCommunity called, THEN update live data for loading`() {
+        viewModelTest.getLoadingLiveDataValue().observeForever(observerMock)
 
-        assertNotNull(viewModel.getCommunityDataValue().getOrAwaitValue())
+        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Success(true)
+
+        viewModelTest.sendCommunity(Community())
+
+        verify {
+            observerMock.onChanged(viewModelTest.getLoadingLiveDataValue().value)
+        }
     }
 
     @Test
-    fun `GIVEN loading state, WHEN sendCommunityToServer called, THEN update live data for loading`() {
-        // GIVEN
-        val expectedValue = true
+    fun `GIVEN success return, WHEN sendCommunity called, THEN update live data for success return`() {
+        viewModelTest.getSuccessLiveDataValue().observeForever(observerMock)
 
-        // WHEN
-        viewModel.createCommunity(name, description, address, orgName, orgEmail)
-        viewModel.sendCommunityToServer()
+        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Success(true)
 
-        // THEN
-        assertEquals(expectedValue, viewModel.getLoadingValue().getOrAwaitValue())
+        viewModelTest.sendCommunity(Community())
+
+        verify {
+            observerMock.onChanged(viewModelTest.getSuccessLiveDataValue().value)
+        }
+    }
+
+    @Test
+    fun `GIVEN error return, WHEN sendCommunity called, THEN update live data for error return`() {
+        viewModelTest.getErrorLiveDataValue().observeForever(observerMock)
+
+        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Error(exceptionMock)
+
+        viewModelTest.sendCommunity(Community())
+
+        verify {
+            observerMock.onChanged(viewModelTest.getErrorLiveDataValue().value)
+        }
     }
 }
