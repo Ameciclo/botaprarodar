@@ -1,9 +1,6 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
-import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.SingleRequestListener
+import app.igormatos.botaprarodar.network.*
 import java.lang.Exception
 
 class AddCommunityInteractor(
