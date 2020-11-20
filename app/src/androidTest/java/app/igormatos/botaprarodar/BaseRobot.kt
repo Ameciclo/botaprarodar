@@ -1,11 +1,18 @@
 package app.igormatos.botaprarodar
 
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.matcher.ViewMatchers.*
+import app.igormatos.botaprarodar.network.Community
+import app.igormatos.botaprarodar.screens.login.CommunityAdapter
+import app.igormatos.botaprarodar.screens.login.CommunityAdapter.CommunityViewHolder
 
 abstract class BaseRobot {
 
@@ -23,6 +30,15 @@ abstract class BaseRobot {
 
     fun fillFieldById(resId: Int, content: String) {
         onView(withId(resId)).perform(replaceText(content))
+    }
+
+    fun findStringInRecyclerView(resId: Int, content: String) {
+        onView(withId(resId))
+            .perform(
+                actionOnItem<ViewHolder>(hasDescendant(withText(content)),
+                    ViewActions.scrollTo()
+                )
+            )
     }
 
     fun checkMessage(message: String) {

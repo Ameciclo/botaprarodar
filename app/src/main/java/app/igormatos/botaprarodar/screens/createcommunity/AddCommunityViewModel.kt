@@ -3,58 +3,38 @@ package app.igormatos.botaprarodar.screens.createcommunity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.igormatos.botaprarodar.common.util.isValidEmail
 import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.SingleRequestListener
 
 class AddCommunityViewModel(
-    private var firebaseHelperModule: FirebaseHelperModule,
+    private val addCommunityInteractor: AddCommunityInteractor
 ) : ViewModel() {
 
-    private val loading = MutableLiveData<Boolean>()
-    fun getLoadingValue() : LiveData<Boolean> = loading
+    private val loadingLiveData = MutableLiveData<Boolean>()
+    fun getLoadingLiveDataValue() : LiveData<Boolean> = loadingLiveData
 
-    private val success = MutableLiveData<Boolean>()
-    fun getSuccessValue() : LiveData<Boolean> = success
+    private val successLiveData = MutableLiveData<Boolean>()
+    fun getSuccessLiveDataValue() : LiveData<Boolean> = successLiveData
 
-    private val communityData = MutableLiveData<Community>()
-    fun getCommunityDataValue() : LiveData<Community> = communityData
+    private val errorLiveData = MutableLiveData<Boolean>()
+    fun getErrorLiveDataValue() : LiveData<Boolean> = errorLiveData
 
-    private lateinit var community : Community
+    fun sendCommunity(community: Community) {
+        loadingLiveData.value = true
+        when (addCommunityInteractor.addCommunityToServer(community)) {
+            is Result.Success -> successStateHandler()
+            is Result.Error -> errorStateHandler()
+        }
 
-    fun createCommunity(
-        name: String,
-        description: String,
-        address: String,
-        orgName: String,
-        orgEmail: String
-    ) {
-        community = Community(name, description, address, orgName, orgEmail)
-        communityData.value = community
     }
 
-    fun sendCommunityToServer() {
-        loading.value = true
-        firebaseHelperModule.addCommunity(
-            community,
-            object : SingleRequestListener<Boolean> {
-                override fun onStart() {
-                }
+    private fun successStateHandler() {
+        loadingLiveData.value = false
+        successLiveData.value = true
+    }
 
-                override fun onCompleted(result: Boolean) {
-                    loading.value = false
-                    success.value = result
-                }
-
-                override fun onError(error: RequestError) {
-                    loading.value = false
-                    success.value = false
-                }
-
-            }
-        )
+    private fun errorStateHandler() {
+        loadingLiveData.value = false
+        errorLiveData.value = true
     }
 
 }

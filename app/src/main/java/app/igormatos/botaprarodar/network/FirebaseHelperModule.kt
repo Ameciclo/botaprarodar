@@ -24,17 +24,11 @@ class FirebaseHelperModule {
         this.communityId = communityId
     }
 
-    fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
+    fun addCommunity(community: Community) {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
-        listener.onStart()
-        communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
-            listener.onCompleted(true)
-        }.addOnFailureListener {
-            listener.onError(RequestError.DEFAULT)
-        }
-
+        communitiesPreview.child(communityKey).setValue(community) // verificar funcionamento retorno com try catch
     }
 
     fun getCommunities(
