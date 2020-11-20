@@ -28,7 +28,7 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
-        communitiesPreview.child(communityKey).setValue(community) // verificar funcionamento retorno com try catch
+        communitiesPreview.child(communityKey).setValue(community)
     }
 
     override fun getCommunities(

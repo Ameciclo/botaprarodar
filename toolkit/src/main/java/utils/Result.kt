@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.screens.createcommunity
+package utils
 
 sealed class Result<out T> {
     class Success<out T>(val data: T) : Result<T>()

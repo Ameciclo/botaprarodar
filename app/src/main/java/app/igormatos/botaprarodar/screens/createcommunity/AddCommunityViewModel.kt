@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.network.Community
+import utils.Result
 
 class AddCommunityViewModel(
     private val addCommunityInteractor: AddCommunityInteractor
