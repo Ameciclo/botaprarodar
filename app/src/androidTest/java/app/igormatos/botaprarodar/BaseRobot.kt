@@ -3,9 +3,9 @@ package app.igormatos.botaprarodar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
@@ -25,11 +25,11 @@ abstract class BaseRobot {
     }
 
     fun fillFieldByHint(hint: String, content: String) {
-        onView(withHint(hint)).perform(replaceText(content))
+        performTypeTextWithCloseSoftKeyboard(onView(withHint(hint)), content)
     }
 
     fun fillFieldById(resId: Int, content: String) {
-        onView(withId(resId)).perform(replaceText(content))
+        performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
     }
 
     fun findStringInRecyclerView(resId: Int, content: String) {
@@ -55,6 +55,10 @@ abstract class BaseRobot {
 
     fun pressBack(){
         onView(isRoot()).perform(ViewActions.pressBack())
+    }
+
+    fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+        view.perform(replaceText(content), closeSoftKeyboard())
     }
 
 }

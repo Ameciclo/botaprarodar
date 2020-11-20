@@ -59,7 +59,7 @@ class LoginActivityTest {
         robot.clickLogin(isSuccess = false)
 
         robot.verifyLoggedIn(false)
-        robot.verifyErrorSnackbarShown()
+        robot.verifyLoginErrorSnackbarShown()
         robot.finish()
     }
 
@@ -74,6 +74,21 @@ class LoginActivityTest {
 
         robot.verifyLoadingDialogShown(false)
         robot.finish()
+    }
+
+    @Test
+    fun communitiesLoadFail_showErrorSnackbar_clickRetry_retriesLoadingAndHidesSnackbar() {
+        LoginActivityRobot().apply {
+            triggerCommunitiesLoadError()
+
+            verifyLoadCommunitiesErrorSnackbarShown()
+
+            clickRetryLoadCommunities()
+
+            verifyReloadCommunitiesTriggered()
+            verifyLoadCommunitiesErrorSnackbarDismissed()
+            finish()
+        }
     }
 
     @Test

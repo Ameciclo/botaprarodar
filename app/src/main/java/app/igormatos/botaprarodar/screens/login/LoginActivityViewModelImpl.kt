@@ -2,11 +2,11 @@ package app.igormatos.botaprarodar.screens.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import app.igormatos.botaprarodar.data.model.RequestException
 import app.igormatos.botaprarodar.data.model.UserCommunityInfo
 import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.*
 import com.brunotmgomes.ui.ViewEvent
-import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivityViewModelImpl(
     private val preferencesModule: SharedPreferencesModule,
@@ -18,8 +18,8 @@ class LoginActivityViewModelImpl(
     override val navigateMain: LiveData<ViewEvent<Boolean>>
         get() = _navigateMain
 
-    private val _loadedCommunities = MutableLiveData<ViewEvent<UserCommunityInfo>>()
-    override val loadedCommunities: LiveData<ViewEvent<UserCommunityInfo>>
+    private val _loadedCommunities = MutableLiveData<ViewEvent<Result<UserCommunityInfo>>>()
+    override val loadedCommunities: LiveData<ViewEvent<Result<UserCommunityInfo>>>
         get() = _loadedCommunities
 
     private val _loading: MutableLiveData<Boolean> = MutableLiveData()
@@ -32,13 +32,22 @@ class LoginActivityViewModelImpl(
 
     override fun checkPreviousState() {
         if (isLogged() && isCommunitySelected()) {
-            goToMainActivity()
+            val community = preferencesModule.getJoinedCommunity()
+            goToMainActivity(community)
         } else if (isLogged()) {
-            loadChooseCommunity()
+            onUserLoggedIn()
         }
     }
 
     override fun onUserLoggedIn() {
+        if (isEmailVerified()) {
+            loadChooseCommunity()
+        } else {
+            _showResendEmailSnackBar.postValue(ViewEvent(true))
+        }
+    }
+
+    override fun retryLoadCommunities() {
         loadChooseCommunity()
     }
 
@@ -59,9 +68,11 @@ class LoginActivityViewModelImpl(
                     val communities = result.second
                     _loadedCommunities.postValue(
                         ViewEvent(
-                            UserCommunityInfo(
-                                isAdmin = isAdmin,
-                                communities = communities
+                            Result.success(
+                                UserCommunityInfo(
+                                    isAdmin = isAdmin,
+                                    communities = communities
+                                )
                             )
                         )
                     )
@@ -71,15 +82,12 @@ class LoginActivityViewModelImpl(
                     _loading.postValue(false)
                     _loadedCommunities.postValue(
                         ViewEvent(
-                            UserCommunityInfo(
-                                isAdmin = false,
-                                communities = emptyList()
+                            Result.failure(
+                                RequestException(error)
                             )
                         )
                     )
-                    FirebaseAuth.getInstance().signOut()
                 }
-
             }
         )
 
@@ -87,8 +95,7 @@ class LoginActivityViewModelImpl(
 
     override fun chooseCommunity(community: Community) {
         preferencesModule.saveJoinedCommmunity(community)
-        firebaseHelperModule.setCommunityId(community.id!!)
-        goToMainActivity()
+        goToMainActivity(community)
     }
 
     //todo: handle exceptions
@@ -99,8 +106,8 @@ class LoginActivityViewModelImpl(
         }
     }
 
-    private fun goToMainActivity() {
-        firebaseHelperModule.setCommunityId(preferencesModule.getJoinedCommunity().id!!)
+    private fun goToMainActivity(community: Community) {
+        firebaseHelperModule.setCommunityId(community.id!!)
         _navigateMain.postValue(ViewEvent(true))
     }
 
@@ -110,6 +117,11 @@ class LoginActivityViewModelImpl(
 
     private fun isLogged(): Boolean {
         return firebaseAuthModule.getCurrentUser() != null
+    }
+
+    private fun isEmailVerified(): Boolean {
+        val user = firebaseAuthModule.getCurrentUser()
+        return user?.isEmailVerified ?: false
     }
 
 }
