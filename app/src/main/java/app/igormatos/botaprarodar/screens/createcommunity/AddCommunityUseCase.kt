@@ -1,19 +1,19 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
 import app.igormatos.botaprarodar.network.*
-import utils.Result
+import utils.SimpleResult
 import java.lang.Exception
 
-class AddCommunityInteractor(
+class AddCommunityUseCase(
     private val firebaseHelperModule: FirebaseHelperModule
 ) {
 
-    fun addCommunityToServer(community: Community) : Result<Boolean> {
+    fun addCommunityToServer(community: Community) : SimpleResult<Boolean> {
         return try {
             firebaseHelperModule.addCommunity(community)
-            Result.Success(true)
+            SimpleResult.Success(true)
         } catch (exception: Exception) {
-            Result.Error(exception)
+            SimpleResult.Error(exception)
         }
     }
 }
