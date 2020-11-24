@@ -9,63 +9,74 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import utils.Result
+import utils.SimpleResult
 import java.lang.Exception
 
 class AddCommunityViewModelTest {
 
     @get:Rule
-    var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val addCommunityInteractorMock = mockk<AddCommunityInteractor>()
+    private val addCommunityUseCaseMock = mockk<AddCommunityUseCase>()
 
-    private val observerMock = mockk<Observer<Boolean>>(relaxed = true)
+    private val observerLoadingLiveDataMock = mockk<Observer<Boolean>>(relaxed = true)
 
-    private val exceptionMock = mockk<Exception>(relaxed = true)
+    private val observerSuccessLiveDataMock = mockk<Observer<Boolean>>(relaxed = true)
 
-    lateinit var viewModelTest: AddCommunityViewModel
+    private val observerErrorLiveDataMock = mockk<Observer<Exception>>(relaxed = true)
+
+    private val resultError = SimpleResult.Error(Exception())
+
+    lateinit var viewModel: AddCommunityViewModel
 
     @Before
     fun setUp() {
-        viewModelTest = AddCommunityViewModel(addCommunityInteractorMock)
+        viewModel = AddCommunityViewModel(addCommunityUseCaseMock)
     }
 
+
     @Test
-    fun `GIVEN loading state, WHEN sendCommunity called, THEN update live data for loading`() {
-        viewModelTest.getLoadingLiveDataValue().observeForever(observerMock)
+    fun `WHEN click to send a new community, THEN update loading live data to true`() { // rever nome sem o método
+        viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Success(true)
+        every { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+            true
+        )
 
-        viewModelTest.sendCommunity(Community())
+        viewModel.sendCommunity(Community())
 
         verify {
-            observerMock.onChanged(viewModelTest.getLoadingLiveDataValue().value)
+            observerLoadingLiveDataMock.onChanged(true)
         }
     }
 
     @Test
-    fun `GIVEN success return, WHEN sendCommunity called, THEN update live data for success return`() {
-        viewModelTest.getSuccessLiveDataValue().observeForever(observerMock)
+    fun `WHEN firebase return is a success, THEN update success live data to true`() {
+        viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Success(true)
+        every { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+            true
+        )
 
-        viewModelTest.sendCommunity(Community())
+        viewModel.sendCommunity(Community())
 
         verify {
-            observerMock.onChanged(viewModelTest.getSuccessLiveDataValue().value)
+            observerSuccessLiveDataMock.onChanged(true)
         }
     }
 
     @Test
-    fun `GIVEN error return, WHEN sendCommunity called, THEN update live data for error return`() {
-        viewModelTest.getErrorLiveDataValue().observeForever(observerMock)
+    fun `WHEN firebase return is an exception, THEN update error live data exception`() {
+        viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
-        every { addCommunityInteractorMock.addCommunityToServer(any()) } returns Result.Error(exceptionMock)
+        val community = Community()
 
-        viewModelTest.sendCommunity(Community())
+        every { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+
+        viewModel.sendCommunity(community)
 
         verify {
-            observerMock.onChanged(viewModelTest.getErrorLiveDataValue().value)
+            observerErrorLiveDataMock.onChanged(resultError.exception)
         }
     }
 }

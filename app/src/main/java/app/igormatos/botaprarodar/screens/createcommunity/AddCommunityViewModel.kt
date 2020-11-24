@@ -3,11 +3,13 @@ package app.igormatos.botaprarodar.screens.createcommunity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.network.Community
-import utils.Result
+import kotlinx.coroutines.launch
+import utils.SimpleResult
 
 class AddCommunityViewModel(
-    private val addCommunityInteractor: AddCommunityInteractor
+    private val addCommunityUseCase: AddCommunityUseCase
 ) : ViewModel() {
 
     private val loadingLiveData = MutableLiveData<Boolean>()
@@ -16,16 +18,15 @@ class AddCommunityViewModel(
     private val successLiveData = MutableLiveData<Boolean>()
     fun getSuccessLiveDataValue() : LiveData<Boolean> = successLiveData
 
-    private val errorLiveData = MutableLiveData<Boolean>()
-    fun getErrorLiveDataValue() : LiveData<Boolean> = errorLiveData
+    private val errorLiveData = MutableLiveData<Exception>()
+    fun getErrorLiveDataValue() : LiveData<Exception> = errorLiveData
 
     fun sendCommunity(community: Community) {
         loadingLiveData.value = true
-        when (addCommunityInteractor.addCommunityToServer(community)) {
-            is Result.Success -> successStateHandler()
-            is Result.Error -> errorStateHandler()
+        when (val result = addCommunityUseCase.addCommunityToServer(community)) {
+            is SimpleResult.Success -> successStateHandler()
+            is SimpleResult.Error -> errorStateHandler(result.exception)
         }
-
     }
 
     private fun successStateHandler() {
@@ -33,9 +34,9 @@ class AddCommunityViewModel(
         successLiveData.value = true
     }
 
-    private fun errorStateHandler() {
+    private fun errorStateHandler(exception: Exception) {
         loadingLiveData.value = false
-        errorLiveData.value = true
+        errorLiveData.value = exception
     }
 
 }

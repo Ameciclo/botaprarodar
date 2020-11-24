@@ -81,10 +81,10 @@ class AddCommunityActivity : AppCompatActivity() {
             if (it) loadingDialog.show() else loadingDialog.dismiss()
         })
         viewModel.getSuccessLiveDataValue().observe(this, Observer {
-            if (it) finish()
+            if (it) finish() else snackBarMaker(getString(R.string.add_community_error))
         })
         viewModel.getErrorLiveDataValue().observe(this, Observer {
-            if (it) snackBarMaker(getString(R.string.add_community_error))
+            snackBarMaker(getString(R.string.add_community_error)) // Mudar tratamento
         })
 
     }
