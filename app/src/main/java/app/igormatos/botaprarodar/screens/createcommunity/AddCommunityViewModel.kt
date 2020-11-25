@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import utils.SimpleResult
 
 class AddCommunityViewModel(
-    private val addCommunityUseCase: AddCommunityUseCase
+    private val communityUseCase: AddCommunityUseCase
 ) : ViewModel() {
 
     private val loadingLiveData = MutableLiveData<Boolean>()
@@ -23,9 +23,11 @@ class AddCommunityViewModel(
 
     fun sendCommunity(community: Community) {
         loadingLiveData.value = true
-        when (val result = addCommunityUseCase.addCommunityToServer(community)) {
-            is SimpleResult.Success -> successStateHandler()
-            is SimpleResult.Error -> errorStateHandler(result.exception)
+        viewModelScope.launch {
+            when (val result = communityUseCase.addCommunityToServer(community)) {
+                is SimpleResult.Success -> successStateHandler()
+                is SimpleResult.Error -> errorStateHandler(result.exception)
+            }
         }
     }
 
