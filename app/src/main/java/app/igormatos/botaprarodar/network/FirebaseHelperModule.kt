@@ -16,7 +16,7 @@ interface FirebaseHelperModule {
 
     fun setCommunityId(communityId: String)
 
-    fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>)
+    fun addCommunity(community: Community)
 
     fun getCommunities(
         uid: String,

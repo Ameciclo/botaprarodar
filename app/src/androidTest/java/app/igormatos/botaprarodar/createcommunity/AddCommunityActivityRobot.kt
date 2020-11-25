@@ -3,9 +3,9 @@ package app.igormatos.botaprarodar.createcommunity
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-fun addCommunity(executeFun: AddCommunityRobot.() -> Unit) = AddCommunityRobot().apply{ executeFun() }
+fun addCommunity(executeFun: AddCommunityActivityRobot.() -> Unit) = AddCommunityActivityRobot().apply{ executeFun() }
 
-class AddCommunityRobot : BaseRobot() {
+class AddCommunityActivityRobot : BaseRobot() {
 
     fun clickAddCommunity() {
         clickButtonByText("ADICIONAR COMUNIDADE")
@@ -35,13 +35,17 @@ class AddCommunityRobot : BaseRobot() {
         fillFieldById(R.id.communityOrgEmailInput, orgEmail)
     }
 
+    fun findItemOnRecyclerView(name: String) {
+        findStringInRecyclerView(R.id.rvCommunityList, name)
+    }
+
     fun clickSaveCommunity() {
         clickButton(R.id.addCommunityButton)
     }
 
-    fun saveNewCommunity() {
+    fun saveNewCommunity(name: String) {
         clickAddCommunity()
-        fillNameField("Nome Teste")
+        fillNameField(name)
         fillDescriptionField("Descricao teste")
         fillAddressField("Rua Teste, 123")
         fillOrgNameField("Nome Org Teste")
@@ -55,7 +59,16 @@ class AddCommunityRobot : BaseRobot() {
         clickSaveCommunity()
     }
 
-    infix fun verify(executeFun: AddCommunityRobot.() -> Unit) {
+    fun fillCommunityDataWithWrongEmailFormat() {
+        fillNameField("Name")
+        fillDescriptionField("Descricao teste")
+        fillAddressField("Rua Teste, 123")
+        fillOrgNameField("Nome Org Teste")
+        fillOrgEmailField("orgtest.com")
+        clickSaveCommunity()
+    }
+
+    infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
         executeFun()
     }
 
