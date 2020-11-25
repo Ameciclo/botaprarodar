@@ -24,17 +24,11 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
         this.communityId = communityId
     }
 
-    override fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
+    override fun addCommunity(community: Community) {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
-        listener.onStart()
-        communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
-            listener.onCompleted(true)
-        }.addOnFailureListener {
-            listener.onError(RequestError.DEFAULT)
-        }
-
+        communitiesPreview.child(communityKey).setValue(community)
     }
 
     override fun getCommunities(

@@ -96,7 +96,9 @@ class LoginActivityTest {
         val robot = LoginActivityRobot()
         val communityOne = Community("carangueijo tabaiares")
         val communityTwo = Community("second community")
-        val communities = UserCommunityInfo(isAdmin = true, listOf(communityOne, communityTwo))
+        val communities = UserCommunityInfo(isAdmin = true,
+            communities = listOf(communityOne, communityTwo)
+        )
         robot.triggerCommunitiesLoaded(communities)
 
         robot.verifyCommunityShown(communityOne)
@@ -109,7 +111,7 @@ class LoginActivityTest {
     @Test
     fun communitiesLoadedNoAccess_showsNoCommunitiesDialog(){
         val robot = LoginActivityRobot()
-        val communities = UserCommunityInfo(isAdmin = false, emptyList())
+        val communities = UserCommunityInfo(isAdmin = false, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 
         robot.verifyNoCommunityDialogShown()
@@ -119,7 +121,7 @@ class LoginActivityTest {
     @Test
     fun communitiesLoadedNotAdmin_hidesAddCommunity(){
         val robot = LoginActivityRobot()
-        val communities = UserCommunityInfo(isAdmin = false, emptyList())
+        val communities = UserCommunityInfo(isAdmin = false, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 
         robot.verifyAddCommunityButtonShown(false)
@@ -129,7 +131,7 @@ class LoginActivityTest {
     @Test
     fun communitiesLoadedAdmin_clickAddCommunity_navigatesToAddCommunity(){
         val robot = LoginActivityRobot()
-        val communities = UserCommunityInfo(isAdmin = true, emptyList())
+        val communities = UserCommunityInfo(isAdmin = true, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 
         robot.clickAddCommunity()
