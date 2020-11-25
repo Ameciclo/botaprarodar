@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.screens.createcommunity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.network.Community
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -36,10 +37,10 @@ class AddCommunityViewModelTest {
 
 
     @Test
-    fun `WHEN click to send a new community, THEN update loading live data to true`() { // rever nome sem o método
+    fun `WHEN click to send a new community, THEN update loading live data to true`() {
         viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-        every { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
             true
         )
 
@@ -54,7 +55,7 @@ class AddCommunityViewModelTest {
     fun `WHEN firebase return is a success, THEN update success live data to true`() {
         viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-        every { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
             true
         )
 
@@ -71,7 +72,7 @@ class AddCommunityViewModelTest {
 
         val community = Community()
 
-        every { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+        coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
 
         viewModel.sendCommunity(community)
 

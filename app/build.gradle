@@ -147,6 +147,9 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.1"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.6.1"
 
+    // Task await
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

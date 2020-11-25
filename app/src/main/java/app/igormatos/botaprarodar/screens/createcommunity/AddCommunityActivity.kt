@@ -84,7 +84,7 @@ class AddCommunityActivity : AppCompatActivity() {
             if (it) finish() else snackBarMaker(getString(R.string.add_community_error))
         })
         viewModel.getErrorLiveDataValue().observe(this, Observer {
-            snackBarMaker(getString(R.string.add_community_error)) // Mudar tratamento
+            snackBarMaker(getString(R.string.add_community_error))
         })
 
     }
