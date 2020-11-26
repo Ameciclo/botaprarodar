@@ -8,6 +8,9 @@ import app.igormatos.botaprarodar.data.model.User
 import app.igormatos.botaprarodar.data.model.Withdraw
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
+import kotlinx.coroutines.tasks.await
+import utils.SimpleResult
 import java.io.File
 
 class FirebaseHelperModuleImpl :FirebaseHelperModule{
@@ -24,17 +27,16 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
         this.communityId = communityId
     }
 
-    override fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
+    override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
-        listener.onStart()
-        communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
-            listener.onCompleted(true)
-        }.addOnFailureListener {
-            listener.onError(RequestError.DEFAULT)
+        return try {
+            communitiesPreview.child(communityKey).setValue(community).await()
+            SimpleResult.Success(true)
+        } catch (storageException: StorageException) {
+            SimpleResult.Error(storageException)
         }
-
     }
 
     override fun getCommunities(
@@ -45,7 +47,7 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
 
         listener.onStart()
         val childReference = adminsReference.child(uid)
-        childReference.addListenerForSingleValueEvent(object : ValueEventListener {
+        childReference.addListenerForSingleValueEvent(object : ValueEventListener { // verificar como fica com await()
             override fun onDataChange(snapshot: DataSnapshot) {
                 val isAdmin = snapshot.value != null
 

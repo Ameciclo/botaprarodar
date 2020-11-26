@@ -5,6 +5,7 @@ import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.Withdraw
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import utils.SimpleResult
 
 interface FirebaseHelperModule {
 
@@ -16,7 +17,7 @@ interface FirebaseHelperModule {
 
     fun setCommunityId(communityId: String)
 
-    fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>)
+    suspend fun addCommunity(community: Community) : SimpleResult<Boolean>
 
     fun getCommunities(
         uid: String,

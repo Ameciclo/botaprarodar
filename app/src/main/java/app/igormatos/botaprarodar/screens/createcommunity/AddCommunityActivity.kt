@@ -1,109 +1,119 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.network.FirebaseHelper
-import app.igormatos.botaprarodar.network.RequestError
-import app.igormatos.botaprarodar.network.SingleRequestListener
-import app.igormatos.botaprarodar.common.util.showLoadingDialog
+import app.igormatos.botaprarodar.common.util.isValidEmail
+import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
+import app.igormatos.botaprarodar.network.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_community.*
-import org.jetbrains.anko.childrenSequence
-import org.jetbrains.anko.contentView
+import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class AddCommunityActivity : AppCompatActivity() {
 
+    private lateinit var loadingDialog: AlertDialog
+    private lateinit var viewBinding: ActivityAddCommunityBinding
+    private val viewModel: AddCommunityViewModel by koinViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_community)
+        viewBinding = ActivityAddCommunityBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
-        addCommunityButton.setOnClickListener {
-            if (!isInputsFilled()) {
-                showRequiredFieldWarningDialog()
-            } else {
-                val community = getCommunityFromInputs()
-                showConfirmationDialog(community)
+        viewBinding.addCommunityButton.setOnClickListener {
+            addCommunityEvent()
+        }
+
+        initLoadingDialogComponent()
+        observeViewModel()
+    }
+
+    private fun addCommunityEvent() {
+        if (inputsFilled()) saveNewCommunity() else snackBarMaker(getString(R.string.empties_fields_error))
+    }
+
+    private fun saveNewCommunity() {
+        if (validateEmailFormat()) showConfirmationDialog(createNewCommunity()) else snackBarMaker(getString(R.string.emailFormatWarning))
+    }
+
+    private fun validateEmailFormat() : Boolean {
+        return viewBinding.communityOrgEmailInput.text.isValidEmail()
+    }
+
+    private fun createNewCommunity() : Community {
+        viewBinding.let { view ->
+            return Community(
+                view.communityNameInput.text.toString(),
+                view.communityDescriptionInput.text.toString(),
+                view.communityAddressInput.text.toString(),
+                view.communityOrgNameInput.text.toString(),
+                view.communityOrgEmailInput.text.toString()
+            )
+        }
+    }
+
+    private fun inputsFilled(): Boolean {
+        viewBinding.let { view ->
+            return when {
+                view.communityNameInput.text.isNullOrEmpty() -> false
+                view.communityDescriptionInput.text.isNullOrEmpty() -> false
+                view.communityAddressInput.text.isNullOrEmpty() -> false
+                view.communityOrgNameInput.text.isNullOrEmpty() -> false
+                view.communityOrgEmailInput.text.isNullOrEmpty() -> false
+                else -> true
             }
         }
+    }
+
+    private fun initLoadingDialogComponent() {
+        loadingDialog = MaterialAlertDialogBuilder(this)
+            .setView(R.layout.loading_dialog_animation)
+            .setCancelable(false)
+            .create()
+    }
+
+    private fun observeViewModel() {
+        viewModel.getLoadingLiveDataValue().observe(this, Observer {
+            if (it) loadingDialog.show() else loadingDialog.dismiss()
+        })
+        viewModel.getSuccessLiveDataValue().observe(this, Observer {
+            if (it) finish() else snackBarMaker(getString(R.string.add_community_error))
+        })
+        viewModel.getErrorLiveDataValue().observe(this, Observer {
+            snackBarMaker(getString(R.string.add_community_error))
+        })
+
     }
 
     private fun showConfirmationDialog(community: Community) {
         MaterialAlertDialogBuilder(this)
             .setTitle(getString(R.string.community_confirm_title))
-            .setMessage(
-                "${community.name} \n" +
-                        "${community.description} \n" +
-                        "${community.address} \n" +
-                        "${community.org_name} \n" +
-                        "${community.org_email}"
-            )
+            .setMessage("${community.name} \n" +
+                    "${community.description} \n" +
+                    "${community.address} \n" +
+                    "${community.org_name} \n" +
+                    "${community.org_email}")
             .setPositiveButton(getString(R.string.community_add_confirm)) { _, _ ->
-                sendCommunityToServer(community)
-            }
-            .show()
+                viewModel.sendCommunity(community)
+            }.show()
     }
 
-    private fun showRequiredFieldWarningDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Atenção!")
-            .setMessage(R.string.empties_fields_error)
-            .show()
+    private fun snackBarMaker(message: String) {
+        Snackbar.make(
+            addCommunityContainer,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
-    private fun isInputsFilled(): Boolean {
-        return when {
-            communityNameInput.text.isNullOrEmpty() -> false
-            communityDescriptionInput.text.isNullOrEmpty() -> false
-            communityAddressInput.text.isNullOrEmpty() -> false
-            communityOrgNameInput.text.isNullOrEmpty() -> false
-            communityOrgEmailInput.text.isNullOrEmpty() -> false
-            else -> true
+    override fun onDestroy() {
+        super.onDestroy()
+        if (loadingDialog.isShowing) {
+            loadingDialog.dismiss()
         }
-    }
-
-    private fun sendCommunityToServer(community: Community) {
-        val loadingDialog = showLoadingDialog()
-
-        FirebaseHelper.addCommunity(community, object : SingleRequestListener<Boolean> {
-            override fun onStart() {
-            }
-
-            override fun onCompleted(result: Boolean) {
-                loadingDialog.dismiss()
-
-                Snackbar.make(
-                    addCommunityContainer,
-                    getString(R.string.community_add_success_message),
-                    Snackbar.LENGTH_SHORT
-                ).show()
-
-                finish()
-            }
-
-            override fun onError(error: RequestError) {
-                loadingDialog.dismiss()
-                Snackbar.make(
-                    addCommunityContainer,
-                    getString(R.string.add_community_error),
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-
-        })
-    }
-
-    private fun getCommunityFromInputs(): Community {
-        val name = communityNameInput.text.toString()
-        val description = communityDescriptionInput.text.toString()
-        val address = communityAddressInput.text.toString()
-        val orgName = communityOrgNameInput.text.toString()
-        val orgEmail = communityOrgEmailInput.text.toString()
-
-        return Community(name, description, address, orgName, orgEmail)
     }
 }
