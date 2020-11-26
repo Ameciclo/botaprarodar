@@ -1,22 +1,23 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.network.Community
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import utils.SimpleResult
-import java.lang.Exception
 
-class AddCommunityViewModelTest {
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+@ExtendWith(InstantExecutorExtension::class)
+@DisplayName("Given AddCommunityViewModel")
+internal class AddCommunityViewModelTest {
 
     private val addCommunityUseCaseMock = mockk<AddCommunityUseCase>()
 
@@ -30,54 +31,66 @@ class AddCommunityViewModelTest {
 
     lateinit var viewModel: AddCommunityViewModel
 
-    @Before
+    @BeforeEach
     fun setUp() {
+        Dispatchers.setMain(Dispatchers.Unconfined)
         viewModel = AddCommunityViewModel(addCommunityUseCaseMock)
     }
 
+    @Nested
+    @DisplayName("When addCommunityUseCase return Result.Success should observer onChanged")
+    inner class FlowSuccess {
 
-    @Test
-    fun `WHEN click to send a new community, THEN update loading live data to true`() {
-        viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
+        @Test
+        fun `WHEN click to send a new community, THEN update loading live data to true`() = runBlocking {
+            viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
-            true
-        )
+            coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+                true
+            )
 
-        viewModel.sendCommunity(Community())
+            viewModel.sendCommunity(Community())
 
-        verify {
-            observerLoadingLiveDataMock.onChanged(true)
+            verify {
+                observerLoadingLiveDataMock.onChanged(true)
+            }
+        }
+
+
+        @Test
+        fun `WHEN firebase return is a success, THEN update success live data to true`() = runBlocking  {
+            viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
+
+            coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+                true
+            )
+
+            viewModel.sendCommunity(Community())
+
+            verify {
+                observerSuccessLiveDataMock.onChanged(true)
+            }
         }
     }
 
-    @Test
-    fun `WHEN firebase return is a success, THEN update success live data to true`() {
-        viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
+    @Nested
+    @DisplayName("When addCommunityUseCase return Result.Error should result with exception")
+    inner class FlowError {
 
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
-            true
-        )
+        @Test
+        fun `WHEN firebase return is an exception, THEN update error live data exception`() = runBlocking {
+            viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
-        viewModel.sendCommunity(Community())
+            val community = Community()
 
-        verify {
-            observerSuccessLiveDataMock.onChanged(true)
+            coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+
+            viewModel.sendCommunity(community)
+
+            verify {
+                observerErrorLiveDataMock.onChanged(resultError.exception)
+            }
         }
-    }
 
-    @Test
-    fun `WHEN firebase return is an exception, THEN update error live data exception`() {
-        viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
-
-        val community = Community()
-
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
-
-        viewModel.sendCommunity(community)
-
-        verify {
-            observerErrorLiveDataMock.onChanged(resultError.exception)
-        }
     }
 }

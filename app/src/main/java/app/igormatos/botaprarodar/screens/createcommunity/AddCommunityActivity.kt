@@ -11,6 +11,8 @@ import app.igormatos.botaprarodar.network.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_community.*
+import utils.showDialogMessage
+import utils.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class AddCommunityActivity : AppCompatActivity() {
@@ -33,11 +35,11 @@ class AddCommunityActivity : AppCompatActivity() {
     }
 
     private fun addCommunityEvent() {
-        if (inputsFilled()) saveNewCommunity() else snackBarMaker(getString(R.string.empties_fields_error))
+        if (inputsFilled()) saveNewCommunity() else snackBarMaker(getString(R.string.empties_fields_error), addCommunityContainer)
     }
 
     private fun saveNewCommunity() {
-        if (validateEmailFormat()) showConfirmationDialog(createNewCommunity()) else snackBarMaker(getString(R.string.emailFormatWarning))
+        if (validateEmailFormat()) showConfirmationDialog(createNewCommunity()) else snackBarMaker(getString(R.string.emailFormatWarning), addCommunityContainer)
     }
 
     private fun validateEmailFormat() : Boolean {
@@ -81,34 +83,26 @@ class AddCommunityActivity : AppCompatActivity() {
             if (it) loadingDialog.show() else loadingDialog.dismiss()
         })
         viewModel.getSuccessLiveDataValue().observe(this, Observer {
-            if (it) finish() else snackBarMaker(getString(R.string.add_community_error))
+            if (it) finish() else snackBarMaker(getString(R.string.add_community_error), addCommunityContainer)
         })
         viewModel.getErrorLiveDataValue().observe(this, Observer {
-            snackBarMaker(getString(R.string.add_community_error))
+            snackBarMaker(getString(R.string.add_community_error), addCommunityContainer)
         })
 
     }
 
     private fun showConfirmationDialog(community: Community) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.community_confirm_title))
-            .setMessage("${community.name} \n" +
-                    "${community.description} \n" +
-                    "${community.address} \n" +
-                    "${community.org_name} \n" +
-                    "${community.org_email}")
-            .setPositiveButton(getString(R.string.community_add_confirm)) { _, _ ->
-                viewModel.sendCommunity(community)
-            }.show()
+        showDialogMessage(
+            context = this,
+            title = getString(R.string.community_confirm_title),
+            message = getCommunityMessage(community),
+            isConfirmation = true,
+            positiveButtonText = getString(R.string.community_add_confirm),
+            positiveMethod = { viewModel.sendCommunity(community) }
+        )
     }
 
-    private fun snackBarMaker(message: String) {
-        Snackbar.make(
-            addCommunityContainer,
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
+    private fun getCommunityMessage(community: Community) = "${community.name} \n${community.description} \n${community.address} \n${community.org_name} \n${community.org_email}"
 
     override fun onDestroy() {
         super.onDestroy()
