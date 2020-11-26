@@ -36,7 +36,7 @@ abstract class BaseRobot {
         onView(withId(resId))
             .perform(
                 actionOnItem<ViewHolder>(hasDescendant(withText(content)),
-                    ViewActions.scrollTo()
+                    scrollTo()
                 )
             )
     }
