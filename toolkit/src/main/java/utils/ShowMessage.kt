@@ -13,14 +13,14 @@ fun snackBarMaker(message: String, container: View) {
     ).show()
 }
 
-fun showDialogMessage(context: Context,
-                      title: String = "",
-                      message: String,
-                      isConfirmation: Boolean = false,
-                      positiveButtonText: String = "",
-                      positiveMethod: () -> Unit
+fun Context.showDialogMessage(
+    title: String = "",
+    message: String,
+    isConfirmation: Boolean = false,
+    positiveButtonText: String = "",
+    positiveMethod: () -> Unit
 ) {
-    MaterialAlertDialogBuilder(context).apply {
+    MaterialAlertDialogBuilder(this).apply {
         setTitle(title)
         setMessage(message)
         if (isConfirmation) {
