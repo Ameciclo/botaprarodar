@@ -43,9 +43,4 @@ class AccessHomeTest {
             checkIfIsHome()
         }
     }
-
-//    @Test
-//    fun access_home_as_user() {
-//
-//    }
 }
