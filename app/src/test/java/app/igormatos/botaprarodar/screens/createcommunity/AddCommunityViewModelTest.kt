@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.network.Community
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Before
@@ -40,7 +39,9 @@ class AddCommunityViewModelTest {
     fun `WHEN click to send a new community, THEN update loading live data to true`() {
         viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+        val community = Community()
+
+        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns SimpleResult.Success(
             true
         )
 
@@ -55,7 +56,9 @@ class AddCommunityViewModelTest {
     fun `WHEN firebase return is a success, THEN update success live data to true`() {
         viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+        val community = Community()
+
+        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns SimpleResult.Success(
             true
         )
 
@@ -72,7 +75,7 @@ class AddCommunityViewModelTest {
 
         val community = Community()
 
-        coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns resultError
 
         viewModel.sendCommunity(community)
 
