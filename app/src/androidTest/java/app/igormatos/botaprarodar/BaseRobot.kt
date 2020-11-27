@@ -39,7 +39,7 @@ abstract class BaseRobot {
             )
     }
 
-    fun selectAnyItemInRecyclerView(recyclerId: Int) =
+    fun selectAnyItemInRecyclerView(recyclerId: Int): ViewInteraction =
         onView(withId(recyclerId))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click())
