@@ -34,7 +34,7 @@ val bprModule = module {
     single { AddCommunityUseCase(firebaseHelperModule = get()) }
     viewModel{
         AddCommunityViewModel(
-            addCommunityUseCase = get()
+            communityUseCase = get()
         )
     }
 }
