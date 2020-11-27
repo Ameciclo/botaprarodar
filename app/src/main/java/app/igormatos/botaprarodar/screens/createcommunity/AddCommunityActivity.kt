@@ -93,7 +93,6 @@ class AddCommunityActivity : AppCompatActivity() {
 
     private fun showConfirmationDialog(community: Community) {
         showDialogMessage(
-            context = this,
             title = getString(R.string.community_confirm_title),
             message = getCommunityMessage(community),
             isConfirmation = true,
