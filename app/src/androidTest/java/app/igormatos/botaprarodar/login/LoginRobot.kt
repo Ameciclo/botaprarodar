@@ -8,6 +8,10 @@ fun login(executeFun: LoginRobot.() -> Unit) = LoginRobot().apply{ executeFun() 
 
 class LoginRobot : BaseRobot() {
 
+    infix fun verify(executeFun: LoginRobot.() -> Unit) {
+        executeFun()
+    }
+
     fun clickLogin() {
         clickButton(R.id.login_button)
     }
@@ -38,10 +42,6 @@ class LoginRobot : BaseRobot() {
         clickNext()
         fillPasswordField(password)
         clickSignIn()
-    }
-
-    infix fun verify(executeFun: LoginRobot.() -> Unit) {
-        executeFun()
     }
 
     fun checkMessageIncorrectPassword() {

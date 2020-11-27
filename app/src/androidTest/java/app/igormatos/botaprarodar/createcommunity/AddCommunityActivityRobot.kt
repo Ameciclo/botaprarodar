@@ -7,6 +7,10 @@ fun addCommunity(executeFun: AddCommunityActivityRobot.() -> Unit) = AddCommunit
 
 class AddCommunityActivityRobot : BaseRobot() {
 
+    infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
+        executeFun()
+    }
+
     fun clickAddCommunity() {
         clickButtonByText("ADICIONAR COMUNIDADE")
     }
@@ -36,7 +40,7 @@ class AddCommunityActivityRobot : BaseRobot() {
     }
 
     fun findItemOnRecyclerView(name: String) {
-        findStringInRecyclerView(R.id.rvCommunityList, name)
+        findItemInRecyclerView(R.id.rvCommunityList, name)
     }
 
     fun clickSaveCommunity() {
@@ -66,10 +70,6 @@ class AddCommunityActivityRobot : BaseRobot() {
         fillOrgNameField("Nome Org Teste")
         fillOrgEmailField("orgtest.com")
         clickSaveCommunity()
-    }
-
-    infix fun verify(executeFun: AddCommunityActivityRobot.() -> Unit) {
-        executeFun()
     }
 
 }
