@@ -33,6 +33,7 @@ class AddCommunityActivityTest {
             FirebaseApp.initializeApp(it)
             mContext = it
         }
+
         login {
             clickLogin()
             fillUserField("brunotmg@gmail.com")
@@ -55,12 +56,14 @@ class AddCommunityActivityTest {
         } verify {
             checkMessage(communityName)
         }
+
         addCommunity {
             sleep(2000)
             saveCommunityWithNoData()
         } verify {
             checkMessage(mContext.getString(R.string.empties_fields_error))
         }
+
         addCommunity {
             fillCommunityDataWithWrongEmailFormat()
         } verify {
