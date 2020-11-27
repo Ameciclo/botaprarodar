@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar
 
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -9,10 +8,8 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
-import app.igormatos.botaprarodar.network.Community
-import app.igormatos.botaprarodar.screens.login.CommunityAdapter
-import app.igormatos.botaprarodar.screens.login.CommunityAdapter.CommunityViewHolder
 
 abstract class BaseRobot {
 
@@ -32,14 +29,21 @@ abstract class BaseRobot {
         performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
     }
 
-    fun findStringInRecyclerView(resId: Int, content: String) {
-        onView(withId(resId))
+    fun findItemInRecyclerView(recyclerId: Int, withText: String) {
+        onView(withId(recyclerId))
             .perform(
-                actionOnItem<ViewHolder>(hasDescendant(withText(content)),
-                    ViewActions.scrollTo()
+                actionOnItem<ViewHolder>(
+                    hasDescendant(withText(withText)),
+                    scrollTo()
                 )
             )
     }
+
+    fun selectAnyItemInRecyclerView(recyclerId: Int) =
+        onView(withId(recyclerId))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click())
+            )
 
     fun checkMessage(message: String) {
         onView(withText(message)).check(matches(isDisplayed()))
@@ -49,11 +53,15 @@ abstract class BaseRobot {
         onView(withHint(hintMessage)).check(matches(isDisplayed()))
     }
 
+    fun checkViewById(resId: Int) {
+        onView(withId(resId)).check(matches(isDisplayed()))
+    }
+
     fun sleep(times: Long) = apply {
         Thread.sleep(times)
     }
 
-    fun pressBack(){
+    fun pressBack() {
         onView(isRoot()).perform(ViewActions.pressBack())
     }
 
