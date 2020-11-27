@@ -24,7 +24,7 @@ class AddCommunityViewModel(
     fun sendCommunity(community: Community) {
         loadingLiveData.value = true
         viewModelScope.launch {
-            when (val result = communityUseCase.addCommunityToServer(community)) {
+            when (val result = communityUseCase.sendNewCommunity(community)) {
                 is SimpleResult.Success -> successStateHandler()
                 is SimpleResult.Error -> errorStateHandler(result.exception)
             }
