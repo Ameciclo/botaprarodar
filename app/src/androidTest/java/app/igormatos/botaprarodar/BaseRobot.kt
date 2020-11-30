@@ -69,4 +69,8 @@ abstract class BaseRobot {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 
+    fun scrollToViewById(resId: Int) {
+        onView(withId(resId)).perform(scrollTo())
+    }
+
 }

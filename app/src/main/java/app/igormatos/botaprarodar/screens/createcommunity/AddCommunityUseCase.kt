@@ -8,7 +8,7 @@ class AddCommunityUseCase(
     private val firebaseHelperModule: FirebaseHelperModule
 ) {
 
-    suspend fun sendNewCommunity(community: Community) : SimpleResult<Boolean> {
+    suspend fun addNewCommunity(community: Community) : SimpleResult<Boolean> {
         return if (validateFields(community)) {
             firebaseHelperModule.addCommunity(community)
         } else {
