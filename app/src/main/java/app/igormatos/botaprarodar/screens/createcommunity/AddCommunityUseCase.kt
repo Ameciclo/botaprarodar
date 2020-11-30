@@ -26,7 +26,4 @@ class AddCommunityUseCase(
             else -> true
         }
     }
-
-
-
 }
