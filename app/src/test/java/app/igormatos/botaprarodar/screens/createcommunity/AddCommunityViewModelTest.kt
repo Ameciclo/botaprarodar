@@ -41,16 +41,13 @@ internal class AddCommunityViewModelTest {
     @DisplayName("When addCommunityUseCase return Result.Success should observer onChanged")
     inner class FlowSuccess {
 
-    @Test
-    fun `WHEN click to send a new community, THEN update loading live data to true`() {
+        @Test
+        fun `WHEN click to send a new community, THEN update loading live data to true`() = runBlocking {
+            viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-        viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
-
-        val community = Community()
-
-        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns SimpleResult.Success(
-            true
-        )
+            coEvery { addCommunityUseCaseMock.sendNewCommunity(any()) } returns SimpleResult.Success(
+                true
+            )
 
             viewModel.sendCommunity(Community())
 
@@ -59,18 +56,12 @@ internal class AddCommunityViewModelTest {
             }
         }
 
-    @Test
-    fun `WHEN firebase return is a success, THEN update success live data to true`() {
 
-        viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
+        @Test
+        fun `WHEN firebase return is a success, THEN update success live data to true`() = runBlocking  {
+            viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-        val community = Community()
-
-        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns SimpleResult.Success(
-            true
-        )
-
-            coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+            coEvery { addCommunityUseCaseMock.sendNewCommunity(any()) } returns SimpleResult.Success(
                 true
             )
 
@@ -82,18 +73,17 @@ internal class AddCommunityViewModelTest {
         }
     }
 
-    @Test
-    fun `WHEN firebase return is an exception, THEN update error live data exception`() {
-
-        viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
+    @Nested
+    @DisplayName("When addCommunityUseCase return Result.Error should result with exception")
+    inner class FlowError {
 
         @Test
         fun `WHEN firebase return is an exception, THEN update error live data exception`() = runBlocking {
             viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
-        coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns resultError
+            val community = Community()
 
-            coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+            coEvery { addCommunityUseCaseMock.sendNewCommunity(community) } returns resultError
 
             viewModel.sendCommunity(community)
 
