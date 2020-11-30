@@ -13,15 +13,15 @@ fun dashboard(executeFun: DashboardFragmentRobot.() -> Unit) =
 class DashboardFragmentRobot : BaseRobot() {
 
     fun selectDashboardTab() {
-        onView(withId(R.id.navigation_dashboard)).perform(click())
+        clickButton(R.id.navigation_dashboard)
     }
 
     fun scrollToGenderProportionChart() {
-        onView(withId(R.id.genderChart)).perform(scrollTo())
+        scrollToViewById(R.id.genderChart)
     }
 
     fun scrollToAvalabilityChart() {
-        onView(withId(R.id.availableBikesChart)).perform(scrollTo())
+        scrollToViewById(R.id.availableBikesChart)
     }
 
     infix fun verify(executeFun: DashboardFragmentRobot.() -> Unit) {
