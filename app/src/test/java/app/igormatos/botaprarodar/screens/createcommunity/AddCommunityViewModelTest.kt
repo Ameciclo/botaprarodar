@@ -37,6 +37,7 @@ class AddCommunityViewModelTest {
 
     @Test
     fun `WHEN click to send a new community, THEN update loading live data to true`() {
+
         viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
         val community = Community()
@@ -54,6 +55,7 @@ class AddCommunityViewModelTest {
 
     @Test
     fun `WHEN firebase return is a success, THEN update success live data to true`() {
+
         viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
         val community = Community()
@@ -71,6 +73,7 @@ class AddCommunityViewModelTest {
 
     @Test
     fun `WHEN firebase return is an exception, THEN update error live data exception`() {
+
         viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
         val community = Community()
