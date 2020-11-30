@@ -8,24 +8,22 @@ class AddCommunityUseCase(
     private val firebaseHelperModule: FirebaseHelperModule
 ) {
 
-    suspend fun addCommunityToServer(community: Community) : SimpleResult<Boolean> {
-        val validateFieldsResult = validateFields(community)
-        return if (validateFieldsResult is SimpleResult.Success) {
+    suspend fun addNewCommunity(community: Community) : SimpleResult<Boolean> {
+        return if (validateFields(community)) {
             firebaseHelperModule.addCommunity(community)
         } else {
-            validateFieldsResult
+            SimpleResult.Error(Exception())
         }
     }
 
-    private fun validateFields(community: Community) : SimpleResult<Boolean> {
+    private fun validateFields(community: Community) : Boolean {
         return when {
-            community.name.isNullOrEmpty() -> SimpleResult.Error(Exception("Preencha o nome da nova comunidade"))
-            community.description.isNullOrEmpty() -> SimpleResult.Error(Exception("Preencha a descrição da nova comunidade"))
-            community.address.isNullOrEmpty() -> SimpleResult.Error(Exception("Preencha o endereço da nova comunidade"))
-            community.org_name.isNullOrEmpty() -> SimpleResult.Error(Exception("Preencha o nome do responsável pela nova comunidade"))
-            community.org_email.isNullOrEmpty() -> SimpleResult.Error(Exception("Preencha o email do responsável pela nova comunidade"))
-            else -> SimpleResult.Success(true)
+            community.name.isNullOrEmpty() -> false
+            community.description.isNullOrEmpty() -> false
+            community.address.isNullOrEmpty() -> false
+            community.org_name.isNullOrEmpty() -> false
+            community.org_email.isNullOrEmpty() -> false
+            else -> true
         }
     }
-
 }
