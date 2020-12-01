@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class DashboardFragmentTest {
+class DashboardFragmentTest { // teste de snapshot
 
     private val intent = Intent(ApplicationProvider.getApplicationContext(), LoginActivity::class.java)
 
@@ -59,7 +59,7 @@ class DashboardFragmentTest {
             verifyGenderProportionChart()
         }
         dashboard {
-            scrollToAvalabilityChart()
+            scrollToAvailabilityChart()
         } verify {
             verifyAvailabilityChart()
         }
