@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.appendTimestamp
 import app.igormatos.botaprarodar.login.login
@@ -36,10 +37,10 @@ class AddCommunityActivityTest {
 
         login {
             clickLogin()
-            fillUserField("brunotmg@gmail.com")
+            fillUserField(BuildConfig.AUTH_EMAIL)
             clickNext()
             sleep(2000)
-            fillPasswordField("abcd1234")
+            fillPasswordField(BuildConfig.AUTH_PASS)
             clickSignIn()
             sleep(3000)
         }

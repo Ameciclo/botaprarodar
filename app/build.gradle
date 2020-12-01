@@ -3,7 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'nu.studer.credentials'
 
 android {
     compileSdkVersion 30
@@ -23,6 +24,8 @@ android {
         }
 
         debug {
+            buildConfigField "String", "AUTH_EMAIL", "\"${credentials.authEmail}\""
+            buildConfigField "String", "AUTH_PASS", "\"${credentials.authPass}\""
             debuggable true
             multiDexEnabled true
             shrinkResources false
