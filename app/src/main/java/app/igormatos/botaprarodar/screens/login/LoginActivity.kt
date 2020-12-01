@@ -119,7 +119,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         }
     }
 
-    private fun inflateChooseCommunityDialogView() : View {
+    private fun inflateChooseCommunityDialogView(): View {
         val view = layoutInflater.inflate(R.layout.adapter_community, null)
         view.rvCommunityList.apply {
             adapter = chooseCommunityAdapter
@@ -148,6 +148,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             val alertBuilder: MaterialAlertDialogBuilder =
                 MaterialAlertDialogBuilder(this@LoginActivity)
                     .setTitle(title)
+                    .setCancelable(false)
                     .setView(inflateChooseCommunityDialogView())
 
             if (userCommunityInfo.isAdmin) {

@@ -43,6 +43,10 @@ class AddCommunityActivityRobot : BaseRobot() {
         clickButton(R.id.addCommunityButton)
     }
 
+    fun selectCommunity(community: String) {
+        clickItemInRecyclerView(R.id.rvCommunityList, community)
+    }
+
     fun saveNewCommunity(name: String) {
         clickAddCommunity()
         fillNameField(name)
