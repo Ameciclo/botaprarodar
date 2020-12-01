@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar
 
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -10,9 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.matcher.ViewMatchers.*
-import app.igormatos.botaprarodar.network.Community
 import app.igormatos.botaprarodar.screens.login.CommunityAdapter
-import app.igormatos.botaprarodar.screens.login.CommunityAdapter.CommunityViewHolder
 
 abstract class BaseRobot {
 
@@ -39,6 +36,11 @@ abstract class BaseRobot {
                     scrollTo()
                 )
             )
+    }
+
+    fun clickItemInRecyclerView(resId: Int, content: String){
+        onView(withId(resId))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
 
     fun checkMessage(message: String) {
