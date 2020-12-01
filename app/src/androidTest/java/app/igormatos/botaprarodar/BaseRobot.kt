@@ -8,6 +8,7 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import app.igormatos.botaprarodar.screens.login.CommunityAdapter
 
@@ -29,10 +30,11 @@ abstract class BaseRobot {
         performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
     }
 
-    fun findStringInRecyclerView(resId: Int, content: String) {
-        onView(withId(resId))
+    fun findItemInRecyclerView(recyclerId: Int, withText: String) {
+        onView(withId(recyclerId))
             .perform(
-                actionOnItem<ViewHolder>(hasDescendant(withText(content)),
+                actionOnItem<ViewHolder>(
+                    hasDescendant(withText(withText)),
                     scrollTo()
                 )
             )
@@ -42,6 +44,12 @@ abstract class BaseRobot {
         onView(withId(resId))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
+    
+    fun selectAnyItemInRecyclerView(recyclerId: Int): ViewInteraction =
+        onView(withId(recyclerId))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click())
+            )
 
     fun checkMessage(message: String) {
         onView(withText(message)).check(matches(isDisplayed()))
@@ -51,16 +59,24 @@ abstract class BaseRobot {
         onView(withHint(hintMessage)).check(matches(isDisplayed()))
     }
 
+    fun checkViewById(resId: Int) {
+        onView(withId(resId)).check(matches(isDisplayed()))
+    }
+
     fun sleep(times: Long) = apply {
         Thread.sleep(times)
     }
 
-    fun pressBack(){
+    fun pressBack() {
         onView(isRoot()).perform(ViewActions.pressBack())
     }
 
     fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
+    }
+
+    fun scrollToViewById(resId: Int) {
+        onView(withId(resId)).perform(scrollTo())
     }
 
 }

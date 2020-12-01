@@ -47,7 +47,7 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
 
         listener.onStart()
         val childReference = adminsReference.child(uid)
-        childReference.addListenerForSingleValueEvent(object : ValueEventListener { // verificar como fica com await()
+        childReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val isAdmin = snapshot.value != null
 

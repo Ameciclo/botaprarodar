@@ -135,7 +135,6 @@ class DashboardFragment : Fragment() {
 
         }
 
-
     }
 
     private fun getDashboardInformation(): Task<Map<String, Any>> {

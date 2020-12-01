@@ -8,9 +8,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.util.isValidEmail
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
 import app.igormatos.botaprarodar.network.*
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_add_community.*
+import utils.createLoading
 import utils.showDialogMessage
 import utils.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
@@ -35,11 +34,13 @@ class AddCommunityActivity : AppCompatActivity() {
     }
 
     private fun addCommunityEvent() {
-        if (inputsFilled()) saveNewCommunity() else snackBarMaker(getString(R.string.empties_fields_error), addCommunityContainer)
+        if (inputsFilled()) saveNewCommunity()
+        else snackBarMaker(getString(R.string.empties_fields_error), addCommunityContainer).show()
     }
 
     private fun saveNewCommunity() {
-        if (validateEmailFormat()) showConfirmationDialog(createNewCommunity()) else snackBarMaker(getString(R.string.emailFormatWarning), addCommunityContainer)
+        if (validateEmailFormat()) showConfirmationDialog(createNewCommunity())
+        else snackBarMaker(getString(R.string.emailFormatWarning), addCommunityContainer).show()
     }
 
     private fun validateEmailFormat() : Boolean {
@@ -72,10 +73,7 @@ class AddCommunityActivity : AppCompatActivity() {
     }
 
     private fun initLoadingDialogComponent() {
-        loadingDialog = MaterialAlertDialogBuilder(this)
-            .setView(R.layout.loading_dialog_animation)
-            .setCancelable(false)
-            .create()
+        loadingDialog = createLoading(R.layout.loading_dialog_animation)
     }
 
     private fun observeViewModel() {
@@ -83,10 +81,11 @@ class AddCommunityActivity : AppCompatActivity() {
             if (it) loadingDialog.show() else loadingDialog.dismiss()
         })
         viewModel.getSuccessLiveDataValue().observe(this, Observer {
-            if (it) finish() else snackBarMaker(getString(R.string.add_community_error), addCommunityContainer)
+            if (it) finish()
+            else snackBarMaker(getString(R.string.add_community_error), addCommunityContainer).show()
         })
         viewModel.getErrorLiveDataValue().observe(this, Observer {
-            snackBarMaker(getString(R.string.add_community_error), addCommunityContainer)
+            snackBarMaker(getString(R.string.add_community_error), addCommunityContainer).show()
         })
 
     }
