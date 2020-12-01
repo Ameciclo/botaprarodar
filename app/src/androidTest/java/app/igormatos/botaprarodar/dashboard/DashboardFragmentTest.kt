@@ -1,24 +1,21 @@
-package app.igormatos.botaprarodar.createcommunity
+package app.igormatos.botaprarodar.dashboard
 
 import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
-import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.appendTimestamp
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import app.igormatos.botaprarodar.accessapphome.selectCommunity
 import app.igormatos.botaprarodar.login.login
 import app.igormatos.botaprarodar.screens.login.LoginActivity
 import com.google.firebase.FirebaseApp
-import org.junit.*
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
 
-@RunWith(AndroidJUnit4::class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class AddCommunityActivityTest {
+@RunWith(AndroidJUnit4ClassRunner::class)
+class DashboardFragmentTest {
 
     private val intent = Intent(ApplicationProvider.getApplicationContext(), LoginActivity::class.java)
 
@@ -43,33 +40,29 @@ class AddCommunityActivityTest {
             clickSignIn()
             sleep(3000)
         }
+        selectCommunity {
+            selectAnyCommunity()
+            sleep(3000)
+        }
     }
 
     @Test
-    @LargeTest
-    fun shouldAddNewCommunityUserJourney() {
-        val communityName = appendTimestamp("Comunidade")
-        addCommunity {
-            saveNewCommunity(communityName)
-            sleep(2000)
-            findItemOnRecyclerView(communityName)
+    fun `dashboardAccessUserJourney`() {
+        dashboard {
+            selectDashboardTab()
         } verify {
-            checkMessage(communityName)
+            verifyTravelsChart()
         }
-
-        addCommunity {
-            sleep(2000)
-            saveCommunityWithNoData()
+        dashboard {
+            scrollToGenderProportionChart()
         } verify {
-            checkMessage(mContext.getString(R.string.empties_fields_error))
+            verifyGenderProportionChart()
         }
-
-        addCommunity {
-            fillCommunityDataWithWrongEmailFormat()
+        dashboard {
+            scrollToAvalabilityChart()
         } verify {
-            checkMessage(mContext.getString(R.string.emailFormatWarning))
+            verifyAvailabilityChart()
         }
-
     }
 
 }

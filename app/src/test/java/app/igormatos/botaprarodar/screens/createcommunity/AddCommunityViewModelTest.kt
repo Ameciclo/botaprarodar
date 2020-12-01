@@ -45,7 +45,7 @@ internal class AddCommunityViewModelTest {
         fun `WHEN click to send a new community, THEN update loading live data to true`() = runBlocking {
             viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-            coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+            coEvery { addCommunityUseCaseMock.addNewCommunity(any()) } returns SimpleResult.Success(
                 true
             )
 
@@ -61,7 +61,7 @@ internal class AddCommunityViewModelTest {
         fun `WHEN firebase return is a success, THEN update success live data to true`() = runBlocking  {
             viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-            coEvery { addCommunityUseCaseMock.addCommunityToServer(any()) } returns SimpleResult.Success(
+            coEvery { addCommunityUseCaseMock.addNewCommunity(any()) } returns SimpleResult.Success(
                 true
             )
 
@@ -83,7 +83,7 @@ internal class AddCommunityViewModelTest {
 
             val community = Community()
 
-            coEvery { addCommunityUseCaseMock.addCommunityToServer(community) } returns resultError
+            coEvery { addCommunityUseCaseMock.addNewCommunity(community) } returns resultError
 
             viewModel.sendCommunity(community)
 

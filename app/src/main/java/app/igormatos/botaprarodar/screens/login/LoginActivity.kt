@@ -15,6 +15,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.adapter_community.view.*
 import org.koin.android.ext.android.inject
+import utils.createLoading
+import utils.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {
@@ -67,10 +69,8 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
                 viewModel.sendEmailVerification()
             }
         }
-        loadingDialog = MaterialAlertDialogBuilder(this)
-            .setView(R.layout.loading_dialog_animation)
-            .setCancelable(false)
-            .create()
+
+        loadingDialog = createLoading(R.layout.loading_dialog_animation)
 
         chooseCommunityAdapter = CommunityAdapter(arrayListOf()) {
             viewModel.chooseCommunity(it)
