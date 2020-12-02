@@ -11,7 +11,6 @@
 .externalNativeBuild
 /credentials.properties
 
-\.idea/
 *.idea
 
 app/src/debug/google-services\.json

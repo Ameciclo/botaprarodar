@@ -26,7 +26,6 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:6.1.0"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
-        classpath 'nu.studer:gradle-credentials-plugin:2.1'
     }
 }
 
@@ -37,8 +36,6 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
-
-apply plugin: 'nu.studer.credentials'
 
 task clean(type: Delete) {
     delete rootProject.buildDir
