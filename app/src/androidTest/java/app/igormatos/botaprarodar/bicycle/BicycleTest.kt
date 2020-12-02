@@ -32,13 +32,13 @@ class BicycleTest {
             doLogin("brunotmg@gmail.com", "abcd1234")
         }
         addCommunity {
-            selectCommunity("a") // No momento está clicando na posição 0 do RecyclerView
+            selectCommunity() // No momento está clicando na posição 0 do RecyclerView
         }
         bicycle {
             clickBicycleNavigation()
             addBicycle()
             fillBicycleNumberSerie("123")
-            fillBicycleName("Monaco")
+            fillBicycleName("Caloi 10")
             fillBicycleNumberOrder("098765")
             clickRegisterBicycle()
         } verify {
@@ -53,15 +53,25 @@ class BicycleTest {
             doLogin("brunotmg@gmail.com", "abcd1234")
         }
         addCommunity {
-            selectCommunity("a") // No momento está clicando na posição 0 do RecyclerView
+            selectCommunity() // No momento está clicando na posição 0 do RecyclerView
         }
         bicycle {
             clickBicycleNavigation()
             addBicycle()
+            hideKeyboard()
+            clickTakeBicyclePhoto()
+            takePhoto()
+            sleep(2000)
+            hideKeyboard()
             fillBicycleNumberSerie("123")
             fillBicycleName("Monaco")
             fillBicycleNumberOrder("098765")
+            swipeOnAddBicycle()
             clickRegisterBicycle()
+            sleep(2000)
+        } verify {
+            checkMessage("")
         }
     }
+
 }
