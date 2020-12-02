@@ -8,9 +8,12 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
-import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import app.igormatos.botaprarodar.screens.login.CommunityAdapter
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiObject
+import androidx.test.uiautomator.UiSelector
 
 abstract class BaseRobot {
 
@@ -44,7 +47,7 @@ abstract class BaseRobot {
         onView(withId(resId))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
-    
+
     fun selectAnyItemInRecyclerView(recyclerId: Int): ViewInteraction =
         onView(withId(recyclerId))
             .perform(
@@ -71,8 +74,24 @@ abstract class BaseRobot {
         onView(isRoot()).perform(ViewActions.pressBack())
     }
 
+    fun swipeUp(containerId: Int) {
+        onView(withId(containerId)).perform(swipeUp());
+    }
+
+    fun takePhoto() {
+        val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        device.executeShellCommand("input keyevent 27")
+        val doneSelector = UiSelector().description("Done")
+        val doneButton = device.findObject(doneSelector)
+        doneButton.click()
+    }
+
     fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
+    }
+
+    fun hideKeyboard() {
+        onView(isRoot()).perform(closeSoftKeyboard())
     }
 
     fun scrollToViewById(resId: Int) {
