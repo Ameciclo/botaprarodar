@@ -24,8 +24,17 @@ android {
         }
 
         debug {
-            buildConfigField "String", "AUTH_EMAIL", "\"${credentials.authEmail}\""
-            buildConfigField "String", "AUTH_PASS", "\"${credentials.authPass}\""
+            def rootDir = project.rootDir
+            def credentialsProperties = new File(rootDir, "credentials.properties")
+            Properties properties = new Properties()
+            if (credentialsProperties.exists()) {
+
+                credentialsProperties.withInputStream {
+                    instr -> properties.load(instr)
+                }
+            }
+            buildConfigField "String", "AUTH_EMAIL", "\"${properties.getProperty('authEmail')}\""
+            buildConfigField "String", "AUTH_PASS", "\"${properties.getProperty('authPass')}\""
             debuggable true
             multiDexEnabled true
             shrinkResources false
@@ -52,7 +61,7 @@ android {
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
 
-    testOptions{
+    testOptions {
         unitTests {
             includeAndroidResources = true
             returnDefaultValues = true
@@ -60,6 +69,7 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
+
 
 dependencies {
     implementation project(':core')
@@ -174,3 +184,4 @@ task clearData(type: Exec) {
     }
     commandLine clearDataCommand
 }
+
