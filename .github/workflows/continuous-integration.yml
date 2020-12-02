@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ master, development ]
+    branches: [ master, development, test_ui_labtest_firebase ]
 #   pull_request:
 #     branches: [ master, development ]
 
@@ -29,6 +29,14 @@ jobs:
 #           api-level: 29
 #           arch: x86_64
 #           script: ./gradlew connectedCheck
+      # Run the Firebase Test Lab Action
+      - name: Run tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'tests.yml:android-pixel-4'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SECRET_DEV }}
+          # SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK
