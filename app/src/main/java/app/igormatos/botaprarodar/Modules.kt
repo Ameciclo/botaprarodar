@@ -1,20 +1,24 @@
 package app.igormatos.botaprarodar
 
+import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.FirebaseAuthModule
 import app.igormatos.botaprarodar.network.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.network.FirebaseHelperModule
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
+import app.igormatos.botaprarodar.screens.addbicycle.AddBikeViewModel
 import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityUseCase
 import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.screens.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.screens.login.LoginActivityViewModel
 import app.igormatos.botaprarodar.screens.login.LoginActivityViewModelImpl
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.koin.dsl.module
 
+@OptIn(KoinApiExtension::class)
 val bprModule = module {
 
     single { SharedPreferencesModule(appContext = get()) }
@@ -35,6 +39,16 @@ val bprModule = module {
     viewModel{
         AddCommunityViewModel(
             communityUseCase = get()
+        )
+    }
+
+    factory {
+        Bicycle()
+    }
+
+    viewModel {
+        AddBikeViewModel(
+            bicycle = get()
         )
     }
 }

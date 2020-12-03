@@ -19,6 +19,7 @@ import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.User
 import app.igormatos.botaprarodar.data.model.Withdraw
 import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.screens.addbicycle.AddBikeActivity
 import app.igormatos.botaprarodar.screens.addbicycle.BIKE_EXTRA
 import app.igormatos.botaprarodar.screens.adduser.AddUserActivity
@@ -30,8 +31,10 @@ import app.igormatos.botaprarodar.screens.returnbicycle.WITHDRAWAL_BICYCLE
 import app.igormatos.botaprarodar.screens.returnbicycle.WITHDRAWAL_EXTRA
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
+@KoinApiExtension
 class ItemAdapter(private var activity: Activity? = null) :
     androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(),
     Filterable {

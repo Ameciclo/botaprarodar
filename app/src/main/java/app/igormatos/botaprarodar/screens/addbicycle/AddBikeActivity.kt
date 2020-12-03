@@ -7,27 +7,31 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.data.model.Bicycle
-import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.common.util.REQUEST_PHOTO
 import app.igormatos.botaprarodar.common.util.loadPath
 import app.igormatos.botaprarodar.common.util.showLoadingDialog
 import app.igormatos.botaprarodar.common.util.takePictureIntent
+import app.igormatos.botaprarodar.network.FirebaseHelper
 import app.igormatos.botaprarodar.screens.fullscreenimage.FullscreenImageActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_add_bike.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
 val BIKE_EXTRA = "Bike_extra"
 
+@KoinApiExtension
 class AddBikeActivity : AppCompatActivity() {
 
-    var bicycleToAdd = Bicycle()
+    var bicycleToAdd = BicycleMapper()
     var editMode: Boolean = false
     var imagePath: String? = null
     var loadingDialog: AlertDialog? = null
+    val addBikeViewModel: AddBikeViewModel by viewModel()
 
     companion object {
         fun start() {
@@ -88,7 +92,7 @@ class AddBikeActivity : AppCompatActivity() {
 
     private fun setupBicycle(bicycleParcelable: Parcelable) {
         editMode = true
-        val bicycle = Parcels.unwrap(bicycleParcelable) as Bicycle
+        val bicycle = Parcels.unwrap(bicycleParcelable) as BicycleMapper
 
         bicycleToAdd = bicycle
 
@@ -116,8 +120,9 @@ class AddBikeActivity : AppCompatActivity() {
         bicycleToAdd.serial_number = serieNumber.text.toString()
         bicycleToAdd.order_number = orderNumber.text.toString().toLong()
 
-        bicycleToAdd.saveRemote { success ->
-            if (success) {
+        addBikeViewModel.saveBicycle(bicycleToAdd)
+        addBikeViewModel.successLiveData.observe(this, Observer {
+            if (it) {
                 Toast.makeText(this@AddBikeActivity, successText(), Toast.LENGTH_SHORT).show()
                 finish()
             } else {
@@ -125,7 +130,7 @@ class AddBikeActivity : AppCompatActivity() {
             }
 
             loadingDialog?.dismiss()
-        }
+        })
     }
 
     fun successText(): String {
@@ -152,10 +157,10 @@ class AddBikeActivity : AppCompatActivity() {
         loadingDialog = showLoadingDialog()
 
         imagePath?.let {
-            FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
-                if (success) {
-                    bicycleToAdd.photo_path = path
-                    bicycleToAdd.photo_thumbnail_path = thumbnailPath
+            addBikeViewModel.uploadImage(it)
+
+            addBikeViewModel.bicycleMapperLiveData.observe(this, Observer {
+                if (it.success) {
                     afterSuccess()
                 } else {
                     loadingDialog?.dismiss()
@@ -164,7 +169,7 @@ class AddBikeActivity : AppCompatActivity() {
                         this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
+            })
         }
 
     }

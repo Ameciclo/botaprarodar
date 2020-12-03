@@ -23,8 +23,9 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 
-
+@KoinApiExtension
 class DashboardFragment : Fragment() {
 
     private val percentFormatter = object : ValueFormatter() {

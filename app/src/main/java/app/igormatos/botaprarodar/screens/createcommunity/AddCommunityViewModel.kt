@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.network.Community
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import utils.SimpleResult
 
+@KoinApiExtension
 class AddCommunityViewModel(
     private val communityUseCase: AddCommunityUseCase
 ) : ViewModel() {

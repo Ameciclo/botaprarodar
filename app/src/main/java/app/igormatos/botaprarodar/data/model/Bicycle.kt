@@ -1,13 +1,15 @@
 package app.igormatos.botaprarodar.data.model
 
 import com.google.firebase.database.IgnoreExtraProperties
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@KoinApiExtension
 @IgnoreExtraProperties
-@Parcel
-class Bicycle : Item {
+@Parcel(Parcel.Serialization.BEAN)
+class Bicycle : Item() {
 
     override val path: String = "bicycles"
 

@@ -9,8 +9,10 @@ import app.igormatos.botaprarodar.data.model.Withdraw
 import app.igormatos.botaprarodar.screens.main.UsersFragment
 import app.igormatos.botaprarodar.screens.returnbicycle.WITHDRAWAL_EXTRA
 import kotlinx.android.synthetic.main.activity_choose_user.*
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
+@KoinApiExtension
 class ChooseUserActivity : AppCompatActivity() {
 
     var withdrawalParcelable: Parcelable? = null

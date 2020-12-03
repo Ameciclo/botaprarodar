@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.model.Bicycle
 import com.bumptech.glide.Glide
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class BicyclesAdapter(
     private val bicycleAdapterListener: BicycleAdapterListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BicycleAdapterListener {

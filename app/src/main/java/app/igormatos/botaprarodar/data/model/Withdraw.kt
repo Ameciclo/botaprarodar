@@ -1,12 +1,14 @@
 package app.igormatos.botaprarodar.data.model
 
 import com.google.firebase.database.IgnoreExtraProperties
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcel
 import java.util.*
 
+@KoinApiExtension
 @IgnoreExtraProperties
-@Parcel
-class Withdraw : Item {
+@Parcel(Parcel.Serialization.BEAN)
+class Withdraw : Item() {
 
     override val path: String = "withdrawals"
 

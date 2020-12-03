@@ -15,10 +15,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.adapter_community.view.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 import utils.createLoading
 import utils.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
+@KoinApiExtension
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     private lateinit var chooseCommunityAdapter: CommunityAdapter

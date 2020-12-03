@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.model.Withdraw
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
 import kotlinx.android.synthetic.main.activity_ride_quiz.*
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
+@KoinApiExtension
 class RideQuizActivity : AppCompatActivity() {
 
     val withdrawQuiz: Withdraw = Withdraw()

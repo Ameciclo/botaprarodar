@@ -5,8 +5,10 @@ import app.igormatos.botaprarodar.data.model.Item
 import app.igormatos.botaprarodar.data.model.Withdraw
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.koin.core.component.KoinApiExtension
 import utils.SimpleResult
 
+@KoinApiExtension
 interface FirebaseHelperModule {
 
     val instance: FirebaseDatabase

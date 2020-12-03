@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import app.igormatos.botaprarodar.screens.createcommunity.AddCommunityActivity
 import app.igormatos.botaprarodar.screens.main.MainActivity
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 open class LoginActivityNavigator {
 
     open fun goToMainActivity(activity: Activity){

@@ -7,7 +7,9 @@ import app.igormatos.botaprarodar.data.model.UserCommunityInfo
 import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.network.*
 import com.brunotmgomes.ui.ViewEvent
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class LoginActivityViewModelImpl(
     private val preferencesModule: SharedPreferencesModule,
     private val firebaseAuthModule: FirebaseAuthModule,

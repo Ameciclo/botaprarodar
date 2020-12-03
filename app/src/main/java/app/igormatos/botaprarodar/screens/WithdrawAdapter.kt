@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.model.Withdraw
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class WithdrawAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var itemsList: MutableList<Withdraw> = mutableListOf()

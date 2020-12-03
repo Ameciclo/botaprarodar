@@ -17,7 +17,9 @@ import app.igormatos.botaprarodar.screens.BicyclesAdapter
 import app.igormatos.botaprarodar.screens.addbicycle.AddBikeActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
     lateinit var bicycleAdapter: BicyclesAdapter

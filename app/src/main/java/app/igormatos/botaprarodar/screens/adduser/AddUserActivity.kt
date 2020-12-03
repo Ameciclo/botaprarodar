@@ -16,14 +16,17 @@ import app.igormatos.botaprarodar.common.util.loadPath
 import app.igormatos.botaprarodar.common.util.takePictureIntent
 import app.igormatos.botaprarodar.data.model.User
 import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.screens.fullscreenimage.FullscreenImageActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.jetbrains.anko.image
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
 val USER_EXTRA = "USER_EXTRA"
 
+@KoinApiExtension
 class AddUserActivity : AppCompatActivity() {
 
     val REQUEST_PROFILE_PHOTO = 1

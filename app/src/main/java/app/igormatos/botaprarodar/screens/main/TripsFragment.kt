@@ -17,8 +17,9 @@ import app.igormatos.botaprarodar.screens.bicyclewithdrawal.choosebicycle.Withdr
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 
-
+@KoinApiExtension
 class TripsFragment : androidx.fragment.app.Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()

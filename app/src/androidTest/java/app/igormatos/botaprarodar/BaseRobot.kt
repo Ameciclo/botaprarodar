@@ -79,8 +79,10 @@ abstract class BaseRobot {
     }
 
     fun takePhoto() {
-        val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        device.executeShellCommand("input keyevent 27")
+        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val takePhotoSelector = UiSelector().resourceId("com.android.camera2:id/shutter_button")
+        val takePhotoButton = device.findObject(takePhotoSelector)
+        takePhotoButton.click()
         val doneSelector = UiSelector().description("Done")
         val doneButton = device.findObject(doneSelector)
         doneButton.click()

@@ -18,9 +18,10 @@ import app.igormatos.botaprarodar.screens.returnbicycle.WITHDRAWAL_EXTRA
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 
-
+@KoinApiExtension
 class UsersFragment : androidx.fragment.app.Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()

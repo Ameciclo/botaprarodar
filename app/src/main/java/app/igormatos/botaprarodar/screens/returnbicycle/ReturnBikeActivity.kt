@@ -13,13 +13,16 @@ import app.igormatos.botaprarodar.common.util.showLoadingDialog
 import app.igormatos.botaprarodar.data.model.Bicycle
 import app.igormatos.botaprarodar.data.model.Withdraw
 import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
 import kotlinx.android.synthetic.main.activity_return_bike.*
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcels
 import java.util.*
 
 val WITHDRAWAL_EXTRA = "WITHDRAWAL_EXTRA"
 val WITHDRAWAL_BICYCLE = "BICYCLE_EXTRA"
 
+@KoinApiExtension
 class ReturnBikeActivity : AppCompatActivity() {
 
     private var loadingDialog: AlertDialog? = null

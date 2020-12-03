@@ -14,8 +14,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 
-
+@KoinApiExtension
 class MainActivity : AppCompatActivity() {
 
     private val preferencesModule: SharedPreferencesModule by inject()

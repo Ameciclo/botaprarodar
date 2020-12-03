@@ -1,22 +1,30 @@
 package app.igormatos.botaprarodar.data.model
 
-import app.igormatos.botaprarodar.network.FirebaseHelper
+import app.igormatos.botaprarodar.network.FirebaseHelperModule
+import app.igormatos.botaprarodar.network.FirebaseHelperModuleImpl
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.text.SimpleDateFormat
 import java.util.*
 
-interface Item {
+@KoinApiExtension
+abstract class Item : KoinComponent {
 
-    val path: String
+    // EXTERNALIZAR PARA CAMADA DE REPOSITORY
+    open val firebaseHelperModule: FirebaseHelperModule by inject()
 
-    var id: String?
+    open val path: String = ""
 
-    var isAvailable: Boolean
+    open var id: String? = null
 
-    fun title(): String
+    open var isAvailable: Boolean = false
 
-    fun subtitle(): String
+    open fun title(): String = ""
 
-    fun iconPath(): String
+    open fun subtitle(): String = ""
+
+    open fun iconPath(): String = ""
 
     fun toggleAvailability(block: (Boolean) -> Unit) {
         isAvailable = !isAvailable
@@ -24,7 +32,7 @@ interface Item {
     }
 
     fun saveRemote(block: (Boolean) -> Unit) {
-        FirebaseHelper.saveItem(this, block)
+        firebaseHelperModule.saveItem(this, block)
     }
 
     fun getReadableDate(timestamp: Long): String {

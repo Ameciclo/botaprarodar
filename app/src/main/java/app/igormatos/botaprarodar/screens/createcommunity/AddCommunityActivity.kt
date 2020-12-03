@@ -9,11 +9,13 @@ import app.igormatos.botaprarodar.common.util.isValidEmail
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
 import app.igormatos.botaprarodar.network.*
 import kotlinx.android.synthetic.main.activity_add_community.*
+import org.koin.core.component.KoinApiExtension
 import utils.createLoading
 import utils.showDialogMessage
 import utils.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
+@KoinApiExtension
 class AddCommunityActivity : AppCompatActivity() {
 
     private lateinit var loadingDialog: AlertDialog

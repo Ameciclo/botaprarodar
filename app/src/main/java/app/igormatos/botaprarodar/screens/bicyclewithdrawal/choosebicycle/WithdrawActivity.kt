@@ -12,7 +12,9 @@ import app.igormatos.botaprarodar.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.screens.ItemAdapter
 import kotlinx.android.synthetic.main.activity_rent.*
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class WithdrawActivity : AppCompatActivity() {
 
     lateinit var itemAdapter: ItemAdapter

@@ -10,10 +10,12 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
 import kotlinx.coroutines.tasks.await
+import org.koin.core.component.KoinApiExtension
 import utils.SimpleResult
 import java.io.File
 
-class FirebaseHelperModuleImpl :FirebaseHelperModule{
+@KoinApiExtension
+class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
     override val instance = FirebaseDatabase.getInstance()
 
@@ -25,6 +27,7 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
 
     override fun setCommunityId(communityId: String) {
         this.communityId = communityId
+        FirebaseHelper.setCommunityId(communityId)
     }
 
     override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {

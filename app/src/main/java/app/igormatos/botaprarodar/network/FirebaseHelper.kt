@@ -8,8 +8,10 @@ import app.igormatos.botaprarodar.data.model.User
 import app.igormatos.botaprarodar.data.model.Withdraw
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import org.koin.core.component.KoinApiExtension
 import java.io.File
 
+@KoinApiExtension
 @Deprecated("use FirebaseHelperModule instead")
 object FirebaseHelper {
 

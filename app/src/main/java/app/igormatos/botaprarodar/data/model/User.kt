@@ -1,13 +1,16 @@
 package app.igormatos.botaprarodar.data.model
 
 import com.google.firebase.database.IgnoreExtraProperties
+import org.koin.core.component.KoinApiExtension
 import org.parceler.Parcel
+import org.parceler.Parcel.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+@KoinApiExtension
 @IgnoreExtraProperties
-@Parcel
-open class User : Item {
+@Parcel(Serialization.BEAN)
+open class User : Item() {
 
     override var path: String = "users"
 

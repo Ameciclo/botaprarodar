@@ -1,9 +1,11 @@
 package app.igormatos.botaprarodar.screens.createcommunity
 
 import app.igormatos.botaprarodar.network.*
+import org.koin.core.component.KoinApiExtension
 import utils.SimpleResult
 import java.lang.Exception
 
+@KoinApiExtension
 class AddCommunityUseCase(
     private val firebaseHelperModule: FirebaseHelperModule
 ) {
