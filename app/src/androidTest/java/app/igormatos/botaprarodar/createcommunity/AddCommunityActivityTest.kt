@@ -10,7 +10,7 @@ import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.appendTimestamp
 import app.igormatos.botaprarodar.login.login
-import app.igormatos.botaprarodar.screens.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import com.google.firebase.FirebaseApp
 import org.junit.*
 import org.junit.runner.RunWith
