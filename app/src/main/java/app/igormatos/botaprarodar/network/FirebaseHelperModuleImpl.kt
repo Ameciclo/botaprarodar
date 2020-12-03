@@ -25,6 +25,7 @@ class FirebaseHelperModuleImpl :FirebaseHelperModule{
 
     override fun setCommunityId(communityId: String) {
         this.communityId = communityId
+        FirebaseHelper.setCommunityId(communityId)
     }
 
     override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {
