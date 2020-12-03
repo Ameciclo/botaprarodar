@@ -23,6 +23,7 @@ android {
         }
 
         debug {
+            buildConfigField "String", "BASE_URL", "\"https://bpr-dev.firebaseio.com\""
             debuggable true
             multiDexEnabled true
             shrinkResources false
@@ -75,6 +76,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestUtil 'androidx.test:orchestrator:1.3.0'
 
 
@@ -150,6 +152,14 @@ dependencies {
 
     // Task await
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
 }
 
