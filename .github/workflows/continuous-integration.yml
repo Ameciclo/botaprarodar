@@ -35,8 +35,7 @@ jobs:
         with:
           arg-spec: 'tests.yml:android-pixel-4'
         env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SECRET_DEV }}
-          # SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
       - name: Generate APK
         run: ./gradlew clean assembleDebug
       - name: Rename APK
