@@ -5,7 +5,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import app.igormatos.botaprarodar.createcommunity.addCommunity
 import app.igormatos.botaprarodar.login.login
-import app.igormatos.botaprarodar.screens.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule

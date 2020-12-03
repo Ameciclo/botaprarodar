@@ -8,7 +8,7 @@ import androidx.test.core.app.launchActivity
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import app.igormatos.botaprarodar.accessapphome.selectCommunity
 import app.igormatos.botaprarodar.login.login
-import app.igormatos.botaprarodar.screens.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import com.google.firebase.FirebaseApp
 import org.junit.Before
 import org.junit.Test

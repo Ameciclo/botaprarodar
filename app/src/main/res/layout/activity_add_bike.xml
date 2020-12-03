@@ -4,7 +4,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/containerAddBike"
             android:layout_width="match_parent"
-            tools:context=".screens.addbicycle.AddBikeActivity"
+            tools:context=".presentation.addbicycle.AddBikeActivity"
             android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout

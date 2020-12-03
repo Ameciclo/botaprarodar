@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:background="#000"
         android:layout_height="match_parent"
-        tools:context=".screens.fullscreenimage.FullscreenImageActivity">
+        tools:context=".presentation.fullscreenimage.FullscreenImageActivity">
 
     <ImageView
             android:layout_width="0dp"
