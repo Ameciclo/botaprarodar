@@ -16,7 +16,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import utils.SimpleResult
+import com.brunotmgomes.ui.SimpleResult
 
 @ExtendWith(InstantExecutorExtension::class)
 @DisplayName("Given AddCommunityViewModel")

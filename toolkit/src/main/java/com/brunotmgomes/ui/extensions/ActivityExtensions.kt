@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.common.util
+package com.brunotmgomes.ui.extensions
 
 // Code by Igor Matos adapted from https://developer.android.com/training/camera/photobasics
 

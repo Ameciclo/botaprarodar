@@ -1,4 +1,4 @@
-package com.brunotmgomes.ui
+package com.brunotmgomes.ui.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

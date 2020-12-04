@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.common.util
+package com.brunotmgomes.ui.extensions
 
 import android.content.Context
 import android.widget.ImageView

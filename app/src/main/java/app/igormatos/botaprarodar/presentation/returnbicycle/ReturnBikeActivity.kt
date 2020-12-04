@@ -8,11 +8,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.util.loadPath
-import app.igormatos.botaprarodar.common.util.showLoadingDialog
+import app.igormatos.botaprarodar.data.network.FirebaseHelper
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import com.brunotmgomes.ui.extensions.loadPath
+import com.brunotmgomes.ui.extensions.showLoadingDialog
 import kotlinx.android.synthetic.main.activity_return_bike.*
 import org.parceler.Parcels
 import java.util.*
@@ -58,7 +58,7 @@ class ReturnBikeActivity : AppCompatActivity() {
     }
 
     fun getWithdrawal() {
-        loadingDialog = showLoadingDialog()
+        loadingDialog = showLoadingDialog(R.layout.loading_dialog_animation)
 
         val bicycleParcelable = (if (intent.hasExtra(WITHDRAWAL_BICYCLE)) {
             intent.getParcelableExtra<Parcelable>(WITHDRAWAL_BICYCLE)
