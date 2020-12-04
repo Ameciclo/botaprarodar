@@ -13,7 +13,6 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import app.igormatos.botaprarodar.*
-import app.igormatos.botaprarodar.common.util.loadPathOnCircle
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
@@ -28,6 +27,7 @@ import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.Choo
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_BICYCLE
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
+import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels

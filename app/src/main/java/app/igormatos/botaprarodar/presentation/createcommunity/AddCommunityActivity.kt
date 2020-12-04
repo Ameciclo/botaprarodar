@@ -7,11 +7,11 @@ import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.network.Community
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
-import app.igormatos.botaprarodar.network.*
+import com.brunotmgomes.ui.extensions.isValidEmail
 import kotlinx.android.synthetic.main.activity_add_community.*
-import utils.createLoading
-import utils.showDialogMessage
-import utils.snackBarMaker
+import com.brunotmgomes.ui.extensions.createLoading
+import com.brunotmgomes.ui.extensions.showDialogMessage
+import com.brunotmgomes.ui.extensions.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class AddCommunityActivity : AppCompatActivity() {

@@ -15,7 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.adapter_community.view.*
 import org.koin.android.ext.android.inject
-import utils.createLoading
+import com.brunotmgomes.ui.extensions.createLoading
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {

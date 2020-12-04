@@ -1,4 +1,4 @@
-package utils
+package com.brunotmgomes.ui.extensions
 
 import android.content.Context
 import android.view.View

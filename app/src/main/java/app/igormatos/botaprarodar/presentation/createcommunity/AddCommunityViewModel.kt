@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.data.network.Community
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import kotlinx.coroutines.launch
-import utils.SimpleResult
+import com.brunotmgomes.ui.SimpleResult
 
 class AddCommunityViewModel(
     private val communityUseCase: AddCommunityUseCase

@@ -12,11 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.util.loadPath
-import app.igormatos.botaprarodar.common.util.takePictureIntent
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.data.network.FirebaseHelper
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
+import com.brunotmgomes.ui.extensions.loadPath
+import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.jetbrains.anko.image

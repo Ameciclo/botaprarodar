@@ -1,4 +1,4 @@
-package com.brunotmgomes.ui
+package com.brunotmgomes.ui.extensions
 
 /*
  * Copyright (C) 2019 The Android Open Source Project

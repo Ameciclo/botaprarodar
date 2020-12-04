@@ -1,9 +1,7 @@
-package app.igormatos.botaprarodar.common.util
+package com.brunotmgomes.ui.extensions
 
 import android.content.Context
 import android.os.Environment
-import androidx.appcompat.app.AlertDialog
-import app.igormatos.botaprarodar.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.io.IOException
@@ -11,9 +9,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun Context.showLoadingDialog(): AlertDialog {
+fun Context.showLoadingDialog(viewId: Int): androidx.appcompat.app.AlertDialog? {
     return MaterialAlertDialogBuilder(this)
-        .setView(R.layout.loading_dialog_animation)
+        .setView(viewId)
         .setCancelable(false)
         .show()
 }

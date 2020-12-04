@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.domain.usecase.community
 
 import app.igormatos.botaprarodar.data.network.Community
 import app.igormatos.botaprarodar.data.network.FirebaseHelperModule
-import utils.SimpleResult
+import com.brunotmgomes.ui.SimpleResult
 import java.lang.Exception
 
 class AddCommunityUseCase(
