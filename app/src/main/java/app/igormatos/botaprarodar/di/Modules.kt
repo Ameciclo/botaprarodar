@@ -1,5 +1,6 @@
-package app.igormatos.botaprarodar
+package app.igormatos.botaprarodar.di
 
+import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.data.network.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.FirebaseHelperModule
