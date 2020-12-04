@@ -1,11 +1,8 @@
 package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.BuildConfig
-import app.igormatos.botaprarodar.data.network.FirebaseAuthModule
-import app.igormatos.botaprarodar.data.network.FirebaseAuthModuleImpl
-import app.igormatos.botaprarodar.data.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.data.network.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
@@ -13,6 +10,8 @@ import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModelImpl
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -42,12 +41,17 @@ val bprModule = module {
     }
 
     single { buildRetrofit() }
+    single<BicycleApi> {
+        get<Retrofit>().create(BicycleApi::class.java)
+    }
 
 }
 
 private fun buildRetrofit(): Retrofit {
     return Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
+        .client(OkHttpClient.Builder().build())
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 }
