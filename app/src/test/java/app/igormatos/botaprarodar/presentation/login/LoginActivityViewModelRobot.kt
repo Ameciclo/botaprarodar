@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.presentation.login
 
 import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import com.brunotmgomes.ui.getOrAwaitValue
+import com.brunotmgomes.ui.extensions.getOrAwaitValue
 import io.mockk.*
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.assertThat

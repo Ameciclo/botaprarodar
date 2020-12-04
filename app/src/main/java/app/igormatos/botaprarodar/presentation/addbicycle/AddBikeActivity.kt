@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.data.network.FirebaseHelper
-import app.igormatos.botaprarodar.common.util.REQUEST_PHOTO
-import app.igormatos.botaprarodar.common.util.loadPath
-import app.igormatos.botaprarodar.common.util.showLoadingDialog
-import app.igormatos.botaprarodar.common.util.takePictureIntent
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
+import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.brunotmgomes.ui.extensions.loadPath
+import com.brunotmgomes.ui.extensions.showLoadingDialog
+import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_add_bike.*
@@ -149,7 +149,7 @@ class AddBikeActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(afterSuccess: () -> Unit) {
-        loadingDialog = showLoadingDialog()
+        loadingDialog = showLoadingDialog(R.layout.loading_dialog_animation)
 
         imagePath?.let {
             FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
