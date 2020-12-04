@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.presentation.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
 abstract class LoginActivityViewModel: ViewModel() {

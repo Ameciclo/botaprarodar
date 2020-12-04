@@ -1,10 +1,9 @@
 package app.igormatos.botaprarodar
 
-import app.igormatos.botaprarodar.data.network.FirebaseAuthModule
-import app.igormatos.botaprarodar.data.network.FirebaseAuthModuleImpl
-import app.igormatos.botaprarodar.data.network.FirebaseHelperModule
-import app.igormatos.botaprarodar.data.network.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.*
+import app.igormatos.botaprarodar.data.repository.CommunityRepository
+import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
@@ -33,14 +32,22 @@ val bprModule = module {
         )
     }
 
-    single { AddCommunityUseCase(firebaseHelperModule = get()) }
+    single { buildRetrofit() }
+
+    single <CommunityApiService> {
+        buildRetrofit().create(CommunityApiService::class.java)
+    }
+    single { CommunityMapper() }
+    single { CommunityRepository(
+        communityApiService = get(),
+        communityMapper = get()
+    ) }
+    single { AddCommunityUseCase(communityRepository = get()) }
     viewModel{
         AddCommunityViewModel(
             communityUseCase = get()
         )
     }
-
-    single { buildRetrofit() }
 
 }
 

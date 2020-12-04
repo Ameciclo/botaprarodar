@@ -2,10 +2,8 @@ package app.igormatos.botaprarodar.data.network
 
 import android.net.Uri
 import android.os.Handler
-import app.igormatos.botaprarodar.domain.model.Bicycle
-import app.igormatos.botaprarodar.domain.model.Item
-import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.domain.model.Withdraw
+import app.igormatos.botaprarodar.domain.model.*
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException

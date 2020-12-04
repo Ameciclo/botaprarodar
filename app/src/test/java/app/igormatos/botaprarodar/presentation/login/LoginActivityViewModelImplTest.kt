@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.presentation.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import org.junit.Rule
 import org.junit.Test
 

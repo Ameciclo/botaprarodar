@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.presentation.login
 import androidx.test.filters.MediumTest
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import org.junit.Test
 import org.junit.runner.RunWith
 

@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.domain.model.RequestException
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
 class LoginActivityViewModelImpl(

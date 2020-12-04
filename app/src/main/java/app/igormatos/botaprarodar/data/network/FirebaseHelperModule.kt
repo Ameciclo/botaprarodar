@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.data.network
 
 import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import com.google.firebase.database.DatabaseReference

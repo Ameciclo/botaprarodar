@@ -21,7 +21,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.RequestException
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.data.network.RequestError
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.ViewEvent

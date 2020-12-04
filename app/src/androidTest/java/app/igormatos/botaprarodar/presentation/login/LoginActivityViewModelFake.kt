@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.presentation.login
 
 import androidx.lifecycle.MutableLiveData
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
 class LoginActivityViewModelFake(
