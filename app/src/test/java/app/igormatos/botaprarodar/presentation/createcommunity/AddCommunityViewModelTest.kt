@@ -1,7 +1,9 @@
 package app.igormatos.botaprarodar.presentation.createcommunity
 
 import androidx.lifecycle.Observer
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
+import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.model.community.CommunityBody
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -47,10 +49,10 @@ internal class AddCommunityViewModelTest {
             viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(any()) } returns SimpleResult.Success(
-                true
+                "response"
             )
 
-            viewModel.sendCommunity(Community())
+            viewModel.sendCommunity(CommunityBody())
 
             verify {
                 observerLoadingLiveDataMock.onChanged(true)
@@ -63,10 +65,10 @@ internal class AddCommunityViewModelTest {
             viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(any()) } returns SimpleResult.Success(
-                true
+                "response"
             )
 
-            viewModel.sendCommunity(Community())
+            viewModel.sendCommunity(CommunityBody())
 
             verify {
                 observerSuccessLiveDataMock.onChanged(true)
@@ -82,7 +84,7 @@ internal class AddCommunityViewModelTest {
         fun `WHEN firebase return is an exception, THEN update error live data exception`() = runBlocking {
             viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
-            val community = Community()
+            val community = CommunityBody()
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(community) } returns resultError
 

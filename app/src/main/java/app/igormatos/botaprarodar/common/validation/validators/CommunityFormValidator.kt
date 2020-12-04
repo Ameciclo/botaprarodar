@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.common.validation.validators
 import app.igormatos.botaprarodar.common.validation.RuleValidation
 import app.igormatos.botaprarodar.common.validation.Validator
 import app.igormatos.botaprarodar.common.validation.rules.EmptyCommunityInputFieldsRules
-import app.igormatos.botaprarodar.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 
 class CommunityFormValidator(
     private val emptyCommunityInputFieldsRules: EmptyCommunityInputFieldsRules
