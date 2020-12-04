@@ -6,7 +6,7 @@ import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import utils.SimpleResult
+import com.brunotmgomes.ui.SimpleResult
 
 interface FirebaseHelperModule {
 

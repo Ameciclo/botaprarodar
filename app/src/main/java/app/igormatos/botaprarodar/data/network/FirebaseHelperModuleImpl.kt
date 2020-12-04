@@ -8,7 +8,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
 import kotlinx.coroutines.tasks.await
-import utils.SimpleResult
+import com.brunotmgomes.ui.SimpleResult
 import java.io.File
 
 class FirebaseHelperModuleImpl : FirebaseHelperModule {
