@@ -52,6 +52,11 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+
       - name: Assemble app debug APK
         run: ./gradlew assembleDebug --stacktrace
         #env:
