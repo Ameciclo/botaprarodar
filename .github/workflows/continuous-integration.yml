@@ -90,7 +90,7 @@ jobs:
       - name: Download app APK
         uses: actions/download-artifact@v1
         with:
-          name: app-debug
+          name: botaprarodar
 
       - name: Download Android test APK
         uses: actions/download-artifact@v1
