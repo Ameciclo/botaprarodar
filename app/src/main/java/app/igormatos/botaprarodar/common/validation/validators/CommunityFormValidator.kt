@@ -4,11 +4,12 @@ import app.igormatos.botaprarodar.common.validation.RuleValidation
 import app.igormatos.botaprarodar.common.validation.Validator
 import app.igormatos.botaprarodar.common.validation.rules.EmptyCommunityInputFieldsRules
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.model.community.CommunityBody
 
 class CommunityFormValidator(
     private val emptyCommunityInputFieldsRules: EmptyCommunityInputFieldsRules
-) : Validator<Community> {
+) : Validator<CommunityBody> {
 
-    override fun getRules(): List<RuleValidation<Community>> = listOf(emptyCommunityInputFieldsRules)
+    override fun getRules(): List<RuleValidation<CommunityBody>> = listOf(emptyCommunityInputFieldsRules)
 
 }

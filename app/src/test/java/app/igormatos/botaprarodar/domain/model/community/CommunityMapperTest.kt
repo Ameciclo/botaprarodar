@@ -1,5 +1,7 @@
 package app.igormatos.botaprarodar.domain.model.community
 
+import app.igormatos.botaprarodar.utils.communityListResponseStub
+import app.igormatos.botaprarodar.utils.nullCommunityResponseItemListStub
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -17,22 +19,12 @@ class CommunityMapperTest {
     }
 
     @Nested
-    @DisplayName("Given a Community Response with null properties, When Community Response has been mapped to Community")
-    inner class NullCommunityDataMapper {
+    @DisplayName("Given a Community List Response")
+    inner class CommunityDataMapper {
 
         @Test
-        fun `should return a Community with default values`() {
-            val communityResponse = listOf(
-                CommunityResponse(
-                    address = null,
-                    description = null,
-                    name = null,
-                    orgEmail = null,
-                    orgName = null,
-                    id = null,
-                    createdDate = null
-                )
-            )
+        fun `When Response has null items, should return a Community List with default values`() {
+            val communityResponse = nullCommunityResponseItemListStub()
 
             val communityMapped = communityMapper.mapCommunityResponseToCommunity(communityResponse)
 
@@ -46,25 +38,9 @@ class CommunityMapperTest {
             }
         }
 
-    }
-
-    @Nested
-    @DisplayName("Given a Community Response with complete data, When Community Response has been mapped to Community")
-    inner class CompleteCommunityDataMapper {
-
         @Test
-        fun `should return a Community with same data`() {
-            val communityResponse = listOf(
-                CommunityResponse(
-                    address = "Rua Teste 123",
-                    description = "Descrição teste",
-                    name = "Nome teste",
-                    orgEmail = "teste@teste.com",
-                    orgName = "Nome Responsável",
-                    id = "id",
-                    createdDate = null
-                )
-            )
+        fun `When Response has complete items, should return a Community List with same data`() {
+            val communityResponse = communityListResponseStub()
 
             val communityMapped = communityMapper.mapCommunityResponseToCommunity(communityResponse)
 
