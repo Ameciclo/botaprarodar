@@ -66,7 +66,7 @@ jobs:
       - name: Upload app APK
         uses: actions/upload-artifact@v1
         with:
-          name: APK generated
+          name: botaprarodar
           path: app/build/outputs/apk/debug/botaprarodar.apk
 
       - name: Assemble Android Instrumentation Tests
