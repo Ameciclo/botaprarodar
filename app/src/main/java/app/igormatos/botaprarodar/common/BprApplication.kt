@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.common
 
 import android.app.Application
-import app.igormatos.botaprarodar.bprModule
+import app.igormatos.botaprarodar.di.bprModule
 import io.realm.Realm
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
