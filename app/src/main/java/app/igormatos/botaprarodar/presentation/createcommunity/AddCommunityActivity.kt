@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.util.isValidEmail
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
 import com.brunotmgomes.ui.extensions.isValidEmail
 import app.igormatos.botaprarodar.domain.model.community.CommunityBody

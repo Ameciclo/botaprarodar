@@ -1,5 +1,7 @@
 package app.igormatos.botaprarodar.common.validation
 
+import app.igormatos.botaprarodar.domain.model.community.CommunityBody
+
 interface Validator<T> {
 
     fun validate(entity: T) {

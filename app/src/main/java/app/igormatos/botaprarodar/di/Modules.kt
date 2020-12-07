@@ -35,7 +35,7 @@ val bprModule = module {
     single { buildRetrofit() }
 
     single <CommunityApiService> {
-        buildRetrofit().create(CommunityApiService::class.java)
+        get<Retrofit>().create(CommunityApiService::class.java)
     }
     single { CommunityMapper() }
     single { CommunityRepository(
