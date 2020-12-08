@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 
 class SharedPreferencesModule(appContext: Context) {
 
@@ -25,7 +25,7 @@ class SharedPreferencesModule(appContext: Context) {
         val communityName = sharedPrefs.getString(COMMUNITY_NAME, "")
         val communityId = sharedPrefs.getString(COMMUNITY_ID, "")
         val communityOrgName = sharedPrefs.getString(COMMUNITY_ORG_NAME, "")
-        return Community(name = communityName, id = communityId, org_name = communityOrgName)
+        return Community(name = communityName ?: "", id = communityId ?: "", org_name = communityOrgName ?: "")
     }
 
     fun isCommunitySelected(): Boolean {
