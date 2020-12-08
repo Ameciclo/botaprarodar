@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.data.network
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.model.Item
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -19,6 +20,8 @@ interface FirebaseHelperModule {
     fun setCommunityId(communityId: String)
 
     suspend fun addCommunity(community: Community) : SimpleResult<Boolean>
+
+    suspend fun addUser(user: User) : SimpleResult<Boolean>
 
     fun getCommunities(
         uid: String,

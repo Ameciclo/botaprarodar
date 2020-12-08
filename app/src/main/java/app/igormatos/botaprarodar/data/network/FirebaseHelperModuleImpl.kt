@@ -10,6 +10,7 @@ import com.google.firebase.storage.StorageException
 import kotlinx.coroutines.tasks.await
 import com.brunotmgomes.ui.SimpleResult
 import java.io.File
+import java.lang.Exception
 
 class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
@@ -26,7 +27,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         FirebaseHelper.setCommunityId(communityId)
     }
 
-    override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {
+    override suspend fun addCommunity(community: Community): SimpleResult<Boolean> {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
@@ -36,6 +37,10 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         } catch (storageException: StorageException) {
             SimpleResult.Error(storageException)
         }
+    }
+
+    override suspend fun addUser(user: User): SimpleResult<Boolean> {
+        return SimpleResult.Success(true)
     }
 
     override fun getCommunities(

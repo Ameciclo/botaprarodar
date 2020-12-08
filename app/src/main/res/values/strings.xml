@@ -60,5 +60,15 @@
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
     <string name="emailFormatWarning">Insira um email válido</string>
+    <string name="male">Masculino</string>
+    <string name="female">Feminino</string>
+    <string name="other">Outro</string>
+    <string name="not_describe">Prefere não responder</string>
+    <string name="add_user_button">Adicionar pessoa</string>
+    <string name="back">Verso</string>
+    <string name="front">Frente</string>
+    <string name="id_number">Número do RG ou CPF</string>
+    <string name="address">Endereço (Rua, número)</string>
+    <string name="need_permission_to_procede">Precisamos de sua permissão para tirar fotos</string>
 
 </resources>

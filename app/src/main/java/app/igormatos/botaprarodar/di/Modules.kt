@@ -7,6 +7,8 @@ import app.igormatos.botaprarodar.data.repository.CommunityRepository
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.presentation.adduser.AddUserViewModel
+import app.igormatos.botaprarodar.presentation.adduser.AddUserViewModelImpl
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
@@ -48,6 +50,12 @@ val bprModule = module {
     ) }
     single { AddCommunityUseCase(communityRepository = get()) }
     viewModel{
+    viewModel<AddUserViewModel> {
+        AddUserViewModelImpl(firebaseHelperModule = get())
+    }
+
+    single { AddCommunityUseCase(firebaseHelperModule = get()) }
+    viewModel {
         AddCommunityViewModel(
             communityUseCase = get()
         )

@@ -7,6 +7,7 @@
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
             android:maxSdkVersion="18"/>
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
             android:name="android.hardware.camera"
             android:required="true"/>
@@ -36,6 +37,7 @@
         </activity>
         <activity android:name=".presentation.adduser.AddUserActivity">
         </activity>
+        <activity android:name=".presentation.adduser.AddUserActivityNew"/>
 
         <provider
                 android:name="androidx.core.content.FileProvider"
