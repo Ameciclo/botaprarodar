@@ -1,8 +1,7 @@
 package app.igormatos.botaprarodar.data.network
 
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
-import app.igormatos.botaprarodar.domain.model.community.CommunityResponse
+import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -10,9 +9,9 @@ import retrofit2.http.POST
 interface CommunityApiService {
 
     @GET("communities.json")
-    suspend fun getCommunities() : List<CommunityResponse>
+    suspend fun getCommunities() : List<CommunityRequest>
 
-    @POST("communities.json")
-    suspend fun addCommunity(@Body communityBody: CommunityBody) : AddDataResponse
+    @POST("communities_preview.json")
+    suspend fun addCommunity(@Body communityBody: CommunityRequest) : AddDataResponse
 
 }

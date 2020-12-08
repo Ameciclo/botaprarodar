@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.domain.model.community
 
 import com.google.gson.annotations.SerializedName
 
-data class CommunityResponse (
+data class CommunityRequest (
     @SerializedName("address")
     val address: String?,
     @SerializedName("created_date")

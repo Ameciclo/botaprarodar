@@ -2,8 +2,8 @@ package app.igormatos.botaprarodar.domain.model.community
 
 class CommunityMapper {
 
-    fun mapCommunityResponseToCommunity(communityResponse: List<CommunityResponse>) =
-        communityResponse.map {
+    fun mapCommunityResponseToCommunity(communityRequest: List<CommunityRequest>) =
+        communityRequest.map {
             Community(
                 name = it.name ?: "",
                 address = it.address ?: "",

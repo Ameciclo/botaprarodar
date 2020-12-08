@@ -1,10 +1,8 @@
 package app.igormatos.botaprarodar.presentation.createcommunity
 
 import androidx.lifecycle.Observer
-import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.utils.completeCommunityRequestStub
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -48,7 +46,7 @@ internal class AddCommunityViewModelTest {
         fun `WHEN click to send a new community, THEN update loading live data to true`() {
             viewModel.getLoadingLiveDataValue().observeForever(observerLoadingLiveDataMock)
 
-            val community = CommunityBody()
+            val community = completeCommunityRequestStub()
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(community) } returns SimpleResult.Success(
                 "response"
@@ -63,10 +61,10 @@ internal class AddCommunityViewModelTest {
 
 
         @Test
-        fun `WHEN firebase return is a success, THEN update success live data to true`() {
+        fun `When firebase return is a success, should update success live data to true`() {
             viewModel.getSuccessLiveDataValue().observeForever(observerSuccessLiveDataMock)
 
-            val community = CommunityBody()
+            val community = completeCommunityRequestStub()
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(community) } returns SimpleResult.Success(
                 "response"
@@ -85,10 +83,10 @@ internal class AddCommunityViewModelTest {
     inner class FlowError {
 
         @Test
-        fun `WHEN firebase return is an exception, THEN update error live data exception`() {
+        fun `When firebase return is an exception, should update error live data exception`() {
             viewModel.getErrorLiveDataValue().observeForever(observerErrorLiveDataMock)
 
-            val community = CommunityBody()
+            val community = completeCommunityRequestStub()
 
             coEvery { addCommunityUseCaseMock.addNewCommunity(community) } returns resultError
 
