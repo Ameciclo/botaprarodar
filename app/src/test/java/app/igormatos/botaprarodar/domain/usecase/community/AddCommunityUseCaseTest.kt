@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.community
 
 import app.igormatos.botaprarodar.data.repository.CommunityRepository
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
+import app.igormatos.botaprarodar.utils.completeCommunityRequestStub
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -18,7 +18,7 @@ class AddCommunityUseCaseTest {
 
     val repositoryMock = mockk<CommunityRepository>()
 
-    val newCommunity = CommunityBody()
+    val newCommunity = completeCommunityRequestStub()
 
     @BeforeEach
     fun setUp() {

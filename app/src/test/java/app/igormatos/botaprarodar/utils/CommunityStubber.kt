@@ -1,11 +1,10 @@
 package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
-import app.igormatos.botaprarodar.domain.model.community.CommunityResponse
+import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 
 fun communityResponseStub() =
-    CommunityResponse(
+    CommunityRequest(
         "Rua Teste, 123",
         12345678,
         "Teste descricão",
@@ -38,17 +37,19 @@ fun mappedCommunityListStub() =
         mappedCommunityStub()
     )
 
-fun completeCommunityBodyStub() =
-    CommunityBody(
+fun completeCommunityRequestStub() =
+    CommunityRequest(
         name = "Teste",
         description = "Descrição teste",
         address = "Rua Teste, 123",
         orgName = "Nome Teste",
-        orgEmail = "teste@tste.com"
+        orgEmail = "teste@tste.com",
+        createdDate = 12345678,
+        id = null
     )
 
 fun nullCommunityResponseItemStub() =
-    CommunityResponse(
+    CommunityRequest(
         address = null,
         description = null,
         name = null,

@@ -2,8 +2,8 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.CommunityApiService
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
+import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 
 class CommunityRepository(
     private val communityApiService: CommunityApiService,
@@ -15,7 +15,8 @@ class CommunityRepository(
         return communityMapper.mapCommunityResponseToCommunity(communityListResponse)
     }
 
-    suspend fun addCommunity(community: CommunityBody) : String {
+    suspend fun addCommunity(community: CommunityRequest) : String {
         return communityApiService.addCommunity(community).name
     }
+
 }

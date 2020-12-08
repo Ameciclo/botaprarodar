@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.community
 
 import app.igormatos.botaprarodar.data.repository.CommunityRepository
-import app.igormatos.botaprarodar.domain.model.community.CommunityBody
+import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 import com.brunotmgomes.ui.SimpleResult
 import kotlin.Exception
 
@@ -9,7 +9,7 @@ class AddCommunityUseCase(
     private val communityRepository: CommunityRepository
 ) {
 
-    suspend fun addNewCommunity(community: CommunityBody) : SimpleResult<String> {
+    suspend fun addNewCommunity(community: CommunityRequest) : SimpleResult<String> {
         return try {
             SimpleResult.Success(communityRepository.addCommunity(community))
         } catch (exception: Exception) {

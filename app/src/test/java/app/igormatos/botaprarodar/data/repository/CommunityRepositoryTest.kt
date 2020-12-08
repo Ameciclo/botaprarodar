@@ -4,7 +4,7 @@ import app.igormatos.botaprarodar.data.network.CommunityApiService
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.utils.communityListResponseStub
-import app.igormatos.botaprarodar.utils.completeCommunityBodyStub
+import app.igormatos.botaprarodar.utils.completeCommunityRequestStub
 import app.igormatos.botaprarodar.utils.mappedCommunityListStub
 import io.mockk.coEvery
 import io.mockk.every
@@ -42,7 +42,7 @@ class CommunityRepositoryTest {
 
             val repositoryReturn = runBlocking {
                 communityRepository.addCommunity(
-                    completeCommunityBodyStub()
+                    completeCommunityRequestStub()
                 )
             }
 
@@ -61,7 +61,7 @@ class CommunityRepositoryTest {
             assertThrows(Exception::class.java) {
                 runBlocking {
                     communityRepository.addCommunity(
-                        completeCommunityBodyStub()
+                        completeCommunityRequestStub()
                     )
                 }
             }
