@@ -3,6 +3,9 @@ package app.igormatos.botaprarodar.di
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.*
+import app.igormatos.botaprarodar.data.repository.CommunityRepository
+import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
+import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
@@ -33,14 +36,23 @@ val bprModule = module {
         )
     }
 
-    single { AddCommunityUseCase(firebaseHelperModule = get()) }
+    single { buildRetrofit() }
+
+    single <CommunityApiService> {
+        get<Retrofit>().create(CommunityApiService::class.java)
+    }
+    single { CommunityMapper() }
+    single { CommunityRepository(
+        communityApiService = get(),
+        communityMapper = get()
+    ) }
+    single { AddCommunityUseCase(communityRepository = get()) }
     viewModel{
         AddCommunityViewModel(
             communityUseCase = get()
         )
     }
 
-    single { buildRetrofit() }
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }

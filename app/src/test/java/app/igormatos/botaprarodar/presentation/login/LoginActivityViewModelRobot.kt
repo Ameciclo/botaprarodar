@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.login
 
 import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.extensions.getOrAwaitValue
 import io.mockk.*
 import org.hamcrest.CoreMatchers.*

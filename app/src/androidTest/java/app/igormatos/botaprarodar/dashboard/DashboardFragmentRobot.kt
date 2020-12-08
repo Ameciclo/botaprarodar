@@ -1,9 +1,5 @@
 package app.igormatos.botaprarodar.dashboard
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -20,7 +16,7 @@ class DashboardFragmentRobot : BaseRobot() {
         scrollToViewById(R.id.genderChart)
     }
 
-    fun scrollToAvalabilityChart() {
+    fun scrollToAvailabilityChart() {
         scrollToViewById(R.id.availableBikesChart)
     }
 

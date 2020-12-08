@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.data.network.Community
+import app.igormatos.botaprarodar.domain.model.community.Community
 import kotlinx.android.synthetic.main.item_community.view.*
 
 class CommunityAdapter(

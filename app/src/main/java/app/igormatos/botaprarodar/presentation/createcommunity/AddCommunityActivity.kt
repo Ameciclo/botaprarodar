@@ -5,13 +5,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.data.network.Community
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
 import com.brunotmgomes.ui.extensions.isValidEmail
+import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 import kotlinx.android.synthetic.main.activity_add_community.*
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.showDialogMessage
 import com.brunotmgomes.ui.extensions.snackBarMaker
+import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class AddCommunityActivity : AppCompatActivity() {
@@ -47,14 +48,16 @@ class AddCommunityActivity : AppCompatActivity() {
         return viewBinding.communityOrgEmailInput.text.isValidEmail()
     }
 
-    private fun createNewCommunity() : Community {
+    private fun createNewCommunity() : CommunityRequest {
         viewBinding.let { view ->
-            return Community(
-                view.communityNameInput.text.toString(),
-                view.communityDescriptionInput.text.toString(),
-                view.communityAddressInput.text.toString(),
-                view.communityOrgNameInput.text.toString(),
-                view.communityOrgEmailInput.text.toString()
+            return CommunityRequest(
+                name = view.communityNameInput.text.toString(),
+                description = view.communityDescriptionInput.text.toString(),
+                address = view.communityAddressInput.text.toString(),
+                orgName = view.communityOrgNameInput.text.toString(),
+                orgEmail = view.communityOrgEmailInput.text.toString(),
+                createdDate = Calendar.getInstance().timeInMillis,
+                id = null
             )
         }
     }
@@ -90,7 +93,7 @@ class AddCommunityActivity : AppCompatActivity() {
 
     }
 
-    private fun showConfirmationDialog(community: Community) {
+    private fun showConfirmationDialog(community: CommunityRequest) {
         showDialogMessage(
             title = getString(R.string.community_confirm_title),
             message = getCommunityMessage(community),
@@ -100,7 +103,7 @@ class AddCommunityActivity : AppCompatActivity() {
         )
     }
 
-    private fun getCommunityMessage(community: Community) = "${community.name} \n${community.description} \n${community.address} \n${community.org_name} \n${community.org_email}"
+    private fun getCommunityMessage(community: CommunityRequest) = "${community.name} \n${community.description} \n${community.address} \n${community.orgName} \n${community.orgEmail}"
 
     override fun onDestroy() {
         super.onDestroy()
