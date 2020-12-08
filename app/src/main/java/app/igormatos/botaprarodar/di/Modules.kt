@@ -54,6 +54,10 @@ val bprModule = module {
         AddUserViewModelImpl(firebaseHelperModule = get())
     }
 
+    viewModel<AddUserViewModel> {
+        AddUserViewModelImpl(firebaseHelperModule = get())
+    }
+
     single { AddCommunityUseCase(firebaseHelperModule = get()) }
     viewModel {
         AddCommunityViewModel(
