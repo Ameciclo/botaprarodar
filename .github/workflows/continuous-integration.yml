@@ -29,7 +29,6 @@ jobs:
 
   apk:
     name: Generate APK
-    needs: decode
     runs-on: ubuntu-18.04
 
     steps:
