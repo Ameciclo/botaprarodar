@@ -7,8 +7,18 @@ on:
 #     branches: [ master, development ]
 
 jobs:
+  decode:
+    name: Decode google-services.json
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+
   build:
     name: Tests Unitaires
+    needs: decode
     runs-on: macos-latest
     steps:
       - name: Checkout project
@@ -18,15 +28,16 @@ jobs:
         with: 
           java-version: 1.8
       
-      - name: Decode google-services.json
-        env:
-          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
-        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+      #- name: Decode google-services.json
+      #  env:
+      #    FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+      #  run: echo $FIREBASE_SECRET_DEV > app/google-services.json
       - name: Run unit tests
         run: ./gradlew clean test
 
   apk:
     name: Generate APK
+    needs: decode
     runs-on: ubuntu-18.04
 
     steps:
@@ -37,10 +48,10 @@ jobs:
           java-version: 1.8
 
       #Decodificando google-services
-      - name: Decode google-services.json
-        env:
-          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
-        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+      #- name: Decode google-services.json
+      #  env:
+      #    FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+      #  run: echo $FIREBASE_SECRET_DEV > app/google-services.json
       #Gerando APK
       - name: Assemble app debug APK
         run: bash ./gradlew clean assembleDebug --stacktrace
