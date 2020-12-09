@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Tests Unitaires
     runs-on: macos-latest
     steps:
       - name: Checkout project
@@ -23,23 +24,6 @@ jobs:
         run: echo $FIREBASE_SECRET_DEV > app/google-services.json
       - name: Run unit tests
         run: ./gradlew clean test
-#       - name: Run instrumentation tests
-#         uses: reactivecircus/android-emulator-runner@v2
-#         with:
-#           api-level: 29
-#           arch: x86_64
-#           script: ./gradlew connectedCheck
-      # Run the Firebase Test Lab Action
-
-#      - name: Generate APK
-#        run: ./gradlew clean assembleDebug
-#      - name: Rename APK
-#        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/botaprarodar.apk
-#      - name: Upload APK
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: APK generated
-#          path: app/build/outputs/apk/debug/botaprarodar.apk
 
   apk:
     name: Generate APK
@@ -52,15 +36,14 @@ jobs:
         with:
           java-version: 1.8
 
+      #Decodificando google-services
       - name: Decode google-services.json
         env:
           FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
         run: echo $FIREBASE_SECRET_DEV > app/google-services.json
-
+      #Gerando APK
       - name: Assemble app debug APK
-        run: ./gradlew assembleDebug --stacktrace
-        #env:
-          #ZTM_API_KEY: ${{ secrets.ZTM_API_KEY }}
+        run: bash ./gradlew clean assembleDebug --stacktrace
       - name: Rename APK
         run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/botaprarodar.apk
       - name: Upload app APK
@@ -68,11 +51,9 @@ jobs:
         with:
           name: botaprarodar
           path: app/build/outputs/apk/debug/botaprarodar.apk
-
+      #Gerado APK para testes instrumentados
       - name: Assemble Android Instrumentation Tests
         run: bash ./gradlew assembleDebugAndroidTest
-        #env:
-          #ZTM_API_KEY: ${{ secrets.ZTM_API_KEY }}
       - name: Upload Android Test APK
         uses: actions/upload-artifact@v1
         with:
