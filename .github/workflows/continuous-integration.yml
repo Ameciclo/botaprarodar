@@ -7,14 +7,6 @@ on:
 #     branches: [ master, development ]
 
 jobs:
-  decode:
-    name: Decode google-services.json
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Decode google-services.json
-        env:
-          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
-        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
 
   build:
     name: Tests Unitaires
