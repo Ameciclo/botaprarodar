@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
