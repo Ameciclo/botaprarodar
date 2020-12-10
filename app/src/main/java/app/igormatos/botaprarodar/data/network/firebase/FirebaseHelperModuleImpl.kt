@@ -1,42 +1,47 @@
-package app.igormatos.botaprarodar.data.network
+package app.igormatos.botaprarodar.data.network.firebase
 
 import android.net.Uri
 import android.os.Handler
+import app.igormatos.botaprarodar.data.network.RequestError
+import app.igormatos.botaprarodar.data.network.RequestListener
+import app.igormatos.botaprarodar.data.network.SingleRequestListener
 import app.igormatos.botaprarodar.domain.model.*
 import app.igormatos.botaprarodar.domain.model.community.Community
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
+import kotlinx.coroutines.tasks.await
+import com.brunotmgomes.ui.SimpleResult
 import java.io.File
 
-@Deprecated("use FirebaseHelperModule instead")
-object FirebaseHelper {
+class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
-    val instance = FirebaseDatabase.getInstance()
+    override val instance = FirebaseDatabase.getInstance()
 
-    val adminsReference = instance.getReference("admins")
-    val communitiesPreview = instance.getReference("communities_preview")
-    val communities = instance.getReference("communities")
+    override val adminsReference = instance.getReference("admins")
+    override val communitiesPreview = instance.getReference("communities_preview")
+    override val communities = instance.getReference("communities")
 
     private var communityId: String? = null
 
-    fun setCommunityId(communityId: String) {
-        FirebaseHelper.communityId = communityId
+    override fun setCommunityId(communityId: String) {
+        this.communityId = communityId
+        FirebaseHelper.setCommunityId(communityId)
     }
 
-    fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
+    override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
-        listener.onStart()
-        communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
-            listener.onCompleted(true)
-        }.addOnFailureListener {
-            listener.onError(RequestError.DEFAULT)
+        return try {
+            communitiesPreview.child(communityKey).setValue(community).await()
+            SimpleResult.Success(true)
+        } catch (storageException: StorageException) {
+            SimpleResult.Error(storageException)
         }
-
     }
 
-    fun getCommunities(
+    override fun getCommunities(
         uid: String,
         email: String,
         listener: SingleRequestListener<Pair<Boolean, List<Community>>>
@@ -90,9 +95,9 @@ object FirebaseHelper {
         })
     }
 
-    fun getUsers(
+    override fun getUsers(
         communityId: String,
-        onlyAvailable: Boolean? = false,
+        onlyAvailable: Boolean?,
         listener: RequestListener<Item>
     ) {
         val usersReference = communities.child(communityId).child("users")
@@ -131,7 +136,7 @@ object FirebaseHelper {
 
     }
 
-    fun getWithdrawals(
+    override fun getWithdrawals(
         communityId: String,
         error: () -> Unit,
         listener: RequestListener<Withdraw>
@@ -168,7 +173,7 @@ object FirebaseHelper {
             .addChildEventListener(withdrawalsListener)
     }
 
-    fun saveItem(item: Item, block: (Boolean) -> Unit) {
+    override fun saveItem(item: Item, block: (Boolean) -> Unit) {
         if (communityId == null) block(false)
 
         val reference = communities.child(communityId!!).child(item.path)
@@ -182,7 +187,7 @@ object FirebaseHelper {
         }
     }
 
-    fun updateBicycleStatus(id: String, inUse: Boolean, block: (Boolean) -> Unit) {
+    override fun updateBicycleStatus(id: String, inUse: Boolean, block: (Boolean) -> Unit) {
         if (communityId == null) {
             block(false)
             return
@@ -198,7 +203,7 @@ object FirebaseHelper {
 
     }
 
-    fun getWithdrawalFromBicycle(bicycleId: String, block: (Withdraw?) -> Unit) {
+    override fun getWithdrawalFromBicycle(bicycleId: String, block: (Withdraw?) -> Unit) {
         if (communityId == null) {
             block(null)
             return
@@ -242,9 +247,9 @@ object FirebaseHelper {
 
     }
 
-    fun getBicycles(
+    override fun getBicycles(
         communityId: String,
-        onlyAvailable: Boolean? = false,
+        onlyAvailable: Boolean?,
         listener: RequestListener<Bicycle>
     ) {
         val bicyclesReference = communities.child(communityId).child("bicycles")
@@ -286,7 +291,7 @@ object FirebaseHelper {
     }
 
 
-    fun uploadImage(imagePath: String, block: (Boolean, String?, String?) -> Unit) {
+    override fun uploadImage(imagePath: String, block: (Boolean, String?, String?) -> Unit) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
 

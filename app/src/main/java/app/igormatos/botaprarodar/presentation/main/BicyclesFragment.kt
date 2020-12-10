@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter

@@ -1,15 +1,15 @@
 package app.igormatos.botaprarodar.data.repository
 
-import app.igormatos.botaprarodar.data.network.BicycleApi
+import app.igormatos.botaprarodar.data.model.BicycleRequest
+import app.igormatos.botaprarodar.data.network.api.BicycleApi
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bicycle
-import io.mockk.MockKAnnotations
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 @ExtendWith(MockKExtension::class)
 @DisplayName("Given BicycleRepository")
@@ -47,6 +48,28 @@ internal class BicycleRepositoryTest {
             assertTrue(result.containsKey("789"))
             assertTrue(result.containsKey("098"))
             assertTrue(result.containsKey("876"))
+        }
+
+    }
+
+    @Nested
+    @DisplayName("WHEN add new bicycle")
+    inner class AddNewBicycle {
+
+        @Test
+        fun `should add new bicycle`() = runBlocking {
+            coEvery { api.addNewBicycle(any(), any()) } returns AddDataResponse("New Bicycle")
+
+            val result = repository.addNewBicycle(
+                "1000",
+                BicycleRequest(name = "New Bicycle",
+                    orderNumber = 1010,
+                    serialNumber = "New Serial",
+                    createdDate = Date().toString()
+                ))
+
+            assertTrue(result.isNotBlank())
+            assertEquals("New Bicycle", result)
         }
 
     }

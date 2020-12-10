@@ -13,7 +13,7 @@ import app.igormatos.botaprarodar.domain.model.DashboardInformation
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.*

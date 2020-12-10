@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.data.network
+package app.igormatos.botaprarodar.data.network.firebase
 
 import com.google.firebase.auth.FirebaseUser
 
