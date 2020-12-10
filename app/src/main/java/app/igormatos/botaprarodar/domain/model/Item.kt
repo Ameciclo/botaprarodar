@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.domain.model
 
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import java.text.SimpleDateFormat
 import java.util.*
 

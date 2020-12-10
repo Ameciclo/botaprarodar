@@ -1,5 +1,7 @@
-package app.igormatos.botaprarodar.data.network
+package app.igormatos.botaprarodar.data.network.firebase
 
+import app.igormatos.botaprarodar.data.network.RequestListener
+import app.igormatos.botaprarodar.data.network.SingleRequestListener
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.model.Item

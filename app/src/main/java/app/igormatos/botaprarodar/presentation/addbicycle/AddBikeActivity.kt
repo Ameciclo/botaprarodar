@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bicycle
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
 import com.brunotmgomes.ui.extensions.loadPath
