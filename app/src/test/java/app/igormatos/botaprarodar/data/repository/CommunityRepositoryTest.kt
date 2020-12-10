@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.data.repository
 
-import app.igormatos.botaprarodar.data.network.CommunityApiService
+import app.igormatos.botaprarodar.data.network.api.CommunityApiService
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.utils.communityListResponseStub

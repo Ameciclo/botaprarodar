@@ -2,10 +2,17 @@ package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.data.repository.CommunityRepository
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
-import app.igormatos.botaprarodar.data.network.*
+import app.igormatos.botaprarodar.data.network.api.BicycleApi
+import app.igormatos.botaprarodar.data.network.api.CommunityApiService
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
+import app.igormatos.botaprarodar.data.repository.BicycleRepository
+import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
+import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
@@ -55,6 +62,18 @@ val bprModule = module {
 
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
+    }
+
+    single {
+        BicycleRepository(get<BicycleApi>())
+    }
+
+    single {
+        AddNewBicycleUseCase(get<BicycleRepository>())
+    }
+
+    single {
+        BicyclesListUseCase(get<BicycleRepository>())
     }
 
 }

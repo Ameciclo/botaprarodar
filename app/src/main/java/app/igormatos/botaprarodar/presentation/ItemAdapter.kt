@@ -17,7 +17,7 @@ import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.data.network.FirebaseHelper
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.presentation.addbicycle.AddBikeActivity
 import app.igormatos.botaprarodar.presentation.addbicycle.BIKE_EXTRA
 import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity

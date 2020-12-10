@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.data.network
+package app.igormatos.botaprarodar.data.network.api
 
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
