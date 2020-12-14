@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.adduser
+package app.igormatos.botaprarodar.common
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

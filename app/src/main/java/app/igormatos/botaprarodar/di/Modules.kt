@@ -6,7 +6,9 @@ import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.data.repository.CommunityRepository
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.data.network.*
+import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.domain.usecase.user.AddUserUseCase
 import app.igormatos.botaprarodar.presentation.adduser.AddUserViewModel
 import app.igormatos.botaprarodar.presentation.adduser.AddUserViewModelImpl
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
@@ -40,25 +42,17 @@ val bprModule = module {
 
     single { buildRetrofit() }
 
-    single <CommunityApiService> {
+    single<CommunityApiService> {
         get<Retrofit>().create(CommunityApiService::class.java)
     }
     single { CommunityMapper() }
-    single { CommunityRepository(
-        communityApiService = get(),
-        communityMapper = get()
-    ) }
+    single {
+        CommunityRepository(
+            communityApiService = get(),
+            communityMapper = get()
+        )
+    }
     single { AddCommunityUseCase(communityRepository = get()) }
-    viewModel{
-    viewModel<AddUserViewModel> {
-        AddUserViewModelImpl(firebaseHelperModule = get())
-    }
-
-    viewModel<AddUserViewModel> {
-        AddUserViewModelImpl(firebaseHelperModule = get())
-    }
-
-    single { AddCommunityUseCase(firebaseHelperModule = get()) }
     viewModel {
         AddCommunityViewModel(
             communityUseCase = get()
@@ -69,6 +63,23 @@ val bprModule = module {
         get<Retrofit>().create(BicycleApi::class.java)
     }
 
+    single { AddUserUseCase(userRepository = get()) }
+    single {
+        UserRepository(
+            userApi = get(),
+            preferencesModule = get()
+        )
+    }
+    single<UserApiService> {
+        get<Retrofit>().create(UserApiService::class.java)
+    }
+
+    viewModel<AddUserViewModel> {
+        AddUserViewModelImpl(
+            firebaseHelperModule = get(),
+            userUseCase = get()
+        )
+    }
 }
 
 private fun buildRetrofit(): Retrofit {

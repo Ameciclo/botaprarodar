@@ -11,7 +11,7 @@
 
         <import type="app.igormatos.botaprarodar.presentation.adduser.RequestPictureMode" />
 
-        <import type="app.igormatos.botaprarodar.presentation.adduser.Gender" />
+        <import type="app.igormatos.botaprarodar.domain.model.user.Gender" />
 
         <import type="android.view.View" />
     </data>
