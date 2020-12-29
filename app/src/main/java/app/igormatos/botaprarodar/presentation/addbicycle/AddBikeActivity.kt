@@ -7,9 +7,12 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
+import app.igormatos.botaprarodar.presentation.STATUS
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
 import com.brunotmgomes.ui.extensions.loadPath
@@ -18,22 +21,19 @@ import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_add_bike.*
+import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 import org.parceler.Parcels
 
 val BIKE_EXTRA = "Bike_extra"
 
-class AddBikeActivity : AppCompatActivity() {
+class AddBikeActivity : AppCompatActivity(){
 
     var bicycleToAdd = Bicycle()
     var editMode: Boolean = false
     var imagePath: String? = null
     var loadingDialog: AlertDialog? = null
 
-    companion object {
-        fun start() {
-
-        }
-    }
+    private val viewModel: AddBikeViewModel by koinViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +78,16 @@ class AddBikeActivity : AppCompatActivity() {
         } else {
             getString(R.string.bicycle_add_button)
         }
+
+        viewModel.getBicycleData().observe(this, Observer {
+            when (it.status) {
+                STATUS.OPEN_LOADING -> TODO()
+                STATUS.SUCCESS -> {
+                    successText()
+                }
+                STATUS.ERROR -> TODO()
+            }
+        })
     }
 
     private fun checkIfEditMode(parcelable: Parcelable?) {
@@ -129,6 +139,12 @@ class AddBikeActivity : AppCompatActivity() {
     }
 
     fun successText(): String {
+        return if (editMode) getString(R.string.bicycle_update_success) else getString(
+            R.string.bicycle_add_success
+        )
+    }
+
+    fun errorText(): String {
         return if (editMode) getString(R.string.bicycle_update_success) else getString(
             R.string.bicycle_add_success
         )

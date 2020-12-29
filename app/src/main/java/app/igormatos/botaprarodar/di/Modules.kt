@@ -14,6 +14,7 @@ import app.igormatos.botaprarodar.data.repository.BicycleRepository
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.presentation.addbicycle.AddBikeViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
@@ -60,6 +61,10 @@ val bprModule = module {
         )
     }
 
+    viewModel {
+        AddBikeViewModel(addNewBicycleUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
+    }
+
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }
@@ -69,7 +74,7 @@ val bprModule = module {
     }
 
     single {
-        AddNewBicycleUseCase(get<BicycleRepository>())
+        AddNewBicycleUseCase(bicycleRepository = get<BicycleRepository>())
     }
 
     single {

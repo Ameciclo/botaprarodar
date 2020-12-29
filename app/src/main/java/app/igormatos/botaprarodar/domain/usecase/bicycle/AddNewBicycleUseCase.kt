@@ -12,15 +12,15 @@ class AddNewBicycleUseCase(private val bicycleRepository: BicycleRepository) {
     private val bicycleRequestConvert = BicycleRequestConvert()
 
     suspend fun addNewBicycle(communityId: String, bicycle: Bicycle): SimpleResult<String> {
-        return withContext(Dispatchers.IO) {
-            return@withContext try {
+
+            return try {
                 val bicycleRequest = bicycleRequestConvert.convert(bicycle)
                 val result = bicycleRepository.addNewBicycle(communityId, bicycleRequest)
                 SimpleResult.Success(result)
             } catch (exception: Exception) {
                 SimpleResult.Error(exception)
             }
-        }
+
     }
 
 }
