@@ -1,14 +1,12 @@
 package app.igormatos.botaprarodar.presentation.addbicycle
 
 import androidx.lifecycle.*
+import app.igormatos.botaprarodar.common.NetworkResource
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
-import app.igormatos.botaprarodar.presentation.STATUS
-import com.brunotmgomes.ui.SimpleResult
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class AddBikeViewModel(
     private val addNewBicycleUseCase: AddNewBicycleUseCase,
@@ -16,32 +14,31 @@ class AddBikeViewModel(
 ) : ViewModel(),
     LifecycleObserver {
 
-    private val bicycleData: MutableLiveData<BicycleResponseView> =
-        MutableLiveData(BicycleResponseView(status = null, errorMessage = null))
+    private val registeredBicycleResult = MutableLiveData<NetworkResource<Boolean>>()
 
-    fun getBicycleData(): LiveData<BicycleResponseView> = bicycleData
+    fun getRegisteredBicycleResult(): LiveData<NetworkResource<Boolean>> = registeredBicycleResult
 
-
-    /*fun addBicycle(bicycle: Bicycle) {
-        _addBicycle(bicycle)
-    }*/
-
-     fun addBicycle(bicycle: Bicycle) {
+    fun registerBicycle(bicycle: Bicycle) {
+        registeredBicycleResult.postValue(NetworkResource.Loading(null))
         viewModelScope.launch {
-           val result = addNewBicycleUseCase.addNewBicycle(communityId = community.id, bicycle = bicycle)
+            try {
+                val result = addNewBicycleUseCase.addNewBicycle(
+                    communityId = community.id,
+                    bicycle = bicycle)
 
-            when (result){
-                is SimpleResult.Success -> {
-                    bicycleData.postValue(bicycleData.value?.apply {
-                        status = STATUS.SUCCESS
-                    })
-                }
-                is SimpleResult.Error -> {
-                    bicycleData.postValue(bicycleData.value?.apply {
-                        status = STATUS.ERROR
-                    })
-                }
+                resultSuccess()
+
+            } catch (e: Exception) {
+                resultError(e)
             }
         }
+    }
+
+    private fun resultError(e: Exception) {
+        registeredBicycleResult.postValue(NetworkResource.Error(e.message))
+    }
+
+    private fun resultSuccess() {
+        registeredBicycleResult.postValue(NetworkResource.Success(true))
     }
 }
