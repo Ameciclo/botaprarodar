@@ -7,7 +7,6 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bicycle
@@ -79,7 +78,7 @@ class AddBikeActivity : AppCompatActivity(){
             getString(R.string.bicycle_add_button)
         }
 
-        viewModel.getBicycleData().observe(this, Observer {
+        viewModel.getRegisteredBicycleResult().observe(this, Observer {
             when (it.status) {
                 STATUS.OPEN_LOADING -> TODO()
                 STATUS.SUCCESS -> {
