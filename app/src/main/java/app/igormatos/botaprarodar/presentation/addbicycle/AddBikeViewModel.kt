@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.presentation.addbicycle
 
 import androidx.lifecycle.*
-import app.igormatos.botaprarodar.common.NetworkResource
+import app.igormatos.botaprarodar.common.Status
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
@@ -14,12 +14,13 @@ class AddBikeViewModel(
 ) : ViewModel(),
     LifecycleObserver {
 
-    private val registeredBicycleResult = MutableLiveData<NetworkResource<Boolean>>()
+    private val registeredBicycleResult = MutableLiveData<Status<Boolean>>()
 
-    fun getRegisteredBicycleResult(): LiveData<NetworkResource<Boolean>> = registeredBicycleResult
+    fun getRegisteredBicycleResult(): LiveData<Status<Boolean>> = registeredBicycleResult
 
     fun registerBicycle(bicycle: Bicycle) {
-        registeredBicycleResult.postValue(NetworkResource.Loading(null))
+        registeredBicycleResult.postValue(Status.Loading(null))
+
         viewModelScope.launch {
             try {
                 val result = addNewBicycleUseCase.addNewBicycle(
@@ -35,10 +36,10 @@ class AddBikeViewModel(
     }
 
     private fun resultError(e: Exception) {
-        registeredBicycleResult.postValue(NetworkResource.Error(e.message))
+        registeredBicycleResult.postValue(Status.Error(e.message))
     }
 
     private fun resultSuccess() {
-        registeredBicycleResult.postValue(NetworkResource.Success(true))
+        registeredBicycleResult.postValue(Status.Success(true))
     }
 }
