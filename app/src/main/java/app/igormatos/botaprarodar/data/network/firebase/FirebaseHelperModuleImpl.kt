@@ -250,7 +250,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
     override fun getBicycles(
         communityId: String,
         onlyAvailable: Boolean?,
-        listener: RequestListener<Bicycle>
+        listener: RequestListener<Bike>
     ) {
         val bicyclesReference = communities.child(communityId).child("bicycles")
 
@@ -331,8 +331,8 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         return snapshot.getValue(User::class.java)
     }
 
-    private fun snapshotToBicycle(snapshot: DataSnapshot): Bicycle? {
-        return snapshot.getValue(Bicycle::class.java)
+    private fun snapshotToBicycle(snapshot: DataSnapshot): Bike? {
+        return snapshot.getValue(Bike::class.java)
     }
 
 }

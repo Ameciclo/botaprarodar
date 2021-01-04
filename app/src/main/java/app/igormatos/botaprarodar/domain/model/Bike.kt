@@ -7,7 +7,7 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class Bicycle : Item {
+class Bike : Item {
 
     override val path: String = "bicycles"
 

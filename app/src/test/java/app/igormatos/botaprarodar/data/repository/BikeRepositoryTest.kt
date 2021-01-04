@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.data.repository
 import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
@@ -21,9 +21,9 @@ import java.util.*
 
 @ExtendWith(MockKExtension::class)
 @DisplayName("Given BicycleRepository")
-internal class BicycleRepositoryTest {
+internal class BikeRepositoryTest {
     @InjectMockKs
-    private lateinit var repository: BicycleRepository
+    private lateinit var repository: BikeRepository
     @MockK
     private lateinit var api: BicycleApi
 
@@ -54,13 +54,13 @@ internal class BicycleRepositoryTest {
 
     @Nested
     @DisplayName("WHEN add new bicycle")
-    inner class AddNewBicycle {
+    inner class AddNewBike {
 
         @Test
         fun `should add new bicycle`() = runBlocking {
             coEvery { api.addNewBicycle(any(), any()) } returns AddDataResponse("New Bicycle")
 
-            val result = repository.addNewBicycle(
+            val result = repository.addNewBike(
                 "1000",
                 BicycleRequest(name = "New Bicycle",
                     orderNumber = 1010,
@@ -74,11 +74,11 @@ internal class BicycleRepositoryTest {
 
     }
 
-    fun createBicycleResponse(): Map<String, Bicycle> {
-        return mapOf(Pair("123", Bicycle()),
-            Pair("456", Bicycle()),
-            Pair("789", Bicycle()),
-            Pair("098", Bicycle()),
-            Pair("876", Bicycle()))
+    fun createBicycleResponse(): Map<String, Bike> {
+        return mapOf(Pair("123", Bike()),
+            Pair("456", Bike()),
+            Pair("789", Bike()),
+            Pair("098", Bike()),
+            Pair("876", Bike()))
     }
 }
