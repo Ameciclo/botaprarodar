@@ -14,7 +14,7 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
-import app.igormatos.botaprarodar.presentation.addbicycle.AddBikeActivity
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
 
@@ -42,7 +42,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, AddBikeActivity::class.java)
+            val intent = Intent(it.context, BikeFormActivity::class.java)
             startActivity(intent)
         }
 
