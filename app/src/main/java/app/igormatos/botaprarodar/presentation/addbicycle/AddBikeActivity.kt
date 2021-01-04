@@ -7,11 +7,13 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.NetworkResource
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.presentation.STATUS
+import app.igormatos.botaprarodar.databinding.ActivityAddBikeBinding
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
 import com.brunotmgomes.ui.extensions.loadPath
@@ -19,13 +21,12 @@ import com.brunotmgomes.ui.extensions.showLoadingDialog
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.activity_add_bike.*
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 import org.parceler.Parcels
 
 val BIKE_EXTRA = "Bike_extra"
 
-class AddBikeActivity : AppCompatActivity(){
+class AddBikeActivity : AppCompatActivity() {
 
     var bicycleToAdd = Bicycle()
     var editMode: Boolean = false
@@ -34,17 +35,25 @@ class AddBikeActivity : AppCompatActivity(){
 
     private val viewModel: AddBikeViewModel by koinViewModel()
 
+    private val binding: ActivityAddBikeBinding by lazy {
+        DataBindingUtil.setContentView<ActivityAddBikeBinding>(this, R.layout.activity_add_bike)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bike)
 
-        bikePhotoImageView.setOnClickListener {
-            takePictureIntent(REQUEST_PHOTO) { path ->
-                this.imagePath = path
-            }
-        }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        saveButton.setOnClickListener {
+        val bicycleParcelable: Parcelable? = if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
+        checkIfEditMode(bicycleParcelable)
+
+        onClickBicyclePhotoImage()
+
+        waitBicycleRegisterResult()
+
+       /* binding.saveButton.setOnClickListener {
             if (hasEmptyField()) {
                 Toast.makeText(
                     this@AddBikeActivity,
@@ -55,7 +64,7 @@ class AddBikeActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            saveButton.isEnabled = false
+            binding.saveButton.isEnabled = false
 
             if (editMode) {
                 addBikeToServer()
@@ -64,30 +73,32 @@ class AddBikeActivity : AppCompatActivity(){
                 uploadImage { addBikeToServer() }
             }
 
-        }
+        }*/
 
-        val bicycleParcelable: Parcelable? =
-            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(
-                BIKE_EXTRA
-            ) else null
-        checkIfEditMode(bicycleParcelable)
-
-        toolbar.title = if (editMode) {
+        binding.toolbar.title = if (editMode) {
             getString(R.string.bicycle_update_button)
         } else {
             getString(R.string.bicycle_add_button)
         }
 
-        viewModel.getRegisteredBicycleResult().observe(this, Observer {
-            when (it.status) {
-                STATUS.OPEN_LOADING -> TODO()
-                STATUS.SUCCESS -> {
-                    successText()
-                }
-                STATUS.ERROR -> TODO()
+    }
+
+    private fun waitBicycleRegisterResult() {
+        binding.viewModel.getRegisteredBicycleResult().observe(this, Observer { netWorkResource ->
+            when (netWorkResource) {
+                is NetworkResource.Loading -> TODO()
+                is NetworkResource.Success -> successText()
+                is NetworkResource.Error -> TODO()
             }
         })
     }
+
+    private fun onClickBicyclePhotoImage() {
+        binding.bikePhotoImageView.setOnClickListener {
+            takePictureIntent(REQUEST_PHOTO) { path -> this.imagePath = path }
+        }
+    }
+
 
     private fun checkIfEditMode(parcelable: Parcelable?) {
         if (parcelable == null) return
@@ -101,36 +112,36 @@ class AddBikeActivity : AppCompatActivity(){
 
         bicycleToAdd = bicycle
 
-        bikePhotoImageView.setOnClickListener {
+        binding.bikePhotoImageView.setOnClickListener {
             FullscreenImageActivity.start(this, bicycleToAdd.photo_path)
         }
 
-        bicycle.photo_path?.let { bikePhotoImageView.loadPath(it) }
-        serieNumber.setText(bicycle.serial_number)
-        bikeName.setText(bicycle.name)
-        orderNumber.setText(bicycle.order_number.toString())
+        bicycle.photo_path?.let { binding.bikePhotoImageView.loadPath(it) }
+        binding.serieNumber.setText(bicycle.serial_number)
+        binding.bikeName.setText(bicycle.name)
+        binding.orderNumber.setText(bicycle.order_number.toString())
 
-        saveButton.text = getString(R.string.update_button)
+        binding.saveButton.text = getString(R.string.update_button)
     }
 
     fun hasEmptyField(): Boolean {
-        return orderNumber.text.isNullOrEmpty() ||
-                serieNumber.text.isNullOrEmpty() ||
-                bikeName.text.isNullOrEmpty() ||
-                bikePhotoImageView.drawable == null
+        return  binding.orderNumber.text.isNullOrEmpty() ||
+                binding.serieNumber.text.isNullOrEmpty() ||
+                binding.bikeName.text.isNullOrEmpty() ||
+                binding.bikePhotoImageView.drawable == null
     }
 
     fun addBikeToServer() {
-        bicycleToAdd.name = bikeName.text.toString()
-        bicycleToAdd.serial_number = serieNumber.text.toString()
-        bicycleToAdd.order_number = orderNumber.text.toString().toLong()
+        bicycleToAdd.name = binding.bikeName.text.toString()
+        bicycleToAdd.serial_number = binding.serieNumber.text.toString()
+        bicycleToAdd.order_number = binding.orderNumber.text.toString().toLong()
 
         bicycleToAdd.saveRemote { success ->
             if (success) {
                 Toast.makeText(this@AddBikeActivity, successText(), Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                saveButton.isEnabled = true
+                binding.saveButton.isEnabled = true
             }
 
             loadingDialog?.dismiss()
@@ -157,7 +168,7 @@ class AddBikeActivity : AppCompatActivity(){
                 Glide.with(this)
                     .load(it)
                     .apply(RequestOptions.fitCenterTransform())
-                    .into(bikePhotoImageView)
+                    .into(binding.bikePhotoImageView)
             }
 
         }
@@ -174,7 +185,7 @@ class AddBikeActivity : AppCompatActivity(){
                     afterSuccess()
                 } else {
                     loadingDialog?.dismiss()
-                    saveButton.isEnabled = true
+                    binding.saveButton.isEnabled = true
                     Toast.makeText(
                         this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
                     ).show()
