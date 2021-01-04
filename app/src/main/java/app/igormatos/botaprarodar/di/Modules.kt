@@ -10,8 +10,8 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
-import app.igormatos.botaprarodar.data.repository.BicycleRepository
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
+import app.igormatos.botaprarodar.data.repository.BikeRepository
+import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
@@ -62,7 +62,7 @@ val bprModule = module {
     }
 
     viewModel {
-        BikeFormViewModel(addNewBicycleUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
+        BikeFormViewModel(addNewBikeUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
     }
 
     single<BicycleApi> {
@@ -70,15 +70,15 @@ val bprModule = module {
     }
 
     single {
-        BicycleRepository(get<BicycleApi>())
+        BikeRepository(get<BicycleApi>())
     }
 
     single {
-        AddNewBicycleUseCase(bicycleRepository = get<BicycleRepository>())
+        AddNewBikeUseCase(bikeRepository = get<BikeRepository>())
     }
 
     single {
-        BicyclesListUseCase(get<BicycleRepository>())
+        BicyclesListUseCase(get<BikeRepository>())
     }
 
 }

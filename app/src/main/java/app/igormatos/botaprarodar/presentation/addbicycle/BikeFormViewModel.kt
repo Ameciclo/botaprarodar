@@ -2,35 +2,32 @@ package app.igormatos.botaprarodar.presentation.addbicycle
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.Status
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
+import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
+import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class BikeFormViewModel(
-    private val addNewBicycleUseCase: AddNewBicycleUseCase,
+    private val addNewBikeUseCase: AddNewBikeUseCase,
     private val community: Community
 ) : ViewModel(),
     LifecycleObserver {
 
-    private val registeredBicycleResult = MutableLiveData<Status<Boolean>>()
+    private val registeredBicycleResult = MutableLiveData<Status<String>>()
 
-    fun getRegisteredBicycleResult(): LiveData<Status<Boolean>> = registeredBicycleResult
+    fun getRegisteredBicycleResult(): LiveData<Status<String>> = registeredBicycleResult
 
-    fun registerBicycle(bicycle: Bicycle) {
-        registeredBicycleResult.postValue(Status.Loading(null))
+    fun registerBicycle(bike: Bike) {
+        registeredBicycleResult.postValue(Status.Loading())
 
         viewModelScope.launch {
-            try {
-                val result = addNewBicycleUseCase.addNewBicycle(
-                    communityId = community.id,
-                    bicycle = bicycle)
-
-                resultSuccess()
-
-            } catch (e: Exception) {
-                resultError(e)
+            addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
+                when (it) {
+                    is SimpleResult.Success -> resultSuccess(it.data)
+                    is SimpleResult.Error -> resultError(it.exception)
+                }
             }
         }
     }
@@ -39,7 +36,7 @@ class BikeFormViewModel(
         registeredBicycleResult.postValue(Status.Error(e.message))
     }
 
-    private fun resultSuccess() {
-        registeredBicycleResult.postValue(Status.Success(true))
+    private fun resultSuccess(bikeName: String) {
+        registeredBicycleResult.postValue(Status.Success(bikeName))
     }
 }

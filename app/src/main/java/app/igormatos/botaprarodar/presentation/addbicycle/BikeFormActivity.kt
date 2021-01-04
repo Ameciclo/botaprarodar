@@ -11,11 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.Status
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.databinding.ActivityAddBikeBinding
+import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.showLoadingDialog
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
@@ -27,15 +28,15 @@ val BIKE_EXTRA = "Bike_extra"
 
 class BikeFormActivity : AppCompatActivity() {
 
-    var bicycleToAdd = Bicycle()
+    var bicycleToAdd = Bike()
     var editMode: Boolean = false
     var imagePath: String? = null
     var loadingDialog: AlertDialog? = null
 
     private val formViewModel: BikeFormViewModel by koinViewModel()
 
-    private val binding: ActivityAddBikeBinding by lazy {
-        DataBindingUtil.setContentView<ActivityAddBikeBinding>(this, R.layout.activity_bike_form)
+    private val binding: ActivityBikeFormBinding by lazy {
+        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,34 +46,35 @@ class BikeFormActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = formViewModel
 
-        val bicycleParcelable: Parcelable? = if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
+        val bicycleParcelable: Parcelable? =
+            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
         checkIfEditMode(bicycleParcelable)
 
         onClickBicyclePhotoImage()
 
         waitBicycleRegisterResult()
 
-       /* binding.saveButton.setOnClickListener {
-            if (hasEmptyField()) {
-                Toast.makeText(
-                    this@AddBikeActivity,
-                    getString(R.string.empties_fields_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                return@setOnClickListener
-            }
+        /* binding.saveButton.setOnClickListener {
+             if (hasEmptyField()) {
+                 Toast.makeText(
+                     this@AddBikeActivity,
+                     getString(R.string.empties_fields_error),
+                     Toast.LENGTH_SHORT
+                 )
+                     .show()
+                 return@setOnClickListener
+             }
 
-            binding.saveButton.isEnabled = false
+             binding.saveButton.isEnabled = false
 
-            if (editMode) {
-                addBikeToServer()
-                return@setOnClickListener
-            } else {
-                uploadImage { addBikeToServer() }
-            }
+             if (editMode) {
+                 addBikeToServer()
+                 return@setOnClickListener
+             } else {
+                 uploadImage { addBikeToServer() }
+             }
 
-        }*/
+         }*/
 
         binding.toolbar.title = if (editMode) {
             getString(R.string.bicycle_update_button)
@@ -83,7 +85,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel.getRegisteredBicycleResult().observe(this, Observer { netWorkResource ->
+        binding.viewModel?.getRegisteredBicycleResult()?.observe(this, Observer { netWorkResource ->
             when (netWorkResource) {
                 is Status.Loading -> TODO()
                 is Status.Success -> successText()
@@ -107,7 +109,7 @@ class BikeFormActivity : AppCompatActivity() {
 
     private fun setupBicycle(bicycleParcelable: Parcelable) {
         editMode = true
-        val bicycle = Parcels.unwrap(bicycleParcelable) as Bicycle
+        val bicycle = Parcels.unwrap(bicycleParcelable) as Bike
 
         bicycleToAdd = bicycle
 
@@ -124,7 +126,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     fun hasEmptyField(): Boolean {
-        return  binding.orderNumber.text.isNullOrEmpty() ||
+        return binding.orderNumber.text.isNullOrEmpty() ||
                 binding.serieNumber.text.isNullOrEmpty() ||
                 binding.bikeName.text.isNullOrEmpty() ||
                 binding.bikePhotoImageView.drawable == null
