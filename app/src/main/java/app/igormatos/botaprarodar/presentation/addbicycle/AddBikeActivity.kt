@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.NetworkResource
+import app.igormatos.botaprarodar.common.Status
 import app.igormatos.botaprarodar.domain.model.Bicycle
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.databinding.ActivityAddBikeBinding
@@ -86,9 +86,9 @@ class AddBikeActivity : AppCompatActivity() {
     private fun waitBicycleRegisterResult() {
         binding.viewModel.getRegisteredBicycleResult().observe(this, Observer { netWorkResource ->
             when (netWorkResource) {
-                is NetworkResource.Loading -> TODO()
-                is NetworkResource.Success -> successText()
-                is NetworkResource.Error -> TODO()
+                is Status.Loading -> TODO()
+                is Status.Success -> successText()
+                is Status.Error -> TODO()
             }
         })
     }
