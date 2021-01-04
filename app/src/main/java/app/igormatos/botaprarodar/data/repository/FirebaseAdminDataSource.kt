@@ -12,5 +12,9 @@ class FirebaseAdminDataSource(private val firebaseAuth: FirebaseAuth) {
         .createUserWithEmailAndPassword(email, password)
         .await().user
 
+    suspend fun authenticateFirebaseUser(email: String, password: String) = firebaseAuth
+        .signInWithEmailAndPassword(email, password)
+        .await().user
+
     fun getFirebaseUserUid(firebaseUser: FirebaseUser?): String? = firebaseUser?.uid
 }
