@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AddBikeViewModel(
+class BikeFormViewModel(
     private val addNewBicycleUseCase: AddNewBicycleUseCase,
     private val community: Community
 ) : ViewModel(),

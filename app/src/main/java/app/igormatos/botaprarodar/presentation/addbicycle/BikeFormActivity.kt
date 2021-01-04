@@ -16,7 +16,6 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.databinding.ActivityAddBikeBinding
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
-import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.showLoadingDialog
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
@@ -26,25 +25,25 @@ import org.parceler.Parcels
 
 val BIKE_EXTRA = "Bike_extra"
 
-class AddBikeActivity : AppCompatActivity() {
+class BikeFormActivity : AppCompatActivity() {
 
     var bicycleToAdd = Bicycle()
     var editMode: Boolean = false
     var imagePath: String? = null
     var loadingDialog: AlertDialog? = null
 
-    private val viewModel: AddBikeViewModel by koinViewModel()
+    private val formViewModel: BikeFormViewModel by koinViewModel()
 
     private val binding: ActivityAddBikeBinding by lazy {
-        DataBindingUtil.setContentView<ActivityAddBikeBinding>(this, R.layout.activity_add_bike)
+        DataBindingUtil.setContentView<ActivityAddBikeBinding>(this, R.layout.activity_bike_form)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_bike)
+        setContentView(R.layout.activity_bike_form)
 
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        binding.viewModel = formViewModel
 
         val bicycleParcelable: Parcelable? = if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
         checkIfEditMode(bicycleParcelable)
@@ -138,7 +137,7 @@ class AddBikeActivity : AppCompatActivity() {
 
         bicycleToAdd.saveRemote { success ->
             if (success) {
-                Toast.makeText(this@AddBikeActivity, successText(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@BikeFormActivity, successText(), Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 binding.saveButton.isEnabled = true

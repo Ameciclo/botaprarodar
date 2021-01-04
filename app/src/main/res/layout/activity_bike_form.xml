@@ -6,14 +6,14 @@
     <data>
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.addbicycle.AddBikeViewModel" />
+                type="app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel" />
     </data>
 
     <ScrollView
             android:id="@+id/containerAddBike"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".presentation.addbicycle.AddBikeActivity">
+            tools:context=".presentation.addbicycle.BikeFormActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
