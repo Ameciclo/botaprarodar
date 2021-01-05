@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/authenticationActivity">
+
+    <activity
+            android:id="@+id/authenticationActivity"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity"
+            android:label="activity_authentication"
+            tools:layout="@layout/activity_authentication" />
+    <fragment
+            android:id="@+id/signInFragment"
+            tools:layout="@layout/fragment_sign_in"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.SignInFragment"
+            android:label="SignInFragment"
+            app:defaultNavHost="true"
+            >
+        <action
+                android:id="@+id/action_signInFragment_to_authenticationActivity2"
+                app:destination="@id/authenticationActivity" />
+    </fragment>
+    <fragment
+            tools:layout="@layout/fragment_registration"
+            android:id="@+id/registrationFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.RegistrationFragment"
+            android:label="RegistrationFragment" >
+        <action
+                android:id="@+id/action_registrationFragment_to_authenticationActivity2"
+                app:destination="@id/authenticationActivity" />
+    </fragment>
+    <fragment
+            tools:layout="@layout/fragment_registration"
+            android:id="@+id/emailValidationFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.EmailValidationFragment"
+            android:label="EmailValidationFragment" >
+        <action
+                android:id="@+id/action_registrationFragment_to_authenticationActivity2"
+                app:destination="@id/authenticationActivity" />
+    </fragment>
+</navigation>
