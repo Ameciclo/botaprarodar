@@ -135,21 +135,4 @@ class AdminRepositoryTest {
             } throws FirebaseNetworkException("")
             adminRepository.createAdmin(email, password)
         }
-
-//    @Test(expected = UserAdminErrorException.Network::class)
-//    fun `When email or password are incorrect, then createAdmin should throw InvalidParams exception`(): Unit =
-//        runBlocking {
-//            val email = "admin@admin.com"
-//            val password = "admin"
-//
-//            coEvery {
-//                firebaseAdminDataSource.createFirebaseUser(
-//                    email,
-//                    password
-//                )
-//            } returns firebaseUser
-//            coEvery { firebaseAdminDataSource.getFirebaseUserUid(firebaseUser) } returns firebaseUser.uid
-//
-//            adminRepository.createAdmin(email, password)
-//        }
 }
