@@ -10,6 +10,7 @@ import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -71,13 +72,14 @@ class BikeFormViewModelTest {
             addNewBikeUseCase.addNewBike(community.id, bikeFake)
         } returns result
 
-        bikeViewModel.registerBicycle(bikeFake)
         bikeViewModel.getRegisteredBicycleResult().observeForever(observerBikeResultMock)
+        bikeViewModel.registerBicycle(bikeFake)
 
         verifyOrder{
-            observerBikeResultMock.onChanged(Status.Loading())
-            observerBikeResultMock.onChanged(Status.Success(simpleResultData))
+            observerBikeResultMock.onChanged(bikeViewModel.loadingStatus)
+            observerBikeResultMock.onChanged(bikeViewModel.successStatus)
         }
+
     }
 
 }
