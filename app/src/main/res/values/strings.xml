@@ -59,6 +59,17 @@
     <string name="profile_picture">Foto do perfil</string>
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
-    <string name="emailFormatWarning">Insira um email válido</string>
+    <string name="email_format_warning">Insira um email válido</string>
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Senha</string>
+    <string name="prompt_full_name">Nome e sobrenome</string>
+    <string name="prompt_welcome_title">É bom ver você novamente!</string>
+    <string name="prompt_welcome_message">Você já usou o e-mail <b>%1$s</b> para fazer login. Insira a senha dessa conta.</string>
+
+
+    <string name="action_sign_in_or_register">Entrar/Registrar</string>
+    <string name="action_next">Próxima</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_forgotten_password">Problemas com login?</string>
 
 </resources>
