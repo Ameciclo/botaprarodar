@@ -17,10 +17,13 @@ class BikeFormViewModel(
 
     private val registeredBicycleResult = MutableLiveData<Status<String>>()
 
+    var loadingStatus = Status.Loading("")
+    var successStatus = Status.Success("")
+
     fun getRegisteredBicycleResult(): LiveData<Status<String>> = registeredBicycleResult
 
     fun registerBicycle(bike: Bike) {
-        registeredBicycleResult.postValue(Status.Loading())
+        registeredBicycleResult.postValue(loadingStatus)
 
         viewModelScope.launch {
             addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
@@ -37,6 +40,7 @@ class BikeFormViewModel(
     }
 
     private fun resultSuccess(bikeName: String) {
-        registeredBicycleResult.postValue(Status.Success(bikeName))
+        successStatus = Status.Success(bikeName)
+        registeredBicycleResult.postValue(successStatus)
     }
 }
