@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.login
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.databinding.ActivityLoginBinding
+import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
 import com.brunotmgomes.ui.SnackbarModule
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -178,7 +180,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             .setTheme(R.style.AppThemeWithActionbar)
             .build()
 
-        loginActivityResultLauncher.launch(intent)
+        loginActivityResultLauncher.launch(Intent(this, AuthenticationActivity::class.java))
     }
 
 }
