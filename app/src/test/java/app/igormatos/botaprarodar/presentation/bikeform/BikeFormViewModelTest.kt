@@ -2,16 +2,13 @@ package app.igormatos.botaprarodar.presentation.bikeform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import app.igormatos.botaprarodar.common.Status
+import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
-import io.mockk.coEvery
-import io.mockk.mockk
-import io.mockk.verify
-import io.mockk.verifyOrder
+import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +33,7 @@ class BikeFormViewModelTest {
     @Test
     fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() = runBlocking{
         val bikeFake = mockk<Bike>()
-        val result = SimpleResult.Success<String>("")
+        val result = SimpleResult.Success("")
 
         coEvery {
             addNewBikeUseCase.addNewBike(community.id, bikeFake)
@@ -44,7 +41,7 @@ class BikeFormViewModelTest {
 
         bikeViewModel.registerBicycle(bikeFake)
 
-        assertTrue(bikeViewModel.getRegisteredBicycleResult().value is Status.Success)
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
     }
 
     @Test
@@ -58,13 +55,13 @@ class BikeFormViewModelTest {
 
         bikeViewModel.registerBicycle(bikeFake)
 
-        assertTrue(bikeViewModel.getRegisteredBicycleResult().value is Status.Error)
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
     }
 
     @Test
     fun `check success status ordering`(){
         val bikeFake = mockk<Bike>()
-        val observerBikeResultMock = mockk<Observer<Status<String>>>(relaxed = true)
+        val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
         val simpleResultData = "bicicleta caloi"
         val result = SimpleResult.Success(simpleResultData)
 
@@ -72,12 +69,12 @@ class BikeFormViewModelTest {
             addNewBikeUseCase.addNewBike(community.id, bikeFake)
         } returns result
 
-        bikeViewModel.getRegisteredBicycleResult().observeForever(observerBikeResultMock)
+        bikeViewModel.state.observeForever(observerBikeResultMock)
         bikeViewModel.registerBicycle(bikeFake)
 
         verifyOrder{
-            observerBikeResultMock.onChanged(bikeViewModel.loadingStatus)
-            observerBikeResultMock.onChanged(bikeViewModel.successStatus)
+            observerBikeResultMock.onChanged(BikeFormStatus.Loading)
+            observerBikeResultMock.onChanged(BikeFormStatus.Success(simpleResultData))
         }
 
     }
