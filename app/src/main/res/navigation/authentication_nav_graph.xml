@@ -3,40 +3,33 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/authenticationActivity">
+        app:startDestination="@id/emailValidationFragment">
 
-    <activity
-            android:id="@+id/authenticationActivity"
-            android:name="app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity"
-            android:label="activity_authentication"
-            tools:layout="@layout/activity_authentication" />
     <fragment
             android:id="@+id/signInFragment"
             tools:layout="@layout/fragment_sign_in"
             android:name="app.igormatos.botaprarodar.presentation.authentication.SignInFragment"
-            android:label="SignInFragment"
+            android:label="Entrar"
             app:defaultNavHost="true"
             >
-        <action
-                android:id="@+id/action_signInFragment_to_authenticationActivity2"
-                app:destination="@id/authenticationActivity" />
     </fragment>
     <fragment
             tools:layout="@layout/fragment_registration"
             android:id="@+id/registrationFragment"
             android:name="app.igormatos.botaprarodar.presentation.authentication.RegistrationFragment"
-            android:label="RegistrationFragment" >
-        <action
-                android:id="@+id/action_registrationFragment_to_authenticationActivity2"
-                app:destination="@id/authenticationActivity" />
+            android:label="Registrar" >
     </fragment>
     <fragment
-            tools:layout="@layout/fragment_registration"
+            tools:layout="@layout/fragment_email_validation"
             android:id="@+id/emailValidationFragment"
             android:name="app.igormatos.botaprarodar.presentation.authentication.EmailValidationFragment"
-            android:label="EmailValidationFragment" >
+            android:label="Autenticação" >
+
         <action
-                android:id="@+id/action_registrationFragment_to_authenticationActivity2"
-                app:destination="@id/authenticationActivity" />
+                android:id="@+id/action_emailValidationFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment" />
+        <action
+                android:id="@+id/action_emailValidationFragment_to_signInFragment"
+                app:destination="@id/signInFragment" />
     </fragment>
 </navigation>
