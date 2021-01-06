@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.Status
+import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
@@ -85,11 +85,13 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.getRegisteredBicycleResult()?.observe(this, Observer { netWorkResource ->
+        binding.viewModel?.state?.observe(this, Observer { netWorkResource ->
             when (netWorkResource) {
-                is Status.Loading -> TODO()
-                is Status.Success -> successText()
-                is Status.Error -> TODO()
+                is BikeFormStatus.Success -> {
+                    netWorkResource.data
+                    successText()
+                }
+                is BikeFormStatus.Loading -> TODO()
             }
         })
     }
