@@ -71,5 +71,6 @@
     <string name="action_next">Próxima</string>
     <string name="action_save">Salvar</string>
     <string name="action_forgotten_password">Problemas com login?</string>
+    <string name="prompt_password_recovery_header">Veja como redefinir sua senha nas instruções enviadas para este e-mail.</string>
 
 </resources>
