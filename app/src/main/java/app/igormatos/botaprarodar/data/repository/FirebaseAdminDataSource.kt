@@ -25,7 +25,7 @@ class FirebaseAdminDataSource(private val firebaseAuth: FirebaseAuth) {
 
     suspend fun isUserRegistered(email: String) = firebaseAuth
         .fetchSignInMethodsForEmail(email)
-        .await().signInMethods.isNullOrEmpty()
+        .await().signInMethods.isNullOrEmpty().not()
 
     fun getFirebaseUserUid(firebaseUser: FirebaseUser?): String? = firebaseUser?.uid
 }
