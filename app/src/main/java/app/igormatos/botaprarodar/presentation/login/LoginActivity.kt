@@ -180,7 +180,9 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             .setTheme(R.style.AppThemeWithActionbar)
             .build()
 
-        loginActivityResultLauncher.launch(Intent(this, AuthenticationActivity::class.java))
+        // TODO utilizar essa implementação
+        // Intent(this, AuthenticationActivity::class.java)
+        loginActivityResultLauncher.launch(intent)
     }
 
 }
