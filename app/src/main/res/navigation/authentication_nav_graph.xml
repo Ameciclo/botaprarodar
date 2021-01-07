@@ -32,4 +32,9 @@
                 android:id="@+id/action_emailValidationFragment_to_signInFragment"
                 app:destination="@id/signInFragment" />
     </fragment>
+    <fragment
+            android:id="@+id/passwordRecoveryFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.PasswordRecoveryFragment"
+            android:label="Recuperar Senha"
+            tools:layout="@layout/fragment_password_recovery" />
 </navigation>
