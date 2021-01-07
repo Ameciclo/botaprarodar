@@ -8,8 +8,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -134,5 +133,73 @@ class AdminRepositoryTest {
                 )
             } throws FirebaseNetworkException("")
             adminRepository.createAdmin(email, password)
+        }
+
+    @Test
+    fun `When admin is registered, then isAdminRegistered should return true`(): Unit =
+        runBlocking {
+            coEvery {
+                firebaseAdminDataSource.isUserRegistered(
+                    email
+                )
+            } returns true
+
+            val result = adminRepository.isAdminRegistered(email)
+            assertTrue(result)
+        }
+
+
+
+    @Test
+    fun `When admin is NOT registered, then isAdminRegistered should return false`(): Unit =
+        runBlocking {
+            coEvery {
+                firebaseAdminDataSource.isUserRegistered(
+                    email
+                )
+            } returns false
+
+            val result = adminRepository.isAdminRegistered(email)
+            assertFalse(result)
+        }
+
+    @Test(expected = UserAdminErrorException.AdminNetwork::class)
+    fun `When isAdminRegistered is called, then should throw AdminNetwork exception`(): Unit =
+        runBlocking {
+            coEvery {
+                firebaseAdminDataSource.isUserRegistered(
+                    email
+                )
+            } throws FirebaseNetworkException("")
+            adminRepository.isAdminRegistered(email)
+        }
+
+
+    @Test
+    fun `When reset password email successfully sent, then should return true`(): Unit =
+        runBlocking {
+            coEvery {
+                firebaseAdminDataSource.sendPasswordRecoverEmail(
+                    email
+                )
+            } returns Unit
+
+            val result = adminRepository.sendPasswordResetEmail(email)
+            assertTrue(result)
+        }
+
+
+
+    @Test
+    fun `When reset password email NOT sent, then should return false`(): Unit =
+        runBlocking {
+            coEvery {
+                firebaseAdminDataSource.sendPasswordRecoverEmail(
+                    email
+                )
+            } throws FirebaseNetworkException("")
+
+            val result = adminRepository.sendPasswordResetEmail(email)
+            assertFalse(result)
         }
 }
