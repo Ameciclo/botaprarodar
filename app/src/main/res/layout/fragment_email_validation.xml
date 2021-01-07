@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-            android:id="@+id/login"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
