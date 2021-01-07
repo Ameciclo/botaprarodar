@@ -41,7 +41,7 @@ class AddCommunityActivity : AppCompatActivity() {
 
     private fun saveNewCommunity() {
         if (validateEmailFormat()) showConfirmationDialog(createNewCommunity())
-        else snackBarMaker(getString(R.string.emailFormatWarning), addCommunityContainer).show()
+        else snackBarMaker(getString(R.string.email_format_warning), addCommunityContainer).show()
     }
 
     private fun validateEmailFormat() : Boolean {
