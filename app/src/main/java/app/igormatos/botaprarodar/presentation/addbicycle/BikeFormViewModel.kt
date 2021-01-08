@@ -15,6 +15,20 @@ class BikeFormViewModel(
 ) : BprViewModel<BikeFormStatus>(){
     private val UNKNOWN_ERROR = "Falha ao cadastrar a bicicleta"
 
+
+    val serialNumber = MutableLiveData<String>("")
+
+    val valid = MediatorLiveData<Boolean>().apply {
+        addSource(serialNumber) {
+            value = isFormValid(it)
+        }
+    }
+
+    fun isFormValid(data:String): Boolean {
+        return data.isNotBlank()
+    }
+
+
     fun registerBicycle(bike: Bike) {
         _state.postValue(BikeFormStatus.Loading)
 
