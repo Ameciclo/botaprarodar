@@ -41,14 +41,14 @@ class BikeFormActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bike_form)
 
         binding.lifecycleOwner = this
         binding.viewModel = formViewModel
 
         val bicycleParcelable: Parcelable? =
             if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
-        checkIfEditMode(bicycleParcelable)
+
+//        checkIfEditMode(bicycleParcelable)
 
         onClickBicyclePhotoImage()
 
@@ -85,13 +85,14 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.state?.observe(this, Observer { netWorkResource ->
-            when (netWorkResource) {
+        binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
+            when (bikeFormStatus) {
                 is BikeFormStatus.Success -> {
-                    netWorkResource.data
+                    bikeFormStatus.data
                     successText()
                 }
                 is BikeFormStatus.Loading -> TODO()
+                is BikeFormStatus.Error -> errorText(bikeFormStatus.message)
             }
         })
     }
@@ -102,11 +103,10 @@ class BikeFormActivity : AppCompatActivity() {
         }
     }
 
-
     private fun checkIfEditMode(parcelable: Parcelable?) {
         if (parcelable == null) return
 
-        setupBicycle(parcelable)
+//        setupBicycle(parcelable)
     }
 
     private fun setupBicycle(bicycleParcelable: Parcelable) {
@@ -120,7 +120,7 @@ class BikeFormActivity : AppCompatActivity() {
         }
 
         bicycle.photo_path?.let { binding.bikePhotoImageView.loadPath(it) }
-        binding.serieNumber.setText(bicycle.serial_number)
+        binding.serialNumber.setText(bicycle.serial_number)
         binding.bikeName.setText(bicycle.name)
         binding.orderNumber.setText(bicycle.order_number.toString())
 
@@ -129,39 +129,38 @@ class BikeFormActivity : AppCompatActivity() {
 
     fun hasEmptyField(): Boolean {
         return binding.orderNumber.text.isNullOrEmpty() ||
-                binding.serieNumber.text.isNullOrEmpty() ||
+                binding.serialNumber.text.isNullOrEmpty() ||
                 binding.bikeName.text.isNullOrEmpty() ||
                 binding.bikePhotoImageView.drawable == null
     }
 
-    fun addBikeToServer() {
-        bicycleToAdd.name = binding.bikeName.text.toString()
-        bicycleToAdd.serial_number = binding.serieNumber.text.toString()
-        bicycleToAdd.order_number = binding.orderNumber.text.toString().toLong()
+//    fun addBikeToServer() {
+//        bicycleToAdd.name = binding.bikeName.text.toString()
+//        bicycleToAdd.serial_number = binding.serialNumber.text.toString()
+//        bicycleToAdd.order_number = binding.orderNumber.text.toString().toLong()
+//
+//        bicycleToAdd.saveRemote { success ->
+//            if (success) {
+//                Toast.makeText(this@BikeFormActivity, successText(), Toast.LENGTH_SHORT).show()
+//                finish()
+//            } else {
+//                binding.saveButton.isEnabled = true
+//            }
+//
+//            loadingDialog?.dismiss()
+//        }
+//    }
 
-        bicycleToAdd.saveRemote { success ->
-            if (success) {
-                Toast.makeText(this@BikeFormActivity, successText(), Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                binding.saveButton.isEnabled = true
-            }
-
-            loadingDialog?.dismiss()
-        }
-    }
-
-    fun successText(): String {
+    private fun successText(): String {
         return if (editMode) getString(R.string.bicycle_update_success) else getString(
             R.string.bicycle_add_success
         )
     }
 
-    fun errorText(): String {
-        return if (editMode) getString(R.string.bicycle_update_success) else getString(
-            R.string.bicycle_add_success
-        )
-    }
+   private fun errorText(errorMessage: String) {
+       Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+       finish()
+   }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

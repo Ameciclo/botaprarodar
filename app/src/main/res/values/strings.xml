@@ -60,7 +60,7 @@
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
     <string name="emailFormatWarning">Insira um email válido</string>
-    <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
-    <string name="bicycle_name_invalid">Nome da bicicleta inválido</string>
+    <string name="bicycle_serial_number_invalid">Número de série da bicileta inválido</string>
+    <string name="bicycle_name_invalid">Nome inválido</string>
 
 </resources>
