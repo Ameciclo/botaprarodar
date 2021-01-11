@@ -12,8 +12,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailVal
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,6 +49,68 @@ class EmailValidationViewModelTest {
         viewModel.sendForm()
 
         assertTrue(viewModel.viewState.value is EmailValidationState.Completed)
+    }
+
+    @Test
+    fun `When email is valid, then next step button should be enabled`() {
+        viewModel.emailField.value = validFakeEmail
+
+        assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), true)
+
+    }
+
+    @Test
+    fun `When email is invalid, then next step button should be disabled`() {
+        viewModel.emailField.value = invalidFakeEmail
+
+        assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), false)
+    }
+
+    @Test
+    fun `When send form, then state should match registered user flow`() {
+        val observer = spyk<Observer<EmailValidationState>>()
+        viewModel.viewState.observeForever(observer)
+
+        coEvery { adminRepository.isAdminRegistered(validFakeEmail) } returns true
+
+        viewModel.sendForm()
+
+        val firstStateSlot = slot<EmailValidationState.InitialState>()
+        val secondStateSlot = slot<EmailValidationState.SendLoading>()
+        val thirdStateSlot = slot<EmailValidationState.SendSuccess>()
+        val fourthStateSlot = slot<EmailValidationState.Completed>()
+
+        verifyOrder {
+            observer.onChanged(capture(firstStateSlot))
+            observer.onChanged(capture(secondStateSlot))
+            observer.onChanged(capture(thirdStateSlot))
+            observer.onChanged(capture(fourthStateSlot))
+        }
+
+        assertTrue(thirdStateSlot.captured.isNewUser)
+    }
+
+    @Test
+    fun `When send form, then state should match newUser flow`() {
+        val observer = spyk<Observer<EmailValidationState>>()
+        viewModel.viewState.observeForever(observer)
+
+        coEvery { adminRepository.isAdminRegistered(validFakeEmail) } returns false
+
+        viewModel.sendForm()
+
+        val firstStateSlot = slot<EmailValidationState.InitialState>()
+        val secondStateSlot = slot<EmailValidationState.SendLoading>()
+        val thirdStateSlot = slot<EmailValidationState.SendSuccess>()
+        val fourthStateSlot = slot<EmailValidationState.Completed>()
+
+        verifyOrder {
+            observer.onChanged(capture(firstStateSlot))
+            observer.onChanged(capture(secondStateSlot))
+            observer.onChanged(capture(thirdStateSlot))
+            observer.onChanged(capture(fourthStateSlot))
+        }
+        assertFalse(thirdStateSlot.captured.isNewUser)
     }
 
     @Test
@@ -100,64 +161,5 @@ class EmailValidationViewModelTest {
         }
 
         assert((thirdStateSlot.captured as BprError).type == BprErrorType.UNKNOWN)
-    }
-
-    @Test
-    fun `When email is valid, then next step button should be enabled`() {
-        viewModel.emailField.value = validFakeEmail
-
-        assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), true)
-
-    }
-
-    @Test
-    fun `When email is invalid, then next step button should be disabled`() {
-        viewModel.emailField.value = invalidFakeEmail
-
-        assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), false)
-    }
-
-    @Test
-    fun `When send form, then state should match registered user flow`() {
-        val observer = spyk<Observer<EmailValidationState>>()
-        viewModel.viewState.observeForever(observer)
-
-        coEvery { adminRepository.isAdminRegistered(validFakeEmail) } returns true
-
-        viewModel.sendForm()
-
-        val firstStateSlot = slot<EmailValidationState.InitialState>()
-        val secondStateSlot = slot<EmailValidationState.SendLoading>()
-        val thirdStateSlot = slot<EmailValidationState.SendSuccess>()
-        val fourthStateSlot = slot<EmailValidationState.Completed>()
-
-        verifyOrder {
-            observer.onChanged(capture(firstStateSlot))
-            observer.onChanged(capture(secondStateSlot))
-            observer.onChanged(capture(thirdStateSlot))
-            observer.onChanged(capture(fourthStateSlot))
-        }
-    }
-
-    @Test
-    fun `When send form, then state should match newUser flow`() {
-        val observer = spyk<Observer<EmailValidationState>>()
-        viewModel.viewState.observeForever(observer)
-
-        coEvery { adminRepository.isAdminRegistered(validFakeEmail) } returns true
-
-        viewModel.sendForm()
-
-        val firstStateSlot = slot<EmailValidationState.InitialState>()
-        val secondStateSlot = slot<EmailValidationState.SendLoading>()
-        val thirdStateSlot = slot<EmailValidationState.SendSuccess>()
-        val fourthStateSlot = slot<EmailValidationState.Completed>()
-
-        verifyOrder {
-            observer.onChanged(capture(firstStateSlot))
-            observer.onChanged(capture(secondStateSlot))
-            observer.onChanged(capture(thirdStateSlot))
-            observer.onChanged(capture(fourthStateSlot))
-        }
     }
 }
