@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAdminDataSource(private val firebaseAuth: FirebaseAuth) {
+class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) {
     suspend fun createFirebaseUser(
         email: String,
         password: String
