@@ -1,14 +1,14 @@
 package app.igormatos.botaprarodar.presentation.authentication.viewmodel
 
 import android.view.View
-import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 
 object BindingAdapters {
-    @BindingAdapter("app:progressEnabled")
+    @BindingAdapter("app:animationVisibility")
     @JvmStatic
-    fun isProgressEnabled(view: ProgressBar, enabled: Boolean) {
-        return if (enabled) {
+    fun isViewVisible(view: LottieAnimationView, visible: Boolean) {
+        return if (visible) {
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.INVISIBLE
