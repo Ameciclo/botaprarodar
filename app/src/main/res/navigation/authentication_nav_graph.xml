@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/emailValidationFragment">
+
+    <fragment
+            android:id="@+id/signInFragment"
+            tools:layout="@layout/fragment_sign_in"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.SignInFragment"
+            android:label="Entrar"
+            app:defaultNavHost="true"
+            >
+        <action
+                android:id="@+id/action_signInFragment_to_passwordRecoveryFragment"
+                app:destination="@id/passwordRecoveryFragment"
+                app:popUpTo="@id/signInFragment" />
+    </fragment>
+    <fragment
+            tools:layout="@layout/fragment_registration"
+            android:id="@+id/registrationFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.RegistrationFragment"
+            android:label="Registrar" >
+    </fragment>
+    <fragment
+            tools:layout="@layout/fragment_email_validation"
+            android:id="@+id/emailValidationFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.EmailValidationFragment"
+            android:label="Autenticação" >
+
+        <action
+                android:id="@+id/action_emailValidationFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment"
+                app:popUpTo="@id/emailValidationFragment" />
+        <action
+                android:id="@+id/action_emailValidationFragment_to_signInFragment"
+                app:destination="@id/signInFragment"
+                app:popUpTo="@id/emailValidationFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/passwordRecoveryFragment"
+            android:name="app.igormatos.botaprarodar.presentation.authentication.PasswordRecoveryFragment"
+            android:label="Recuperar Senha"
+            tools:layout="@layout/fragment_password_recovery" />
+    <activity
+            android:id="@+id/loginActivity"
+            android:name="app.igormatos.botaprarodar.presentation.login.LoginActivity"
+            android:label="activity_login"
+            tools:layout="@layout/activity_login" />
+</navigation>
