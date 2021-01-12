@@ -17,17 +17,20 @@ class BikeFormViewModel(
 
 
     val serialNumber = MutableLiveData<String>("")
+    val bikeName = MutableLiveData<String>("")
 
     val valid = MediatorLiveData<Boolean>().apply {
         addSource(serialNumber) {
-            value = isFormValid(it)
+            value = isDataValid(it)
+        }
+
+        addSource(bikeName){
+            value = isDataValid(it)
         }
     }
 
-    fun isFormValid(data:String): Boolean {
-        return data.isNotBlank()
-    }
-
+    fun isDataValid(data:String): Boolean {
+        return !data.isNullOrEmpty()}
 
     fun registerBicycle(bike: Bike) {
         _state.postValue(BikeFormStatus.Loading)
