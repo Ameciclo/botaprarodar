@@ -5,13 +5,13 @@ import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import com.google.firebase.FirebaseNetworkException
 import java.lang.Exception
 
-class AdminRepository(private val firebaseAdminDataSource: FirebaseAdminDataSource) {
+class AdminRepository(private val adminRemoteDataSource: AdminRemoteDataSource) {
 
     suspend fun createAdmin(
         email: String, password: String
     ): Admin {
         val firebaseUserUid = try {
-            firebaseAdminDataSource.createFirebaseUser(email, password)?.uid
+            adminRemoteDataSource.createFirebaseUser(email, password)?.uid
                 ?: throw UserAdminErrorException.AdminNotCreated
         } catch (e: FirebaseNetworkException) {
             throw UserAdminErrorException.AdminNetwork
@@ -24,7 +24,7 @@ class AdminRepository(private val firebaseAdminDataSource: FirebaseAdminDataSour
         email: String, password: String
     ): Admin {
         val firebaseUserUid = try {
-            firebaseAdminDataSource.authenticateFirebaseUser(email, password)?.uid
+            adminRemoteDataSource.authenticateFirebaseUser(email, password)?.uid
                 ?: throw UserAdminErrorException.AdminNotFound
         } catch (e: FirebaseNetworkException) {
             throw UserAdminErrorException.AdminNetwork
@@ -37,7 +37,7 @@ class AdminRepository(private val firebaseAdminDataSource: FirebaseAdminDataSour
         email: String
     ): Boolean {
         return try {
-            firebaseAdminDataSource.isUserRegistered(email)
+            adminRemoteDataSource.isUserRegistered(email)
         } catch (e: FirebaseNetworkException) {
             throw UserAdminErrorException.AdminNetwork
         } catch (e: Exception) {
@@ -49,7 +49,7 @@ class AdminRepository(private val firebaseAdminDataSource: FirebaseAdminDataSour
         email: String
     ): Boolean {
         return try {
-            firebaseAdminDataSource.sendPasswordRecoverEmail(email)
+            adminRemoteDataSource.sendPasswordRecoverEmail(email)
             true
         } catch (e: Exception) {
             false
