@@ -18,6 +18,7 @@ import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
+import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
@@ -98,6 +99,10 @@ val bprModule = module {
 
     viewModel {
         EmailValidationViewModel(get(), EmailValidator())
+    }
+
+    viewModel {
+        RegistrationViewModel(get())
     }
 }
 
