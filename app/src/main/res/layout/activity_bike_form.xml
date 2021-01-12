@@ -18,7 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appBarLayout"
@@ -76,7 +76,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
-                    android:hint="Número de série da bicicleta"
+                    android:hint="@string/bike_serial_number"
                     app:errorBicycleSerialNumber="@{viewModel.serialNumber}"
                     app:layout_constraintLeft_toLeftOf="@id/bikePhotoImageView"
                     app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView">
@@ -85,20 +85,31 @@
                         android:id="@+id/serialNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@={viewModel.serialNumber}"
-                        />
+                        android:text="@={viewModel.serialNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                    android:id="@+id/bikeName"
-                    android:layout_width="250dp"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bikeNameTil"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="Nome da bicicleta"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/serialNumberTil" />
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:hint="@string/bike_name"
+                    app:errorBicycleName="@{viewModel.bikeName}"
+                    app:layout_constraintTop_toBottomOf="@id/serialNumberTil" >
+
+                <EditText
+                        android:id="@+id/bikeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.bikeName}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                      />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <EditText
@@ -110,7 +121,7 @@
                     android:hint="Número de ordem"
                     android:inputType="number"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bikeName" />
+                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil" />
 
             <Button
                     android:id="@+id/saveButton"

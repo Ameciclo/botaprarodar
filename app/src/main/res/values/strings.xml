@@ -62,5 +62,7 @@
     <string name="emailFormatWarning">Insira um email válido</string>
     <string name="bicycle_serial_number_invalid">Número de série da bicileta inválido</string>
     <string name="bicycle_name_invalid">Nome inválido</string>
+    <string name="bike_serial_number">Número de série da bicicleta</string>
+    <string name="bike_name">Nome da bicicleta</string>
 
 </resources>
