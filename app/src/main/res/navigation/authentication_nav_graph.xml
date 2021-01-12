@@ -12,6 +12,10 @@
             android:label="Entrar"
             app:defaultNavHost="true"
             >
+        <action
+                android:id="@+id/action_signInFragment_to_passwordRecoveryFragment"
+                app:destination="@id/passwordRecoveryFragment"
+                app:popUpTo="@id/signInFragment" />
     </fragment>
     <fragment
             tools:layout="@layout/fragment_registration"
@@ -27,14 +31,21 @@
 
         <action
                 android:id="@+id/action_emailValidationFragment_to_registrationFragment"
-                app:destination="@id/registrationFragment" />
+                app:destination="@id/registrationFragment"
+                app:popUpTo="@id/emailValidationFragment" />
         <action
                 android:id="@+id/action_emailValidationFragment_to_signInFragment"
-                app:destination="@id/signInFragment" />
+                app:destination="@id/signInFragment"
+                app:popUpTo="@id/emailValidationFragment" />
     </fragment>
     <fragment
             android:id="@+id/passwordRecoveryFragment"
             android:name="app.igormatos.botaprarodar.presentation.authentication.PasswordRecoveryFragment"
             android:label="Recuperar Senha"
             tools:layout="@layout/fragment_password_recovery" />
+    <activity
+            android:id="@+id/loginActivity"
+            android:name="app.igormatos.botaprarodar.presentation.login.LoginActivity"
+            android:label="activity_login"
+            tools:layout="@layout/activity_login" />
 </navigation>
