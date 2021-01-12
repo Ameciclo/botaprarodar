@@ -1,9 +1,9 @@
 package app.igormatos.botaprarodar
 
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 
-fun buildBicycle(nameBicycle: String): Bicycle {
-    return Bicycle().apply {
+fun buildBicycle(nameBicycle: String): Bike {
+    return Bike().apply {
         name = nameBicycle
         order_number = System.currentTimeMillis()
         serial_number = "123serial"
@@ -12,8 +12,8 @@ fun buildBicycle(nameBicycle: String): Bicycle {
     }
 }
 
-fun buildMapStringAndBicycle(howMuch: Int): Map<String, Bicycle> {
-    val map = mutableMapOf<String, Bicycle>()
+fun buildMapStringAndBicycle(howMuch: Int): Map<String, Bike> {
+    val map = mutableMapOf<String, Bike>()
     for (i in howMuch downTo 1) {
         map[i.toString()] = buildBicycle("bicycle $i")
     }

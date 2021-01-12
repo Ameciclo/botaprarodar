@@ -13,12 +13,12 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import app.igormatos.botaprarodar.*
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.presentation.addbicycle.AddBikeActivity
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.addbicycle.BIKE_EXTRA
 import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
 import app.igormatos.botaprarodar.presentation.adduser.USER_EXTRA
@@ -93,7 +93,7 @@ class ItemAdapter(private var activity: Activity? = null) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (itemsList[position] is Bicycle && activity !is WithdrawActivity) {
+        return if (itemsList[position] is Bike && activity !is WithdrawActivity) {
             0
         } else {
             1
@@ -230,7 +230,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 }
             }
 
-            if (item is Bicycle && activity is WithdrawActivity) {
+            if (item is Bike && activity is WithdrawActivity) {
                 val isAvailable = item.in_use?.not() ?: true
 
                 if (!isAvailable) {
@@ -257,18 +257,18 @@ class ItemAdapter(private var activity: Activity? = null) :
                     } else {
                         val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
-                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bicycle::class.java, item))
+                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
 
                     }
                 }
             }
 
-            if (item is Bicycle && activity != null && activity !is WithdrawActivity) {
+            if (item is Bike && activity != null && activity !is WithdrawActivity) {
 
                 itemView.setOnClickListener {
-                    val intent = Intent(it.context, AddBikeActivity::class.java)
-                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bicycle::class.java, item))
+                    val intent = Intent(it.context, BikeFormActivity::class.java)
+                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, item))
                     activity.startActivity(intent)
                 }
 
@@ -283,7 +283,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 imageView.setImageResource(withdrawIcon)
             } else if (item is User) {
                 imageView.loadPathOnCircle(item.iconPath())
-            } else if (item is Bicycle && !item.isAvailable){
+            } else if (item is Bike && !item.isAvailable){
                 Glide.with(itemView.context)
                     .load(item.iconPath())
                     .into(imageView)

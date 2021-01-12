@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.data.network.firebase
 
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.SingleRequestListener
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
@@ -49,7 +49,7 @@ interface FirebaseHelperModule {
     fun getBicycles(
         communityId: String,
         onlyAvailable: Boolean? = false,
-        listener: RequestListener<Bicycle>
+        listener: RequestListener<Bike>
     )
 
     fun uploadImage(imagePath: String, block: (Boolean, String?, String?) -> Unit)
