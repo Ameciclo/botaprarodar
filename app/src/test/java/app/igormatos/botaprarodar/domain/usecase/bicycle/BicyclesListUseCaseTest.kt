@@ -1,8 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.bicycle
 
 import app.igormatos.botaprarodar.buildMapStringAndBicycle
-import app.igormatos.botaprarodar.data.repository.BicycleRepository
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.data.repository.BikeRepository
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
@@ -25,7 +24,7 @@ internal class BicyclesListUseCaseTest {
     @InjectMockKs
     private lateinit var userCase: BicyclesListUseCase
     @MockK
-    private lateinit var repository: BicycleRepository
+    private lateinit var repository: BikeRepository
 
     @BeforeEach
     fun setUp() {

@@ -248,7 +248,7 @@ object FirebaseHelper {
     fun getBicycles(
         communityId: String,
         onlyAvailable: Boolean? = false,
-        listener: RequestListener<Bicycle>
+        listener: RequestListener<Bike>
     ) {
         val bicyclesReference = communities.child(communityId).child("bicycles")
 
@@ -329,8 +329,8 @@ object FirebaseHelper {
         return snapshot.getValue(User::class.java)
     }
 
-    private fun snapshotToBicycle(snapshot: DataSnapshot): Bicycle? {
-        return snapshot.getValue(Bicycle::class.java)
+    private fun snapshotToBicycle(snapshot: DataSnapshot): Bike? {
+        return snapshot.getValue(Bike::class.java)
     }
 
 }

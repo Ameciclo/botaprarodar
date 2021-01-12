@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.domain.converter.bicycle
 
 import app.igormatos.botaprarodar.buildMapStringAndBicycle
-import app.igormatos.botaprarodar.domain.model.Bicycle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName

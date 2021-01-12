@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -32,16 +32,16 @@ class WithdrawActivity : AppCompatActivity() {
         FirebaseHelper.getBicycles(
             selectedCommunityId,
             true,
-            object : RequestListener<Bicycle> {
-                override fun onChildChanged(result: Bicycle) {
+            object : RequestListener<Bike> {
+                override fun onChildChanged(result: Bike) {
                     itemAdapter.updateItem(result)
                 }
 
-                override fun onChildAdded(result: Bicycle) {
+                override fun onChildAdded(result: Bike) {
                     itemAdapter.addItem(result)
                 }
 
-                override fun onChildRemoved(result: Bicycle) {
+                override fun onChildRemoved(result: Bike) {
                     itemAdapter.removeItem(result)
                 }
 

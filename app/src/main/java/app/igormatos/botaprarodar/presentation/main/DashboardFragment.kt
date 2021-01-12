@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.DashboardInformation
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
@@ -47,7 +47,7 @@ class DashboardFragment : Fragment() {
     private val bicyclesEntries = mutableListOf<PieEntry>()
     private val tripsEntries = mutableListOf<Entry>()
     private val usersList = mutableListOf<User>()
-    private val bicycleList = mutableListOf<Bicycle>()
+    private val bicycleList = mutableListOf<Bike>()
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
@@ -209,18 +209,18 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setAvailablePieChart() {
-        FirebaseHelper.getBicycles(communityId, false, object : RequestListener<Bicycle> {
-            override fun onChildChanged(result: Bicycle) {
+        FirebaseHelper.getBicycles(communityId, false, object : RequestListener<Bike> {
+            override fun onChildChanged(result: Bike) {
                 bicycleList.find { it.id == result.id }.let { it?.in_use = result.in_use }
                 updateAvailabilityChart()
             }
 
-            override fun onChildAdded(result: Bicycle) {
+            override fun onChildAdded(result: Bike) {
                 bicycleList.add(result)
                 updateAvailabilityChart()
             }
 
-            override fun onChildRemoved(result: Bicycle) {
+            override fun onChildRemoved(result: Bike) {
                 bicycleList.remove(result)
                 updateAvailabilityChart()
             }

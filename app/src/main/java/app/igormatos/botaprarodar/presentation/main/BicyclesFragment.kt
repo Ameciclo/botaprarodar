@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
-import app.igormatos.botaprarodar.presentation.addbicycle.AddBikeActivity
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
 
@@ -42,7 +42,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, AddBikeActivity::class.java)
+            val intent = Intent(it.context, BikeFormActivity::class.java)
             startActivity(intent)
         }
 
@@ -50,28 +50,28 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         recyclerView.adapter = bicycleAdapter
 
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id!!
-        FirebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bicycle> {
-            override fun onChildChanged(result: Bicycle) {
+        FirebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bike> {
+            override fun onChildChanged(result: Bike) {
                 bicycleAdapter.updateItem(result)
             }
 
-            override fun onChildAdded(result: Bicycle) {
+            override fun onChildAdded(result: Bike) {
                 bicycleAdapter.addItem(result)
             }
 
-            override fun onChildRemoved(result: Bicycle) {
+            override fun onChildRemoved(result: Bike) {
                 bicycleAdapter.removeItem(result)
             }
 
         })
     }
 
-    override fun onBicycleClicked(bicycle: Bicycle) {
-        Toast.makeText(requireContext(), bicycle.name, Toast.LENGTH_SHORT).show()
+    override fun onBicycleClicked(bike: Bike) {
+        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onBicycleLongClicked(bicycle: Bicycle) : Boolean {
-        Toast.makeText(requireContext(), bicycle.name, Toast.LENGTH_SHORT).show()
+    override fun onBicycleLongClicked(bike: Bike) : Boolean {
+        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
         return true
     }
 }
