@@ -127,12 +127,6 @@ class BikeFormActivity : AppCompatActivity() {
         binding.saveButton.text = getString(R.string.update_button)
     }
 
-    fun hasEmptyField(): Boolean {
-        return binding.orderNumber.text.isNullOrEmpty() ||
-                binding.serialNumber.text.isNullOrEmpty() ||
-                binding.bikeName.text.isNullOrEmpty() ||
-                binding.bikePhotoImageView.drawable == null
-    }
 
 //    fun addBikeToServer() {
 //        bicycleToAdd.name = binding.bikeName.text.toString()

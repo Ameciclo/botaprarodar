@@ -81,7 +81,7 @@
                     app:layout_constraintLeft_toLeftOf="@id/bikePhotoImageView"
                     app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/serialNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -100,41 +100,52 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:hint="@string/bike_name"
                     app:errorBicycleName="@{viewModel.bikeName}"
-                    app:layout_constraintTop_toBottomOf="@id/serialNumberTil" >
+                    app:layout_constraintTop_toBottomOf="@id/serialNumberTil">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/bikeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@={viewModel.bikeName}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                      />
+                        app:layout_constraintLeft_toLeftOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <EditText
-                    android:id="@+id/orderNumber"
-                    android:layout_width="250dp"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/orderNumberTil"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="Número de ordem"
-                    android:inputType="number"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil" />
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:hint="@string/order_number"
+                    app:errorBicycleOrderNumber="@{viewModel.orderNumber}"
+                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/orderNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@={viewModel.orderNumber}"
+                        android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                     android:id="@+id/saveButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
                     android:text="Cadastrar Bicicleta"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderNumber" />
+                    app:layout_constraintTop_toBottomOf="@+id/orderNumberTil" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

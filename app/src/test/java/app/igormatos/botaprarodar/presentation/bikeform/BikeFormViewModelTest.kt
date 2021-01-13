@@ -32,25 +32,48 @@ class BikeFormViewModelTest {
             BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
     }
 
-//    @Test
-//    fun `When 'serialnumber' is null then 'isSerialNumberValid' return false`() {
-//        val serialNumber = null
-//        bikeViewModel.serialNumber.postValue(serialNumber)
-//        assertFalse(bikeViewModel.isSerialNumberValid(serialNumber))
-//    }
+    @Test
+    fun `When 'BikeForm' is invalid then 'valid' return false`() {
+
+        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
+
+        val serialNumber = "S1209"
+        val bikeName = ""
+        bikeViewModel.valid.observeForever(observerBikeResultMock)
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        bikeViewModel.bikeName.postValue(bikeName)
+
+        verify {
+            observerBikeResultMock.onChanged(false)
+        }
+    }
+
+    @Test
+    fun `When 'BikeForm' is valid then 'valid' return true`() {
+        val serialNumber = "S1209"
+        val bikeName = "S1209"
+        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
+        bikeViewModel.valid.observeForever(observerBikeResultMock)
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        bikeViewModel.bikeName.postValue(bikeName)
+
+        verify {
+            observerBikeResultMock.onChanged(true)
+        }
+    }
 
     @Test
     fun `When 'serialnumber' is empty then 'isSerialNumberValid' return false`() {
         val serialNumber = ""
         bikeViewModel.serialNumber.postValue(serialNumber)
-        assertFalse(bikeViewModel.isDataValid(serialNumber))
+        assertFalse(bikeViewModel.isTextValid(serialNumber))
     }
 
     @Test
     fun `When 'serialnumber' is not null or empty then 'isSerialNumberValid' return true`() {
         val serialNumber = "S1209"
         bikeViewModel.serialNumber.postValue(serialNumber)
-        assertTrue(bikeViewModel.isDataValid(serialNumber))
+        assertTrue(bikeViewModel.isTextValid(serialNumber))
     }
 
     @Test
