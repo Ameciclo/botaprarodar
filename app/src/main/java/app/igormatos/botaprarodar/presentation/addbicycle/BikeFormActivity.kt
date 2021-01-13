@@ -45,43 +45,14 @@ class BikeFormActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = formViewModel
 
-        val bicycleParcelable: Parcelable? =
-            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
-
-//        checkIfEditMode(bicycleParcelable)
-
         onClickBicyclePhotoImage()
-
         waitBicycleRegisterResult()
-
-        /* binding.saveButton.setOnClickListener {
-             if (hasEmptyField()) {
-                 Toast.makeText(
-                     this@AddBikeActivity,
-                     getString(R.string.empties_fields_error),
-                     Toast.LENGTH_SHORT
-                 )
-                     .show()
-                 return@setOnClickListener
-             }
-
-             binding.saveButton.isEnabled = false
-
-             if (editMode) {
-                 addBikeToServer()
-                 return@setOnClickListener
-             } else {
-                 uploadImage { addBikeToServer() }
-             }
-
-         }*/
 
         binding.toolbar.title = if (editMode) {
             getString(R.string.bicycle_update_button)
         } else {
             getString(R.string.bicycle_add_button)
         }
-
     }
 
     private fun waitBicycleRegisterResult() {
@@ -99,51 +70,11 @@ class BikeFormActivity : AppCompatActivity() {
 
     private fun onClickBicyclePhotoImage() {
         binding.bikePhotoImageView.setOnClickListener {
-            takePictureIntent(REQUEST_PHOTO) { path -> this.imagePath = path }
+            takePictureIntent(REQUEST_PHOTO) {
+                    path -> this.imagePath = path
+            }
         }
     }
-
-    private fun checkIfEditMode(parcelable: Parcelable?) {
-        if (parcelable == null) return
-
-//        setupBicycle(parcelable)
-    }
-
-    private fun setupBicycle(bicycleParcelable: Parcelable) {
-        editMode = true
-        val bicycle = Parcels.unwrap(bicycleParcelable) as Bike
-
-        bicycleToAdd = bicycle
-
-        binding.bikePhotoImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, bicycleToAdd.photo_path)
-        }
-
-        bicycle.photo_path?.let { binding.bikePhotoImageView.loadPath(it) }
-        binding.serialNumber.setText(bicycle.serial_number)
-        binding.bikeName.setText(bicycle.name)
-        binding.orderNumber.setText(bicycle.order_number.toString())
-
-        binding.saveButton.text = getString(R.string.update_button)
-    }
-
-
-//    fun addBikeToServer() {
-//        bicycleToAdd.name = binding.bikeName.text.toString()
-//        bicycleToAdd.serial_number = binding.serialNumber.text.toString()
-//        bicycleToAdd.order_number = binding.orderNumber.text.toString().toLong()
-//
-//        bicycleToAdd.saveRemote { success ->
-//            if (success) {
-//                Toast.makeText(this@BikeFormActivity, successText(), Toast.LENGTH_SHORT).show()
-//                finish()
-//            } else {
-//                binding.saveButton.isEnabled = true
-//            }
-//
-//            loadingDialog?.dismiss()
-//        }
-//    }
 
     private fun successText(): String {
         return if (editMode) getString(R.string.bicycle_update_success) else getString(

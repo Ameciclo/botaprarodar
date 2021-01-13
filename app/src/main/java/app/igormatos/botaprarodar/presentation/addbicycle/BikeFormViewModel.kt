@@ -40,7 +40,8 @@ class BikeFormViewModel(
 
     fun isTextValid(data: String) = data.isNotBlank()
 
-    fun registerBicycle(bike: Bike) {
+    fun registerBicycle() {
+        val bike = fillBike()
         _state.postValue(BikeFormStatus.Loading)
 
         viewModelScope.launch {
@@ -50,6 +51,14 @@ class BikeFormViewModel(
                     is SimpleResult.Error -> resultError(it.exception)
                 }
             }
+        }
+    }
+
+    private fun fillBike(): Bike {
+       return Bike().apply {
+            name = bikeName.value
+            serial_number = serialNumber.value
+            order_number = orderNumber.value?.toLong()
         }
     }
 
