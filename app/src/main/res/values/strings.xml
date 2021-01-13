@@ -64,5 +64,7 @@
     <string name="bicycle_name_invalid">Nome inválido</string>
     <string name="bike_serial_number">Número de série da bicicleta</string>
     <string name="bike_name">Nome da bicicleta</string>
+    <string name="bicycle_invalid_order_number">Número de ordem inválido</string>
+    <string name="order_number">Número de ordem</string>
 
 </resources>
