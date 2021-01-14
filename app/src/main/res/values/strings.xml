@@ -72,11 +72,17 @@
     <string name="action_next">Próxima</string>
     <string name="action_save">Salvar</string>
     <string name="action_register">Cadastrar</string>
-    <string name="promt_email_confirmation_title">Por favor, verifique a sua conta pelo email que foi enviado  <b>%1$s</b></string>
+    <string name="prompt_password_registration">Senha (min. 6 caracteres)</string>
+    <string name="promt_password_min_length_warning">A senha deve ter no mínimo 6 caracteres</string>
     <string name="promt_registration_error">Ocorreu um erro. Tente novamente.</string>
     <string name="action_forgotten_password">Problemas com login?</string>
     <string name="prompt_password_recovery_header">Veja como redefinir sua senha nas instruções enviadas para este e-mail.</string>
     <string name="invalid_email">E-mail inválido</string>
     <string name="network_error_message">Falha ao se conectar com o servidor, tente novamente.</string>
+    <string name="registration_error">Falha no cadastro.</string>
+
+    <string name="registration_success_title">Oba!</string>
+    <string name="registration_success_description">Você foi cadastrado com sucesso! Precione o botão abaixo para realizar o seu primeiro login.</string>
+    <string name="login">Login</string>
 
 </resources>

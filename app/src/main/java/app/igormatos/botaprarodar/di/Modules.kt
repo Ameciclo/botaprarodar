@@ -88,7 +88,6 @@ val bprModule = module {
         FirebaseAuth.getInstance()
     }
 
-
     single {
         AdminRemoteDataSource(get())
     }
