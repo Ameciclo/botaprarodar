@@ -67,7 +67,7 @@ class AddCommunityActivityTest {
         addCommunity {
             fillCommunityDataWithWrongEmailFormat()
         } verify {
-            checkMessage(mContext.getString(R.string.emailFormatWarning))
+            checkMessage(mContext.getString(R.string.email_format_warning))
         }
 
     }
