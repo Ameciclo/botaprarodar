@@ -1,13 +1,13 @@
 package app.igormatos.botaprarodar.domain.converter.bicycle
 
 import app.igormatos.botaprarodar.data.model.BicycleRequest
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 
-fun buildBicycleRequest(bicycle: Bicycle) =
+fun buildBicycleRequest(bike: Bike) =
     BicycleRequest(
-        name = bicycle.name!!,
-        orderNumber = bicycle.order_number!!,
-        photoPath = bicycle.photo_path!!,
-        photoThumbnailPath = bicycle.photo_thumbnail_path!!,
-        serialNumber = bicycle.serial_number!!,
-        createdDate = bicycle.created_date!!)
+        name = bike.name!!,
+        orderNumber = bike.order_number!!,
+        photoPath = bike.photo_path!!,
+        photoThumbnailPath = bike.photo_thumbnail_path!!,
+        serialNumber = bike.serial_number!!,
+        createdDate = bike.created_date!!)

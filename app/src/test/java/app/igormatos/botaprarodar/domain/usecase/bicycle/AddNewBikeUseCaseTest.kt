@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.bicycle
 
-import app.igormatos.botaprarodar.data.repository.BicycleRepository
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.data.repository.BikeRepository
+import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
@@ -20,11 +20,11 @@ import java.lang.Exception
 
 @ExtendWith(MockKExtension::class)
 @DisplayName("Given AddNewBicycleUseCase")
-internal class AddNewBicycleUseCaseTest {
+internal class AddNewBikeUseCaseTest {
     @InjectMockKs
-    private lateinit var userCase: AddNewBicycleUseCase
+    private lateinit var userCase: AddNewBikeUseCase
     @MockK
-    private lateinit var repository: BicycleRepository
+    private lateinit var repository: BikeRepository
 
     @BeforeEach
     fun setUp() {
@@ -33,13 +33,13 @@ internal class AddNewBicycleUseCaseTest {
 
     @Nested
     @DisplayName("WHEN do post for create new bicycle")
-    inner class AddNewBicycle {
+    inner class AddNewBike {
 
         @Test
         fun `should create new bicycle and return simple result with string`() = runBlocking() {
-            coEvery { repository.addNewBicycle(any(), any()) } returns "Created new bicycle"
+            coEvery { repository.addNewBike(any(), any()) } returns "Created new bicycle"
 
-            val responseResult = userCase.addNewBicycle("100", buildBicycle()) as SimpleResult.Success
+            val responseResult = userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
 
             assertEquals("Created new bicycle", responseResult.data)
         }
@@ -47,9 +47,9 @@ internal class AddNewBicycleUseCaseTest {
         @Test
         fun `should return simple result with exception`() = runBlocking {
             val exceptionResult = Exception()
-            coEvery { repository.addNewBicycle(any(), any()) } throws exceptionResult
+            coEvery { repository.addNewBike(any(), any()) } throws exceptionResult
 
-            val responseResult = userCase.addNewBicycle("100", buildBicycle())
+            val responseResult = userCase.addNewBike("100", buildBicycle())
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
@@ -57,8 +57,8 @@ internal class AddNewBicycleUseCaseTest {
 
     }
 
-    fun buildBicycle(): Bicycle {
-        return Bicycle().apply {
+    fun buildBicycle(): Bike {
+        return Bike().apply {
             name = "Bicycle"
             order_number = 123
             serial_number = "123serial"

@@ -9,14 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import com.bumptech.glide.Glide
 
 class BicyclesAdapter(
     private val bicycleAdapterListener: BicycleAdapterListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BicycleAdapterListener {
 
-    var itemsList: MutableList<Bicycle> = mutableListOf()
+    var itemsList: MutableList<Bike> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
@@ -36,18 +36,18 @@ class BicyclesAdapter(
         (holder as BicycleViewHolder).bind(item)
     }
 
-    fun addItem(item: Bicycle) {
+    fun addItem(item: Bike) {
         itemsList.add(0, item)
         notifyDataSetChanged()
     }
 
-    fun removeItem(item: Bicycle) {
+    fun removeItem(item: Bike) {
         val index = itemsList.indexOfFirst { it.id == item.id }
         itemsList.removeAt(index)
         notifyItemRemoved(index)
     }
 
-    fun updateItem(item: Bicycle) {
+    fun updateItem(item: Bike) {
         val index = itemsList.indexOfFirst { it.id == item.id }
         itemsList[index] = item
         notifyItemChanged(index)
@@ -59,22 +59,22 @@ class BicyclesAdapter(
     ) :
         RecyclerView.ViewHolder(itemView) {
 
-        fun bind(bicycle: Bicycle) {
-            itemView.findViewById<TextView>(R.id.cellTitle).text = bicycle.title()
-            itemView.findViewById<TextView>(R.id.cellSubtitle).text = bicycle.subtitle()
+        fun bind(bike: Bike) {
+            itemView.findViewById<TextView>(R.id.cellTitle).text = bike.title()
+            itemView.findViewById<TextView>(R.id.cellSubtitle).text = bike.subtitle()
             val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
 
             itemView.setOnLongClickListener {
-                bicycleAdapterListener.onBicycleLongClicked(bicycle)
+                bicycleAdapterListener.onBicycleLongClicked(bike)
             }
 
             itemView.setOnClickListener {
-                bicycleAdapterListener.onBicycleClicked(bicycle)
+                bicycleAdapterListener.onBicycleClicked(bike)
             }
 
-            if (!bicycle.isAvailable) {
+            if (!bike.isAvailable) {
                 Glide.with(itemView.context)
-                    .load(bicycle.iconPath())
+                    .load(bike.iconPath())
                     .into(imageView)
 
                 val colorMatrix = ColorMatrix()
@@ -84,17 +84,17 @@ class BicyclesAdapter(
 
             } else {
                 Glide.with(itemView.context)
-                    .load(bicycle.iconPath())
+                    .load(bike.iconPath())
                     .into(imageView)
             }
         }
     }
 
-    override fun onBicycleClicked(bicycle: Bicycle) {
-        bicycleAdapterListener.onBicycleClicked(bicycle)
+    override fun onBicycleClicked(bike: Bike) {
+        bicycleAdapterListener.onBicycleClicked(bike)
     }
 
-    override fun onBicycleLongClicked(bicycle: Bicycle): Boolean {
-        return bicycleAdapterListener.onBicycleLongClicked(bicycle)
+    override fun onBicycleLongClicked(bike: Bike): Boolean {
+        return bicycleAdapterListener.onBicycleLongClicked(bike)
     }
 }
