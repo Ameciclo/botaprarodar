@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -17,9 +16,7 @@ import app.igormatos.botaprarodar.databinding.FragmentRegistrationBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationState
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
 import com.brunotmgomes.ui.extensions.createLoading
-import com.firebase.ui.auth.util.ui.BaselineTextInputLayout
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val MIN_PASSWORD_LENGTH = 6
