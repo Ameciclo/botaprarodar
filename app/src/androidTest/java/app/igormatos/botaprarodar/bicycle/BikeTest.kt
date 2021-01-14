@@ -16,7 +16,7 @@ import org.junit.runners.MethodSorters
 @RunWith(AndroidJUnit4ClassRunner::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
-class BicycleTest {
+class BikeTest {
     @get:Rule
     val loginActivityRule = ActivityTestRule(LoginActivity::class.java)
     private lateinit var loginActivity: LoginActivity
