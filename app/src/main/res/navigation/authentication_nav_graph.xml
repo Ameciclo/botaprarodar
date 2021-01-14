@@ -22,6 +22,11 @@
             android:id="@+id/registrationFragment"
             android:name="app.igormatos.botaprarodar.presentation.authentication.RegistrationFragment"
             android:label="Registrar" >
+        <action
+                android:id="@+id/action_registrationFragment_to_loginActivity"
+                app:destination="@id/loginActivity"
+                app:popUpTo="@id/registrationFragment"
+                app:popUpToInclusive="true"/>
     </fragment>
     <fragment
             tools:layout="@layout/fragment_email_validation"
