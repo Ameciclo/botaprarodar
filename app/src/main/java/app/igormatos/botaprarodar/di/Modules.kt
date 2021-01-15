@@ -10,17 +10,25 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
+
+import app.igormatos.botaprarodar.data.repository.AdminRepository
+import app.igormatos.botaprarodar.data.repository.AdminRemoteDataSource
+import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
+import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
+
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModelImpl
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
+import com.google.firebase.auth.FirebaseAuth
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -46,16 +54,18 @@ val bprModule = module {
 
     single { buildRetrofit() }
 
-    single <CommunityApiService> {
+    single<CommunityApiService> {
         get<Retrofit>().create(CommunityApiService::class.java)
     }
     single { CommunityMapper() }
-    single { CommunityRepository(
-        communityApiService = get(),
-        communityMapper = get()
-    ) }
+    single {
+        CommunityRepository(
+            communityApiService = get(),
+            communityMapper = get()
+        )
+    }
     single { AddCommunityUseCase(communityRepository = get()) }
-    viewModel{
+    viewModel {
         AddCommunityViewModel(
             communityUseCase = get()
         )
@@ -81,6 +91,22 @@ val bprModule = module {
         BicyclesListUseCase(get<BikeRepository>())
     }
 
+    single {
+        FirebaseAuth.getInstance()
+    }
+
+
+    single {
+        AdminRemoteDataSource(get())
+    }
+
+    single {
+        AdminRepository(get())
+    }
+
+    viewModel {
+        EmailValidationViewModel(get(), EmailValidator())
+    }
 }
 
 private fun buildRetrofit(): Retrofit {
