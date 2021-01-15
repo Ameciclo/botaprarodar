@@ -143,7 +143,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
                     android:text="Cadastrar Bicicleta"
-                    android:onClick="@{()-> viewModel.registerBicycle}"
+                    android:onClick="@{()-> viewModel.registerBicycle()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderNumberTil" />

@@ -1,5 +1,8 @@
 package app.igormatos.botaprarodar.domain.model
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.library.baseAdapters.BR
 import com.google.firebase.database.IgnoreExtraProperties
 import org.parceler.Parcel
 import java.text.SimpleDateFormat
@@ -7,7 +10,7 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class Bike : Item {
+class Bike: Item {
 
     override val path: String = "bicycles"
 
@@ -16,19 +19,24 @@ class Bike : Item {
     override var isAvailable: Boolean = true
 
     var name: String? = null
-    var serial_number: String? = null
-    var order_number: Long? = null
-    var photo_path: String? = null
-    var created_date: String? = null
-    var photo_thumbnail_path: String? = null
+
+    var serialNumber: String? = null
+
+    var orderNumber: Long? = null
+
+    var photoPath: String? = null
+
+    var createdDate: String? = null
+
+    var photoThumbnailPath: String? = null
 
     @field:JvmField
-    var in_use: Boolean = false
+    var inUse: Boolean = false
 
     init {
         val date = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        created_date = dateFormat.format(date)
+        createdDate = dateFormat.format(date)
     }
 
 
@@ -37,10 +45,11 @@ class Bike : Item {
     }
 
     override fun subtitle(): String {
-        return "Ordem: $order_number | Série: $serial_number"
+        return "Ordem: $orderNumber | Série: $serialNumber"
     }
 
     override fun iconPath(): String {
-        return photo_thumbnail_path ?: photo_path ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return photoThumbnailPath ?: photoPath
+        ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 }

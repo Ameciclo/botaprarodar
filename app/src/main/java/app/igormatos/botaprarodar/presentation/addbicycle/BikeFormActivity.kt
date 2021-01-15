@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.addbicycle
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,15 +13,12 @@ import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
-import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
-import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.showLoadingDialog
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
-import org.parceler.Parcels
 
 val BIKE_EXTRA = "Bike_extra"
 
@@ -34,6 +30,7 @@ class BikeFormActivity : AppCompatActivity() {
     var loadingDialog: AlertDialog? = null
 
     private val formViewModel: BikeFormViewModel by koinViewModel()
+    private var bike = Bike()
 
     private val binding: ActivityBikeFormBinding by lazy {
         DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
@@ -107,8 +104,8 @@ class BikeFormActivity : AppCompatActivity() {
         imagePath?.let {
             FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
                 if (success) {
-                    bicycleToAdd.photo_path = path
-                    bicycleToAdd.photo_thumbnail_path = thumbnailPath
+                    bicycleToAdd.photoPath = path
+                    bicycleToAdd.photoThumbnailPath = thumbnailPath
                     afterSuccess()
                 } else {
                     loadingDialog?.dismiss()
