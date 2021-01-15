@@ -104,8 +104,8 @@ class BikeFormActivity : AppCompatActivity() {
         imagePath?.let {
             FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
                 if (success) {
-                    bicycleToAdd.photoPath = path
-                    bicycleToAdd.photoThumbnailPath = thumbnailPath
+                    bicycleToAdd.photo_path = path
+                    bicycleToAdd.photo_thumbnail_path = thumbnailPath
                     afterSuccess()
                 } else {
                     loadingDialog?.dismiss()
