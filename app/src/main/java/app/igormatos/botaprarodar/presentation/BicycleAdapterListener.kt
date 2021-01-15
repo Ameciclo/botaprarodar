@@ -1,8 +1,8 @@
 package app.igormatos.botaprarodar.presentation
 
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 
 interface BicycleAdapterListener {
-    fun onBicycleClicked(bicycle: Bicycle)
-    fun onBicycleLongClicked(bicycle: Bicycle) : Boolean
+    fun onBicycleClicked(bike: Bike)
+    fun onBicycleLongClicked(bike: Bike) : Boolean
 }
