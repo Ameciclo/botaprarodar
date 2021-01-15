@@ -7,9 +7,9 @@ import app.igormatos.botaprarodar.common.BprError
 import app.igormatos.botaprarodar.common.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.getOrAwaitValue
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationState
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
+import com.brunotmgomes.ui.extensions.getOrAwaitValue
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.*
@@ -87,7 +87,7 @@ class EmailValidationViewModelTest {
             observer.onChanged(capture(fourthStateSlot))
         }
 
-        assertTrue(thirdStateSlot.captured.isNewUser)
+        assertTrue(thirdStateSlot.captured.isAdminRegisted)
     }
 
     @Test
@@ -110,7 +110,7 @@ class EmailValidationViewModelTest {
             observer.onChanged(capture(thirdStateSlot))
             observer.onChanged(capture(fourthStateSlot))
         }
-        assertFalse(thirdStateSlot.captured.isNewUser)
+        assertFalse(thirdStateSlot.captured.isAdminRegisted)
     }
 
     @Test
