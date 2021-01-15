@@ -1,11 +1,11 @@
 package app.igormatos.botaprarodar.domain.converter.bicycle
 
 import app.igormatos.botaprarodar.domain.converter.Converter
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 
-class ListBicyclesConverter : Converter<Map<String, Bicycle>, List<Bicycle>> {
+class ListBicyclesConverter : Converter<Map<String, Bike>, List<Bike>> {
 
-    override fun convert(toConvert: Map<String, Bicycle>): List<Bicycle> {
+    override fun convert(toConvert: Map<String, Bike>): List<Bike> {
         return toConvert.values.toMutableList()
     }
 

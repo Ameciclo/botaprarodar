@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.domain.model.Bicycle
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.showLoadingDialog
@@ -66,7 +66,7 @@ class ReturnBikeActivity : AppCompatActivity() {
             null
         }) ?: return
 
-        val bicycle = Parcels.unwrap<Bicycle>(bicycleParcelable)
+        val bicycle = Parcels.unwrap<Bike>(bicycleParcelable)
 
         FirebaseHelper.getWithdrawalFromBicycle(bicycleId = bicycle.id!!) {
             loadingDialog?.dismiss()

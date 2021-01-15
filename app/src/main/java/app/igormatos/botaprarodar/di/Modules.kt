@@ -10,16 +10,18 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
+
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.data.repository.BicycleRepository
 import app.igormatos.botaprarodar.data.repository.AdminRemoteDataSource
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBicycleUseCase
+import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
+import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
+
+import app.igormatos.botaprarodar.data.repository.BikeRepository
+import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
-import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
-import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
@@ -69,20 +71,24 @@ val bprModule = module {
         )
     }
 
+    viewModel {
+        BikeFormViewModel(addNewBikeUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
+    }
+
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }
 
     single {
-        BicycleRepository(get<BicycleApi>())
+        BikeRepository(get<BicycleApi>())
     }
 
     single {
-        AddNewBicycleUseCase(get<BicycleRepository>())
+        AddNewBikeUseCase(bikeRepository = get<BikeRepository>())
     }
 
     single {
-        BicyclesListUseCase(get<BicycleRepository>())
+        BicyclesListUseCase(get<BikeRepository>())
     }
 
     single {

@@ -49,7 +49,7 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".presentation.addbicycle.AddBikeActivity">
+        <activity android:name=".presentation.addbicycle.BikeFormActivity">
         </activity>
         <activity android:name="app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.BicycleWithdrawActivity">
         </activity>
