@@ -64,7 +64,7 @@
     <string name="prompt_password">Senha</string>
     <string name="prompt_full_name">Nome e sobrenome</string>
     <string name="prompt_welcome_title">É bom ver você novamente!</string>
-    <string name="prompt_welcome_message">Você já usou o e-mail <b>%1$s</b> para fazer login. Insira a senha dessa conta.</string>
+    <string name="prompt_welcome_message">Você já usou o e-mail &lt;b>%s&lt;/b> para fazer login. Insira a senha dessa conta.</string>
 
 
     <string name="action_sign_in_or_register">Entrar/Registrar</string>
@@ -74,5 +74,9 @@
     <string name="prompt_password_recovery_header">Veja como redefinir sua senha nas instruções enviadas para este e-mail.</string>
     <string name="invalid_email">E-mail inválido</string>
     <string name="network_error_message">Falha ao se conectar com o servidor, tente novamente.</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="password_length_error">Senha precisa ter no mínimo 6 dígitos</string>
+    <string name="submit_form_error">Não foi possível executar a ação.</string>
+    <string name="sign_in_password_error">Senha incorreta.</string>
 
 </resources>
