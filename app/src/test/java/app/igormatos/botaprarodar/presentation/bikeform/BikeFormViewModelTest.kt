@@ -30,7 +30,7 @@ class BikeFormViewModelTest {
     fun setup() {
         bikeViewModel =
             BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
-        bikeViewModel.orderNumber.postValue(bikeFake.orderNumber.toString())
+        bikeViewModel.orderNumber.postValue(bikeFake.order_number.toString())
     }
 
     @Test
@@ -128,8 +128,8 @@ class BikeFormViewModelTest {
 
     private val bikeFake = Bike().apply {
         name = "Monark"
-        serialNumber = "12345"
-        orderNumber = 0
+        serial_number = "12345"
+        order_number = 0
     }
 
 }

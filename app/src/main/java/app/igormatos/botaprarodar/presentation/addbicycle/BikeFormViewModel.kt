@@ -32,13 +32,13 @@ class BikeFormViewModel(
         }
     }
 
-    fun validateForm() {
-        valid.value = isTextValid(serialNumber.value!!) &&
-                isTextValid(bikeName.value!!) &&
-                isTextValid(orderNumber.value!!)
+    private fun validateForm() {
+        valid.value = isTextValid(serialNumber.value) &&
+                isTextValid(bikeName.value) &&
+                isTextValid(orderNumber.value)
     }
 
-    fun isTextValid(data: String) = data.isNotBlank()
+    fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     fun registerBicycle() {
         val bike = fillBike()
@@ -57,8 +57,8 @@ class BikeFormViewModel(
     private fun fillBike(): Bike {
         return Bike().apply {
             name = bikeName.value
-            serialNumber = this@BikeFormViewModel.serialNumber.value
-            orderNumber = this@BikeFormViewModel.orderNumber.value?.toLong()
+            serial_number = this@BikeFormViewModel.serialNumber.value
+            order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
         }
     }
 
