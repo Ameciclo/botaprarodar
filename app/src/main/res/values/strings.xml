@@ -82,7 +82,7 @@
     <string name="registration_error">Falha no cadastro.</string>
 
     <string name="registration_success_title">Oba!</string>
-    <string name="registration_success_description">Você foi cadastrado com sucesso! Precione o botão abaixo para realizar o seu primeiro login.</string>
+    <string name="registration_success_description">Você foi cadastrado com sucesso! Pressione o botão abaixo para realizar o seu primeiro login.</string>
     <string name="login">Login</string>
 
     <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
