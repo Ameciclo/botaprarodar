@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.data.repository
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import java.lang.Exception
 
 class AdminRepository(private val adminRemoteDataSource: AdminRemoteDataSource) {
@@ -28,6 +29,8 @@ class AdminRepository(private val adminRemoteDataSource: AdminRemoteDataSource) 
                 ?: throw UserAdminErrorException.AdminNotFound
         } catch (e: FirebaseNetworkException) {
             throw UserAdminErrorException.AdminNetwork
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            throw UserAdminErrorException.AdminNotFound
         }
 
         return assembleAdmin(firebaseUserUid, email, password)
