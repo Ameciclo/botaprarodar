@@ -52,13 +52,13 @@ class EmailValidationFragment : Fragment() {
         }
     }
 
-    private fun createNavDirection(newUser: Boolean): NavDirections {
-        return if (newUser) {
-            EmailValidationFragmentDirections.actionEmailValidationFragmentToRegistrationFragment()
-        } else {
+    private fun createNavDirection(isUserRegistered: Boolean): NavDirections {
+        return if (isUserRegistered) {
             EmailValidationFragmentDirections.actionEmailValidationFragmentToSignInFragment(
                 binding.viewmodel?.emailField?.value ?: ""
             )
+        } else {
+            EmailValidationFragmentDirections.actionEmailValidationFragmentToRegistrationFragment()
         }
     }
 
