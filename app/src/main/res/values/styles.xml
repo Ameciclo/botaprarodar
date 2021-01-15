@@ -10,6 +10,10 @@
         <item name="actionBarTheme">@style/ActionBar</item>
     </style>
 
+    <style name="AppTheme.WhiteEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="AppThemeWithActionbar" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="actionBarTheme">@style/ActionBar</item>
