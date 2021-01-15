@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:errorContentDescription="@string/promt_password_min_length_warning"
+            app:errorContentDescription="@string/prompt_password_min_length_warning"
             app:boxBackgroundColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/save"
             app:layout_constraintEnd_toEndOf="parent"
