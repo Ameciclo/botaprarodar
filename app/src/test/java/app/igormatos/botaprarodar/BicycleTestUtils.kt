@@ -5,10 +5,10 @@ import app.igormatos.botaprarodar.domain.model.Bike
 fun buildBicycle(nameBicycle: String): Bike {
     return Bike().apply {
         name = nameBicycle
-        order_number = System.currentTimeMillis()
-        serial_number = "123serial"
-        photo_path = "http://bla.com"
-        photo_thumbnail_path = "http://bla.com"
+        orderNumber = System.currentTimeMillis()
+        serialNumber = "123serial"
+        photoPath = "http://bla.com"
+        photoThumbnailPath = "http://bla.com"
     }
 }
 

@@ -199,7 +199,7 @@ class DashboardFragment : Fragment() {
 
     private fun updateAvailabilityChart() {
         bicyclesEntries.clear()
-        val groupedBicycles = bicycleList.groupBy { it.in_use }
+        val groupedBicycles = bicycleList.groupBy { it.inUse }
         val availableCount = groupedBicycles[false]?.count() ?: 0
         val inUseCount = groupedBicycles[true]?.count() ?: 0
 
@@ -211,7 +211,7 @@ class DashboardFragment : Fragment() {
     private fun setAvailablePieChart() {
         FirebaseHelper.getBicycles(communityId, false, object : RequestListener<Bike> {
             override fun onChildChanged(result: Bike) {
-                bicycleList.find { it.id == result.id }.let { it?.in_use = result.in_use }
+                bicycleList.find { it.id == result.id }.let { it?.inUse = result.inUse }
                 updateAvailabilityChart()
             }
 

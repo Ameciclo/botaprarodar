@@ -30,6 +30,7 @@ class BikeFormViewModelTest {
     fun setup() {
         bikeViewModel =
             BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
+        bikeViewModel.orderNumber.postValue(bikeFake.orderNumber.toString())
     }
 
     @Test
@@ -79,52 +80,56 @@ class BikeFormViewModelTest {
     @Test
     fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() =
         runBlocking {
-            val bikeFake = mockk<Bike>()
+            val bikeFake = slot<Bike>()
             val result = SimpleResult.Success("")
-
             coEvery {
-                addNewBikeUseCase.addNewBike(community.id, bikeFake)
+                addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
             } returns result
 
-            bikeViewModel.registerBicycle(bikeFake)
 
+            bikeViewModel.registerBicycle()
             assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
         }
 
     @Test
     fun `When 'registerBicycle', then registeredBicycleResult should return Error Status`() =
         runBlocking {
-            val bikeFake = mockk<Bike>()
+            val bikeFake = slot<Bike>()
             val result = SimpleResult.Error(Exception())
 
             coEvery {
-                addNewBikeUseCase.addNewBike(community.id, bikeFake)
+                addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
             } returns result
 
-            bikeViewModel.registerBicycle(bikeFake)
+            bikeViewModel.registerBicycle()
 
             assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
         }
 
     @Test
     fun `check success status ordering`() {
-        val bikeFake = mockk<Bike>()
+        val bikeFake = slot<Bike>()
         val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
         val simpleResultData = "bicicleta caloi"
         val result = SimpleResult.Success(simpleResultData)
 
         coEvery {
-            addNewBikeUseCase.addNewBike(community.id, bikeFake)
+            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
-
         bikeViewModel.state.observeForever(observerBikeResultMock)
-        bikeViewModel.registerBicycle(bikeFake)
+        bikeViewModel.registerBicycle()
 
         verifyOrder {
             observerBikeResultMock.onChanged(BikeFormStatus.Loading)
             observerBikeResultMock.onChanged(BikeFormStatus.Success(simpleResultData))
         }
 
+    }
+
+    private val bikeFake = Bike().apply {
+        name = "Monark"
+        serialNumber = "12345"
+        orderNumber = 0
     }
 
 }

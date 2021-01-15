@@ -231,7 +231,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             }
 
             if (item is Bike && activity is WithdrawActivity) {
-                val isAvailable = item.in_use?.not() ?: true
+                val isAvailable = item.inUse?.not() ?: true
 
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
@@ -249,7 +249,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                         val withdrawalInProgress = Withdraw()
                         withdrawalInProgress.bicycle_name = item.name
                         withdrawalInProgress.bicycle_id = item.id
-                        withdrawalInProgress.bicycle_image_path = item.photo_path
+                        withdrawalInProgress.bicycle_image_path = item.photoPath
 
                         intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)

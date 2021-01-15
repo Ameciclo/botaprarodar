@@ -60,10 +60,10 @@ internal class AddNewBikeUseCaseTest {
     fun buildBicycle(): Bike {
         return Bike().apply {
             name = "Bicycle"
-            order_number = 123
-            serial_number = "123serial"
-            photo_path = "http://bla.com"
-            photo_thumbnail_path = "http://bla.com"
+            orderNumber = 123
+            serialNumber = "123serial"
+            photoPath = "http://bla.com"
+            photoThumbnailPath = "http://bla.com"
         }
     }
 

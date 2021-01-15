@@ -55,10 +55,10 @@ class BikeFormViewModel(
     }
 
     private fun fillBike(): Bike {
-       return Bike().apply {
+        return Bike().apply {
             name = bikeName.value
-            serial_number = serialNumber.value
-            order_number = orderNumber.value?.toLong()
+            serialNumber = this@BikeFormViewModel.serialNumber.value
+            orderNumber = this@BikeFormViewModel.orderNumber.value?.toLong()
         }
     }
 
