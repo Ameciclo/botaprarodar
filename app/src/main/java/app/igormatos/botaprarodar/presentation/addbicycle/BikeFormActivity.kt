@@ -30,7 +30,6 @@ class BikeFormActivity : AppCompatActivity() {
     var loadingDialog: AlertDialog? = null
 
     private val formViewModel: BikeFormViewModel by koinViewModel()
-    private var bike = Bike()
 
     private val binding: ActivityBikeFormBinding by lazy {
         DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
