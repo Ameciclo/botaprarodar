@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.converter.bicycle
 
-import app.igormatos.botaprarodar.buildBicycle
+import app.igormatos.botaprarodar.getBikeFixture
+import app.igormatos.botaprarodar.domain.model.Bike
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -16,9 +17,18 @@ internal class BikeRequestConvertTest {
     inner class Convert {
         @Test
         fun `should convert bicycle to bicycleRequest`() {
-            val bicycleConverted = bikeRequestConverter.convert(buildBicycle("Bicycle Converted"))
+            var bike =  getBikeFixture("Bicycle Converted")
+            val bicycleConverted = bikeRequestConverter.convert(bike)
 
             assertEquals("Bicycle Converted", bicycleConverted.name)
+        }
+
+        @Test
+        fun ` When bike name is null then bicycleRequest name should be empty`() {
+            var bike =  Bike()
+            val bicycleConverted = bikeRequestConverter.convert(bike)
+
+            assertEquals("", bicycleConverted.name)
         }
 
     }
