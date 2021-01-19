@@ -7,4 +7,13 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_big">32dp</dimen>
+
+    <dimen name="fragment_horizontal_margin">24dp</dimen>
+    <dimen name="fragment_vertical_margin">24dp</dimen>
+
+    <dimen name="default_view_margin">8dp</dimen>
+
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_xlarge">34sp</dimen>
+
 </resources>

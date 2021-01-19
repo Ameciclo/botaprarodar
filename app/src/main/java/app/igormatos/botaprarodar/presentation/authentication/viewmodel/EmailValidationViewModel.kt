@@ -42,8 +42,8 @@ class EmailValidationViewModel(
             try {
                 emailField.value?.let {
                     if (emailValidator.validate(it)) {
-                        val result = adminRepository.isAdminRegistered(it)
-                        _viewState.value = SendSuccess(result)
+                        val isRegistered = adminRepository.isAdminRegistered(it)
+                        _viewState.value = SendSuccess(isAdminRegisted = isRegistered)
                     }
                 }
             } catch (e: UserAdminErrorException.AdminNetwork) {

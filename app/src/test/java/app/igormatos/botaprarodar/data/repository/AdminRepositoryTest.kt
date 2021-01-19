@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseUser
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
@@ -188,8 +189,6 @@ class AdminRepositoryTest {
             assertTrue(result)
         }
 
-
-
     @Test
     fun `When reset password email NOT sent, then should return false`(): Unit =
         runBlocking {
@@ -201,5 +200,18 @@ class AdminRepositoryTest {
 
             val result = adminRepository.sendPasswordResetEmail(email)
             assertFalse(result)
+        }
+
+    @Test(expected = UserAdminErrorException.AdminNotFound::class)
+    fun `When admin credentials are incorrect, then authenticateAdmin should throw AdminNotFound`(): Unit =
+        runBlocking {
+            val expectedError = FirebaseAuthInvalidCredentialsException("", "")
+            coEvery {
+                adminRemoteDataSource.authenticateFirebaseUser(
+                    email,
+                    password
+                )
+            } throws expectedError
+            adminRepository.authenticateAdmin(email, password)
         }
 }
