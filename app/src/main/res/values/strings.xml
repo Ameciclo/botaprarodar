@@ -68,19 +68,31 @@
     <string name="order_number">Número de ordem</string>
 
     <string name="email_format_warning">Insira um email válido</string>
-    <string name="prompt_email">E-mail</string>
+    <string name="prompt_email">Email</string>
     <string name="prompt_password">Senha</string>
-    <string name="prompt_full_name">Nome e sobrenome</string>
+    <string name="prompt_password_confirmation">Confirme a senha</string>
+    <string name="prompt_full_name">Nome completo</string>
     <string name="prompt_welcome_title">É bom ver você novamente!</string>
-    <string name="prompt_welcome_message">Você já usou o e-mail <b>%1$s</b> para fazer login. Insira a senha dessa conta.</string>
-
-
+    <string name="prompt_welcome_message">Você já usou o e-mail &lt;b>%s&lt;/b> para fazer login. Insira a senha dessa conta.</string>
     <string name="action_sign_in_or_register">Entrar/Registrar</string>
     <string name="action_next">Próxima</string>
     <string name="action_save">Salvar</string>
+    <string name="action_register">Cadastrar</string>
+    <string name="prompt_password_registration">Senha (min. 6 caracteres)</string>
+    <string name="prompt_password_min_length_warning">A senha deve ter no mínimo 6 caracteres</string>
+    <string name="prompt_registration_error">Ocorreu um erro. Tente novamente.</string>
     <string name="action_forgotten_password">Problemas com login?</string>
     <string name="prompt_password_recovery_header">Veja como redefinir sua senha nas instruções enviadas para este e-mail.</string>
     <string name="invalid_email">E-mail inválido</string>
     <string name="network_error_message">Falha ao se conectar com o servidor, tente novamente.</string>
 
+    <string name="registration_error">Falha no cadastro.</string>
+    <string name="registration_success_title">Oba!</string>
+    <string name="registration_success_description">Você foi cadastrado com sucesso! Pressione o botão abaixo para realizar o seu primeiro login.</string>
+    <string name="login">Login</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="password_length_error">Senha precisa ter no mínimo 6 dígitos</string>
+    <string name="submit_form_error">Não foi possível executar a ação.</string>
+    <string name="sign_in_password_error">Senha incorreta.</string>
+    <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
 </resources>

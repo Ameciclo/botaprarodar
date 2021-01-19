@@ -6,5 +6,6 @@ interface BprError {
 
 enum class BprErrorType {
     NETWORK,
-    UNKNOWN
+    UNKNOWN,
+    UNAUTHORIZED
 }

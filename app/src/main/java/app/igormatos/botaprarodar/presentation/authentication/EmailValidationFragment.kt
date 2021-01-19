@@ -41,7 +41,7 @@ class EmailValidationFragment : Fragment() {
                         showErrorMessage(errorMessage)
                     }
                     is SendSuccess -> {
-                        val navDirections = createNavDirection(viewState.isNewUser)
+                        val navDirections = createNavDirection(viewState.isAdminRegisted)
                         findNavController().navigate(navDirections)
                     }
                     else -> {
@@ -52,11 +52,13 @@ class EmailValidationFragment : Fragment() {
         }
     }
 
-    private fun createNavDirection(newUser: Boolean): NavDirections {
-        return if (newUser) {
-            EmailValidationFragmentDirections.actionEmailValidationFragmentToRegistrationFragment()
+    private fun createNavDirection(isUserRegistered: Boolean): NavDirections {
+        return if (isUserRegistered) {
+            EmailValidationFragmentDirections.actionEmailValidationFragmentToSignInFragment(
+                binding.viewmodel?.emailField?.value ?: ""
+            )
         } else {
-            EmailValidationFragmentDirections.actionEmailValidationFragmentToSignInFragment()
+            EmailValidationFragmentDirections.actionEmailValidationFragmentToRegistrationFragment()
         }
     }
 
@@ -71,6 +73,6 @@ class EmailValidationFragment : Fragment() {
     private fun createErrorMessage(errorType: BprErrorType): Int =
         when (errorType) {
             BprErrorType.NETWORK -> R.string.network_error_message
-            BprErrorType.UNKNOWN -> R.string.login_error
+            else -> R.string.login_error
         }
 }
