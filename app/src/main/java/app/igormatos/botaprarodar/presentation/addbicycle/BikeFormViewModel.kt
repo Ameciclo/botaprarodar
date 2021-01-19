@@ -12,10 +12,36 @@ import java.lang.Exception
 class BikeFormViewModel(
     private val addNewBikeUseCase: AddNewBikeUseCase,
     private val community: Community
-) : BprViewModel<BikeFormStatus>(){
+) : BprViewModel<BikeFormStatus>() {
     private val UNKNOWN_ERROR = "Falha ao cadastrar a bicicleta"
 
-    fun registerBicycle(bike: Bike) {
+
+    val serialNumber = MutableLiveData<String>("")
+    val bikeName = MutableLiveData<String>("")
+    val orderNumber = MutableLiveData<String>("")
+
+    val valid = MediatorLiveData<Boolean>().apply {
+        addSource(serialNumber) {
+            validateForm()
+        }
+        addSource(bikeName) {
+            validateForm()
+        }
+        addSource(orderNumber) {
+            validateForm()
+        }
+    }
+
+    private fun validateForm() {
+        valid.value = isTextValid(serialNumber.value) &&
+                isTextValid(bikeName.value) &&
+                isTextValid(orderNumber.value)
+    }
+
+    fun isTextValid(data: String?) = !data.isNullOrBlank()
+
+    fun registerBicycle() {
+        val bike = fillBike()
         _state.postValue(BikeFormStatus.Loading)
 
         viewModelScope.launch {
@@ -25,6 +51,14 @@ class BikeFormViewModel(
                     is SimpleResult.Error -> resultError(it.exception)
                 }
             }
+        }
+    }
+
+    private fun fillBike(): Bike {
+        return Bike().apply {
+            name = bikeName.value
+            serial_number = this@BikeFormViewModel.serialNumber.value
+            order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
         }
     }
 

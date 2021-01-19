@@ -231,7 +231,7 @@ class ItemAdapter(private var activity: Activity? = null) :
             }
 
             if (item is Bike && activity is WithdrawActivity) {
-                val isAvailable = item.in_use?.not() ?: true
+                val isAvailable = item.inUse?.not() ?: true
 
                 if (!isAvailable) {
                     itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
