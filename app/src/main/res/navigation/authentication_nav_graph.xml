@@ -10,8 +10,10 @@
             tools:layout="@layout/fragment_sign_in"
             android:name="app.igormatos.botaprarodar.presentation.authentication.SignInFragment"
             android:label="Entrar"
-            app:defaultNavHost="true"
-            >
+            app:defaultNavHost="true">
+        <argument
+                android:name="email"
+                app:argType="string" />
         <action
                 android:id="@+id/action_signInFragment_to_passwordRecoveryFragment"
                 app:destination="@id/passwordRecoveryFragment"
@@ -41,7 +43,11 @@
         <action
                 android:id="@+id/action_emailValidationFragment_to_signInFragment"
                 app:destination="@id/signInFragment"
-                app:popUpTo="@id/emailValidationFragment" />
+                app:popUpTo="@id/emailValidationFragment">
+            <argument
+                    android:name="email"
+                    app:argType="string" />
+        </action>
     </fragment>
     <fragment
             android:id="@+id/passwordRecoveryFragment"
