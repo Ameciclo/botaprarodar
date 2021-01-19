@@ -21,10 +21,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val MIN_PASSWORD_LENGTH = 6
 
-class RegistrationFragment: Fragment() {
-    private lateinit var binding : FragmentRegistrationBinding
-    private val registrationViewModel : RegistrationViewModel by viewModel()
-    private lateinit var loadingDialog : AlertDialog
+class RegistrationFragment : Fragment() {
+    private lateinit var binding: FragmentRegistrationBinding
+    private val registrationViewModel: RegistrationViewModel by viewModel()
+    private lateinit var loadingDialog: AlertDialog
     private var validator = EmailValidator()
 
     override fun onCreateView(
@@ -92,7 +92,7 @@ class RegistrationFragment: Fragment() {
             if (isValidInput) {
                 isErrorEnabled = false
             } else {
-                error = getString(R.string.promt_password_min_length_warning)
+                error = getString(R.string.prompt_password_min_length_warning)
             }
         }
     }
@@ -118,7 +118,7 @@ class RegistrationFragment: Fragment() {
     private fun createErrorMessage(errorType: BprErrorType): Int =
         when (errorType) {
             BprErrorType.NETWORK -> R.string.network_error_message
-            BprErrorType.UNKNOWN -> R.string.login_error
+            else -> R.string.login_error
         }
 
     private fun showLoadingDialog() {
