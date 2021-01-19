@@ -7,7 +7,7 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class Bike : Item {
+class Bike: Item {
 
     override val path: String = "bicycles"
 
@@ -16,14 +16,19 @@ class Bike : Item {
     override var isAvailable: Boolean = true
 
     var name: String? = null
+
     var serial_number: String? = null
+
     var order_number: Long? = null
+
     var photo_path: String? = null
+
     var created_date: String? = null
+
     var photo_thumbnail_path: String? = null
 
     @field:JvmField
-    var in_use: Boolean = false
+    var inUse: Boolean = false
 
     init {
         val date = Calendar.getInstance().time
@@ -41,6 +46,7 @@ class Bike : Item {
     }
 
     override fun iconPath(): String {
-        return photo_thumbnail_path ?: photo_path ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return photo_thumbnail_path ?: photo_path
+        ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 }

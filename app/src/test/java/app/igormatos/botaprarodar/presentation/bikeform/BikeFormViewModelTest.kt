@@ -13,6 +13,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 
 class BikeFormViewModelTest {
@@ -26,57 +27,109 @@ class BikeFormViewModelTest {
     lateinit var bikeViewModel: BikeFormViewModel
 
     @Before
-    fun setup(){
-        bikeViewModel = BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
+    fun setup() {
+        bikeViewModel =
+            BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
+        bikeViewModel.orderNumber.postValue(bikeFake.order_number.toString())
     }
 
     @Test
-    fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() = runBlocking{
-        val bikeFake = mockk<Bike>()
-        val result = SimpleResult.Success("")
+    fun `When 'BikeForm' is invalid then 'valid' return false`() {
 
-        coEvery {
-            addNewBikeUseCase.addNewBike(community.id, bikeFake)
-        } returns result
+        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
 
-        bikeViewModel.registerBicycle(bikeFake)
+        val serialNumber = "S1209"
+        val bikeName = ""
+        bikeViewModel.valid.observeForever(observerBikeResultMock)
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        bikeViewModel.bikeName.postValue(bikeName)
 
-        assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
+        verify {
+            observerBikeResultMock.onChanged(false)
+        }
     }
 
     @Test
-    fun `When 'registerBicycle', then registeredBicycleResult should return Error Status`() = runBlocking{
-        val bikeFake = mockk<Bike>()
-        val result = SimpleResult.Error(Exception())
+    fun `When 'BikeForm' is valid then 'valid' return true`() {
+        val serialNumber = "S1209"
+        val bikeName = "S1209"
+        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
+        bikeViewModel.valid.observeForever(observerBikeResultMock)
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        bikeViewModel.bikeName.postValue(bikeName)
 
-        coEvery {
-            addNewBikeUseCase.addNewBike(community.id, bikeFake)
-        } returns result
-
-        bikeViewModel.registerBicycle(bikeFake)
-
-        assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
+        verify {
+            observerBikeResultMock.onChanged(true)
+        }
     }
 
     @Test
-    fun `check success status ordering`(){
-        val bikeFake = mockk<Bike>()
+    fun `When 'serialnumber' is empty then 'isSerialNumberValid' return false`() {
+        val serialNumber = ""
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        assertFalse(bikeViewModel.isTextValid(serialNumber))
+    }
+
+    @Test
+    fun `When 'serialnumber' is not null or empty then 'isSerialNumberValid' return true`() {
+        val serialNumber = "S1209"
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        assertTrue(bikeViewModel.isTextValid(serialNumber))
+    }
+
+    @Test
+    fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() =
+        runBlocking {
+            val bikeFake = slot<Bike>()
+            val result = SimpleResult.Success("")
+            coEvery {
+                addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+            } returns result
+
+
+            bikeViewModel.registerBicycle()
+            assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
+        }
+
+    @Test
+    fun `When 'registerBicycle', then registeredBicycleResult should return Error Status`() =
+        runBlocking {
+            val bikeFake = slot<Bike>()
+            val result = SimpleResult.Error(Exception())
+
+            coEvery {
+                addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+            } returns result
+
+            bikeViewModel.registerBicycle()
+
+            assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
+        }
+
+    @Test
+    fun `check success status ordering`() {
+        val bikeFake = slot<Bike>()
         val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
         val simpleResultData = "bicicleta caloi"
         val result = SimpleResult.Success(simpleResultData)
 
         coEvery {
-            addNewBikeUseCase.addNewBike(community.id, bikeFake)
+            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
-
         bikeViewModel.state.observeForever(observerBikeResultMock)
-        bikeViewModel.registerBicycle(bikeFake)
+        bikeViewModel.registerBicycle()
 
-        verifyOrder{
+        verifyOrder {
             observerBikeResultMock.onChanged(BikeFormStatus.Loading)
             observerBikeResultMock.onChanged(BikeFormStatus.Success(simpleResultData))
         }
 
+    }
+
+    private val bikeFake = Bike().apply {
+        name = "Monark"
+        serial_number = "12345"
+        order_number = 0
     }
 
 }
