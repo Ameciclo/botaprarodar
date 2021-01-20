@@ -24,10 +24,8 @@ val BIKE_EXTRA = "Bike_extra"
 
 class BikeFormActivity : AppCompatActivity() {
 
-    var bicycleToAdd = Bike()
     var editMode: Boolean = false
     var imagePath: String? = null
-    var loadingDialog: AlertDialog? = null
 
     private val formViewModel: BikeFormViewModel by koinViewModel()
 
@@ -51,6 +49,14 @@ class BikeFormActivity : AppCompatActivity() {
         }
     }
 
+    private fun onClickBicyclePhotoImage() {
+        binding.bikePhotoImageView.setOnClickListener {
+            takePictureIntent(REQUEST_PHOTO) { path ->
+                this.imagePath = path
+            }
+        }
+    }
+
     private fun waitBicycleRegisterResult() {
         binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
             when (bikeFormStatus) {
@@ -64,58 +70,23 @@ class BikeFormActivity : AppCompatActivity() {
         })
     }
 
-    private fun onClickBicyclePhotoImage() {
-        binding.bikePhotoImageView.setOnClickListener {
-            takePictureIntent(REQUEST_PHOTO) {
-                    path -> this.imagePath = path
-            }
-        }
-    }
-
     private fun successText(): String {
         return if (editMode) getString(R.string.bicycle_update_success) else getString(
             R.string.bicycle_add_success
         )
     }
 
-   private fun errorText(errorMessage: String) {
-       Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
-       finish()
-   }
+    private fun errorText(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+        finish()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK) {
             imagePath?.let {
-                Glide.with(this)
-                    .load(it)
-                    .apply(RequestOptions.fitCenterTransform())
-                    .into(binding.bikePhotoImageView)
-            }
-
-        }
-    }
-
-    private fun uploadImage(afterSuccess: () -> Unit) {
-        loadingDialog = showLoadingDialog(R.layout.loading_dialog_animation)
-
-        imagePath?.let {
-            FirebaseHelper.uploadImage(it) { success, path, thumbnailPath ->
-                if (success) {
-                    bicycleToAdd.photo_path = path
-                    bicycleToAdd.photo_thumbnail_path = thumbnailPath
-                    afterSuccess()
-                } else {
-                    loadingDialog?.dismiss()
-                    binding.saveButton.isEnabled = true
-                    Toast.makeText(
-                        this, getString(R.string.something_happened_error), Toast.LENGTH_SHORT
-                    ).show()
-                }
+                binding.viewModel?.updateImagePath(it)
             }
         }
-
     }
-
 }

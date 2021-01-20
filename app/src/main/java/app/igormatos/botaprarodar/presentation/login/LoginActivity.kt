@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.observe
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.databinding.ActivityLoginBinding

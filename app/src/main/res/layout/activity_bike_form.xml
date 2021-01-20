@@ -54,17 +54,18 @@
             <ImageView
                     android:id="@+id/bikePhotoImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="248dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="@color/grey"
+                    android:background="@color/white"
                     android:padding="64dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_add_a_photo"
+                    app:imagePathOrUrl="@{viewModel.imagePath}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/progressBar"
-                    tools:srcCompat="@drawable/ic_image" />
+                    app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/serialNumberTil"
@@ -130,8 +131,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@={viewModel.orderNumber}"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="@={viewModel.orderNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -142,8 +143,8 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
-                    android:text="Cadastrar Bicicleta"
                     android:onClick="@{()-> viewModel.registerBicycle()}"
+                    android:text="Cadastrar Bicicleta"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/orderNumberTil" />
