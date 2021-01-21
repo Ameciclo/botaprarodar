@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
@@ -57,7 +56,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
+        binding.viewModel?.state?.observe(this, { bikeFormStatus ->
             when (bikeFormStatus) {
                 is BikeFormStatus.Success -> {
                     loadingDialog.dismiss()
@@ -76,7 +75,6 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun successText() {
-//         (editMode) getString(R.string.bicycle_update_success) else
         showMessage(getString(R.string.bicycle_add_success))
         finish()
     }
