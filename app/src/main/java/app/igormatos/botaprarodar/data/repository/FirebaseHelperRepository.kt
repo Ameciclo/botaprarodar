@@ -1,14 +1,12 @@
 package app.igormatos.botaprarodar.data.repository
 
 import android.net.Uri
-import android.util.Log
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.io.File
-import java.lang.Exception
 
 class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
 
@@ -17,18 +15,17 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
         bikeSerialNumber: String
     ): SimpleResult<ImageUploadResponse> {
         val storageRef = firebaseStorage.reference
-
         val timeStamp = getCurrentTimeStampMillis()
+        val fileUri = Uri.fromFile(File(imagePath))
+
         val fileReference = getStorageReference(
-            storageRef, "community/bike/$bikeSerialNumber _$timeStamp.jpg"
+            storageRef,
+            "community/bike/$bikeSerialNumber _$timeStamp.jpg"
         )
         val thumbReference = getStorageReference(
             storageRef,
             "community/bike/$bikeSerialNumber _thumb_$timeStamp.jpg"
         )
-
-        val fileUri = Uri.fromFile(File(imagePath))
-        val uploadTask = fileReference.putFile(fileUri)
 
         return uploadFileImage(fileUri, fileReference, thumbReference)
     }
@@ -44,26 +41,21 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
             val thumbPath = getImagePathFromFirebase(thumbReference, fileUri)
 
             SimpleResult.Success(ImageUploadResponse(fullImagePath, thumbPath))
-
         } catch (e: Exception) {
             SimpleResult.Error(e)
         }
     }
 
-    private suspend fun getImagePathFromFirebase(storageReference: StorageReference, fileUri: Uri): String {
-        return storageReference.putFile(fileUri)
+    private suspend fun getImagePathFromFirebase(storageReference: StorageReference, fileUri: Uri) =
+        storageReference.putFile(fileUri)
             .await()
             .storage
             .downloadUrl
             .await()
             .toString()
-    }
 
-    fun getCurrentTimeStampMillis(): String {
-        return (System.currentTimeMillis() / 1000).toString()
-    }
+    private fun getCurrentTimeStampMillis() = (System.currentTimeMillis() / 1000).toString()
 
-    fun getStorageReference(storageRef: StorageReference, finalPath: String) =
+    private fun getStorageReference(storageRef: StorageReference, finalPath: String) =
         storageRef.child(finalPath)
-
 }
