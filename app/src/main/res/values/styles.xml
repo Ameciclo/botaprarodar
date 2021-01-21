@@ -41,4 +41,9 @@
         <item name="android:backgroundTint">@color/colorAccent</item>
     </style>
 
+    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">#000</item>
+    </style>
+
 </resources>
