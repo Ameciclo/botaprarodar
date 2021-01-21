@@ -48,9 +48,11 @@ private fun EditText.textWatcherListener(view : TextInputLayout, errorMessageId:
 private fun setError(data: String, view: TextInputLayout, errorMessageId: Int) {
     when {
         data.isNotBlank() -> {
-            view.error = ""
+            view.isErrorEnabled = false
+            view.error = null
         }
         else -> {
+            view.isErrorEnabled = true
             view.error = view.context.getString(errorMessageId)
         }
     }
