@@ -1,63 +1,60 @@
 package app.igormatos.botaprarodar.domain.usecase.bicycle
 
 import app.igormatos.botaprarodar.data.repository.BikeRepository
+import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
-import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import java.lang.Exception
 
-@ExtendWith(MockKExtension::class)
-@DisplayName("Given AddNewBicycleUseCase")
-internal class AddNewBikeUseCaseTest {
-    @InjectMockKs
+class AddNewBikeUseCaseTest {
+
     private lateinit var userCase: AddNewBikeUseCase
-    @MockK
-    private lateinit var repository: BikeRepository
+    private val repository = mockk<BikeRepository>()
+    private val firebaseRepository = mockk<FirebaseHelperRepository>()
 
-    @BeforeEach
+    @Before
     fun setUp() {
-        init(this)
+        userCase = AddNewBikeUseCase(repository, firebaseRepository)
     }
 
-    @Nested
-    @DisplayName("WHEN do post for create new bicycle")
-    inner class AddNewBike {
+    @Test
+    fun `should create new bicycle and return simple result with string`() {
+        runBlocking {
+            GlobalScope.launch {
+                coEvery { repository.addNewBike(any(), any()) } returns "Created new bicycle"
+                val responseResult =
+                    userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
 
-        @Test
-        fun `should create new bicycle and return simple result with string`() = runBlocking() {
-            coEvery { repository.addNewBike(any(), any()) } returns "Created new bicycle"
-
-            val responseResult = userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
-
-            assertEquals("Created new bicycle", responseResult.data)
+                assertEquals("Created new bicycle", responseResult.data)
+            }
         }
-
-        @Test
-        fun `should return simple result with exception`() = runBlocking {
-            val exceptionResult = Exception()
-            coEvery { repository.addNewBike(any(), any()) } throws exceptionResult
-
-            val responseResult = userCase.addNewBike("100", buildBicycle())
-
-            assertTrue(responseResult is SimpleResult.Error)
-            assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
-        }
-
     }
 
-    fun buildBicycle(): Bike {
+
+    @Test
+    fun `should return simple result with exception`() {
+        runBlocking {
+            GlobalScope.launch {
+                val exceptionResult = Exception()
+                coEvery { repository.addNewBike(any(), any()) } throws exceptionResult
+
+                val responseResult = userCase.addNewBike("100", buildBicycle())
+
+                assertTrue(responseResult is SimpleResult.Error)
+                assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
+            }
+        }
+    }
+
+    private fun buildBicycle(): Bike {
         return Bike().apply {
             name = "Bicycle"
             order_number = 123
@@ -66,5 +63,4 @@ internal class AddNewBikeUseCaseTest {
             photo_thumbnail_path = "http://bla.com"
         }
     }
-
 }
