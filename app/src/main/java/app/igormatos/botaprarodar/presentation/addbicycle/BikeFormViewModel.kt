@@ -68,6 +68,7 @@ class BikeFormViewModel(
             name = bikeName.value
             serial_number = this@BikeFormViewModel.serialNumber.value
             order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
+            path = this@BikeFormViewModel.imagePath.value.orEmpty()
         }
     }
 

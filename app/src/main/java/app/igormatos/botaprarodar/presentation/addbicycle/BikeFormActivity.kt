@@ -64,21 +64,25 @@ class BikeFormActivity : AppCompatActivity() {
                     bikeFormStatus.data
                     successText()
                 }
-                is BikeFormStatus.Loading -> TODO()
+                is BikeFormStatus.Loading -> {}
                 is BikeFormStatus.Error -> errorText(bikeFormStatus.message)
             }
         })
     }
 
-    private fun successText(): String {
-        return if (editMode) getString(R.string.bicycle_update_success) else getString(
-            R.string.bicycle_add_success
-        )
+    private fun successText(){
+//         (editMode) getString(R.string.bicycle_update_success) else
+        showMessage( getString(R.string.bicycle_add_success))
+        finish()
     }
 
     private fun errorText(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+        showMessage(errorMessage)
         finish()
+    }
+
+    private fun showMessage(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
