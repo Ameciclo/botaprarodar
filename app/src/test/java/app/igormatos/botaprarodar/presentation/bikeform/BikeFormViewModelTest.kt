@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.bikeform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
@@ -53,10 +54,14 @@ class BikeFormViewModelTest {
     fun `When 'BikeForm' is valid then 'valid' return true`() {
         val serialNumber = "S1209"
         val bikeName = "S1209"
+        val orderNumber = "12345678"
+        val imagePath = "data/img/image.jpeg"
         val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
         bikeViewModel.valid.observeForever(observerBikeResultMock)
         bikeViewModel.serialNumber.postValue(serialNumber)
         bikeViewModel.bikeName.postValue(bikeName)
+        bikeViewModel.orderNumber.postValue(orderNumber)
+        bikeViewModel.imagePath.postValue(imagePath)
 
         verify {
             observerBikeResultMock.onChanged(true)

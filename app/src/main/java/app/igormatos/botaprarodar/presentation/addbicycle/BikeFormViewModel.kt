@@ -19,8 +19,12 @@ class BikeFormViewModel(
     val serialNumber = MutableLiveData<String>("")
     val bikeName = MutableLiveData<String>("")
     val orderNumber = MutableLiveData<String>("")
+    val imagePath = MutableLiveData<String>("")
 
     val valid = MediatorLiveData<Boolean>().apply {
+        addSource(imagePath) {
+            validateForm()
+        }
         addSource(serialNumber) {
             validateForm()
         }
@@ -33,12 +37,17 @@ class BikeFormViewModel(
     }
 
     private fun validateForm() {
-        valid.value = isTextValid(serialNumber.value) &&
+        valid.value = isTextValid(imagePath.value) &&
+                isTextValid(serialNumber.value) &&
                 isTextValid(bikeName.value) &&
                 isTextValid(orderNumber.value)
     }
 
     fun isTextValid(data: String?) = !data.isNullOrBlank()
+
+    fun updateImagePath(imagePath: String) {
+        this.imagePath.value = imagePath
+    }
 
     fun registerBicycle() {
         val bike = fillBike()
