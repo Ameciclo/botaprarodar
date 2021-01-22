@@ -1,10 +1,12 @@
 package app.igormatos.botaprarodar.domain.usecase.bicycle
 
+import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
+import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -12,15 +14,17 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 class AddNewBikeUseCaseTest {
 
-    private lateinit var userCase: AddNewBikeUseCase
     private val repository = mockk<BikeRepository>()
     private val firebaseRepository = mockk<FirebaseHelperRepository>()
+    private lateinit var userCase: AddNewBikeUseCase
 
-    @Before
+    @BeforeEach
     fun setUp() {
         userCase = AddNewBikeUseCase(repository, firebaseRepository)
     }
@@ -28,13 +32,16 @@ class AddNewBikeUseCaseTest {
     @Test
     fun `should create new bicycle and return simple result with string`() {
         runBlocking {
-            GlobalScope.launch {
-                coEvery { repository.addNewBike(any(), any()) } returns "Created new bicycle"
-                val responseResult =
-                    userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
+            coEvery {
+                repository.addNewBike(any(), any())
+            } returns "Created new bicycle"
+            coEvery {
+                firebaseRepository.uploadImage(any(), any())
+            } returns SimpleResult.Success(mockImageUploadResponse)
+            val responseResult =
+                userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
 
-                assertEquals("Created new bicycle", responseResult.data)
-            }
+            assertEquals("Created new bicycle", responseResult.data)
         }
     }
 
@@ -42,15 +49,18 @@ class AddNewBikeUseCaseTest {
     @Test
     fun `should return simple result with exception`() {
         runBlocking {
-            GlobalScope.launch {
-                val exceptionResult = Exception()
-                coEvery { repository.addNewBike(any(), any()) } throws exceptionResult
+            val exceptionResult = Exception()
+            coEvery {
+                repository.addNewBike(any(), any())
+            } throws exceptionResult
 
-                val responseResult = userCase.addNewBike("100", buildBicycle())
+            coEvery {
+                firebaseRepository.uploadImage(any(), any())
+            } returns SimpleResult.Error(exceptionResult)
+            val responseResult = userCase.addNewBike("100", buildBicycle())
 
-                assertTrue(responseResult is SimpleResult.Error)
-                assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
-            }
+            assertTrue(responseResult is SimpleResult.Error)
+            assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
         }
     }
 
@@ -63,4 +73,9 @@ class AddNewBikeUseCaseTest {
             photo_thumbnail_path = "http://bla.com"
         }
     }
+
+    private val mockImageUploadResponse = ImageUploadResponse(
+        fullImagePath = "teste",
+        thumbPath = "teste"
+    )
 }

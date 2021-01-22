@@ -9,10 +9,6 @@ import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -87,63 +83,48 @@ class BikeFormViewModelTest {
 
     @Test
     fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() {
-        runBlocking {
-            GlobalScope.launch {
-
-                val bikeFake = slot<Bike>()
-                val result = SimpleResult.Success("")
-                coEvery {
-                    addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
-                } returns result
+        val bikeFake = slot<Bike>()
+        val result = SimpleResult.Success("")
+        coEvery {
+            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+        } returns result
 
 
-                bikeViewModel.registerBicycle()
-                assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
-            }
-        }
+        bikeViewModel.registerBicycle()
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
     }
 
     @Test
     fun `When 'registerBicycle', then registeredBicycleResult should return Error Status`() {
-        runBlocking {
-            GlobalScope.launch {
-                val bikeFake = slot<Bike>()
-                val result = SimpleResult.Error(Exception())
+        val bikeFake = slot<Bike>()
+        val result = SimpleResult.Error(Exception())
 
-                coEvery {
-                    addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
-                } returns result
+        coEvery {
+            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+        } returns result
 
-                bikeViewModel.registerBicycle()
+        bikeViewModel.registerBicycle()
 
-                assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
-            }
-        }
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
     }
 
     @Test
     fun `check success status ordering`() {
-        runBlocking {
-            GlobalScope.launch {
+        val bikeFake = slot<Bike>()
+        val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
+        val simpleResultData = "bicicleta caloi"
+        val result = SimpleResult.Success(simpleResultData)
 
-                val bikeFake = slot<Bike>()
-                val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
-                val simpleResultData = "bicicleta caloi"
-                val result = SimpleResult.Success(simpleResultData)
+        coEvery {
+            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+        } returns result
+        bikeViewModel.state.observeForever(observerBikeResultMock)
+        bikeViewModel.registerBicycle()
 
-                coEvery {
-                    addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
-                } returns result
-                bikeViewModel.state.observeForever(observerBikeResultMock)
-                bikeViewModel.registerBicycle()
-
-                verifyOrder {
-                    observerBikeResultMock.onChanged(BikeFormStatus.Loading)
-                    observerBikeResultMock.onChanged(BikeFormStatus.Success(simpleResultData))
-                }
-            }
+        verifyOrder {
+            observerBikeResultMock.onChanged(BikeFormStatus.Loading)
+            observerBikeResultMock.onChanged(BikeFormStatus.Success(simpleResultData))
         }
-
     }
 
     @Test
