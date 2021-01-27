@@ -7,6 +7,8 @@ import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 
+private const val DEFAULT_PATH = "bicycles"
+
 class AddNewBikeUseCase(
     private val bikeRepository: BikeRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository
@@ -31,7 +33,7 @@ class AddNewBikeUseCase(
     }
 
     suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
-        if (bike.photo_path?.contains("https://")?.not()!!) {
+        if (bike.path != DEFAULT_PATH) {
             val imageResponse = uploadImage(bike)
             return when (imageResponse) {
                 is SimpleResult.Success -> {
