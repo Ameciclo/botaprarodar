@@ -8,15 +8,13 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
-import com.brunotmgomes.ui.extensions.createLoading
-import com.brunotmgomes.ui.extensions.hideKeyboard
-import com.brunotmgomes.ui.extensions.takePictureIntent
+import com.brunotmgomes.ui.extensions.*
 import org.parceler.Parcels
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -51,7 +49,7 @@ class BikeFormActivity : AppCompatActivity() {
         waitBicycleRegisterResult()
         checkEditMode()
         loadingDialog = createLoading(R.layout.loading_dialog_animation)
-        
+
     }
 
     private fun checkEditMode() {
@@ -92,21 +90,26 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun successText() {
-        showMessage(getString(R.string.bicycle_add_success))
+        val intent = Intent().putExtra("message", getSuccessMessage())
+        setResult(RESULT_OK, intent)
         finish()
     }
+
+    private fun getSuccessMessage() =
+        if (formViewModel.editMode) {
+            getString(R.string.bicycle_update_success)
+        } else {
+            getString(R.string.bicycle_add_success)
+        }
 
     private fun errorText(errorMessage: String) {
-        showMessage(errorMessage)
-        finish()
-    }
-
-    private fun showMessage(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+        val snackbar = snackBarMaker(errorMessage, this.window.decorView)
+        snackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
+        snackbar.show()
     }
 
     private fun setEditTextsValuesOnEditMode(bike: Bike?) {
-            bike?.let { formViewModel.updateBikeValues(it) }
+        bike?.let { formViewModel.updateBikeValues(it) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
