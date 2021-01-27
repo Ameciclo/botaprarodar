@@ -18,20 +18,41 @@ class AddNewBikeUseCase(
         val imageResponse = uploadImage(bike)
         return when (imageResponse) {
             is SimpleResult.Success -> {
-                updateBike(bike, imageResponse.data)
+                setupBike(bike, imageResponse.data)
                 onSuccessUploadImage(bike, communityId)
             }
             is SimpleResult.Error -> {
                 SimpleResult.Error(imageResponse.exception)
             }
-            else -> { SimpleResult.Error(Exception(""))}
+            else -> {
+                SimpleResult.Error(Exception(""))
+            }
         }
+    }
+
+    suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
+        if (bike.photo_path?.contains("https://")?.not()!!) {
+            val imageResponse = uploadImage(bike)
+            return when (imageResponse) {
+                is SimpleResult.Success -> {
+                    setupBike(bike, imageResponse.data)
+                    onSuccess(bike, communityId)
+                }
+                is SimpleResult.Error -> {
+                    SimpleResult.Error(imageResponse.exception)
+                }
+                else -> {
+                    SimpleResult.Error(Exception(""))
+                }
+            }
+        } else
+            return onSuccess(bike, communityId)
     }
 
     private suspend fun uploadImage(bike: Bike) =
         bike.serial_number?.let { firebaseHelperRepository.uploadImage(bike.path, it) }
 
-    private fun updateBike(bike: Bike, imageResponse: ImageUploadResponse) {
+    private fun setupBike(bike: Bike, imageResponse: ImageUploadResponse) {
         bike.photo_path = imageResponse.fullImagePath
         bike.photo_thumbnail_path = imageResponse.thumbPath
     }
@@ -43,6 +64,19 @@ class AddNewBikeUseCase(
         return try {
             val bicycleRequest = this.bike.convert(bike)
             val result = bikeRepository.addNewBike(communityId, bicycleRequest)
+            SimpleResult.Success(result)
+        } catch (exception: Exception) {
+            SimpleResult.Error(exception)
+        }
+    }
+
+    private suspend fun onSuccess(
+        bike: Bike,
+        communityId: String
+    ): SimpleResult<String> {
+        return try {
+            val bicycleRequest = this.bike.convert(bike)
+            val result = bikeRepository.updateBike(communityId, bicycleRequest)
             SimpleResult.Success(result)
         } catch (exception: Exception) {
             SimpleResult.Error(exception)

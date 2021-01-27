@@ -17,4 +17,7 @@ class BikeRepository(private val bicycleApi: BicycleApi) {
         return bicycleApi.addNewBicycle(communityId, bicycle).name
     }
 
+    suspend fun updateBike(communityId: String, bicycle: BicycleRequest) : String {
+        return bicycleApi.updateBicycle(communityId, bicycle.id, bicycle).name
+    }
 }
