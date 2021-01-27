@@ -4,10 +4,7 @@ import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface BicycleApi {
 
@@ -17,4 +14,9 @@ interface BicycleApi {
     @POST("/communities/{communityId}/bicycles.json")
     suspend fun addNewBicycle(@Path("communityId") communityId: String, @Body bicycle: BicycleRequest): AddDataResponse
 
+    @PUT("/communities/{communityId}/bicycles/{bicycleId}.json")
+    suspend fun updateBicycle(
+        @Path("communityId") communityId: String,
+        @Path("bicycleId") bicycleId: String,
+        @Body bicycle: BicycleRequest): AddDataResponse
 }
