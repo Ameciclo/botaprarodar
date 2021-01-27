@@ -22,7 +22,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class BikeFormActivity : AppCompatActivity() {
 
-    var editMode: Boolean = false
     var imagePath: String? = null
     private lateinit var loadingDialog: AlertDialog
 
@@ -52,20 +51,16 @@ class BikeFormActivity : AppCompatActivity() {
         waitBicycleRegisterResult()
         checkEditMode()
         loadingDialog = createLoading(R.layout.loading_dialog_animation)
-
-        binding.toolbar.title = if (editMode) {
-            getString(R.string.bicycle_update_button)
-        } else {
-            getString(R.string.bicycle_add_button)
-        }
+        
     }
 
     private fun checkEditMode() {
         val parcelableBike: Parcelable? =
             if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
 
-        if(parcelableBike != null) {
-            editMode = true
+        if (parcelableBike != null) {
+            val bike = Parcels.unwrap(parcelableBike) as Bike
+            setEditTextsValuesOnEditMode(bike)
         }
     }
 
@@ -108,6 +103,10 @@ class BikeFormActivity : AppCompatActivity() {
 
     private fun showMessage(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    private fun setEditTextsValuesOnEditMode(bike: Bike?) {
+            bike?.let { formViewModel.updateBikeValues(it) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
