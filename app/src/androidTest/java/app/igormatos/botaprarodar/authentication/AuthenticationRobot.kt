@@ -33,7 +33,7 @@ class AuthenticationRobot : BaseRobot() {
         clickButton(R.id.forgotten_password)
     }
 
-    fun clickSendPasswordEmail() {
+    fun clickSaveButton() {
         clickButton(R.id.save)
     }
 
@@ -49,6 +49,10 @@ class AuthenticationRobot : BaseRobot() {
         waitViewByResId("fragmentSignInContainer")
     }
 
+    fun showRegistrationScreen() {
+        waitViewByResId("fragmentRegistrationContainer")
+    }
+
     fun doLogin(user: String, password: String) {
         fillUserField(user)
         clickNext()
@@ -56,11 +60,22 @@ class AuthenticationRobot : BaseRobot() {
         clickSignIn()
     }
 
-
     fun incorrectPasswordMessage(): Boolean? {
         val text = context.getString(R.string.sign_in_password_error)
         return waitViewByText(text)
 
+    }
+    fun incorrectRegistrationMessage(): Boolean? {
+        val text = context.getString(R.string.login_error)
+        return waitViewByText(text)
+    }
+
+    fun checkRegistrationScreen() {
+        checkViewById(R.id.fragmentRegistrationContainer)
+    }
+
+    fun checkMainScreen(): Boolean {
+        return waitViewByResId("activityMainContainer")
     }
 
     private fun waitViewByText(text: String) = device.wait(
@@ -73,17 +88,6 @@ class AuthenticationRobot : BaseRobot() {
         return waitViewByResId("successRegistrationDialogContainer")
     }
 
-    fun checkEmailIncorrectMessage() {
-        checkMessage(context.getString(R.string.login_error))
-    }
-
-    fun checkRegistrationScreen() {
-        checkViewById(R.id.fragmentRegistrationContainer)
-    }
-
-    fun checkMainScreen(): Boolean {
-        return waitViewByResId("activityMainContainer")
-    }
 
     private fun waitViewByResId(resId: String): Boolean {
         return device.wait(Until.hasObject(By.res(launcherPackage, resId)), 10000)
