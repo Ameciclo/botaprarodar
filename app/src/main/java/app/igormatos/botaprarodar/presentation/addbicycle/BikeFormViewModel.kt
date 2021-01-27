@@ -13,37 +13,41 @@ class BikeFormViewModel(
     private val community: Community
 ) : BprViewModel<BikeFormStatus>() {
 
-    val serialNumber = MutableLiveData("")
-    val bikeName = MutableLiveData("")
-    val orderNumber = MutableLiveData("")
-    val imagePath = MutableLiveData("")
+    private val _serialNumber = MutableLiveData("")
+    val serialNumber:LiveData<String> = _serialNumber
+    private val _bikeName = MutableLiveData("")
+    val bikeName: LiveData<String> = _bikeName
+    private val _orderNumber = MutableLiveData("")
+    val orderNumber: LiveData<String> = _orderNumber
+    private val _imagePath = MutableLiveData("")
+    val imagePath: LiveData<String> = _imagePath
 
     val valid = MediatorLiveData<Boolean>().apply {
-        addSource(imagePath) {
+        addSource(_imagePath) {
             validateForm()
         }
-        addSource(serialNumber) {
+        addSource(_serialNumber) {
             validateForm()
         }
-        addSource(bikeName) {
+        addSource(_bikeName) {
             validateForm()
         }
-        addSource(orderNumber) {
+        addSource(_orderNumber) {
             validateForm()
         }
     }
 
     private fun validateForm() {
-        valid.value = isTextValid(imagePath.value) &&
-                isTextValid(serialNumber.value) &&
-                isTextValid(bikeName.value) &&
-                isTextValid(orderNumber.value)
+        valid.value = isTextValid(_imagePath.value) &&
+                isTextValid(_serialNumber.value) &&
+                isTextValid(_bikeName.value) &&
+                isTextValid(_orderNumber.value)
     }
 
     fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     fun updateImagePath(imagePath: String) {
-        this.imagePath.value = imagePath
+        this._imagePath.value = imagePath
     }
 
     fun registerBicycle() {
@@ -62,10 +66,10 @@ class BikeFormViewModel(
 
     private fun getNewBike(): Bike {
         return Bike().apply {
-            name = bikeName.value
-            serial_number = this@BikeFormViewModel.serialNumber.value
-            order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
-            path = this@BikeFormViewModel.imagePath.value.orEmpty()
+            name = _bikeName.value
+            serial_number = this@BikeFormViewModel._serialNumber.value
+            order_number = this@BikeFormViewModel._orderNumber.value?.toLong()
+            path = this@BikeFormViewModel._imagePath.value.orEmpty()
         }
     }
 

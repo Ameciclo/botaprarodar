@@ -42,7 +42,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         super.onViewCreated(view, savedInstanceState)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, BikeFormActivity::class.java)
+            val intent = BikeFormActivity.setupActivity(requireContext(), null)
             startActivity(intent)
         }
 
@@ -69,7 +69,8 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
     }
 
     override fun onBicycleClicked(bike: Bike) {
-        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
+        val intent = BikeFormActivity.setupActivity(requireContext(), bike)
+        startActivity(intent)
     }
 
     override fun onBicycleLongClicked(bike: Bike): Boolean {
