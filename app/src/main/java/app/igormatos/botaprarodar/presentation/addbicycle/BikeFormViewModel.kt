@@ -14,6 +14,7 @@ class BikeFormViewModel(
 ) : BprViewModel<BikeFormStatus>() {
 
     var editMode = false
+    var bike = Bike()
 
     val serialNumber = MutableLiveData("")
     val bikeName = MutableLiveData("")
@@ -42,6 +43,7 @@ class BikeFormViewModel(
             orderNumber.value = this.order_number.toString()
             imagePath.value = this.photo_path
         }
+        this.bike = bike
         editMode = true
     }
 
@@ -62,22 +64,34 @@ class BikeFormViewModel(
         val bike = getNewBike()
         _state.postValue(BikeFormStatus.Loading)
 
-        viewModelScope.launch {
-            addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
-                when (it) {
-                    is SimpleResult.Success -> resultSuccess(it.data)
-                    is SimpleResult.Error -> resultError(it.exception)
+        if (editMode.not()) {
+
+            viewModelScope.launch {
+                addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
+                    when (it) {
+                        is SimpleResult.Success -> resultSuccess(it.data)
+                        is SimpleResult.Error -> resultError(it.exception)
+                    }
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                addNewBikeUseCase.updateBike(communityId = community.id, bike = bike).let {
+                    when (it) {
+                        is SimpleResult.Success -> resultSuccess(it.data)
+                        is SimpleResult.Error -> resultError(it.exception)
+                    }
                 }
             }
         }
     }
 
     private fun getNewBike(): Bike {
-        return Bike().apply {
+        return bike.apply {
             name = bikeName.value
-            serial_number = this@BikeFormViewModel.serialNumber.value
-            order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
-            path = this@BikeFormViewModel.imagePath.value.orEmpty()
+            serial_number = serialNumber.value
+            order_number = orderNumber.value?.toLong()
+            path = imagePath.value.orEmpty()
         }
     }
 

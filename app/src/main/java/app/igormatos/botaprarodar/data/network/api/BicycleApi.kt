@@ -14,7 +14,7 @@ interface BicycleApi {
     @POST("/communities/{communityId}/bicycles.json")
     suspend fun addNewBicycle(@Path("communityId") communityId: String, @Body bicycle: BicycleRequest): AddDataResponse
 
-    @PUT("/communities/{communityId}/bicycles/{bicycleId}.json")
+    @PATCH("/communities/{communityId}/bicycles/{bicycleId}.json")
     suspend fun updateBicycle(
         @Path("communityId") communityId: String,
         @Path("bicycleId") bicycleId: String,
