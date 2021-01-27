@@ -181,8 +181,10 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             .build()
 
         // TODO utilizar essa implementação
-        // Intent(this, AuthenticationActivity::class.java)
-        loginActivityResultLauncher.launch(intent)
+        Intent(this, AuthenticationActivity::class.java)
+        loginActivityResultLauncher.launch(
+            Intent(this, AuthenticationActivity::class.java)
+        )
     }
 
 }

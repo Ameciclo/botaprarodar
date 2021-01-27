@@ -37,7 +37,6 @@ class LoginRobot : BaseRobot() {
     }
 
     fun doLogin(user: String, password: String) {
-        clickLogin()
         fillUserField(user)
         clickNext()
         fillPasswordField(password)
