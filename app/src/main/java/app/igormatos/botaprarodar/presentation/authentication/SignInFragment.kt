@@ -52,7 +52,6 @@ class SignInFragment : Fragment() {
                             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         }
                         startActivity(intent)
-                        requireActivity().finish()
                     }
                     SignInViewState.SendLoading -> {
                         //Nothing to do
@@ -86,7 +85,7 @@ class SignInFragment : Fragment() {
 
     private fun showErrorMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.container,
+            binding.fragmentSignInContainer,
             messageId,
             Snackbar.LENGTH_SHORT
         ).show()

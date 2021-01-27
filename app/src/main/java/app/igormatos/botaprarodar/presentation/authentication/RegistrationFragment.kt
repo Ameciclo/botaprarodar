@@ -109,7 +109,7 @@ class RegistrationFragment : Fragment() {
 
     private fun showErrorMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.container,
+            binding.fragmentRegistrationContainer,
             messageId,
             Snackbar.LENGTH_SHORT
         ).show()
