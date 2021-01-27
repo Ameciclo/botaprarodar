@@ -13,41 +13,49 @@ class BikeFormViewModel(
     private val community: Community
 ) : BprViewModel<BikeFormStatus>() {
 
-    private val _serialNumber = MutableLiveData("")
-    val serialNumber:LiveData<String> = _serialNumber
-    private val _bikeName = MutableLiveData("")
-    val bikeName: LiveData<String> = _bikeName
-    private val _orderNumber = MutableLiveData("")
-    val orderNumber: LiveData<String> = _orderNumber
-    private val _imagePath = MutableLiveData("")
-    val imagePath: LiveData<String> = _imagePath
+    var editMode = false
+
+    val serialNumber = MutableLiveData("")
+    val bikeName = MutableLiveData("")
+    val orderNumber = MutableLiveData("")
+    val imagePath = MutableLiveData("")
 
     val valid = MediatorLiveData<Boolean>().apply {
-        addSource(_imagePath) {
+        addSource(imagePath) {
             validateForm()
         }
-        addSource(_serialNumber) {
+        addSource(serialNumber) {
             validateForm()
         }
-        addSource(_bikeName) {
+        addSource(bikeName) {
             validateForm()
         }
-        addSource(_orderNumber) {
+        addSource(orderNumber) {
             validateForm()
         }
     }
 
+    fun updateBikeValues(bike: Bike) {
+        bike.apply {
+            serialNumber.value = this.serial_number
+            bikeName.value = this.name
+            orderNumber.value = this.order_number.toString()
+            imagePath.value = this.photo_path
+        }
+        editMode = true
+    }
+
     private fun validateForm() {
-        valid.value = isTextValid(_imagePath.value) &&
-                isTextValid(_serialNumber.value) &&
-                isTextValid(_bikeName.value) &&
-                isTextValid(_orderNumber.value)
+        valid.value = isTextValid(imagePath.value) &&
+                isTextValid(serialNumber.value) &&
+                isTextValid(bikeName.value) &&
+                isTextValid(orderNumber.value)
     }
 
     fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     fun updateImagePath(imagePath: String) {
-        this._imagePath.value = imagePath
+        this.imagePath.value = imagePath
     }
 
     fun registerBicycle() {
@@ -66,10 +74,10 @@ class BikeFormViewModel(
 
     private fun getNewBike(): Bike {
         return Bike().apply {
-            name = _bikeName.value
-            serial_number = this@BikeFormViewModel._serialNumber.value
-            order_number = this@BikeFormViewModel._orderNumber.value?.toLong()
-            path = this@BikeFormViewModel._imagePath.value.orEmpty()
+            name = bikeName.value
+            serial_number = this@BikeFormViewModel.serialNumber.value
+            order_number = this@BikeFormViewModel.orderNumber.value?.toLong()
+            path = this@BikeFormViewModel.imagePath.value.orEmpty()
         }
     }
 
