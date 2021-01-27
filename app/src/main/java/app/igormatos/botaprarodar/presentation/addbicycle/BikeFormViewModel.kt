@@ -65,7 +65,6 @@ class BikeFormViewModel(
         _state.postValue(BikeFormStatus.Loading)
 
         if (editMode.not()) {
-
             viewModelScope.launch {
                 addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
                     when (it) {

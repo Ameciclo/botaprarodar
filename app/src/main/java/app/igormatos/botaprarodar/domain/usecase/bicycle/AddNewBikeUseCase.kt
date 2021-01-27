@@ -33,7 +33,7 @@ class AddNewBikeUseCase(
     }
 
     suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
-        if (bike.path != DEFAULT_PATH) {
+        if (bike.path != DEFAULT_PATH && bike.path.contains("https").not()) {
             val imageResponse = uploadImage(bike)
             return when (imageResponse) {
                 is SimpleResult.Success -> {

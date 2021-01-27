@@ -1,11 +1,14 @@
 package app.igormatos.botaprarodar.presentation.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -15,6 +18,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
+import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
 
@@ -43,7 +47,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
         addItemFab.setOnClickListener {
             val intent = BikeFormActivity.setupActivity(requireContext(), null)
-            startActivity(intent)
+            startForResultRegister.launch(intent)
         }
 
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -70,11 +74,33 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
     override fun onBicycleClicked(bike: Bike) {
         val intent = BikeFormActivity.setupActivity(requireContext(), bike)
-        startActivity(intent)
+        startForResultEdit.launch(intent)
     }
 
     override fun onBicycleLongClicked(bike: Bike): Boolean {
         Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
         return true
+    }
+
+    private val startForResultEdit =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                showSnackBar(result.data)
+            }
+        }
+
+    private val startForResultRegister =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                showSnackBar(result.data)
+            }
+        }
+
+    private fun showSnackBar(intent: Intent?) {
+        intent?.getStringExtra("message")?.let {
+            val snackbar = snackBarMaker(it, requireView())
+            snackbar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+            snackbar.show()
+        }
     }
 }
