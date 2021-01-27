@@ -77,26 +77,6 @@ class SignInTest {
         }
     }
 
-    //    Fluxo 3 - Criação de usuário com sucesso
-    //
-    //    Dado: email digitado
-    //    Quando: usuário clickar em botão 'Próxima'
-    //    E: exibir tela de cadastro
-    //    E: usuário preencher campo usuário e senha corretamente
-    //    E: usuário clicar no botão salvar
-    //    Então: deve exibir dialogo de sucesso
-    @Test
-    fun successfulUserRegistration() {
-        login {
-            fillUserField("brunotmg@gmail.com")
-            clickNext()
-            pressBack()
-            clickRecoveryPassword()
-        } verify {
-            assertThat(successRegistrationDialog()).isTrue()
-        }
-    }
-
     @Test
     fun should4SignUpNewUser() {
         login {

@@ -69,7 +69,7 @@ class RegistrationFragment : Fragment() {
         })
         binding.save.setOnClickListener {
             registrationViewModel.createAccount(
-                binding.email.text.toString().trim(),
+                binding.username.text.toString().trim(),
                 binding.password.text.toString().trim()
             )
         }
