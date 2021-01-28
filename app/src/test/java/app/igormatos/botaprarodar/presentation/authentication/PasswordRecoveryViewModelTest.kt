@@ -53,14 +53,12 @@ class PasswordRecoveryViewModelTest {
 
     @Test
     fun `when username field is invalid, then save button is disabled`() {
-        viewModel.usernameField.value = invalidUsername
-        assertEquals(viewModel.saveButtonEnabled.getOrAwaitValue(), false)
+        validateButton(userName = invalidUsername, expectedValue = false)
     }
 
     @Test
     fun `when username field is valid, then save button is enabled`() {
-        viewModel.usernameField.value = validUsername
-        assertEquals(viewModel.saveButtonEnabled.getOrAwaitValue(), true)
+        validateButton(userName = validUsername, expectedValue = true)
     }
 
     @Test
@@ -128,5 +126,10 @@ class PasswordRecoveryViewModelTest {
             observer.onChanged(capture(firstState))
             observer.onChanged(capture(secondState))
         }
+    }
+
+    private fun validateButton(userName: String, expectedValue: Boolean) {
+        viewModel.usernameField.value = userName
+        assertEquals(viewModel.saveButtonEnabled.getOrAwaitValue(), expectedValue)
     }
 }
