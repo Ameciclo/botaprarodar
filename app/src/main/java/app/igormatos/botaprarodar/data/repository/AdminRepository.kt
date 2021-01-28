@@ -54,6 +54,8 @@ class AdminRepository(private val adminRemoteDataSource: AdminRemoteDataSource) 
         return try {
             adminRemoteDataSource.sendPasswordRecoverEmail(email)
             true
+        } catch (e: FirebaseNetworkException) {
+            throw UserAdminErrorException.AdminNetwork
         } catch (e: Exception) {
             false
         }
