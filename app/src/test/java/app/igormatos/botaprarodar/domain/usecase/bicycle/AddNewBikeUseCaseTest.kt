@@ -45,7 +45,6 @@ class AddNewBikeUseCaseTest {
         }
     }
 
-
     @Test
     fun `should return simple result with exception`() {
         runBlocking {
