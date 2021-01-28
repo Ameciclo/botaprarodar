@@ -18,6 +18,8 @@ import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
+import app.igormatos.botaprarodar.presentation.authentication.Validator
+import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
@@ -70,7 +72,10 @@ val bprModule = module {
     }
 
     viewModel {
-        BikeFormViewModel(bikeFormUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
+        BikeFormViewModel(
+            bikeFormUseCase = get(),
+            community = get<SharedPreferencesModule>().getJoinedCommunity()
+        )
     }
 
     single<BicycleApi> {
@@ -90,7 +95,10 @@ val bprModule = module {
     }
 
     single {
-        BikeFormUseCase(bikeRepository = get<BikeRepository>(), firebaseHelperRepository =  get<FirebaseHelperRepository>())
+        BikeFormUseCase(
+            bikeRepository = get<BikeRepository>(),
+            firebaseHelperRepository = get<FirebaseHelperRepository>()
+        )
     }
 
     single {
@@ -109,8 +117,12 @@ val bprModule = module {
         AdminRepository(get())
     }
 
+    single {
+        provideEmailValidator()
+    }
+
     viewModel {
-        EmailValidationViewModel(get(), EmailValidator())
+        EmailValidationViewModel(get(), get())
     }
 
     viewModel {
@@ -120,6 +132,14 @@ val bprModule = module {
     viewModel {
         RegistrationViewModel(get())
     }
+
+    viewModel {
+        PasswordRecoveryViewModel(get(), get())
+    }
+}
+
+fun provideEmailValidator(): Validator<String> {
+    return EmailValidator()
 }
 
 private fun buildRetrofit(): Retrofit {
