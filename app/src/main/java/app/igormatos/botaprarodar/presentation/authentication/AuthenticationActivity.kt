@@ -7,7 +7,7 @@ import androidx.navigation.ui.setupWithNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ActivityAuthenticationBinding
 
-class AuthenticationActivity: AppCompatActivity() {
+class AuthenticationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
