@@ -8,7 +8,7 @@ data class BicycleRequest(
     @SerializedName("order_number")
     var orderNumber: Long,
     @SerializedName("path")
-    val path: String = "bicycles",
+    val path: String = "bike",
     @SerializedName("photo_path")
     val photoPath: String = "",
     @SerializedName("photo_thumbnail_path")
