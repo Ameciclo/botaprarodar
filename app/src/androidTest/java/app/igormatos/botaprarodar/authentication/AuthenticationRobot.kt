@@ -13,9 +13,9 @@ fun login(executeFun: AuthenticationRobot.() -> Unit) = AuthenticationRobot().ap
 class AuthenticationRobot : BaseRobot() {
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    // Initialize UiDevice instance
-    val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    val launcherPackage: String = context.packageName
+    // (UiAutomator) Initialize UiDevice instance
+    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    private val launcherPackage: String = context.packageName
 
     infix fun verify(executeFun: AuthenticationRobot.() -> Unit) {
         executeFun()
@@ -53,36 +53,34 @@ class AuthenticationRobot : BaseRobot() {
         waitViewByResId("fragmentRegistrationContainer")
     }
 
-    fun doLogin(user: String, password: String) {
-        fillUserField(user)
-        clickNext()
-        fillPasswordField(password)
-        clickSignIn()
-    }
-
     fun incorrectPasswordMessage(): Boolean? {
         val text = context.getString(R.string.sign_in_password_error)
         return waitViewByText(text)
 
     }
+
     fun incorrectRegistrationMessage(): Boolean? {
         val text = context.getString(R.string.login_error)
         return waitViewByText(text)
     }
 
-    fun checkRegistrationScreen() {
-        checkViewById(R.id.fragmentRegistrationContainer)
+    fun incorrectEmailPasswordResetMessage(): Boolean? {
+        val text = context.getString(R.string.reset_password_email_sent_error)
+        return waitViewByText(text)
+    }
+
+    fun correctEmailPasswordResetMessage(): Boolean? {
+        val text = context.getString(R.string.reset_password_email_sent)
+        return waitViewByText(text)
+    }
+
+    fun showPasswordRecoveryScreen(): Boolean {
+        return waitViewByResId("passwordRecoveryContainer")
     }
 
     fun checkMainScreen(): Boolean {
         return waitViewByResId("activityMainContainer")
     }
-
-    private fun waitViewByText(text: String) = device.wait(
-        Until.hasObject(
-            By.text(text)
-        ), 10000
-    )
 
     fun successRegistrationDialog(): Boolean {
         return waitViewByResId("successRegistrationDialogContainer")
@@ -93,13 +91,9 @@ class AuthenticationRobot : BaseRobot() {
         return device.wait(Until.hasObject(By.res(launcherPackage, resId)), 10000)
     }
 
-    fun checkSiginInScreen() {
-        checkViewById(R.id.fragmentSignInContainer)
-    }
-
-    fun checkRegistrationForm() {
-        checkViewById(R.id.password)
-        checkViewById(R.id.username)
-        checkViewById(R.id.save)
-    }
+    private fun waitViewByText(text: String) = device.wait(
+        Until.hasObject(
+            By.text(text)
+        ), 10000
+    )
 }
