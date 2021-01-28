@@ -4,12 +4,12 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
-    private val addNewBikeUseCase: AddNewBikeUseCase,
+    private val bikeFormUseCase: BikeFormUseCase,
     private val community: Community
 ) : BprViewModel<BikeFormStatus>() {
 
@@ -63,24 +63,28 @@ class BikeFormViewModel(
     fun registerBicycle() {
         val bike = getNewBike()
         _state.postValue(BikeFormStatus.Loading)
+        viewModelScope.launch {
+            if (editMode.not())
+                addNewBike(bike)
+            else
+                updateBike(bike)
+        }
+    }
 
-        if (editMode.not()) {
-            viewModelScope.launch {
-                addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
-                    when (it) {
-                        is SimpleResult.Success -> resultSuccess(it.data)
-                        is SimpleResult.Error -> resultError(it.exception)
-                    }
-                }
+    private suspend fun updateBike(bike: Bike) {
+        bikeFormUseCase.updateBike(communityId = community.id, bike = bike).let {
+            when (it) {
+                is SimpleResult.Success -> resultSuccess(it.data)
+                is SimpleResult.Error -> resultError(it.exception)
             }
-        } else {
-            viewModelScope.launch {
-                addNewBikeUseCase.updateBike(communityId = community.id, bike = bike).let {
-                    when (it) {
-                        is SimpleResult.Success -> resultSuccess(it.data)
-                        is SimpleResult.Error -> resultError(it.exception)
-                    }
-                }
+        }
+    }
+
+    private suspend fun addNewBike(bike: Bike) {
+        bikeFormUseCase.addNewBike(communityId = community.id, bike = bike).let {
+            when (it) {
+                is SimpleResult.Success -> resultSuccess(it.data)
+                is SimpleResult.Error -> resultError(it.exception)
             }
         }
     }

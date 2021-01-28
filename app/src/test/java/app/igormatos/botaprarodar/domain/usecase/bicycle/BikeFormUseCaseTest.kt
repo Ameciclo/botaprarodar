@@ -6,27 +6,22 @@ import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-class AddNewBikeUseCaseTest {
+class BikeFormUseCaseTest {
 
     private val repository = mockk<BikeRepository>()
     private val firebaseRepository = mockk<FirebaseHelperRepository>()
-    private lateinit var userCase: AddNewBikeUseCase
+    private lateinit var userCaseForm: BikeFormUseCase
 
     @BeforeEach
     fun setUp() {
-        userCase = AddNewBikeUseCase(repository, firebaseRepository)
+        userCaseForm = BikeFormUseCase(repository, firebaseRepository)
     }
 
     @Test
@@ -39,7 +34,7 @@ class AddNewBikeUseCaseTest {
                 firebaseRepository.uploadImage(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
-                userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
+                userCaseForm.addNewBike("100", buildBicycle()) as SimpleResult.Success
 
             assertEquals("Created new bicycle", responseResult.data)
         }
@@ -57,7 +52,7 @@ class AddNewBikeUseCaseTest {
             coEvery {
                 firebaseRepository.uploadImage(any(), any())
             } returns SimpleResult.Error(exceptionResult)
-            val responseResult = userCase.addNewBike("100", buildBicycle())
+            val responseResult = userCaseForm.addNewBike("100", buildBicycle())
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)

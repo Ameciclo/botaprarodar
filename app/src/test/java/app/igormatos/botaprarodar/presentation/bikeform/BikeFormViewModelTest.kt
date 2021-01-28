@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
@@ -21,7 +21,7 @@ class BikeFormViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val addNewBikeUseCase = mockk<AddNewBikeUseCase>()
+    private val addNewBikeUseCase = mockk<BikeFormUseCase>()
     private var community = mockk<Community>(relaxed = true)
 
     lateinit var bikeViewModel: BikeFormViewModel

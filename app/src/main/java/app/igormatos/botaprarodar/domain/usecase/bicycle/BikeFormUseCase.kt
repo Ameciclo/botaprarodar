@@ -9,7 +9,7 @@ import com.brunotmgomes.ui.SimpleResult
 
 private const val DEFAULT_PATH = "bicycles"
 
-class AddNewBikeUseCase(
+class BikeFormUseCase(
     private val bikeRepository: BikeRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository
 ) {
@@ -18,10 +18,31 @@ class AddNewBikeUseCase(
 
     suspend fun addNewBike(communityId: String, bike: Bike): SimpleResult<String> {
         val imageResponse = uploadImage(bike)
+        return saveBike(imageResponse, bike, communityId) { _, _ ->
+            registerBike(bike, communityId)
+        }
+    }
+
+    suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
+        return if (bike.path != DEFAULT_PATH && bike.path.contains("https").not()) {
+            val imageResponse = uploadImage(bike)
+            saveBike(imageResponse, bike, communityId) { _, _ ->
+                updateBike(bike, communityId)
+            }
+        } else
+            updateBike(bike, communityId)
+    }
+
+    private suspend fun saveBike(
+        imageResponse: SimpleResult<ImageUploadResponse>?,
+        bike: Bike,
+        communityId: String,
+        actionFunction: suspend (Bike, String) -> SimpleResult<String>
+    ): SimpleResult<String> {
         return when (imageResponse) {
             is SimpleResult.Success -> {
                 setupBike(bike, imageResponse.data)
-                onSuccessUploadImage(bike, communityId)
+                actionFunction(bike, communityId)
             }
             is SimpleResult.Error -> {
                 SimpleResult.Error(imageResponse.exception)
@@ -32,25 +53,6 @@ class AddNewBikeUseCase(
         }
     }
 
-    suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
-        if (bike.path != DEFAULT_PATH && bike.path.contains("https").not()) {
-            val imageResponse = uploadImage(bike)
-            return when (imageResponse) {
-                is SimpleResult.Success -> {
-                    setupBike(bike, imageResponse.data)
-                    onSuccess(bike, communityId)
-                }
-                is SimpleResult.Error -> {
-                    SimpleResult.Error(imageResponse.exception)
-                }
-                else -> {
-                    SimpleResult.Error(Exception(""))
-                }
-            }
-        } else
-            return onSuccess(bike, communityId)
-    }
-
     private suspend fun uploadImage(bike: Bike) =
         bike.serial_number?.let { firebaseHelperRepository.uploadImage(bike.path, it) }
 
@@ -59,7 +61,7 @@ class AddNewBikeUseCase(
         bike.photo_thumbnail_path = imageResponse.thumbPath
     }
 
-    private suspend fun onSuccessUploadImage(
+    private suspend fun registerBike(
         bike: Bike,
         communityId: String
     ): SimpleResult<String> {
@@ -72,7 +74,7 @@ class AddNewBikeUseCase(
         }
     }
 
-    private suspend fun onSuccess(
+    private suspend fun updateBike(
         bike: Bike,
         communityId: String
     ): SimpleResult<String> {
