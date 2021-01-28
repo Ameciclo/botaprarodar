@@ -145,7 +145,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
-                    android:onClick="@{()-> viewModel.registerBicycle()}"
+                    android:onClick="@{()-> viewModel.saveBike()}"
                     android:padding="16dp"
                     android:textStyle="bold"
                     app:setButtonText="@{viewModel.editModeAvailable}"
