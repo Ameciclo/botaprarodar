@@ -70,7 +70,7 @@ val bprModule = module {
     }
 
     viewModel {
-        BikeFormViewModel(addNewBikeUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
+        BikeFormViewModel(bikeFormUseCase = get(), community = get<SharedPreferencesModule>().getJoinedCommunity())
     }
 
     single<BicycleApi> {

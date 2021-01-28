@@ -7,7 +7,7 @@ import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 
-private const val DEFAULT_PATH = "bicycles"
+private const val FIREBASE_URL = "https://"
 
 class BikeFormUseCase(
     private val bikeRepository: BikeRepository,
@@ -24,13 +24,14 @@ class BikeFormUseCase(
     }
 
     suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
-        return if (bike.path != DEFAULT_PATH && bike.path.contains("https").not()) {
+        return if (bike.path.contains(FIREBASE_URL)) {
+            updateBike(bike, communityId)
+        } else {
             val imageResponse = uploadImage(bike)
             saveBike(imageResponse, bike, communityId) { _, _ ->
                 updateBike(bike, communityId)
             }
-        } else
-            updateBike(bike, communityId)
+        }
     }
 
     private suspend fun saveBike(

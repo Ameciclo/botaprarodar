@@ -47,7 +47,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
         addItemFab.setOnClickListener {
             val intent = BikeFormActivity.setupActivity(requireContext(), null)
-            startForResultRegister.launch(intent)
+            startForResult.launch(intent)
         }
 
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -74,7 +74,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
     override fun onBicycleClicked(bike: Bike) {
         val intent = BikeFormActivity.setupActivity(requireContext(), bike)
-        startForResultEdit.launch(intent)
+        startForResult.launch(intent)
     }
 
     override fun onBicycleLongClicked(bike: Bike): Boolean {
@@ -82,14 +82,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         return true
     }
 
-    private val startForResultEdit =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                showSnackBar(result.data)
-            }
-        }
-
-    private val startForResultRegister =
+    private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 showSnackBar(result.data)
@@ -97,10 +90,18 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         }
 
     private fun showSnackBar(intent: Intent?) {
-        intent?.getStringExtra("message")?.let {
-            val snackbar = snackBarMaker(it, requireView())
-            snackbar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
-            snackbar.show()
+        intent?.getBooleanExtra("isEditModeAvailable", false)?.let {
+            val message = getSuccessMessage(it)
+            snackBarMaker(message, requireView()).apply {
+                setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                show()
+            }
         }
     }
+
+    private fun getSuccessMessage(isEditModeAvailable: Boolean) =
+        if (isEditModeAvailable)
+            getString(R.string.bicycle_update_success)
+        else
+            getString(R.string.bicycle_add_success)
 }

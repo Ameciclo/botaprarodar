@@ -1,6 +1,8 @@
 package app.igormatos.botaprarodar.presentation.addbicycle
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
@@ -13,7 +15,7 @@ class BikeFormViewModel(
     private val community: Community
 ) : BprViewModel<BikeFormStatus>() {
 
-    var editMode = false
+    var isEditModeAvailable = false
     var bike = Bike()
 
     val serialNumber = MutableLiveData("")
@@ -44,7 +46,7 @@ class BikeFormViewModel(
             imagePath.value = this.photo_path
         }
         this.bike = bike
-        editMode = true
+        isEditModeAvailable = true
     }
 
     private fun validateForm() {
@@ -64,10 +66,10 @@ class BikeFormViewModel(
         val bike = getNewBike()
         _state.postValue(BikeFormStatus.Loading)
         viewModelScope.launch {
-            if (editMode.not())
-                addNewBike(bike)
-            else
+            if (isEditModeAvailable)
                 updateBike(bike)
+            else
+                addNewBike(bike)
         }
     }
 
@@ -75,7 +77,7 @@ class BikeFormViewModel(
         bikeFormUseCase.updateBike(communityId = community.id, bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data)
-                is SimpleResult.Error -> resultError(it.exception)
+                is SimpleResult.Error -> resultError()
             }
         }
     }
@@ -84,7 +86,7 @@ class BikeFormViewModel(
         bikeFormUseCase.addNewBike(communityId = community.id, bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data)
-                is SimpleResult.Error -> resultError(it.exception)
+                is SimpleResult.Error -> resultError()
             }
         }
     }
@@ -98,8 +100,9 @@ class BikeFormViewModel(
         }
     }
 
-    private fun resultError(e: Exception) {
-        _state.postValue(BikeFormStatus.Error(e.message ?: UNKNOWN_ERROR))
+    private fun resultError() {
+        val message = if (isEditModeAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
+        _state.postValue(BikeFormStatus.Error(message))
     }
 
     private fun resultSuccess(bikeName: String) {
@@ -107,6 +110,7 @@ class BikeFormViewModel(
     }
 
     companion object {
-        private const val UNKNOWN_ERROR = "Falha ao cadastrar a bicicleta"
+        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar a bicicleta"
+        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar a bicicleta"
     }
 }
