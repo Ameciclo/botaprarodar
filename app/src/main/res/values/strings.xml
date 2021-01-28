@@ -98,4 +98,6 @@
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="edit_bicycle_title">Editar Bicicleta</string>
+    <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
+    <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 </resources>
