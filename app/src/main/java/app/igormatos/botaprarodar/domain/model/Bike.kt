@@ -9,7 +9,7 @@ import java.util.*
 @Parcel
 class Bike: Item {
 
-    override var path: String = "bicycles"
+    override var path: String = "bike"
 
     override var id: String? = null
 

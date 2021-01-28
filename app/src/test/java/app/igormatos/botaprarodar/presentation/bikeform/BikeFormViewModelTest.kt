@@ -89,7 +89,6 @@ class BikeFormViewModelTest {
             addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
 
-
         bikeViewModel.registerBicycle()
         assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
     }
