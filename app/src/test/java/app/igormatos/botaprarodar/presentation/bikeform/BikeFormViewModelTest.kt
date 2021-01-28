@@ -24,7 +24,7 @@ class BikeFormViewModelTest {
     private val bikeFormUseCase = mockk<BikeFormUseCase>()
     private var community = mockk<Community>(relaxed = true)
 
-    lateinit var bikeViewModel: BikeFormViewModel
+    private lateinit var bikeViewModel: BikeFormViewModel
 
     @Before
     fun setup() {
