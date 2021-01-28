@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,6 +14,7 @@ import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.extensions.*
+import kotlinx.android.synthetic.main.activity_bike_form.*
 import org.parceler.Parcels
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -26,7 +26,7 @@ class BikeFormActivity : AppCompatActivity() {
     private val formViewModel: BikeFormViewModel by koinViewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
-        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
+        DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
     }
 
     companion object {
@@ -58,7 +58,7 @@ class BikeFormActivity : AppCompatActivity() {
 
         if (parcelableBike != null) {
             val bike = Parcels.unwrap(parcelableBike) as Bike
-            setEditTextsValuesOnEditMode(bike)
+            setValuesToEditBike(bike)
         }
     }
 
@@ -90,25 +90,19 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun successText() {
-        val intent = Intent().putExtra("message", getSuccessMessage())
+        val intent = Intent().putExtra("isEditModeAvailable", formViewModel.isEditModeAvailable)
         setResult(RESULT_OK, intent)
         finish()
     }
 
-    private fun getSuccessMessage() =
-        if (formViewModel.editMode) {
-            getString(R.string.bicycle_update_success)
-        } else {
-            getString(R.string.bicycle_add_success)
-        }
-
     private fun errorText(errorMessage: String) {
-        val snackbar = snackBarMaker(errorMessage, this.window.decorView)
-        snackbar.setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
-        snackbar.show()
+        snackBarMaker(errorMessage, containerAddBike).apply {
+            setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
+            show()
+        }
     }
 
-    private fun setEditTextsValuesOnEditMode(bike: Bike?) {
+    private fun setValuesToEditBike(bike: Bike?) {
         bike?.let { formViewModel.updateBikeValues(it) }
     }
 

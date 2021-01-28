@@ -36,7 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/white"
-                        app:title="@{viewModel.editMode}"
+                        app:title="@{viewModel.editModeAvailable}"
                         app:titleTextColor="@color/dark_gray" />
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -148,7 +148,7 @@
                     android:onClick="@{()-> viewModel.registerBicycle()}"
                     android:padding="16dp"
                     android:textStyle="bold"
-                    app:setButtonText="@{viewModel.editMode}"
+                    app:setButtonText="@{viewModel.editModeAvailable}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
