@@ -62,7 +62,7 @@ class BikeFormViewModel(
         this.imagePath.value = imagePath
     }
 
-    fun registerBicycle() {
+    fun saveBike() {
         val bike = getNewBike()
         _state.postValue(BikeFormStatus.Loading)
         viewModelScope.launch {

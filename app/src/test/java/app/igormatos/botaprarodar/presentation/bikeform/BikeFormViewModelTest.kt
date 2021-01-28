@@ -21,7 +21,7 @@ class BikeFormViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val addNewBikeUseCase = mockk<BikeFormUseCase>()
+    private val bikeFormUseCase = mockk<BikeFormUseCase>()
     private var community = mockk<Community>(relaxed = true)
 
     lateinit var bikeViewModel: BikeFormViewModel
@@ -29,7 +29,7 @@ class BikeFormViewModelTest {
     @Before
     fun setup() {
         bikeViewModel =
-            BikeFormViewModel(addNewBikeUseCase = addNewBikeUseCase, community = community)
+            BikeFormViewModel(bikeFormUseCase = bikeFormUseCase, community = community)
         bikeViewModel.orderNumber.postValue(bikeFake.order_number.toString())
     }
 
@@ -82,29 +82,27 @@ class BikeFormViewModelTest {
     }
 
     @Test
-    fun `When 'registerBicycle', then registeredBicycleResult should return Success Status`() {
+    fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Success Status`() {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Success("")
         coEvery {
-            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
 
-
-        bikeViewModel.registerBicycle()
+        bikeViewModel.saveBike()
         assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
     }
 
     @Test
-    fun `When 'registerBicycle', then registeredBicycleResult should return Error Status`() {
+    fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Error Status`() {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
 
         coEvery {
-            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
 
-        bikeViewModel.registerBicycle()
-
+        bikeViewModel.saveBike()
         assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
     }
 
@@ -116,10 +114,10 @@ class BikeFormViewModelTest {
         val result = SimpleResult.Success(simpleResultData)
 
         coEvery {
-            addNewBikeUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
         bikeViewModel.state.observeForever(observerBikeResultMock)
-        bikeViewModel.registerBicycle()
+        bikeViewModel.saveBike()
 
         verifyOrder {
             observerBikeResultMock.onChanged(BikeFormStatus.Loading)
@@ -166,6 +164,53 @@ class BikeFormViewModelTest {
         bikeViewModel.imagePath.postValue("mock")
 
         bikeViewModel.valid.value?.let { assertTrue(it) }
+    }
+
+    @Test
+    fun `when 'updateBikeValues' should update Bike value to edit`() {
+        bikeViewModel.updateBikeValues(bikeFake)
+
+        assertEquals(bikeFake.name, bikeViewModel.bike.name)
+        assertEquals(bikeFake.serial_number, bikeViewModel.bike.serial_number)
+        assertEquals(bikeFake.order_number, bikeViewModel.bike.order_number)
+        assertEquals(bikeFake.photo_path, bikeViewModel.bike.photo_path)
+    }
+
+    @Test
+    fun `when start viewModel should 'isEditModeAvailable' false`() {
+        assertFalse(bikeViewModel.isEditModeAvailable)
+    }
+
+    @Test
+    fun `when 'updateBikeValues' should update 'isEditModeAvailable' to true`() {
+        bikeViewModel.updateBikeValues(bikeFake)
+        assertTrue(bikeViewModel.isEditModeAvailable)
+    }
+
+    @Test
+    fun `when 'saveBike' to edit and 'isEditModeAvailable' is true, should return Success Status`() {
+        bikeViewModel.isEditModeAvailable = true
+        val bikeFake = slot<Bike>()
+        val result = SimpleResult.Success("")
+        coEvery {
+            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+        } returns result
+
+        bikeViewModel.saveBike()
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Success)
+    }
+
+    @Test
+    fun `when 'saveBike' to edit and 'isEditModeAvailable' is true, should return Error Status`() {
+        bikeViewModel.isEditModeAvailable = true
+        val bikeFake = slot<Bike>()
+        val result = SimpleResult.Error(Exception())
+        coEvery {
+            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+        } returns result
+
+        bikeViewModel.saveBike()
+        assertTrue(bikeViewModel.state.value is BikeFormStatus.Error)
     }
 
     private val bikeFake = Bike().apply {
