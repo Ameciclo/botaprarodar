@@ -21,8 +21,7 @@ import org.koin.core.context.stopKoin
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
-class SignInTest {
-
+class SignIn {
     private lateinit var scenario: ActivityScenario<AuthenticationActivity>
 
     @Before
@@ -76,29 +75,4 @@ class SignInTest {
             assertThat(incorrectPasswordMessage()).isTrue()
         }
     }
-
-    @Test
-    fun should4SignUpNewUser() {
-        login {
-            fillUserField("new-user@gmail.com")
-            clickNext()
-        } verify {
-            checkMessage("Sign up")
-            checkMessage("new-user@gmail.com")
-            checkMessageOnHint("Password")
-            checkMessage("SAVE")
-        }
-    }
-
-    @Test
-    fun should5DoLoginSuccessful() {
-        login {
-            doLogin("brunotmg@gmail.com", "abcd1234")
-            sleep(4000)
-        } verify {
-            checkMessage("Bota pra Rodar")
-            checkMessage("ADICIONAR COMUNIDADE")
-        }
-    }
-
 }
