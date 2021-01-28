@@ -41,11 +41,6 @@ class AdminRegistration {
         scenario = launchActivity()
     }
 
-    @After
-    fun tearDown(){
-        stopKoin()
-    }
-
     //    Fluxo 1 - Criação de usuário administrador com sucesso
     //
     //    Dado: email digitado
@@ -56,7 +51,7 @@ class AdminRegistration {
     //    Então: deve exibir dialogo de sucesso
 
     @Test
-    fun successfulUserRegistration() {
+    fun successfulAdminRegistration() {
         coEvery {
             adminRemoteDataSource.createFirebaseUser(emailMock, passwordMock)
         } returns mockk(relaxed = true)
@@ -83,7 +78,7 @@ class AdminRegistration {
     //    Então: deve exibir mensagem de falha de login
 
     @Test
-    fun failureUserRegistration() {
+    fun failureAdminRegistration() {
         coEvery {
             adminRemoteDataSource.createFirebaseUser(emailMock, passwordMock)
         }  throws Exception("")
