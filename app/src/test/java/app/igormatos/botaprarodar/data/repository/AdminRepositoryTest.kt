@@ -196,10 +196,22 @@ class AdminRepositoryTest {
                 adminRemoteDataSource.sendPasswordRecoverEmail(
                     email
                 )
-            } throws FirebaseNetworkException("")
+            } throws Exception("")
 
             val result = adminRepository.sendPasswordResetEmail(email)
             assertFalse(result)
+        }
+
+    @Test(expected = UserAdminErrorException.AdminNetwork::class)
+    fun `When reset password without connection, then should return Admin Network Exception`(): Unit =
+        runBlocking {
+            coEvery {
+                adminRemoteDataSource.sendPasswordRecoverEmail(
+                    email
+                )
+            } throws FirebaseNetworkException("")
+
+            adminRepository.sendPasswordResetEmail(email)
         }
 
     @Test(expected = UserAdminErrorException.AdminNotFound::class)
