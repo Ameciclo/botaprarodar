@@ -25,8 +25,8 @@
                     android:id="@+id/appBarLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:elevation="4dp"
                     android:theme="@style/AppTheme.AppBarOverlay"
-                    android:elevation="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -37,7 +37,8 @@
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/white"
                         app:title="@{viewModel.editModeAvailable}"
-                        app:titleTextColor="@color/dark_gray" />
+                        app:titleTextColor="@color/dark_gray"
+                        tools:title="@string/add_bicycle_title" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -59,8 +60,8 @@
                     android:layout_height="248dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:padding="8dp"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:padding="@dimen/padding_small"
                     android:scaleType="center"
                     android:src="@drawable/ic_add_a_photo"
                     app:imagePathOrUrl="@{viewModel.imagePath}"
@@ -146,12 +147,13 @@
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
                     android:onClick="@{()-> viewModel.saveBike()}"
-                    android:padding="16dp"
+                    android:padding="@dimen/padding_medium"
                     android:textStyle="bold"
-                    app:setButtonText="@{viewModel.editModeAvailable}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:setButtonText="@{viewModel.editModeAvailable}"
+                    tools:text="@string/bicycle_add_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
