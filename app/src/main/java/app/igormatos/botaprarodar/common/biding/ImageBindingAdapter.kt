@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.common.biding
 
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import app.igormatos.botaprarodar.R
@@ -8,15 +9,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 
 
-@BindingAdapter("app:imagePathOrUrl")
-fun setImagePathOrUrl(imageView: ImageView, imagePathOrUrl: String) {
+@BindingAdapter("app:imagePathOrUrl", "app:errorDrawable")
+fun setImagePathOrUrl(imageView: ImageView, imagePathOrUrl: String, errorDrawable: Drawable) {
     Glide.with(imageView)
         .load(imagePathOrUrl)
-        .apply(getRequestOptions())
+        .apply(getRequestOptions(errorDrawable))
         .into(imageView)
 }
 
-private fun getRequestOptions() = RequestOptions()
+private fun getRequestOptions(errorImage: Drawable) = RequestOptions()
     .fitCenter()
-    .error(R.drawable.ic_add_a_photo)
+    .error(errorImage)
     .diskCacheStrategy(DiskCacheStrategy.ALL)
