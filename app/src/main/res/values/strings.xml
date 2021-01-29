@@ -99,4 +99,12 @@
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
+
+    <!-- ADD USER -->
+    <string name="add_user_invalid_name">Nome inválido</string>
+    <string name="add_user_invalid_address">Endereço inválido</string>
+    <string name="add_user_address_hint">Endereço (Rua, número)</string>
+    <string name="add_user_cpf_hint">Número do RG ou CPF</string>
+    <string name="add_user_invalid_cpf">CPF inválido</string>
+
 </resources>

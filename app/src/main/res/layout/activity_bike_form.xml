@@ -64,6 +64,7 @@
                     android:scaleType="center"
                     android:src="@drawable/ic_add_a_photo"
                     app:imagePathOrUrl="@{viewModel.imagePath}"
+                    app:errorDrawable="@{@drawable/ic_add_a_photo}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/progressBar" />
