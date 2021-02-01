@@ -25,8 +25,8 @@
             android:name="app.igormatos.botaprarodar.presentation.authentication.RegistrationFragment"
             android:label="Registrar" >
         <action
-                android:id="@+id/action_registrationFragment_to_loginActivity"
-                app:destination="@id/loginActivity"
+                android:id="@+id/action_registrationFragment_to_welcomeActivity"
+                app:destination="@id/welcomeActivity"
                 app:popUpTo="@id/registrationFragment"
                 app:popUpToInclusive="true"/>
     </fragment>
@@ -55,8 +55,8 @@
             android:label="Recuperar Senha"
             tools:layout="@layout/fragment_password_recovery" />
     <activity
-            android:id="@+id/loginActivity"
-            android:name="app.igormatos.botaprarodar.presentation.login.LoginActivity"
+            android:id="@+id/welcomeActivity"
+            android:name="app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity"
             android:label="activity_login"
-            tools:layout="@layout/activity_login" />
+            tools:layout="@layout/activity_welcome" />
 </navigation>
