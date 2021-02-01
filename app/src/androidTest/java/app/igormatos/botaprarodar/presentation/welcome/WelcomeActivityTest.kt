@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.test.filters.MediumTest
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -9,11 +9,11 @@ import org.junit.runner.RunWith
 
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class LoginActivityTest {
+class WelcomeActivityTest {
 
     @Test
     fun navigateTriggered_navigates() {
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
 
         robot.triggerNavigateMain()
 
@@ -23,7 +23,7 @@ class LoginActivityTest {
 
     @Test
     fun nothingTriggered_snackbarHidden() {
-        val robot = LoginActivityRobot(emailNotVerified = false)
+        val robot = WelcomeActivityRobot(emailNotVerified = false)
 
         robot.verifyEmailSnackbarShown(false)
         robot.finish()
@@ -31,7 +31,7 @@ class LoginActivityTest {
 
     @Test
     fun emailNotVerifiedTriggered_showsResendEmail_onResend_dismiss() {
-        val robot = LoginActivityRobot(emailNotVerified = true)
+        val robot = WelcomeActivityRobot(emailNotVerified = true)
 
         robot.verifyEmailSnackbarShown(true)
 
@@ -44,7 +44,7 @@ class LoginActivityTest {
 
     @Test
     fun pressLogin_loginSuccess_triggersLoginSuccess() {
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
 
         robot.clickLogin(isSuccess = true)
 
@@ -54,7 +54,7 @@ class LoginActivityTest {
 
     @Test
     fun pressLogin_loginFails_showErrorSnackbar() {
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
 
         robot.clickLogin(isSuccess = false)
 
@@ -65,7 +65,7 @@ class LoginActivityTest {
 
     @Test
     fun loading_showsAndHidesDialog() {
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
         robot.verifyLoadingDialogShown(false)
 
         robot.setLoading(true)
@@ -78,7 +78,7 @@ class LoginActivityTest {
 
     @Test
     fun communitiesLoadFail_showErrorSnackbar_clickRetry_retriesLoadingAndHidesSnackbar() {
-        LoginActivityRobot().apply {
+        WelcomeActivityRobot().apply {
             triggerCommunitiesLoadError()
 
             verifyLoadCommunitiesErrorSnackbarShown()
@@ -93,7 +93,7 @@ class LoginActivityTest {
 
     @Test
     fun communitiesLoaded_clickCommunity_setsCommunityViewModel() {
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
         val communityOne = Community("carangueijo tabaiares")
         val communityTwo = Community("second community")
         val communities = UserCommunityInfo(isAdmin = true,
@@ -110,7 +110,7 @@ class LoginActivityTest {
 
     @Test
     fun communitiesLoadedNoAccess_showsNoCommunitiesDialog(){
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
         val communities = UserCommunityInfo(isAdmin = false, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 
@@ -120,7 +120,7 @@ class LoginActivityTest {
 
     @Test
     fun communitiesLoadedNotAdmin_hidesAddCommunity(){
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
         val communities = UserCommunityInfo(isAdmin = false, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 
@@ -130,7 +130,7 @@ class LoginActivityTest {
 
     @Test
     fun communitiesLoadedAdmin_clickAddCommunity_navigatesToAddCommunity(){
-        val robot = LoginActivityRobot()
+        val robot = WelcomeActivityRobot()
         val communities = UserCommunityInfo(isAdmin = true, communities = emptyList())
         robot.triggerCommunitiesLoaded(communities)
 

@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import android.app.Activity
 import android.app.Instrumentation
@@ -35,11 +35,11 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 
-class LoginActivityRobot(
+class WelcomeActivityRobot(
     private val emailNotVerified: Boolean = false
 ) {
 
-    private val scenario: ActivityScenario<LoginActivity>
+    private val scenario: ActivityScenario<WelcomeActivity>
     private val context = InstrumentationRegistry.getInstrumentation().targetContext
     private val testModule: Module
     private val mockEmailSnackbar = mockk<Snackbar>(relaxed = true) {
@@ -61,12 +61,12 @@ class LoginActivityRobot(
         } returns this
     }
 
-    private val navigator: LoginActivityNavigator = mockk(relaxed = true)
+    private val navigator: WelcomeActivityNavigator = mockk(relaxed = true)
 
-    private val viewModel: LoginActivityViewModelFake
+    private val viewModel: WelcomeActivityViewModelFake
 
     init {
-        viewModel = LoginActivityViewModelFake(
+        viewModel = WelcomeActivityViewModelFake(
             showResendEmailSnackBar = if (emailNotVerified) {
                 MutableLiveData(ViewEvent(true))
             } else {
@@ -91,10 +91,10 @@ class LoginActivityRobot(
                     } returns mockLoadCommunitiesErrorSnackbar
                 }
             }
-            single<LoginActivityNavigator> {
+            single<WelcomeActivityNavigator> {
                 navigator
             }
-            viewModel<LoginActivityViewModel> {
+            viewModel<WelcomeActivityViewModel> {
                 viewModel
             }
         }
@@ -128,7 +128,7 @@ class LoginActivityRobot(
         }
         Intents.intending(toPackage("app.igormatos.botaprarodar")).respondWith(result)
 
-        onView(withId(R.id.login_button)).perform(click())
+        onView(withId(R.id.loginButton)).perform(click())
     }
 
     fun clickCommunity(community: Community) {
