@@ -4,13 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.brunotmgomes.ui.extensions.createLoading
+import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -20,11 +22,12 @@ class BikeFormActivity : AppCompatActivity() {
 
     var editMode: Boolean = false
     var imagePath: String? = null
+    private lateinit var loadingDialog: AlertDialog
 
     private val formViewModel: BikeFormViewModel by koinViewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
+        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +38,7 @@ class BikeFormActivity : AppCompatActivity() {
 
         onClickBicyclePhotoImage()
         waitBicycleRegisterResult()
+        loadingDialog = createLoading(R.layout.loading_dialog_animation)
 
         binding.toolbar.title = if (editMode) {
             getString(R.string.bicycle_update_button)
@@ -52,27 +56,36 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
+        binding.viewModel?.state?.observe(this, { bikeFormStatus ->
             when (bikeFormStatus) {
                 is BikeFormStatus.Success -> {
-                    bikeFormStatus.data
+                    loadingDialog.dismiss()
                     successText()
                 }
-                is BikeFormStatus.Loading -> TODO()
-                is BikeFormStatus.Error -> errorText(bikeFormStatus.message)
+                is BikeFormStatus.Loading -> {
+                    window.decorView.hideKeyboard()
+                    loadingDialog.show()
+                }
+                is BikeFormStatus.Error -> {
+                    loadingDialog.dismiss()
+                    errorText(bikeFormStatus.message)
+                }
             }
         })
     }
 
-    private fun successText(): String {
-        return if (editMode) getString(R.string.bicycle_update_success) else getString(
-            R.string.bicycle_add_success
-        )
+    private fun successText() {
+        showMessage(getString(R.string.bicycle_add_success))
+        finish()
     }
 
     private fun errorText(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+        showMessage(errorMessage)
         finish()
+    }
+
+    private fun showMessage(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

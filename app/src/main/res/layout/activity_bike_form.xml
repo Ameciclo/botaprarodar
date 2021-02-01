@@ -14,6 +14,7 @@
             android:id="@+id/containerAddBike"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             tools:context=".presentation.addbicycle.BikeFormActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/AppTheme.AppBarOverlay"
+                    android:elevation="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/white"
-                        app:title="@string/add_user_title"
+                        app:title="@string/add_bicycle_title"
                         app:titleTextColor="@color/dark_gray" />
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -44,7 +46,7 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:indeterminate="true"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -53,14 +55,13 @@
 
             <ImageView
                     android:id="@+id/bikePhotoImageView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="248dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@color/white"
-                    android:padding="64dp"
-                    android:scaleType="fitCenter"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:padding="@dimen/padding_small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:scaleType="center"
                     android:src="@drawable/ic_add_a_photo"
                     app:imagePathOrUrl="@{viewModel.imagePath}"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -69,17 +70,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/serialNumberTil"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
                     android:hint="@string/bike_serial_number"
                     app:errorBicycleSerialNumber="@{viewModel.serialNumber}"
-                    app:layout_constraintLeft_toLeftOf="@id/bikePhotoImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -91,16 +91,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/bikeNameTil"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
                     android:hint="@string/bike_name"
                     app:errorBicycleName="@{viewModel.bikeName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/serialNumberTil">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -113,24 +113,26 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/orderNumberTil"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_big"
                     android:hint="@string/order_number"
                     app:errorBicycleOrderNumber="@{viewModel.orderNumber}"
-                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil">
-
+                    app:layout_constraintBottom_toTopOf="@+id/saveButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil"
+                    app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/orderNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/margin_small"
                         android:inputType="number"
                         android:text="@={viewModel.orderNumber}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -140,15 +142,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:enabled="@{viewModel.valid}"
                     android:onClick="@{()-> viewModel.registerBicycle()}"
-                    android:text="Cadastrar Bicicleta"
+                    android:padding="@dimen/padding_medium"
+                    android:textStyle="bold"
+                    android:text="@string/btn_register_bicycle"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orderNumberTil" />
-
+                    app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
