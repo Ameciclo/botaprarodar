@@ -15,13 +15,14 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
+import app.igormatos.botaprarodar.databinding.FragmentDashboardBinding
+import app.igormatos.botaprarodar.databinding.FragmentPasswordRecoveryBinding
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 import org.koin.android.ext.android.inject
 
 
@@ -50,18 +51,21 @@ class DashboardFragment : Fragment() {
     private val bicycleList = mutableListOf<Bike>()
 
     private val preferencesModule: SharedPreferencesModule by inject()
+    private val binding: FragmentDashboardBinding by lazy {
+        FragmentDashboardBinding.inflate(layoutInflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+    ): View {
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        communityId = preferencesModule.getJoinedCommunity().id!!
+        communityId = preferencesModule.getJoinedCommunity().id
 
         pieChartColors = listOf(
             ContextCompat.getColor(requireContext(), R.color.orange),
@@ -81,7 +85,7 @@ class DashboardFragment : Fragment() {
         val lineDataSet = LineDataSet(tripsEntries, "Total de viagens")
         val lineData = LineData(lineDataSet)
 
-        tripsChart.apply {
+        binding.tripsChart.apply {
             this.data = lineData
             description = null
             xAxis.apply {
@@ -107,12 +111,11 @@ class DashboardFragment : Fragment() {
             add("agosto")
         }
 
-        tripsChart.invalidate()
+        binding.tripsChart.invalidate()
     }
 
     override fun onResume() {
         super.onResume()
-
         updateCharts()
     }
 
@@ -122,7 +125,7 @@ class DashboardFragment : Fragment() {
                 val gson = GsonBuilder().create()
                 val json = gson.toJson(map)
                 gson.fromJson(json, DashboardInformation::class.java)?.also { dashInfo ->
-                    tripsCountLabel.text = getString(
+                    binding.tripsCountLabel.text = getString(
                         R.string.trip_count_label,
                         dashInfo.tripsCount.toString()
                     )
@@ -155,7 +158,7 @@ class DashboardFragment : Fragment() {
         gendersEntries.clear()
         gendersEntries.add(PieEntry(maleCount.toFloat(), "Homem"))
         gendersEntries.add(PieEntry(femaleCount.toFloat(), "Mulher"))
-        genderChart.invalidate()
+        binding.genderChart.invalidate()
     }
 
     private fun setGenderPieChart() {
@@ -186,7 +189,7 @@ class DashboardFragment : Fragment() {
 
         val pieData = PieData(pieDataSet).apply { setValueFormatter(percentFormatter) }
 
-        genderChart.apply {
+        binding.genderChart.apply {
             data = pieData
             setUsePercentValues(true)
             description = null
@@ -201,7 +204,7 @@ class DashboardFragment : Fragment() {
 
         bicyclesEntries.add(PieEntry(inUseCount.toFloat(), "Em uso"))
         bicyclesEntries.add(PieEntry(availableCount.toFloat(), "Disponível"))
-        availableBikesChart.invalidate()
+        binding.availableBikesChart.invalidate()
     }
 
     private fun setAvailablePieChart() {
@@ -232,7 +235,7 @@ class DashboardFragment : Fragment() {
             setValueFormatter(percentFormatter)
         }
 
-        availableBikesChart.apply {
+        binding.availableBikesChart.apply {
             this.data = data
             description = null
             setUsePercentValues(true)
