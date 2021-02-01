@@ -21,17 +21,16 @@
             android:theme="@style/AppTheme">
         <activity android:name=".presentation.createcommunity.AddCommunityActivity">
         </activity>
-        <activity android:name=".presentation.login.LoginActivity">
-
-        </activity>
-        <activity android:name=".presentation.fullscreenimage.FullscreenImageActivity">
-        </activity>
-        <activity android:name=".presentation.authentication.AuthenticationActivity">
+        <activity android:name=".presentation.welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".presentation.fullscreenimage.FullscreenImageActivity">
+        </activity>
+        <activity android:name=".presentation.authentication.AuthenticationActivity">
         </activity>
         <activity
                 android:name=".presentation.main.MainActivity"
