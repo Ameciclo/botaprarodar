@@ -1,9 +1,5 @@
 package app.igormatos.botaprarodar.authentication
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -11,11 +7,6 @@ import app.igormatos.botaprarodar.R
 fun login(executeFun: AuthenticationRobot.() -> Unit) = AuthenticationRobot().apply { executeFun() }
 
 class AuthenticationRobot : BaseRobot() {
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-    // (UiAutomator) Initialize UiDevice instance
-    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    private val launcherPackage: String = context.packageName
 
     infix fun verify(executeFun: AuthenticationRobot.() -> Unit) {
         executeFun()
@@ -56,11 +47,10 @@ class AuthenticationRobot : BaseRobot() {
     fun incorrectPasswordMessage(): Boolean? {
         val text = context.getString(R.string.sign_in_password_error)
         return waitViewByText(text)
-
     }
 
     fun incorrectRegistrationMessage(): Boolean? {
-        val text = context.getString(R.string.login_error)
+        val text = context.getString(R.string.admin_registration_error)
         return waitViewByText(text)
     }
 
@@ -78,22 +68,23 @@ class AuthenticationRobot : BaseRobot() {
         return waitViewByResId("passwordRecoveryContainer")
     }
 
-    fun checkMainScreen(): Boolean {
-        return waitViewByResId("activityMainContainer")
+    fun checkCommunityScreen(): Boolean {
+        return waitViewByResId("rvCommunityList")
     }
 
     fun successRegistrationDialog(): Boolean {
         return waitViewByResId("successRegistrationDialogContainer")
     }
 
-
-    private fun waitViewByResId(resId: String): Boolean {
-        return device.wait(Until.hasObject(By.res(launcherPackage, resId)), 10000)
+    fun successfulLoginSteps(email: String, password: String){
+        fillUserField(email)
+        clickNext()
+        showLoginScreen()
+        fillPasswordField(password)
+        clickSignIn()
     }
 
-    private fun waitViewByText(text: String) = device.wait(
-        Until.hasObject(
-            By.text(text)
-        ), 10000
-    )
+    fun initAuthentication(){
+        clickButton(R.id.loginButton)
+    }
 }
