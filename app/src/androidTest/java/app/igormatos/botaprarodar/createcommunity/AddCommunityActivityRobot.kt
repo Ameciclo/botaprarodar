@@ -51,6 +51,10 @@ class AddCommunityActivityRobot : BaseRobot() {
         selectAnyItemInRecyclerView(R.id.rvCommunityList)
     }
 
+    fun showCommunityScreen(){
+        waitViewByResId("communityAdapterContainer")
+    }
+
     fun saveNewCommunity(name: String) {
         clickAddCommunity()
         fillNameField(name)
