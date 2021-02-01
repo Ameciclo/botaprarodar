@@ -12,7 +12,7 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
 
     suspend fun uploadImage(
         imagePath: String,
-        bikeSerialNumber: String
+        finalPath: String
     ): SimpleResult<ImageUploadResponse> {
         val storageRef = firebaseStorage.reference
         val timeStamp = getCurrentTimeStampMillis()
@@ -20,11 +20,11 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
 
         val fileReference = getStorageReference(
             storageRef,
-            "community/bike/$bikeSerialNumber _$timeStamp.jpg"
+            "$finalPath _$timeStamp.jpg"
         )
         val thumbReference = getStorageReference(
             storageRef,
-            "community/bike/$bikeSerialNumber _thumb_$timeStamp.jpg"
+            "$finalPath _thumb_$timeStamp.jpg"
         )
 
         return uploadFileImage(fileUri, fileReference, thumbReference)
@@ -59,3 +59,6 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
     private fun getStorageReference(storageRef: StorageReference, finalPath: String) =
         storageRef.child(finalPath)
 }
+
+//community/bike/$bikeSerialNumber
+//community/bike/$bikeSerialNumber
