@@ -92,14 +92,12 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun updateTripsChart(dashboardInformation: DashboardInformation) {
+    private fun updateTripsChart() {
         tripsEntries.clear()
 
         tripsEntries.apply {
             add(Entry(0f, 100f))
             add(Entry(1f, 200f))
-//            add(Entry(0f, dashboardInformation.lastMonth.tripsCount.toFloat()))
-//            add(Entry(1f, dashboardInformation.currentMonth.tripsCount.toFloat()))
         }
 
         months.clear()
@@ -107,8 +105,6 @@ class DashboardFragment : Fragment() {
         months.apply {
             add("julho")
             add("agosto")
-//            add(dashboardInformation.lastMonth.name)
-//            add(dashboardInformation.currentMonth.name)
         }
 
         tripsChart.invalidate()
@@ -121,20 +117,20 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateCharts() {
-
         getDashboardInformation().addOnCompleteListener {
             it.result?.let { map ->
                 val gson = GsonBuilder().create()
                 val json = gson.toJson(map)
-                val dashboardInformation = gson.fromJson<DashboardInformation>(json, DashboardInformation::class.java)
-                tripsCountLabel.text = "Total: ${dashboardInformation!!.tripsCount} viagens"
+                gson.fromJson(json, DashboardInformation::class.java)?.also { dashInfo ->
+                    tripsCountLabel.text = getString(
+                        R.string.trip_count_label,
+                        dashInfo.tripsCount.toString()
+                    )
+                }
 
-                updateTripsChart(dashboardInformation)
+                updateTripsChart()
             }
-        }.addOnFailureListener {
-
         }
-
     }
 
     private fun getDashboardInformation(): Task<Map<String, Any>> {
