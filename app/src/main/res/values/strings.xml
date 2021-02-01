@@ -20,6 +20,7 @@
     <string name="community_confirm_title">Os dados estão corretos?</string>
     <string name="empties_fields_error">Preencha todos os campos</string>
     <string name="login_error">Falha no login</string>
+    <string name="admin_registration_error">Falha ao criar usuário administrador</string>
     <string name="add_community">Adicionar comunidade</string>
     <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
     <string name="login_load_communities_error">Erro ao obter comunidades</string>
