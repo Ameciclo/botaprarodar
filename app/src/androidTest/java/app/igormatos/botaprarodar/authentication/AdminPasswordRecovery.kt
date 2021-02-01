@@ -9,6 +9,7 @@ import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActi
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
+import org.junit.After
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test

@@ -7,6 +7,7 @@ import androidx.test.filters.MediumTest
 import app.igormatos.botaprarodar.data.repository.AdminRemoteDataSource
 import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.*
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.After
@@ -64,7 +65,7 @@ class AdminRegistration {
             fillPasswordField(passwordMock)
             clickSaveButton()
         } verify {
-            Truth.assertThat(successRegistrationDialog()).isTrue()
+            assertThat(successRegistrationDialog()).isTrue()
         }
     }
 
@@ -91,7 +92,7 @@ class AdminRegistration {
             fillPasswordField(passwordMock)
             clickSaveButton()
         } verify {
-            Truth.assertThat(incorrectRegistrationMessage()).isTrue()
+            assertThat(incorrectRegistrationMessage()).isTrue()
         }
     }
 }
