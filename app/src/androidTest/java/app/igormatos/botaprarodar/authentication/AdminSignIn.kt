@@ -4,7 +4,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -17,7 +17,7 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
 class AdminSignIn {
-    private lateinit var scenario: ActivityScenario<AuthenticationActivity>
+    private lateinit var scenario: ActivityScenario<WelcomeActivity>
 
     @Before
     fun setup() {
@@ -38,6 +38,7 @@ class AdminSignIn {
         val registeredEmail = "brunotmg@gmail.com"
         val password = "abcd1234"
         login {
+            initAuthentication()
             fillUserField(registeredEmail)
             clickNext()
             showLoginScreen()
