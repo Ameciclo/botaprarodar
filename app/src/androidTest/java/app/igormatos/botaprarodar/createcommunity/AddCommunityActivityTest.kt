@@ -1,18 +1,16 @@
 package app.igormatos.botaprarodar.createcommunity
 
-import android.content.Context
-import android.content.Intent
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.appendTimestamp
-import app.igormatos.botaprarodar.login.login
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
-import com.google.firebase.FirebaseApp
-import org.junit.*
+import app.igormatos.botaprarodar.authentication.login
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
+import org.junit.Before
+import org.junit.FixMethodOrder
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
@@ -20,22 +18,15 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class AddCommunityActivityTest {
 
-    private val intent = Intent(ApplicationProvider.getApplicationContext(), LoginActivity::class.java)
-
-    private lateinit var loginActivity: ActivityScenario<LoginActivity>
-
-    private lateinit var mContext: Context
+    private lateinit var scenario: ActivityScenario<WelcomeActivity>
 
     @Before
     fun setUp() {
-        loginActivity = launchActivity(intent)
-        loginActivity.onActivity {
-            FirebaseApp.initializeApp(it)
-            mContext = it
-        }
+        scenario = launchActivity()
+
 
         login {
-            clickLogin()
+            initAuthentication()
             fillUserField("brunotmg@gmail.com")
             clickNext()
             sleep(2000)
@@ -61,13 +52,13 @@ class AddCommunityActivityTest {
             sleep(2000)
             saveCommunityWithNoData()
         } verify {
-            checkMessage(mContext.getString(R.string.empties_fields_error))
+            checkMessage(context.getString(R.string.empties_fields_error))
         }
 
         addCommunity {
             fillCommunityDataWithWrongEmailFormat()
         } verify {
-            checkMessage(mContext.getString(R.string.email_format_warning))
+            checkMessage(context.getString(R.string.email_format_warning))
         }
 
     }
