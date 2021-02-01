@@ -1,16 +1,16 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.lifecycle.MutableLiveData
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
-class LoginActivityViewModelFake(
+class WelcomeActivityViewModelFake(
     override val navigateMain: MutableLiveData<ViewEvent<Boolean>> = MutableLiveData(),
     override val loadedCommunities: MutableLiveData<ViewEvent<Result<UserCommunityInfo>>> = MutableLiveData(),
     override val loading: MutableLiveData<Boolean> = MutableLiveData(),
     override val showResendEmailSnackBar: MutableLiveData<ViewEvent<Boolean>> = MutableLiveData(),
-) : LoginActivityViewModel() {
+) : WelcomeActivityViewModel() {
 
     var loggedIn = false
     var chosenCommunity: Community? = null
