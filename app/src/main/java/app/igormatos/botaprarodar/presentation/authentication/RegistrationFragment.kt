@@ -25,7 +25,6 @@ class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val registrationViewModel: RegistrationViewModel by viewModel()
     private lateinit var loadingDialog: AlertDialog
-    private var validator = EmailValidator()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,14 +77,18 @@ class RegistrationFragment : Fragment() {
     private fun onAdminRegistered() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val dialogBinding = DialogRegistrationSuccessBinding.inflate(layoutInflater)
-        dialogBuilder.setView(dialogBinding.root)
-        val dialog = dialogBuilder.create()
-        dialog.show()
+        val dialog = dialogBuilder.let {
+            it.setView(dialogBinding.root)
+            it.create()
+            it.show()
+        }
         dialogBinding.loginButton.setOnClickListener {
             dialog.hide()
-            findNavController().navigate(R.id.action_registrationFragment_to_loginActivity)
+            findNavController().navigate(R.id.action_registrationFragment_to_welcomeActivity)
         }
+
     }
+
 
     private fun handlePasswordErrorMessage(isValidInput: Boolean) {
         binding.passwordLayout.apply {
@@ -118,7 +121,7 @@ class RegistrationFragment : Fragment() {
     private fun createErrorMessage(errorType: BprErrorType): Int =
         when (errorType) {
             BprErrorType.NETWORK -> R.string.network_error_message
-            else -> R.string.login_error
+            else -> R.string.admin_registration_error
         }
 
     private fun showLoadingDialog() {
