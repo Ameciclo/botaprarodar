@@ -2,7 +2,6 @@ package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.repository.CommunityRepository
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
@@ -10,12 +9,10 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
-import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.data.repository.AdminRemoteDataSource
+import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
-import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
@@ -31,6 +28,7 @@ import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModelI
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -89,7 +87,15 @@ val bprModule = module {
     }
 
     single {
-        AddNewBikeUseCase(bikeRepository = get<BikeRepository>())
+        FirebaseStorage.getInstance()
+    }
+
+    single {
+        FirebaseHelperRepository(get<FirebaseStorage>())
+    }
+
+    single {
+        AddNewBikeUseCase(bikeRepository = get<BikeRepository>(), firebaseHelperRepository =  get<FirebaseHelperRepository>())
     }
 
     single {
