@@ -1,19 +1,26 @@
 package app.igormatos.botaprarodar
 
+import android.content.Context
+import android.view.KeyEvent
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
+import androidx.test.uiautomator.Until
 
 abstract class BaseRobot {
+    val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
+    // (UiAutomator) Initialize UiDevice instance
+    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    private val launcherPackage: String = context.packageName
 
     fun clickButton(idButton: Int) {
         onView(withId(idButton)).perform(click())
@@ -41,11 +48,6 @@ abstract class BaseRobot {
             )
     }
 
-    fun clickItemInRecyclerView(resId: Int, content: String){
-        onView(withId(resId))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
-    }
-
     fun selectAnyItemInRecyclerView(recyclerId: Int): ViewInteraction =
         onView(withId(recyclerId))
             .perform(
@@ -56,10 +58,6 @@ abstract class BaseRobot {
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
-    fun checkMessageOnHint(hintMessage: String) {
-        onView(withHint(hintMessage)).check(matches(isDisplayed()))
-    }
-
     fun checkViewById(resId: Int) {
         onView(withId(resId)).check(matches(isDisplayed()))
     }
@@ -68,20 +66,13 @@ abstract class BaseRobot {
         Thread.sleep(times)
     }
 
-    fun pressBack() {
-        onView(isRoot()).perform(ViewActions.pressBack())
-    }
-
     fun swipeUp(containerId: Int) {
         onView(withId(containerId)).perform(swipeUp());
     }
 
-    fun takePhoto() {
-        val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        device.executeShellCommand("input keyevent 27")
-        val doneSelector = UiSelector().description("Done")
-        val doneButton = device.findObject(doneSelector)
-        doneButton.click()
+    fun captureImage() {
+        device.pressKeyCode(KeyEvent.KEYCODE_CAMERA)
+        device.pressKeyCode(KeyEvent.KEYCODE_BACK)
     }
 
     fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
@@ -96,4 +87,13 @@ abstract class BaseRobot {
         onView(withId(resId)).perform(scrollTo())
     }
 
+    fun waitViewByText(text: String): Boolean = device.wait(
+        Until.hasObject(
+            By.text(text)
+        ), 10000
+    )
+
+    fun waitViewByResId(resId: String): Boolean {
+        return device.wait(Until.hasObject(By.res(launcherPackage, resId)), 10000)
+    }
 }
