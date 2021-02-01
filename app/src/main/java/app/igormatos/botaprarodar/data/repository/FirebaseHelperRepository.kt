@@ -59,6 +59,3 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
     private fun getStorageReference(storageRef: StorageReference, finalPath: String) =
         storageRef.child(finalPath)
 }
-
-//community/bike/$bikeSerialNumber
-//community/bike/$bikeSerialNumber

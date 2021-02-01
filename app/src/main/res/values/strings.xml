@@ -106,5 +106,6 @@
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
     <string name="add_user_cpf_hint">Número do RG ou CPF</string>
     <string name="add_user_invalid_cpf">CPF inválido</string>
+    <string name="btn_add_user">Adicionar pessoa</string>
 
 </resources>
