@@ -16,7 +16,6 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.databinding.FragmentDashboardBinding
-import app.igormatos.botaprarodar.databinding.FragmentPasswordRecoveryBinding
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -79,6 +78,7 @@ class DashboardFragment : Fragment() {
         setTripsChart()
         setGenderPieChart()
         setAvailablePieChart()
+        updateCharts()
     }
 
     private fun setTripsChart() {
@@ -112,11 +112,6 @@ class DashboardFragment : Fragment() {
         }
 
         binding.tripsChart.invalidate()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        updateCharts()
     }
 
     private fun updateCharts() {
