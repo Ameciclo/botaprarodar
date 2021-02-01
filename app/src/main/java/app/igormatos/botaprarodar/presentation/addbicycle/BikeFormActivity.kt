@@ -14,7 +14,7 @@ import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.takePictureIntent
-import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 val BIKE_EXTRA = "Bike_extra"
 
@@ -24,7 +24,7 @@ class BikeFormActivity : AppCompatActivity() {
     var imagePath: String? = null
     private lateinit var loadingDialog: AlertDialog
 
-    private val formViewModel: BikeFormViewModel by koinViewModel()
+    private val formViewModel: BikeFormViewModel by viewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
         DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)

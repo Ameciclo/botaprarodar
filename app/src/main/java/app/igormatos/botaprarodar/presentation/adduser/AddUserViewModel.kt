@@ -36,12 +36,17 @@ class AddUserViewModel(
     }
 
     fun registerUser() {
+        _status.value = ViewModelStatus.Loading
         createUser()
         viewModelScope.launch {
             userUseCase.addUser(community.id, user).let {
                 when (it) {
-                    is SimpleResult.Success -> {}
-                    is SimpleResult.Error -> {}
+                    is SimpleResult.Success -> {
+                        showSuccess()
+                    }
+                    is SimpleResult.Error -> {
+                        showError()
+                    }
                 }
             }
         }
@@ -51,11 +56,35 @@ class AddUserViewModel(
         user.apply {
             name = userCompleteName.value
             address = userAddress.value
-            doc_number = userDocument.value!!.toLong()
+            doc_number = userDocument.value?.toLong() ?: 0L
             profile_picture = userImageProfile.value
             residence_proof_picture = userImageDocumentResidence.value
             doc_picture = userImageDocumentFront.value
             doc_picture_back = userImageDocumentBack.value
         }
+    }
+
+    fun setProfileImage(path: String) {
+        userImageProfile.value = path
+    }
+
+    fun setDocumentImage(path: String) {
+        userImageDocumentFront.value = path
+    }
+
+    fun setDocumentImageBack(path: String) {
+        userImageDocumentBack.value = path
+    }
+
+    fun setResidenceImage(path: String) {
+        userImageDocumentResidence.value = path
+    }
+
+    private fun showSuccess() {
+        _status.value = ViewModelStatus.Success("Sucesso")
+    }
+
+    private fun showError() {
+        _status.value = ViewModelStatus.Error("Erro")
     }
 }

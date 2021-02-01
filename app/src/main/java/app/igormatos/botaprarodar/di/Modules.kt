@@ -137,7 +137,7 @@ val bprModule = module {
         UserRequestConvert()
     }
 
-    single { UserUseCase(userRepository = get(), firebaseHelperRepository = get(), user = get()) }
+    single { UserUseCase(userRepository = get(), firebaseHelperRepository = get(), userConverter = get()) }
 
     viewModel {
         EmailValidationViewModel(get(), get())

@@ -29,7 +29,12 @@ class AddNewBikeUseCase(
     }
 
     private suspend fun uploadImage(bike: Bike) =
-        bike.serial_number?.let { firebaseHelperRepository.uploadImage(bike.path, it) }
+        bike.serial_number?.let {
+            firebaseHelperRepository.uploadImage(
+                bike.path,
+                "community/bike/$it"
+            )
+        }
 
     private fun updateBike(bike: Bike, imageResponse: ImageUploadResponse) {
         bike.photo_path = imageResponse.fullImagePath
