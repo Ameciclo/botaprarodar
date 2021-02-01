@@ -1,14 +1,15 @@
 package app.igormatos.botaprarodar.bicycle
 
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.launchActivity
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.rule.ActivityTestRule
+import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.authentication.login
 import app.igormatos.botaprarodar.createcommunity.addCommunity
-import app.igormatos.botaprarodar.login.login
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import org.junit.Before
 import org.junit.FixMethodOrder
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
@@ -17,42 +18,21 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
 class BikeTest {
-    @get:Rule
-    val loginActivityRule = ActivityTestRule(LoginActivity::class.java)
-    private lateinit var loginActivity: LoginActivity
+    private lateinit var scenario: ActivityScenario<WelcomeActivity>
 
     @Before
-    fun setUp() {
-        loginActivity = loginActivityRule.activity
-    }
-
-    @Test
-    fun shouldValidateFilledFieldsWhenAddBicycle() {
-        login {
-            doLogin("brunotmg@gmail.com", "abcd1234")
-        }
-        addCommunity {
-            selectCommunity() // No momento está clicando na posição 0 do RecyclerView
-        }
-        bicycle {
-            clickBicycleNavigation()
-            addBicycle()
-            fillBicycleNumberSerie("123")
-            fillBicycleName("Caloi 10")
-            fillBicycleNumberOrder("098765")
-            clickRegisterBicycle()
-        } verify {
-            // Realiza a validação da mensagem no toast
-            checkMessage("Preencha todos os campos")
-        }
+    fun setup() {
+        scenario = launchActivity()
     }
 
     @Test
     fun shouldAddBicycle() {
         login {
-            doLogin("brunotmg@gmail.com", "abcd1234")
+            initAuthentication()
+            successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
         }
         addCommunity {
+            showCommunityScreen()
             selectCommunity() // No momento está clicando na posição 0 do RecyclerView
         }
         bicycle {
@@ -60,7 +40,7 @@ class BikeTest {
             addBicycle()
             hideKeyboard()
             clickTakeBicyclePhoto()
-            takePhoto()
+            captureImage()
             sleep(2000)
             hideKeyboard()
             fillBicycleNumberSerie("123")
@@ -70,7 +50,8 @@ class BikeTest {
             clickRegisterBicycle()
             sleep(2000)
         } verify {
-            checkMessage("")
+            val successText = context.getString(R.string.bicycle_update_success)
+            waitViewByText(successText)
         }
     }
 
