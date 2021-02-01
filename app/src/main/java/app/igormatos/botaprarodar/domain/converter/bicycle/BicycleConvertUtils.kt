@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.domain.converter.bicycle
 
 import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.domain.model.Bike
+import com.brunotmgomes.ui.extensions.transformNullToEmpty
 
 fun buildBicycleRequest(bike: Bike) =
     BicycleRequest(
@@ -12,16 +13,3 @@ fun buildBicycleRequest(bike: Bike) =
         serialNumber = bike.serial_number.transformNullToEmpty(),
         createdDate = bike.created_date.transformNullToEmpty()
     )
-
-
-fun String?.transformNullToEmpty(): String {
-    return this?.let {
-        this
-    } ?: ""
-}
-
-fun Long?.transformNullToEmpty(): Long {
-    return this?.let {
-        this
-    } ?: 0L
-}

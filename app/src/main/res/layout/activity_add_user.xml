@@ -65,24 +65,12 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
                         android:padding="6dp"
-                        app:imagePathOrUrl="@{viewModel.userImageProfile}"
                         app:errorDrawable="@{@drawable/iconfinder_user_profile_imagee}"
+                        app:imagePathOrUrl="@{viewModel.userImageProfile}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/iconfinder_user_profile_imagee" />
-
-                <ImageButton
-                        android:id="@+id/editProfilePhotoButton"
-                        style="@style/bprButton.image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-                        app:layout_constraintLeft_toRightOf="@id/profileImageView"
-                        app:layout_constraintTop_toTopOf="@+id/profileImageView"
-                        app:srcCompat="@drawable/ic_edit_white_24dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCompleteName"
@@ -112,33 +100,38 @@
                         android:id="@+id/genderRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         app:layout_constraintLeft_toLeftOf="@id/ilCompleteName"
-                        app:layout_constraintTop_toBottomOf="@id/ilCompleteName">
+                        app:layout_constraintTop_toBottomOf="@id/ilCompleteName"
+                        app:setRadioGroupCheck="@{viewModel.userGender}">
 
                     <RadioButton
-                            android:id="@+id/maleCheck"
+                            android:id="@+id/rbGenderMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderMale)}"
                             android:text="Masculino" />
 
                     <RadioButton
-                            android:id="@+id/femaleCheck"
+                            android:id="@+id/rbGenderFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderFemale)}"
                             android:text="Feminino" />
 
                     <RadioButton
-                            android:id="@+id/otherCheck"
+                            android:id="@+id/rbGenderOther"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderOther)}"
                             android:text="Outro" />
 
                     <RadioButton
-                            android:id="@+id/dontNeedCheck"
+                            android:id="@+id/rbGenderNoAnswer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderNoAnswer)}"
                             android:text="Prefere não responder" />
                 </RadioGroup>
 
@@ -166,29 +159,17 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
-                        android:id="@+id/residenceProofImageView"
+                        android:id="@+id/ivResidenceProof"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="16dp"
                         android:padding="6dp"
+                        app:errorDrawable="@{@drawable/iconfinder_document}"
+                        app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ilAddress"
                         app:srcCompat="@drawable/iconfinder_document" />
-
-                <ImageButton
-                        android:id="@+id/editResidencePhotoButton"
-                        style="@style/bprButton.image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/residenceProofImageView"
-                        app:layout_constraintLeft_toRightOf="@id/residenceProofImageView"
-                        app:layout_constraintTop_toTopOf="@+id/residenceProofImageView"
-                        app:srcCompat="@drawable/ic_edit_white_24dp"
-                        tools:layout_editor_absoluteX="356dp" />
-
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCpf"
@@ -199,17 +180,17 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:hint="@string/add_user_cpf_hint"
-                        app:errorUserCpf="@{viewModel.userCPF}"
+                        app:errorUserCpf="@{viewModel.userDocument}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/residenceProofImageView">
+                        app:layout_constraintTop_toBottomOf="@id/ivResidenceProof">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietCpf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:text="@={viewModel.userCPF}" />
+                            android:text="@={viewModel.userDocument}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -222,11 +203,13 @@
 
 
                 <ImageView
-                        android:id="@+id/idFrontImageView"
+                        android:id="@+id/ivFrontDocument"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="16dp"
                         android:padding="6dp"
+                        app:errorDrawable="@{@drawable/iconfinder_id_profile_female}"
+                        app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="@id/guideline"
                         app:layout_constraintTop_toBottomOf="@id/ilCpf"
@@ -237,16 +220,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Frente"
-                        app:layout_constraintLeft_toLeftOf="@id/idFrontImageView"
-                        app:layout_constraintRight_toRightOf="@id/idFrontImageView"
-                        app:layout_constraintTop_toBottomOf="@id/idFrontImageView" />
+                        app:layout_constraintLeft_toLeftOf="@id/ivFrontDocument"
+                        app:layout_constraintRight_toRightOf="@id/ivFrontDocument"
+                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
 
                 <ImageView
-                        android:id="@+id/idBackImageView"
+                        android:id="@+id/ivBackDocument"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="16dp"
                         android:padding="6dp"
+                        app:errorDrawable="@{@drawable/iconfinder_document}"
+                        app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
                         app:layout_constraintLeft_toLeftOf="@id/guideline"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ilCpf"
@@ -257,10 +242,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Verso"
-                        app:layout_constraintLeft_toLeftOf="@id/idBackImageView"
-                        app:layout_constraintRight_toRightOf="@id/idBackImageView"
-                        app:layout_constraintTop_toBottomOf="@id/idBackImageView" />
-
+                        app:layout_constraintLeft_toLeftOf="@id/ivBackDocument"
+                        app:layout_constraintRight_toRightOf="@id/ivBackDocument"
+                        app:layout_constraintTop_toBottomOf="@id/ivBackDocument" />
 
                 <Button
                         android:id="@+id/saveButton"
@@ -271,11 +255,12 @@
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
+                        android:onClick="@{() -> viewModel.registerUser()}"
                         android:text="Adicionar pessoa"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/idFrontImageView" />
+                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

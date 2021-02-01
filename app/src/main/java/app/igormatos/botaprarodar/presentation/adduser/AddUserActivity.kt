@@ -11,16 +11,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
+import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
+import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
 import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_add_user.*
 import org.jetbrains.anko.image
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
+import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
+
 
 val USER_EXTRA = "USER_EXTRA"
 
@@ -38,6 +45,11 @@ class AddUserActivity : AppCompatActivity() {
     var idBackPhotosHasChanged: Boolean = false
     var residencePhotoHasChanged: Boolean = false
 
+    private val binding: ActivityAddUserBinding by lazy {
+        DataBindingUtil.setContentView<ActivityAddUserBinding>(this, R.layout.activity_add_user)
+    }
+
+    private val addUserViewModel: AddUserViewModel by koinViewModel()
 
     lateinit var mCurrentPhotoPath: String
 
@@ -45,7 +57,10 @@ class AddUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_user)
 
-        profileImageView.setOnClickListener {
+        binding.lifecycleOwner = this
+        binding.viewModel = addUserViewModel
+
+        binding.profileImageView.setOnClickListener {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
                 getString(R.string.profile_picture),
@@ -57,7 +72,7 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
 
-        idFrontImageView.setOnClickListener {
+        binding.ivFrontDocument.setOnClickListener {
             showTipDialog(
                 R.drawable.id_front,
                 getString(R.string.warning),
@@ -69,7 +84,7 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
 
-        idBackImageView.setOnClickListener {
+        binding.ivBackDocument.setOnClickListener {
             showTipDialog(
                 R.drawable.id_back,
                 getString(R.string.warning),
@@ -81,42 +96,9 @@ class AddUserActivity : AppCompatActivity() {
             }
         }
 
-        residenceProofImageView.setOnClickListener {
+        binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
-
-        saveButton.setOnClickListener {
-            if (hasEmptyField()) {
-                Toast.makeText(this, getString(R.string.empties_fields_error), Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-            }
-
-            saveButton.isEnabled = false
-            addUserToServer()
-        }
-
-        genderRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.maleCheck -> {
-                    userToSend.gender = 0
-                }
-
-                R.id.femaleCheck -> {
-                    userToSend.gender = 1
-                }
-
-                R.id.otherCheck -> {
-                    userToSend.gender = 2
-                }
-
-                R.id.dontNeedCheck -> {
-                    userToSend.gender = 3
-                }
-            }
-        }
-
-        genderRadioGroup.check(R.id.dontNeedCheck)
 
         val userParcelable: Parcelable? =
             if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(
@@ -128,87 +110,10 @@ class AddUserActivity : AppCompatActivity() {
 
     private fun checkIfEditMode(userParcelable: Parcelable?) {
         if (userParcelable == null) return
-
-        setupUser(userParcelable)
     }
 
-    private fun setupUser(userParcelable: Parcelable) {
-        val user = Parcels.unwrap(userParcelable) as User
-
-        userToSend = user
-        userCopy = user
-
-        profileImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.profile_picture)
-        }
-
-        idFrontImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.doc_picture)
-        }
-
-        residenceProofImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.residence_proof_picture)
-        }
-
-        editProfilePhotoButton.visibility = View.VISIBLE
-        editProfilePhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO) }
-
-        idFrontImageView.setOnLongClickListener {
-            dispatchTakePictureIntent(REQUEST_ID_PHOTO)
-            return@setOnLongClickListener true
-        }
-
-//        editIdPhotoButton.setOnClickListener { dispatchTakePictureIntent(REQUEST_ID_PHOTO) }
-
-        editResidencePhotoButton.visibility = View.VISIBLE
-        editResidencePhotoButton.setOnClickListener {
-            dispatchTakePictureIntent(
-                REQUEST_RESIDENCE_PHOTO
-            )
-        }
-
-        user.profile_picture?.let { profileImageView.loadPath(it) }
-        user.doc_picture?.let { idFrontImageView.loadPath(it) }
-        user.residence_proof_picture?.let { residenceProofImageView.loadPath(it) }
-        user.name?.let { completeNameField.setText(it) }
-
-        when (user.doc_type) {
-            1 -> {
-                idLayout.hint = "Número do RG"
-            }
-            2 -> {
-                idLayout.hint = "Número do CPF"
-            }
-        }
-
-        when (user.gender) {
-            0 -> {
-                maleCheck.isChecked = true
-            }
-            1 -> {
-                femaleCheck.isChecked = true
-            }
-            2 -> {
-                otherCheck.isChecked = true
-            }
-            3 -> {
-                dontNeedCheck.isChecked = true
-            }
-        }
-
-
-        idNumberField.setText(user.doc_number.toString())
-
-
-        user.address?.let { addressField.setText(it) }
-        saveButton.text = getString(R.string.update_button)
-    }
 
     private fun addUserToServer() {
-        progressBar.visibility = View.VISIBLE
-        userToSend.name = completeNameField.text.toString()
-        userToSend.address = addressField.text.toString()
-        userToSend.doc_number = idNumberField.text.toString().toLong()
 
         userToSend.saveRemote { success ->
             if (success) {
@@ -234,15 +139,15 @@ class AddUserActivity : AppCompatActivity() {
 
     }
 
-    private fun hasEmptyField(): Boolean {
-        return completeNameField.text.isNullOrEmpty() ||
-                addressField.text.isNullOrEmpty() ||
-                idNumberField.text.isNullOrEmpty() ||
-                userToSend.doc_picture.isNullOrEmpty() ||
-                userToSend.profile_picture.isNullOrEmpty() ||
-                userToSend.residence_proof_picture.isNullOrEmpty() ||
-                userToSend.doc_picture_back.isNullOrEmpty()
-    }
+//    private fun hasEmptyField(): Boolean {
+//        return completeNameField.text.isNullOrEmpty() ||
+//                addressField.text.isNullOrEmpty() ||
+//                idNumberField.text.isNullOrEmpty() ||
+//                userToSend.doc_picture.isNullOrEmpty() ||
+//                userToSend.profile_picture.isNullOrEmpty() ||
+//                userToSend.residence_proof_picture.isNullOrEmpty() ||
+//                userToSend.doc_picture_back.isNullOrEmpty()
+//    }
 
     private fun uploadImage(whichImageCode: Int) {
 
@@ -290,36 +195,36 @@ class AddUserActivity : AppCompatActivity() {
 
         if (resultCode == Activity.RESULT_OK) {
 
-            val loadImageView = when (requestCode) {
-                REQUEST_PROFILE_PHOTO -> {
-                    profilePhotoHasChanged = true
-                    uploadImage(requestCode)
-                    profileImageView
-                }
-
-                REQUEST_ID_PHOTO -> {
-                    idPhotoHasChanged = true
-                    idFrontImageView
-                }
-
-                REQUEST_RESIDENCE_PHOTO -> {
-                    residencePhotoHasChanged = true
-                    residenceProofImageView
-                }
-
-                REQUEST_ID_PHOTO_BACK -> {
-                    idBackPhotosHasChanged = true
-                    idBackImageView
-                }
-
-                else -> profileImageView
-            }
+//            val loadImageView = when (requestCode) {
+//                REQUEST_PROFILE_PHOTO -> {
+//                    profilePhotoHasChanged = true
+//                    uploadImage(requestCode)
+//                    profileImageView
+//                }
+//
+//                REQUEST_ID_PHOTO -> {
+//                    idPhotoHasChanged = true
+//                    idFrontImageView
+//                }
+//
+//                REQUEST_RESIDENCE_PHOTO -> {
+//                    residencePhotoHasChanged = true
+//                    residenceProofImageView
+//                }
+//
+//                REQUEST_ID_PHOTO_BACK -> {
+//                    idBackPhotosHasChanged = true
+//                    idBackImageView
+//                }
+//
+//                else -> profileImageView
+//            }
 
             uploadImage(requestCode)
 
             Log.d("BFLW-PICTURE", "Image path $mCurrentPhotoPath")
 
-            loadImageView.loadPath(mCurrentPhotoPath)
+//            loadImageView.loadPath(mCurrentPhotoPath)
         }
     }
 
