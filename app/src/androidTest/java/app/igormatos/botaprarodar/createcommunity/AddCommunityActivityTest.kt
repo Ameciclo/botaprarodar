@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.createcommunity
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
@@ -23,16 +24,15 @@ class AddCommunityActivityTest {
     @Before
     fun setUp() {
         scenario = launchActivity()
-
-
         login {
-            initAuthentication()
-            fillUserField("brunotmg@gmail.com")
-            clickNext()
-            sleep(2000)
-            fillPasswordField("abcd1234")
-            clickSignIn()
-            sleep(3000)
+            try {
+                logout()
+            } catch (e: NoMatchingViewException) {
+                // skip
+            } finally {
+                initAuthentication()
+                successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
+            }
         }
     }
 

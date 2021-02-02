@@ -87,13 +87,16 @@ abstract class BaseRobot {
         onView(withId(resId)).perform(scrollTo())
     }
 
-    fun waitViewByText(text: String): Boolean = device.wait(
+    fun waitViewByText(text: String, timeout: Long = 10000): Boolean = device.wait(
         Until.hasObject(
             By.text(text)
-        ), 10000
+        ), timeout
     )
 
-    fun waitViewByResId(resId: String): Boolean {
-        return device.wait(Until.hasObject(By.res(launcherPackage, resId)), 10000)
+    fun waitViewByResId(resId: String, isGone: Boolean = false, timeout: Long = 10000): Boolean {
+        if (isGone)
+            return device.wait(Until.gone(By.res(launcherPackage, resId)), timeout)
+
+        return device.wait(Until.hasObject(By.res(launcherPackage, resId)), timeout)
     }
 }
