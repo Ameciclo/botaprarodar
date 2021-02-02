@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
@@ -18,11 +17,8 @@ import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-val USER_EXTRA = "USER_EXTRA"
 
 class AddUserActivity : AppCompatActivity() {
 
@@ -40,6 +36,7 @@ class AddUserActivity : AppCompatActivity() {
         private const val REQUEST_ID_PHOTO = 2
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
+        const val USER_EXTRA = "USER_EXTRA"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +54,10 @@ class AddUserActivity : AppCompatActivity() {
         binding.viewModel?.status?.observe(this, {
             when (it) {
                 is ViewModelStatus.Success -> {
-                    snackBarMaker(it.data, binding.scrollContainer).apply {
-                        setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.green))
-                        show()
-                    }
                     loadingDialog.dismiss()
+                    val intent = Intent().putExtra("successMessage", it.data)
+                    setResult(RESULT_OK, intent)
+                    finish()
                 }
                 ViewModelStatus.Loading -> {
                     window.decorView.hideKeyboard()

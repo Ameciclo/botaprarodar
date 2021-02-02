@@ -19,7 +19,7 @@ class UserUseCase(
     private var residenceSimpleResult: SimpleResult<ImageUploadResponse>? = null
 
     suspend fun addUser(communityId: String, user: User): SimpleResult<String> {
-        uploadImage(user)
+        uploadImages(user)
         if (checkAllImagesSuccess().not()) return SimpleResult.Error(Exception(""))
         return saveUser(user, communityId) { _, _ ->
             registerUser(user, communityId)
@@ -31,10 +31,7 @@ class UserUseCase(
         communityId: String,
         actionFunction: suspend (User, String) -> SimpleResult<String>
     ): SimpleResult<String> {
-        setUserProfileImage(user, (profileSimpleResult as SimpleResult.Success).data)
-        setUserDocumentFrontImage(user, (documentFrontSimpleResult as SimpleResult.Success).data)
-        setUserDocumentBackImage(user, (documentBackSimpleResult as SimpleResult.Success).data)
-        setUserResidenceImage(user, (residenceSimpleResult as SimpleResult.Success).data)
+        setUserImages(user)
         return actionFunction(user, communityId)
     }
 
@@ -58,72 +55,63 @@ class UserUseCase(
                 && residenceSimpleResult != null && residenceSimpleResult is SimpleResult.Success)
     }
 
-    private suspend fun uploadImage(user: User) {
-        updateProfileImage(user)
-        updateDocumentFrontImage(user)
-        updateDocumentBackImage(user)
-        updateResidenceImage(user)
-        return
+    private suspend fun uploadImages(user: User) {
+        uploadProfileImage(user)
+        uploadOnlyImages(user.doc_picture, user.doc_number, documentFrontSimpleResult)
+        uploadOnlyImages(user.doc_picture_back, user.doc_number, documentBackSimpleResult)
+        uploadOnlyImages(user.residence_proof_picture, user.doc_number, residenceSimpleResult)
     }
 
-    private suspend fun updateProfileImage(user: User) {
+    private suspend fun uploadProfileImage(user: User) {
         if (profileSimpleResult == null || profileSimpleResult is SimpleResult.Error) {
-            user.profile_picture?.let {
-                profileSimpleResult = firebaseHelperRepository.uploadImage(
-                    it,
+            user.profile_picture?.let { path ->
+                firebaseHelperRepository.uploadImageAndThumb(
+                    path,
                     "community/user/${user.doc_number}"
-                )
+                ).also { profileSimpleResult = it }
             }
         }
     }
 
-    private suspend fun updateDocumentFrontImage(user: User) {
-        if (documentFrontSimpleResult == null || documentFrontSimpleResult is SimpleResult.Error) {
-            user.profile_picture?.let {
-                documentFrontSimpleResult = firebaseHelperRepository.uploadImage(
-                    it,
-                    "community/user/${user.doc_number}"
-                )
+    private suspend fun uploadOnlyImages(
+        pathImage: String?,
+        docNumber: Long,
+        simpleResult: SimpleResult<ImageUploadResponse>?
+    ) {
+        if (simpleResult == null || simpleResult is SimpleResult.Error) {
+            pathImage?.let { path ->
+                firebaseHelperRepository.uploadOnlyImage(
+                    path,
+                    "community/user/$docNumber"
+                ).also { updateSimpleResult(it, simpleResult) }
             }
         }
     }
 
-    private suspend fun updateDocumentBackImage(user: User) {
-        if (documentBackSimpleResult == null || documentBackSimpleResult is SimpleResult.Error) {
-            user.profile_picture?.let {
-                documentBackSimpleResult = firebaseHelperRepository.uploadImage(
-                    it,
-                    "community/user/${user.doc_number}"
-                )
+    private fun updateSimpleResult(
+        simpleResult: SimpleResult<ImageUploadResponse>?,
+        simpleResultToUpdate: SimpleResult<ImageUploadResponse>?
+    ) {
+        when (simpleResultToUpdate) {
+            profileSimpleResult -> profileSimpleResult = simpleResult
+            documentFrontSimpleResult -> documentFrontSimpleResult = simpleResult
+            documentBackSimpleResult -> documentBackSimpleResult = simpleResult
+            residenceSimpleResult -> residenceSimpleResult = simpleResult
+            else -> {
             }
         }
     }
 
-    private suspend fun updateResidenceImage(user: User) {
-        if (residenceSimpleResult == null || residenceSimpleResult is SimpleResult.Error) {
-            user.profile_picture?.let {
-                residenceSimpleResult = firebaseHelperRepository.uploadImage(
-                    it,
-                    "community/user/${user.doc_number}"
-                )
-            }
-        }
-    }
+    private fun setUserImages(user: User) {
+        val profile = (profileSimpleResult as SimpleResult.Success).data
+        val docFront = (documentFrontSimpleResult as SimpleResult.Success).data
+        val docBack = (documentBackSimpleResult as SimpleResult.Success).data
+        val residence = (residenceSimpleResult as SimpleResult.Success).data
 
-    private fun setUserProfileImage(user: User, imageResponse: ImageUploadResponse) {
-        user.profile_picture = imageResponse.fullImagePath
-        user.profile_picture_thumbnail = imageResponse.thumbPath
-    }
-
-    private fun setUserResidenceImage(user: User, imageResponse: ImageUploadResponse) {
-        user.residence_proof_picture = imageResponse.fullImagePath
-    }
-
-    private fun setUserDocumentBackImage(user: User, imageResponse: ImageUploadResponse) {
-        user.doc_picture = imageResponse.fullImagePath
-    }
-
-    private fun setUserDocumentFrontImage(user: User, imageResponse: ImageUploadResponse) {
-        user.doc_picture_back = imageResponse.fullImagePath
+        user.profile_picture = profile.fullImagePath
+        user.profile_picture_thumbnail = profile.thumbPath
+        user.residence_proof_picture = residence.fullImagePath
+        user.doc_picture = docFront.fullImagePath
+        user.doc_picture_back = docBack.fullImagePath
     }
 }

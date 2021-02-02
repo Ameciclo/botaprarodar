@@ -10,7 +10,7 @@ import java.io.File
 
 class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
 
-    suspend fun uploadImage(
+    suspend fun uploadImageAndThumb(
         imagePath: String,
         finalPath: String
     ): SimpleResult<ImageUploadResponse> {
@@ -27,10 +27,10 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
             "$finalPath _thumb_$timeStamp.jpg"
         )
 
-        return uploadFileImage(fileUri, fileReference, thumbReference)
+        return uploadFileImageAndThumb(fileUri, fileReference, thumbReference)
     }
 
-    private suspend fun uploadFileImage(
+    private suspend fun uploadFileImageAndThumb(
         fileUri: Uri,
         fileReference: StorageReference,
         thumbReference: StorageReference
@@ -41,6 +41,34 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
             val thumbPath = getImagePathFromFirebase(thumbReference, fileUri)
 
             SimpleResult.Success(ImageUploadResponse(fullImagePath, thumbPath))
+        } catch (e: Exception) {
+            SimpleResult.Error(e)
+        }
+    }
+
+    suspend fun uploadOnlyImage(
+        imagePath: String,
+        finalPath: String
+    ): SimpleResult<ImageUploadResponse> {
+        val storageRef = firebaseStorage.reference
+        val timeStamp = getCurrentTimeStampMillis()
+        val fileUri = Uri.fromFile(File(imagePath))
+        val fileReference = getStorageReference(
+            storageRef,
+            "$finalPath _$timeStamp.jpg"
+        )
+
+        return uploadOnlyFileImage(fileUri, fileReference)
+    }
+
+    private suspend fun uploadOnlyFileImage(
+        fileUri: Uri,
+        fileReference: StorageReference
+    ): SimpleResult<ImageUploadResponse> {
+
+        return try {
+            val fullImagePath = getImagePathFromFirebase(fileReference, fileUri)
+            SimpleResult.Success(ImageUploadResponse(fullImagePath, ""))
         } catch (e: Exception) {
             SimpleResult.Error(e)
         }

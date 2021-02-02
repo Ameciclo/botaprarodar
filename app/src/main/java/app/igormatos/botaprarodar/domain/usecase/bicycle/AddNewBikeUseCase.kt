@@ -30,7 +30,7 @@ class AddNewBikeUseCase(
 
     private suspend fun uploadImage(bike: Bike) =
         bike.serial_number?.let {
-            firebaseHelperRepository.uploadImage(
+            firebaseHelperRepository.uploadImageAndThumb(
                 bike.path,
                 "community/bike/$it"
             )

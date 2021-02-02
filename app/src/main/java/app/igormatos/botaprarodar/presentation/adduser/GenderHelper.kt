@@ -1,7 +1,5 @@
 package app.igormatos.botaprarodar.presentation.adduser
 
-import android.widget.RadioGroup
-import androidx.databinding.BindingAdapter
 import app.igormatos.botaprarodar.R
 
 private const val MALE_ID = 0

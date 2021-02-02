@@ -6,17 +6,12 @@ import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 class AddNewBikeUseCaseTest {
 
@@ -36,7 +31,7 @@ class AddNewBikeUseCaseTest {
                 repository.addNewBike(any(), any())
             } returns "Created new bicycle"
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
                 userCase.addNewBike("100", buildBicycle()) as SimpleResult.Success
@@ -54,7 +49,7 @@ class AddNewBikeUseCaseTest {
             } throws exceptionResult
 
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
             val responseResult = userCase.addNewBike("100", buildBicycle())
 

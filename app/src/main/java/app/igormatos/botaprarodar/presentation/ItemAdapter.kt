@@ -21,7 +21,7 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.addbicycle.BIKE_EXTRA
 import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
-import app.igormatos.botaprarodar.presentation.adduser.USER_EXTRA
+import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity.Companion.USER_EXTRA
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
