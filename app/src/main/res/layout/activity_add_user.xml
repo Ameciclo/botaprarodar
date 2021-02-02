@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="viewModel"
                 type="app.igormatos.botaprarodar.presentation.adduser.AddUserViewModel" />
@@ -16,7 +15,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +53,7 @@
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:padding="6dp"
+                        android:padding="@dimen/padding_small"
                         app:errorDrawable="@{@drawable/iconfinder_user_profile_imagee}"
                         app:imagePathOrUrl="@{viewModel.userImageProfile}"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -88,11 +87,11 @@
 
                 <RadioGroup
                         android:id="@+id/genderRadioGroup"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="24dp"
-                        app:layout_constraintLeft_toLeftOf="@id/ilCompleteName"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintEnd_toEndOf="@id/ilCompleteName"
+                        app:layout_constraintStart_toStartOf="@id/ilCompleteName"
                         app:layout_constraintTop_toBottomOf="@id/ilCompleteName"
                         app:setRadioGroupCheck="@{viewModel.userGender}">
 
@@ -101,28 +100,28 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderMale)}"
-                            android:text="Masculino" />
+                            android:text="@string/rb_male_option" />
 
                     <RadioButton
                             android:id="@+id/rbGenderFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderFemale)}"
-                            android:text="Feminino" />
+                            android:text="@string/rb_female_option" />
 
                     <RadioButton
                             android:id="@+id/rbGenderOther"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderOther)}"
-                            android:text="Outro" />
+                            android:text="@string/rb_other_option" />
 
                     <RadioButton
                             android:id="@+id/rbGenderNoAnswer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderNoAnswer)}"
-                            android:text="Prefere não responder" />
+                            android:text="@string/rb_no_answer_option" />
                 </RadioGroup>
 
 
@@ -153,7 +152,7 @@
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:padding="6dp"
+                        android:padding="@dimen/padding_small"
                         app:errorDrawable="@{@drawable/iconfinder_document}"
                         app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -191,13 +190,12 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="0.5" />
 
-
                 <ImageView
                         android:id="@+id/ivFrontDocument"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:padding="6dp"
+                        android:padding="@dimen/padding_small"
                         app:errorDrawable="@{@drawable/iconfinder_id_profile_female}"
                         app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -208,8 +206,8 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Frente"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="@string/txt_doc_image_front"
                         app:layout_constraintLeft_toLeftOf="@id/ivFrontDocument"
                         app:layout_constraintRight_toRightOf="@id/ivFrontDocument"
                         app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
@@ -219,7 +217,7 @@
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:padding="6dp"
+                        android:padding="@dimen/padding_small"
                         app:errorDrawable="@{@drawable/iconfinder_document}"
                         app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
                         app:layout_constraintLeft_toLeftOf="@id/guideline"
@@ -230,15 +228,14 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Verso"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:text="@string/txt_doc_image_back"
                         app:layout_constraintLeft_toLeftOf="@id/ivBackDocument"
                         app:layout_constraintRight_toRightOf="@id/ivBackDocument"
                         app:layout_constraintTop_toBottomOf="@id/ivBackDocument" />
 
                 <Button
                         android:id="@+id/saveButton"
-                        style="@style/bprButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -249,6 +246,7 @@
                         android:textStyle="bold"
                         android:onClick="@{() -> viewModel.registerUser()}"
                         android:text="@string/btn_add_user"
+                        android:enabled="@{viewModel.isButtonEnabled}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

@@ -1,9 +1,6 @@
 package app.igormatos.botaprarodar.presentation.adduser
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
@@ -29,6 +26,30 @@ class AddUserViewModel(
     var userImageDocumentFront = MutableLiveData<String>("")
     var userImageDocumentBack = MutableLiveData<String>("")
     var userGender = MutableLiveData<Int>(0)
+
+    val isButtonEnabled = MediatorLiveData<Boolean>().apply {
+        addSource(userCompleteName) { validateUserForm() }
+        addSource(userAddress) { validateUserForm() }
+        addSource(userDocument) { validateUserForm() }
+        addSource(userImageProfile) { validateUserForm() }
+        addSource(userImageDocumentResidence) { validateUserForm() }
+        addSource(userImageDocumentFront) { validateUserForm() }
+        addSource(userImageDocumentBack) { validateUserForm() }
+        addSource(userGender) { validateUserForm() }
+    }
+
+    private fun validateUserForm() {
+        isButtonEnabled.value = isTextValid(userCompleteName.value) &&
+                isTextValid(userAddress.value) &&
+                isTextValid(userDocument.value) &&
+                isTextValid(userImageProfile.value) &&
+                isTextValid(userImageDocumentResidence.value) &&
+                isTextValid(userImageDocumentFront.value) &&
+                isTextValid(userImageDocumentBack.value) &&
+                userGender.value != 0
+    }
+
+    private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     fun setUserGender(radioButtonGenderId: Int) {
         userGender.value = radioButtonGenderId
@@ -81,10 +102,10 @@ class AddUserViewModel(
     }
 
     private fun showSuccess() {
-        _status.value = ViewModelStatus.Success("Sucesso")
+        _status.value = ViewModelStatus.Success("Usuário cadastrado com sucesso")
     }
 
     private fun showError() {
-        _status.value = ViewModelStatus.Error("Erro")
+        _status.value = ViewModelStatus.Error("Ocorreu um erro, tente novamente")
     }
 }

@@ -107,5 +107,11 @@
     <string name="add_user_cpf_hint">Número do RG ou CPF</string>
     <string name="add_user_invalid_cpf">CPF inválido</string>
     <string name="btn_add_user">Adicionar pessoa</string>
+    <string name="rb_male_option">Masculino</string>
+    <string name="rb_female_option">Feminino</string>
+    <string name="rb_other_option">Outro</string>
+    <string name="rb_no_answer_option">Prefere não responder</string>
+    <string name="txt_doc_image_front">Frente</string>
+    <string name="txt_doc_image_back">Verso</string>
 
 </resources>
