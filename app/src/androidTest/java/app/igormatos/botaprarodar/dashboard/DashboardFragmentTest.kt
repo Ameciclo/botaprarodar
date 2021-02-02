@@ -2,7 +2,8 @@ package app.igormatos.botaprarodar.dashboard
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.accessapphome.selectCommunity
 import app.igormatos.botaprarodar.authentication.login
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
@@ -10,8 +11,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4ClassRunner::class)
-class DashboardFragmentTest { // teste de snapshot
+@RunWith(AndroidJUnit4::class)
+class DashboardFragmentTest {
 
     private lateinit var scenario: ActivityScenario<WelcomeActivity>
 
@@ -20,13 +21,14 @@ class DashboardFragmentTest { // teste de snapshot
         scenario = launchActivity()
 
         login {
-            initAuthentication()
-            fillUserField("brunotmg@gmail.com")
-            clickNext()
-            sleep(2000)
-            fillPasswordField("abcd1234")
-            clickSignIn()
-            sleep(3000)
+            try {
+                logout()
+            } catch (e: NoMatchingViewException) {
+                // skip
+            } finally {
+                initAuthentication()
+                successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
+            }
         }
         selectCommunity {
             selectAnyCommunity()
@@ -35,7 +37,7 @@ class DashboardFragmentTest { // teste de snapshot
     }
 
     @Test
-    fun `dashboardAccessUserJourney`() {
+    fun dashboardAccessUserJourney() {
         dashboard {
             selectDashboardTab()
         } verify {

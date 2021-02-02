@@ -82,9 +82,19 @@ class AuthenticationRobot : BaseRobot() {
         showLoginScreen()
         fillPasswordField(password)
         clickSignIn()
+        checkCommunityScreen()
     }
 
     fun initAuthentication(){
         clickButton(R.id.loginButton)
+    }
+
+    fun logout(){
+        waitViewByResId("logout", timeout = 2000)
+        clickButton(R.id.logout)
+    }
+
+    fun loadingView(isGone: Boolean): Boolean {
+        return waitViewByResId("loading", isGone)
     }
 }

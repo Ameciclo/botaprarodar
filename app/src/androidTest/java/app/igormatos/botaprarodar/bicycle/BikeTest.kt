@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.bicycle
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import app.igormatos.botaprarodar.R
@@ -28,8 +29,14 @@ class BikeTest {
     @Test
     fun shouldAddBicycle() {
         login {
-            initAuthentication()
-            successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
+            try {
+                logout()
+            } catch (e: NoMatchingViewException) {
+                // skip
+            } finally {
+                initAuthentication()
+                successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
+            }
         }
         addCommunity {
             showCommunityScreen()
