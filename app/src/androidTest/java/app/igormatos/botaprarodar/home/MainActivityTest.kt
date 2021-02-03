@@ -56,4 +56,17 @@ class MainActivityTest {
 
         onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
+
+    @Test
+    fun showBicyclesScreen_whenClickInBottomMenuListIcon() {
+        val navController = mockk<NavController>()
+
+        scenario.onActivity {
+            Navigation.setViewNavController(it.container, navController)
+        }
+
+        onView(withId(R.id.navigationBicycles)).perform(click())
+
+        onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 }
