@@ -47,20 +47,5 @@ class AddCommunityActivityTest {
         } verify {
             checkMessage(communityName)
         }
-
-        addCommunity {
-            sleep(2000)
-            saveCommunityWithNoData()
-        } verify {
-            checkMessage(context.getString(R.string.empties_fields_error))
-        }
-
-        addCommunity {
-            fillCommunityDataWithWrongEmailFormat()
-        } verify {
-            checkMessage(context.getString(R.string.email_format_warning))
-        }
-
     }
-
 }
