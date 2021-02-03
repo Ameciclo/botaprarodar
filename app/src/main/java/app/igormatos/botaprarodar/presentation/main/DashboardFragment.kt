@@ -23,6 +23,7 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 
 
 class DashboardFragment : Fragment() {
@@ -117,7 +118,7 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        updateCharts()
+//        updateCharts()
     }
 
     private fun updateCharts() {
@@ -152,14 +153,19 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateGenderChart() {
-        val groupedUsers = usersList.groupBy { it.gender }
-        val maleCount = groupedUsers[0]?.count() ?: 0
-        val femaleCount = groupedUsers[1]?.count() ?: 0
+        try {
 
-        gendersEntries.clear()
-        gendersEntries.add(PieEntry(maleCount.toFloat(), "Homem"))
-        gendersEntries.add(PieEntry(femaleCount.toFloat(), "Mulher"))
-        genderChart.invalidate()
+            val groupedUsers = usersList.groupBy { it.gender }
+            val maleCount = groupedUsers[0]?.count() ?: 0
+            val femaleCount = groupedUsers[1]?.count() ?: 0
+
+            gendersEntries.clear()
+            gendersEntries.add(PieEntry(maleCount.toFloat(), "Homem"))
+            gendersEntries.add(PieEntry(femaleCount.toFloat(), "Mulher"))
+            genderChart.invalidate()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun setGenderPieChart() {
@@ -245,6 +251,4 @@ class DashboardFragment : Fragment() {
         }
 
     }
-
-
 }
