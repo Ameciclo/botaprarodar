@@ -3,8 +3,8 @@ package app.igormatos.botaprarodar.bicycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.authentication.login
 import app.igormatos.botaprarodar.createcommunity.addCommunity
@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-@RunWith(AndroidJUnit4ClassRunner::class)
+@RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
 class BikeTest {
@@ -61,5 +61,4 @@ class BikeTest {
             waitViewByText(successText)
         }
     }
-
 }
