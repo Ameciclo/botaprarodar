@@ -9,7 +9,7 @@ fun dashboard(executeFun: DashboardFragmentRobot.() -> Unit) =
 class DashboardFragmentRobot : BaseRobot() {
 
     fun selectDashboardTab() {
-        clickButton(R.id.navigation_dashboard)
+        clickButton(R.id.navigationDashboard)
     }
 
     fun scrollToGenderProportionChart() {
