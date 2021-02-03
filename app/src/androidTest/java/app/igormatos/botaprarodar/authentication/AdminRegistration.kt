@@ -4,20 +4,18 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import app.igormatos.botaprarodar.Fixtures
 import app.igormatos.botaprarodar.data.repository.AdminRemoteDataSource
 import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
-import com.google.common.truth.Truth
-import com.google.common.truth.Truth.*
+import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
-import org.junit.After
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 
 @RunWith(AndroidJUnit4::class)
@@ -55,7 +53,7 @@ class AdminRegistration {
     fun successfulAdminRegistration() {
         coEvery {
             adminRemoteDataSource.createFirebaseUser(emailMock, passwordMock)
-        } returns mockk(relaxed = true)
+        } returns Fixtures.adminUser
 
         login {
             fillUserField(emailMock)
