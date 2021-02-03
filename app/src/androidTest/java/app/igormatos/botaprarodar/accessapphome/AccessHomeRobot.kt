@@ -17,7 +17,7 @@ class AccessHomeRobot : BaseRobot() {
     }
 
     fun checkIfIsHome() {
-        checkViewById(R.id.main_container)
+        checkViewById(R.id.container)
     }
 
 
