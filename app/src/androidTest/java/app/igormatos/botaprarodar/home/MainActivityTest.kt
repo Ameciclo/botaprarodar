@@ -8,14 +8,15 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.main.MainActivity
+import io.mockk.mockk
 import kotlinx.android.synthetic.main.activity_main.*
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,19 +33,27 @@ class MainActivityTest {
 
     @Test
     fun showTripsScreen_whenClickInBottomMenuListIcon() {
+        val navController = mockk<NavController>()
 
-        // Create a TestNavHostController
-        val navController = NavController(ApplicationProvider.getApplicationContext())
-        navController.setGraph(R.navigation.main_nav_graph)
-        scenario.onActivity{
-        // Set the NavController property on the fragment
+        scenario.onActivity {
             Navigation.setViewNavController(it.container, navController)
-
         }
-
 
         onView(withId(R.id.navigationHome)).perform(click())
 
-        assertEquals(navController.currentDestination?.id, R.id.navigationHome)
+        onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun showUsersScreen_whenClickInBottomMenuListIcon() {
+        val navController = mockk<NavController>()
+
+        scenario.onActivity {
+            Navigation.setViewNavController(it.container, navController)
+        }
+
+        onView(withId(R.id.navigationUsers)).perform(click())
+
+        onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }
