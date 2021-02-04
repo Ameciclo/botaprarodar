@@ -1,11 +1,13 @@
 package app.igormatos.botaprarodar.presentation.addbicycle
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
@@ -15,19 +17,29 @@ import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-val BIKE_EXTRA = "Bike_extra"
+import app.igormatos.botaprarodar.domain.model.Bike
+import com.brunotmgomes.ui.extensions.*
+import org.parceler.Parcels
 
 class BikeFormActivity : AppCompatActivity() {
 
-    var editMode: Boolean = false
     var imagePath: String? = null
     private lateinit var loadingDialog: AlertDialog
 
     private val formViewModel: BikeFormViewModel by viewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
-        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
+        DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
+    }
+
+    companion object {
+        const val BIKE_EXTRA = "Bike_extra"
+
+        fun setupActivity(context: Context, bike: Bike?): Intent {
+            val intent = Intent(context, BikeFormActivity::class.java)
+            intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, bike))
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +50,18 @@ class BikeFormActivity : AppCompatActivity() {
 
         onClickBicyclePhotoImage()
         waitBicycleRegisterResult()
+        checkEditMode()
         loadingDialog = createLoading(R.layout.loading_dialog_animation)
 
-        binding.toolbar.title = if (editMode) {
-            getString(R.string.bicycle_update_button)
-        } else {
-            getString(R.string.bicycle_add_button)
+    }
+
+    private fun checkEditMode() {
+        val parcelableBike: Parcelable? =
+            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
+
+        if (parcelableBike != null) {
+            val bike = Parcels.unwrap(parcelableBike) as Bike
+            setValuesToEditBike(bike)
         }
     }
 
@@ -75,17 +93,20 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun successText() {
-        showMessage(getString(R.string.bicycle_add_success))
+        val intent = Intent().putExtra("isEditModeAvailable", formViewModel.isEditModeAvailable)
+        setResult(RESULT_OK, intent)
         finish()
     }
 
     private fun errorText(errorMessage: String) {
-        showMessage(errorMessage)
-        finish()
+        snackBarMaker(errorMessage, binding.containerAddBike).apply {
+            setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
+            show()
+        }
     }
 
-    private fun showMessage(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    private fun setValuesToEditBike(bike: Bike?) {
+        bike?.let { formViewModel.updateBikeValues(it) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
