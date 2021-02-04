@@ -338,11 +338,11 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
     private fun checkIdAndUpdate(
         bike: Bike,
-        p0: DataSnapshot,
+        snapshot: DataSnapshot,
         bicyclesReference: DatabaseReference
     ) {
         if (bike.id.isNullOrEmpty()) {
-            p0.key?.let { key ->
+            snapshot.key?.let { key ->
                 bike.id = key
                 bicyclesReference.child(key).setValue(bike)
             }
