@@ -25,7 +25,7 @@ class AddUserViewModel(
     var userImageDocumentResidence = MutableLiveData<String>("")
     var userImageDocumentFront = MutableLiveData<String>("")
     var userImageDocumentBack = MutableLiveData<String>("")
-    var userGender = MutableLiveData<Int>(0)
+    var userGender = MutableLiveData<Int>(-1)
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -46,15 +46,10 @@ class AddUserViewModel(
                 isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
-                userGender.value != 0
+                userGender.value != -1
     }
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
-
-    fun setUserGender(radioButtonGenderId: Int) {
-        userGender.value = radioButtonGenderId
-        user.gender = getGenderId(radioButtonGenderId)
-    }
 
     fun registerUser() {
         _status.value = ViewModelStatus.Loading
@@ -82,14 +77,19 @@ class AddUserViewModel(
             residence_proof_picture = userImageDocumentResidence.value
             doc_picture = userImageDocumentFront.value
             doc_picture_back = userImageDocumentBack.value
+            gender = userGender.value ?: 3
         }
+    }
+
+    fun setUserGender(radioButtonGenderId: Int) {
+        userGender.value = getGenderId(radioButtonGenderId)
     }
 
     fun setProfileImage(path: String) {
         userImageProfile.value = path
     }
 
-    fun setDocumentImage(path: String) {
+    fun setDocumentImageFront(path: String) {
         userImageDocumentFront.value = path
     }
 
