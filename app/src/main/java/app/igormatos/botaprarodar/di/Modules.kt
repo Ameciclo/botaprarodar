@@ -15,7 +15,7 @@ import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
@@ -77,7 +77,7 @@ val bprModule = module {
 
     viewModel {
         BikeFormViewModel(
-            addNewBikeUseCase = get(),
+            bikeFormUseCase = get(),
             community = get<SharedPreferencesModule>().getJoinedCommunity()
         )
     }
@@ -103,7 +103,7 @@ val bprModule = module {
     }
 
     single {
-        AddNewBikeUseCase(
+        BikeFormUseCase(
             bikeRepository = get<BikeRepository>(),
             firebaseHelperRepository = get<FirebaseHelperRepository>()
         )
