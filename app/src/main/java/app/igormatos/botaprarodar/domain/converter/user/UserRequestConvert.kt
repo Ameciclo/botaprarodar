@@ -13,7 +13,7 @@ class UserRequestConvert : Converter<User, UserRequest> {
     private fun buildUserRequest(user: User) =
         UserRequest(
             name = user.name.transformNullToEmpty(),
-            created_date = user.created_date.transformNullToEmpty(),
+            createdDate = user.created_date.transformNullToEmpty(),
             address = user.address.transformNullToEmpty(),
             available = user.isAvailable,
             gender = user.gender,

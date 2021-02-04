@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.data.network.api
 
-import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.data.model.UserRequest
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import retrofit2.http.Body

@@ -20,7 +20,9 @@ class UserUseCase(
 
     suspend fun addUser(communityId: String, user: User): SimpleResult<String> {
         uploadImages(user)
-        if (checkAllImagesSuccess().not()) return SimpleResult.Error(Exception(""))
+        if (!checkAllImagesSuccess()) {
+            return SimpleResult.Error(Exception(""))
+        }
         return saveUser(user, communityId) { _, _ ->
             registerUser(user, communityId)
         }
@@ -97,8 +99,7 @@ class UserUseCase(
             documentFrontSimpleResult -> documentFrontSimpleResult = simpleResult
             documentBackSimpleResult -> documentBackSimpleResult = simpleResult
             residenceSimpleResult -> residenceSimpleResult = simpleResult
-            else -> {
-            }
+            else -> { }
         }
     }
 

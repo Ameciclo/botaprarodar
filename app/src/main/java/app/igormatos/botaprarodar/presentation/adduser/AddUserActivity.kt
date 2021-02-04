@@ -80,7 +80,7 @@ class AddUserActivity : AppCompatActivity() {
                 binding.viewModel?.setProfileImage(path)
             }
             REQUEST_ID_PHOTO -> {
-                binding.viewModel?.setDocumentImage(path)
+                binding.viewModel?.setDocumentImageFront(path)
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)

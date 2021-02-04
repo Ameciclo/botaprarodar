@@ -6,7 +6,7 @@ data class UserRequest(
     @SerializedName("name")
     var name: String,
     @SerializedName("created_date")
-    var created_date: String,
+    var createdDate: String,
     @SerializedName("available")
     var available: Boolean = true,
     @SerializedName("address")
