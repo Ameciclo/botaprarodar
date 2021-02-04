@@ -5,6 +5,9 @@ import app.igormatos.botaprarodar.domain.model.Bike
 
 fun buildBicycleRequest(bike: Bike) =
     BicycleRequest(
+        id = bike.id.transformNullToEmpty(),
+        available = true,
+        inUse = false,
         name = bike.name.transformNullToEmpty(),
         orderNumber = bike.order_number.transformNullToEmpty(),
         photoPath = bike.photo_path.transformNullToEmpty(),
