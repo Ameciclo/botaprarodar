@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.presentation.userForm
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -14,9 +13,7 @@ import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -43,12 +40,6 @@ class UserFormActivity : AppCompatActivity() {
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
         const val USER_EXTRA = "USER_EXTRA"
-
-        fun setupActivity(context: Context, user: User?): Intent {
-            val intent = Intent(context, BikeFormActivity::class.java)
-            intent.putExtra(USER_EXTRA, Parcels.wrap(Bike::class.java, user))
-            return intent
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +73,10 @@ class UserFormActivity : AppCompatActivity() {
             when (it) {
                 is ViewModelStatus.Success -> {
                     loadingDialog.dismiss()
-                    val intent = Intent().putExtra("successMessage", it.data)
+                    val intent = Intent().putExtra(
+                        "isEditModeAvailable",
+                        userFormViewModel.isEditableAvailable
+                    )
                     setResult(RESULT_OK, intent)
                     finish()
                 }

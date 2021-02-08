@@ -83,14 +83,18 @@ class UserUseCase(
     }
 
     private suspend fun uploadImages(user: User) {
-        if (checkFirebaseUrl(user.profile_picture)) {
-            profileSimpleResult = SimpleResult.Success(ImageUploadResponse("", ""))
-        } else {
+        checkFirebaseUrl(user.profile_picture, user, profileSimpleResult) {
             uploadProfileImage(user)
         }
-        uploadOnlyImages(user.doc_picture, user.doc_number, documentFrontSimpleResult)
-        uploadOnlyImages(user.doc_picture_back, user.doc_number, documentBackSimpleResult)
-        uploadOnlyImages(user.residence_proof_picture, user.doc_number, residenceSimpleResult)
+        checkFirebaseUrl(user.doc_picture, user, documentFrontSimpleResult) {
+            uploadOnlyImages(user.doc_picture, user.doc_number, documentFrontSimpleResult)
+        }
+        checkFirebaseUrl(user.doc_picture_back, user, documentBackSimpleResult) {
+            uploadOnlyImages(user.doc_picture_back, user.doc_number, documentBackSimpleResult)
+        }
+        checkFirebaseUrl(user.residence_proof_picture, user, residenceSimpleResult) {
+            uploadOnlyImages(user.residence_proof_picture, user.doc_number, residenceSimpleResult)
+        }
     }
 
     private suspend fun uploadProfileImage(user: User) {
@@ -146,7 +150,43 @@ class UserUseCase(
         user.doc_picture_back = docBack.fullImagePath
     }
 
-    private fun checkFirebaseUrl(pathImage: String?): Boolean {
-        return pathImage?.contains(FIREBASE_URL) ?: false
+    private suspend fun checkFirebaseUrl(
+        pathImage: String?,
+        user: User,
+        simpleResult: SimpleResult<ImageUploadResponse>?,
+        actionFunction: suspend () -> Unit
+    ) {
+        if (pathImage?.contains(FIREBASE_URL) == true) {
+            updateSimpleResult(user, simpleResult)
+        } else {
+            actionFunction()
+        }
+    }
+
+    private fun getSimpleResultSuccess(
+        fullImagePath: String?,
+        thumbImagePath: String? = ""
+    ): SimpleResult.Success<ImageUploadResponse> {
+        return SimpleResult.Success(ImageUploadResponse(fullImagePath, thumbImagePath))
+    }
+
+    private fun updateSimpleResult(
+        user: User,
+        simpleResultToUpdate: SimpleResult<ImageUploadResponse>?
+    ) {
+        when (simpleResultToUpdate) {
+            profileSimpleResult -> profileSimpleResult = getSimpleResultSuccess(
+                user.profile_picture,
+                user.profile_picture_thumbnail
+            )
+            documentFrontSimpleResult ->
+                documentFrontSimpleResult = getSimpleResultSuccess(user.doc_picture)
+            documentBackSimpleResult ->
+                documentBackSimpleResult = getSimpleResultSuccess(user.doc_picture_back)
+            residenceSimpleResult ->
+                residenceSimpleResult = getSimpleResultSuccess(user.residence_proof_picture)
+            else -> {
+            }
+        }
     }
 }
