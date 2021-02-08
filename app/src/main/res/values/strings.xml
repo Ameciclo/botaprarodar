@@ -119,5 +119,7 @@
     <string name="txt_doc_image_back">Verso</string>
     <string name="add_user_toolbar_title">Cadastrar Usuário</string>
     <string name="edit_user_toolbar_title">Editar Usuário</string>
+    <string name="user_update_success">Usuário atualizado com sucesso</string>
+    <string name="user_add_success">Usuário adicionado com sucesso</string>
 
 </resources>

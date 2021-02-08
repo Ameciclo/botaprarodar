@@ -71,30 +71,27 @@ class UserFormViewModel(
         _status.value = ViewModelStatus.Loading
         createUser()
         viewModelScope.launch {
-            if (isEditableAvailable) {
-                userUseCase.updateUser(community.id, user).let {
-                    when (it) {
-                        is SimpleResult.Success -> {
-                            showSuccess()
-                        }
-                        is SimpleResult.Error -> {
-                            showError()
-                        }
+            if (isEditableAvailable)
+                updateUser()
+            else
+                addUser()
+        }
+    }
 
-                    }
-                }
-            } else {
-                userUseCase.addUser(community.id, user).let {
-                    when (it) {
-                        is SimpleResult.Success -> {
-                            showSuccess()
-                        }
-                        is SimpleResult.Error -> {
-                            showError()
-                        }
+    private suspend fun updateUser() {
+        userUseCase.updateUser(community.id, user).let {
+            when (it) {
+                is SimpleResult.Success -> showSuccess()
+                is SimpleResult.Error -> showError()
+            }
+        }
+    }
 
-                    }
-                }
+    private suspend fun addUser() {
+        userUseCase.addUser(community.id, user).let {
+            when (it) {
+                is SimpleResult.Success -> showSuccess()
+                is SimpleResult.Error -> showError()
             }
         }
     }
@@ -133,10 +130,16 @@ class UserFormViewModel(
     }
 
     private fun showSuccess() {
-        _status.value = ViewModelStatus.Success("Usuário cadastrado com sucesso")
+        _status.value = ViewModelStatus.Success("")
     }
 
     private fun showError() {
-        _status.value = ViewModelStatus.Error("Ocorreu um erro, tente novamente")
+        val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
+        _status.value = ViewModelStatus.Error(message)
+    }
+
+    companion object {
+        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar o usuário"
+        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar o usuário"
     }
 }
