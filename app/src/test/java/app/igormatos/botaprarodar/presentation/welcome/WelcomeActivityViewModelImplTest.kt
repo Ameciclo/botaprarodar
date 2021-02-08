@@ -1,18 +1,18 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.domain.model.community.Community
 import org.junit.Rule
 import org.junit.Test
 
-class LoginActivityViewModelImplTest {
+class WelcomeActivityViewModelImplTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun userLoggedInCommunityChosen_navigatesToMainActivity() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = true
         ) {
@@ -24,7 +24,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedInCommunityNotChosenEmailNotVerified_showsEmailNotVerified(){
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false,
             emailIsVerified = false,
@@ -37,7 +37,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedInCommunityNotChosen_communitiesLoading_showsLoading() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
@@ -53,7 +53,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedInCommunityNotChosen_loadCommunities_showsResults() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
@@ -79,7 +79,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedInCommunityNotChosen_errorLoadCommunities_showsLoadFail() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
@@ -95,7 +95,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun errorLoadCommunities_reloadCommunities_callsLoadCommunities(){
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
@@ -107,7 +107,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedInCommunityNotChosen_chooseCommunity_savesAndNavigates() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
@@ -122,7 +122,7 @@ class LoginActivityViewModelImplTest {
 
     @Test
     fun userLoggedOut_logIn_loadCommunities() {
-        LoginActivityViewModelRobot.test(
+        WelcomeActivityViewModelRobot.test(
             userLoggedIn = false
         ) {
             login()

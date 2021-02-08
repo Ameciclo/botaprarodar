@@ -13,12 +13,16 @@ class AccessHomeRobot : BaseRobot() {
     }
 
     fun selectAnyCommunity() {
+        waitViewByResId("rvCommunityList")
         selectAnyItemInRecyclerView(R.id.rvCommunityList)
     }
 
-    fun checkIfIsHome() {
-        checkViewById(R.id.main_container)
+    fun showCommunityList(){
+        waitViewByResId("communityAdapterContainer")
     }
 
+    fun checkIfIsHome(): Boolean {
+        return waitViewByResId("main_container")
+    }
 
 }
