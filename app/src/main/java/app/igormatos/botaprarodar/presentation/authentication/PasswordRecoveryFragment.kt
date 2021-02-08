@@ -12,6 +12,7 @@ import app.igormatos.botaprarodar.common.BprErrorType
 import app.igormatos.botaprarodar.databinding.FragmentPasswordRecoveryBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SendPasswordRecoveryViewState
+import com.brunotmgomes.ui.extensions.snackBarMaker
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -60,11 +61,11 @@ class PasswordRecoveryFragment : Fragment() {
     }
 
     private fun createSnackbar(errorMessageId: Int, color: Int): Snackbar {
-        return Snackbar
-            .make(
-                binding.root,
-                getString(errorMessageId),
-                Snackbar.LENGTH_SHORT
-            ).apply { setBackgroundTint(color) }
+        return snackBarMaker(
+            message = getString(errorMessageId),
+            container = binding.root,
+            actionButtonText = getString(R.string.confirm),
+            backgroundTint = color
+        )
     }
 }
