@@ -45,7 +45,7 @@ class AdminSignIn {
             showLoginScreen()
             fillPasswordField(password)
             clickSignIn()
-            loadingView(true)
+            waitLoadingView(false)
         } verify {
             assert(scenario.result.resultCode == RESULT_OK)
         }
