@@ -76,7 +76,7 @@ class AuthenticationRobot : BaseRobot() {
         return waitViewByResId("successRegistrationDialogContainer")
     }
 
-    fun successfulLoginSteps(email: String, password: String){
+    fun successfulLoginSteps(email: String, password: String) {
         fillUserField(email)
         clickNext()
         showLoginScreen()
@@ -85,16 +85,16 @@ class AuthenticationRobot : BaseRobot() {
         checkCommunityScreen()
     }
 
-    fun initAuthentication(){
+    fun initAuthentication() {
         clickButton(R.id.loginButton)
     }
 
-    fun logout(){
+    fun logout() {
         waitViewByResId("logout", timeout = 2000)
         clickButton(R.id.logout)
     }
 
-    fun loadingView(isGone: Boolean): Boolean {
-        return waitViewByResId("loading", isGone)
+    fun waitLoadingView(isVisible: Boolean) {
+        waitViewByResId("loading", isVisible)
     }
 }
