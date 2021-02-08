@@ -15,3 +15,12 @@ fun getGenderId(radioButtonGenderId: Int): Int {
         else -> NO_ANSWER
     }
 }
+
+fun getRadioButtonId(genderId: Int): Int {
+    return when (genderId) {
+        MALE_ID -> R.id.rbGenderMale
+        FEMALE_ID -> R.id.rbGenderFemale
+        OTHER_ID -> R.id.rbGenderOther
+        else -> R.id.rbGenderNoAnswer
+    }
+}
