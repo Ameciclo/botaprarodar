@@ -20,6 +20,7 @@
     <string name="community_confirm_title">Os dados estão corretos?</string>
     <string name="empties_fields_error">Preencha todos os campos</string>
     <string name="login_error">Falha no login</string>
+    <string name="admin_registration_error">Falha ao criar usuário administrador</string>
     <string name="add_community">Adicionar comunidade</string>
     <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
     <string name="login_load_communities_error">Erro ao obter comunidades</string>
@@ -38,6 +39,7 @@
     <string name="trip_reason_to_work">Ir ao trabalho</string>
     <string name="trip_reason_bicycle_as_work">Ferramenta de trabalho</string>
     <string name="trip_reason_other">Outro</string>
+    <string name="trip_count_label" formatted="true">Total: %s1 viagens</string>
     <string name="withdrawal_bicycle_rating_great">Ótima</string>
     <string name="withdrawal_bicycle_rating_good">Boa</string>
     <string name="withdrawal_bicycle_rating_regular">Regular</string>
