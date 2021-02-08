@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.authentication
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -51,7 +52,7 @@ class SignInFragment : Fragment() {
                         val intent = Intent(requireActivity(), MainActivity::class.java).apply {
                             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         }
-                        startActivity(intent)
+                        requireActivity().setResult(RESULT_OK)
                         requireActivity().finish()
                     }
                     SignInViewState.SendLoading -> {
@@ -86,7 +87,7 @@ class SignInFragment : Fragment() {
 
     private fun showErrorMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.container,
+            binding.fragmentSignInContainer,
             messageId,
             Snackbar.LENGTH_SHORT
         ).show()
