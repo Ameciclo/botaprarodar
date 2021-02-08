@@ -32,7 +32,6 @@ class AdminSignIn {
     //    E: exibir tela de login
     //    E: usuário digitar a senha corretamente
     //    E: usuário clicar no botão de login
-    //    E: iniciar carregamento
     //    E: terminar carregamento
     //    Então: deve fechar a tela de authenticação com resultado OK
 
@@ -46,7 +45,6 @@ class AdminSignIn {
             showLoginScreen()
             fillPasswordField(password)
             clickSignIn()
-            loadingView(false)
             loadingView(true)
         } verify {
             assert(scenario.result.resultCode == RESULT_OK)
