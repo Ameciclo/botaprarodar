@@ -107,8 +107,7 @@ val bprModule = module {
     }
 
     single {
-        val xd = AdminRemoteDataSource(get())
-        xd
+        AdminRemoteDataSource(get())
     }
 
     single {
