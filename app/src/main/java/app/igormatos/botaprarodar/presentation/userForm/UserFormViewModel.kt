@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.adduser
+package app.igormatos.botaprarodar.presentation.userForm
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
-class AddUserViewModel(
+class UserFormViewModel(
     private val userUseCase: UserUseCase,
     private val community: Community
 ) : ViewModel() {
@@ -16,16 +16,17 @@ class AddUserViewModel(
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
 
+    var isEditableAvailable = false
     var user = User()
 
-    var userCompleteName = MutableLiveData<String>("")
-    var userAddress = MutableLiveData<String>("")
-    var userDocument = MutableLiveData<String>("")
-    var userImageProfile = MutableLiveData<String>("")
-    var userImageDocumentResidence = MutableLiveData<String>("")
-    var userImageDocumentFront = MutableLiveData<String>("")
-    var userImageDocumentBack = MutableLiveData<String>("")
-    var userGender = MutableLiveData<Int>(-1)
+    val userCompleteName = MutableLiveData<String>("")
+    val userAddress = MutableLiveData<String>("")
+    val userDocument = MutableLiveData<String>("")
+    val userImageProfile = MutableLiveData<String>("")
+    val userImageDocumentResidence = MutableLiveData<String>("")
+    val userImageDocumentFront = MutableLiveData<String>("")
+    val userImageDocumentBack = MutableLiveData<String>("")
+    val userGender = MutableLiveData<Int>(-1)
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -36,6 +37,21 @@ class AddUserViewModel(
         addSource(userImageDocumentFront) { validateUserForm() }
         addSource(userImageDocumentBack) { validateUserForm() }
         addSource(userGender) { validateUserForm() }
+    }
+
+    fun updateUserValues(currentUser: User) {
+        currentUser.apply {
+            userCompleteName.value = this.name
+            userAddress.value = this.address
+            userDocument.value = this.doc_number.toString()
+            userImageProfile.value = this.profile_picture
+            userImageDocumentResidence.value = this.residence_proof_picture
+            userImageDocumentFront.value = this.doc_picture
+            userImageDocumentBack.value = this.doc_picture_back
+            userGender.value = this.gender
+        }
+        user = currentUser
+        isEditableAvailable = true
     }
 
     private fun validateUserForm() {
@@ -55,13 +71,28 @@ class AddUserViewModel(
         _status.value = ViewModelStatus.Loading
         createUser()
         viewModelScope.launch {
-            userUseCase.addUser(community.id, user).let {
-                when (it) {
-                    is SimpleResult.Success -> {
-                        showSuccess()
+            if (isEditableAvailable) {
+                userUseCase.updateUser(community.id, user).let {
+                    when (it) {
+                        is SimpleResult.Success -> {
+                            showSuccess()
+                        }
+                        is SimpleResult.Error -> {
+                            showError()
+                        }
+
                     }
-                    is SimpleResult.Error -> {
-                        showError()
+                }
+            } else {
+                userUseCase.addUser(community.id, user).let {
+                    when (it) {
+                        is SimpleResult.Success -> {
+                            showSuccess()
+                        }
+                        is SimpleResult.Error -> {
+                            showError()
+                        }
+
                     }
                 }
             }

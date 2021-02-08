@@ -64,8 +64,8 @@
                     android:padding="@dimen/padding_small"
                     android:scaleType="center"
                     android:src="@drawable/ic_add_a_photo"
-                    app:imagePathOrUrl="@{viewModel.imagePath}"
                     app:errorDrawable="@{@drawable/ic_add_a_photo}"
+                    app:imagePathOrUrl="@{viewModel.imagePath}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/progressBar" />
@@ -153,7 +153,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:setButtonText="@{viewModel.editModeAvailable}"
+                    app:setBikeFormButtonText="@{viewModel.editModeAvailable}"
                     tools:text="@string/bicycle_add_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.ItemAdapter
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
+import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -52,7 +52,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             ItemAdapter(activity = this.activity)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, AddUserActivity::class.java)
+            val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
         }
 
