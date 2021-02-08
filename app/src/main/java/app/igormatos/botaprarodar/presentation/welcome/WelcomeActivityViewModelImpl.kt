@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,11 +11,11 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
-class LoginActivityViewModelImpl(
+class WelcomeActivityViewModelImpl(
     private val preferencesModule: SharedPreferencesModule,
     private val firebaseAuthModule: FirebaseAuthModule,
     private val firebaseHelperModule: FirebaseHelperModule
-) : LoginActivityViewModel() {
+) : WelcomeActivityViewModel() {
 
     private val _navigateMain = MutableLiveData<ViewEvent<Boolean>>()
     override val navigateMain: LiveData<ViewEvent<Boolean>>

@@ -12,11 +12,13 @@ class AddCommunityActivityRobot : BaseRobot() {
     }
 
     fun clickAddCommunity() {
-        clickButtonByText("ADICIONAR COMUNIDADE")
+        waitViewByText("Adicionar comunidade")
+        clickButtonByText("Adicionar comunidade")
     }
 
     fun confirmDataInput() {
-        clickButtonByText("TUDO CERTO!")
+        waitViewByText("Tudo certo!")
+        clickButtonByText("Tudo certo!")
     }
 
     fun fillNameField(name: String) {
@@ -49,6 +51,10 @@ class AddCommunityActivityRobot : BaseRobot() {
 
     fun selectCommunity() {
         selectAnyItemInRecyclerView(R.id.rvCommunityList)
+    }
+
+    fun showCommunityScreen(){
+        waitViewByResId("communityAdapterContainer")
     }
 
     fun saveNewCommunity(name: String) {

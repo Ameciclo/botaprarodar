@@ -21,7 +21,7 @@
             android:theme="@style/AppTheme">
         <activity android:name=".presentation.createcommunity.AddCommunityActivity">
         </activity>
-        <activity android:name=".presentation.login.LoginActivity">
+        <activity android:name=".presentation.welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

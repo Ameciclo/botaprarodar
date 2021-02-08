@@ -26,9 +26,9 @@ import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
-import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
-import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModelImpl
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModelImpl
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
 import com.google.firebase.auth.FirebaseAuth
@@ -47,9 +47,9 @@ val bprModule = module {
     single<FirebaseHelperModule> { FirebaseHelperModuleImpl() }
     single<SnackbarModule> { SnackbarModuleImpl() }
 
-    single { LoginActivityNavigator() }
-    viewModel<LoginActivityViewModel> {
-        LoginActivityViewModelImpl(
+    single { WelcomeActivityNavigator() }
+    viewModel<WelcomeActivityViewModel> {
+        WelcomeActivityViewModelImpl(
             preferencesModule = get(),
             firebaseAuthModule = get(),
             firebaseHelperModule = get()
