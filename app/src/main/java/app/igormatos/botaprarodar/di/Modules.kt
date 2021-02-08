@@ -20,7 +20,7 @@ import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
-import app.igormatos.botaprarodar.presentation.adduser.AddUserViewModel
+import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
@@ -156,7 +156,7 @@ val bprModule = module {
     }
 
     viewModel {
-        AddUserViewModel(
+        UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
             userUseCase = get()
         )

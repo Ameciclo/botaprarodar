@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.adduser
+package app.igormatos.botaprarodar.presentation.userForm
 
 import app.igormatos.botaprarodar.R
 

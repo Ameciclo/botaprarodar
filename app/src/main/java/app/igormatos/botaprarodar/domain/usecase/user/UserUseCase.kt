@@ -7,6 +7,8 @@ import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
 
+private const val FIREBASE_URL = "https://"
+
 class UserUseCase(
     private val userRepository: UserRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository,
@@ -25,6 +27,16 @@ class UserUseCase(
         }
         return saveUser(user, communityId) { _, _ ->
             registerUser(user, communityId)
+        }
+    }
+
+    suspend fun updateUser(communityId: String, user: User): SimpleResult<String> {
+        uploadImages(user)
+        if (!checkAllImagesSuccess()) {
+            return SimpleResult.Error(Exception(""))
+        }
+        return saveUser(user, communityId) { _, _ ->
+            updateUser(user, communityId)
         }
     }
 
@@ -50,6 +62,19 @@ class UserUseCase(
         }
     }
 
+    private suspend fun updateUser(
+        user: User,
+        communityId: String
+    ): SimpleResult<String> {
+        return try {
+            val userRequest = this.userConverter.convert(user)
+            val result = userRepository.updateUser(communityId, userRequest)
+            SimpleResult.Success(result)
+        } catch (exception: Exception) {
+            SimpleResult.Error(exception)
+        }
+    }
+
     private fun checkAllImagesSuccess(): Boolean {
         return (profileSimpleResult != null && profileSimpleResult is SimpleResult.Success
                 && documentFrontSimpleResult != null && documentFrontSimpleResult is SimpleResult.Success
@@ -58,7 +83,11 @@ class UserUseCase(
     }
 
     private suspend fun uploadImages(user: User) {
-        uploadProfileImage(user)
+        if (checkFirebaseUrl(user.profile_picture)) {
+            profileSimpleResult = SimpleResult.Success(ImageUploadResponse("", ""))
+        } else {
+            uploadProfileImage(user)
+        }
         uploadOnlyImages(user.doc_picture, user.doc_number, documentFrontSimpleResult)
         uploadOnlyImages(user.doc_picture_back, user.doc_number, documentBackSimpleResult)
         uploadOnlyImages(user.residence_proof_picture, user.doc_number, residenceSimpleResult)
@@ -99,7 +128,8 @@ class UserUseCase(
             documentFrontSimpleResult -> documentFrontSimpleResult = simpleResult
             documentBackSimpleResult -> documentBackSimpleResult = simpleResult
             residenceSimpleResult -> residenceSimpleResult = simpleResult
-            else -> { }
+            else -> {
+            }
         }
     }
 
@@ -114,5 +144,9 @@ class UserUseCase(
         user.residence_proof_picture = residence.fullImagePath
         user.doc_picture = docFront.fullImagePath
         user.doc_picture_back = docBack.fullImagePath
+    }
+
+    private fun checkFirebaseUrl(pathImage: String?): Boolean {
+        return pathImage?.contains(FIREBASE_URL) ?: false
     }
 }

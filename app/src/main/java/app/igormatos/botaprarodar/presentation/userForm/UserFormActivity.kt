@@ -1,8 +1,10 @@
-package app.igormatos.botaprarodar.presentation.adduser
+package app.igormatos.botaprarodar.presentation.userForm
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +14,9 @@ import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -19,14 +24,15 @@ import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.parceler.Parcels
 
-class AddUserActivity : AppCompatActivity() {
+class UserFormActivity : AppCompatActivity() {
 
     private val binding: ActivityAddUserBinding by lazy {
         DataBindingUtil.setContentView<ActivityAddUserBinding>(this, R.layout.activity_add_user)
     }
 
-    private val addUserViewModel: AddUserViewModel by viewModel()
+    private val userFormViewModel: UserFormViewModel by viewModel()
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
     private lateinit var loadingDialog: AlertDialog
@@ -37,6 +43,12 @@ class AddUserActivity : AppCompatActivity() {
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
         const val USER_EXTRA = "USER_EXTRA"
+
+        fun setupActivity(context: Context, user: User?): Intent {
+            val intent = Intent(context, BikeFormActivity::class.java)
+            intent.putExtra(USER_EXTRA, Parcels.wrap(Bike::class.java, user))
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +56,25 @@ class AddUserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_user)
 
         binding.lifecycleOwner = this
-        binding.viewModel = addUserViewModel
+        binding.viewModel = userFormViewModel
         loadingDialog = createLoading(R.layout.loading_dialog_animation)
         setupListeners()
         setupViewModelStatus()
+        checkEditMode()
+    }
+
+    private fun checkEditMode() {
+        val parcelableUser: Parcelable? =
+            if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) else null
+
+        if (parcelableUser != null) {
+            val user = Parcels.unwrap(parcelableUser) as User
+            setValuesToEditUser(user)
+        }
+    }
+
+    private fun setValuesToEditUser(user: User?) {
+        user?.let { userFormViewModel.updateUserValues(it) }
     }
 
     private fun setupViewModelStatus() {
