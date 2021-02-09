@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigationHome,
                 R.id.navigationUsers,
-                R.id.navigationBicycles,
-                R.id.navigationDashboard
+                R.id.navigationBicycles
             )
         )
     }
