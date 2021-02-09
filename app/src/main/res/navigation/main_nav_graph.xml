@@ -15,10 +15,6 @@
     <fragment
             android:id="@+id/navigationBicycles"
             android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment" />
-    <fragment
-            android:id="@+id/navigationDashboard"
-            android:name="app.igormatos.botaprarodar.presentation.main.DashboardFragment"
-            tools:layout="@layout/fragment_dashboard" />
 </navigation>
 
 
