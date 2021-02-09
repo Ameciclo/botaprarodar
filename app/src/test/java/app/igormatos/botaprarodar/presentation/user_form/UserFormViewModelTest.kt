@@ -1,8 +1,9 @@
-package app.igormatos.botaprarodar.presentation.user
+package app.igormatos.botaprarodar.presentation.user_form
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
@@ -94,5 +95,69 @@ class UserFormViewModelTest {
 
         formViewModel.registerUser()
         assertTrue(formViewModel.status.value is ViewModelStatus.Error)
+    }
+
+    @Test
+    fun `when 'updateUser' should update the liveDatas values`() {
+        formViewModel.updateUserValues(userFake)
+
+        assertEquals(userFake.name, formViewModel.userCompleteName.value)
+        assertEquals(userFake.address, formViewModel.userAddress.value)
+        assertEquals(userFake.doc_number.toString(), formViewModel.userDocument.value)
+        assertEquals(userFake.profile_picture, formViewModel.userImageProfile.value)
+        assertEquals(
+            userFake.residence_proof_picture,
+            formViewModel.userImageDocumentResidence.value
+        )
+        assertEquals(userFake.doc_picture, formViewModel.userImageDocumentFront.value)
+        assertEquals(userFake.doc_picture_back, formViewModel.userImageDocumentBack.value)
+        assertEquals(userFake.gender, formViewModel.userGender.value)
+    }
+
+    @Test
+    fun `when 'updateUser' should update 'isEditableAvailable' to true`() {
+        formViewModel.updateUserValues(userFake)
+        assertTrue(formViewModel.isEditableAvailable)
+    }
+
+    @Test
+    fun `when 'registerUser' and 'isEditableAvailable' is true should return success`() {
+        formViewModel.userDocument.value = "1"
+        formViewModel.isEditableAvailable = true
+        val userFake = slot<User>()
+        coEvery {
+            userUseCase.updateUser(community.id, capture(userFake))
+        } returns SimpleResult.Success("")
+
+        formViewModel.registerUser()
+        assertTrue(formViewModel.status.value is ViewModelStatus.Success)
+    }
+
+    @Test
+    fun `when 'registerUser' and 'IsEditableAvailable' is true should return error`() {
+        formViewModel.userDocument.value = "1"
+        formViewModel.isEditableAvailable = true
+        val userFake = slot<User>()
+        coEvery {
+            userUseCase.updateUser(community.id, capture(userFake))
+        } returns SimpleResult.Error(Exception())
+
+        formViewModel.registerUser()
+        assertTrue(formViewModel.status.value is ViewModelStatus.Error)
+    }
+
+    private val userFake = User().apply {
+        name = "Capitão América"
+        doc_number = 1234567890
+        doc_picture_back = "https://docback.jpeg"
+        doc_picture = "https://doc.jpeg"
+        address = "Polo Norte - 433La 092Lg"
+        birthday = "01/01/1900"
+        created_date = "01/01/2021"
+        gender = 0
+        doc_type = 1
+        profile_picture = "https://profile.jpeg"
+        profile_picture_thumbnail = "https://thumb.jpeg"
+        residence_proof_picture = "https://residence.jpeg"
     }
 }
