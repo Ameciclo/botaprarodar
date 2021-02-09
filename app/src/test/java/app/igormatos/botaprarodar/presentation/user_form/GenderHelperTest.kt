@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.user
+package app.igormatos.botaprarodar.presentation.user_form
 
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.userForm.getGenderId

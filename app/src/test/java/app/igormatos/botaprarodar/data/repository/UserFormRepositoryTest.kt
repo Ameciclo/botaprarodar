@@ -10,7 +10,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class UserRepositoryTest {
+class UserFormRepositoryTest {
 
     private var mockApi = mockk<UserApi>()
     private lateinit var userRepository: UserRepository
@@ -30,6 +30,18 @@ class UserRepositoryTest {
             val request = userRepository.addNewUser("100", userRequest)
 
             assertEquals("User registered", request)
+        }
+
+    @Test
+    fun `when 'updateUser' should edit a user`() =
+        runBlocking {
+            coEvery {
+                mockApi.updateUser(any(), any(), any())
+            } returns AddDataResponse("User edited")
+
+            val request = userRepository.updateUser("100", userRequest)
+
+            assertEquals("User edited", request)
         }
 
     private val userRequest = UserRequest(
