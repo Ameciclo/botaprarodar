@@ -13,6 +13,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.ActivityMainBinding
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.ext.android.inject
 
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 preferencesModule.clear()
 
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this, WelcomeActivity::class.java)
                 startActivity(intent)
                 finish()
 

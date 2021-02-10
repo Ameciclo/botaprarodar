@@ -58,20 +58,25 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should add new bicycle`() = runBlocking {
-            coEvery { api.addNewBicycle(any(), any()) } returns AddDataResponse("New Bicycle")
+            coEvery { api.addNewBike(any(), any()) } returns AddDataResponse("New Bicycle")
 
-            val result = repository.addNewBike(
-                "1000",
-                BicycleRequest(name = "New Bicycle",
-                    orderNumber = 1010,
-                    serialNumber = "New Serial",
-                    createdDate = Date().toString()
-                ))
+            val result = repository.addNewBike("1000",bicycleRequest)
 
             assertTrue(result.isNotBlank())
             assertEquals("New Bicycle", result)
         }
 
+        @Test
+        fun `should edit bicycle`() = runBlocking {
+            coEvery {
+                api.updateBike(any(), any(), any())
+            } returns AddDataResponse("Bicycle Edited")
+
+            val result = repository.updateBike("100", bicycleRequest)
+
+            assertTrue(result.isNotBlank())
+            assertEquals("Bicycle Edited", result)
+        }
     }
 
     fun createBicycleResponse(): Map<String, Bike> {
@@ -81,4 +86,14 @@ internal class BikeRepositoryTest {
             Pair("098", Bike()),
             Pair("876", Bike()))
     }
+
+    private val bicycleRequest = BicycleRequest(
+        id = "",
+        available = true,
+        inUse = false,
+        name = "New Bicycle",
+        orderNumber = 1010,
+        serialNumber = "New Serial",
+        createdDate = Date().toString()
+    )
 }
