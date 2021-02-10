@@ -34,7 +34,7 @@ class MainActivityTest {
         val navController = mockk<NavController>()
 
         scenario.onActivity {
-            Navigation.setViewNavController(it.container, navController)
+            Navigation.setViewNavController(it.activityMainContainer, navController)
         }
 
         onView(withId(R.id.navigationHome)).perform(click())
@@ -47,7 +47,7 @@ class MainActivityTest {
         val navController = mockk<NavController>()
 
         scenario.onActivity {
-            Navigation.setViewNavController(it.container, navController)
+            Navigation.setViewNavController(it.activityMainContainer, navController)
         }
 
         onView(withId(R.id.navigationUsers)).perform(click())
@@ -60,7 +60,7 @@ class MainActivityTest {
         val navController = mockk<NavController>()
 
         scenario.onActivity {
-            Navigation.setViewNavController(it.container, navController)
+            Navigation.setViewNavController(it.activityMainContainer, navController)
         }
 
         onView(withId(R.id.navigationBicycles)).perform(click())
