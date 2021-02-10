@@ -16,6 +16,9 @@ class UserFormViewModel(
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
 
+    private val _lgpd = MutableLiveData<Boolean>()
+    val lgpd: LiveData<Boolean> = _lgpd
+
     var isEditableAvailable = false
     var user = User()
 
@@ -136,6 +139,10 @@ class UserFormViewModel(
     private fun showError() {
         val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
         _status.value = ViewModelStatus.Error(message)
+    }
+
+    fun showLgpd() {
+        _lgpd.value = true
     }
 
     companion object {

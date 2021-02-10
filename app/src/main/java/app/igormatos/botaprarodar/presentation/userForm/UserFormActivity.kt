@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
@@ -69,7 +70,7 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun setupViewModelStatus() {
-        binding.viewModel?.status?.observe(this, {
+        binding.viewModel?.status?.observe(this, Observer {
             when (it) {
                 is ViewModelStatus.Success -> {
                     loadingDialog.dismiss()
@@ -91,6 +92,12 @@ class UserFormActivity : AppCompatActivity() {
                     }
                     loadingDialog.dismiss()
                 }
+            }
+        })
+
+        binding.viewModel?.lgpd?.observe(this, Observer {
+            when (it) {
+                true -> showConfirmDialog()
             }
         })
     }
@@ -189,5 +196,14 @@ class UserFormActivity : AppCompatActivity() {
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
+    }
+
+    private fun showConfirmDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(getString(R.string.lgpd_message))
+            .setPositiveButton(getString(R.string.lgpd_confirm)) { _, _ ->
+                binding.viewModel.registerUser()
+            }
+            .show()
     }
 }
