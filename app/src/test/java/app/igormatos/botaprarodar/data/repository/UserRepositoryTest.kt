@@ -1,8 +1,8 @@
 package app.igormatos.botaprarodar.data.repository
 
-import app.igormatos.botaprarodar.data.model.UserRequest
 import app.igormatos.botaprarodar.data.network.api.UserApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
+import app.igormatos.botaprarodar.utils.userRequest
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -31,20 +31,4 @@ class UserRepositoryTest {
 
             assertEquals("User registered", request)
         }
-
-    private val userRequest = UserRequest(
-        name = "mock",
-        createdDate = "",
-        id = "",
-        address = "",
-        docNumber = 0,
-        docPicture = "",
-        docPictureBack = "",
-        docType = 0,
-        gender = 0,
-        path = "",
-        profilePicture = "",
-        profilePictureThumbnail = "",
-        residenceProofPicture = ""
-    )
 }
