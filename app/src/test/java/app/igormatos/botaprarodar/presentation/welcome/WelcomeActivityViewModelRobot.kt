@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import app.igormatos.botaprarodar.data.network.*
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -10,7 +10,7 @@ import io.mockk.*
 import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.assertThat
 
-class LoginActivityViewModelRobot private constructor(
+class WelcomeActivityViewModelRobot private constructor(
     private var userLoggedIn: Boolean = true,
     private val userChoseCommunity: Boolean = true,
     private val emailIsVerified: Boolean = true,
@@ -21,9 +21,9 @@ class LoginActivityViewModelRobot private constructor(
             userLoggedIn: Boolean = true,
             userChoseCommunity: Boolean = true,
             emailIsVerified: Boolean = true,
-            block: LoginActivityViewModelRobot.() -> Unit,
+            block: WelcomeActivityViewModelRobot.() -> Unit,
         ) =
-            LoginActivityViewModelRobot(
+            WelcomeActivityViewModelRobot(
                 userLoggedIn,
                 userChoseCommunity,
                 emailIsVerified,
@@ -33,7 +33,7 @@ class LoginActivityViewModelRobot private constructor(
             }
     }
 
-    private val viewModel: LoginActivityViewModelImpl
+    private val viewModel: WelcomeActivityViewModelImpl
 
     private val preferencesModule: SharedPreferencesModule
     private val firebaseAuthModule: FirebaseAuthModule
@@ -80,7 +80,7 @@ class LoginActivityViewModelRobot private constructor(
         }
 
         viewModel =
-            LoginActivityViewModelImpl(
+            WelcomeActivityViewModelImpl(
                 preferencesModule,
                 firebaseAuthModule,
                 firebaseHelperModule

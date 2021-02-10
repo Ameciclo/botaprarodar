@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import android.app.Activity
 import android.content.Intent
@@ -9,11 +9,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.databinding.ActivityWelcomeBinding
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
-import app.igormatos.botaprarodar.databinding.ActivityLoginBinding
 import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
 import com.brunotmgomes.ui.SnackbarModule
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.adapter_community.view.*
@@ -21,20 +20,20 @@ import org.koin.android.ext.android.inject
 import com.brunotmgomes.ui.extensions.createLoading
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
-class LoginActivity : AppCompatActivity(R.layout.activity_login) {
+class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
 
     private lateinit var chooseCommunityAdapter: CommunityAdapter
 
-    private lateinit var views: ActivityLoginBinding
+    private lateinit var views: ActivityWelcomeBinding
     private lateinit var loadingDialog: AlertDialog
     private lateinit var resendEmailSnackbar: Snackbar
     private var communityDialog: AlertDialog? = null
 
-    private val viewModel: LoginActivityViewModel by koinViewModel()
+    private val viewModel: WelcomeActivityViewModel by koinViewModel()
     private val snackbarModule: SnackbarModule by inject()
-    private val navigator: LoginActivityNavigator by inject()
+    private val navigator: WelcomeActivityNavigator by inject()
 
-    private val loginActivityResultLauncher = registerForActivityResult(
+    private val welcomeActivityResultLauncher = registerForActivityResult(
         StartActivityForResult()
     ) { result ->
         val resultCode = result.resultCode
@@ -51,7 +50,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        views = ActivityLoginBinding.inflate(layoutInflater)
+        views = ActivityWelcomeBinding.inflate(layoutInflater)
         val rootView = views.root
         setContentView(rootView)
         views.loginButton.setOnClickListener {
@@ -148,14 +147,14 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
             communityDialog = showNoCommunitiesDialog()
         } else {
             val alertBuilder: MaterialAlertDialogBuilder =
-                MaterialAlertDialogBuilder(this@LoginActivity)
+                MaterialAlertDialogBuilder(this@WelcomeActivity)
                     .setTitle(title)
                     .setCancelable(false)
                     .setView(inflateChooseCommunityDialogView())
 
             if (userCommunityInfo.isAdmin) {
                 alertBuilder.setPositiveButton(getString(R.string.add_community)) { _, _ ->
-                    navigator.goToAddCommunityActivity(this@LoginActivity)
+                    navigator.goToAddCommunityActivity(this@WelcomeActivity)
                 }
             }
 
@@ -165,25 +164,15 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     }
 
     private fun showNoCommunitiesDialog(): AlertDialog {
-        return MaterialAlertDialogBuilder(this@LoginActivity)
+        return MaterialAlertDialogBuilder(this@WelcomeActivity)
             .setTitle(title)
             .setMessage(getString(R.string.login_no_communities_allowed))
             .show()
     }
 
     private fun startLoginFlow() {
-        val providers = listOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
+        welcomeActivityResultLauncher.launch(
+            Intent(this, AuthenticationActivity::class.java)
         )
-        val intent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setTheme(R.style.AppThemeWithActionbar)
-            .build()
-
-        // TODO utilizar essa implementação
-        // Intent(this, AuthenticationActivity::class.java)
-        loginActivityResultLauncher.launch(intent)
     }
-
 }

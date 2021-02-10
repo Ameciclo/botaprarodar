@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.login
+package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
-abstract class LoginActivityViewModel: ViewModel() {
+abstract class WelcomeActivityViewModel: ViewModel() {
 
     abstract val navigateMain: LiveData<ViewEvent<Boolean>>
 
