@@ -8,6 +8,7 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
+import app.igormatos.botaprarodar.utils.userFake
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -144,20 +145,5 @@ class UserFormViewModelTest {
 
         formViewModel.registerUser()
         assertTrue(formViewModel.status.value is ViewModelStatus.Error)
-    }
-
-    private val userFake = User().apply {
-        name = "Capitão América"
-        doc_number = 1234567890
-        doc_picture_back = "https://docback.jpeg"
-        doc_picture = "https://doc.jpeg"
-        address = "Polo Norte - 433La 092Lg"
-        birthday = "01/01/1900"
-        created_date = "01/01/2021"
-        gender = 0
-        doc_type = 1
-        profile_picture = "https://profile.jpeg"
-        profile_picture_thumbnail = "https://thumb.jpeg"
-        residence_proof_picture = "https://residence.jpeg"
     }
 }
