@@ -1,11 +1,11 @@
 package app.igormatos.botaprarodar.domain.usecase.user
 
-import app.igormatos.botaprarodar.data.model.ImageUploadResponse
-import app.igormatos.botaprarodar.data.model.UserRequest
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
-import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.utils.mockImageUploadResponse
+import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.userRequest
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -35,7 +35,7 @@ class UseFormUseCaseTest {
             mockTestSuccess()
 
             val responseResult =
-                userUseCase.addUser("100", mockUser) as SimpleResult.Success
+                userUseCase.addUser("100", userFake) as SimpleResult.Success
 
             assertEquals("User registered", responseResult.data)
         }
@@ -47,7 +47,7 @@ class UseFormUseCaseTest {
             val exceptionResult = Exception("")
             mockTestException(exceptionResult)
 
-            val responseResult = userUseCase.addUser("100", mockUser)
+            val responseResult = userUseCase.addUser("100", userFake)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertThat(
@@ -62,9 +62,9 @@ class UseFormUseCaseTest {
             mockUpdateTestSuccess()
 
             val responseResult =
-                userUseCase.updateUser("100", mockUser) as SimpleResult.Success
+                userUseCase.updateUser("100", userFake) as SimpleResult.Success
 
-            assertEquals("User registered", responseResult.data)
+            assertEquals("User edited", responseResult.data)
         }
 
     @Test
@@ -73,7 +73,7 @@ class UseFormUseCaseTest {
             val exceptionResult = Exception("")
             mockUpdateTestException(exceptionResult)
 
-            val responseResult = userUseCase.updateUser("100", mockUser)
+            val responseResult = userUseCase.updateUser("100", userFake)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertThat(
@@ -129,41 +129,4 @@ class UseFormUseCaseTest {
             firebaseHelperRepository.uploadOnlyImage(any(), any())
         } returns SimpleResult.Error(exceptionResult)
     }
-
-    private val mockUser =
-        User().apply {
-            name = ""
-            address = ""
-            birthday = ""
-            created_date = ""
-            doc_number = 0
-            doc_picture = ""
-            doc_picture_back = ""
-            doc_type = 0
-            gender = 0
-            profile_picture = ""
-            profile_picture_thumbnail = ""
-            residence_proof_picture = ""
-        }
-
-    private val mockImageUploadResponse = ImageUploadResponse(
-        fullImagePath = "teste",
-        thumbPath = "teste"
-    )
-
-    private val userRequest = UserRequest(
-        name = "mock",
-        createdDate = "",
-        id = "",
-        address = "",
-        docNumber = 0,
-        docPicture = "",
-        docPictureBack = "",
-        docType = 0,
-        gender = 0,
-        path = "",
-        profilePicture = "",
-        profilePictureThumbnail = "",
-        residenceProofPicture = ""
-    )
 }

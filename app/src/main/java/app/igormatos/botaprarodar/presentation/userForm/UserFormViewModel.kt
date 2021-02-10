@@ -26,7 +26,7 @@ class UserFormViewModel(
     val userImageDocumentResidence = MutableLiveData<String>("")
     val userImageDocumentFront = MutableLiveData<String>("")
     val userImageDocumentBack = MutableLiveData<String>("")
-    val userGender = MutableLiveData<Int>(-1)
+    val userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -62,7 +62,7 @@ class UserFormViewModel(
                 isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
-                userGender.value != -1
+                userGender.value != GENDER_INITIAL_VALUE
     }
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
@@ -105,7 +105,7 @@ class UserFormViewModel(
             residence_proof_picture = userImageDocumentResidence.value
             doc_picture = userImageDocumentFront.value
             doc_picture_back = userImageDocumentBack.value
-            gender = userGender.value ?: 3
+            gender = userGender.value ?: NO_ANSWER
         }
     }
 
@@ -141,5 +141,6 @@ class UserFormViewModel(
     companion object {
         private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar o usuário"
         private const val UNKNOWN_ERROR_EDIT = "Falha ao editar o usuário"
+        private const val GENDER_INITIAL_VALUE = -1
     }
 }
