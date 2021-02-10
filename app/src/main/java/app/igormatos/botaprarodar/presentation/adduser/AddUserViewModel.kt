@@ -25,7 +25,7 @@ class AddUserViewModel(
     var userImageDocumentResidence = MutableLiveData<String>("")
     var userImageDocumentFront = MutableLiveData<String>("")
     var userImageDocumentBack = MutableLiveData<String>("")
-    var userGender = MutableLiveData<Int>(-1)
+    var userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -46,7 +46,7 @@ class AddUserViewModel(
                 isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
-                userGender.value != -1
+                userGender.value != GENDER_INITIAL_VALUE
     }
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
@@ -77,7 +77,7 @@ class AddUserViewModel(
             residence_proof_picture = userImageDocumentResidence.value
             doc_picture = userImageDocumentFront.value
             doc_picture_back = userImageDocumentBack.value
-            gender = userGender.value ?: 3
+            gender = userGender.value ?: NO_ANSWER
         }
     }
 
@@ -107,5 +107,9 @@ class AddUserViewModel(
 
     private fun showError() {
         _status.value = ViewModelStatus.Error("Ocorreu um erro, tente novamente")
+    }
+
+    companion object {
+        private const val GENDER_INITIAL_VALUE = -1
     }
 }
