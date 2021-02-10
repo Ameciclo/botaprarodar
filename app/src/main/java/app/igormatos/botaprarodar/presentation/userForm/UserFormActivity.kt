@@ -96,9 +96,7 @@ class UserFormActivity : AppCompatActivity() {
         })
 
         binding.viewModel?.lgpd?.observe(this, Observer {
-            when (it) {
-                true -> showConfirmDialog()
-            }
+            if (it) showConfirmDialog()
         })
     }
 
@@ -200,9 +198,10 @@ class UserFormActivity : AppCompatActivity() {
 
     private fun showConfirmDialog() {
         MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.warning)
             .setMessage(getString(R.string.lgpd_message))
             .setPositiveButton(getString(R.string.lgpd_confirm)) { _, _ ->
-                binding.viewModel.registerUser()
+                binding.viewModel?.registerUser()
             }
             .show()
     }
