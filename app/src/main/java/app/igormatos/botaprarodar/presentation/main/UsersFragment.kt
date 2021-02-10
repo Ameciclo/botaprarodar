@@ -1,10 +1,13 @@
 package app.igormatos.botaprarodar.presentation.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
@@ -15,6 +18,7 @@ import app.igormatos.botaprarodar.presentation.ItemAdapter
 import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
+import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
@@ -49,7 +53,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
         addItemFab.setOnClickListener {
             val intent = Intent(it.context, AddUserActivity::class.java)
-            startActivity(intent)
+            startForResult.launch(intent)
         }
 
         arguments?.let {
@@ -93,6 +97,18 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
 
     }
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getStringExtra("successMessage")?.let {
+                    snackBarMaker(it, requireView()).apply {
+                        setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                        show()
+                    }
+                }
+            }
+        }
 
     companion object {
 

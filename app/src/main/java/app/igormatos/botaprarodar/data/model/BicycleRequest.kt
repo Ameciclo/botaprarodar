@@ -23,5 +23,4 @@ data class BicycleRequest(
     var serialNumber: String,
     @SerializedName("created_date")
     var createdDate: String
-) {
-}
+)

@@ -55,7 +55,12 @@ class BikeFormUseCase(
     }
 
     private suspend fun uploadImage(bike: Bike) =
-        bike.serial_number?.let { firebaseHelperRepository.uploadImage(bike.path, it) }
+        bike.serial_number?.let {
+            firebaseHelperRepository.uploadImageAndThumb(
+                bike.path,
+                "community/bike/$it"
+            )
+        }
 
     private fun setupBike(bike: Bike, imageResponse: ImageUploadResponse) {
         bike.photo_path = imageResponse.fullImagePath

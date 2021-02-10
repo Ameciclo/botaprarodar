@@ -12,18 +12,21 @@ import androidx.databinding.DataBindingUtil
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
+import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.brunotmgomes.ui.extensions.createLoading
+import com.brunotmgomes.ui.extensions.hideKeyboard
+import com.brunotmgomes.ui.extensions.takePictureIntent
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.extensions.*
-import kotlinx.android.synthetic.main.activity_bike_form.*
 import org.parceler.Parcels
-import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class BikeFormActivity : AppCompatActivity() {
 
     var imagePath: String? = null
     private lateinit var loadingDialog: AlertDialog
 
-    private val formViewModel: BikeFormViewModel by koinViewModel()
+    private val formViewModel: BikeFormViewModel by viewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
         DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
@@ -96,7 +99,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun errorText(errorMessage: String) {
-        snackBarMaker(errorMessage, containerAddBike).apply {
+        snackBarMaker(errorMessage, binding.containerAddBike).apply {
             setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
             show()
         }

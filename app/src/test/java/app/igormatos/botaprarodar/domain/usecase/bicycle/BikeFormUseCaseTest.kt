@@ -31,7 +31,7 @@ class BikeFormUseCaseTest {
                 repository.addNewBike(any(), any())
             } returns "Created new bicycle"
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
                 userCaseForm.addNewBike("100", buildBicycle()) as SimpleResult.Success
@@ -49,7 +49,7 @@ class BikeFormUseCaseTest {
             } throws exceptionResult
 
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
             val responseResult = userCaseForm.addNewBike("100", buildBicycle())
 
@@ -65,7 +65,7 @@ class BikeFormUseCaseTest {
                 repository.updateBike(any(), any())
             } returns "Bicycle Edited"
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
                 userCaseForm.updateBike("100", buildBicycle()) as SimpleResult.Success
@@ -99,7 +99,7 @@ class BikeFormUseCaseTest {
             } throws exceptionResult
 
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
             val responseResult = userCaseForm.updateBike("100", buildBicycle())
 
