@@ -2,23 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_home"
+            android:id="@+id/navigationHome"
             android:icon="@drawable/ic_list"
             android:title="Atividades"/>
 
     <item
-            android:id="@+id/navigation_users"
+            android:id="@+id/navigationUsers"
             android:icon="@drawable/ic_person"
             android:title="Usuários"/>
 
     <item
-            android:id="@+id/navigation_bicycles"
+            android:id="@+id/navigationBicycles"
             android:icon="@drawable/ic_directions_bike_black"
             android:title="Bicicletas"/>
-
-    <item
-            android:id="@+id/navigation_dashboard"
-            android:icon="@drawable/ic_dashboard_black"
-            android:title="Painel"/>
 
 </menu>
