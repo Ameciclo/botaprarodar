@@ -8,10 +8,13 @@
     <color name="white">#ffffff</color>
     <color name="rent">#cdcdcd</color>
     <color name="dark_gray">#4E4E4E</color>
+    <color name="light_gray">#979797</color>
     <color name="orange">#ffab00</color>
     <color name="purple">#7b1fa2</color>
     <color name="green">#388e3c</color>
     <color name="blue">#1976d2</color>
     <color name="red">#C24439</color>
+    <color name="black">#000</color>
+    <color name="black_opacity_60">#99000000</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorPrimary</color>
 </resources>
