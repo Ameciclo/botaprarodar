@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,6 +14,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.components.CustomDialog
+import app.igormatos.botaprarodar.common.components.DialogListener
+import app.igormatos.botaprarodar.data.model.DialogModel
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.createLoading
@@ -24,7 +28,7 @@ import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
 
-class UserFormActivity : AppCompatActivity() {
+class UserFormActivity : AppCompatActivity(), DialogListener {
 
     private val binding: ActivityAddUserBinding by lazy {
         DataBindingUtil.setContentView<ActivityAddUserBinding>(this, R.layout.activity_add_user)
@@ -53,6 +57,7 @@ class UserFormActivity : AppCompatActivity() {
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
+        showConfirmDialog()
     }
 
     private fun checkEditMode() {
@@ -197,12 +202,29 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun showConfirmDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.warning)
-            .setMessage(getString(R.string.lgpd_message))
-            .setPositiveButton(getString(R.string.lgpd_confirm)) { _, _ ->
-                binding.viewModel?.registerUser()
-            }
-            .show()
+//        MaterialAlertDialogBuilder(this)
+//            .setTitle(R.string.warning)
+//            .setMessage(getString(R.string.lgpd_message))
+//            .setPositiveButton(getString(R.string.lgpd_confirm)) { _, _ ->
+//                binding.viewModel?.registerUser()
+//            }
+//            .show()
+
+        val dialogModel = DialogModel(
+            title = "TESTE",
+            titlePrimaryButton = "OK",
+            titleSecondaryButton = "CANCEL",
+            listener = this
+        )
+
+        CustomDialog.newInstance(dialogModel).show(supportFragmentManager, "TESTE")
+    }
+
+    override fun primaryOnClickListener() {
+        Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun secondaryOnClickListener() {
+        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show()
     }
 }
