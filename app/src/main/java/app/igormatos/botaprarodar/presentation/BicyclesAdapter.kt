@@ -60,9 +60,12 @@ class BicyclesAdapter(
         RecyclerView.ViewHolder(itemView) {
 
         fun bind(bike: Bike) {
-            itemView.findViewById<TextView>(R.id.cellTitle).text = bike.title()
-            itemView.findViewById<TextView>(R.id.cellSubtitle).text = bike.subtitle()
-            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
+            itemView.findViewById<TextView>(R.id.tv_name_bike_item).text = bike.title()
+            itemView.findViewById<TextView>(R.id.tv_order_bike_item).text =
+                itemView.context.getString(R.string.bike_order_number, bike.order_number.toString())
+            itemView.findViewById<TextView>(R.id.tv_series_bike_item).text =
+                itemView.context.getString(R.string.bike_series_number, bike.serial_number)
+            val imageView = itemView.findViewById<ImageView>(R.id.iv_bike_item)
 
             itemView.setOnLongClickListener {
                 bicycleAdapterListener.onBicycleLongClicked(bike)

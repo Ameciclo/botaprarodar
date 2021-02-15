@@ -1,51 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   xmlns:tools="http://schemas.android.com/tools"
-                                   app:cardCornerRadius="6dp"
-                                   app:cardElevation="8dp"
-                                   android:id="@+id/cellContainer"
-                                   app:cardUseCompatPadding="true"
-                                   android:background="@color/white"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="260dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cellContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="@dimen/margin_12"
+        android:background="@color/white"
+        app:cardUseCompatPadding="true">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
         <ImageView
-                android:id="@+id/cellImageView"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:srcCompat="@tools:sample/avatars"
+                android:id="@+id/iv_bike_item"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:adjustViewBounds="false"
                 android:contentDescription="@string/bicycle_image_view_descripition"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="160dp" android:cropToPadding="false" android:adjustViewBounds="false"
-                android:scaleType="centerCrop"/>
-
-        <TextView
-                tools:text="Nome da bici"
-                app:layout_constraintTop_toBottomOf="@id/cellImageView"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:textSize="20sp"
-                android:maxLines="1"
-                app:layout_constraintBottom_toBottomOf="@+id/cellSubtitle"
-                android:layout_width="0dp"
-                android:layout_height="26dp" android:id="@+id/cellTitle" android:textFontWeight="500"/>
-
-        <TextView
-                app:layout_constraintTop_toBottomOf="@+id/cellTitle"
-                tools:text="Ordem: 123 / Número de serie: 1231baeac"
-                app:layout_constraintLeft_toLeftOf="@+id/cellTitle"
-                app:layout_constraintRight_toRightOf="@+id/cellTitle"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="0dp" android:layout_height="18dp"
-                android:id="@+id/cellSubtitle" android:layout_marginBottom="16dp"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75">
+
+            <TextView
+                    android:id="@+id/tv_name_bike_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:maxLines="1"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_arrow_bike_item"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nome da bike asfdjsdfsklfjklsdjflkdsjf" />
+
+            <TextView
+                    android:id="@+id/tv_order_bike_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_arrow_bike_item"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_name_bike_item"
+                    app:layout_constraintRight_toRightOf="@+id/tv_name_bike_item"
+                    app:layout_constraintStart_toStartOf="@+id/tv_name_bike_item"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name_bike_item"
+                    tools:text="Ordem: 123" />
+
+            <TextView
+                    android:id="@+id/tv_series_bike_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_arrow_bike_item"
+                    app:layout_constraintStart_toStartOf="@+id/tv_name_bike_item"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_order_bike_item"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="Serie: ABCDX123" />
+
+            <ImageView
+                    android:id="@+id/iv_arrow_bike_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/text_gray" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

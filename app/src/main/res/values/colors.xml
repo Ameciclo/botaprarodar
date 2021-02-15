@@ -13,5 +13,6 @@
     <color name="green">#388e3c</color>
     <color name="blue">#1976d2</color>
     <color name="red">#C24439</color>
+    <color name="text_gray">#515151</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorPrimary</color>
 </resources>

@@ -19,4 +19,6 @@
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_xlarge">34sp</dimen>
 
+    <dimen name="margin_12">12dp</dimen>
+
 </resources>

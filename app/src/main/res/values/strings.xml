@@ -99,4 +99,8 @@
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
+
+    <!-- Bike fragment -->
+    <string name="bike_order_number">Ordem: %s</string>
+    <string name="bike_series_number">Série: %s</string>
 </resources>
