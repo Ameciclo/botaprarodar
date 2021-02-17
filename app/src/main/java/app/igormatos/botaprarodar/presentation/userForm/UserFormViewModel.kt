@@ -19,14 +19,14 @@ class UserFormViewModel(
     var isEditableAvailable = false
     var user = User()
 
-    val userCompleteName = MutableLiveData<String>("")
-    val userAddress = MutableLiveData<String>("")
-    val userDocument = MutableLiveData<String>("")
-    val userImageProfile = MutableLiveData<String>("")
-    val userImageDocumentResidence = MutableLiveData<String>("")
-    val userImageDocumentFront = MutableLiveData<String>("")
-    val userImageDocumentBack = MutableLiveData<String>("")
-    val userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
+    var userCompleteName = MutableLiveData<String>("")
+    var userAddress = MutableLiveData<String>("")
+    var userDocument = MutableLiveData<String>("")
+    var userImageProfile = MutableLiveData<String>("")
+    var userImageDocumentResidence = MutableLiveData<String>("")
+    var userImageDocumentFront = MutableLiveData<String>("")
+    var userImageDocumentBack = MutableLiveData<String>("")
+    var userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
