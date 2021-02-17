@@ -103,4 +103,7 @@
     <!-- Bike fragment -->
     <string name="bike_order_number">Ordem: %s</string>
     <string name="bike_series_number">Série: %s</string>
+
+    <!-- User fragment -->
+    <string name="user_created_since">Cadastrado desde %s</string>
 </resources>

@@ -16,9 +16,12 @@
 
     <dimen name="default_view_margin">8dp</dimen>
 
+    <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_xlarge">34sp</dimen>
 
     <dimen name="margin_12">12dp</dimen>
+    <dimen name="separator_height">1dp</dimen>
+    <dimen name="circle_image_40">40dp</dimen>
 
 </resources>
