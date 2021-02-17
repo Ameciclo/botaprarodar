@@ -1,13 +1,15 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
+import kotlinx.android.parcel.Parcelize
 import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
 
 @IgnoreExtraProperties
-@Parcel
-open class User : Item {
+@Parcelize
+open class User : Parcelable, Item {
 
     override var path: String = "users"
 

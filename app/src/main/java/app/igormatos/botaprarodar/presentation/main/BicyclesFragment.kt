@@ -10,19 +10,20 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
-import app.igormatos.botaprarodar.presentation.BicyclesAdapter
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
+import app.igormatos.botaprarodar.presentation.adapter.BicycleAdapterListener
+import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.koin.android.ext.android.inject
 
-class BicyclesFragment : Fragment(), BicycleAdapterListener {
+class BicyclesFragment : Fragment(),
+    BicycleAdapterListener {
 
     lateinit var bicycleAdapter: BicyclesAdapter
     private val preferencesModule: SharedPreferencesModule by inject()
@@ -39,15 +40,17 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bicycleAdapter = BicyclesAdapter(bicycleAdapterListener = this)
+        bicycleAdapter =
+            BicyclesAdapter(
+                bicycleAdapterListener = this
+            )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         addItemFab.setOnClickListener {
-            val intent = BikeFormActivity.setupActivity(requireContext(), null)
-            startForResult.launch(intent)
+            navigateToBikeFormFragment(null)
         }
 
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
@@ -72,9 +75,9 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
             })
     }
 
-    override fun onBicycleClicked(bike: Bike) {
-        val intent = BikeFormActivity.setupActivity(requireContext(), bike)
-        startForResult.launch(intent)
+    override fun navigateToBikeFormFragment(bike: Bike?) {
+        val action = BicyclesFragmentDirections.actionNavigationBicyclesToBikeFormFragment(bike)
+        findNavController().navigate(action)
     }
 
     override fun onBicycleLongClicked(bike: Bike): Boolean {

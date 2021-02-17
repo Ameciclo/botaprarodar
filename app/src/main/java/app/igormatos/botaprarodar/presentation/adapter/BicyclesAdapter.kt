@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -14,13 +14,17 @@ import com.bumptech.glide.Glide
 
 class BicyclesAdapter(
     private val bicycleAdapterListener: BicycleAdapterListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BicycleAdapterListener {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    BicycleAdapterListener {
 
     var itemsList: MutableList<Bike> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
-        return BicycleViewHolder(bicycleAdapterListener, view)
+        return BicycleViewHolder(
+            bicycleAdapterListener,
+            view
+        )
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -69,7 +73,7 @@ class BicyclesAdapter(
             }
 
             itemView.setOnClickListener {
-                bicycleAdapterListener.onBicycleClicked(bike)
+                bicycleAdapterListener.navigateToBikeFormFragment(bike)
             }
 
             if (!bike.isAvailable) {
@@ -90,8 +94,8 @@ class BicyclesAdapter(
         }
     }
 
-    override fun onBicycleClicked(bike: Bike) {
-        bicycleAdapterListener.onBicycleClicked(bike)
+    override fun navigateToBikeFormFragment(bike: Bike?) {
+        bicycleAdapterListener.navigateToBikeFormFragment(bike)
     }
 
     override fun onBicycleLongClicked(bike: Bike): Boolean {

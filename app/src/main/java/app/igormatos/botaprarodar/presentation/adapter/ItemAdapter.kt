@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -12,16 +12,14 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import app.igormatos.botaprarodar.*
+import androidx.recyclerview.widget.RecyclerView
+import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity.Companion.BIKE_EXTRA
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
-import app.igormatos.botaprarodar.presentation.adduser.USER_EXTRA
+import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormFragment
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
@@ -32,9 +30,10 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
 import org.parceler.Parcels
 
-class ItemAdapter(private var activity: Activity? = null) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(),
-    Filterable {
+class ItemAdapter(
+    private var activity: Activity? = null,
+    private var onTouchUserItem: ((user: User?) -> Unit)? =null
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     override fun getFilter(): Filter {
         return object : Filter() {
@@ -79,7 +78,7 @@ class ItemAdapter(private var activity: Activity? = null) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    ): RecyclerView.ViewHolder {
 
         val view = if (viewType == 0) {
             LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
@@ -104,13 +103,20 @@ class ItemAdapter(private var activity: Activity? = null) :
         return filteredList.count()
     }
 
-    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        index: Int
+    ) {
         val item = filteredList[index]
 
         if (withdrawalInProgress == null) {
-            (holder as ItemCellViewHolder).bind(item, activity)
+            (holder as ItemCellViewHolder).bind(item, activity, onTouchUserItem)
         } else {
-            (holder as ItemCellViewHolder).bindUserSelection(item, withdrawalInProgress!!, activity!!)
+            (holder as ItemCellViewHolder).bindUserSelection(
+                item,
+                withdrawalInProgress!!,
+                activity!!
+            )
         }
 
     }
@@ -143,7 +149,7 @@ class ItemAdapter(private var activity: Activity? = null) :
         notifyDataSetChanged()
     }
 
-    class ItemCellViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class ItemCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindUserSelection(item: Item, withdrawalInProgress: Withdraw, activity: Activity) {
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
@@ -200,7 +206,8 @@ class ItemAdapter(private var activity: Activity? = null) :
 
         fun bind(
             item: Item,
-            activity: Activity? = null
+            activity: Activity? = null,
+            onTouchUserItem:((user: User?) -> Unit)? =null
         ) {
 
             itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
@@ -221,12 +228,9 @@ class ItemAdapter(private var activity: Activity? = null) :
                 }
             }
 
-
             if (item is User) {
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, AddUserActivity::class.java)
-                    intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
-                    itemView.context.startActivity(intent)
+                    onTouchUserItem?.invoke(item)
                 }
             }
 
@@ -234,13 +238,17 @@ class ItemAdapter(private var activity: Activity? = null) :
                 val isAvailable = item.inUse?.not() ?: true
 
                 if (!isAvailable) {
-                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
-                        R.color.rent
-                    ))
+                    itemView.cellContainer.setBackgroundColor(
+                        itemView.resources.getColor(
+                            R.color.rent
+                        )
+                    )
                 } else {
-                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
-                        R.color.white
-                    ))
+                    itemView.cellContainer.setBackgroundColor(
+                        itemView.resources.getColor(
+                            R.color.white
+                        )
+                    )
                 }
 
                 itemView.setOnClickListener {
@@ -251,7 +259,10 @@ class ItemAdapter(private var activity: Activity? = null) :
                         withdrawalInProgress.bicycle_id = item.id
                         withdrawalInProgress.bicycle_image_path = item.photo_path
 
-                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
+                        intent.putExtra(
+                            WITHDRAWAL_EXTRA,
+                            Parcels.wrap(Withdraw::class.java, withdrawalInProgress)
+                        )
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
@@ -267,9 +278,9 @@ class ItemAdapter(private var activity: Activity? = null) :
             if (item is Bike && activity != null && activity !is WithdrawActivity) {
 
                 itemView.setOnClickListener {
-                    val intent = Intent(it.context, BikeFormActivity::class.java)
-                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, item))
-                    activity.startActivity(intent)
+//                    val intent = Intent(it.context, BikeFormFragment::class.java)
+//                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, item))
+//                    activity.startActivity(intent)
                 }
 
             }
@@ -283,14 +294,14 @@ class ItemAdapter(private var activity: Activity? = null) :
                 imageView.setImageResource(withdrawIcon)
             } else if (item is User) {
                 imageView.loadPathOnCircle(item.iconPath())
-            } else if (item is Bike && !item.isAvailable){
+            } else if (item is Bike && !item.isAvailable) {
                 Glide.with(itemView.context)
                     .load(item.iconPath())
                     .into(imageView)
 
-                val colorMatrix =  ColorMatrix()
+                val colorMatrix = ColorMatrix()
                 colorMatrix.setSaturation(0.0f)
-                val filter =  ColorMatrixColorFilter(colorMatrix)
+                val filter = ColorMatrixColorFilter(colorMatrix)
                 imageView.colorFilter = filter
 
             } else {

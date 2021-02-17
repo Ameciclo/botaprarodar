@@ -36,8 +36,6 @@
                 android:name=".presentation.main.MainActivity"
                 android:label="@string/app_name">
         </activity>
-        <activity android:name=".presentation.adduser.AddUserActivity">
-        </activity>
 
         <provider
                 android:name="androidx.core.content.FileProvider"
@@ -49,7 +47,7 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".presentation.addbicycle.BikeFormActivity">
+        <activity android:name=".presentation.addbicycle.BikeFormFragment">
         </activity>
         <activity android:name="app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.BicycleWithdrawActivity">
         </activity>

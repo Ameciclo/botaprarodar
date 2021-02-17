@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main_nav_graph"
         app:startDestination="@id/navigationHome">
 
     <fragment
             android:id="@+id/navigationHome"
-            android:name="app.igormatos.botaprarodar.presentation.main.TripsFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.TripsFragment"
+            android:label="Atividades" />
 
     <fragment
             android:id="@+id/navigationUsers"
-            android:name="app.igormatos.botaprarodar.presentation.main.UsersFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.UsersFragment"
+            android:label="Usuários">
+        <action
+                android:id="@+id/action_usersFragment_to_addUserFragment"
+                app:destination="@id/addUserFragment">
+            <argument
+                    android:name="user"
+                    app:argType="app.igormatos.botaprarodar.domain.model.User"
+                    app:nullable="true" />
+        </action>
+    </fragment>
+
+    <fragment
+            android:id="@+id/addUserFragment"
+            android:name="app.igormatos.botaprarodar.presentation.adduser.AddUserFragment"
+            android:label="Adicionar usuário">
+
+        <argument
+                android:name="user"
+                app:argType="app.igormatos.botaprarodar.domain.model.User"
+                app:nullable="true" />
+    </fragment>
+
     <fragment
             android:id="@+id/navigationBicycles"
-            android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment"
+            android:label="Bicletas">
+        <action
+                android:id="@+id/action_navigationBicycles_to_bikeFormFragment"
+                app:destination="@id/bikeFormFragment">
+            <argument
+                    android:name="bike"
+                    app:argType="app.igormatos.botaprarodar.domain.model.Bike"
+                    app:nullable="true" />
+        </action>
+    </fragment>
+
+    <fragment
+            android:id="@+id/bikeFormFragment"
+            android:name="app.igormatos.botaprarodar.presentation.addbicycle.BikeFormFragment"
+            android:label="Adicionar Bicicleta">
+        <argument
+                android:name="bike"
+                app:argType="app.igormatos.botaprarodar.domain.model.Bike"
+                app:nullable="true" />
+
+    </fragment>
+
 </navigation>
 
 

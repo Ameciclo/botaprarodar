@@ -1,18 +1,19 @@
 package app.igormatos.botaprarodar.presentation.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
-import app.igormatos.botaprarodar.presentation.ItemAdapter
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
+import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.adapter.ItemAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import kotlinx.android.synthetic.main.activity_choose_user.*
@@ -21,7 +22,7 @@ import org.koin.android.ext.android.inject
 import org.parceler.Parcels
 
 
-class UsersFragment : androidx.fragment.app.Fragment() {
+class UsersFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
@@ -45,11 +46,10 @@ class UsersFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         itemAdapter =
-            ItemAdapter(activity = this.activity)
+            ItemAdapter(activity = this.activity, onTouchUserItem = ::onTouchUserItem)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, AddUserActivity::class.java)
-            startActivity(intent)
+            onTouchUserItem(null)
         }
 
         arguments?.let {
@@ -90,7 +90,6 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             }
 
         })
-
 
     }
 
@@ -142,4 +141,8 @@ class UsersFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    fun onTouchUserItem(user: User?) {
+        val action = UsersFragmentDirections.actionUsersFragmentToAddUserFragment(user)
+         findNavController().navigate(action)
+    }
 }

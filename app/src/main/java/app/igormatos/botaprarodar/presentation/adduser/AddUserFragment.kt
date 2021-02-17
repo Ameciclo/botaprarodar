@@ -3,28 +3,29 @@ package app.igormatos.botaprarodar.presentation.adduser
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.fullscreenimage.FullscreenImageActivity
+import app.igormatos.botaprarodar.presentation.main.MainActivity
 import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_add_user.*
+import kotlinx.android.synthetic.main.frgment_add_user.*
 import org.jetbrains.anko.image
-import org.parceler.Parcels
 
-val USER_EXTRA = "USER_EXTRA"
 
-class AddUserActivity : AppCompatActivity() {
+class AddUserFragment : Fragment() {
 
     val REQUEST_PROFILE_PHOTO = 1
     val REQUEST_ID_PHOTO = 2
@@ -38,13 +39,20 @@ class AddUserActivity : AppCompatActivity() {
     var idBackPhotosHasChanged: Boolean = false
     var residencePhotoHasChanged: Boolean = false
 
-
     lateinit var mCurrentPhotoPath: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_user)
+    private val args: AddUserFragmentArgs by navArgs()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return inflater.inflate(R.layout.frgment_add_user, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         profileImageView.setOnClickListener {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
@@ -87,7 +95,11 @@ class AddUserActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             if (hasEmptyField()) {
-                Toast.makeText(this, getString(R.string.empties_fields_error), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.empties_fields_error),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 return@setOnClickListener
             }
@@ -118,36 +130,31 @@ class AddUserActivity : AppCompatActivity() {
 
         genderRadioGroup.check(R.id.dontNeedCheck)
 
-        val userParcelable: Parcelable? =
-            if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(
-                USER_EXTRA
-            ) else null
-        checkIfEditMode(userParcelable)
-
+        checkEditUser()
     }
 
-    private fun checkIfEditMode(userParcelable: Parcelable?) {
-        if (userParcelable == null) return
-
-        setupUser(userParcelable)
+    private fun checkEditUser() {
+        args.user?.let {
+            (activity as MainActivity).supportActionBar?.title = "Editar Usuário"
+            setupUser(it)
+        }
     }
 
-    private fun setupUser(userParcelable: Parcelable) {
-        val user = Parcels.unwrap(userParcelable) as User
+    private fun setupUser(user: User) {
 
         userToSend = user
         userCopy = user
 
         profileImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.profile_picture)
+            FullscreenImageActivity.start(requireContext(), user.profile_picture)
         }
 
         idFrontImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.doc_picture)
+            FullscreenImageActivity.start(requireContext(), user.doc_picture)
         }
 
         residenceProofImageView.setOnClickListener {
-            FullscreenImageActivity.start(this, user.residence_proof_picture)
+            FullscreenImageActivity.start(requireContext(), user.residence_proof_picture)
         }
 
         editProfilePhotoButton.visibility = View.VISIBLE
@@ -214,16 +221,16 @@ class AddUserActivity : AppCompatActivity() {
             if (success) {
                 progressBar.visibility = View.GONE
                 Toast.makeText(
-                    this@AddUserActivity,
+                    requireContext(),
                     getString(R.string.operation_success_message),
                     Toast.LENGTH_SHORT
                 )
                     .show()
-                finish()
+//                finish()
             } else {
                 progressBar.visibility = View.GONE
                 Toast.makeText(
-                    this@AddUserActivity,
+                    requireContext(),
                     getString(R.string.something_happened_error),
                     Toast.LENGTH_SHORT
                 )
@@ -251,7 +258,7 @@ class AddUserActivity : AppCompatActivity() {
                 updateUserImagePath(whichImageCode, path.toString(), thumbPath.toString())
             } else {
                 Toast.makeText(
-                    this,
+                    requireContext(),
                     getString(R.string.something_happened_error),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -280,8 +287,10 @@ class AddUserActivity : AppCompatActivity() {
     }
 
     private fun dispatchTakePictureIntent(code: Int) {
-        takePictureIntent(code) { path ->
-            mCurrentPhotoPath = path
+        activity?.apply {
+            takePictureIntent(code) { path ->
+                mCurrentPhotoPath = path
+            }
         }
     }
 
@@ -332,11 +341,11 @@ class AddUserActivity : AppCompatActivity() {
         val tipLayout = layoutInflater.inflate(R.layout.dialog_tip, null)
 
         tipLayout.findViewById<ImageView>(R.id.tipImage).image =
-            ContextCompat.getDrawable(this, image)
+            ContextCompat.getDrawable(requireContext(), image)
         tipLayout.findViewById<TextView>(R.id.tipTitle).text = title
         tipLayout.findViewById<TextView>(R.id.tipSubtitle).text = subtitle
 
-        MaterialAlertDialogBuilder(this)
+        MaterialAlertDialogBuilder(requireContext())
             .setView(tipLayout)
             .setPositiveButton("Tirar foto!") { _, _ ->
                 click(true)
