@@ -64,7 +64,7 @@ class EmailValidationFragment : Fragment() {
 
     private fun showErrorMessage(@StringRes messageId: Int) {
         Snackbar.make(
-            binding.container,
+            binding.fragmentEmailValidationContainer,
             messageId,
             Snackbar.LENGTH_SHORT
         ).show()

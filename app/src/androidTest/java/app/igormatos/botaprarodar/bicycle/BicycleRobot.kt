@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.bicycle
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -14,7 +13,7 @@ fun bicycle(executeFun: BicycleRobot.() -> Unit) = BicycleRobot().apply{ execute
 class BicycleRobot : BaseRobot() {
 
     fun clickBicycleNavigation() {
-        clickButton(R.id.navigation_bicycles)
+        clickButton(R.id.navigationBicycles)
     }
 
     fun addBicycle() {
