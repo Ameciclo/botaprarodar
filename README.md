@@ -64,7 +64,7 @@ Nossos testes rodam sempre em debug e estão divididos em instrumentados e não 
 
 ## Integração Contínua
 Nosso fluxo de CI é implementado pelo [github actions](https://github.com/Ameciclo/botaprarodar/actions).
-Os arquivos de configuração com os jobs ficam localizados no diretório ***/.gihub*** na raíz do projeto.
+Os arquivos de configuração com os jobs ficam localizados no diretório ***/.github*** na raíz do projeto.
 Atualmente há dois pipelines de CI:
 1. executa a cada pull request aberto pra development ou main, com os jobs
     - Tests Unitaires
