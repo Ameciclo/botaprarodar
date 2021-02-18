@@ -32,7 +32,7 @@ Estado é armazenado em memória ao longo da execução do aplicativo. Sempre qu
 Os dados quando baixados da api são tratados pela camada de persistência/rede por meio de *repositories*, que por sua vez são acessados por *usecases/interactors* que concentram a lógica de negócio da aplicação.
 
 Activities e fragments são apenas para lógica de apresentação. Cada activity e fragment deve ter sua própria *ViewModel* onde a lógica de negócio é tratada.
-As *ViewModels* reagem as mudanças de dados nos *usecases/interactors* via coroutines e atualizam a UI por meio de LiveData/DataBinding.
+As *ViewModels* reagem as mudanças de dados nos *usecases/interactors* via coroutines e atualizam a UI por meio de LiveData/DataBinding/ViewBinding.
 
 ## Dependências externas
 
