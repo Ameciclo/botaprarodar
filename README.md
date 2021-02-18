@@ -14,6 +14,7 @@ alternativa a desigualdades socioespaciais.
 4. Clique em Rodar 'app', ou pela *barra de menu* > *rodar* > *rodar 'app'*. Pronto!
 
 ## Arquitetura do projeto
+
 O App é um cliente sem estado: todas as operações/mudanças são executadas por meio de chamadas de api pela rede.
 
 Os dados locais são imutáveis, o cliente apenas exibe as informações atualizadas do firebase.  
@@ -24,6 +25,8 @@ A camada de persistência/rede é responsável por traduzir de e para objetos de
 
 Todos os fluxos da aplicação dependem de prévia autenticação de um usuário Administrador gerenciado pelo console do Firebase.  
 Uma vez que é feito a validação/autenticação do usuário, este é armazenado em memória e mantido ao longo da execução para futuras consultas na api.
+
+Utilizamos ***MVVM*** como modelo de design de desenvolvimento do projeto.
 
 Estado é armazenado em memória ao longo da execução do aplicativo. Sempre que um recurso é baixado da api, este recurso passa a representar o Estado da aplicação enquanto o aplicativo estiver sendo executado.  
 Os dados quando baixados da api são tratados pela camada de persistência/rede por meio de *repositories*, que por sua vez são acessados por *usecases/interactors* que concentram a lógica de negócio da aplicação.
