@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.DialogModel
+import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import kotlinx.android.synthetic.main.custom_dialog.*
 
 class CustomDialog : DialogFragment() {
@@ -27,9 +27,9 @@ class CustomDialog : DialogFragment() {
         private const val DIALOG_KEY = "DIALOG_KEY"
         private const val EIGHTY_FIVE_PERCENTAGE = 0.85
 
-        fun newInstance(dialogModel: DialogModel): CustomDialog {
+        fun newInstance(customDialogModel: CustomDialogModel): CustomDialog {
             val args = Bundle()
-            args.putSerializable(DIALOG_KEY, dialogModel)
+            args.putSerializable(DIALOG_KEY, customDialogModel)
             val fragment = CustomDialog()
             fragment.arguments = args
             return fragment
@@ -50,7 +50,7 @@ class CustomDialog : DialogFragment() {
         val width = (resources.displayMetrics.widthPixels * EIGHTY_FIVE_PERCENTAGE).toInt()
         dialog?.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-        val dialogModel = arguments?.getSerializable(DIALOG_KEY) as DialogModel
+        val dialogModel = arguments?.getSerializable(DIALOG_KEY) as CustomDialogModel
 
         initUI()
         setTitle(dialogModel)
@@ -71,45 +71,45 @@ class CustomDialog : DialogFragment() {
         }
     }
 
-    private fun setClickListeners(dialogModel: DialogModel?) {
+    private fun setClickListeners(customDialogModel: CustomDialogModel?) {
         btnPrimaryDialog.setOnClickListener {
-            dialogModel?.primaryListenerButton?.onClick(it)
+            customDialogModel?.primaryButtonListener?.onClick(it)
             dialog?.dismiss()
         }
         btnSecondaryDialog.setOnClickListener {
-            dialogModel?.secondListenerButton?.onClick(it)
+            customDialogModel?.secondaryButtonListener?.onClick(it)
             dialog?.dismiss()
         }
     }
 
-    private fun setTitle(dialogModel: DialogModel?) {
-        tvTitleDialog.isVisible = !dialogModel?.title.isNullOrEmpty()
-        tvTitleDialog.text = dialogModel?.title
+    private fun setTitle(customDialogModel: CustomDialogModel?) {
+        tvTitleDialog.isVisible = !customDialogModel?.title.isNullOrEmpty()
+        tvTitleDialog.text = customDialogModel?.title
     }
 
-    private fun setMessage(dialogModel: DialogModel?) {
-        tvMessageDialog.isVisible = !dialogModel?.message.isNullOrEmpty()
-        tvMessageDialog.text = dialogModel?.message
+    private fun setMessage(customDialogModel: CustomDialogModel?) {
+        tvMessageDialog.isVisible = !customDialogModel?.message.isNullOrEmpty()
+        tvMessageDialog.text = customDialogModel?.message
     }
 
-    private fun setPrimaryButtonText(dialogModel: DialogModel?) {
-        btnPrimaryDialog.text = dialogModel?.titlePrimaryButton
+    private fun setPrimaryButtonText(customDialogModel: CustomDialogModel?) {
+        btnPrimaryDialog.text = customDialogModel?.primaryButtonText
     }
 
-    private fun setSecondaryButtonText(dialogModel: DialogModel?) {
-        btn_secondary_dialog.isVisible = !dialogModel?.titleSecondaryButton.isNullOrEmpty()
-        btn_secondary_dialog.text = dialogModel?.titleSecondaryButton
+    private fun setSecondaryButtonText(customDialogModel: CustomDialogModel?) {
+        btn_secondary_dialog.isVisible = !customDialogModel?.secondaryButtonText.isNullOrEmpty()
+        btn_secondary_dialog.text = customDialogModel?.secondaryButtonText
     }
 
-    private fun setIcon(dialogModel: DialogModel?) {
-        val imageDrawable = dialogModel?.icon?.let { icon ->
+    private fun setIcon(customDialogModel: CustomDialogModel?) {
+        val imageDrawable = customDialogModel?.icon?.let { icon ->
             ContextCompat.getDrawable(
                 requireContext(),
                 icon
             )
         }
 
-        ivIconDialog.isVisible = dialogModel?.icon != null
+        ivIconDialog.isVisible = customDialogModel?.icon != null
         ivIconDialog.setImageDrawable(imageDrawable)
     }
 }

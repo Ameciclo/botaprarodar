@@ -16,7 +16,7 @@ import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
-import app.igormatos.botaprarodar.domain.model.DialogModel
+import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
@@ -203,11 +203,11 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun showConfirmDialog() {
-        val dialogModel = DialogModel(
+        val dialogModel = CustomDialogModel(
             title = getString(R.string.warning),
             message = getString(R.string.lgpd_message),
-            titlePrimaryButton = getString(R.string.lgpd_confirm),
-            primaryListenerButton = {
+            primaryButtonText = getString(R.string.lgpd_confirm),
+            primaryButtonListener = {
                 binding.viewModel?.registerUser()
             }
         )
