@@ -8,4 +8,8 @@ class UserRepository(private val userApi: UserApi) {
     suspend fun addNewUser(communityId: String, user: UserRequest): String {
         return userApi.addUser(communityId, user).name
     }
+
+    suspend fun updateUser(communityId: String, user: UserRequest): String {
+        return userApi.updateUser(communityId, user.id, user).name
+    }
 }

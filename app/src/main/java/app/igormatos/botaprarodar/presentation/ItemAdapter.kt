@@ -20,8 +20,8 @@ import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity.Companion.BIKE_EXTRA
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity.Companion.USER_EXTRA
+import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
+import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity.Companion.USER_EXTRA
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
@@ -224,7 +224,7 @@ class ItemAdapter(private var activity: Activity? = null) :
 
             if (item is User) {
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, AddUserActivity::class.java)
+                    val intent = Intent(itemView.context, UserFormActivity::class.java)
                     intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
                     itemView.context.startActivity(intent)
                 }
