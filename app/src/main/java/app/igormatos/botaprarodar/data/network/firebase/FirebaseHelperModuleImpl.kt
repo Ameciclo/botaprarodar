@@ -29,7 +29,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         FirebaseHelper.setCommunityId(communityId)
     }
 
-    override suspend fun addCommunity(community: Community) : SimpleResult<Boolean> {
+    override suspend fun addCommunity(community: Community): SimpleResult<Boolean> {
         val communityKey = communitiesPreview.push().key!!
         community.id = communityKey
 
@@ -110,18 +110,22 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                val user = p0.getValue(User::class.java)
-                listener.onChildChanged(user as Item)
+                snapshotToUser(p0)?.let {
+                    listener.onChildAdded(it as Item)
+                }
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val user = p0.getValue(User::class.java)
-                listener.onChildAdded(user as Item)
+                snapshotToUser(p0)?.let {
+                    checkIdAndUpdate(it, p0, usersReference)
+                    listener.onChildAdded(it as Item)
+                }
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                val user = p0.getValue(User::class.java)
-                listener.onChildRemoved(user as Item)
+                snapshotToUser(p0)?.let {
+                    listener.onChildAdded(it as Item)
+                }
             }
         }
 
@@ -328,7 +332,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         return snapshot.getValue(Withdraw::class.java)
     }
 
-    private fun snapshotToWithUser(snapshot: DataSnapshot): User? {
+    private fun snapshotToUser(snapshot: DataSnapshot): User? {
         return snapshot.getValue(User::class.java)
     }
 
@@ -337,14 +341,29 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
     }
 
     private fun checkIdAndUpdate(
-        bike: Bike,
+        item: Item,
         snapshot: DataSnapshot,
-        bicyclesReference: DatabaseReference
+        reference: DatabaseReference
     ) {
-        if (bike.id.isNullOrEmpty()) {
+        when (item) {
+            is Bike -> {
+                verifyItemIdAndUpdate(item, snapshot, reference)
+            }
+            is User -> {
+                verifyItemIdAndUpdate(item, snapshot, reference)
+            }
+        }
+    }
+
+    private fun verifyItemIdAndUpdate(
+        item: Item,
+        snapshot: DataSnapshot,
+        reference: DatabaseReference
+    ) {
+        if (item.id.isNullOrEmpty()) {
             snapshot.key?.let { key ->
-                bike.id = key
-                bicyclesReference.child(key).setValue(bike)
+                item.id = key
+                reference.child(key).setValue(item)
             }
         }
     }

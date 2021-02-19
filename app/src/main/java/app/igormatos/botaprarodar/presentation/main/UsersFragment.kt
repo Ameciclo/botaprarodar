@@ -9,15 +9,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.RequestListener
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
-import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.presentation.ItemAdapter
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
+import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -28,6 +28,7 @@ import org.parceler.Parcels
 class UsersFragment : androidx.fragment.app.Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
+    private val firebaseHelperModule: FirebaseHelperModule by inject()
 
     lateinit var itemAdapter: ItemAdapter
 
@@ -52,7 +53,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             ItemAdapter(activity = this.activity)
 
         addItemFab.setOnClickListener {
-            val intent = Intent(it.context, AddUserActivity::class.java)
+            val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
         }
 
@@ -74,41 +75,46 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             )
         )
 
-        val joinedCommunityId = preferencesModule.getJoinedCommunity().id!!
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
         val filterOnlyAvailable = activity is ChooseUserActivity
 
-        FirebaseHelper.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
+        firebaseHelperModule.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result)
-//                RealmHelper.insertUser(result as User)
             }
 
             override fun onChildAdded(result: Item) {
                 itemAdapter.addItem(result)
-//                RealmHelper.insertUser(result as User)
             }
-
 
             override fun onChildRemoved(result: Item) {
                 itemAdapter.removeItem(result)
             }
-
         })
-
-
     }
 
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.getStringExtra("successMessage")?.let {
-                    snackBarMaker(it, requireView()).apply {
-                        setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
-                        show()
-                    }
-                }
+                showSnackBar(result.data)
             }
         }
+
+    private fun showSnackBar(intent: Intent?) {
+        intent?.getBooleanExtra("isEditModeAvailable", false)?.let {
+            val message = getSuccessMessage(it)
+            snackBarMaker(message, requireView()).apply {
+                setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                show()
+            }
+        }
+    }
+
+    private fun getSuccessMessage(isEditModeAvailable: Boolean) =
+        if (isEditModeAvailable)
+            getString(R.string.user_update_success)
+        else
+            getString(R.string.user_add_success)
 
     companion object {
 

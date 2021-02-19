@@ -30,5 +30,5 @@ data class UserRequest(
     @SerializedName("path")
     var path: String = "users",
     @SerializedName("id")
-    var id: String = ""
+    var id: String
 )
