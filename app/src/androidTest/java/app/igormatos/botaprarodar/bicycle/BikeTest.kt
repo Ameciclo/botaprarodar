@@ -4,8 +4,12 @@ import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import app.igormatos.botaprarodar.createcommunity.addCommunity
+import app.igormatos.botaprarodar.data.network.RequestListener
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.login.login
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import io.mockk.coEvery
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule

@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain.usecase.bicycle
+package app.igormatos.botaprarodar.domain.usecase.bikeForm
 
 import app.igormatos.botaprarodar.buildMapStringAndBicycle
 import app.igormatos.botaprarodar.data.repository.BikeRepository

@@ -7,57 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.bumptech.glide.Glide
 
-class BicyclesAdapter(
-    private val bicycleAdapterListener: BicycleAdapterListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), BicycleAdapterListener {
+class BicyclesAdapter : ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(UsersDiffUtil()) {
 
-    var itemsList: MutableList<Bike> = mutableListOf()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BicycleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
-        return BicycleViewHolder(bicycleAdapterListener, view)
+        return BicycleViewHolder(view)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return 0
+    override fun onBindViewHolder(holder: BicycleViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return itemsList.count()
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, index: Int) {
-        val item = itemsList[index]
-        (holder as BicycleViewHolder).bind(item)
-    }
-
-    fun addItem(item: Bike) {
-        itemsList.add(0, item)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(item: Bike) {
-        val index = itemsList.indexOfFirst { it.id == item.id }
-        itemsList.removeAt(index)
-        notifyItemRemoved(index)
-    }
-
-    fun updateItem(item: Bike) {
-        val index = itemsList.indexOfFirst { it.id == item.id }
-        itemsList[index] = item
-        notifyItemChanged(index)
-    }
-
-    class BicycleViewHolder(
-        private val bicycleAdapterListener: BicycleAdapterListener,
-        itemView: View
-    ) :
-        RecyclerView.ViewHolder(itemView) {
+    class BicycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(bike: Bike) {
             itemView.findViewById<TextView>(R.id.tv_name_bike_item).text = bike.title()
@@ -67,12 +35,12 @@ class BicyclesAdapter(
                 itemView.context.getString(R.string.bike_series_number, bike.serial_number)
             val imageView = itemView.findViewById<ImageView>(R.id.iv_bike_item)
 
-            itemView.setOnLongClickListener {
-                bicycleAdapterListener.onBicycleLongClicked(bike)
-            }
+//            itemView.setOnLongClickListener {
+//                bicycleAdapterListener.onBicycleLongClicked(bike)
+//            }
 
             itemView.setOnClickListener {
-                bicycleAdapterListener.onBicycleClicked(bike)
+//                bicycleAdapterListener.onBicycleClicked(bike)
             }
 
             if (!bike.isAvailable) {
@@ -93,11 +61,19 @@ class BicyclesAdapter(
         }
     }
 
-    override fun onBicycleClicked(bike: Bike) {
-        bicycleAdapterListener.onBicycleClicked(bike)
-    }
+//    override fun onBicycleClicked(bike: Bike) {
+//        bicycleAdapterListener.onBicycleClicked(bike)
+//    }
+//
+//    override fun onBicycleLongClicked(bike: Bike): Boolean {
+//        return bicycleAdapterListener.onBicycleLongClicked(bike)
+//    }
 
-    override fun onBicycleLongClicked(bike: Bike): Boolean {
-        return bicycleAdapterListener.onBicycleLongClicked(bike)
+    class UsersDiffUtil : DiffUtil.ItemCallback<Bike>() {
+        override fun areItemsTheSame(oldItem: Bike, newItem: Bike): Boolean =
+            oldItem == newItem
+
+        override fun areContentsTheSame(oldItem: Bike, newItem: Bike): Boolean =
+            oldItem == newItem
     }
 }

@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.addbicycle
+package app.igormatos.botaprarodar.presentation.bikeForm
 
 import android.app.Activity
 import android.content.Intent
