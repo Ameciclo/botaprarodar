@@ -61,7 +61,7 @@ class UserFormActivity : AppCompatActivity() {
     private fun checkEditMode() {
         val parcelableUser: Parcelable? = intent.getParcelableExtra(USER_EXTRA)
 
-        parcelableUser?.let{
+        parcelableUser?.let {
             val user = Parcels.unwrap(it) as User
             setValuesToEditUser(user)
         }
@@ -83,7 +83,7 @@ class UserFormActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent)
                     finish()
                 }
-                ViewModelStatus.Loading -> {
+                is ViewModelStatus.Loading -> {
                     window.decorView.hideKeyboard()
                     loadingDialog.show()
                 }
@@ -98,7 +98,11 @@ class UserFormActivity : AppCompatActivity() {
         })
 
         binding.viewModel?.lgpd?.observe(this, Observer {
-            if (it) showConfirmDialog()
+            if (binding.viewModel?.isEditableAvailable == true) {
+                binding.viewModel?.registerUser()
+            } else if (it) {
+                showConfirmDialog()
+            }
         })
     }
 
