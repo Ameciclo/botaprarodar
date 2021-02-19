@@ -22,7 +22,7 @@ class AccessHomeRobot : BaseRobot() {
     }
 
     fun checkIfIsHome(): Boolean {
-        return waitViewByResId("main_container")
+        return waitViewByResId("activityMainContainer")
     }
 
 }
