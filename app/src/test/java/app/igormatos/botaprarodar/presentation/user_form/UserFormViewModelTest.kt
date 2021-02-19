@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.user_form
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase

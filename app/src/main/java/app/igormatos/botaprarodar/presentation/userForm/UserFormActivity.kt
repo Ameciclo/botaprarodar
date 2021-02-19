@@ -59,11 +59,10 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun checkEditMode() {
-        val parcelableUser: Parcelable? =
-            if (intent.hasExtra(USER_EXTRA)) intent.getParcelableExtra(USER_EXTRA) else null
+        val parcelableUser: Parcelable? = intent.getParcelableExtra(USER_EXTRA)
 
-        if (parcelableUser != null) {
-            val user = Parcels.unwrap(parcelableUser) as User
+        parcelableUser?.let{
+            val user = Parcels.unwrap(it) as User
             setValuesToEditUser(user)
         }
     }

@@ -15,7 +15,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class UseFormUseCaseTest {
+class UserFormUseCaseTest {
     private val userRepository = mockk<UserRepository>()
     private val firebaseHelperRepository = mockk<FirebaseHelperRepository>()
     private val userConverter = mockk<UserRequestConvert>()
