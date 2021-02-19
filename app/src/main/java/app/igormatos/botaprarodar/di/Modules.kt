@@ -13,10 +13,11 @@ import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
-import app.igormatos.botaprarodar.domain.usecase.bicycle.BicyclesListUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.BicyclesListUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
@@ -25,9 +26,11 @@ import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewM
 import app.igormatos.botaprarodar.presentation.login.LoginActivityNavigator
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginActivityViewModelImpl
+import app.igormatos.botaprarodar.presentation.main.BikesViewModel
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -83,11 +86,11 @@ val bprModule = module {
     }
 
     single {
-        BikeRepository(get<BicycleApi>())
+        FirebaseStorage.getInstance()
     }
 
     single {
-        FirebaseStorage.getInstance()
+        FirebaseDatabase.getInstance()
     }
 
     single {
@@ -118,6 +121,14 @@ val bprModule = module {
         provideEmailValidator()
     }
 
+    single {
+        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+    }
+
+    single {
+        BikesUseCase(get<BikeRepository>())
+    }
+
     viewModel {
         EmailValidationViewModel(get(), get())
     }
@@ -132,6 +143,10 @@ val bprModule = module {
 
     viewModel {
         PasswordRecoveryViewModel(get(), get())
+    }
+
+    viewModel {
+        BikesViewModel(get<BikesUseCase>())
     }
 }
 

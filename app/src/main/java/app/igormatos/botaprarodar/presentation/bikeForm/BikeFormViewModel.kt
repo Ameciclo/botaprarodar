@@ -1,10 +1,10 @@
-package app.igormatos.botaprarodar.presentation.addbicycle
+package app.igormatos.botaprarodar.presentation.bikeForm
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.AddNewBikeUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 

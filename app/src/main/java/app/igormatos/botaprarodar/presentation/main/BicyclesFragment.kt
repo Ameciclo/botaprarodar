@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.RequestListener
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
-import kotlinx.android.synthetic.main.fragment_bikes.*
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
@@ -28,6 +27,8 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
     private val firebaseHelper: FirebaseHelperModule by inject()
 
     private lateinit var binding: FragmentBikesBinding
+
+    private val bikesViewModel: BikesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +42,7 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bicycleAdapter = BicyclesAdapter(bicycleAdapterListener = this)
+        bicycleAdapter = BicyclesAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,20 +57,28 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         binding.rvBikes.adapter = bicycleAdapter
 
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id!!
-        firebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bike> {
-            override fun onChildChanged(result: Bike) {
-                bicycleAdapter.updateItem(result)
-            }
 
-            override fun onChildAdded(result: Bike) {
-                bicycleAdapter.addItem(result)
-            }
+        bikesViewModel.getBikes(joinedCommunityId)
 
-            override fun onChildRemoved(result: Bike) {
-                bicycleAdapter.removeItem(result)
-            }
-
+        bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
+            bicycleAdapter.submitList(it)
         })
+
+
+//        firebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bike> {
+//            override fun onChildChanged(result: Bike) {
+//                bicycleAdapter.updateItem(result)
+//            }
+//
+//            override fun onChildAdded(result: Bike) {
+//                bicycleAdapter.addItem(result)
+//            }
+//
+//            override fun onChildRemoved(result: Bike) {
+//                bicycleAdapter.removeItem(result)
+//            }
+//
+//        })
     }
 
     override fun onBicycleClicked(bike: Bike) {

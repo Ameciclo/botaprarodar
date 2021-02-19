@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain.usecase.bicycle
+package app.igormatos.botaprarodar.domain.usecase.bikeForm
 
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
@@ -6,17 +6,12 @@ import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 class AddNewBikeUseCaseTest {
 

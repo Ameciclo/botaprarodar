@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.AddNewBikeUseCase
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.AddNewBikeUseCase
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
 import org.junit.Assert.assertEquals

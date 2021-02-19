@@ -7,25 +7,20 @@ import java.util.*
 
 @IgnoreExtraProperties
 @Parcel
-class Bike: Item {
+data class Bike(
+    var name: String? = null,
+    var serial_number: String? = null,
+    var order_number: Long? = null,
+    var photo_path: String? = null,
+    var created_date: String? = null,
+    var photo_thumbnail_path: String? = null
+) : Item {
 
     override var path: String = "bike"
 
     override var id: String? = null
 
     override var isAvailable: Boolean = true
-
-    var name: String? = null
-
-    var serial_number: String? = null
-
-    var order_number: Long? = null
-
-    var photo_path: String? = null
-
-    var created_date: String? = null
-
-    var photo_thumbnail_path: String? = null
 
     @field:JvmField
     var inUse: Boolean = false
@@ -35,7 +30,6 @@ class Bike: Item {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         created_date = dateFormat.format(date)
     }
-
 
     override fun title(): String {
         return name ?: "Erro - nome"
