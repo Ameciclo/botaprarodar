@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - uses: ./.github/actions/unit_tests
+      - uses: .github/actions/unit_tests
 
   apk:
     name: Generate APK
