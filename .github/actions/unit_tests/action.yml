@@ -1,5 +1,5 @@
 name: Unit Tests
-  description: 'Execute app unit tests'
+  description: "Execute app unit tests"
   runs-on: macos-latest
 runs:
   using: "composite"
