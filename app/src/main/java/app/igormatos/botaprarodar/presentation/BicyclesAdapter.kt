@@ -14,7 +14,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.bumptech.glide.Glide
 
-class BicyclesAdapter : ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(UsersDiffUtil()) {
+class BicyclesAdapter(private val bikeListener: BicycleAdapterListener) :
+    ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(UsersDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BicycleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
@@ -25,7 +26,7 @@ class BicyclesAdapter : ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(Use
         holder.bind(getItem(position))
     }
 
-    class BicycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BicycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(bike: Bike) {
             itemView.findViewById<TextView>(R.id.tv_name_bike_item).text = bike.title()
@@ -35,12 +36,8 @@ class BicyclesAdapter : ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(Use
                 itemView.context.getString(R.string.bike_series_number, bike.serial_number)
             val imageView = itemView.findViewById<ImageView>(R.id.iv_bike_item)
 
-//            itemView.setOnLongClickListener {
-//                bicycleAdapterListener.onBicycleLongClicked(bike)
-//            }
-
             itemView.setOnClickListener {
-//                bicycleAdapterListener.onBicycleClicked(bike)
+                bikeListener.onBicycleClicked(bike)
             }
 
             if (!bike.isAvailable) {
@@ -61,13 +58,10 @@ class BicyclesAdapter : ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(Use
         }
     }
 
-//    override fun onBicycleClicked(bike: Bike) {
-//        bicycleAdapterListener.onBicycleClicked(bike)
-//    }
-//
-//    override fun onBicycleLongClicked(bike: Bike): Boolean {
-//        return bicycleAdapterListener.onBicycleLongClicked(bike)
-//    }
+    interface BicycleAdapterListener {
+        fun onBicycleClicked(bike: Bike)
+        fun onBicycleLongClicked(bike: Bike): Boolean
+    }
 
     class UsersDiffUtil : DiffUtil.ItemCallback<Bike>() {
         override fun areItemsTheSame(oldItem: Bike, newItem: Bike): Boolean =

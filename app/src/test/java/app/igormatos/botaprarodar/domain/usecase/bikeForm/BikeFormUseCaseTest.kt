@@ -21,7 +21,11 @@ class BikeFormUseCaseTest {
 
     @BeforeEach
     fun setUp() {
-        userCaseForm = BikeFormUseCase(repository, firebaseRepository)
+        userCaseForm =
+            BikeFormUseCase(
+                repository,
+                firebaseRepository
+            )
     }
 
     @Test
@@ -31,7 +35,7 @@ class BikeFormUseCaseTest {
                 repository.addNewBike(any(), any())
             } returns "Created new bicycle"
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
                 userCaseForm.addNewBike("100", buildBicycle()) as SimpleResult.Success
@@ -49,9 +53,77 @@ class BikeFormUseCaseTest {
             } throws exceptionResult
 
             coEvery {
-                firebaseRepository.uploadImage(any(), any())
+                firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
             val responseResult = userCaseForm.addNewBike("100", buildBicycle())
+
+            assertTrue(responseResult is SimpleResult.Error)
+            assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
+        }
+    }
+
+    @Test
+    fun `should edit bicycle with different image and return simple result with string`() {
+        runBlocking {
+            coEvery {
+                repository.updateBike(any(), any())
+            } returns "Bicycle Edited"
+            coEvery {
+                firebaseRepository.uploadImageAndThumb(any(), any())
+            } returns SimpleResult.Success(mockImageUploadResponse)
+            val responseResult =
+                userCaseForm.updateBike("100", buildBicycle()) as SimpleResult.Success
+
+            assertEquals("Bicycle Edited", responseResult.data)
+        }
+    }
+
+    @Test
+    fun `should edit bicycle with and return simple result with string`() {
+        runBlocking {
+            coEvery {
+                repository.updateBike(any(), any())
+            } returns "Bicycle Edited"
+            val bike = buildBicycle().apply {
+                path = "https://bla.com"
+            }
+            val responseResult =
+                userCaseForm.updateBike("100", bike) as SimpleResult.Success
+
+            assertEquals("Bicycle Edited", responseResult.data)
+        }
+    }
+
+    @Test
+    fun `should edit bicycle with different image and return simple result with exception`() {
+        runBlocking {
+            val exceptionResult = Exception()
+            coEvery {
+                repository.updateBike(any(), any())
+            } throws exceptionResult
+
+            coEvery {
+                firebaseRepository.uploadImageAndThumb(any(), any())
+            } returns SimpleResult.Error(exceptionResult)
+            val responseResult = userCaseForm.updateBike("100", buildBicycle())
+
+            assertTrue(responseResult is SimpleResult.Error)
+            assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
+        }
+    }
+
+    @Test
+    fun `should edit bicycle and return simple result with exception`() {
+        runBlocking {
+            val exceptionResult = Exception()
+            coEvery {
+                repository.updateBike(any(), any())
+            } throws exceptionResult
+
+            val bike = buildBicycle().apply {
+                path = "https://bla.com"
+            }
+            val responseResult = userCaseForm.updateBike("100", bike)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
@@ -63,8 +135,8 @@ class BikeFormUseCaseTest {
             name = "Bicycle"
             order_number = 123
             serial_number = "123serial"
-            photo_path = "http://bla.com"
-            photo_thumbnail_path = "http://bla.com"
+            photo_path = "https://bla.com"
+            photo_thumbnail_path = "https://bla.com"
         }
     }
 

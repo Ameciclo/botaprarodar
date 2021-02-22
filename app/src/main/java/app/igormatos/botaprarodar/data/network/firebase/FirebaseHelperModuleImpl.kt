@@ -269,6 +269,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 snapshotToBicycle(p0)?.let {
+                    checkIdAndUpdate(it, p0, bicyclesReference)
                     listener.onChildAdded(it)
                 }
             }
@@ -335,4 +336,16 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
         return snapshot.getValue(Bike::class.java)
     }
 
+    private fun checkIdAndUpdate(
+        bike: Bike,
+        snapshot: DataSnapshot,
+        bicyclesReference: DatabaseReference
+    ) {
+        if (bike.id.isNullOrEmpty()) {
+            snapshot.key?.let { key ->
+                bike.id = key
+                bicyclesReference.child(key).setValue(bike)
+            }
+        }
+    }
 }
