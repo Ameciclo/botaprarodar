@@ -4,9 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.adduser.AddUserViewModel" />
+                type="app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/white"
-                    app:title="@string/add_user_title"
+                    app:setTitle="@{viewModel.isEditableAvailable}"
                     app:titleTextColor="@color/dark_gray" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -44,7 +45,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:context=".presentation.adduser.AddUserActivity">
+                    tools:context=".presentation.userForm.UserFormActivity">
 
                 <ImageView
                         android:id="@+id/profileImageView"
@@ -242,15 +243,15 @@
                         android:layout_marginTop="@dimen/margin_big"
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/margin_small"
+                        android:enabled="@{viewModel.isButtonEnabled}"
+                        android:onClick="@{() -> viewModel.registerUser()}"
                         android:padding="@dimen/padding_medium"
                         android:textStyle="bold"
-                        android:onClick="@{() -> viewModel.registerUser()}"
-                        android:text="@string/btn_add_user"
-                        android:enabled="@{viewModel.isButtonEnabled}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
+                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument"
+                        app:setUserFormButtonText="@{viewModel.isEditableAvailable}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

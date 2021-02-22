@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.adduser
+package app.igormatos.botaprarodar.presentation.userForm
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
-class AddUserViewModel(
+class UserFormViewModel(
     private val userUseCase: UserUseCase,
     private val community: Community
 ) : ViewModel() {
@@ -16,6 +16,7 @@ class AddUserViewModel(
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
 
+    var isEditableAvailable = false
     var user = User()
 
     var userCompleteName = MutableLiveData<String>("")
@@ -38,6 +39,20 @@ class AddUserViewModel(
         addSource(userGender) { validateUserForm() }
     }
 
+    fun updateUserValues(currentUser: User) {
+        user = currentUser.apply {
+            userCompleteName.value = this.name
+            userAddress.value = this.address
+            userDocument.value = this.doc_number.toString()
+            userImageProfile.value = this.profile_picture
+            userImageDocumentResidence.value = this.residence_proof_picture
+            userImageDocumentFront.value = this.doc_picture
+            userImageDocumentBack.value = this.doc_picture_back
+            userGender.value = this.gender
+        }
+        isEditableAvailable = true
+    }
+
     private fun validateUserForm() {
         isButtonEnabled.value = isTextValid(userCompleteName.value) &&
                 isTextValid(userAddress.value) &&
@@ -55,15 +70,27 @@ class AddUserViewModel(
         _status.value = ViewModelStatus.Loading
         createUser()
         viewModelScope.launch {
-            userUseCase.addUser(community.id, user).let {
-                when (it) {
-                    is SimpleResult.Success -> {
-                        showSuccess()
-                    }
-                    is SimpleResult.Error -> {
-                        showError()
-                    }
-                }
+            if (isEditableAvailable)
+                updateUser()
+            else
+                addUser()
+        }
+    }
+
+    private suspend fun updateUser() {
+        userUseCase.updateUser(community.id, user).let {
+            when (it) {
+                is SimpleResult.Success -> showSuccess()
+                is SimpleResult.Error -> showError()
+            }
+        }
+    }
+
+    private suspend fun addUser() {
+        userUseCase.addUser(community.id, user).let {
+            when (it) {
+                is SimpleResult.Success -> showSuccess()
+                is SimpleResult.Error -> showError()
             }
         }
     }
@@ -102,14 +129,17 @@ class AddUserViewModel(
     }
 
     private fun showSuccess() {
-        _status.value = ViewModelStatus.Success("Usuário cadastrado com sucesso")
+        _status.value = ViewModelStatus.Success("")
     }
 
     private fun showError() {
-        _status.value = ViewModelStatus.Error("Ocorreu um erro, tente novamente")
+        val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
+        _status.value = ViewModelStatus.Error(message)
     }
 
     companion object {
+        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar o usuário"
+        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar o usuário"
         private const val GENDER_INITIAL_VALUE = -1
     }
 }
