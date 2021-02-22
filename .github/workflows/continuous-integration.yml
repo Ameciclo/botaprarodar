@@ -13,4 +13,4 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
       - name: "Run Unit Tests"
-          uses: ./.github/actions/unit_tests
+        uses: ./.github/actions/unit_tests
