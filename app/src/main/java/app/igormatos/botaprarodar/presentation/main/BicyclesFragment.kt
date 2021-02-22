@@ -17,8 +17,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
-import app.igormatos.botaprarodar.presentation.BicyclesAdapter
+import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -29,7 +28,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 @ExperimentalCoroutinesApi
 class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
-    val bicycleAdapter = BicyclesAdapter(this)
+    val bicycleAdapter =
+        BicyclesAdapter(this)
     private lateinit var binding: FragmentBikesBinding
     private val preferencesModule: SharedPreferencesModule by inject()
     private val bikesViewModel: BikesViewModel by viewModel()

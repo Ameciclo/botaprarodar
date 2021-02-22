@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 
 private const val INDEX_INVALID = -1
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
+class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
+    UsersDiffUtil()
+), Filterable {
 
     private val users = mutableListOf<User>()
     var filteredList = mutableListOf<User>()

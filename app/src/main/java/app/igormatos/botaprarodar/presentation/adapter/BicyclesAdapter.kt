@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -15,7 +15,9 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import com.bumptech.glide.Glide
 
 class BicyclesAdapter(private val bikeListener: BicycleAdapterListener) :
-    ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(UsersDiffUtil()) {
+    ListAdapter<Bike, BicyclesAdapter.BicycleViewHolder>(
+        UsersDiffUtil()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BicycleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
