@@ -36,12 +36,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@OptIn(ExperimentalCoroutinesApi::class)
 val bprModule = module {
 
     single { SharedPreferencesModule(appContext = get()) }
@@ -109,73 +111,73 @@ val bprModule = module {
             bikeRepository = get<BikeRepository>(),
             firebaseHelperRepository = get<FirebaseHelperRepository>()
         )
+    }
 
-        single {
-            FirebaseAuth.getInstance()
-        }
+    single {
+        FirebaseAuth.getInstance()
+    }
 
-        single {
-            AdminRemoteDataSource(get())
-        }
+    single {
+        AdminRemoteDataSource(get())
+    }
 
-        single {
-            AdminRepository(get())
-        }
+    single {
+        AdminRepository(get())
+    }
 
-        single {
-            provideEmailValidator()
-        }
+    single {
+        provideEmailValidator()
+    }
 
-        single {
-            BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
-        }
+    single {
+        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+    }
 
-        single {
-            BikesUseCase(get<BikeRepository>())
-        }
+    single {
+        BikesUseCase(get<BikeRepository>())
+    }
 
-        single {
-            UserRepository(userApi = get())
-        }
+    single {
+        UserRepository(userApi = get())
+    }
 
-        single {
-            UserRequestConvert()
-        }
+    single {
+        UserRequestConvert()
+    }
 
-        single {
-            UserUseCase(
-                userRepository = get(),
-                firebaseHelperRepository = get(),
-                userConverter = get()
-            )
-        }
+    single {
+        UserUseCase(
+            userRepository = get(),
+            firebaseHelperRepository = get(),
+            userConverter = get()
+        )
+    }
 
-        viewModel {
-            EmailValidationViewModel(get(), get())
-        }
+    viewModel {
+        EmailValidationViewModel(get(), get())
+    }
 
-        viewModel {
-            SignInViewModel(get(), PasswordValidator())
-        }
+    viewModel {
+        SignInViewModel(get(), PasswordValidator())
+    }
 
-        viewModel {
-            RegistrationViewModel(get())
-        }
+    viewModel {
+        RegistrationViewModel(get())
+    }
 
-        viewModel {
-            PasswordRecoveryViewModel(get(), get())
-        }
+    viewModel {
+        PasswordRecoveryViewModel(get(), get())
+    }
 
-        viewModel {
-            BikesViewModel(get<BikesUseCase>())
-        }
+    viewModel {
+        BikesViewModel(get<BikesUseCase>())
+    }
 
-        viewModel {
-            UserFormViewModel(
-                community = get<SharedPreferencesModule>().getJoinedCommunity(),
-                userUseCase = get()
-            )
-        }
+    viewModel {
+        UserFormViewModel(
+            community = get<SharedPreferencesModule>().getJoinedCommunity(),
+            userUseCase = get()
+        )
     }
 }
 
