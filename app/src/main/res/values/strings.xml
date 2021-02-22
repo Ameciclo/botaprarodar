@@ -20,6 +20,7 @@
     <string name="community_confirm_title">Os dados estão corretos?</string>
     <string name="empties_fields_error">Preencha todos os campos</string>
     <string name="login_error">Falha no login</string>
+    <string name="admin_registration_error">Falha ao criar usuário administrador</string>
     <string name="add_community">Adicionar comunidade</string>
     <string name="login_no_communities_allowed">Solicite acesso a Ameciclo</string>
     <string name="login_load_communities_error">Erro ao obter comunidades</string>
@@ -38,6 +39,7 @@
     <string name="trip_reason_to_work">Ir ao trabalho</string>
     <string name="trip_reason_bicycle_as_work">Ferramenta de trabalho</string>
     <string name="trip_reason_other">Outro</string>
+    <string name="trip_count_label" formatted="true">Total: %s1 viagens</string>
     <string name="withdrawal_bicycle_rating_great">Ótima</string>
     <string name="withdrawal_bicycle_rating_good">Boa</string>
     <string name="withdrawal_bicycle_rating_regular">Regular</string>
@@ -97,6 +99,7 @@
     <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
+    <string name="edit_bicycle_title">Editar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 
@@ -106,4 +109,18 @@
 
     <!-- User fragment -->
     <string name="user_created_since">Cadastrado desde %s</string>
+
+    <!-- ADD USER -->
+    <string name="add_user_invalid_name">Nome inválido</string>
+    <string name="add_user_invalid_address">Endereço inválido</string>
+    <string name="add_user_address_hint">Endereço (Rua, número)</string>
+    <string name="add_user_cpf_hint">Número do RG ou CPF</string>
+    <string name="add_user_invalid_cpf">CPF inválido</string>
+    <string name="btn_add_user">Adicionar pessoa</string>
+    <string name="rb_male_option">Masculino</string>
+    <string name="rb_female_option">Feminino</string>
+    <string name="rb_other_option">Outro</string>
+    <string name="rb_no_answer_option">Prefere não responder</string>
+    <string name="txt_doc_image_front">Frente</string>
+    <string name="txt_doc_image_back">Verso</string>
 </resources>

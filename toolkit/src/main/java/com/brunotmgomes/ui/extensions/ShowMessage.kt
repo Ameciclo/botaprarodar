@@ -10,17 +10,19 @@ fun snackBarMaker(
     container: View,
     timeType: Int = Snackbar.LENGTH_SHORT,
     actionButtonText: String = "",
-    actionMethod: () -> Unit = {}
+    actionMethod: () -> Unit = {},
+    backgroundTint: Int? = null
 ) =
     Snackbar.make(
         container,
         message,
         timeType
     ).apply {
+        backgroundTint?.let { setBackgroundTint(it) }
         if (actionButtonText.isNotEmpty()) {
             setAction(
                 actionButtonText
-            ) { actionMethod }
+            ) { actionMethod.invoke() }
         }
     }
 

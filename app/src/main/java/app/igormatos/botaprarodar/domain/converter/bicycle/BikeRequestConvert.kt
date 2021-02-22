@@ -5,9 +5,7 @@ import app.igormatos.botaprarodar.domain.converter.Converter
 import app.igormatos.botaprarodar.domain.model.Bike
 
 class BikeRequestConvert : Converter<Bike, BicycleRequest> {
-
     override fun convert(toConvert: Bike): BicycleRequest {
         return buildBicycleRequest(toConvert)
     }
-
 }

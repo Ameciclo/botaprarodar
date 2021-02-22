@@ -26,7 +26,11 @@ class BikeRepository(
     }
 
     suspend fun addNewBike(communityId: String, bicycle: BicycleRequest): String {
-        return bicycleApi.addNewBicycle(communityId, bicycle).name
+        return bicycleApi.addNewBike(communityId, bicycle).name
+    }
+
+    suspend fun updateBike(communityId: String, bicycle: BicycleRequest) : String {
+        return bicycleApi.updateBike(communityId, bicycle.id, bicycle).name
     }
 
     suspend fun getBikes(communityId: String) = callbackFlow<SimpleResult<List<Bike>>> {
