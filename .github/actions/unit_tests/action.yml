@@ -4,8 +4,6 @@ name: Unit Tests
 runs:
   using: "composite"
   steps:
-    - name: Checkout project
-      uses: actions/checkout@v2
     - name: SetUp Java
       uses: actions/setup-java@v1.4.3
       with:
