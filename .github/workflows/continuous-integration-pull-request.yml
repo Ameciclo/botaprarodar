@@ -1,8 +1,10 @@
 name: Continuous Integration
 
 on:
-   pull_request, push:
+   pull_request:
      branches: [main, development, add-semantic-pull-request]
+   push:
+     branches: [add-semantic-pull-request]
 jobs:
   build:
     name: Unit Tests
