@@ -6,21 +6,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
+import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class BikesViewModel(private val bikesUseCase: BikesUseCase) : ViewModel() {
 
-    private val _bikes = MutableLiveData<List<Bike>>()
-    val bikes: LiveData<List<Bike>> = _bikes
+    private val _bikes = MutableLiveData<SimpleResult<List<Bike>>>()
+    val bikes: LiveData<SimpleResult<List<Bike>>> = _bikes
 
-    @ExperimentalCoroutinesApi
     fun getBikes(communityId: String) {
         viewModelScope.launch {
-            bikesUseCase.getBikes(communityId).collect {
-                _bikes.postValue(it)
-            }
+            bikesUseCase.getBikes(communityId)
+                .catch { }
+                .collect {
+                    _bikes.postValue(it)
+                }
         }
     }
 }

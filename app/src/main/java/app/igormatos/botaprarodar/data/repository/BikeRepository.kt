@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.data.repository
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.domain.model.Bike
+import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -12,6 +13,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 
+@ExperimentalCoroutinesApi
 class BikeRepository(
     private val bicycleApi: BicycleApi,
     private val firebaseDatabase: FirebaseDatabase
@@ -27,19 +29,18 @@ class BikeRepository(
         return bicycleApi.addNewBicycle(communityId, bicycle).name
     }
 
-    @ExperimentalCoroutinesApi
-    suspend fun getBikes(communityId: String) = callbackFlow<List<Bike>> {
+    suspend fun getBikes(communityId: String) = callbackFlow<SimpleResult<List<Bike>>> {
 
         val postListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-//                this@callbackFlow.sendBlocking()
+            override fun onCancelled(databaseError: DatabaseError) {
+                this@callbackFlow.sendBlocking(SimpleResult.Error(databaseError.toException()))
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val items = dataSnapshot.children.map { data ->
                     data.getValue(Bike::class.java)
                 }
-                this@callbackFlow.sendBlocking(items.filterNotNull())
+                this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
             }
         }
 

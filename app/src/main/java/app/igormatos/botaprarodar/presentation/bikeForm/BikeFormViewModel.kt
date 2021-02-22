@@ -4,12 +4,12 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bikeForm.AddNewBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
-    private val addNewBikeUseCase: AddNewBikeUseCase,
+    private val bikeFormUseCase: BikeFormUseCase,
     private val community: Community
 ) : BprViewModel<BikeFormStatus>() {
 
@@ -51,7 +51,7 @@ class BikeFormViewModel(
         _state.postValue(BikeFormStatus.Loading)
 
         viewModelScope.launch {
-            addNewBikeUseCase.addNewBike(communityId = community.id, bike = bike).let {
+            bikeFormUseCase.addNewBike(communityId = community.id, bike = bike).let {
                 when (it) {
                     is SimpleResult.Success -> resultSuccess(it.data)
                     is SimpleResult.Error -> resultError(it.exception)
