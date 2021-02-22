@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ main, development, test_ui_labtest_firebase ]
+    branches: [ main, development, add-semantic-pull-request ]
   pull_request:
     branches: [ main, development ]
 jobs:
