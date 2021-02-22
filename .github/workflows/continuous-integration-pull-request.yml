@@ -1,12 +1,11 @@
 name: Continuous Integration
 
 on:
-   pull_request:
-     branches: [ master, development ]
-
+   [pull_request, push]:
+     branches: [main, development, add-semantic-pull-request]
 jobs:
   build:
-    name: Tests Unitaires
+    name: Unit Tests
     runs-on: macos-latest
     steps:
       - name: Checkout project
@@ -23,7 +22,6 @@ jobs:
       - name: Run unit tests
         run: ./gradlew clean test
 
-#### As etapas abaixo foram desabilitadas momentaneamente até as correcoes nos testes de UI ####
   apk:
     name: Generate APK
     runs-on: ubuntu-18.04
