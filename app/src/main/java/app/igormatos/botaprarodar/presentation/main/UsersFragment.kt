@@ -20,7 +20,7 @@ import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.UserDecoration
-import app.igormatos.botaprarodar.presentation.UsersAdapter
+import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -47,7 +47,8 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemAdapter = UsersAdapter()
+        itemAdapter =
+            UsersAdapter()
         binding.btnRegisterUsers.setOnClickListener {
             val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)

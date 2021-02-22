@@ -7,23 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
 import app.igormatos.botaprarodar.data.network.RequestListener
-import app.igormatos.botaprarodar.presentation.WithdrawAdapter
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
+import app.igormatos.botaprarodar.databinding.FragmentTripsBinding
+import app.igormatos.botaprarodar.domain.model.Withdraw
+import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
+import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
-import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.fragment_trips.*
+import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
 
 
-class TripsFragment : androidx.fragment.app.Fragment() {
+class TripsFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
+    private lateinit var binding: FragmentTripsBinding
+
     val itemAdapter = WithdrawAdapter()
+    val bikeActionMenuAdapter = BikeActionMenuAdapter()
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -31,33 +41,32 @@ class TripsFragment : androidx.fragment.app.Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_list, container, false)
+
+        binding = FragmentTripsBinding.inflate(inflater)
 
         val bitmap = ContextCompat.getDrawable(
             requireContext(),
             R.drawable.ic_directions_bike
         )
-        rootView.addItemFab.setImageDrawable(bitmap)
 
-        return rootView
+        binding.root.addItemFab.setImageDrawable(bitmap)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addItemFab.setOnClickListener {
+        binding.addItemFab.setOnClickListener {
             val intent = Intent(it.context, WithdrawActivity::class.java)
             startActivity(intent)
         }
 
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        recyclerView.adapter = itemAdapter
-        recyclerView.addItemDecoration(
-            androidx.recyclerview.widget.DividerItemDecoration(
-                recyclerView.context,
-                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-            )
-        )
+        setupTripsRecyclerView()
+        setupBikeActionRecyclerView()
+
+
+        binding.bikeActionMenuRecyclerView
 
 //        loadingDialog = context?.showLoadingDialog()
 
@@ -81,6 +90,25 @@ class TripsFragment : androidx.fragment.app.Fragment() {
                 }
             })
 
+    }
+
+    private fun setupBikeActionRecyclerView() {
+        binding.apply {
+            bikeActionMenuRecyclerView.layoutManager = GridLayoutManager(context, 2,GridLayoutManager.HORIZONTAL, false)
+            bikeActionMenuRecyclerView.adapter = bikeActionMenuAdapter
+            bikeActionMenuAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setupTripsRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = itemAdapter
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
 }
