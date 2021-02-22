@@ -21,8 +21,8 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.UserDecoration
 import app.igormatos.botaprarodar.presentation.UsersAdapter
-import app.igormatos.botaprarodar.presentation.adduser.AddUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
+import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_users.*
 import org.koin.android.ext.android.inject
@@ -31,7 +31,7 @@ import org.parceler.Parcels
 class UsersFragment : androidx.fragment.app.Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
-    private val firebaseHelper: FirebaseHelperModule by inject()
+    private val firebaseHelperModule: FirebaseHelperModule by inject()
     lateinit var itemAdapter: UsersAdapter
 
     private lateinit var binding: FragmentUsersBinding
@@ -49,7 +49,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
         super.onViewCreated(view, savedInstanceState)
         itemAdapter = UsersAdapter()
         binding.btnRegisterUsers.setOnClickListener {
-            val intent = Intent(it.context, AddUserActivity::class.java)
+            val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
         }
         setupRecyclerView()
@@ -60,7 +60,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun getUsers(joinedCommunityId: String) {
-        firebaseHelper.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
+        firebaseHelperModule.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
                 itemAdapter.updateItem(result as User)
             }
@@ -85,14 +85,25 @@ class UsersFragment : androidx.fragment.app.Fragment() {
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.getStringExtra("successMessage")?.let {
-                    snackBarMaker(it, requireView()).apply {
-                        setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
-                        show()
-                    }
-                }
+                showSnackBar(result.data)
             }
         }
+
+    private fun showSnackBar(intent: Intent?) {
+        intent?.getBooleanExtra("isEditModeAvailable", false)?.let {
+            val message = getSuccessMessage(it)
+            snackBarMaker(message, requireView()).apply {
+                setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                show()
+            }
+        }
+    }
+
+    private fun getSuccessMessage(isEditModeAvailable: Boolean) =
+        if (isEditModeAvailable)
+            getString(R.string.user_update_success)
+        else
+            getString(R.string.user_add_success)
 
     companion object {
         fun newInstance(withdraw: Withdraw): UsersFragment {

@@ -23,6 +23,7 @@ class UserRequestConvert : Converter<User, UserRequest> {
             docPictureBack = user.doc_picture_back.transformNullToEmpty(),
             docType = user.doc_type,
             profilePicture = user.profile_picture.transformNullToEmpty(),
-            profilePictureThumbnail = user.profile_picture_thumbnail.transformNullToEmpty()
+            profilePictureThumbnail = user.profile_picture_thumbnail.transformNullToEmpty(),
+            id = user.id.transformNullToEmpty()
         )
 }

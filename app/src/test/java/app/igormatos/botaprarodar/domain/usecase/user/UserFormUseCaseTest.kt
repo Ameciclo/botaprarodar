@@ -15,7 +15,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class UserUseCaseTest {
+class UserFormUseCaseTest {
     private val userRepository = mockk<UserRepository>()
     private val firebaseHelperRepository = mockk<FirebaseHelperRepository>()
     private val userConverter = mockk<UserRequestConvert>()
@@ -30,7 +30,7 @@ class UserUseCaseTest {
     }
 
     @Test
-    fun `when 'addUser' should create new bicycle and return simple result with string`() =
+    fun `when 'addUser' should create new user and return simple result with string`() =
         runBlocking {
             mockTestSuccess()
 
@@ -42,12 +42,38 @@ class UserUseCaseTest {
 
 
     @Test
-    fun `should return simple result with exception`() =
+    fun `when 'addUser' should return simple result with exception`() =
         runBlocking {
             val exceptionResult = Exception("")
             mockTestException(exceptionResult)
 
             val responseResult = userUseCase.addUser("100", userFake)
+
+            assertTrue(responseResult is SimpleResult.Error)
+            assertThat(
+                (responseResult as SimpleResult.Error).exception,
+                instanceOf(Exception::class.java)
+            )
+        }
+
+    @Test
+    fun `when 'updateUser' should update the user and return simple result with string`() =
+        runBlocking {
+            mockUpdateTestSuccess()
+
+            val responseResult =
+                userUseCase.updateUser("100", userFake) as SimpleResult.Success
+
+            assertEquals("User edited", responseResult.data)
+        }
+
+    @Test
+    fun `when 'updateUser' should return simple result with exception`() =
+        runBlocking {
+            val exceptionResult = Exception("")
+            mockUpdateTestException(exceptionResult)
+
+            val responseResult = userUseCase.updateUser("100", userFake)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertThat(
@@ -68,9 +94,33 @@ class UserUseCaseTest {
         } returns SimpleResult.Success(mockImageUploadResponse)
     }
 
+    private fun mockUpdateTestSuccess() {
+        coEvery {
+            userRepository.updateUser(any(), any())
+        } returns "User edited"
+        coEvery {
+            firebaseHelperRepository.uploadImageAndThumb(any(), any())
+        } returns SimpleResult.Success(mockImageUploadResponse)
+        coEvery {
+            firebaseHelperRepository.uploadOnlyImage(any(), any())
+        } returns SimpleResult.Success(mockImageUploadResponse)
+    }
+
     private fun mockTestException(exceptionResult: Exception) {
         coEvery {
             userRepository.addNewUser(any(), any())
+        } throws exceptionResult
+        coEvery {
+            firebaseHelperRepository.uploadImageAndThumb(any(), any())
+        } returns SimpleResult.Error(exceptionResult)
+        coEvery {
+            firebaseHelperRepository.uploadOnlyImage(any(), any())
+        } returns SimpleResult.Error(exceptionResult)
+    }
+
+    private fun mockUpdateTestException(exceptionResult: Exception) {
+        coEvery {
+            userRepository.updateUser(any(), any())
         } throws exceptionResult
         coEvery {
             firebaseHelperRepository.uploadImageAndThumb(any(), any())
