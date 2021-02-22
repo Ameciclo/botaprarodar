@@ -17,7 +17,7 @@
 
         <ImageView
                 android:id="@+id/iv_bike_item"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:adjustViewBounds="false"

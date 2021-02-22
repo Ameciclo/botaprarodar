@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
@@ -17,17 +18,17 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
+import com.brunotmgomes.ui.SimpleResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class BicyclesFragment : Fragment(), BicycleAdapterListener {
 
-    lateinit var bicycleAdapter: BicyclesAdapter
-    private val preferencesModule: SharedPreferencesModule by inject()
-    private val firebaseHelper: FirebaseHelperModule by inject()
-
+    private var bicycleAdapter = BicyclesAdapter()
     private lateinit var binding: FragmentBikesBinding
-
+    private val preferencesModule: SharedPreferencesModule by inject()
     private val bikesViewModel: BikesViewModel by viewModel()
 
     override fun onCreateView(
@@ -39,46 +40,38 @@ class BicyclesFragment : Fragment(), BicycleAdapterListener {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        bicycleAdapter = BicyclesAdapter()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI()
+        getBikes()
+        observers()
+    }
+
+    private fun initUI() {
         binding.btnRegisterBikes.setOnClickListener {
             val intent = Intent(it.context, BikeFormActivity::class.java)
             startActivity(intent)
         }
 
-        binding.rvBikes.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        binding.rvBikes.layoutManager = LinearLayoutManager(context)
         binding.rvBikes.adapter = bicycleAdapter
+    }
 
-        val joinedCommunityId = preferencesModule.getJoinedCommunity().id!!
-
+    private fun getBikes() {
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
         bikesViewModel.getBikes(joinedCommunityId)
+    }
 
+    private fun observers() {
         bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
-            bicycleAdapter.submitList(it)
+            when (it) {
+                is SimpleResult.Success -> {
+                    bicycleAdapter.submitList(it.data)
+                }
+                is SimpleResult.Error -> {}
+            }
         })
-
-
-//        firebaseHelper.getBicycles(joinedCommunityId, listener = object : RequestListener<Bike> {
-//            override fun onChildChanged(result: Bike) {
-//                bicycleAdapter.updateItem(result)
-//            }
-//
-//            override fun onChildAdded(result: Bike) {
-//                bicycleAdapter.addItem(result)
-//            }
-//
-//            override fun onChildRemoved(result: Bike) {
-//                bicycleAdapter.removeItem(result)
-//            }
-//
-//        })
     }
 
     override fun onBicycleClicked(bike: Bike) {

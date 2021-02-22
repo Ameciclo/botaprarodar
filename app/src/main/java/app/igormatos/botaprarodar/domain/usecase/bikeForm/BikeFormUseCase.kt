@@ -7,7 +7,7 @@ import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 
-class AddNewBikeUseCase(
+class BikeFormUseCase(
     private val bikeRepository: BikeRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository
 ) {
