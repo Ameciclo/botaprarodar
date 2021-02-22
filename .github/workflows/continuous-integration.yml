@@ -11,5 +11,5 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout project
-          uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - uses: ./.github/actions/unit_tests
