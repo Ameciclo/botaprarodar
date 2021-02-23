@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.custom_dialog.*
 
 class CustomDialog : DialogFragment() {
 
-    private lateinit var tvTitleDialog: TextView
-    private lateinit var tvMessageDialog: TextView
-    private lateinit var ivIconDialog: ImageView
-    private lateinit var btnPrimaryDialog: Button
-    private lateinit var btnSecondaryDialog: Button
+    private lateinit var titleDialog: TextView
+    private lateinit var messageDialog: TextView
+    private lateinit var iconDialog: ImageView
+    private lateinit var primaryDialogButton: Button
+    private lateinit var secondaryDialogButton: Button
 
     companion object {
         const val TAG = "CUSTOM_DIALOG"
@@ -63,42 +63,17 @@ class CustomDialog : DialogFragment() {
 
     private fun initUI() {
         view?.let {
-            tvTitleDialog = it.findViewById(R.id.tv_title_dialog)
-            tvMessageDialog = it.findViewById(R.id.tv_message_dialog)
-            ivIconDialog = it.findViewById(R.id.iv_icon_dialog)
-            btnPrimaryDialog = it.findViewById(R.id.btn_primary_dialog)
-            btnSecondaryDialog = it.findViewById(R.id.btn_secondary_dialog)
-        }
-    }
-
-    private fun setClickListeners(customDialogModel: CustomDialogModel?) {
-        btnPrimaryDialog.setOnClickListener {
-            customDialogModel?.primaryButtonListener?.onClick(it)
-            dialog?.dismiss()
-        }
-        btnSecondaryDialog.setOnClickListener {
-            customDialogModel?.secondaryButtonListener?.onClick(it)
-            dialog?.dismiss()
+            titleDialog = it.findViewById(R.id.tv_title_dialog)
+            messageDialog = it.findViewById(R.id.tv_message_dialog)
+            iconDialog = it.findViewById(R.id.iv_icon_dialog)
+            primaryDialogButton = it.findViewById(R.id.btn_primary_dialog)
+            secondaryDialogButton = it.findViewById(R.id.btn_secondary_dialog)
         }
     }
 
     private fun setTitle(customDialogModel: CustomDialogModel?) {
-        tvTitleDialog.isVisible = !customDialogModel?.title.isNullOrEmpty()
-        tvTitleDialog.text = customDialogModel?.title
-    }
-
-    private fun setMessage(customDialogModel: CustomDialogModel?) {
-        tvMessageDialog.isVisible = !customDialogModel?.message.isNullOrEmpty()
-        tvMessageDialog.text = customDialogModel?.message
-    }
-
-    private fun setPrimaryButtonText(customDialogModel: CustomDialogModel?) {
-        btnPrimaryDialog.text = customDialogModel?.primaryButtonText
-    }
-
-    private fun setSecondaryButtonText(customDialogModel: CustomDialogModel?) {
-        btn_secondary_dialog.isVisible = !customDialogModel?.secondaryButtonText.isNullOrEmpty()
-        btn_secondary_dialog.text = customDialogModel?.secondaryButtonText
+        titleDialog.isVisible = !customDialogModel?.title.isNullOrEmpty()
+        titleDialog.text = customDialogModel?.title
     }
 
     private fun setIcon(customDialogModel: CustomDialogModel?) {
@@ -109,7 +84,32 @@ class CustomDialog : DialogFragment() {
             )
         }
 
-        ivIconDialog.isVisible = customDialogModel?.icon != null
-        ivIconDialog.setImageDrawable(imageDrawable)
+        iconDialog.isVisible = customDialogModel?.icon != null
+        iconDialog.setImageDrawable(imageDrawable)
+    }
+
+    private fun setMessage(customDialogModel: CustomDialogModel?) {
+        messageDialog.isVisible = !customDialogModel?.message.isNullOrEmpty()
+        messageDialog.text = customDialogModel?.message
+    }
+
+    private fun setPrimaryButtonText(customDialogModel: CustomDialogModel?) {
+        primaryDialogButton.text = customDialogModel?.primaryButtonText
+    }
+
+    private fun setSecondaryButtonText(customDialogModel: CustomDialogModel?) {
+        btn_secondary_dialog.isVisible = !customDialogModel?.secondaryButtonText.isNullOrEmpty()
+        btn_secondary_dialog.text = customDialogModel?.secondaryButtonText
+    }
+
+    private fun setClickListeners(customDialogModel: CustomDialogModel?) {
+        primaryDialogButton.setOnClickListener {
+            customDialogModel?.primaryButtonListener?.onClick(it)
+            dialog?.dismiss()
+        }
+        secondaryDialogButton.setOnClickListener {
+            customDialogModel?.secondaryButtonListener?.onClick(it)
+            dialog?.dismiss()
+        }
     }
 }
