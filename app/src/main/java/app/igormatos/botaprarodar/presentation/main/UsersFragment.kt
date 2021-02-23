@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_users.*
 import org.koin.android.ext.android.inject
 import org.parceler.Parcels
 
-class UsersFragment : androidx.fragment.app.Fragment() {
+class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapterListener {
 
     private val preferencesModule: SharedPreferencesModule by inject()
     private val firebaseHelperModule: FirebaseHelperModule by inject()
@@ -47,7 +47,7 @@ class UsersFragment : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemAdapter = UsersAdapter()
+        itemAdapter = UsersAdapter(this)
         binding.btnRegisterUsers.setOnClickListener {
             val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
@@ -113,5 +113,11 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    override fun onUserClicked(user: User) {
+        val intent = Intent(context, UserFormActivity::class.java)
+        intent.putExtra(UserFormActivity.USER_EXTRA, Parcels.wrap(User::class.java, user))
+        context?.startActivity(intent)
     }
 }
