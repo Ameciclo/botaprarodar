@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.BprErrorType
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.databinding.FragmentPasswordRecoveryBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SendPasswordRecoveryViewState
