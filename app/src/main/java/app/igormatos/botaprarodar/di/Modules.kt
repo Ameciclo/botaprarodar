@@ -16,6 +16,7 @@ import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
@@ -26,6 +27,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInVi
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
+import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -138,10 +140,6 @@ val bprModule = module {
     }
 
     single {
-        UserRepository(userApi = get())
-    }
-
-    single {
         UserRequestConvert()
     }
 
@@ -178,6 +176,18 @@ val bprModule = module {
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
             userUseCase = get()
         )
+    }
+
+    single {
+        UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
+    }
+
+    single {
+        UsersUseCase(get<UserRepository>())
+    }
+
+    viewModel {
+        UsersViewModel(get<UsersUseCase>())
     }
 }
 
