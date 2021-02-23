@@ -25,7 +25,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.Registra
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.presentation.main.BikesViewModel
+import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel

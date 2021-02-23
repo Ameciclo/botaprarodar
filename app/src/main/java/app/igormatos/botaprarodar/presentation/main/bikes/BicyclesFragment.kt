@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.bikes
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,6 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.SimpleResult
@@ -53,8 +52,8 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
     private fun initUI() {
         binding.btnRegisterBikes.setOnClickListener {
-            val intent = Intent(it.context, BikeFormActivity::class.java)
-            startActivity(intent)
+            val intent = BikeFormActivity.setupActivity(requireContext(), null)
+            startForResult.launch(intent)
         }
 
         binding.rvBikes.layoutManager = LinearLayoutManager(context)
