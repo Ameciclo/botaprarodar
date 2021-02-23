@@ -22,6 +22,7 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.UserDecoration
 import app.igormatos.botaprarodar.presentation.UsersAdapter
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
@@ -110,6 +111,11 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         else
             getString(R.string.user_add_success)
 
+    override fun onUserClicked(user: User) {
+        val intent = UserFormActivity.setupActivity(requireContext(), user)
+        startForResult.launch(intent)
+    }
+
     companion object {
         fun newInstance(withdraw: Withdraw): UsersFragment {
             val fragment =
@@ -119,11 +125,5 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    override fun onUserClicked(user: User) {
-        val intent = Intent(context, UserFormActivity::class.java)
-        intent.putExtra(UserFormActivity.USER_EXTRA, Parcels.wrap(User::class.java, user))
-        context?.startActivity(intent)
     }
 }
