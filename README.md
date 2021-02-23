@@ -75,16 +75,4 @@ Atualmente há dois pipelines de CI:
 2. executa a cada merge na development ou main, com os jobs:
     - Tests Unitaires
 
-## Custom Dialog
-O custom dialog funciona de forma em que ele é totalmente customizado, sendo obrigatórios apenas o primaryButton e sua ação de clickListener.
-Para utilizar o componente, foi criado um modelo para ele chamado de CustomDialogModel, onde é possível construir o dialog a partir de qual atributo é inserido no model.
-Caso algum atributo do model não seja atribuído, sua view correspondente se torna GONE consequentemente, facilitando a construção de diversas formas do dialog.
-Ex: (Neste caso ele irá exibir uma imagem inicial, um título "texto" e um botão primário com texto "Confirmar" e clickListener "action()")
-CustomDialogModel(
-    icon = R.drawable.ic_add,
-    title = "texto",
-    primaryButtonText = "Confirmar",
-    primaryButtonListener = { action() }
-)
-
 
