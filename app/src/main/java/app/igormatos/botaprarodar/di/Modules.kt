@@ -15,7 +15,7 @@ import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
-import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
@@ -81,13 +81,6 @@ val bprModule = module {
         )
     }
 
-    viewModel {
-        BikeFormViewModel(
-            bikeFormUseCase = get(),
-            community = get<SharedPreferencesModule>().getJoinedCommunity()
-        )
-    }
-
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }
@@ -108,12 +101,6 @@ val bprModule = module {
         FirebaseHelperRepository(get<FirebaseStorage>())
     }
 
-    single {
-        BikeFormUseCase(
-            bikeRepository = get<BikeRepository>(),
-            firebaseHelperRepository = get<FirebaseHelperRepository>()
-        )
-    }
 
     single {
         FirebaseAuth.getInstance()
@@ -132,23 +119,7 @@ val bprModule = module {
     }
 
     single {
-        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
-    }
-
-    single {
-        BikesUseCase(get<BikeRepository>())
-    }
-
-    single {
         UserRequestConvert()
-    }
-
-    single {
-        UserUseCase(
-            userRepository = get(),
-            firebaseHelperRepository = get(),
-            userConverter = get()
-        )
     }
 
     viewModel {
@@ -167,8 +138,44 @@ val bprModule = module {
         PasswordRecoveryViewModel(get(), get())
     }
 
+    //BikeForm
+
+    single {
+        BikeFormUseCase(
+            bikeRepository = get<BikeRepository>(),
+            firebaseHelperRepository = get<FirebaseHelperRepository>()
+        )
+    }
+
+    viewModel {
+        BikeFormViewModel(
+            bikeFormUseCase = get(),
+            community = get<SharedPreferencesModule>().getJoinedCommunity()
+        )
+    }
+
+    //Bikes Fragment
+
+    single {
+        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+    }
+
+    single {
+        BikesUseCase(get<BikeRepository>())
+    }
+
     viewModel {
         BikesViewModel(get<BikesUseCase>())
+    }
+
+    //UserForm
+
+    single {
+        UserFormUseCase(
+            userRepository = get(),
+            firebaseHelperRepository = get(),
+            userConverter = get()
+        )
     }
 
     viewModel {
@@ -177,6 +184,8 @@ val bprModule = module {
             userUseCase = get()
         )
     }
+
+    //Users Fragment
 
     single {
         UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
