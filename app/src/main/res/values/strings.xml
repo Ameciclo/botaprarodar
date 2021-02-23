@@ -128,5 +128,7 @@
     <string name="edit_user_toolbar_title">Editar Usuário</string>
     <string name="user_update_success">Usuário atualizado com sucesso</string>
     <string name="user_add_success">Usuário adicionado com sucesso</string>
+    <string name="borrow_bike">EMPRESTAR BICILETA</string>
+    <string name="return_bike">DEVOLVER BICILETA</string>
 
 </resources>

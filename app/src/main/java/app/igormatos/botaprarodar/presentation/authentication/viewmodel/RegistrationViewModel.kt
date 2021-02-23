@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.igormatos.botaprarodar.common.BprErrorType
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator

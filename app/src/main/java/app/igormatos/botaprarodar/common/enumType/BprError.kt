@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.common
+package app.igormatos.botaprarodar.common.enumType
 
 interface BprError {
     val type: BprErrorType

@@ -1,7 +1,9 @@
 package app.igormatos.botaprarodar.presentation.main
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +11,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
@@ -25,7 +27,6 @@ import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
 
-
 class TripsFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
@@ -33,7 +34,7 @@ class TripsFragment : Fragment() {
     private lateinit var binding: FragmentTripsBinding
 
     val itemAdapter = WithdrawAdapter()
-    val bikeActionMenuAdapter = BikeActionMenuAdapter()
+    val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList())
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -65,10 +66,7 @@ class TripsFragment : Fragment() {
         setupTripsRecyclerView()
         setupBikeActionRecyclerView()
 
-
         binding.bikeActionMenuRecyclerView
-
-//        loadingDialog = context?.showLoadingDialog()
 
         val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
         FirebaseHelper.getWithdrawals(
@@ -89,15 +87,6 @@ class TripsFragment : Fragment() {
                     itemAdapter.removeItem(result)
                 }
             })
-
-    }
-
-    private fun setupBikeActionRecyclerView() {
-        binding.apply {
-            bikeActionMenuRecyclerView.layoutManager = GridLayoutManager(context, 2,GridLayoutManager.HORIZONTAL, false)
-            bikeActionMenuRecyclerView.adapter = bikeActionMenuAdapter
-            bikeActionMenuAdapter.notifyDataSetChanged()
-        }
     }
 
     private fun setupTripsRecyclerView() {
@@ -111,4 +100,34 @@ class TripsFragment : Fragment() {
         )
     }
 
+    private fun setupBikeActionRecyclerView() {
+        binding.apply {
+            bikeActionMenuRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            setRecyclerViewItemMarginRight()
+            bikeActionMenuRecyclerView.adapter = bikeActionMenuAdapter
+            bikeActionMenuAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun setRecyclerViewItemMarginRight() {
+        bikeActionMenuRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+
+                super.getItemOffsets(outRect, view, parent, state)
+
+                if (bikeActionMenuAdapter.itemCount - parent.getChildLayoutPosition(view) != 1) {
+                    outRect.right = getAnIntDp(16)
+                }
+            }
+        })
+    }
+
+    fun getAnIntDp(value: Int): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value.toFloat(), resources.displayMetrics).toInt()
+    }
 }
