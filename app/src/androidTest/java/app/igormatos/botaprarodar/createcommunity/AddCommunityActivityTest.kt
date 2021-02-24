@@ -37,7 +37,6 @@ class AddCommunityActivityTest {
         }
     }
 
-    @Ignore
     @Test
     @LargeTest
     fun shouldAddNewCommunityUserJourney() {
