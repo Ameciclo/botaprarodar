@@ -50,10 +50,7 @@ class BikeRepository(
             }
         }
 
-        firebaseDatabase
-            .getReference(REFERENCE_COMMUNITIES)
-            .child(communityId)
-            .child(REFERENCE_BICYCLES)
+        firebaseReference(communityId)
             .orderByChild(REFERENCE_AVAILABLE)
             .equalTo(true)
             .addValueEventListener(postListener)
@@ -73,10 +70,16 @@ class BikeRepository(
         if (bike.id.isNullOrEmpty()) {
             snapshot.key?.let { key ->
                 bike.id = key
-                firebaseDatabase.getReference(REFERENCE_COMMUNITIES).child(communityId)
-                    .child(REFERENCE_BICYCLES).child(key).setValue(bike)
+                firebaseReference(communityId).child(key).setValue(bike)
             }
         }
+    }
+
+    private fun firebaseReference(communityId: String): DatabaseReference {
+        return firebaseDatabase
+            .getReference(REFERENCE_COMMUNITIES)
+            .child(communityId)
+            .child(REFERENCE_BICYCLES)
     }
 
     companion object {
