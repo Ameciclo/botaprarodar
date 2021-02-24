@@ -130,5 +130,6 @@
     <string name="user_add_success">Usuário adicionado com sucesso</string>
     <string name="borrow_bike">EMPRESTAR BICILETA</string>
     <string name="return_bike">DEVOLVER BICILETA</string>
-
+    <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta</string>
+    <string name="lgpd_confirm">De acordo</string>
 </resources>
