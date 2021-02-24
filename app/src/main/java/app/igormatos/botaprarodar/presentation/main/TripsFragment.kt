@@ -102,7 +102,8 @@ class TripsFragment : Fragment() {
 
     private fun setupBikeActionRecyclerView() {
         binding.apply {
-            bikeActionMenuRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            bikeActionMenuRecyclerView.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setRecyclerViewItemMarginRight()
             bikeActionMenuRecyclerView.adapter = bikeActionMenuAdapter
             bikeActionMenuAdapter.notifyDataSetChanged()
@@ -117,17 +118,36 @@ class TripsFragment : Fragment() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-
                 super.getItemOffsets(outRect, view, parent, state)
 
-                if (bikeActionMenuAdapter.itemCount - parent.getChildLayoutPosition(view) != 1) {
-                    outRect.right = getAnIntDp(16)
-                }
+                val currentPosition = parent.getChildLayoutPosition(view)
+                val listSize = bikeActionMenuAdapter.itemCount
+
+                setMarginByChildPositionList(currentPosition, outRect, listSize)
             }
         })
     }
 
+    private fun setMarginByChildPositionList(
+        currentPosition: Int,
+        outRect: Rect,
+        listSize: Int) {
+
+        when (currentPosition) {
+            0 -> outRect.right = getAnIntDp(8)
+            listSize - 1 -> outRect.left = getAnIntDp(8)
+            else -> {
+                outRect.right = getAnIntDp(8)
+                outRect.left = getAnIntDp(8)
+            }
+        }
+    }
+
     fun getAnIntDp(value: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value.toFloat(), resources.displayMetrics).toInt()
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value.toFloat(),
+            resources.displayMetrics
+        ).toInt()
     }
 }
