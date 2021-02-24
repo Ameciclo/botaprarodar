@@ -47,7 +47,7 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
         initUI()
         getBikes()
-        observers()
+        observerBikes()
     }
 
     private fun initUI() {
@@ -65,7 +65,7 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
         bikesViewModel.getBikes(joinedCommunityId)
     }
 
-    private fun observers() {
+    private fun observerBikes() {
         bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SimpleResult.Success -> {
