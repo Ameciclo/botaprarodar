@@ -13,7 +13,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.components.CustomDialog
+import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
+import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
@@ -58,7 +61,7 @@ class UserFormActivity : AppCompatActivity() {
     private fun checkEditMode() {
         val parcelableUser: Parcelable? = intent.getParcelableExtra(USER_EXTRA)
 
-        parcelableUser?.let{
+        parcelableUser?.let {
             val user = Parcels.unwrap(it) as User
             setValuesToEditUser(user)
         }
@@ -80,7 +83,7 @@ class UserFormActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent)
                     finish()
                 }
-                ViewModelStatus.Loading -> {
+                is ViewModelStatus.Loading -> {
                     window.decorView.hideKeyboard()
                     loadingDialog.show()
                 }
@@ -91,6 +94,14 @@ class UserFormActivity : AppCompatActivity() {
                     }
                     loadingDialog.dismiss()
                 }
+            }
+        })
+
+        binding.viewModel?.lgpd?.observe(this, Observer {
+            if (binding.viewModel?.isEditableAvailable == true) {
+                binding.viewModel?.registerUser()
+            } else if (it) {
+                showConfirmDialog()
             }
         })
     }
@@ -189,5 +200,18 @@ class UserFormActivity : AppCompatActivity() {
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
+    }
+
+    private fun showConfirmDialog() {
+        val dialogModel = CustomDialogModel(
+            title = getString(R.string.warning),
+            message = getString(R.string.lgpd_message),
+            primaryButtonText = getString(R.string.lgpd_confirm),
+            primaryButtonListener = {
+                binding.viewModel?.registerUser()
+            }
+        )
+
+        CustomDialog.newInstance(dialogModel).show(supportFragmentManager, TAG)
     }
 }
