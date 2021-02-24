@@ -2,9 +2,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ main, development]
-  pull_request:
-    branches: [ main, development ]
+    branches: main
 jobs:
   build:
     name: Unit Tests
