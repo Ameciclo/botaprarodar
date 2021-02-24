@@ -4,9 +4,38 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background_gray"
         tools:context=".presentation.returnbicycle.ReturnBikeActivity">
 
-    <fragment
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/returnBikeBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/returnBikeToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:titleTextColor="@color/dark_gray"
+                tools:title="@string/return_bike_toolbar_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <app.igormatos.botaprarodar.common.customview.BikeActionStepper
+            android:id="@+id/bikeActionStepper"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
+
+    <androidx.fragment.app.FragmentContainerView
             android:id="@+id/returnNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
@@ -15,9 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/return_nav_graph">
-
-    </fragment>
+            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+            app:navGraph="@navigation/return_bike_nav_graph"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

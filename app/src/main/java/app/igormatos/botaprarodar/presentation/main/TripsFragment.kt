@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,7 @@ class TripsFragment : Fragment() {
     private lateinit var binding: FragmentTripsBinding
 
     val itemAdapter = WithdrawAdapter()
-    val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList())
+    val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList(), ::navigateToReturnBikeActivity)
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -143,11 +144,19 @@ class TripsFragment : Fragment() {
         }
     }
 
-    fun getAnIntDp(value: Int): Int {
+   private fun getAnIntDp(value: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             value.toFloat(),
             resources.displayMetrics
         ).toInt()
+    }
+
+  private fun navigateToReturnBikeActivity(){
+
+       val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
+        findNavController().navigate(action)
+
+
     }
 }

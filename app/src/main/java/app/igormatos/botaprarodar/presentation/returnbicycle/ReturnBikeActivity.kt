@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
 
@@ -20,9 +22,11 @@ class ReturnBikeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityReturnBikeBinding.inflate(layoutInflater)
+
         val view = binding.root
         setContentView(view)
-        setupActionBarWithNavController(navController)
+        setSupportActionBar(binding.returnBikeToolbar)
+        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

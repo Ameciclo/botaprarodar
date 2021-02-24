@@ -7,7 +7,11 @@
 
     <fragment
             android:id="@+id/navigationHome"
-            android:name="app.igormatos.botaprarodar.presentation.main.TripsFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.TripsFragment" >
+        <action
+                android:id="@+id/action_navigationHome_to_returnBikeActivity"
+                app:destination="@id/returnBikeActivity" />
+    </fragment>
 
     <fragment
             android:id="@+id/navigationUsers"
@@ -15,6 +19,13 @@
     <fragment
             android:id="@+id/navigationBicycles"
             android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment" />
+
+    <activity
+            android:id="@+id/returnBikeActivity"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity"
+            android:label="activity_return_bike"
+            tools:layout="@layout/activity_return_bike" />
+
 </navigation>
 
 
