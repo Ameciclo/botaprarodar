@@ -130,5 +130,6 @@
     <string name="user_add_success">Usuário adicionado com sucesso</string>
     <string name="borrow_bike">EMPRESTAR BICILETA</string>
     <string name="return_bike">DEVOLVER BICILETA</string>
+    <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
 
 </resources>

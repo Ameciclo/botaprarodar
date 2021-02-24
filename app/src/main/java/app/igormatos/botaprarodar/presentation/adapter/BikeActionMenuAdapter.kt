@@ -10,7 +10,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 
 class BikeActionMenuAdapter(
-    private val itemList: MutableList<BikeActionsMenuType>
+    private val itemList: MutableList<BikeActionsMenuType>,
+    private val navigateToReturnBikeActivity: () -> Unit
 ) : RecyclerView.Adapter<BikeActionMenuAdapter.BikeActionMenuItemViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,20 +33,35 @@ class BikeActionMenuAdapter(
 
     override fun onBindViewHolder(holder: BikeActionMenuItemViewHolder, position: Int) {
         holder.bind(itemList[position])
+        holder.onItemClick()
     }
 
-    class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
         private val borrowImageView = itemView.findViewById<ImageView>(R.id.borrowImageView)
         private val returnImageView = itemView.findViewById<ImageView>(R.id.returnImageView)
+        private val bikeActionMenuContainer =
+            itemView.findViewById<View>(R.id.bikeActionMenuContainer)
 
         fun bind(item: BikeActionsMenuType) {
             bikeActionTextView.text = itemView.context.getString(item.stringId)
 
             when (item) {
-                BikeActionsMenuType.BORROW -> showActionImageVisibility(View.VISIBLE, View.INVISIBLE)
-                BikeActionsMenuType.RETURN -> showActionImageVisibility(View.INVISIBLE, View.VISIBLE)
+                BikeActionsMenuType.BORROW -> showActionImageVisibility(
+                    View.VISIBLE,
+                    View.INVISIBLE
+                )
+                BikeActionsMenuType.RETURN -> showActionImageVisibility(
+                    View.INVISIBLE,
+                    View.VISIBLE
+                )
+            }
+        }
+
+        fun onItemClick() {
+            bikeActionMenuContainer.setOnClickListener {
+                navigateToReturnBikeActivity.invoke()
             }
         }
 
