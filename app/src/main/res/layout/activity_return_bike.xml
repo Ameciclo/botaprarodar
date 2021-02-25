@@ -26,10 +26,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <app.igormatos.botaprarodar.common.customview.BikeActionStepper
+    <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
             android:id="@+id/bikeActionStepper"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            app:current_icon_color="@color/green_teal"
+            app:previous_icon_color="@color/white"
+            app:next_icon_color="@color/gray_silver"
+            app:select_background="@color/white"
+            app:unselect_background="@color/green_teal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />

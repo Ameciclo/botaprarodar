@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
 
 class ReturnBikeActivity : AppCompatActivity() {
@@ -25,6 +26,10 @@ class ReturnBikeActivity : AppCompatActivity() {
         setContentView(view)
         setSupportActionBar(binding.returnBikeToolbar)
         NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
+
+        binding.bikeActionStepper.addItems(
+            arrayListOf(StepConfigType.SELECT_BIKE, StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
