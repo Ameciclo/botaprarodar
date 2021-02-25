@@ -3,94 +3,83 @@ package app.igormatos.botaprarodar.presentation.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
+import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.Item
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.ItemAdapter
-import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
+import app.igormatos.botaprarodar.presentation.UserDecoration
+import app.igormatos.botaprarodar.presentation.UsersAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
 import com.brunotmgomes.ui.extensions.snackBarMaker
-import kotlinx.android.synthetic.main.activity_choose_user.*
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_users.*
 import org.koin.android.ext.android.inject
 import org.parceler.Parcels
 
-
-class UsersFragment : androidx.fragment.app.Fragment() {
+class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapterListener {
 
     private val preferencesModule: SharedPreferencesModule by inject()
     private val firebaseHelperModule: FirebaseHelperModule by inject()
+    lateinit var itemAdapter: UsersAdapter
 
-    lateinit var itemAdapter: ItemAdapter
+    private lateinit var binding: FragmentUsersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_users, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        itemAdapter =
-            ItemAdapter(activity = this.activity)
-
-        addItemFab.setOnClickListener {
+        itemAdapter = UsersAdapter(this)
+        binding.btnRegisterUsers.setOnClickListener {
             val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
         }
-
-        arguments?.let {
-            it.getParcelable<Parcelable>(WITHDRAWAL_EXTRA)?.let {
-                addItemFab.visibility = View.GONE
-
-                val withdrawal = Parcels.unwrap(it) as Withdraw
-                itemAdapter.withdrawalInProgress = withdrawal
-            }
+        setupRecyclerView()
+        getUsers(preferencesModule.getJoinedCommunity().id)
+        binding.tieSearchUsers.addTextChangedListener {
+            itemAdapter.filter.filter(it.toString())
         }
+    }
 
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        recyclerView.adapter = itemAdapter
-        recyclerView.addItemDecoration(
-            androidx.recyclerview.widget.DividerItemDecoration(
-                recyclerView.context,
-                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-            )
-        )
-
-        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        val filterOnlyAvailable = activity is ChooseUserActivity
-
+    private fun getUsers(joinedCommunityId: String) {
         firebaseHelperModule.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
             override fun onChildChanged(result: Item) {
-                itemAdapter.updateItem(result)
+                itemAdapter.updateItem(result as User)
             }
 
             override fun onChildAdded(result: Item) {
-                itemAdapter.addItem(result)
+                itemAdapter.addItem(result as User)
             }
 
             override fun onChildRemoved(result: Item) {
-                itemAdapter.removeItem(result)
+                itemAdapter.removeItem(result as User)
             }
         })
+    }
+
+    private fun setupRecyclerView() {
+        val marginTop = resources.getDimensionPixelSize(R.dimen.padding_medium)
+        rv_users.layoutManager = LinearLayoutManager(context)
+        rv_users.adapter = itemAdapter
+        rv_users.addItemDecoration(UserDecoration(marginTop))
     }
 
     private val startForResult =
@@ -117,51 +106,18 @@ class UsersFragment : androidx.fragment.app.Fragment() {
             getString(R.string.user_add_success)
 
     companion object {
-
         fun newInstance(withdraw: Withdraw): UsersFragment {
-            val fragment =
-                UsersFragment()
+            val fragment = UsersFragment()
             val bundle = Bundle()
             bundle.putParcelable(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdraw))
             fragment.arguments = bundle
-
             return fragment
         }
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (activity is ChooseUserActivity) {
-            val activityMenu = requireActivity().toolbar.menu
-            val aMenuInflater = requireActivity().menuInflater
-
-            activityMenu.clear()
-            aMenuInflater.inflate(R.menu.search_users, menu)
-
-            val searchView =
-                SearchView((context as ChooseUserActivity).supportActionBar!!.themedContext)
-            searchView.queryHint = "Busque pelo nome ou RG/CPF"
-
-            activityMenu.findItem(R.id.action_search).apply {
-                setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
-                actionView = searchView
-            }
-
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String): Boolean {
-                    itemAdapter.filter.filter(query)
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    itemAdapter.filter.filter(newText)
-                    return true
-                }
-            })
-
-            searchView.setOnClickListener { view -> }
-
-        }
+    override fun onUserClicked(user: User) {
+        val intent = Intent(context, UserFormActivity::class.java)
+        intent.putExtra(UserFormActivity.USER_EXTRA, Parcels.wrap(User::class.java, user))
+        context?.startActivity(intent)
     }
-
 }

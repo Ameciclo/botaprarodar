@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.addbicycle
+package app.igormatos.botaprarodar.presentation.bikeForm
 
 import android.app.Activity
 import android.content.Context
@@ -9,16 +9,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
-import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
-import com.brunotmgomes.ui.extensions.createLoading
-import com.brunotmgomes.ui.extensions.hideKeyboard
-import com.brunotmgomes.ui.extensions.takePictureIntent
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.extensions.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
 
 class BikeFormActivity : AppCompatActivity() {
@@ -29,7 +26,7 @@ class BikeFormActivity : AppCompatActivity() {
     private val formViewModel: BikeFormViewModel by viewModel()
 
     private val binding: ActivityBikeFormBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
+        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
     }
 
     companion object {
@@ -74,7 +71,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.state?.observe(this, { bikeFormStatus ->
+        binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
             when (bikeFormStatus) {
                 is BikeFormStatus.Success -> {
                     loadingDialog.dismiss()

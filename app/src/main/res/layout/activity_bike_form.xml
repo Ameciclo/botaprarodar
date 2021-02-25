@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel" />
+                type="app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel" />
     </data>
 
     <ScrollView
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            tools:context=".presentation.addbicycle.BikeFormActivity">
+            tools:context=".presentation.bikeForm.BikeFormActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

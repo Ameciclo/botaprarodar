@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
 import org.junit.Assert.assertEquals
@@ -193,7 +193,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Success("")
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -206,7 +206,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()

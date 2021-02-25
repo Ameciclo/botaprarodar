@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain.usecase.bicycle
+package app.igormatos.botaprarodar.domain.usecase.bikeForm
 
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
@@ -23,7 +23,7 @@ class BikeFormUseCase(
         }
     }
 
-    suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
+    suspend fun startUpdateBike(communityId: String, bike: Bike): SimpleResult<String> {
         return if (bike.path.contains(FIREBASE_URL)) {
             updateBike(bike, communityId)
         } else {
