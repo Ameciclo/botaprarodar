@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
@@ -153,10 +156,8 @@ class TripsFragment : Fragment() {
     }
 
   private fun navigateToReturnBikeActivity(){
-
        val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
         findNavController().navigate(action)
-
-
+//      Navigation.findNavController(requireActivity(), R.id.action_navigationHome_to_returnBikeActivity)
     }
 }
