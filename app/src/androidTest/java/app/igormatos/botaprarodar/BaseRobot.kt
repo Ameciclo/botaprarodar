@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar
 
 import android.content.Context
 import android.view.KeyEvent
+import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -58,7 +59,7 @@ abstract class BaseRobot {
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
-    fun checkViewById(resId: Int) {
+    fun checkViewIsDisplayed(resId: Int) {
         onView(withId(resId)).check(matches(isDisplayed()))
     }
 

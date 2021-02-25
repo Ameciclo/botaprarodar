@@ -44,13 +44,13 @@ class UserFormViewModel(
 
     fun updateUserValues(currentUser: User) {
         user = currentUser.apply {
-            userCompleteName.value = this.name
-            userAddress.value = this.address
+            userCompleteName.value = this.name.orEmpty()
+            userAddress.value = this.address.orEmpty()
             userDocument.value = this.doc_number.toString()
-            userImageProfile.value = this.profile_picture
-            userImageDocumentResidence.value = this.residence_proof_picture
-            userImageDocumentFront.value = this.doc_picture
-            userImageDocumentBack.value = this.doc_picture_back
+            userImageProfile.value = this.profile_picture.orEmpty()
+            userImageDocumentResidence.value = this.residence_proof_picture.orEmpty()
+            userImageDocumentFront.value = this.doc_picture.orEmpty()
+            userImageDocumentBack.value = this.doc_picture_back.orEmpty()
             userGender.value = this.gender
         }
         isEditableAvailable = true

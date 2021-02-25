@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar
 
 import android.net.Uri
 import android.os.Parcel
+import app.igormatos.botaprarodar.domain.model.Bike
 import com.google.android.gms.internal.firebase_auth.zzey
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.*
@@ -96,6 +97,12 @@ object Fixtures {
         override fun zzh(): zzz {
             TODO("Not yet implemented")
         }
+    }
 
+    val bike = Bike().apply {
+        name = "name mock"
+        order_number = 123
+        serial_number = "serial mock"
+        photo_path = "photo mock"
     }
 }

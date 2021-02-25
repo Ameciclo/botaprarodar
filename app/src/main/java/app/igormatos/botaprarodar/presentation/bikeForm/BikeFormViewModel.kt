@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.addbicycle
+package app.igormatos.botaprarodar.presentation.bikeForm
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
@@ -74,7 +74,7 @@ class BikeFormViewModel(
     }
 
     private suspend fun updateBike(bike: Bike) {
-        bikeFormUseCase.updateBike(communityId = community.id, bike = bike).let {
+        bikeFormUseCase.startUpdateBike(communityId = community.id, bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data)
                 is SimpleResult.Error -> resultError()

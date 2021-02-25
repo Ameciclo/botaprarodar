@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.bikes
 
 import android.app.Activity
 import android.content.Intent
@@ -9,67 +9,71 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.data.network.RequestListener
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
+import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicycleAdapterListener
 import app.igormatos.botaprarodar.presentation.BicyclesAdapter
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormActivity
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
+import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BicyclesFragment : Fragment(), BicycleAdapterListener {
+@ExperimentalCoroutinesApi
+class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
-    lateinit var bicycleAdapter: BicyclesAdapter
+    val bicycleAdapter = BicyclesAdapter(this)
+    private lateinit var binding: FragmentBikesBinding
     private val preferencesModule: SharedPreferencesModule by inject()
-    private val firebaseHelperModule: FirebaseHelperModule by inject()
+    private val bikesViewModel: BikesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        bicycleAdapter = BicyclesAdapter(bicycleAdapterListener = this)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bikes, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addItemFab.setOnClickListener {
+        initUI()
+        getBikes()
+        observerBikes()
+    }
+
+    private fun initUI() {
+        binding.btnRegisterBikes.setOnClickListener {
             val intent = BikeFormActivity.setupActivity(requireContext(), null)
             startForResult.launch(intent)
         }
 
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        recyclerView.adapter = bicycleAdapter
+        binding.rvBikes.layoutManager = LinearLayoutManager(context)
+        binding.rvBikes.adapter = bicycleAdapter
+    }
 
+    private fun getBikes() {
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        firebaseHelperModule.getBicycles(
-            joinedCommunityId,
-            listener = object : RequestListener<Bike> {
-                override fun onChildChanged(result: Bike) {
-                    bicycleAdapter.updateItem(result)
-                }
+        bikesViewModel.getBikes(joinedCommunityId)
+    }
 
-                override fun onChildAdded(result: Bike) {
-                    bicycleAdapter.addItem(result)
+    private fun observerBikes() {
+        bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is SimpleResult.Success -> {
+                    bicycleAdapter.submitList(it.data)
                 }
-
-                override fun onChildRemoved(result: Bike) {
-                    bicycleAdapter.removeItem(result)
-                }
-
-            })
+                is SimpleResult.Error -> {}
+            }
+        })
     }
 
     override fun onBicycleClicked(bike: Bike) {

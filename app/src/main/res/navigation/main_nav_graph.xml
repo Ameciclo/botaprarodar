@@ -14,7 +14,7 @@
             android:name="app.igormatos.botaprarodar.presentation.main.UsersFragment" />
     <fragment
             android:id="@+id/navigationBicycles"
-            android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.bikes.BicyclesFragment" />
 </navigation>
 
 
