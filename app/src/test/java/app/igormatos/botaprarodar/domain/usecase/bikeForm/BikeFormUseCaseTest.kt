@@ -72,7 +72,7 @@ class BikeFormUseCaseTest {
                 firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
-                userCaseForm.updateBike("100", buildBicycle()) as SimpleResult.Success
+                userCaseForm.startUpdateBike("100", buildBicycle()) as SimpleResult.Success
 
             assertEquals("Bicycle Edited", responseResult.data)
         }
@@ -88,7 +88,7 @@ class BikeFormUseCaseTest {
                 path = "https://bla.com"
             }
             val responseResult =
-                userCaseForm.updateBike("100", bike) as SimpleResult.Success
+                userCaseForm.startUpdateBike("100", bike) as SimpleResult.Success
 
             assertEquals("Bicycle Edited", responseResult.data)
         }
@@ -105,7 +105,7 @@ class BikeFormUseCaseTest {
             coEvery {
                 firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
-            val responseResult = userCaseForm.updateBike("100", buildBicycle())
+            val responseResult = userCaseForm.startUpdateBike("100", buildBicycle())
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
@@ -123,7 +123,7 @@ class BikeFormUseCaseTest {
             val bike = buildBicycle().apply {
                 path = "https://bla.com"
             }
-            val responseResult = userCaseForm.updateBike("100", bike)
+            val responseResult = userCaseForm.startUpdateBike("100", bike)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)

@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 
 private const val INDEX_INVALID = -1
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
-    UsersDiffUtil()
-), Filterable {
+class UsersAdapter(private val listener: UsersAdapterListener) : ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
 
     private val users = mutableListOf<User>()
     var filteredList = mutableListOf<User>()
@@ -37,7 +36,6 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
     fun addItem(user: User) {
         users.add(user)
         submitList(users)
-//        filteredList.add(0, user)
         notifyDataSetChanged()
     }
 
@@ -48,10 +46,6 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             submitList(users)
             notifyItemRemoved(index)
         }
-
-//        val filteredListIndex = filteredList.indexOfFirst { it.id == item.id }
-//        filteredList.removeAt(filteredListIndex)
-
     }
 
     fun updateItem(user: User) {
@@ -62,11 +56,10 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             submitList(users)
             notifyDataSetChanged()
         }
+    }
 
-//        val filteredListIndex = filteredList.indexOfFirst { it.id == item.id }
-//        filteredList.removeAt(filteredListIndex)
-//        filteredList.add(0, item)
-
+    interface UsersAdapterListener {
+        fun onUserClicked(user: User)
     }
 
     override fun getFilter(): Filter {
@@ -91,7 +84,6 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results?.values as MutableList<User>
                 submitList(filteredList)
-//                notifyDataSetChanged()
             }
         }
 
@@ -109,6 +101,9 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             itemView.findViewById<TextView>(R.id.tv_registered_since_user_item).text =
                 itemView.context.getString(R.string.user_created_since, user.created_date)
 
+            itemView.setOnClickListener {
+                listener.onUserClicked(user)
+            }
         }
     }
 

@@ -193,7 +193,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Success("")
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -206,7 +206,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()

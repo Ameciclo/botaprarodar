@@ -74,7 +74,7 @@ class BikeFormViewModel(
     }
 
     private suspend fun updateBike(bike: Bike) {
-        bikeFormUseCase.updateBike(communityId = community.id, bike = bike).let {
+        bikeFormUseCase.startUpdateBike(communityId = community.id, bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data)
                 is SimpleResult.Error -> resultError()
