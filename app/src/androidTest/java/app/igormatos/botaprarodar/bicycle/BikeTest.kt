@@ -27,7 +27,6 @@ class BikeTest {
         scenario = launchActivity()
     }
 
-    @Ignore
     @Test
     fun shouldAddBicycle() {
         login {

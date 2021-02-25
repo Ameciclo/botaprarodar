@@ -23,7 +23,7 @@ class BikeFormUseCase(
         }
     }
 
-    suspend fun updateBike(communityId: String, bike: Bike): SimpleResult<String> {
+    suspend fun startUpdateBike(communityId: String, bike: Bike): SimpleResult<String> {
         return if (bike.path.contains(FIREBASE_URL)) {
             updateBike(bike, communityId)
         } else {

@@ -6,7 +6,8 @@ import androidx.fragment.app.testing.withFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.Fixtures.bike
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.main.BicyclesFragment
+import app.igormatos.botaprarodar.presentation.main.bikes.BicyclesFragment
+import io.mockk.coEvery
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,14 +21,13 @@ class BicyclesFragmentTest {
     fun setup() {
         fragmentScenario = launchFragmentInContainer(themeResId = R.style.AppTheme)
         fragmentScenario.withFragment {
-            this.bicycleAdapter.addItem(bike)
+            this.bicycleAdapter.submitList(mutableListOf(bike))
         }
     }
 
     @Test
     fun whenLoadFragment_shouldAllViewsVisible() {
         bicyclesFragment {
-            delay()
         } verify {
             checkRecyclerIsVisible()
             checkButtonIsVisible()
@@ -56,7 +56,6 @@ class BicyclesFragmentTest {
     @Test
     fun whenLoadFragment_shouldVerifyFirstItemAtRecycler() {
         bicyclesFragment {
-            delay()
         } verify {
             checkBikeName()
             checkBikeOrderNumber()
