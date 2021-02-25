@@ -1,8 +1,13 @@
 package app.igormatos.botaprarodar.bicycle
 
+import android.os.Bundle
+import android.provider.MediaStore
+import androidx.activity.result.ActivityResult
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
