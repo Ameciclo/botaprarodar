@@ -131,5 +131,7 @@
     <string name="borrow_bike">EMPRESTAR BICILETA</string>
     <string name="return_bike">DEVOLVER BICILETA</string>
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
-
+    <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="answer_quiz">Responda o questionário</string>
+    <string name="confirm_return">Confirme a devolução</string>
 </resources>
