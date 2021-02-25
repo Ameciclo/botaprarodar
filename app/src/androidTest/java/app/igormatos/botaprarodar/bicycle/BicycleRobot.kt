@@ -17,7 +17,7 @@ class BicycleRobot : BaseRobot() {
     }
 
     fun addBicycle() {
-        onView(allOf(withId(R.id.addItemFab), isDisplayed())).perform(click())
+        onView(allOf(withId(R.id.btn_register_bikes), isDisplayed())).perform(click())
     }
 
     fun fillBicycleNumberSerie(content:String){
