@@ -23,7 +23,7 @@
     <activity
             android:id="@+id/returnBikeActivity"
             android:name="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity"
-            android:label="activity_return_bike"
+            android:label="@string/return_bike_toolbar_title"
             tools:layout="@layout/activity_return_bike" />
 
 </navigation>

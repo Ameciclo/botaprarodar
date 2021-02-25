@@ -21,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
-                app:titleTextColor="@color/dark_gray"
-                tools:title="@string/return_bike_toolbar_title" />
+                app:titleTextColor="@color/dark_gray" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
             android:id="@+id/returnNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
