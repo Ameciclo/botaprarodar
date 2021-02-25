@@ -11,6 +11,7 @@ import app.igormatos.botaprarodar.createcommunity.addCommunity
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import org.junit.Before
 import org.junit.FixMethodOrder
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters

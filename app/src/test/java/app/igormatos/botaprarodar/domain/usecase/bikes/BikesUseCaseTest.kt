@@ -31,13 +31,21 @@ class BikesUseCaseTest {
     }
 
     @Test
+    fun `when getBikes() should return a not null response`() = runBlocking {
+        coEvery { repository.getBikes(any()) } returns flowSuccess
+
+        val response = useCase.getBikes("123").toList()
+
+        assertNotNull(response)
+    }
+
+    @Test
     fun `when getBikes() should return a list of bikes`() = runBlocking {
         coEvery { repository.getBikes(any()) } returns flowSuccess
 
         val response = useCase.getBikes("123").toList()
         val expectedSizeList = 1
 
-        assertNotNull(response)
         assertEquals(response.size, expectedSizeList)
     }
 
@@ -57,7 +65,6 @@ class BikesUseCaseTest {
 
         val response = useCase.getBikes("123").toList()
 
-        assertNotNull(response)
         assertThat(response[0], instanceOf(SimpleResult.Error::class.java))
     }
 }

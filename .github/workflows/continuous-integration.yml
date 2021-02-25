@@ -2,9 +2,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [ main, development]
-  pull_request:
-    branches: [ main, development ]
+    branches: main
 jobs:
   build:
     name: Unit Tests
@@ -12,4 +10,15 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - uses: ./.github/actions/unit_tests
+
+      - name: SetUp Java
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET_DEV: ${{ secrets.FIREBASE_SECRET_DEV }}
+        run: echo $FIREBASE_SECRET_DEV > app/google-services.json
+      - name: Run unit tests
+        run: ./gradlew clean test

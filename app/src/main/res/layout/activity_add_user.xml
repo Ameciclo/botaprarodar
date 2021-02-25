@@ -244,7 +244,7 @@
                         android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/margin_small"
                         android:enabled="@{viewModel.isButtonEnabled}"
-                        android:onClick="@{() -> viewModel.registerUser()}"
+                        android:onClick="@{() -> viewModel.showLgpd()}"
                         android:padding="@dimen/padding_medium"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
