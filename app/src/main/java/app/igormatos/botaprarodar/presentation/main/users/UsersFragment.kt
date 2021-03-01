@@ -62,7 +62,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         }
         setupRecyclerView()
         getUsers()
-        observers()
+        observerUsers()
     }
 
     private fun setupRecyclerView() {
@@ -77,7 +77,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         usersViewModel.getUsers(joinedCommunityId)
     }
 
-    private fun observers() {
+    private fun observerUsers() {
         usersViewModel.users.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SimpleResult.Success -> {
