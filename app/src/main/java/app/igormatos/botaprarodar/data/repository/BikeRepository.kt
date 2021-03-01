@@ -1,16 +1,19 @@
 package app.igormatos.botaprarodar.data.repository
 
-import app.igormatos.botaprarodar.data.network.api.BicycleApi
+import android.util.Log
 import app.igormatos.botaprarodar.data.model.BicycleRequest
+import app.igormatos.botaprarodar.data.network.api.BicycleApi
+import app.igormatos.botaprarodar.data.network.safeApiCall
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.model.Item
-import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.withContext
 
 @ExperimentalCoroutinesApi
 class BikeRepository(
@@ -20,18 +23,34 @@ class BikeRepository(
 
     lateinit var postListener: ValueEventListener
 
-    suspend fun getBicycles(communityId: String): Map<String, Bike> {
+    suspend fun getBicycles(communityId: String): SimpleResult<Map<String, Bike>> {
         return withContext(Dispatchers.IO) {
-            return@withContext bicycleApi.getBicycles(communityId = communityId).await()
+            safeApiCall {
+                bicycleApi.getBicycles(communityId = communityId).await()
+            }
         }
     }
 
-    suspend fun addNewBike(communityId: String, bicycle: BicycleRequest): String {
-        return bicycleApi.addNewBike(communityId, bicycle).name
+    suspend fun addNewBike(
+        communityId: String,
+        bicycle: BicycleRequest
+    ): SimpleResult<AddDataResponse> {
+        return withContext(Dispatchers.IO) {
+            safeApiCall {
+                bicycleApi.addNewBike(communityId, bicycle)
+            }
+        }
     }
 
-    suspend fun updateBike(communityId: String, bicycle: BicycleRequest): String {
-        return bicycleApi.updateBike(communityId, bicycle.id, bicycle).name
+    suspend fun updateBike(
+        communityId: String,
+        bicycle: BicycleRequest
+    ): SimpleResult<AddDataResponse> {
+        return withContext(Dispatchers.IO) {
+            safeApiCall {
+                bicycleApi.updateBike(communityId, bicycle.id, bicycle)
+            }
+        }
     }
 
     suspend fun getBikes(communityId: String) = callbackFlow<SimpleResult<List<Bike>>> {

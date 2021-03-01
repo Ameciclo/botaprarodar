@@ -37,7 +37,7 @@ class UserRepository(
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val items = dataSnapshot.children.map { data ->
-                    verifyItemIdAndUpdate(data.getValue(User::class.java)!!, data, communityId)
+                    verifyItemIdAndUpdate(data.getValue(User::class.java), data, communityId)
                     data.getValue(User::class.java)
                 }
                 this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
@@ -60,13 +60,13 @@ class UserRepository(
     }
 
     private fun verifyItemIdAndUpdate(
-        user: User,
+        user: User?,
         snapshot: DataSnapshot,
         communityId: String
     ) {
-        if (user.id.isNullOrEmpty()) {
+        if (user?.id.isNullOrEmpty()) {
             snapshot.key?.let { key ->
-                user.id = key
+                user?.id = key
                 firebaseDatabase.getReference(REFERENCE_COMMUNITIES).child(communityId)
                     .child(REFERENCE_USERS).child(key).setValue(user)
             }
