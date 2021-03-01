@@ -37,24 +37,11 @@ class BikeActionMenuAdapter(
     class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
-        private val borrowImageView = itemView.findViewById<ImageView>(R.id.borrowImageView)
-        private val returnImageView = itemView.findViewById<ImageView>(R.id.returnImageView)
+        private val actionImageView = itemView.findViewById<ImageView>(R.id.actionImageView)
 
         fun bind(item: BikeActionsMenuType) {
             bikeActionTextView.text = itemView.context.getString(item.stringId)
-
-            when (item) {
-                BikeActionsMenuType.BORROW -> showActionImageVisibility(View.VISIBLE, View.INVISIBLE)
-                BikeActionsMenuType.RETURN -> showActionImageVisibility(View.INVISIBLE, View.VISIBLE)
-            }
-        }
-
-        private fun showActionImageVisibility(
-            visibilityBorrowImageView: Int,
-            visibilityReturnImageView: Int
-        ) {
-            borrowImageView.visibility = visibilityBorrowImageView
-            returnImageView.visibility = visibilityReturnImageView
+            actionImageView.setImageResource(item.icon)
         }
     }
 }
