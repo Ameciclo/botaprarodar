@@ -19,7 +19,7 @@ import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.UserDecoration
+import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
@@ -79,7 +79,11 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         val marginTop = resources.getDimensionPixelSize(R.dimen.padding_medium)
         rv_users.layoutManager = LinearLayoutManager(context)
         rv_users.adapter = itemAdapter
-        rv_users.addItemDecoration(UserDecoration(marginTop))
+        rv_users.addItemDecoration(
+            UserDecoration(
+                marginTop
+            )
+        )
     }
 
     private val startForResult =

@@ -23,6 +23,7 @@ import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
+import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
@@ -34,7 +35,7 @@ class TripsFragment : Fragment() {
     private lateinit var binding: FragmentTripsBinding
 
     val itemAdapter = WithdrawAdapter()
-    val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList())
+    private val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList())
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -66,8 +67,6 @@ class TripsFragment : Fragment() {
         setupTripsRecyclerView()
         setupBikeActionRecyclerView()
 
-        binding.bikeActionMenuRecyclerView
-
         val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
         FirebaseHelper.getWithdrawals(
             selectedCommunityId,
@@ -90,11 +89,11 @@ class TripsFragment : Fragment() {
     }
 
     private fun setupTripsRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = itemAdapter
-        binding.recyclerView.addItemDecoration(
+        binding.tripsRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.tripsRecyclerView.adapter = itemAdapter
+        binding.tripsRecyclerView.addItemDecoration(
             DividerItemDecoration(
-                recyclerView.context,
+                tripsRecyclerView.context,
                 DividerItemDecoration.VERTICAL
             )
         )
@@ -111,43 +110,11 @@ class TripsFragment : Fragment() {
     }
 
     private fun setRecyclerViewItemMarginRight() {
-        bikeActionMenuRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                super.getItemOffsets(outRect, view, parent, state)
-
-                val currentPosition = parent.getChildLayoutPosition(view)
-                val listSize = bikeActionMenuAdapter.itemCount
-
-                setMarginByChildPositionList(currentPosition, outRect, listSize)
-            }
-        })
-    }
-
-    private fun setMarginByChildPositionList(
-        currentPosition: Int,
-        outRect: Rect,
-        listSize: Int) {
-
-        when (currentPosition) {
-            0 -> outRect.right = getAnIntDp(8)
-            listSize - 1 -> outRect.left = getAnIntDp(8)
-            else -> {
-                outRect.right = getAnIntDp(8)
-                outRect.left = getAnIntDp(8)
-            }
-        }
-    }
-
-    fun getAnIntDp(value: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            value.toFloat(),
-            resources.displayMetrics
-        ).toInt()
+        bikeActionMenuRecyclerView.addItemDecoration(
+            BikeActionDecoration(
+                8,
+                bikeActionMenuAdapter.itemCount
+            )
+        )
     }
 }
