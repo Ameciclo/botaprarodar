@@ -96,8 +96,9 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     private fun showSnackBar(intent: Intent?) {
         intent?.getBooleanExtra("isEditModeAvailable", false)?.let {
             val message = getSuccessMessage(it)
-            snackBarMaker(message, requireView()).apply {
+            snackBarMaker(message, binding.clBikes).apply {
                 setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                anchorView = activity?.findViewById(R.id.navigation)
                 show()
             }
         }
