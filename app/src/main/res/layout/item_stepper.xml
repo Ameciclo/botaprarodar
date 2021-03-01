@@ -5,12 +5,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
             android:id="@+id/stepperImageCard"
             android:layout_width="48dp"
             android:layout_height="48dp"
             tools:cardBackgroundColor="@color/green"
             app:cardCornerRadius="50dp"
+            android:elevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/blue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -29,7 +32,7 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <View
             android:id="@+id/stepperConnector"

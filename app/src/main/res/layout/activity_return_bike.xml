@@ -25,19 +25,42 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
             android:id="@+id/bikeActionStepper"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             app:current_icon_color="@color/green_teal"
             app:previous_icon_color="@color/white"
             app:next_icon_color="@color/gray_silver"
-            app:select_background="@color/white"
-            app:unselect_background="@color/green_teal"
+            app:select_background="@color/green_teal"
+            app:unselect_background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="previous"
+            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+            app:layout_constraintStart_toEndOf="@id/next"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="done"
+            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+            app:layout_constraintStart_toEndOf="@id/previous"/>
 
     <fragment
             android:id="@+id/returnNavHostFragment"
