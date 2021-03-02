@@ -26,7 +26,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
+class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
     val bicycleAdapter = BicyclesAdapter(this)
     private lateinit var binding: FragmentBikesBinding
