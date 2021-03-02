@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.trips
 
 import android.content.Intent
 import android.os.Bundle

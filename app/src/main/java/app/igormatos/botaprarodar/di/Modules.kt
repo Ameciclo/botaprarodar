@@ -86,6 +86,13 @@ val bprModule = module {
         )
     }
 
+    viewModel {
+        BikeFormViewModel(
+            bikeFormUseCase = get(),
+            community = get<SharedPreferencesModule>().getJoinedCommunity()
+        )
+    }
+
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }
