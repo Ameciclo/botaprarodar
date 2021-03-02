@@ -30,18 +30,6 @@ class ReturnBikeActivity : AppCompatActivity() {
         binding.bikeActionStepper.addItems(
             arrayListOf(StepConfigType.SELECT_BIKE, StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
         )
-
-        binding.next.setOnClickListener {
-            binding.bikeActionStepper.goToNextStep()
-        }
-
-        binding.previous.setOnClickListener {
-            binding.bikeActionStepper.goBackToPreviousStep()
-        }
-
-        binding.done.setOnClickListener {
-            binding.bikeActionStepper.completeAllSteps()
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
