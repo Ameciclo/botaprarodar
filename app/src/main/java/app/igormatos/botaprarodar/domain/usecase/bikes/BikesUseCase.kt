@@ -15,19 +15,20 @@ class BikesUseCase(private val bikeRepository: BikeRepository) {
     private val listBicyclesConverter = ListBicyclesConverter()
 
     suspend fun list(communityId: String): SimpleResult<List<Bike>> {
-        return withContext(Dispatchers.IO) {
-            return@withContext try {
-                val bicyclesMap = bikeRepository.getBicycles(communityId)
-                val list = listBicyclesConverter.convert(bicyclesMap)
+        val bicyclesMap = bikeRepository.getBicycles(communityId)
+        return when (bicyclesMap) {
+            is SimpleResult.Success -> {
+                val list = listBicyclesConverter.convert(bicyclesMap.data)
                 formatAnswer(list)
-            } catch (exception: Exception) {
-                return@withContext SimpleResult.Error(exception)
+            }
+            is SimpleResult.Error -> {
+                bicyclesMap
             }
         }
     }
 
     private fun formatAnswer(list: List<Bike>): SimpleResult<List<Bike>> {
-        return when(list.isNotEmpty()) {
+        return when (list.isNotEmpty()) {
             true -> SimpleResult.Success(list)
             false -> SimpleResult.Error(Exception(""))
         }
