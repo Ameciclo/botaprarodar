@@ -17,7 +17,8 @@ import com.brunotmgomes.ui.extensions.loadPathOnCircle
 
 private const val INDEX_INVALID = -1
 
-class UsersAdapter(private val listener: UsersAdapterListener) : ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
+class UsersAdapter(private val listener: UsersAdapterListener) :
+    ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
 
     private val users = mutableListOf<User>()
     var filteredList = mutableListOf<User>()
@@ -31,35 +32,6 @@ class UsersAdapter(private val listener: UsersAdapterListener) : ListAdapter<Use
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    fun addItem(user: User) {
-        users.add(user)
-        submitList(users)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(user: User) {
-        val index = users.indexOfFirst { it.id == user.id }
-        if (index.validateIndex()) {
-            users.removeAt(index)
-            submitList(users)
-            notifyItemRemoved(index)
-        }
-    }
-
-    fun updateItem(user: User) {
-        val index = users.indexOfFirst { it.id == user.id }
-        if (index.validateIndex()) {
-            users.removeAt(index)
-            users.add(user)
-            submitList(users)
-            notifyDataSetChanged()
-        }
-    }
-
-    interface UsersAdapterListener {
-        fun onUserClicked(user: User)
     }
 
     override fun getFilter(): Filter {
@@ -87,6 +59,10 @@ class UsersAdapter(private val listener: UsersAdapterListener) : ListAdapter<Use
             }
         }
 
+    }
+
+    interface UsersAdapterListener {
+        fun onUserClicked(user: User)
     }
 
     inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

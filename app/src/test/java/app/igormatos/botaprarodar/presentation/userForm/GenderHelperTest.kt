@@ -1,8 +1,6 @@
-package app.igormatos.botaprarodar.presentation.user_form
+package app.igormatos.botaprarodar.presentation.userForm
 
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.userForm.getGenderId
-import app.igormatos.botaprarodar.presentation.userForm.getRadioButtonId
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test

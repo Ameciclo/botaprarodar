@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain.usecase.user
+package app.igormatos.botaprarodar.domain.usecase.userForm
 
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
@@ -19,11 +19,11 @@ class UserFormUseCaseTest {
     private val userRepository = mockk<UserRepository>()
     private val firebaseHelperRepository = mockk<FirebaseHelperRepository>()
     private val userConverter = mockk<UserRequestConvert>()
-    private lateinit var userUseCase: UserUseCase
+    private lateinit var userUseCase: UserFormUseCase
 
     @Before
     fun setup() {
-        userUseCase = UserUseCase(userRepository, firebaseHelperRepository, userConverter)
+        userUseCase = UserFormUseCase(userRepository, firebaseHelperRepository, userConverter)
         coEvery {
             userConverter.convert(any())
         } returns userRequest
