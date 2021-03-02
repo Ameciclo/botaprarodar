@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.users
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -23,18 +24,21 @@ import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
+import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_users.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
 
+@ExperimentalCoroutinesApi
 class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapterListener {
 
     private val preferencesModule: SharedPreferencesModule by inject()
-    private val firebaseHelperModule: FirebaseHelperModule by inject()
-    lateinit var itemAdapter: UsersAdapter
-
+    private val usersAdapter = UsersAdapter(this)
     private lateinit var binding: FragmentUsersBinding
+    private val usersViewModel: UsersViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,43 +51,39 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemAdapter = UsersAdapter(this)
         binding.btnRegisterUsers.setOnClickListener {
             val intent = Intent(it.context, UserFormActivity::class.java)
             startForResult.launch(intent)
         }
-        setupRecyclerView()
-        getUsers(preferencesModule.getJoinedCommunity().id)
         binding.tieSearchUsers.addTextChangedListener {
-            itemAdapter.filter.filter(it.toString())
+            usersAdapter.filter.filter(it.toString())
         }
-    }
-
-    private fun getUsers(joinedCommunityId: String) {
-        firebaseHelperModule.getUsers(joinedCommunityId, false, object : RequestListener<Item> {
-            override fun onChildChanged(result: Item) {
-                itemAdapter.updateItem(result as User)
-            }
-
-            override fun onChildAdded(result: Item) {
-                itemAdapter.addItem(result as User)
-            }
-
-            override fun onChildRemoved(result: Item) {
-                itemAdapter.removeItem(result as User)
-            }
-        })
+        setupRecyclerView()
+        getUsers()
+        observerUsers()
     }
 
     private fun setupRecyclerView() {
         val marginTop = resources.getDimensionPixelSize(R.dimen.padding_medium)
         rv_users.layoutManager = LinearLayoutManager(context)
-        rv_users.adapter = itemAdapter
-        rv_users.addItemDecoration(
-            UserDecoration(
-                marginTop
-            )
-        )
+        rv_users.adapter = usersAdapter
+        rv_users.addItemDecoration(UserDecoration(marginTop))
+    }
+
+    private fun getUsers() {
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
+        usersViewModel.getUsers(joinedCommunityId)
+    }
+
+    private fun observerUsers() {
+        usersViewModel.users.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is SimpleResult.Success -> {
+                    usersAdapter.submitList(it.data)
+                }
+                is SimpleResult.Error -> {}
+            }
+        })
     }
 
     private val startForResult =
@@ -109,19 +109,19 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         else
             getString(R.string.user_add_success)
 
+    override fun onUserClicked(user: User) {
+        val intent = UserFormActivity.setupActivity(requireContext(), user)
+        startForResult.launch(intent)
+    }
+
     companion object {
         fun newInstance(withdraw: Withdraw): UsersFragment {
-            val fragment = UsersFragment()
+            val fragment =
+                UsersFragment()
             val bundle = Bundle()
             bundle.putParcelable(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdraw))
             fragment.arguments = bundle
             return fragment
         }
-    }
-
-    override fun onUserClicked(user: User) {
-        val intent = Intent(context, UserFormActivity::class.java)
-        intent.putExtra(UserFormActivity.USER_EXTRA, Parcels.wrap(User::class.java, user))
-        context?.startActivity(intent)
     }
 }

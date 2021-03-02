@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.main.bicycles
+package app.igormatos.botaprarodar.main.bikes
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -6,16 +6,15 @@ import androidx.fragment.app.testing.withFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.Fixtures.bike
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.main.bikes.BicyclesFragment
-import io.mockk.coEvery
+import app.igormatos.botaprarodar.presentation.main.bikes.BikesFragment
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class BicyclesFragmentTest {
+class BikesFragmentTest {
 
-    private lateinit var fragmentScenario: FragmentScenario<BicyclesFragment>
+    private lateinit var fragmentScenario: FragmentScenario<BikesFragment>
 
     @Before
     fun setup() {
@@ -27,7 +26,7 @@ class BicyclesFragmentTest {
 
     @Test
     fun whenLoadFragment_shouldAllViewsVisible() {
-        bicyclesFragment {
+        bikesFragment {
         } verify {
             checkRecyclerIsVisible()
             checkButtonIsVisible()
@@ -37,7 +36,7 @@ class BicyclesFragmentTest {
 
     @Test
     fun whenClickToRegisterNewBike_shouldOpenBikeFormActivity() {
-        bicyclesFragment {
+        bikesFragment {
             clickRegisterBikesButton()
         } verify {
             checkBikeFormActivityIsVisible()
@@ -46,7 +45,7 @@ class BicyclesFragmentTest {
 
     @Test
     fun whenClickInABike_shouldOpenBikeFormActivity() {
-        bicyclesFragment {
+        bikesFragment {
             clickOnFirstBike()
         } verify {
             checkBikeFormActivityIsVisible()
@@ -55,7 +54,7 @@ class BicyclesFragmentTest {
 
     @Test
     fun whenLoadFragment_shouldVerifyFirstItemAtRecycler() {
-        bicyclesFragment {
+        bikesFragment {
         } verify {
             checkBikeName()
             checkBikeOrderNumber()

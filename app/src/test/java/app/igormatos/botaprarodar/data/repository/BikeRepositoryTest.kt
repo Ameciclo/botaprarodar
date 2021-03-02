@@ -1,23 +1,20 @@
 package app.igormatos.botaprarodar.data.repository
 
-import android.util.Log
-import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.utils.addDataResponseBike
+import app.igormatos.botaprarodar.utils.bicycleRequest
+import app.igormatos.botaprarodar.utils.mapOfBikes
 import com.brunotmgomes.ui.SimpleResult
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.FirebaseDatabase
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockkObject
-import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -25,11 +22,8 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
-import java.util.*
-import javax.security.auth.callback.Callback
 
+@ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @DisplayName("Given BicycleRepository")
 internal class BikeRepositoryTest {
@@ -43,20 +37,7 @@ internal class BikeRepositoryTest {
     private lateinit var firebaseDatabase: FirebaseDatabase
 
     @MockK
-    private lateinit var databaseReference: DatabaseReference
-
-    @MockK
-    private lateinit var valueEventListener: ValueEventListener
-
-    @MockK
-    private lateinit var dataSnapshot: DataSnapshot
-
-    @MockK
-    private lateinit var iterable: Iterable<DataSnapshot>
-
-    @MockK
     private lateinit var iterator: Iterator<DataSnapshot>
-
 
     @BeforeEach
     fun setUp() {
@@ -69,9 +50,10 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should return all bicycles of community`() = runBlocking {
-            coEvery { api.getBicycles(any()).await() } returns createBicycleResponse()
+            coEvery { api.getBicycles(any()).await() } returns mapOfBikes
 
-            val result = repository.getBicycles("1000")
+            val response = repository.getBicycles("1000")
+            val result = (response as SimpleResult.Success<Map<String, Bike>>).data
 
             assertNotNull(result)
             assertTrue(result.containsKey("123"))
@@ -80,7 +62,6 @@ internal class BikeRepositoryTest {
             assertTrue(result.containsKey("098"))
             assertTrue(result.containsKey("876"))
         }
-
     }
 
     @Nested
@@ -89,32 +70,13 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should add new bicycle`() = runBlocking {
-            coEvery { api.addNewBike(any(), any()) } returns AddDataResponse("New Bicycle")
+            coEvery { api.addNewBike(any(), any()) } returns addDataResponseBike
 
-            val result = repository.addNewBike("1000", bicycleRequest)
+            val response = repository.addNewBike("1000", bicycleRequest)
+            val result = response as SimpleResult.Success<AddDataResponse>
 
-            assertTrue(result.isNotBlank())
-            assertEquals("New Bicycle", result)
+            assertEquals(SimpleResult.Success(addDataResponseBike), result)
+            assertEquals("New Bicycle", result.data.name)
         }
     }
-
-    fun createBicycleResponse(): Map<String, Bike> {
-        return mapOf(
-            Pair("123", Bike()),
-            Pair("456", Bike()),
-            Pair("789", Bike()),
-            Pair("098", Bike()),
-            Pair("876", Bike())
-        )
-    }
-
-    private val bicycleRequest = BicycleRequest(
-        id = "",
-        available = true,
-        inUse = false,
-        name = "New Bicycle",
-        orderNumber = 1010,
-        serialNumber = "New Serial",
-        createdDate = Date().toString()
-    )
 }

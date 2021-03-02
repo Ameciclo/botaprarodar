@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.userForm
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -44,6 +45,12 @@ class UserFormActivity : AppCompatActivity() {
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
         const val USER_EXTRA = "USER_EXTRA"
+
+        fun setupActivity(context: Context, user: User?): Intent {
+            val intent = Intent(context, UserFormActivity::class.java)
+            intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, user))
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
