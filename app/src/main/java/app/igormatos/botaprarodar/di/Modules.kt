@@ -18,7 +18,6 @@ import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
-import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
@@ -128,14 +127,6 @@ val bprModule = module {
 
     single {
         UserRequestConvert()
-    }
-
-    single {
-        UserUseCase(
-            userRepository = get(),
-            firebaseHelperRepository = get(),
-            userConverter = get()
-        )
     }
 
     single{
