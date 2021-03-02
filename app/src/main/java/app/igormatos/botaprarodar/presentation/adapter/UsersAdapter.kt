@@ -16,9 +16,8 @@ import com.brunotmgomes.ui.extensions.loadPathOnCircle
 
 private const val INDEX_INVALID = -1
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
-    UsersDiffUtil()
-), Filterable {
+class UsersAdapter(private val listener: UsersAdapterListener) :
+    ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
 
     private val users = mutableListOf<User>()
     var filteredList = mutableListOf<User>()
@@ -32,41 +31,6 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    fun addItem(user: User) {
-        users.add(user)
-        submitList(users)
-//        filteredList.add(0, user)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(user: User) {
-        val index = users.indexOfFirst { it.id == user.id }
-        if (index.validateIndex()) {
-            users.removeAt(index)
-            submitList(users)
-            notifyItemRemoved(index)
-        }
-
-//        val filteredListIndex = filteredList.indexOfFirst { it.id == item.id }
-//        filteredList.removeAt(filteredListIndex)
-
-    }
-
-    fun updateItem(user: User) {
-        val index = users.indexOfFirst { it.id == user.id }
-        if (index.validateIndex()) {
-            users.removeAt(index)
-            users.add(user)
-            submitList(users)
-            notifyDataSetChanged()
-        }
-
-//        val filteredListIndex = filteredList.indexOfFirst { it.id == item.id }
-//        filteredList.removeAt(filteredListIndex)
-//        filteredList.add(0, item)
-
     }
 
     override fun getFilter(): Filter {
@@ -91,10 +55,13 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results?.values as MutableList<User>
                 submitList(filteredList)
-//                notifyDataSetChanged()
             }
         }
 
+    }
+
+    interface UsersAdapterListener {
+        fun onUserClicked(user: User)
     }
 
     inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -109,6 +76,9 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UsersViewHolder>(
             itemView.findViewById<TextView>(R.id.tv_registered_since_user_item).text =
                 itemView.context.getString(R.string.user_created_since, user.created_date)
 
+            itemView.setOnClickListener {
+                listener.onUserClicked(user)
+            }
         }
     }
 

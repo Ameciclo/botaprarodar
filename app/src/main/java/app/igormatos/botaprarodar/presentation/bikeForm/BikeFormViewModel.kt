@@ -74,9 +74,9 @@ class BikeFormViewModel(
     }
 
     private suspend fun updateBike(bike: Bike) {
-        bikeFormUseCase.updateBike(communityId = community.id, bike = bike).let {
+        bikeFormUseCase.startUpdateBike(communityId = community.id, bike = bike).let {
             when (it) {
-                is SimpleResult.Success -> resultSuccess(it.data)
+                is SimpleResult.Success -> resultSuccess(it.data.name)
                 is SimpleResult.Error -> resultError()
             }
         }
@@ -85,7 +85,7 @@ class BikeFormViewModel(
     private suspend fun addNewBike(bike: Bike) {
         bikeFormUseCase.addNewBike(communityId = community.id, bike = bike).let {
             when (it) {
-                is SimpleResult.Success -> resultSuccess(it.data)
+                is SimpleResult.Success -> resultSuccess(it.data.name)
                 is SimpleResult.Error -> resultError()
             }
         }

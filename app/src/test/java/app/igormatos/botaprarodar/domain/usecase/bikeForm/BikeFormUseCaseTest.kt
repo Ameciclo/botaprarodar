@@ -4,15 +4,20 @@ import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.utils.bikeSimpleError
+import app.igormatos.botaprarodar.utils.bikeSimpleSuccess
+import app.igormatos.botaprarodar.utils.bikeSimpleSuccessEdit
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+@ExperimentalCoroutinesApi
 class BikeFormUseCaseTest {
 
     private val repository = mockk<BikeRepository>()
@@ -33,14 +38,14 @@ class BikeFormUseCaseTest {
         runBlocking {
             coEvery {
                 repository.addNewBike(any(), any())
-            } returns "Created new bicycle"
+            } returns bikeSimpleSuccess
             coEvery {
                 firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
                 userCaseForm.addNewBike("100", buildBicycle()) as SimpleResult.Success
 
-            assertEquals("Created new bicycle", responseResult.data)
+            assertEquals("New Bicycle", responseResult.data.name)
         }
     }
 
@@ -67,14 +72,14 @@ class BikeFormUseCaseTest {
         runBlocking {
             coEvery {
                 repository.updateBike(any(), any())
-            } returns "Bicycle Edited"
+            } returns bikeSimpleSuccessEdit
             coEvery {
                 firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Success(mockImageUploadResponse)
             val responseResult =
-                userCaseForm.updateBike("100", buildBicycle()) as SimpleResult.Success
+                userCaseForm.startUpdateBike("100", buildBicycle()) as SimpleResult.Success
 
-            assertEquals("Bicycle Edited", responseResult.data)
+            assertEquals("Bicycle Edited", responseResult.data.name)
         }
     }
 
@@ -83,14 +88,14 @@ class BikeFormUseCaseTest {
         runBlocking {
             coEvery {
                 repository.updateBike(any(), any())
-            } returns "Bicycle Edited"
+            } returns bikeSimpleSuccessEdit
             val bike = buildBicycle().apply {
                 path = "https://bla.com"
             }
             val responseResult =
-                userCaseForm.updateBike("100", bike) as SimpleResult.Success
+                userCaseForm.startUpdateBike("100", bike) as SimpleResult.Success
 
-            assertEquals("Bicycle Edited", responseResult.data)
+            assertEquals("Bicycle Edited", responseResult.data.name)
         }
     }
 
@@ -105,7 +110,7 @@ class BikeFormUseCaseTest {
             coEvery {
                 firebaseRepository.uploadImageAndThumb(any(), any())
             } returns SimpleResult.Error(exceptionResult)
-            val responseResult = userCaseForm.updateBike("100", buildBicycle())
+            val responseResult = userCaseForm.startUpdateBike("100", buildBicycle())
 
             assertTrue(responseResult is SimpleResult.Error)
             assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
@@ -115,18 +120,16 @@ class BikeFormUseCaseTest {
     @Test
     fun `should edit bicycle and return simple result with exception`() {
         runBlocking {
-            val exceptionResult = Exception()
             coEvery {
                 repository.updateBike(any(), any())
-            } throws exceptionResult
+            } returns bikeSimpleError
 
             val bike = buildBicycle().apply {
                 path = "https://bla.com"
             }
-            val responseResult = userCaseForm.updateBike("100", bike)
+            val responseResult = userCaseForm.startUpdateBike("100", bike)
 
             assertTrue(responseResult is SimpleResult.Error)
-            assertEquals(exceptionResult, (responseResult as SimpleResult.Error).exception)
         }
     }
 
