@@ -13,8 +13,8 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        api-level: 29
-        arch: x64
+        api-level: [29]
+        arch: [x64]
 
     steps:
       - name: Checkout project
