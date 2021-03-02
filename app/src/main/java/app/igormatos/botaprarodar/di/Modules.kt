@@ -15,6 +15,7 @@ import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
@@ -26,6 +27,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInVi
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
+import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -87,10 +89,8 @@ val bprModule = module {
     }
 
     viewModel {
-        BikeFormViewModel(
-            bikeFormUseCase = get(),
-            community = get<SharedPreferencesModule>().getJoinedCommunity()
-        )
+        TripsViewModel(
+            bikeActionUseCase = get())
     }
 
     single<BicycleApi> {
@@ -158,6 +158,10 @@ val bprModule = module {
             firebaseHelperRepository = get(),
             userConverter = get()
         )
+    }
+
+    single{
+        BikeActionUseCase()
     }
 
     viewModel {

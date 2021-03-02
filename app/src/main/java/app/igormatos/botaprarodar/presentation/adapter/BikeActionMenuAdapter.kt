@@ -10,7 +10,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 
 class BikeActionMenuAdapter(
-    private val itemList: MutableList<BikeActionsMenuType>
+    private val itemList: MutableList<BikeActionsMenuType> = arrayListOf()
 ) : RecyclerView.Adapter<BikeActionMenuAdapter.BikeActionMenuItemViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,6 +32,12 @@ class BikeActionMenuAdapter(
 
     override fun onBindViewHolder(holder: BikeActionMenuItemViewHolder, position: Int) {
         holder.bind(itemList[position])
+    }
+
+    fun updateItems(list: List<BikeActionsMenuType>){
+        itemList.clear()
+        itemList.addAll(list)
+        notifyDataSetChanged()
     }
 
     class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

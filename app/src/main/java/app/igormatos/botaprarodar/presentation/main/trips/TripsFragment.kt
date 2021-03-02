@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
@@ -24,15 +24,17 @@ import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TripsFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
     private lateinit var binding: FragmentTripsBinding
+    private val tripsViewModel: TripsViewModel by viewModel()
 
     val itemAdapter = WithdrawAdapter()
-    private val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList())
+    private val bikeActionMenuAdapter = BikeActionMenuAdapter()
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -56,15 +58,25 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupClickListener()
+        setupTripsRecyclerView()
+        setupBikeActionRecyclerView()
+        setupObserves()
+
+        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
+        getWithdrawals(selectedCommunityId)
+
+        tripsViewModel.loadBikeActions()
+    }
+
+    private fun setupClickListener() {
         binding.addItemFab.setOnClickListener {
             val intent = Intent(it.context, WithdrawActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        setupTripsRecyclerView()
-        setupBikeActionRecyclerView()
-
-        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
+    private fun getWithdrawals(selectedCommunityId: String) {
         FirebaseHelper.getWithdrawals(
             selectedCommunityId,
             { loadingDialog?.dismiss() },
@@ -83,6 +95,12 @@ class TripsFragment : Fragment() {
                     itemAdapter.removeItem(result)
                 }
             })
+    }
+
+    private fun setupObserves() {
+        tripsViewModel.getBikeActions().observe(viewLifecycleOwner, Observer {
+            bikeActionMenuAdapter.updateItems(it)
+        })
     }
 
     private fun setupTripsRecyclerView() {
