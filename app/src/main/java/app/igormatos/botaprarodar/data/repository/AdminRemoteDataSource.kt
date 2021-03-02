@@ -1,18 +1,19 @@
 package app.igormatos.botaprarodar.data.repository
 
+import app.igormatos.botaprarodar.data.model.Admin
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
-class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) {
-    suspend fun createFirebaseUser(
+class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataSource {
+    suspend fun createAdmin(
         email: String,
         password: String
     ): FirebaseUser? = firebaseAuth
         .createUserWithEmailAndPassword(email, password)
         .await().user
 
-    suspend fun authenticateFirebaseUser(email: String, password: String): FirebaseUser? =
+    suspend fun authenticateAdmin(email: String, password: String): FirebaseUser? =
         firebaseAuth
             .signInWithEmailAndPassword(email, password)
             .await().user
@@ -23,9 +24,14 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) {
             .await()
     }
 
-    suspend fun isUserRegistered(email: String) = firebaseAuth
+    suspend fun isAdminRegistered(email: String) = firebaseAuth
         .fetchSignInMethodsForEmail(email)
         .await().signInMethods.isNullOrEmpty().not()
 
-    fun getFirebaseUserUid(firebaseUser: FirebaseUser?): String? = firebaseUser?.uid
+    private fun assembleAdmin(
+        firebaseUid: String,
+        email: String,
+        password: String
+    ): Admin =
+        Admin(email = email, password = password, id = firebaseUid)
 }
