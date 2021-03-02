@@ -33,23 +33,8 @@ class AdminRepositoryTest {
     }
 
     @Test
-    fun `When createAdmin with given params, then created admin should have given id`(): Unit =
-        runBlocking {
-            coEvery {
-                adminRemoteDataSource.createFirebaseUser(
-                    email,
-                    password
-                )
-            } returns adminUser
-            coEvery { adminRemoteDataSource.getFirebaseUserUid(adminUser) } returns adminUser.uid
-            val result = adminRepository.createAdmin(email, password)
-
-            assertEquals(adminUser.uid, result.id)
-        }
-
-    @Test
     fun `When createAdmin, then created admin email should have given email`(): Unit = runBlocking {
-        coEvery { adminRemoteDataSource.createFirebaseUser(email, password) } returns adminUser
+        coEvery { adminRemoteDataSource.createAdmin(email, password) } returns adminUser
         val result = adminRepository.createAdmin(email, password)
 
         assertTrue(result.email == email)
@@ -57,7 +42,7 @@ class AdminRepositoryTest {
 
     @Test
     fun `When createAdmin, then created admin should have same Uid`(): Unit = runBlocking {
-        coEvery { adminRemoteDataSource.createFirebaseUser(email, password) } returns adminUser
+        coEvery { adminRemoteDataSource.createAdmin(email, password) } returns adminUser
         val result = adminRepository.createAdmin(email, password)
 
         assertTrue(result.id == adminUser.uid)
@@ -65,7 +50,7 @@ class AdminRepositoryTest {
 
     @Test
     fun `When createAdmin, then created admin should have given password`(): Unit = runBlocking {
-        coEvery { adminRemoteDataSource.createFirebaseUser(email, password) } returns adminUser
+        coEvery { adminRemoteDataSource.createAdmin(email, password) } returns adminUser
 
         val result = adminRepository.createAdmin(email, password)
 
@@ -76,7 +61,7 @@ class AdminRepositoryTest {
     fun `When admin is null, then createAdmin should throw AdminNotCreated exception`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.createFirebaseUser(
+                adminRemoteDataSource.createAdmin(
                     email,
                     password
                 )
@@ -89,7 +74,7 @@ class AdminRepositoryTest {
     fun `When admin is null, then authenticateAdmin should throw AdminNotFound exception`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.authenticateFirebaseUser(
+                adminRemoteDataSource.authenticateAdmin(
                     email,
                     password
                 )
@@ -102,7 +87,7 @@ class AdminRepositoryTest {
     fun `When authenticateAdmin with given params, then result admin should have given id`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.authenticateFirebaseUser(
+                adminRemoteDataSource.authenticateAdmin(
                     email,
                     password
                 )
@@ -116,7 +101,7 @@ class AdminRepositoryTest {
     fun `When authenticateAdmin, then should throw AdminNetwork exception`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.authenticateFirebaseUser(
+                adminRemoteDataSource.authenticateAdmin(
                     email,
                     password
                 )
@@ -128,7 +113,7 @@ class AdminRepositoryTest {
     fun `When createAdmin, then should throw AdminNetwork exception`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.createFirebaseUser(
+                adminRemoteDataSource.createAdmin(
                     email,
                     password
                 )
@@ -140,7 +125,7 @@ class AdminRepositoryTest {
     fun `When admin is registered, then isAdminRegistered should return true`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.isUserRegistered(
+                adminRemoteDataSource.isAdminRegistered(
                     email
                 )
             } returns true
@@ -155,7 +140,7 @@ class AdminRepositoryTest {
     fun `When admin is NOT registered, then isAdminRegistered should return false`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.isUserRegistered(
+                adminRemoteDataSource.isAdminRegistered(
                     email
                 )
             } returns false
@@ -168,7 +153,7 @@ class AdminRepositoryTest {
     fun `When isAdminRegistered is called, then should throw AdminNetwork exception`(): Unit =
         runBlocking {
             coEvery {
-                adminRemoteDataSource.isUserRegistered(
+                adminRemoteDataSource.isAdminRegistered(
                     email
                 )
             } throws FirebaseNetworkException("")
@@ -219,7 +204,7 @@ class AdminRepositoryTest {
         runBlocking {
             val expectedError = FirebaseAuthInvalidCredentialsException("", "")
             coEvery {
-                adminRemoteDataSource.authenticateFirebaseUser(
+                adminRemoteDataSource.authenticateAdmin(
                     email,
                     password
                 )

@@ -24,7 +24,7 @@ import org.koin.dsl.module
 class AdminRegistration {
 
     private lateinit var scenario: ActivityScenario<AuthenticationActivity>
-    private val  adminRemoteDataSource =  mockk<AdminRemoteDataSource>()
+    private val adminRemoteDataSource =  mockk<AdminRemoteDataSource>()
     private val testModule = module {
         single(override = true) {
             adminRemoteDataSource
@@ -52,7 +52,7 @@ class AdminRegistration {
     @Test
     fun successfulAdminRegistration() {
         coEvery {
-            adminRemoteDataSource.createFirebaseUser(emailMock, passwordMock)
+            adminRemoteDataSource.createAdmin(emailMock, passwordMock)
         } returns Fixtures.adminUser
 
         login {
@@ -79,7 +79,7 @@ class AdminRegistration {
     @Test
     fun failureAdminRegistration() {
         coEvery {
-            adminRemoteDataSource.createFirebaseUser(emailMock, passwordMock)
+            adminRemoteDataSource.createAdmin(emailMock, passwordMock)
         }  throws Exception("")
 
         login {
