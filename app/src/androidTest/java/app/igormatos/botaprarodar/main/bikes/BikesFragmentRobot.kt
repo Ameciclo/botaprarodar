@@ -1,14 +1,14 @@
-package app.igormatos.botaprarodar.main.bicycles
+package app.igormatos.botaprarodar.main.bikes
 
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-fun bicyclesFragment(executeFun: BicyclesFragmentRobot.() -> Unit) =
-    BicyclesFragmentRobot().apply { executeFun() }
+fun bikesFragment(executeFun: BikesFragmentRobot.() -> Unit) =
+    BikesFragmentRobot().apply { executeFun() }
 
-class BicyclesFragmentRobot : BaseRobot() {
+class BikesFragmentRobot : BaseRobot() {
 
-    infix fun verify(executeFun: BicyclesFragmentRobot.() -> Unit) {
+    infix fun verify(executeFun: BikesFragmentRobot.() -> Unit) {
         executeFun()
     }
 

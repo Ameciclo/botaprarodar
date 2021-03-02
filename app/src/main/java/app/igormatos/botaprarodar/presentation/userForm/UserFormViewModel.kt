@@ -4,12 +4,12 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
 class UserFormViewModel(
-    private val userUseCase: UserUseCase,
+    private val userUseCase: UserFormUseCase,
     private val community: Community
 ) : ViewModel() {
 
