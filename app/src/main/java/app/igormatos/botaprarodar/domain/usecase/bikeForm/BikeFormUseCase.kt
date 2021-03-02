@@ -4,6 +4,7 @@ import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 
@@ -16,14 +17,14 @@ class BikeFormUseCase(
 
     private val bike = BikeRequestConvert()
 
-    suspend fun addNewBike(communityId: String, bike: Bike): SimpleResult<String> {
+    suspend fun addNewBike(communityId: String, bike: Bike): SimpleResult<AddDataResponse> {
         val imageResponse = uploadImage(bike)
         return saveBike(imageResponse, bike, communityId) { _, _ ->
             registerBike(bike, communityId)
         }
     }
 
-    suspend fun startUpdateBike(communityId: String, bike: Bike): SimpleResult<String> {
+    suspend fun startUpdateBike(communityId: String, bike: Bike): SimpleResult<AddDataResponse> {
         return if (bike.path.contains(FIREBASE_URL)) {
             updateBike(bike, communityId)
         } else {
@@ -38,8 +39,8 @@ class BikeFormUseCase(
         imageResponse: SimpleResult<ImageUploadResponse>?,
         bike: Bike,
         communityId: String,
-        actionFunction: suspend (Bike, String) -> SimpleResult<String>
-    ): SimpleResult<String> {
+        actionFunction: suspend (Bike, String) -> SimpleResult<AddDataResponse>
+    ): SimpleResult<AddDataResponse> {
         return when (imageResponse) {
             is SimpleResult.Success -> {
                 setupBike(bike, imageResponse.data)
@@ -70,26 +71,16 @@ class BikeFormUseCase(
     private suspend fun registerBike(
         bike: Bike,
         communityId: String
-    ): SimpleResult<String> {
-        return try {
-            val bicycleRequest = this.bike.convert(bike)
-            val result = bikeRepository.addNewBike(communityId, bicycleRequest)
-            SimpleResult.Success(result)
-        } catch (exception: Exception) {
-            SimpleResult.Error(exception)
-        }
+    ): SimpleResult<AddDataResponse> {
+        val bicycleRequest = this.bike.convert(bike)
+        return bikeRepository.addNewBike(communityId, bicycleRequest)
     }
 
     private suspend fun updateBike(
         bike: Bike,
         communityId: String
-    ): SimpleResult<String> {
-        return try {
+    ): SimpleResult<AddDataResponse> {
             val bicycleRequest = this.bike.convert(bike)
-            val result = bikeRepository.updateBike(communityId, bicycleRequest)
-            SimpleResult.Success(result)
-        } catch (exception: Exception) {
-            SimpleResult.Error(exception)
-        }
+            return bikeRepository.updateBike(communityId, bicycleRequest)
     }
 }

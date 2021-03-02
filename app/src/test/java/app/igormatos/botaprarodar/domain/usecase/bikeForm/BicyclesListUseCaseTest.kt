@@ -3,12 +3,14 @@ package app.igormatos.botaprarodar.domain.usecase.bikeForm
 import app.igormatos.botaprarodar.buildMapStringAndBicycle
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
+import app.igormatos.botaprarodar.utils.bikeSimpleError
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -17,8 +19,8 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.lang.Exception
 
+@ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
 @DisplayName("Given BicyclesListUseCase")
 internal class BicyclesListUseCaseTest {
@@ -38,7 +40,7 @@ internal class BicyclesListUseCaseTest {
 
         @Test
         fun `should return simple result success with list contain 3 bicycles`() = runBlocking {
-            coEvery { repository.getBicycles(any()) } returns buildMapStringAndBicycle(3)
+            coEvery { repository.getBicycles(any()) } returns SimpleResult.Success(buildMapStringAndBicycle(3))
 
             val listResult = userCase.list("10")
 
@@ -50,15 +52,12 @@ internal class BicyclesListUseCaseTest {
 
         @Test
         fun `should return simple result error with exception`() = runBlocking {
-            val exceptionResult = Exception()
-            coEvery { repository.getBicycles(any()) } throws exceptionResult
+            coEvery { repository.getBicycles(any()) } returns bikeSimpleError
 
             val listResult = userCase.list("10")
 
             assertTrue(listResult is SimpleResult.Error)
-            assertEquals(exceptionResult, (listResult as SimpleResult.Error).exception)
         }
 
     }
-
 }

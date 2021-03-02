@@ -21,7 +21,6 @@ class BikesViewModel(private val bikesUseCase: BikesUseCase) : ViewModel() {
     fun getBikes(communityId: String) {
         viewModelScope.launch {
             bikesUseCase.getBikes(communityId)
-                .catch { }
                 .collect {
                     _bikes.postValue(it)
                 }

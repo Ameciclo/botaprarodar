@@ -3,6 +3,8 @@ package app.igormatos.botaprarodar.utils
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.model.UserRequest
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.SimpleResult
+import kotlinx.coroutines.flow.flowOf
 
 val userFake = User().apply {
     name = "Capitão América"
@@ -39,3 +41,11 @@ val mockImageUploadResponse = ImageUploadResponse(
     fullImagePath = "teste",
     thumbPath = "teste"
 )
+
+val listUsers = mutableListOf(userFake)
+
+val userException = Exception()
+
+val userFlowSuccess = flowOf(SimpleResult.Success(listUsers))
+
+val userFlowError = flowOf(SimpleResult.Error(userException))
