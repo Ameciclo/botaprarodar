@@ -97,5 +97,4 @@ class BikeActionStepperViewTest {
         val connectorView = lastView.findViewById<View>(R.id.stepperConnector)
         assert(connectorView.visibility == View.GONE)
     }
-
 }
