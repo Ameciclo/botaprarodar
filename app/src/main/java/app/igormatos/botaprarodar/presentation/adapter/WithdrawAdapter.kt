@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
