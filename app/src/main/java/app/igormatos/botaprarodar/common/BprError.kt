@@ -1,11 +1,8 @@
 package app.igormatos.botaprarodar.common
 
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
+
+
 interface BprError {
     val type: BprErrorType
-}
-
-enum class BprErrorType {
-    NETWORK,
-    UNKNOWN,
-    UNAUTHORIZED
 }

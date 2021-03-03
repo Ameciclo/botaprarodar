@@ -17,7 +17,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicyclesAdapter
+import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker

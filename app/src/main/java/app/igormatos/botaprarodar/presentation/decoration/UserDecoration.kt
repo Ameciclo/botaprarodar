@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.decoration
 
 import android.graphics.Rect
 import android.view.View
