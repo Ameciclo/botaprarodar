@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain.usecase.user
+package app.igormatos.botaprarodar.domain.usecase.userForm
 
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
@@ -9,7 +9,7 @@ import com.brunotmgomes.ui.SimpleResult
 
 private const val FIREBASE_URL = "https://"
 
-class UserUseCase(
+class UserFormUseCase(
     private val userRepository: UserRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository,
     private val userConverter: UserRequestConvert

@@ -52,7 +52,7 @@ class MainActivityTest {
 
         onView(withId(R.id.navigationUsers)).perform(click())
 
-        onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.cl_users)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test
@@ -65,6 +65,6 @@ class MainActivityTest {
 
         onView(withId(R.id.navigationBicycles)).perform(click())
 
-        onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.cl_bikes)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

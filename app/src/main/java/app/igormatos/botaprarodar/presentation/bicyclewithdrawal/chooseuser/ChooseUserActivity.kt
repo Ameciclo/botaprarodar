@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.main.UsersFragment
+import app.igormatos.botaprarodar.presentation.main.users.UsersFragment
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import kotlinx.android.synthetic.main.activity_choose_user.*
 import org.parceler.Parcels

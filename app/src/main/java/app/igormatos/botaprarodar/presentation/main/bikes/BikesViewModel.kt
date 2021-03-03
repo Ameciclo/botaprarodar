@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.bikes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +21,6 @@ class BikesViewModel(private val bikesUseCase: BikesUseCase) : ViewModel() {
     fun getBikes(communityId: String) {
         viewModelScope.launch {
             bikesUseCase.getBikes(communityId)
-                .catch { }
                 .collect {
                     _bikes.postValue(it)
                 }
