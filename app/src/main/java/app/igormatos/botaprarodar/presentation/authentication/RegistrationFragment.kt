@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.BprErrorType
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.databinding.DialogRegistrationSuccessBinding
 import app.igormatos.botaprarodar.databinding.FragmentRegistrationBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationState
