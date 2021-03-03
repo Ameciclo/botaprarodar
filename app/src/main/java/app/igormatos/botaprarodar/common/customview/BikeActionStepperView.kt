@@ -55,6 +55,7 @@ class BikeActionStepperView @JvmOverloads constructor(
         typedArray.recycle()
     }
 
+
     fun addItems(items: List<StepConfigType>) {
 
         this.items.clear()
@@ -96,7 +97,16 @@ class BikeActionStepperView @JvmOverloads constructor(
 
     }
 
-    fun goToNextStep() {
+    fun setCurrentStep(step: StepConfigType) {
+        val result = items.indexOf(step)
+        if (result - currentPosition > 0) {
+            goToNextStep()
+        } else {
+            goBackToPreviousStep()
+        }
+    }
+
+    private fun goToNextStep() {
         val nextPosition = currentPosition + 1
 
         if (nextPosition < items.size) {
@@ -117,13 +127,14 @@ class BikeActionStepperView @JvmOverloads constructor(
         }
     }
 
-    fun goBackToPreviousStep() {
+    private fun goBackToPreviousStep() {
         val previousPosition = currentPosition - 1
 
         if (previousPosition >= 0) {
             val previousViewChild = binding.stepperContainer.getChildAt(previousPosition)
             val currentViewChild = binding.stepperContainer.getChildAt(currentPosition)
-            val cardImageContainer = previousViewChild.findViewById<MaterialCardView>(R.id.stepperImageCard)
+            val cardImageContainer =
+                previousViewChild.findViewById<MaterialCardView>(R.id.stepperImageCard)
             val connector = currentViewChild.findViewById<View>(R.id.stepperConnector)
 
             changeStepStyle(currentViewChild, nextIconBackground, unselectedBackground)
@@ -144,7 +155,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             connector.changeConnectorBackgroundColor(selectBackground)
         }
 
-        if(binding.stepperContainer.childCount > 0){
+        if (binding.stepperContainer.childCount > 0) {
             currentPosition = items.size - 1
             binding.stepperTitle.text = context.getText(items[currentPosition].title)
         }
@@ -167,11 +178,11 @@ class BikeActionStepperView @JvmOverloads constructor(
     private fun getDrawable(@DrawableRes drawableId: Int): Drawable? =
         ContextCompat.getDrawable(context, drawableId)
 
-    private fun View.changeConnectorBackgroundColor(color: Int){
+    private fun View.changeConnectorBackgroundColor(color: Int) {
         setBackgroundColor(color)
     }
 
-    private fun MaterialCardView.changeStrokeColor(color: Int){
+    private fun MaterialCardView.changeStrokeColor(color: Int) {
         strokeColor = color
     }
 

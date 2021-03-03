@@ -6,13 +6,16 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
 
 class ReturnBikeActivity : AppCompatActivity() {
 
-    private val navController : NavController by lazy {
+    private val navController: NavController by lazy {
         findNavController(R.id.returnNavHostFragment)
+    }
+    private val viewModel: ReturnBikeViewModel by lazy {
+        ReturnBikeViewModel(StepperAdapter.ReturnStepper(SELECT_BIKE))
     }
 
     private lateinit var binding: ActivityReturnBikeBinding
@@ -21,26 +24,37 @@ class ReturnBikeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityReturnBikeBinding.inflate(layoutInflater)
-
+        binding.viewModel = viewModel
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.returnBikeToolbar)
         NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
 
         binding.bikeActionStepper.addItems(
-            arrayListOf(StepConfigType.SELECT_BIKE, StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
+            arrayListOf(
+                SELECT_BIKE,
+                QUIZ,
+                CONFIRM_RETURN
+            )
         )
 
         binding.next.setOnClickListener {
-            binding.bikeActionStepper.goToNextStep()
+            viewModel.stepper.navigateToNext()
         }
 
         binding.previous.setOnClickListener {
-            binding.bikeActionStepper.goBackToPreviousStep()
+            viewModel.stepper.navigateToPrevious()
         }
 
         binding.done.setOnClickListener {
-            binding.bikeActionStepper.completeAllSteps()
+            viewModel.stepper.navigateToNext()
+
+        }
+
+
+        viewModel.uiState.observe(this) {
+
+            binding.bikeActionStepper
         }
     }
 

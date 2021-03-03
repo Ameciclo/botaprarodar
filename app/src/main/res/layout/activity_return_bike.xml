@@ -1,77 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_gray"
-        tools:context=".presentation.returnbicycle.ReturnBikeActivity">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/returnBikeBarLayout"
+    <data>
+        <variable
+                name="viewModel"
+                type="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/background_gray"
+            tools:context=".presentation.returnbicycle.ReturnBikeActivity">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/returnBikeToolbar"
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/returnBikeBarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                app:titleTextColor="@color/dark_gray" />
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/returnBikeToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/white"
+                    app:titleTextColor="@color/dark_gray" />
 
-    <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
-            android:id="@+id/bikeActionStepper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:current_icon_color="@color/green_teal"
-            app:previous_icon_color="@color/white"
-            app:next_icon_color="@color/gray_silver"
-            app:select_background="@color/green_teal"
-            app:unselect_background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="next"
-            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
-            app:layout_constraintStart_toStartOf="parent"/>
+        <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
+                android:id="@+id/bikeActionStepper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:current_icon_color="@color/green_teal"
+                app:previous_icon_color="@color/white"
+                app:next_icon_color="@color/gray_silver"
+                app:select_background="@color/green_teal"
+                app:unselect_background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="previous"
-            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
-            app:layout_constraintStart_toEndOf="@id/next"/>
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="next"
+                app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="done"
-            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
-            app:layout_constraintStart_toEndOf="@id/previous"/>
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="previous"
+                app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+                app:layout_constraintStart_toEndOf="@id/next" />
 
-    <fragment
-            android:id="@+id/returnNavHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
-            app:navGraph="@navigation/return_bike_nav_graph"/>
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="done"
+                app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+                app:layout_constraintStart_toEndOf="@id/previous" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <fragment
+                android:id="@+id/returnNavHostFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+                app:navGraph="@navigation/return_bike_nav_graph" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

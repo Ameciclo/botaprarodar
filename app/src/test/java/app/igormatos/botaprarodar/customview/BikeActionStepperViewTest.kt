@@ -52,10 +52,8 @@ class BikeActionStepperViewTest {
         val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
         stepper.addItems(mock)
 
-        repeat(stepper.stepperContainer.childCount) {
-            assertEquals(stepper.stepperTitle.text, activity.getString(mock[it].title))
-            stepper.goToNextStep()
-        }
+        stepper.setCurrentStep(StepConfigType.CONFIRM_RETURN)
+        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.CONFIRM_RETURN.title))
     }
 
     @Test
@@ -64,11 +62,8 @@ class BikeActionStepperViewTest {
         stepper.addItems(mock)
         stepper.completeAllSteps()
 
-        repeat(stepper.stepperContainer.childCount) {
-            val decrementIndex = stepper.stepperContainer.childCount - 1 - it
-            assertEquals(stepper.stepperTitle.text, activity.getString(mock[decrementIndex].title))
-            stepper.goBackToPreviousStep()
-        }
+        stepper.setCurrentStep(StepConfigType.QUIZ)
+        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.QUIZ.title))
     }
 
     @Test
@@ -77,7 +72,7 @@ class BikeActionStepperViewTest {
         stepper.addItems(mock)
 
         assertEquals(stepper.stepperTitle.text, activity.getString(mock.first().title))
-        stepper.goToNextStep()
+        stepper.setCurrentStep(StepConfigType.QUIZ)
         assertEquals(stepper.stepperTitle.text, activity.getString(mock.first().title))
     }
 
