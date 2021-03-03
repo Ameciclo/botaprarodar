@@ -4,17 +4,20 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
 class UserFormViewModel(
-    private val userUseCase: UserUseCase,
+    private val userUseCase: UserFormUseCase,
     private val community: Community
 ) : ViewModel() {
 
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
+
+    private val _lgpd = MutableLiveData<Boolean>()
+    val lgpd: LiveData<Boolean> = _lgpd
 
     var isEditableAvailable = false
     var user = User()
@@ -135,6 +138,10 @@ class UserFormViewModel(
     private fun showError() {
         val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
         _status.value = ViewModelStatus.Error(message)
+    }
+
+    fun showLgpd() {
+        _lgpd.value = true
     }
 
     companion object {

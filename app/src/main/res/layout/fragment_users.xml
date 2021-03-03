@@ -7,10 +7,11 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.main.UsersViewModel" />
+                type="app.igormatos.botaprarodar.presentation.main.users.UsersViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_users"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -22,8 +23,8 @@
                 android:layout_marginTop="16dp"
                 android:text="Usuários"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/title_gray"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

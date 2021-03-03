@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.bikes
 
 import android.app.Activity
 import android.content.Intent
@@ -26,10 +26,9 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
+class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
-    val bicycleAdapter =
-        BicyclesAdapter(this)
+    val bicycleAdapter = BicyclesAdapter(this)
     private lateinit var binding: FragmentBikesBinding
     private val preferencesModule: SharedPreferencesModule by inject()
     private val bikesViewModel: BikesViewModel by viewModel()
@@ -48,13 +47,13 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
         initUI()
         getBikes()
-        observers()
+        observerBikes()
     }
 
     private fun initUI() {
         binding.btnRegisterBikes.setOnClickListener {
-            val intent = Intent(it.context, BikeFormActivity::class.java)
-            startActivity(intent)
+            val intent = BikeFormActivity.setupActivity(requireContext(), null)
+            startForResult.launch(intent)
         }
 
         binding.rvBikes.layoutManager = LinearLayoutManager(context)
@@ -66,7 +65,7 @@ class BicyclesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
         bikesViewModel.getBikes(joinedCommunityId)
     }
 
-    private fun observers() {
+    private fun observerBikes() {
         bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SimpleResult.Success -> {

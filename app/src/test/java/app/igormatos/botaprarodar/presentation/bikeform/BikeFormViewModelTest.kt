@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.bikeform
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
@@ -84,7 +85,7 @@ class BikeFormViewModelTest {
     @Test
     fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Success Status`() {
         val bikeFake = slot<Bike>()
-        val result = SimpleResult.Success("")
+        val result = SimpleResult.Success(AddDataResponse(""))
         coEvery {
             bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
         } returns result
@@ -111,7 +112,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
         val simpleResultData = "bicicleta caloi"
-        val result = SimpleResult.Success(simpleResultData)
+        val result = SimpleResult.Success(AddDataResponse(simpleResultData))
 
         coEvery {
             bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
@@ -191,9 +192,9 @@ class BikeFormViewModelTest {
     fun `when 'saveBike' to edit and 'isEditModeAvailable' is true, should return Success Status`() {
         bikeViewModel.isEditModeAvailable = true
         val bikeFake = slot<Bike>()
-        val result = SimpleResult.Success("")
+        val result = SimpleResult.Success(AddDataResponse(""))
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -206,7 +207,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(community.id, capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
