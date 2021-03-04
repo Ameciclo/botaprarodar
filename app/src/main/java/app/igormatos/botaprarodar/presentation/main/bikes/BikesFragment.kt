@@ -17,7 +17,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.BicyclesAdapter
+import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -96,8 +96,9 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     private fun showSnackBar(intent: Intent?) {
         intent?.getBooleanExtra("isEditModeAvailable", false)?.let {
             val message = getSuccessMessage(it)
-            snackBarMaker(message, requireView()).apply {
+            snackBarMaker(message, binding.clBikes).apply {
                 setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
+                anchorView = activity?.findViewById(R.id.navigation)
                 show()
             }
         }
