@@ -26,5 +26,14 @@ class ReturnBikeQuizFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = returnBikeQuizViewModel
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        binding.viewModel?.finishQuiz?.observe(viewLifecycleOwner, {
+            //TODO navegação para o próximo passo quando vier true
+        })
     }
 }
