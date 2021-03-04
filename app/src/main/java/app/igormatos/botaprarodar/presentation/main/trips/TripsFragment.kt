@@ -1,9 +1,7 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.trips
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
@@ -27,15 +24,18 @@ import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
+import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TripsFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
     private lateinit var binding: FragmentTripsBinding
+    private val tripsViewModel: TripsViewModel by viewModel()
 
     val itemAdapter = WithdrawAdapter()
     val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList(), ::navigateToReturnBikeActivity)
@@ -62,17 +62,25 @@ class TripsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupClickListener()
+        setupTripsRecyclerView()
+        setupBikeActionRecyclerView()
+        setupObserves()
+
+        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
+        getWithdrawals(selectedCommunityId)
+
+        tripsViewModel.loadBikeActions()
+    }
+
+    private fun setupClickListener() {
         binding.addItemFab.setOnClickListener {
             val intent = Intent(it.context, WithdrawActivity::class.java)
             startActivity(intent)
         }
+    }
 
-        setupTripsRecyclerView()
-        setupBikeActionRecyclerView()
-
-        binding.bikeActionMenuRecyclerView
-
-        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
+    private fun getWithdrawals(selectedCommunityId: String) {
         FirebaseHelper.getWithdrawals(
             selectedCommunityId,
             { loadingDialog?.dismiss() },
@@ -93,12 +101,18 @@ class TripsFragment : Fragment() {
             })
     }
 
+    private fun setupObserves() {
+        tripsViewModel.getBikeActions().observe(viewLifecycleOwner, Observer {
+            bikeActionMenuAdapter.updateItems(it)
+        })
+    }
+
     private fun setupTripsRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = itemAdapter
-        binding.recyclerView.addItemDecoration(
+        binding.tripsRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.tripsRecyclerView.adapter = itemAdapter
+        binding.tripsRecyclerView.addItemDecoration(
             DividerItemDecoration(
-                recyclerView.context,
+                tripsRecyclerView.context,
                 DividerItemDecoration.VERTICAL
             )
         )
@@ -115,49 +129,11 @@ class TripsFragment : Fragment() {
     }
 
     private fun setRecyclerViewItemMarginRight() {
-        bikeActionMenuRecyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                super.getItemOffsets(outRect, view, parent, state)
-
-                val currentPosition = parent.getChildLayoutPosition(view)
-                val listSize = bikeActionMenuAdapter.itemCount
-
-                setMarginByChildPositionList(currentPosition, outRect, listSize)
-            }
-        })
-    }
-
-    private fun setMarginByChildPositionList(
-        currentPosition: Int,
-        outRect: Rect,
-        listSize: Int) {
-
-        when (currentPosition) {
-            0 -> outRect.right = getAnIntDp(8)
-            listSize - 1 -> outRect.left = getAnIntDp(8)
-            else -> {
-                outRect.right = getAnIntDp(8)
-                outRect.left = getAnIntDp(8)
-            }
-        }
-    }
-
-   private fun getAnIntDp(value: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            value.toFloat(),
-            resources.displayMetrics
-        ).toInt()
-    }
-
-  private fun navigateToReturnBikeActivity(){
-       val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
-        findNavController().navigate(action)
-//      Navigation.findNavController(requireActivity(), R.id.action_navigationHome_to_returnBikeActivity)
+        bikeActionMenuRecyclerView.addItemDecoration(
+            BikeActionDecoration(
+                8,
+                bikeActionMenuAdapter.itemCount
+            )
+        )
     }
 }

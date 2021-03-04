@@ -21,9 +21,8 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/tripsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
@@ -32,10 +31,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bikeActionMenuRecyclerView"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/bikeActionMenuRecyclerView">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -51,6 +48,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:tint="@color/white" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

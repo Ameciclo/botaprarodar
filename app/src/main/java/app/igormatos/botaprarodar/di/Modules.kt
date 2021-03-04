@@ -18,6 +18,7 @@ import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
+import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
@@ -29,6 +30,7 @@ import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
+import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
@@ -84,6 +86,11 @@ val bprModule = module {
         )
     }
 
+    viewModel {
+        TripsViewModel(
+            bikeActionUseCase = get())
+    }
+
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
     }
@@ -123,6 +130,10 @@ val bprModule = module {
 
     single {
         UserRequestConvert()
+    }
+
+    single{
+        BikeActionUseCase()
     }
 
     viewModel {
