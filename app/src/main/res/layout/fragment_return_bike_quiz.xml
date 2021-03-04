@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium">
+
+        <TextView
+                android:id="@+id/usedBikeToMove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Você utilizou a bicicleta para se locomover até:"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_14"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/usedBikeToMove">
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seu local de trabalho"/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seu local de estudo"/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seu local de lazer / convivência social "/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Seu local de compras"/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Local de estudo da criança"/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Outro motivo não especificado" />
+
+        </RadioGroup>
+
+
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/serialNumberTil"-->
+<!--            style="@style/textInputLayout"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/margin_medium"-->
+<!--            android:layout_marginTop="@dimen/margin_medium"-->
+<!--            android:layout_marginEnd="@dimen/margin_medium"-->
+<!--            android:hint="@string/bike_serial_number"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView"/>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
