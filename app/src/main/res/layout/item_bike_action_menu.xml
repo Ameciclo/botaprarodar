@@ -18,46 +18,27 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-                android:id="@+id/borrowImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_borrow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-                android:id="@+id/bikeImageView"
+                android:id="@+id/actionImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="4dp"
-                android:src="@drawable/ic_bike"
-                app:layout_constraintBottom_toBottomOf="@id/borrowImageView"
-                app:layout_constraintStart_toStartOf="@id/borrowImageView" />
+                tools:src="@drawable/ic_borrow_bike"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-        <ImageView
-                android:id="@+id/returnImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_return"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/bikeActionTextView"
                 android:layout_width="88dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:textAllCaps="true"
                 android:textColor="@color/bike_action_text_gray"
                 android:textSize="@dimen/text_size_14"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bikeImageView"
+                app:layout_constraintTop_toBottomOf="@id/actionImageView"
                 tools:text="EMPRESTAR BICICLETA DEVOLTA" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

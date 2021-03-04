@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.presentation.authentication.viewmodel
 
-import app.igormatos.botaprarodar.common.enumType.BprError
+import app.igormatos.botaprarodar.common.BprError
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.Admin
 

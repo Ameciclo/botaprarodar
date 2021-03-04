@@ -10,7 +10,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 
 class BikeActionMenuAdapter(
-    private val itemList: MutableList<BikeActionsMenuType>,
+    private val itemList: MutableList<BikeActionsMenuType> = arrayListOf(),
     private val navigateToReturnBikeActivity: () -> Unit
 ) : RecyclerView.Adapter<BikeActionMenuAdapter.BikeActionMenuItemViewHolder>() {
 
@@ -36,41 +36,26 @@ class BikeActionMenuAdapter(
         holder.onItemClick()
     }
 
-    inner class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun updateItems(list: List<BikeActionsMenuType>){
+        itemList.clear()
+        itemList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
-        private val borrowImageView = itemView.findViewById<ImageView>(R.id.borrowImageView)
-        private val returnImageView = itemView.findViewById<ImageView>(R.id.returnImageView)
-        private val bikeActionMenuContainer =
-            itemView.findViewById<View>(R.id.bikeActionMenuContainer)
+        private val actionImageView = itemView.findViewById<ImageView>(R.id.actionImageView)
 
         fun bind(item: BikeActionsMenuType) {
             bikeActionTextView.text = itemView.context.getString(item.stringId)
-
-            when (item) {
-                BikeActionsMenuType.BORROW -> showActionImageVisibility(
-                    View.VISIBLE,
-                    View.INVISIBLE
-                )
-                BikeActionsMenuType.RETURN -> showActionImageVisibility(
-                    View.INVISIBLE,
-                    View.VISIBLE
-                )
-            }
+            actionImageView.setImageResource(item.icon)
         }
 
         fun onItemClick() {
             bikeActionMenuContainer.setOnClickListener {
                 navigateToReturnBikeActivity.invoke()
             }
-        }
-
-        private fun showActionImageVisibility(
-            visibilityBorrowImageView: Int,
-            visibilityReturnImageView: Int
-        ) {
-            borrowImageView.visibility = visibilityBorrowImageView
-            returnImageView.visibility = visibilityReturnImageView
         }
     }
 }
