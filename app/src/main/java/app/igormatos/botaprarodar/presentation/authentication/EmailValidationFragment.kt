@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.BprErrorType
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.databinding.FragmentEmailValidationBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationState
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationState.SendSuccess

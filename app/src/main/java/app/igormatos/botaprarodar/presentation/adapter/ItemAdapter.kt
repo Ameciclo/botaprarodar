@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation
+package app.igormatos.botaprarodar.presentation.adapter
 
 import android.app.Activity
 import android.app.AlertDialog
