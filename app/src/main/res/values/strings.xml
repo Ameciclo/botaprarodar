@@ -132,4 +132,20 @@
     <string name="return_bike">DEVOLVER BICILETA</string>
     <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta</string>
     <string name="lgpd_confirm">De acordo</string>
+
+    <!-- Return bike quiz -->
+    <string name="which_district_hint">Qual o bairro de destino?</string>
+    <string name="used_bike_to_move">Você utilizou a bicicleta para se locomover até:</string>
+    <string name="your_workplace">Seu local de trabalho</string>
+    <string name="your_place_study">Seu local de estudo</string>
+    <string name="your_place_entertainment">Seu local de lazer / convivência social</string>
+    <string name="your_place_shopping">Seu local de compras</string>
+    <string name="child_study_place">Local de estudo da criança</string>
+    <string name="other_reason">Outro motivo não especificado</string>
+    <string name="problems_during_riding">Você sofreu alguma violência no trânsito durante o seu trajeto? (exemplo: carro passou perto e rápido demais, foi fechada numa curva, etc)?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="need_take_ride">Precisou levar alguma carona?</string>
+    <string name="send_answers_button">Enviar respostas</string>
+    <string name="invalid_district">Bairro inválido</string>
 </resources>
