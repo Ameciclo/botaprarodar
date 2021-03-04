@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.data.repository
 
+import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -19,7 +20,7 @@ class AdminRepositoryTest {
     @MockK
     private lateinit var adminRemoteDataSource: AdminRemoteDataSource
 
-    private val adminUser = mockk<FirebaseUser>()
+    private val adminUser = mockk<Admin>()
 
     private val email = "admin@admin.com"
     private val password = "admin"
@@ -29,7 +30,7 @@ class AdminRepositoryTest {
         init(this)
         adminRepository = AdminRepository(adminRemoteDataSource)
 
-        coEvery { adminUser.uid } returns "123456"
+        coEvery { adminUser.id } returns "123456"
     }
 
     @Test
@@ -45,7 +46,7 @@ class AdminRepositoryTest {
         coEvery { adminRemoteDataSource.createAdmin(email, password) } returns adminUser
         val result = adminRepository.createAdmin(email, password)
 
-        assertTrue(result.id == adminUser.uid)
+        assertTrue(result.id == adminUser.id)
     }
 
     @Test
@@ -94,7 +95,7 @@ class AdminRepositoryTest {
             } returns adminUser
 
             val result = adminRepository.authenticateAdmin(email, password)
-            assertEquals(adminUser.uid, result.id)
+            assertEquals(adminUser.id, result.id)
         }
 
     @Test(expected = UserAdminErrorException.AdminNetwork::class)
