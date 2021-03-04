@@ -19,11 +19,16 @@ class ReturnBikeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-
     @Test
     fun `when init viewModel then steps should be SELECT_BIKE`() = runBlocking {
-        assertEquals(StepConfigType.SELECT_BIKE, viewModel.uiState.value)
 
+        val observer = spyk<Observer<StepConfigType>>()
+
+        viewModel.uiState.observeForever(observer)
+
+        verifyOrder {
+            observer.onChanged(StepConfigType.SELECT_BIKE)
+        }
     }
 
     @Test
