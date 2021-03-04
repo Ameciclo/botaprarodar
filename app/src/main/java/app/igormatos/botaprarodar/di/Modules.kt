@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.BuildConfig
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
@@ -28,6 +29,8 @@ import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -197,6 +200,18 @@ val bprModule = module {
 
     viewModel {
         UsersViewModel(get<UsersUseCase>())
+    }
+
+    single{
+        StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
+    }
+
+    single{
+        StepperAdapter.WithdrawStepper(StepConfigType.SELECT_BIKE)
+    }
+
+    viewModel{
+        ReturnBikeViewModel(get())
     }
 }
 

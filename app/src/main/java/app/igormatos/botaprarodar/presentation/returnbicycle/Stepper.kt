@@ -8,7 +8,7 @@ sealed class StepperAdapter(val steps: List<StepConfigType>) {
     abstract fun navigateToPrevious()
     abstract val currentStep: MutableStateFlow<StepConfigType>
 
-    class ReturnStepper(val initialStep: StepConfigType) : StepperAdapter(
+    class ReturnStepper(private val initialStep: StepConfigType) : StepperAdapter(
         listOf(
             StepConfigType.SELECT_BIKE,
             StepConfigType.QUIZ,
@@ -42,7 +42,7 @@ sealed class StepperAdapter(val steps: List<StepConfigType>) {
         }
     }
 
-    class WithdrawStepper : StepperAdapter(
+    class WithdrawStepper(private val initialStep: StepConfigType) : StepperAdapter(
         listOf(
             StepConfigType.SELECT_BIKE,
             StepConfigType.QUIZ,
