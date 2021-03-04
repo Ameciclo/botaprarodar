@@ -3,12 +3,13 @@ package app.igormatos.botaprarodar.authentication
 import app.igormatos.botaprarodar.Fixtures
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.repository.AdminDataSource
+import kotlin.reflect.KFunction0
 
 class TestAdminRemoteDataSource(
-    var createAdminStub: (() -> Admin?)? = null,
-    var authenticateAdmin: (() -> Admin?)? = null,
+    var createAdminStub: (KFunction0<Admin?>)? = null,
+    var authenticateAdmin: (KFunction0<Admin?>)? = null,
     var sendPasswordRecoverEmailStub: (() -> Unit)? = null,
-    var isAdminRegisteredStub: (() -> Boolean)? = null,
+    var isAdminRegisteredStub: (KFunction0<Boolean>)? = null,
 ) : AdminDataSource {
 
     override suspend fun createAdmin(email: String, password: String): Admin? {
