@@ -213,6 +213,6 @@ private fun buildRetrofit(): Retrofit {
         .build()
 }
 
-fun providesAdminDataSource(firebaseAuth: FirebaseAuth){
-    AdminRemoteDataSource(firebaseAuth)
+fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
+    return AdminRemoteDataSource(firebaseAuth)
 }
