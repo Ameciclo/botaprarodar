@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.BprErrorType
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.databinding.FragmentSignInBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewState
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
