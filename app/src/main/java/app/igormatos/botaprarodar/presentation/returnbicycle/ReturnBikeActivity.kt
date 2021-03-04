@@ -2,12 +2,14 @@ package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReturnBikeActivity : AppCompatActivity() {
 
@@ -16,6 +18,7 @@ class ReturnBikeActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityReturnBikeBinding
+    private val viewModel: ReturnBikeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +35,20 @@ class ReturnBikeActivity : AppCompatActivity() {
         )
 
         binding.next.setOnClickListener {
-            binding.bikeActionStepper.goToNextStep()
+            viewModel.stepper.navigateToNext()
         }
 
         binding.previous.setOnClickListener {
-            binding.bikeActionStepper.goBackToPreviousStep()
+            viewModel.stepper.navigateToPrevious()
         }
+//
+//        binding.done.setOnClickListener {
+//            binding.bikeActionStepper.completeAllSteps()
+//        }
 
-        binding.done.setOnClickListener {
-            binding.bikeActionStepper.completeAllSteps()
-        }
+        viewModel.uiState.observe(this, Observer {
+            binding.bikeActionStepper.setCurrentStep(it)
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
