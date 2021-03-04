@@ -97,20 +97,19 @@
     <string name="submit_form_error">Não foi possível executar a ação.</string>
     <string name="sign_in_password_error">Senha incorreta.</string>
     <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
-    <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
-    <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="edit_bicycle_title">Editar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 
-    <!-- Bike fragment -->
+    <!-- Bike -->
     <string name="bike_order_number">Ordem: %s</string>
     <string name="bike_series_number">Série: %s</string>
-
-    <!-- User fragment -->
-    <string name="user_created_since">Cadastrado desde %s</string>
+    <string name="add_photo">Adicionar foto</string>
+    <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
+    <string name="add_bicycle_title">Cadastrar Bicicleta</string>
 
     <!-- USER -->
+    <string name="user_created_since">Cadastrado desde %s</string>
     <string name="add_user_invalid_name">Nome inválido</string>
     <string name="add_user_invalid_address">Endereço inválido</string>
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
@@ -128,7 +127,8 @@
     <string name="edit_user_toolbar_title">Editar Usuário</string>
     <string name="user_update_success">Usuário atualizado com sucesso</string>
     <string name="user_add_success">Usuário adicionado com sucesso</string>
+    <string name="borrow_bike">EMPRESTAR BICILETA</string>
+    <string name="return_bike">DEVOLVER BICILETA</string>
     <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta</string>
     <string name="lgpd_confirm">De acordo</string>
-
 </resources>
