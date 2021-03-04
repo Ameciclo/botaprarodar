@@ -57,7 +57,7 @@
             <ImageView
                     android:id="@+id/bikePhotoImageView"
                     android:layout_width="0dp"
-                    android:layout_height="180dp"
+                    android:layout_height="176dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_photo"
                     android:textStyle="bold"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_14"
                     android:textColor="@color/gray_3"
                     android:drawablePadding="@dimen/margin_12"
                     app:layout_constraintBottom_toBottomOf="@+id/bikePhotoImageView"
