@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
@@ -38,7 +39,7 @@ class TripsFragment : Fragment() {
     private val tripsViewModel: TripsViewModel by viewModel()
 
     val itemAdapter = WithdrawAdapter()
-    val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList(), ::navigateToReturnBikeActivity)
+    private val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList(), ::navigateToReturnBikeActivity)
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -135,5 +136,11 @@ class TripsFragment : Fragment() {
                 bikeActionMenuAdapter.itemCount
             )
         )
+    }
+
+    private fun navigateToReturnBikeActivity(){
+        val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
+        findNavController().navigate(action)
+//      Navigation.findNavController(requireActivity(), R.id.action_navigationHome_to_returnBikeActivity)
     }
 }
