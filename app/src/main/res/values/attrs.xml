@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BikeActionStepperView">
+        <attr name="current_icon_color" format="color"/>
+        <attr name="previous_icon_color" format="color"/>
+        <attr name="next_icon_color" format="color"/>
+
+        <attr name="select_background" format="color"/>
+        <attr name="unselect_background" format="color"/>
+    </declare-styleable>
+</resources>
