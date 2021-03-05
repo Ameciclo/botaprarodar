@@ -117,7 +117,7 @@ val bprModule = module {
     }
 
     single {
-        AdminRemoteDataSource(get())
+        providesAdminDataSource(get())
     }
 
     single {
@@ -237,4 +237,8 @@ private fun buildRetrofit(): Retrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
+}
+
+fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
+    return AdminRemoteDataSource(firebaseAuth)
 }
