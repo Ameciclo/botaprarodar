@@ -63,6 +63,7 @@ android {
 dependencies {
     implementation project(':core')
     implementation project(path: ':toolkit')
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     // Test
     testImplementation 'junit:junit:4.13.1'
