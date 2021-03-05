@@ -23,7 +23,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Usuários"
                 android:textAllCaps="true"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/gray_2"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
