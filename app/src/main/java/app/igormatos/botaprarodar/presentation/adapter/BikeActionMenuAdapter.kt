@@ -8,9 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
+import com.google.android.material.card.MaterialCardView
 
 class BikeActionMenuAdapter(
-    private val itemList: MutableList<BikeActionsMenuType> = arrayListOf()
+    private val itemList: MutableList<BikeActionsMenuType> = arrayListOf(),
+    private val navigateToReturnBikeActivity: () -> Unit
 ) : RecyclerView.Adapter<BikeActionMenuAdapter.BikeActionMenuItemViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -32,6 +34,7 @@ class BikeActionMenuAdapter(
 
     override fun onBindViewHolder(holder: BikeActionMenuItemViewHolder, position: Int) {
         holder.bind(itemList[position])
+        holder.onItemClick()
     }
 
     fun updateItems(list: List<BikeActionsMenuType>){
@@ -40,14 +43,22 @@ class BikeActionMenuAdapter(
         notifyDataSetChanged()
     }
 
-    class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner  class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
         private val actionImageView = itemView.findViewById<ImageView>(R.id.actionImageView)
+       private val bikeActionMenuContainer = itemView.findViewById<MaterialCardView>(R.id.bikeActionMenuContainer)
+
 
         fun bind(item: BikeActionsMenuType) {
             bikeActionTextView.text = itemView.context.getString(item.stringId)
             actionImageView.setImageResource(item.icon)
+        }
+
+        fun onItemClick() {
+            bikeActionMenuContainer.setOnClickListener {
+                navigateToReturnBikeActivity.invoke()
+            }
         }
     }
 }

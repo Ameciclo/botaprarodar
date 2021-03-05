@@ -255,11 +255,10 @@ class ItemAdapter(private var activity: Activity? = null) :
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
-                        val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
+                        val intent = Intent(itemView.context, WithdrawActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
-
                     }
                 }
             }
