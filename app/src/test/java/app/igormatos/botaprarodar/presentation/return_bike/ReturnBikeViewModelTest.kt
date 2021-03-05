@@ -26,7 +26,7 @@ class ReturnBikeViewModelTest {
 
         viewModel.uiState.observeForever(observer)
 
-        verifyOrder {
+        verify {
             observer.onChanged(StepConfigType.SELECT_BIKE)
         }
     }
