@@ -37,17 +37,18 @@ class BikeActionMenuAdapter(
         holder.onItemClick()
     }
 
-    fun updateItems(list: List<BikeActionsMenuType>){
+    fun updateItems(list: List<BikeActionsMenuType>) {
         itemList.clear()
         itemList.addAll(list)
         notifyDataSetChanged()
     }
 
-   inner  class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
         private val actionImageView = itemView.findViewById<ImageView>(R.id.actionImageView)
-       private val bikeActionMenuContainer = itemView.findViewById<MaterialCardView>(R.id.bikeActionMenuContainer)
+        private val bikeActionMenuContainer =
+            itemView.findViewById<MaterialCardView>(R.id.bikeActionMenuContainer)
 
 
         fun bind(item: BikeActionsMenuType) {
