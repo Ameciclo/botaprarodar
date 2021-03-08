@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.model
 
 import com.google.firebase.database.IgnoreExtraProperties
+import com.google.gson.annotations.SerializedName
 import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -8,6 +9,7 @@ import java.util.*
 @IgnoreExtraProperties
 @Parcel
 data class Bike(
+    @SerializedName("name")
     var name: String? = null,
     var serial_number: String? = null,
     var order_number: Long? = null,

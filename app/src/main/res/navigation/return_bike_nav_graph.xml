@@ -8,7 +8,7 @@
 
     <fragment
             android:id="@+id/returnBikeFragment"
-            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeFragment"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesFragment"
             android:label="@string/return_bike_toolbar_title"
-            tools:layout="@layout/fragment_return_bike" />
+            tools:layout="@layout/fragment_step_one_bikes" />
 </navigation>
