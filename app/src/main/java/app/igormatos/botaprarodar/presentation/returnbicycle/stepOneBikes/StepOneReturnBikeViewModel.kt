@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import com.brunotmgomes.ui.SimpleResult
@@ -12,9 +11,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class StepOneBikesViewModel(
+class StepOneReturnBikeViewModel(
     val stepperAdapter: StepperAdapter.ReturnStepper,
-    private val stepOneBikesUseCase: StepOneBikesUseCase
+    private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase
 ) : ViewModel() {
 
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
@@ -23,12 +22,12 @@ class StepOneBikesViewModel(
 
     fun getBikesInUseToReturn(communityId: String) {
         viewModelScope.launch {
-            val value = stepOneBikesUseCase.getBikesInUseToReturn(communityId)
+            val value = stepOneReturnBikeUseCase.getBikesInUseToReturn(communityId)
             _bikesAvailableToReturn.value = value
         }
     }
 
     fun setReturnBike(bike: Bike) {
-        stepOneBikesUseCase.setReturnBike(bike)
+        stepOneReturnBikeUseCase.setReturnBike(bike)
     }
 }

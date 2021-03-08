@@ -7,7 +7,7 @@ import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class StepOneBikesUseCase(private val bikeRepository: BikeRepository) {
+class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
     private val listBicyclesConverter = ListBicyclesConverter()
 
     suspend fun getBikesInUseToReturn(communityId: String): SimpleResult<List<Bike>> {
