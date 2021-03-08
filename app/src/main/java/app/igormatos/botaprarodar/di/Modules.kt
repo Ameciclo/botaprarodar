@@ -12,7 +12,6 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -32,12 +31,10 @@ import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewM
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesFragment
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesUseCase
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -51,12 +48,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
-import org.koin.core.scope.ScopeID
 import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent.get
-import org.koin.java.KoinJavaComponent.getKoin
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -227,7 +219,7 @@ val bprModule = module {
     //Return Bikes
 
     single {
-        StepOneBikesUseCase(bikeRepository = get())
+        StepOneReturnBikeUseCase(bikeRepository = get())
     }
 
     single {
@@ -235,7 +227,7 @@ val bprModule = module {
     }
 
     single {
-        StepOneBikesViewModel(stepOneBikesUseCase = get(), stepperAdapter = get())
+        StepOneReturnBikeViewModel(stepOneReturnBikeUseCase = get(), stepperAdapter = get())
     }
 
     single {
