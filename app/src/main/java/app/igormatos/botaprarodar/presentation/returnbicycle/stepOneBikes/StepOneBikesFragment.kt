@@ -10,6 +10,9 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -21,6 +24,7 @@ import app.igormatos.botaprarodar.presentation.adapter.StepOneBikesAdapter
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeFragment
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.android.synthetic.main.fragment_step_one_bikes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,6 +39,10 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
     private lateinit var binding: FragmentStepOneBikesBinding
     private val preferencesModule: SharedPreferencesModule by inject()
     private val viewModel: StepOneBikesViewModel by viewModel()
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +83,9 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
     override fun bikeOnClickListener(bike: Bike) {
         viewModel.setReturnBike(bike)
         viewModel.stepperAdapter.navigateToNext()
+        val direction =
+            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
+        navController.navigate(direction)
         Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }
 }
