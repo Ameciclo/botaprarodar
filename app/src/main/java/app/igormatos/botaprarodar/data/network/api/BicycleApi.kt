@@ -11,15 +11,14 @@ interface BicycleApi {
     @GET("/communities/{communityId}/bicycles.json")
     fun getBicycles(@Path("communityId") communityId: String): Deferred<Map<String, Bike>>
 
-    @POST("bike.json")
+    @POST("bikes.json")
     suspend fun addNewBike(
-        @Path("communityId") communityId: String,
-        @Body bicycle: BicycleRequest
+        @Body bicycle: Bike
     ): AddDataResponse
 
     @PATCH("/bikes/{bikeId}.json")
     suspend fun updateBike(
         @Path("bikeId") bikeId: String,
-        @Body bicycle: BicycleRequest
+        @Body bicycle: Bike
     ): AddDataResponse
 }
