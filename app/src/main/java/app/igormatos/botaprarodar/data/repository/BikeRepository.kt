@@ -48,7 +48,7 @@ class BikeRepository(
     ): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.updateBike(communityId, bicycle.id, bicycle)
+                bicycleApi.updateBike(bicycle.id, bicycle)
             }
         }
     }
@@ -76,7 +76,7 @@ class BikeRepository(
 
         awaitClose {
             firebaseDatabase
-                .getReference(REFERENCE_COMMUNITIES)
+                .getReference(REFERENCE_BICYCLES)
                 .removeEventListener(postListener)
         }
     }
@@ -96,14 +96,11 @@ class BikeRepository(
 
     private fun firebaseReference(communityId: String): DatabaseReference {
         return firebaseDatabase
-            .getReference(REFERENCE_COMMUNITIES)
-            .child(communityId)
-            .child(REFERENCE_BICYCLES)
+            .getReference(REFERENCE_BICYCLES)
     }
 
     companion object {
-        private const val REFERENCE_BICYCLES = "bicycles"
-        private const val REFERENCE_COMMUNITIES = "communities"
+        private const val REFERENCE_BICYCLES = "bikes"
         private const val REFERENCE_AVAILABLE = "available"
     }
 }
