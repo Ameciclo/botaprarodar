@@ -10,9 +10,9 @@ fun buildBicycleRequest(bike: Bike) =
         available = true,
         inUse = false,
         name = bike.name.transformNullToEmpty(),
-        orderNumber = bike.order_number.transformNullToEmpty(),
-        photoPath = bike.photo_path.transformNullToEmpty(),
-        photoThumbnailPath = bike.photo_thumbnail_path.transformNullToEmpty(),
-        serialNumber = bike.serial_number.transformNullToEmpty(),
-        createdDate = bike.created_date.transformNullToEmpty()
+        orderNumber = bike.orderNumber.transformNullToEmpty(),
+        photoPath = bike.photoPath.transformNullToEmpty(),
+        photoThumbnailPath = bike.photoThumbnailPath.transformNullToEmpty(),
+        serialNumber = bike.serialNumber.transformNullToEmpty(),
+        createdDate = bike.createdDate.transformNullToEmpty()
     )
