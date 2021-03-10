@@ -59,10 +59,10 @@ class QuizBuilderTest {
     fun `when missing a quiz answer then build should throw MissingAnswerException with expected quizAnswerNames`() {
 
         val quizAnswerNames = listOf(
-            ReturnQuizQuizAnswerName.RESPOSTA_2.getQuizName(),
-            ReturnQuizQuizAnswerName.RESPOSTA_3.getQuizName(),
-            ReturnQuizQuizAnswerName.RESPOSTA_4.getQuizName(),
-            ReturnQuizQuizAnswerName.RESPOSTA_5.getQuizName(),
+            DevolutionQuizAnswerName.RESPOSTA_2.getQuizName(),
+            DevolutionQuizAnswerName.RESPOSTA_3.getQuizName(),
+            DevolutionQuizAnswerName.RESPOSTA_4.getQuizName(),
+            DevolutionQuizAnswerName.RESPOSTA_5.getQuizName(),
         )
 
         val quizBuilder = ReturnBikeQuizBuilder().apply {
