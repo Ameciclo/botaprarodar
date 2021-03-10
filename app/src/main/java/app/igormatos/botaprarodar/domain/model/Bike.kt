@@ -34,6 +34,8 @@ data class Bike(
     var photoPath: String? = ""
     @SerializedName("photoThumbnailPath")
     var photoThumbnailPath: String? = ""
+//    @SerializedName("withdraw")
+//    var withdraw: Withdraw? = null
 
     init {
         val date = Calendar.getInstance().time

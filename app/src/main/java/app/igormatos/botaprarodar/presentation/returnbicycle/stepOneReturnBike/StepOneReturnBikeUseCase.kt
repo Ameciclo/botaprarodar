@@ -11,11 +11,11 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
     private val listBicyclesConverter = ListBicyclesConverter()
 
     suspend fun getBikesInUseToReturn(communityId: String): SimpleResult<List<Bike>> {
-        val bikesMap = bikeRepository.getBicycles(communityId)
+        val bikesMap = bikeRepository.getBicycles()
         return when (bikesMap) {
             is SimpleResult.Success -> {
                 val list = listBicyclesConverter.convert(bikesMap.data)
-                val bikesInUse = filterInUseBikes(list)
+                val bikesInUse = filterInUseBikes(list, communityId)
                 formatAnswer(bikesInUse)
             }
             is SimpleResult.Error -> {
@@ -24,9 +24,9 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
         }
     }
 
-    private fun filterInUseBikes(list: List<Bike>): List<Bike> {
+    private fun filterInUseBikes(list: List<Bike>, communityId: String): List<Bike> {
         return list.filter {
-            it.inUse
+            it.inUse && it.communityId == communityId
         }
     }
 
@@ -35,9 +35,5 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
             true -> SimpleResult.Success(list)
             false -> SimpleResult.Error(Exception(""))
         }
-    }
-
-    fun setReturnBike(bike: Bike){
-
     }
 }

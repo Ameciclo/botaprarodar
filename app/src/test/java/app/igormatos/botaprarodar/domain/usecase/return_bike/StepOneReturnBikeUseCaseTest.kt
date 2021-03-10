@@ -27,11 +27,11 @@ class StepOneReturnBikeUseCaseTest {
     @Test
     fun `when call getBikesInUseToReturn() then some bike is in use should return a success`() =
         runBlocking {
-            coEvery { repository.getBicycles(any()) } returns SimpleResult.Success(
+            coEvery { repository.getBicycles() } returns SimpleResult.Success(
                 buildMapStringAndBicycleInUse(3)
             )
 
-            val listResult = useCase.getBikesInUseToReturn("10")
+            val listResult = useCase.getBikesInUseToReturn("123")
 
             assertEquals(3, (listResult as SimpleResult.Success).data.size)
             assertEquals("bicycle 3", listResult.data[0].name)
@@ -43,7 +43,7 @@ class StepOneReturnBikeUseCaseTest {
     @Test
     fun `when call getBikesInUseToReturn() then none bike is in use should return an error`() =
         runBlocking {
-            coEvery { repository.getBicycles(any()) } returns SimpleResult.Success(
+            coEvery { repository.getBicycles() } returns SimpleResult.Success(
                 buildMapStringAndBicycle(3)
             )
 
@@ -55,7 +55,7 @@ class StepOneReturnBikeUseCaseTest {
     @Test
     fun `when call getBikesInUseToReturn() then an error is returned should return an error`() =
         runBlocking {
-            coEvery { repository.getBicycles(any()) } returns bikeSimpleError
+            coEvery { repository.getBicycles() } returns bikeSimpleError
 
             val listResult = useCase.getBikesInUseToReturn("10")
 

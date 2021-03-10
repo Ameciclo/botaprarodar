@@ -53,6 +53,7 @@ fun generateBikeInUse(nameBicycle: String): Bike {
         photoPath = "http://bla.com"
         photoThumbnailPath = "http://bla.com"
         inUse = true
+        communityId = "123"
     }
 }
 

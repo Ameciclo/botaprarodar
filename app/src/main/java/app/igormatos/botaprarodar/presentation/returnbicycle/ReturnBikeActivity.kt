@@ -50,6 +50,11 @@ class ReturnBikeActivity : AppCompatActivity() {
         return navController.navigateUp()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        viewModel.navigateToPrevious()
+    }
+
     override fun finish() {
         super.finish()
         viewModel.stepper.backToInitialState()
