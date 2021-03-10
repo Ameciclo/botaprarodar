@@ -6,4 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class ReturnBikeViewModel(val stepper: StepperAdapter.ReturnStepper) : ViewModel() {
     val uiState = stepper.currentStep.asLiveData()
+
+    fun navigateToPrevious(){
+        stepper.navigateToPrevious()
+    }
 }

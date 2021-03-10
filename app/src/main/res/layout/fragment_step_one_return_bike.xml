@@ -8,13 +8,13 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesFragment" />
+                type="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".presentation.returnbicycle.stepOneBikes.StepOneBikesFragment">
+            tools:context=".presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragment">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bikes_return"

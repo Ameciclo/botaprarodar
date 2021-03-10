@@ -32,12 +32,11 @@ import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewM
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesFragment
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesUseCase
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -51,12 +50,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.parameter.parametersOf
-import org.koin.core.qualifier.named
-import org.koin.core.scope.ScopeID
 import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent.get
-import org.koin.java.KoinJavaComponent.getKoin
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -128,7 +122,7 @@ val bprModule = module {
     }
 
     single {
-        AdminRemoteDataSource(get())
+        providesAdminDataSource(get())
     }
 
     single {
@@ -227,15 +221,21 @@ val bprModule = module {
     //Return Bikes
 
     single {
-        StepOneBikesUseCase(bikeRepository = get())
+        StepOneReturnBikeUseCase(bikeRepository = get())
     }
 
     single {
         StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
     }
 
+    single { BikeHolder() }
+
     single {
-        StepOneBikesViewModel(stepOneBikesUseCase = get(), stepperAdapter = get())
+        StepOneReturnBikeViewModel(
+            stepOneReturnBikeUseCase = get(),
+            stepperAdapter = get(),
+            bikeHolder = get()
+        )
     }
 
     single {
@@ -255,4 +255,8 @@ private fun buildRetrofit(): Retrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
+}
+
+fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
+    return AdminRemoteDataSource(firebaseAuth)
 }

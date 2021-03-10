@@ -22,3 +22,4 @@ app/src/release/google-services\.json
 app/src/debug/google-services_debug.json
 app/google-services.json
 *.json
+/.idea/codeStyles/
