@@ -5,7 +5,7 @@ data class QuizAnswer(val value: Any, private val quizName: QuizAnswerName)
 interface QuizAnswerName{
     fun getQuizName(): String
 }
-enum class WithdrawQuizQuizAnswerName(name: String): QuizAnswerName{
+enum class WithdrawQuizAnswerName(name: String): QuizAnswerName{
     RESPOSTA_1("resposta 1") {
         override fun getQuizName(): String = name
     },
@@ -22,7 +22,7 @@ enum class WithdrawQuizQuizAnswerName(name: String): QuizAnswerName{
         override fun getQuizName(): String = name
     }
 }
-enum class ReturnQuizQuizAnswerName(name: String): QuizAnswerName{
+enum class DevolutionQuizAnswerName(name: String): QuizAnswerName{
     RESPOSTA_1("resposta 1") {
         override fun getQuizName(): String = name
     },
