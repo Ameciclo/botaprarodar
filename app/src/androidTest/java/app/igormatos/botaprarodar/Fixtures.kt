@@ -9,8 +9,8 @@ object Fixtures {
 
     val bike = Bike().apply {
         name = "name mock"
-        order_number = 123
-        serial_number = "serial mock"
-        photo_path = "photo mock"
+        orderNumber = 123
+        serialNumber = "serial mock"
+        photoPath = "photo mock"
     }
 }
