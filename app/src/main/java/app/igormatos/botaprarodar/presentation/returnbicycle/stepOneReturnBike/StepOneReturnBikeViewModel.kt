@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

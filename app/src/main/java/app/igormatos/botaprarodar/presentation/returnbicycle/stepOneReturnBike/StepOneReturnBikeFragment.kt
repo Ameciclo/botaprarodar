@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

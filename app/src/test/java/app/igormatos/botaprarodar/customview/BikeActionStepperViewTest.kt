@@ -19,6 +19,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 
+@Ignore
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class BikeActionStepperViewTest {

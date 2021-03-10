@@ -2,10 +2,9 @@ package app.igormatos.botaprarodar.presentation.return_bike.stepOne
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneReturnBikeViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
