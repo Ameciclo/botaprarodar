@@ -83,7 +83,7 @@ class ReturnOldBikeActivity : AppCompatActivity() {
 
     fun setWithdrawInfo(withdraw: Withdraw) {
         userName.text = withdraw.user_name
-        withdraw.user?.let { userDoc.text = it.doc_number.toString() }
+        withdraw.user?.let { userDoc.text = it.docNumber.toString() }
         bikeName.text = withdraw.bicycle_name
         bicycleImageView.loadPath(withdraw.bicycle_image_path!!, applicationContext)
         userImageView.loadPath(withdraw.user_image_path!!, applicationContext)
