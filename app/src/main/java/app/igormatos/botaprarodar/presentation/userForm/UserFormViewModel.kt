@@ -46,11 +46,11 @@ class UserFormViewModel(
         user = currentUser.apply {
             userCompleteName.value = this.name.orEmpty()
             userAddress.value = this.address.orEmpty()
-            userDocument.value = this.doc_number.toString()
-            userImageProfile.value = this.profile_picture.orEmpty()
-            userImageDocumentResidence.value = this.residence_proof_picture.orEmpty()
-            userImageDocumentFront.value = this.doc_picture.orEmpty()
-            userImageDocumentBack.value = this.doc_picture_back.orEmpty()
+            userDocument.value = this.docNumber.toString()
+            userImageProfile.value = this.profilePicture.orEmpty()
+            userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
+            userImageDocumentFront.value = this.docPicture.orEmpty()
+            userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender
         }
         isEditableAvailable = true
@@ -81,7 +81,7 @@ class UserFormViewModel(
     }
 
     private suspend fun updateUser() {
-        userUseCase.updateUser(community.id, user).let {
+        userUseCase.startUpdateUser(user).let {
             when (it) {
                 is SimpleResult.Success -> showSuccess()
                 is SimpleResult.Error -> showError()
@@ -90,7 +90,7 @@ class UserFormViewModel(
     }
 
     private suspend fun addUser() {
-        userUseCase.addUser(community.id, user).let {
+        userUseCase.addUser(user).let {
             when (it) {
                 is SimpleResult.Success -> showSuccess()
                 is SimpleResult.Error -> showError()
@@ -102,12 +102,13 @@ class UserFormViewModel(
         user.apply {
             name = userCompleteName.value
             address = userAddress.value
-            doc_number = userDocument.value?.toLong() ?: 0L
-            profile_picture = userImageProfile.value
-            residence_proof_picture = userImageDocumentResidence.value
-            doc_picture = userImageDocumentFront.value
-            doc_picture_back = userImageDocumentBack.value
+            docNumber = userDocument.value?.toLong() ?: 0L
+            profilePicture = userImageProfile.value
+            residenceProofPicture = userImageDocumentResidence.value
+            docPicture = userImageDocumentFront.value
+            docPictureBack = userImageDocumentBack.value
             gender = userGender.value ?: NO_ANSWER
+            communityId = community.id
         }
     }
 

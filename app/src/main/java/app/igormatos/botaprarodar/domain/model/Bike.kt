@@ -10,27 +10,35 @@ import java.util.*
 @Parcel
 data class Bike(
     @SerializedName("name")
-    var name: String? = null,
-    var serial_number: String? = null,
-    var order_number: Long? = null,
-    var photo_path: String? = null,
-    var created_date: String? = null,
-    var photo_thumbnail_path: String? = null
+    var name: String? = "",
+    @SerializedName("serialNumber")
+    var serialNumber: String? = "",
+    @SerializedName("orderNumber")
+    var orderNumber: Long? = null,
+    @SerializedName("communityId")
+    var communityId: String? = ""
 ) : Item {
 
-    override var path: String = "bike"
-
+    @SerializedName("path")
+    override var path: String = "bikes"
+    @SerializedName("id")
     override var id: String? = null
-
+    @SerializedName("available")
     override var isAvailable: Boolean = true
 
-    @field:JvmField
+    @SerializedName("createdDate")
+    var createdDate: String?
+    @SerializedName("inUse")
     var inUse: Boolean = false
+    @SerializedName("photoPath")
+    var photoPath: String? = ""
+    @SerializedName("photoThumbnailPath")
+    var photoThumbnailPath: String? = ""
 
     init {
         val date = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        created_date = dateFormat.format(date)
+        createdDate = dateFormat.format(date)
     }
 
     override fun title(): String {
@@ -38,11 +46,11 @@ data class Bike(
     }
 
     override fun subtitle(): String {
-        return "Ordem: $order_number | Série: $serial_number"
+        return "Ordem: $orderNumber | Série: $serialNumber"
     }
 
     override fun iconPath(): String {
-        return photo_thumbnail_path ?: photo_path
+        return photoThumbnailPath ?: photoPath
         ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 }

@@ -24,10 +24,11 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
         }
     }
 
-    private fun filterInUseBikes(list: List<Bike>) =
-        list.filter {
+    private fun filterInUseBikes(list: List<Bike>): List<Bike> {
+        return list.filter {
             it.inUse
         }
+    }
 
     private fun formatAnswer(list: List<Bike>): SimpleResult<List<Bike>> {
         return when (list.isNotEmpty()) {
