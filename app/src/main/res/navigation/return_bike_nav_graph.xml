@@ -8,9 +8,9 @@
 
     <fragment
             android:id="@+id/returnBikeFragment"
-            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes.StepOneBikesFragment"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragment"
             android:label="@string/return_bike_toolbar_title"
-            tools:layout="@layout/fragment_step_one_bikes" >
+            tools:layout="@layout/fragment_step_one_return_bike">
         <action
                 android:id="@+id/action_returnBikeFragment_to_stepFinalReturnBikeFragment"
                 app:destination="@id/stepFinalReturnBikeFragment"
@@ -24,5 +24,5 @@
             android:id="@+id/stepFinalReturnBikeFragment"
             android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeFragment"
             android:label="StepFinalReturnBikeFragment"
-            tools:layout="@layout/fragment_step_final_return_bike"/>
+            tools:layout="@layout/fragment_step_final_return_bike" />
 </navigation>

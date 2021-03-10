@@ -40,10 +40,10 @@ class BikeFormViewModel(
 
     fun updateBikeValues(bike: Bike) {
         bike.apply {
-            serialNumber.value = this.serial_number
-            bikeName.value = this.name
-            orderNumber.value = this.order_number.toString()
-            imagePath.value = this.photo_path
+            this@BikeFormViewModel.serialNumber.value = this.serialNumber
+            this@BikeFormViewModel.bikeName.value = this.name
+            this@BikeFormViewModel.orderNumber.value = this.orderNumber.toString()
+            this@BikeFormViewModel.imagePath.value = this.photoPath
         }
         this.bike = bike
         isEditModeAvailable = true
@@ -74,7 +74,7 @@ class BikeFormViewModel(
     }
 
     private suspend fun updateBike(bike: Bike) {
-        bikeFormUseCase.startUpdateBike(communityId = community.id, bike = bike).let {
+        bikeFormUseCase.startUpdateBike(bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data.name)
                 is SimpleResult.Error -> resultError()
@@ -83,7 +83,7 @@ class BikeFormViewModel(
     }
 
     private suspend fun addNewBike(bike: Bike) {
-        bikeFormUseCase.addNewBike(communityId = community.id, bike = bike).let {
+        bikeFormUseCase.addNewBike(bike = bike).let {
             when (it) {
                 is SimpleResult.Success -> resultSuccess(it.data.name)
                 is SimpleResult.Error -> resultError()
@@ -93,10 +93,11 @@ class BikeFormViewModel(
 
     private fun getNewBike(): Bike {
         return bike.apply {
-            name = bikeName.value
-            serial_number = serialNumber.value
-            order_number = orderNumber.value?.toLong()
-            path = imagePath.value.orEmpty()
+            name = this@BikeFormViewModel.bikeName.value
+            serialNumber = this@BikeFormViewModel.serialNumber.value
+            orderNumber = this@BikeFormViewModel.orderNumber.value?.toLong()
+            path = this@BikeFormViewModel.imagePath.value.orEmpty()
+            communityId = community.id
         }
     }
 

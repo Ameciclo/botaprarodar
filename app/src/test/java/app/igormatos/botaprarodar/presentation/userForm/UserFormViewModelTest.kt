@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.userSimpleSuccess
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -77,8 +78,8 @@ class UserFormViewModelTest {
         formViewModel.userDocument.value = "1"
         val userFake = slot<User>()
         coEvery {
-            userUseCase.addUser(community.id, capture(userFake))
-        } returns SimpleResult.Success("")
+            userUseCase.addUser(capture(userFake))
+        } returns userSimpleSuccess
 
         formViewModel.registerUser()
         assertTrue(formViewModel.status.value is ViewModelStatus.Success)
@@ -89,7 +90,7 @@ class UserFormViewModelTest {
         formViewModel.userDocument.value = "1"
         val userFake = slot<User>()
         coEvery {
-            userUseCase.addUser(community.id, capture(userFake))
+            userUseCase.addUser(capture(userFake))
         } returns SimpleResult.Error(Exception())
 
         formViewModel.registerUser()
@@ -102,14 +103,14 @@ class UserFormViewModelTest {
 
         assertEquals(userFake.name, formViewModel.userCompleteName.value)
         assertEquals(userFake.address, formViewModel.userAddress.value)
-        assertEquals(userFake.doc_number.toString(), formViewModel.userDocument.value)
-        assertEquals(userFake.profile_picture, formViewModel.userImageProfile.value)
+        assertEquals(userFake.docNumber.toString(), formViewModel.userDocument.value)
+        assertEquals(userFake.profilePicture, formViewModel.userImageProfile.value)
         assertEquals(
-            userFake.residence_proof_picture,
+            userFake.residenceProofPicture,
             formViewModel.userImageDocumentResidence.value
         )
-        assertEquals(userFake.doc_picture, formViewModel.userImageDocumentFront.value)
-        assertEquals(userFake.doc_picture_back, formViewModel.userImageDocumentBack.value)
+        assertEquals(userFake.docPicture, formViewModel.userImageDocumentFront.value)
+        assertEquals(userFake.docPictureBack, formViewModel.userImageDocumentBack.value)
         assertEquals(userFake.gender, formViewModel.userGender.value)
     }
 
@@ -125,8 +126,8 @@ class UserFormViewModelTest {
         formViewModel.isEditableAvailable = true
         val userFake = slot<User>()
         coEvery {
-            userUseCase.updateUser(community.id, capture(userFake))
-        } returns SimpleResult.Success("")
+            userUseCase.startUpdateUser(capture(userFake))
+        } returns userSimpleSuccess
 
         formViewModel.registerUser()
         assertTrue(formViewModel.status.value is ViewModelStatus.Success)
@@ -138,7 +139,7 @@ class UserFormViewModelTest {
         formViewModel.isEditableAvailable = true
         val userFake = slot<User>()
         coEvery {
-            userUseCase.updateUser(community.id, capture(userFake))
+            userUseCase.startUpdateUser(capture(userFake))
         } returns SimpleResult.Error(Exception())
 
         formViewModel.registerUser()

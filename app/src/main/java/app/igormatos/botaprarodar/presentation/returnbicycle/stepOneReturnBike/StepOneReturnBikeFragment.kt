@@ -1,47 +1,34 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
-import app.igormatos.botaprarodar.databinding.FragmentStepOneBikesBinding
+import app.igormatos.botaprarodar.databinding.FragmentStepOneReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.adapter.StepOneBikesAdapter
-import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeFragment
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import com.brunotmgomes.ui.SimpleResult
-import kotlinx.android.synthetic.main.fragment_step_one_bikes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterClickListener {
+class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterClickListener {
 
     private val stepOneBikesAdapter = StepOneBikesAdapter(this)
-    private lateinit var binding: FragmentStepOneBikesBinding
+    private lateinit var binding: FragmentStepOneReturnBikeBinding
     private val preferencesModule: SharedPreferencesModule by inject()
-    private val viewModel: StepOneBikesViewModel by viewModel()
+    private val viewModel: StepOneReturnBikeViewModel by viewModel()
 
     private val navController: NavController by lazy {
         findNavController()
@@ -52,7 +39,12 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_step_one_bikes, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_step_one_return_bike,
+                container,
+                false
+            )
         return binding.root
     }
 
@@ -61,7 +53,7 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
 
         initUI()
         initObservable()
-//        viewModel.setInitialStep()
+        viewModel.setInitialStep()
     }
 
     fun initUI() {
@@ -85,10 +77,10 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
     }
 
     override fun bikeOnClickListener(bike: Bike) {
-        viewModel.setReturnBike(bike)
+        viewModel.setBike(bike)
         viewModel.navigateToNextStep()
         val direction =
-            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
+            StepOneReturnBikeFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
         navController.navigate(direction)
         Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }

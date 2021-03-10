@@ -45,11 +45,19 @@ class BikeFormActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = formViewModel
 
+        setupToolbar()
         onClickBicyclePhotoImage()
         waitBicycleRegisterResult()
         checkEditMode()
         loadingDialog = createLoading(R.layout.loading_dialog_animation)
 
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun checkEditMode() {
@@ -64,6 +72,12 @@ class BikeFormActivity : AppCompatActivity() {
 
     private fun onClickBicyclePhotoImage() {
         binding.bikePhotoImageView.setOnClickListener {
+            takePictureIntent(REQUEST_PHOTO) { path ->
+                this.imagePath = path
+            }
+        }
+
+        binding.addPhotoTextView.setOnClickListener {
             takePictureIntent(REQUEST_PHOTO) { path ->
                 this.imagePath = path
             }
@@ -103,7 +117,10 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun setValuesToEditBike(bike: Bike?) {
-        bike?.let { formViewModel.updateBikeValues(it) }
+        bike?.let {
+            formViewModel.updateBikeValues(it)
+            setImageVisibilities()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -111,7 +128,13 @@ class BikeFormActivity : AppCompatActivity() {
         if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK) {
             imagePath?.let {
                 binding.viewModel?.updateImagePath(it)
+                setImageVisibilities()
             }
         }
+    }
+
+    private fun setImageVisibilities() {
+        binding.cameraImageView.visible()
+        binding.addPhotoTextView.gone()
     }
 }
