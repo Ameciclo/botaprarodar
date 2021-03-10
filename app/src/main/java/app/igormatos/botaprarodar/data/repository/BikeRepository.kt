@@ -38,7 +38,7 @@ class BikeRepository(
     ): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.addNewBike(communityId, bicycle)
+                bicycleApi.addNewBike(bicycle)
             }
         }
     }

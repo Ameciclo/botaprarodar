@@ -11,9 +11,8 @@ interface BicycleApi {
     @GET("/communities/{communityId}/bicycles.json")
     fun getBicycles(@Path("communityId") communityId: String): Deferred<Map<String, Bike>>
 
-    @POST("/communities/{communityId}/bicycles.json")
+    @POST("bikes.json")
     suspend fun addNewBike(
-        @Path("communityId") communityId: String,
         @Body bicycle: BicycleRequest
     ): AddDataResponse
 

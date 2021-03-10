@@ -64,12 +64,16 @@ class ReturnBikeActivity : AppCompatActivity() {
         })
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp()
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        return navController.navigateUp()
+//    }
 
     override fun finish() {
         super.finish()
-        viewModel.stepper.backToInitialState()
+//        viewModel.stepper.backToInitialState()
     }
 }

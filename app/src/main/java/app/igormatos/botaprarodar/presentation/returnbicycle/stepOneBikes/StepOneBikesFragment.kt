@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -58,6 +61,7 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
 
         initUI()
         initObservable()
+//        viewModel.setInitialStep()
     }
 
     fun initUI() {
@@ -82,7 +86,7 @@ class StepOneBikesFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAdapterC
 
     override fun bikeOnClickListener(bike: Bike) {
         viewModel.setReturnBike(bike)
-        viewModel.stepperAdapter.navigateToNext()
+        viewModel.navigateToNextStep()
         val direction =
             StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
         navController.navigate(direction)
