@@ -48,7 +48,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                         when (item) {
                             is User -> {
                                 item.name!!.contains(searchWord, true) ||
-                                        item.doc_number.toString().contains(searchWord, true)
+                                        item.docNumber.toString().contains(searchWord, true)
                             }
                             else -> {
                                 return@filter true
