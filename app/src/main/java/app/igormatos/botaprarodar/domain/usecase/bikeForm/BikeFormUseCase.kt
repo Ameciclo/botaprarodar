@@ -9,28 +9,27 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 
 private const val FIREBASE_URL = "https://"
+private const val PATH = "bikes"
 
 class BikeFormUseCase(
     private val bikeRepository: BikeRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository
 ) {
 
-    private val bike = BikeRequestConvert()
-
-    suspend fun addNewBike(communityId: String, bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun addNewBike(bike: Bike): SimpleResult<AddDataResponse> {
         val imageResponse = uploadImage(bike)
-        return saveBike(imageResponse, bike, communityId) { _, _ ->
-            registerBike(bike, communityId)
+        return saveBike(imageResponse, bike) {
+            registerBike(it)
         }
     }
 
-    suspend fun startUpdateBike(communityId: String, bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun startUpdateBike(bike: Bike): SimpleResult<AddDataResponse> {
         return if (bike.path.contains(FIREBASE_URL)) {
-            updateBike(bike, communityId)
+            updateBike(bike)
         } else {
             val imageResponse = uploadImage(bike)
-            saveBike(imageResponse, bike, communityId) { _, _ ->
-                updateBike(bike, communityId)
+            saveBike(imageResponse, bike) {
+                updateBike(it)
             }
         }
     }
@@ -38,13 +37,12 @@ class BikeFormUseCase(
     private suspend fun saveBike(
         imageResponse: SimpleResult<ImageUploadResponse>?,
         bike: Bike,
-        communityId: String,
-        actionFunction: suspend (Bike, String) -> SimpleResult<AddDataResponse>
+        actionFunction: suspend (Bike) -> SimpleResult<AddDataResponse>
     ): SimpleResult<AddDataResponse> {
         return when (imageResponse) {
             is SimpleResult.Success -> {
                 setupBike(bike, imageResponse.data)
-                actionFunction(bike, communityId)
+                actionFunction(bike)
             }
             is SimpleResult.Error -> {
                 SimpleResult.Error(imageResponse.exception)
@@ -56,7 +54,7 @@ class BikeFormUseCase(
     }
 
     private suspend fun uploadImage(bike: Bike) =
-        bike.serial_number?.let {
+        bike.serialNumber?.let {
             firebaseHelperRepository.uploadImageAndThumb(
                 bike.path,
                 "community/bike/$it"
@@ -64,23 +62,17 @@ class BikeFormUseCase(
         }
 
     private fun setupBike(bike: Bike, imageResponse: ImageUploadResponse) {
-        bike.photo_path = imageResponse.fullImagePath
-        bike.photo_thumbnail_path = imageResponse.thumbPath
+        bike.photoPath = imageResponse.fullImagePath
+        bike.photoThumbnailPath = imageResponse.thumbPath
+        bike.path = PATH
     }
 
-    private suspend fun registerBike(
-        bike: Bike,
-        communityId: String
-    ): SimpleResult<AddDataResponse> {
-        val bicycleRequest = this.bike.convert(bike)
-        return bikeRepository.addNewBike(communityId, bicycleRequest)
+    private suspend fun registerBike(bike: Bike): SimpleResult<AddDataResponse> {
+        return bikeRepository.addNewBike(bike)
     }
 
-    private suspend fun updateBike(
-        bike: Bike,
-        communityId: String
-    ): SimpleResult<AddDataResponse> {
-            val bicycleRequest = this.bike.convert(bike)
-            return bikeRepository.updateBike(communityId, bicycleRequest)
+    private suspend fun updateBike(bike: Bike): SimpleResult<AddDataResponse> {
+        bike.path = PATH
+        return bikeRepository.updateBike(bike)
     }
 }

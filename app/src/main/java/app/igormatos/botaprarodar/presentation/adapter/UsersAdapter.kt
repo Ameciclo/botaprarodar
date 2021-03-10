@@ -44,7 +44,7 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
                 } else {
                     users.filter { item ->
                         item.name!!.contains(searchWord, true) ||
-                                item.doc_number.toString().contains(searchWord, true)
+                                item.docNumber.toString().contains(searchWord, true)
                     }.toMutableList()
                 }
 
@@ -69,13 +69,13 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
 
         fun bind(user: User) {
             itemView.findViewById<TextView>(R.id.tv_name_user_item).text = user.title()
-            user.profile_picture_thumbnail?.let { profileImage ->
+            user.profilePictureThumbnail?.let { profileImage ->
                 itemView.findViewById<ImageView>(R.id.iv_user_item).loadPathOnCircle(
                     profileImage
                 )
             }
             itemView.findViewById<TextView>(R.id.tv_registered_since_user_item).text =
-                itemView.context.getString(R.string.user_created_since, user.created_date)
+                itemView.context.getString(R.string.user_created_since, user.createdDate)
 
             itemView.setOnClickListener {
                 listener.onUserClicked(user)

@@ -1,7 +1,5 @@
 package app.igormatos.botaprarodar.data.repository
 
-import android.util.Log
-import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.safeApiCall
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
@@ -31,24 +29,18 @@ class BikeRepository(
         }
     }
 
-    suspend fun addNewBike(
-        communityId: String,
-        bicycle: BicycleRequest
-    ): SimpleResult<AddDataResponse> {
+    suspend fun addNewBike(bike: Bike): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.addNewBike(communityId, bicycle)
+                bicycleApi.addNewBike(bike)
             }
         }
     }
 
-    suspend fun updateBike(
-        communityId: String,
-        bicycle: BicycleRequest
-    ): SimpleResult<AddDataResponse> {
+    suspend fun updateBike(bike: Bike): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.updateBike(communityId, bicycle.id, bicycle)
+                bicycleApi.updateBike(bike.id.orEmpty(), bike)
             }
         }
     }
@@ -62,48 +54,44 @@ class BikeRepository(
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val items = dataSnapshot.children.map { data ->
-                    verifyItemIdAndUpdate(data.getValue(Bike::class.java)!!, data, communityId)
+                    verifyItemIdAndUpdate(data.getValue(Bike::class.java)!!, data)
                     data.getValue(Bike::class.java)
                 }
                 this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
             }
         }
 
-        firebaseReference(communityId)
+        firebaseReference()
             .orderByChild(REFERENCE_AVAILABLE)
             .equalTo(true)
             .addValueEventListener(postListener)
 
         awaitClose {
             firebaseDatabase
-                .getReference(REFERENCE_COMMUNITIES)
+                .getReference(REFERENCE_BICYCLES)
                 .removeEventListener(postListener)
         }
     }
 
     private fun verifyItemIdAndUpdate(
         bike: Bike,
-        snapshot: DataSnapshot,
-        communityId: String
+        snapshot: DataSnapshot
     ) {
         if (bike.id.isNullOrEmpty()) {
             snapshot.key?.let { key ->
                 bike.id = key
-                firebaseReference(communityId).child(key).setValue(bike)
+                firebaseReference().child(key).setValue(bike)
             }
         }
     }
 
-    private fun firebaseReference(communityId: String): DatabaseReference {
+    private fun firebaseReference(): DatabaseReference {
         return firebaseDatabase
-            .getReference(REFERENCE_COMMUNITIES)
-            .child(communityId)
-            .child(REFERENCE_BICYCLES)
+            .getReference(REFERENCE_BICYCLES)
     }
 
     companion object {
-        private const val REFERENCE_BICYCLES = "bicycles"
-        private const val REFERENCE_COMMUNITIES = "communities"
+        private const val REFERENCE_BICYCLES = "bikes"
         private const val REFERENCE_AVAILABLE = "available"
     }
 }
