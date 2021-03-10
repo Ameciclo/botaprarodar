@@ -5,6 +5,7 @@ import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.utils.addDataResponseBike
 import app.igormatos.botaprarodar.utils.bicycleRequest
+import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.mapOfBikes
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
@@ -70,9 +71,9 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should add new bicycle`() = runBlocking {
-            coEvery { api.addNewBike(any(), any()) } returns addDataResponseBike
+            coEvery { api.addNewBike(any()) } returns addDataResponseBike
 
-            val response = repository.addNewBike("1000", bicycleRequest)
+            val response = repository.addNewBike(bike)
             val result = response as SimpleResult.Success<AddDataResponse>
 
             assertEquals(SimpleResult.Success(addDataResponseBike), result)

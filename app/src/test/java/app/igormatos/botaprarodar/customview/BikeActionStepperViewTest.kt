@@ -10,6 +10,7 @@ import junit.framework.Assert.assertEquals
 import kotlinx.android.synthetic.main.layout_bike_action_stepper.view.*
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin

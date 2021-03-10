@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="viewModel"
                 type="app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel" />
@@ -24,7 +23,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="Bicicletas"
                 android:textAllCaps="true"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/gray_2"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +37,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:backgroundTint="@color/white"
                 android:paddingVertical="@dimen/padding_24"
-                android:text="Cadastrar bicleta"
+                android:text="@string/btn_register_bicycle"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 app:icon="@drawable/ic_add"
