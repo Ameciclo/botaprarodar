@@ -71,7 +71,7 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     }
 
     override fun bikeOnClickListener(bike: Bike) {
-        viewModel.setReturnBike(bike)
+        viewModel.setBike(bike)
         viewModel.navigateToNextStep()
 //        val direction =
 //            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()

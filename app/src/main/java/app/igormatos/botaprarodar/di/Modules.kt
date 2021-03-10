@@ -12,6 +12,7 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -31,6 +32,7 @@ import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewM
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
@@ -226,8 +228,14 @@ val bprModule = module {
         StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
     }
 
+    single { BikeHolder() }
+
     single {
-        StepOneReturnBikeViewModel(stepOneReturnBikeUseCase = get(), stepperAdapter = get())
+        StepOneReturnBikeViewModel(
+            stepOneReturnBikeUseCase = get(),
+            stepperAdapter = get(),
+            bikeHolder = get()
+        )
     }
 
     single {
