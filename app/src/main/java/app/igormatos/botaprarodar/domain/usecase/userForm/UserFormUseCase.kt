@@ -4,6 +4,7 @@ import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
 
@@ -20,59 +21,40 @@ class UserFormUseCase(
     private var documentBackSimpleResult: SimpleResult<ImageUploadResponse>? = null
     private var residenceSimpleResult: SimpleResult<ImageUploadResponse>? = null
 
-    suspend fun addUser(communityId: String, user: User): SimpleResult<String> {
+    suspend fun addUser(user: User): SimpleResult<AddDataResponse> {
         uploadImages(user)
         if (!checkAllImagesSuccess()) {
             return SimpleResult.Error(Exception(""))
         }
-        return saveUser(user, communityId) { _, _ ->
-            registerUser(user, communityId)
+        return saveUser(user) {
+            registerUser(it)
         }
     }
 
-    suspend fun updateUser(communityId: String, user: User): SimpleResult<String> {
+    suspend fun startUpdateUser(user: User): SimpleResult<AddDataResponse> {
         uploadImages(user)
         if (!checkAllImagesSuccess()) {
             return SimpleResult.Error(Exception(""))
         }
-        return saveUser(user, communityId) { _, _ ->
-            updateUser(user, communityId)
+        return saveUser(user) {
+            updateUser(it)
         }
     }
 
     private suspend fun saveUser(
         user: User,
-        communityId: String,
-        actionFunction: suspend (User, String) -> SimpleResult<String>
-    ): SimpleResult<String> {
+        actionFunction: suspend (User) -> SimpleResult<AddDataResponse>
+    ): SimpleResult<AddDataResponse> {
         setUserImages(user)
-        return actionFunction(user, communityId)
+        return actionFunction(user)
     }
 
-    private suspend fun registerUser(
-        user: User,
-        communityId: String
-    ): SimpleResult<String> {
-        return try {
-            val userRequest = this.userConverter.convert(user)
-            val result = userRepository.addNewUser(communityId, userRequest)
-            SimpleResult.Success(result)
-        } catch (exception: Exception) {
-            SimpleResult.Error(exception)
-        }
+    private suspend fun registerUser(user: User): SimpleResult<AddDataResponse> {
+        return userRepository.addNewUser(user)
     }
 
-    private suspend fun updateUser(
-        user: User,
-        communityId: String
-    ): SimpleResult<String> {
-        return try {
-            val userRequest = this.userConverter.convert(user)
-            val result = userRepository.updateUser(communityId, userRequest)
-            SimpleResult.Success(result)
-        } catch (exception: Exception) {
-            SimpleResult.Error(exception)
-        }
+    private suspend fun updateUser(user: User): SimpleResult<AddDataResponse> {
+        return userRepository.updateUser(user)
     }
 
     private fun checkAllImagesSuccess(): Boolean {
@@ -83,26 +65,26 @@ class UserFormUseCase(
     }
 
     private suspend fun uploadImages(user: User) {
-        checkFirebaseUrl(user.profile_picture, user, profileSimpleResult) {
+        checkFirebaseUrl(user.profilePicture, user, profileSimpleResult) {
             uploadProfileImage(user)
         }
-        checkFirebaseUrl(user.doc_picture, user, documentFrontSimpleResult) {
-            uploadOnlyImages(user.doc_picture, user.doc_number, documentFrontSimpleResult)
+        checkFirebaseUrl(user.docPicture, user, documentFrontSimpleResult) {
+            uploadOnlyImages(user.docPicture, user.docNumber, documentFrontSimpleResult)
         }
-        checkFirebaseUrl(user.doc_picture_back, user, documentBackSimpleResult) {
-            uploadOnlyImages(user.doc_picture_back, user.doc_number, documentBackSimpleResult)
+        checkFirebaseUrl(user.docPictureBack, user, documentBackSimpleResult) {
+            uploadOnlyImages(user.docPictureBack, user.docNumber, documentBackSimpleResult)
         }
-        checkFirebaseUrl(user.residence_proof_picture, user, residenceSimpleResult) {
-            uploadOnlyImages(user.residence_proof_picture, user.doc_number, residenceSimpleResult)
+        checkFirebaseUrl(user.residenceProofPicture, user, residenceSimpleResult) {
+            uploadOnlyImages(user.residenceProofPicture, user.docNumber, residenceSimpleResult)
         }
     }
 
     private suspend fun uploadProfileImage(user: User) {
         if (profileSimpleResult == null || profileSimpleResult is SimpleResult.Error) {
-            user.profile_picture?.let { path ->
+            user.profilePicture?.let { path ->
                 firebaseHelperRepository.uploadImageAndThumb(
                     path,
-                    "community/user/${user.doc_number}"
+                    "community/user/${user.docNumber}"
                 ).also { profileSimpleResult = it }
             }
         }
@@ -143,11 +125,11 @@ class UserFormUseCase(
         val docBack = (documentBackSimpleResult as SimpleResult.Success).data
         val residence = (residenceSimpleResult as SimpleResult.Success).data
 
-        user.profile_picture = profile.fullImagePath
-        user.profile_picture_thumbnail = profile.thumbPath
-        user.residence_proof_picture = residence.fullImagePath
-        user.doc_picture = docFront.fullImagePath
-        user.doc_picture_back = docBack.fullImagePath
+        user.profilePicture = profile.fullImagePath
+        user.profilePictureThumbnail = profile.thumbPath
+        user.residenceProofPicture = residence.fullImagePath
+        user.docPicture = docFront.fullImagePath
+        user.docPictureBack = docBack.fullImagePath
     }
 
     private suspend fun checkFirebaseUrl(
@@ -176,15 +158,15 @@ class UserFormUseCase(
     ) {
         when (simpleResultToUpdate) {
             profileSimpleResult -> profileSimpleResult = getSimpleResultSuccess(
-                user.profile_picture,
-                user.profile_picture_thumbnail
+                user.profilePicture,
+                user.profilePictureThumbnail
             )
             documentFrontSimpleResult ->
-                documentFrontSimpleResult = getSimpleResultSuccess(user.doc_picture)
+                documentFrontSimpleResult = getSimpleResultSuccess(user.docPicture)
             documentBackSimpleResult ->
-                documentBackSimpleResult = getSimpleResultSuccess(user.doc_picture_back)
+                documentBackSimpleResult = getSimpleResultSuccess(user.docPictureBack)
             residenceSimpleResult ->
-                residenceSimpleResult = getSimpleResultSuccess(user.residence_proof_picture)
+                residenceSimpleResult = getSimpleResultSuccess(user.residenceProofPicture)
             else -> {
             }
         }
