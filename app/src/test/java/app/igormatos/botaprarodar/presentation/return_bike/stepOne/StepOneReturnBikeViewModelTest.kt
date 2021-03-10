@@ -2,9 +2,12 @@ package app.igormatos.botaprarodar.presentation.return_bike.stepOne
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
+import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
@@ -15,7 +18,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 @ExperimentalCoroutinesApi
 class StepOneReturnBikeViewModelTest {
 
@@ -24,11 +26,12 @@ class StepOneReturnBikeViewModelTest {
 
     private val stepperAdapter = spyk(StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE))
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
+    private val bikeHolder = mockk<BikeHolder>()
     private lateinit var viewModel: StepOneReturnBikeViewModel
 
     @Before
     fun setup() {
-        viewModel = StepOneReturnBikeViewModel(stepperAdapter, stepOneReturnBikeUseCase)
+        viewModel = StepOneReturnBikeViewModel(stepperAdapter, stepOneReturnBikeUseCase, bikeHolder)
     }
 
     @Test
@@ -61,5 +64,4 @@ class StepOneReturnBikeViewModelTest {
 
         assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
     }
-
 }
