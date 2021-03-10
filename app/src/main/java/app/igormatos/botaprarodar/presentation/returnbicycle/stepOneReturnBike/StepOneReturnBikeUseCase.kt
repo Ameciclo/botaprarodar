@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneBikes
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.converter.bicycle.ListBicyclesConverter
