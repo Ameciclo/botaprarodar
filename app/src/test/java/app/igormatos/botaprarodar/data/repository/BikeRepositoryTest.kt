@@ -51,9 +51,9 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should return all bicycles of community`() = runBlocking {
-            coEvery { api.getBicycles(any()).await() } returns mapOfBikes
+            coEvery { api.getBicycles().await() } returns mapOfBikes
 
-            val response = repository.getBicycles("1000")
+            val response = repository.getBicycles()
             val result = (response as SimpleResult.Success<Map<String, Bike>>).data
 
             assertNotNull(result)

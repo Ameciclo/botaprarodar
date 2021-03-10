@@ -22,10 +22,10 @@ class BikeRepository(
 
     lateinit var postListener: ValueEventListener
 
-    suspend fun getBicycles(communityId: String): SimpleResult<Map<String, Bike>> {
+    suspend fun getBicycles(): SimpleResult<Map<String, Bike>> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.getBicycles(communityId = communityId).await()
+                bicycleApi.getBicycles().await()
             }
         }
     }
