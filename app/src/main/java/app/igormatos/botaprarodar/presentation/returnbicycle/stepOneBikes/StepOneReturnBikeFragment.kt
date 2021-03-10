@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -27,6 +29,10 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     private val preferencesModule: SharedPreferencesModule by inject()
     private val viewModel: StepOneReturnBikeViewModel by viewModel()
 
+    private val navController: NavController by lazy {
+        findNavController()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +47,7 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
 
         initUI()
         initObservable()
+        viewModel.setInitialStep()
     }
 
     fun initUI() {
@@ -65,7 +72,10 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
 
     override fun bikeOnClickListener(bike: Bike) {
         viewModel.setReturnBike(bike)
-        viewModel.stepperAdapter.navigateToNext()
+        viewModel.navigateToNextStep()
+//        val direction =
+//            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
+//        navController.navigate(direction)
         Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }
 }
