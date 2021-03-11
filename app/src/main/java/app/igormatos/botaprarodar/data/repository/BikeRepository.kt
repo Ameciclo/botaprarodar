@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.*
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -21,10 +22,10 @@ class BikeRepository(
 
     lateinit var postListener: ValueEventListener
 
-    suspend fun getBicycles(communityId: String): SimpleResult<Map<String, Bike>> {
+    suspend fun getBicycles(): SimpleResult<Map<String, Bike>> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.getBicycles(communityId = communityId).await()
+                bicycleApi.getBicycles().await()
             }
         }
     }

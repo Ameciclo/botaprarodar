@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.domain.model
 
 import com.google.firebase.database.IgnoreExtraProperties
-import com.google.firebase.database.PropertyName
 import com.google.gson.annotations.SerializedName
 import org.parceler.Parcel
 import java.text.SimpleDateFormat
@@ -30,11 +29,13 @@ data class Bike(
     @SerializedName("createdDate")
     var createdDate: String?
     @SerializedName("inUse")
-    var inUse: Boolean? = false
+    var inUse: Boolean = false
     @SerializedName("photoPath")
     var photoPath: String? = ""
     @SerializedName("photoThumbnailPath")
     var photoThumbnailPath: String? = ""
+//    @SerializedName("withdraw")
+//    var withdraw: Withdraw? = null
 
     init {
         val date = Calendar.getInstance().time
