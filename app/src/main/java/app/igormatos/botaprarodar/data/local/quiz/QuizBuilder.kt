@@ -1,5 +1,7 @@
 package app.igormatos.botaprarodar.data.local.quiz
 
+import kotlin.jvm.Throws
+
 interface QuizBuilder {
     val answers: List<QuizAnswer>
     val missingAnswers: List<QuizAnswerName>

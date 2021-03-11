@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.data.local.quiz
 
-class ReturnBikeQuizBuilder : QuizBuilder {
+class BikeDevolutionQuizBuilder : QuizBuilder {
     override val answers = mutableListOf<QuizAnswer>()
 
     override val missingAnswers = mutableListOf(
@@ -17,36 +17,36 @@ class ReturnBikeQuizBuilder : QuizBuilder {
     }
 
 
-    fun withAnswer1(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer1(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_1)
         return this
     }
 
 
-    fun withAnswer2(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer2(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_2)
 
         return this
     }
 
-    fun withAnswer3(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer3(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_3)
 
         return this
     }
 
-    fun withAnswer4(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer4(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_4)
 
         return this
     }
 
-    fun withAnswer5(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer5(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_5)
         return this
     }
 
-    fun withAnswer6(answer: Any): ReturnBikeQuizBuilder {
+    fun withAnswer6(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_6)
         return this
     }

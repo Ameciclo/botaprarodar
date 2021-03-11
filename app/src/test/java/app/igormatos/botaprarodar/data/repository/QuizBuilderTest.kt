@@ -41,7 +41,7 @@ class QuizBuilderTest {
             6
         )
 
-        val quizBuilder = ReturnBikeQuizBuilder().apply {
+        val quizBuilder = BikeDevolutionQuizBuilder().apply {
             withAnswer1(expectedAnswers[0])
             withAnswer2(expectedAnswers[1])
             withAnswer3(expectedAnswers[2])
@@ -65,7 +65,7 @@ class QuizBuilderTest {
             DevolutionQuizAnswerName.RESPOSTA_5.getQuizName(),
         )
 
-        val quizBuilder = ReturnBikeQuizBuilder().apply {
+        val quizBuilder = BikeDevolutionQuizBuilder().apply {
             withAnswer1("")
         }
 
