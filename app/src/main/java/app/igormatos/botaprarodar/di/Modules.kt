@@ -35,6 +35,7 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
@@ -220,15 +221,15 @@ val bprModule = module {
 
     //Return Bikes
 
-    single {
-        StepOneReturnBikeUseCase(bikeRepository = get())
-    }
+    single { BikeHolder() }
 
     single {
         StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
     }
 
-    single { BikeHolder() }
+    single {
+        StepOneReturnBikeUseCase(bikeRepository = get())
+    }
 
     single {
         StepOneReturnBikeViewModel(
@@ -236,6 +237,10 @@ val bprModule = module {
             stepperAdapter = get(),
             bikeHolder = get()
         )
+    }
+
+    single {
+        StepFinalReturnBikeViewModel(stepperAdapter = get(), bikeHolder = get())
     }
 
     single {
