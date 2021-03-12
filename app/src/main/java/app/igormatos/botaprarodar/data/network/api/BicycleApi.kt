@@ -14,12 +14,12 @@ interface BicycleApi {
 
     @POST("bikes.json")
     suspend fun addNewBike(
-        @Body bicycle: Bike
+        @Body bike: BikeRequest
     ): AddDataResponse
 
     @PATCH("/bikes/{bikeId}.json")
     suspend fun updateBike(
         @Path("bikeId") bikeId: String,
-        @Body bicycle: Bike
+        @Body bike: BikeRequest
     ): AddDataResponse
 }

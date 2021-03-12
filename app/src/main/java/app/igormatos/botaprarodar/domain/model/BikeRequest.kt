@@ -16,35 +16,24 @@ data class BikeRequest(
     @SerializedName("orderNumber")
     var orderNumber: Long? = null,
     @SerializedName("communityId")
-    var communityId: String? = ""
-) : Item {
-
+    var communityId: String? = "",
     @SerializedName("path")
-    override var path: String = "bikes"
-
+    override var path: String = "bikes",
     @SerializedName("id")
-    override var id: String? = null
-
+    override var id: String? = null,
     @SerializedName("available")
-    override var isAvailable: Boolean = true
-
+    override var isAvailable: Boolean = true,
     @SerializedName("createdDate")
-    var createdDate: String?
-
+    var createdDate: String? = "",
     @SerializedName("inUse")
-    var inUse: Boolean = false
-
+    var inUse: Boolean = false,
     @SerializedName("photoPath")
-    var photoPath: String? = ""
-
+    var photoPath: String? = "",
     @SerializedName("photoThumbnailPath")
-    var photoThumbnailPath: String? = ""
-
+    var photoThumbnailPath: String? = "",
     @SerializedName("withdraws")
-    var withdraws: Map<String, Withdraws>? = null
-//
-//    @SerializedName("devolutions")
-//    var devolutions: Map<String, Devolution>? = null
+    var withdraws: Map<String?, Withdraws?>? = null
+) : Item {
 
     init {
         val date = Calendar.getInstance().time

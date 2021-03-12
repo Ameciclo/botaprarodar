@@ -30,18 +30,18 @@ class BikeRepository(
         }
     }
 
-    suspend fun addNewBike(bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun addNewBike(bikeRequest: BikeRequest): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.addNewBike(bike)
+                bicycleApi.addNewBike(bikeRequest)
             }
         }
     }
 
-    suspend fun updateBike(bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun updateBike(bikeRequest: BikeRequest): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.updateBike(bike.id.orEmpty(), bike)
+                bicycleApi.updateBike(bikeRequest.id.orEmpty(), bikeRequest)
             }
         }
     }
