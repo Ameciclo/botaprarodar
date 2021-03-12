@@ -44,9 +44,6 @@ data class Bike(
     var withdraws: List<Withdraws?>? = null
 ) : Parcelable, Item {
 
-//    @SerializedName("devolutions")
-//    var devolutions: List<Devolution?>? = null
-
     init {
         val date = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
