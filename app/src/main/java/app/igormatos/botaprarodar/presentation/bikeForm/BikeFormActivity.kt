@@ -34,7 +34,7 @@ class BikeFormActivity : AppCompatActivity() {
 
         fun setupActivity(context: Context, bike: Bike?): Intent {
             val intent = Intent(context, BikeFormActivity::class.java)
-            intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, bike))
+            intent.putExtra(BIKE_EXTRA, bike)
             return intent
         }
     }
@@ -61,13 +61,20 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun checkEditMode() {
-        val parcelableBike: Parcelable? =
-            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
-
-        if (parcelableBike != null) {
-            val bike = Parcels.unwrap(parcelableBike) as Bike
-            setValuesToEditBike(bike)
+        if (intent.extras != null) {
+            val userExtra = intent.extras?.getParcelable<Bike>(BIKE_EXTRA)
+            setValuesToEditBike(userExtra)
         }
+//        val parcelableBike: Parcelable? =
+//            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
+
+//        val parcelableBike = intent.getParcelableExtra<Bike>(BIKE_EXTRA)
+
+
+//        if (parcelableBike != null) {
+//            val bike = Parcels.unwrap(parcelableBike) as Bike
+//            setValuesToEditBike(bike)
+//        }
     }
 
     private fun onClickBicyclePhotoImage() {
