@@ -2,7 +2,9 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.api.UserApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
+import app.igormatos.botaprarodar.utils.userFake
 import app.igormatos.botaprarodar.utils.userRequest
+import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.FirebaseDatabase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -26,23 +28,25 @@ class UserFormRepositoryTest {
     fun `when 'addNewUser' should add a user`() =
         runBlocking {
             coEvery {
-                mockApi.addUser(any(), any())
+                mockApi.addUser(any())
             } returns AddDataResponse("User registered")
 
-            val request = userRepository.addNewUser("100", userRequest)
+            val request = userRepository.addNewUser(userFake)
+            val result = request as SimpleResult.Success<AddDataResponse>
 
-            assertEquals("User registered", request)
+            assertEquals("User registered", result.data.name)
         }
 
     @Test
     fun `when 'updateUser' should edit a user`() =
         runBlocking {
             coEvery {
-                mockApi.updateUser(any(), any(), any())
+                mockApi.updateUser(any(), any())
             } returns AddDataResponse("User edited")
 
-            val request = userRepository.updateUser("100", userRequest)
+            val request = userRepository.updateUser(userFake)
+            val result = request as SimpleResult.Success<AddDataResponse>
 
-            assertEquals("User edited", request)
+            assertEquals("User edited", result.data.name)
         }
 }

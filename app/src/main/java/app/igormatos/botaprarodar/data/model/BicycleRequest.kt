@@ -22,5 +22,7 @@ data class BicycleRequest(
     @SerializedName("serial_number")
     var serialNumber: String,
     @SerializedName("created_date")
-    var createdDate: String
+    var createdDate: String,
+    @SerializedName("community_id")
+    var communityId: String = ""
 )

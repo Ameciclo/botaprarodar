@@ -8,19 +8,17 @@ import retrofit2.http.*
 
 interface BicycleApi {
 
-    @GET("/communities/{communityId}/bicycles.json")
-    fun getBicycles(@Path("communityId") communityId: String): Deferred<Map<String, Bike>>
+    @GET("bikes.json")
+    fun getBicycles(): Deferred<Map<String, Bike>>
 
-    @POST("/communities/{communityId}/bicycles.json")
+    @POST("bikes.json")
     suspend fun addNewBike(
-        @Path("communityId") communityId: String,
-        @Body bicycle: BicycleRequest
+        @Body bicycle: Bike
     ): AddDataResponse
 
-    @PATCH("/communities/{communityId}/bicycles/{bicycleId}.json")
+    @PATCH("/bikes/{bikeId}.json")
     suspend fun updateBike(
-        @Path("communityId") communityId: String,
-        @Path("bicycleId") bicycleId: String,
-        @Body bicycle: BicycleRequest
+        @Path("bikeId") bikeId: String,
+        @Body bicycle: Bike
     ): AddDataResponse
 }
