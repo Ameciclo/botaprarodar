@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/return_nav_graph"
+        app:startDestination="@id/returnBikeFragment">
+
+
+    <fragment
+            android:id="@+id/returnBikeFragment"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragment"
+            android:label="@string/return_bike_toolbar_title"
+            tools:layout="@layout/fragment_step_one_return_bike" />
+</navigation>

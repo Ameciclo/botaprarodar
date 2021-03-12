@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.BuildConfig
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
@@ -11,6 +12,7 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -30,6 +32,11 @@ import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewM
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.quiz.ReturnBikeQuizViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
@@ -86,7 +93,8 @@ val bprModule = module {
 
     viewModel {
         TripsViewModel(
-            bikeActionUseCase = get())
+            bikeActionUseCase = get()
+        )
     }
 
     viewModel {
@@ -119,7 +127,7 @@ val bprModule = module {
     }
 
     single {
-        AdminRemoteDataSource(get())
+        providesAdminDataSource(get())
     }
 
     single {
@@ -134,7 +142,7 @@ val bprModule = module {
         UserRequestConvert()
     }
 
-    single{
+    single {
         BikeActionUseCase()
     }
 
@@ -214,6 +222,31 @@ val bprModule = module {
     viewModel {
         UsersViewModel(get<UsersUseCase>())
     }
+
+    //Return Bikes
+
+    single {
+        StepOneReturnBikeUseCase(bikeRepository = get())
+    }
+
+    single {
+        StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
+    }
+
+    single { BikeHolder() }
+
+    single {
+        StepOneReturnBikeViewModel(
+            stepOneReturnBikeUseCase = get(),
+            stepperAdapter = get(),
+            bikeHolder = get()
+        )
+    }
+
+    single {
+        ReturnBikeViewModel(stepper = get())
+    }
+
 }
 
 fun provideEmailValidator(): Validator<String> {
@@ -227,4 +260,8 @@ private fun buildRetrofit(): Retrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
+}
+
+fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
+    return AdminRemoteDataSource(firebaseAuth)
 }

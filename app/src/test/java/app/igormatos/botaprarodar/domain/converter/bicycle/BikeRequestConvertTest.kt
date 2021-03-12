@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.domain.converter.bicycle
 
-import app.igormatos.botaprarodar.getBikeFixture
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.utils.generateBike
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -17,7 +17,7 @@ internal class BikeRequestConvertTest {
     inner class Convert {
         @Test
         fun `should convert bicycle to bicycleRequest`() {
-            var bike =  getBikeFixture("Bicycle Converted")
+            var bike =  generateBike("Bicycle Converted")
             val bicycleConverted = bikeRequestConverter.convert(bike)
 
             assertEquals("Bicycle Converted", bicycleConverted.name)

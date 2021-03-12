@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.RequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
@@ -20,6 +24,7 @@ import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
@@ -34,7 +39,7 @@ class TripsFragment : Fragment() {
     private val tripsViewModel: TripsViewModel by viewModel()
 
     val itemAdapter = WithdrawAdapter()
-    private val bikeActionMenuAdapter = BikeActionMenuAdapter()
+    private val bikeActionMenuAdapter = BikeActionMenuAdapter(BikeActionsMenuType.values().toMutableList(), ::navigateToReturnBikeActivity)
     var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
@@ -131,5 +136,11 @@ class TripsFragment : Fragment() {
                 bikeActionMenuAdapter.itemCount
             )
         )
+    }
+
+    private fun navigateToReturnBikeActivity(){
+        val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
+        findNavController().navigate(action)
+//      Navigation.findNavController(requireActivity(), R.id.action_navigationHome_to_returnBikeActivity)
     }
 }

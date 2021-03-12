@@ -14,6 +14,6 @@ class BprApplication : Application() {
             androidContext(this@BprApplication)
             modules(bprModule)
         }
-        Realm.init(this)
+//        Realm.init(this)
     }
 }

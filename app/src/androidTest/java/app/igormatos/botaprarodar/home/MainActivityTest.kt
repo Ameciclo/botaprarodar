@@ -13,7 +13,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.main.MainActivity
-import io.mockk.mockk
 import kotlinx.android.synthetic.main.activity_main.*
 import org.junit.Before
 import org.junit.Test
@@ -31,12 +30,10 @@ class MainActivityTest {
 
     @Test
     fun showTripsScreen_whenClickInBottomMenuListIcon() {
-        val navController = mockk<NavController>()
-
         scenario.onActivity {
+            val navController = NavController(it)
             Navigation.setViewNavController(it.activityMainContainer, navController)
         }
-
         onView(withId(R.id.navigationHome)).perform(click())
 
         onView(withId(R.id.listContainer)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -44,9 +41,9 @@ class MainActivityTest {
 
     @Test
     fun showUsersScreen_whenClickInBottomMenuListIcon() {
-        val navController = mockk<NavController>()
 
         scenario.onActivity {
+            val navController = NavController(it)
             Navigation.setViewNavController(it.activityMainContainer, navController)
         }
 
@@ -57,9 +54,8 @@ class MainActivityTest {
 
     @Test
     fun showBicyclesScreen_whenClickInBottomMenuListIcon() {
-        val navController = mockk<NavController>()
-
         scenario.onActivity {
+            val navController = NavController(it)
             Navigation.setViewNavController(it.activityMainContainer, navController)
         }
 

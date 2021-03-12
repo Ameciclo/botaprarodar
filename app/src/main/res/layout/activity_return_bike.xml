@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/returnBikeContainer"
+        android:background="@color/background_gray"
         tools:context=".presentation.returnbicycle.ReturnBikeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+            android:id="@+id/returnBikeBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -18,70 +17,37 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:title="@string/confirmar_devolucao"
+                android:id="@+id/returnBikeToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="@color/dark_gray"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                app:titleTextColor="@color/dark_gray" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/userImageView" android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userName"
-            tools:text="Nome" android:textSize="18sp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/userImageView"
-            app:layout_constraintStart_toStartOf="@+id/userImageView"
-            app:layout_constraintEnd_toEndOf="@+id/userImageView"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/bikeName"
-            tools:text="Nome" android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/bicycleImageView"
-            app:layout_constraintTop_toBottomOf="@id/bicycleImageView"
-            app:layout_constraintStart_toStartOf="@+id/bicycleImageView" app:layout_constraintHorizontal_bias="0.51"/>
-    <TextView
-            android:layout_width="wrap_content"
-            tools:text="RG: 88444454"
-            android:layout_height="wrap_content"
-            android:id="@+id/userDoc" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/userName"
-            app:layout_constraintStart_toStartOf="@+id/userImageView"
-            app:layout_constraintEnd_toEndOf="@+id/userImageView"/>
-    <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/bicycleImageView"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/userDoc"/>
-    <Button
-            android:text="Confirmar devolução"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirmBikeReturn" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    <Button
-            android:text="Responder questionário"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fillRideQuiz"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/confirmBikeReturn" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/bikeName"/>
 
+    <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
+            android:id="@+id/bikeActionStepper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:current_icon_color="@color/green_teal"
+            app:previous_icon_color="@color/white"
+            app:next_icon_color="@color/gray_silver"
+            app:select_background="@color/green_teal"
+            app:unselect_background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/returnBikeBarLayout" />
+
+    <fragment
+            android:id="@+id/returnNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bikeActionStepper"
+            app:navGraph="@navigation/return_bike_nav_graph"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

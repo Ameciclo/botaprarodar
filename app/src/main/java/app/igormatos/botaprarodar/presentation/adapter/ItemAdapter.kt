@@ -48,7 +48,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                         when (item) {
                             is User -> {
                                 item.name!!.contains(searchWord, true) ||
-                                        item.doc_number.toString().contains(searchWord, true)
+                                        item.docNumber.toString().contains(searchWord, true)
                             }
                             else -> {
                                 return@filter true
@@ -249,17 +249,16 @@ class ItemAdapter(private var activity: Activity? = null) :
                         val withdrawalInProgress = Withdraw()
                         withdrawalInProgress.bicycle_name = item.name
                         withdrawalInProgress.bicycle_id = item.id
-                        withdrawalInProgress.bicycle_image_path = item.photo_path
+                        withdrawalInProgress.bicycle_image_path = item.photoPath
 
                         intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
-                        val intent = Intent(itemView.context, ReturnBikeActivity::class.java)
+                        val intent = Intent(itemView.context, WithdrawActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
-
                     }
                 }
             }

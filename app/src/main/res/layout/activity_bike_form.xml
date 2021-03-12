@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="viewModel"
                 type="app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel" />
@@ -19,7 +18,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/background_gray">
 
             <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appBarLayout"
@@ -57,18 +57,42 @@
             <ImageView
                     android:id="@+id/bikePhotoImageView"
                     android:layout_width="0dp"
-                    android:layout_height="248dp"
+                    android:layout_height="176dp"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:padding="@dimen/padding_small"
                     android:scaleType="center"
-                    android:src="@drawable/ic_add_a_photo"
-                    app:errorDrawable="@{@drawable/ic_add_a_photo}"
+                    android:background="@drawable/background_image_bike"
                     app:imagePathOrUrl="@{viewModel.imagePath}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+            <ImageView
+                    android:id="@+id/cameraImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_camera"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="@+id/bikePhotoImageView"
+                    app:layout_constraintTop_toTopOf="@+id/bikePhotoImageView" />
+
+            <TextView
+                    android:id="@+id/addPhotoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_photo"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/gray_3"
+                    android:drawablePadding="@dimen/margin_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/bikePhotoImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/bikePhotoImageView"
+                    app:layout_constraintStart_toStartOf="@+id/bikePhotoImageView"
+                    app:layout_constraintTop_toTopOf="@+id/bikePhotoImageView"
+                    app:drawableTopCompat="@drawable/ic_camera" />
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/serialNumberTil"
