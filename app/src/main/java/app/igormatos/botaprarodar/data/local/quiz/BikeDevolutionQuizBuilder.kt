@@ -4,11 +4,10 @@ class BikeDevolutionQuizBuilder : QuizBuilder {
     override val answers = mutableListOf<QuizAnswer>()
 
     override val missingAnswers = mutableListOf(
-        DevolutionQuizAnswerName.RESPOSTA_1,
-        DevolutionQuizAnswerName.RESPOSTA_2,
-        DevolutionQuizAnswerName.RESPOSTA_3,
-        DevolutionQuizAnswerName.RESPOSTA_4,
-        DevolutionQuizAnswerName.RESPOSTA_5
+        DevolutionQuizAnswerName.REASON,
+        DevolutionQuizAnswerName.DESTINATION,
+        DevolutionQuizAnswerName.SUFFERED_VIOLENCE,
+        DevolutionQuizAnswerName.GIVE_RIDE
     )
 
     private fun setAnswer(answer: Any, answerName: DevolutionQuizAnswerName) {
@@ -16,38 +15,23 @@ class BikeDevolutionQuizBuilder : QuizBuilder {
         missingAnswers.remove(answerName)
     }
 
-
     fun withAnswer1(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_1)
+        setAnswer(answer, DevolutionQuizAnswerName.REASON)
         return this
     }
 
-
     fun withAnswer2(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_2)
-
+        setAnswer(answer, DevolutionQuizAnswerName.DESTINATION)
         return this
     }
 
     fun withAnswer3(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_3)
-
+        setAnswer(answer, DevolutionQuizAnswerName.SUFFERED_VIOLENCE)
         return this
     }
 
     fun withAnswer4(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_4)
-
-        return this
-    }
-
-    fun withAnswer5(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_5)
-        return this
-    }
-
-    fun withAnswer6(answer: Any): BikeDevolutionQuizBuilder {
-        setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_6)
+        setAnswer(answer, DevolutionQuizAnswerName.GIVE_RIDE)
         return this
     }
 }

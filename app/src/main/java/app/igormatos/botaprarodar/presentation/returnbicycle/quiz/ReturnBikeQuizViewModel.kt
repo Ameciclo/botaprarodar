@@ -4,8 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
+import app.igormatos.botaprarodar.data.local.quiz.QuizBuilder
 
-class ReturnBikeQuizViewModel : ViewModel() {
+class ReturnBikeQuizViewModel(
+    val quizBuilder: BikeDevolutionQuizBuilder
+) : ViewModel() {
 
     private val _finishQuiz = MutableLiveData<Boolean>()
     val finishQuiz: LiveData<Boolean> = _finishQuiz
@@ -36,25 +41,29 @@ class ReturnBikeQuizViewModel : ViewModel() {
                 needTakeRideRg.value.isRadioValid()
     }
 
-    private fun Int?.isRadioValid() = this != RADIO_INITIAL_VALUE
+    private fun String?.isRadioValid() = this != RADIO_INITIAL_VALUE
 
     fun finishQuiz() {
         _finishQuiz.postValue(true)
     }
 
     fun setUsedBikeToMoveRb(id: Int) {
-        usedBikeToMoveRg.value = id
+        usedBikeToMoveRg.value = getReasonByRadioButton(id)
+        quizBuilder.withAnswer1(getReasonByRadioButton(id))
     }
 
     fun setProblemsDuringRidingRb(id: Int) {
-        problemsDuringRidingRg.value = id
+        problemsDuringRidingRg.value = getYesOrNoByRadioButton(id)
+        quizBuilder.withAnswer3(getYesOrNoByRadioButton(id))
     }
 
     fun setNeedTakeRideRb(id: Int) {
-        needTakeRideRg.value = id
+        needTakeRideRg.value = getYesOrNoByRadioButton(id)
+        quizBuilder.withAnswer4(getYesOrNoByRadioButton(id))
+        quizBuilder
     }
 
     companion object {
-        private const val RADIO_INITIAL_VALUE = -1
+        private const val RADIO_INITIAL_VALUE = ""
     }
 }
