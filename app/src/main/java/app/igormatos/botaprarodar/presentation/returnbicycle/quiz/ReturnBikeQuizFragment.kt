@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.FragmentReturnBikeQuizBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,7 +21,10 @@ class ReturnBikeQuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return_bike_quiz, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_return_bike_quiz, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = returnBikeQuizViewModel
         return binding.root
     }
 
@@ -32,7 +36,7 @@ class ReturnBikeQuizFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        binding.viewModel?.finishQuiz?.observe(viewLifecycleOwner, {
+        binding.viewModel?.finishQuiz?.observe(viewLifecycleOwner, Observer {
             //TODO navegação para o próximo passo quando vier true
         })
     }

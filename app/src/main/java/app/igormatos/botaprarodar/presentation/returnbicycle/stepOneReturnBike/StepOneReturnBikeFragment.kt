@@ -39,6 +39,8 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_step_one_return_bike, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -76,6 +78,5 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
 //        val direction =
 //            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
 //        navController.navigate(direction)
-        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }
 }

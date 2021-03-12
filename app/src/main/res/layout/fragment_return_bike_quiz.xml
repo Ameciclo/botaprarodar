@@ -38,7 +38,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/usedBikeToMove"
-                    app:setRadioGroupCheck="@{viewModel.usedBikeToMoveRg}">
+                    app:setRadioGroupReasonCheck="@{viewModel.usedBikeToMoveRg}">
 
                 <RadioButton
                         android:id="@+id/workplaceRb"
@@ -125,7 +125,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/problemsDuringRiding"
-                    app:setRadioGroupCheck="@{viewModel.problemsDuringRidingRg}">
+                    app:setRadioGroupReasonSufferedViolenceCheck="@{viewModel.problemsDuringRidingRg}">
 
                 <RadioButton
                         android:id="@+id/problemsDuringRidingYes"
@@ -164,7 +164,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/needTakeRide"
-                    app:setRadioGroupCheck="@{viewModel.needTakeRideRg}">
+                    app:setRadioGroupGiveRideCheck="@{viewModel.needTakeRideRg}">
 
                 <RadioButton
                         android:id="@+id/needTakeRideYes"

@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.di
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
 import app.igormatos.botaprarodar.data.network.api.UserApi
@@ -95,10 +96,6 @@ val bprModule = module {
         TripsViewModel(
             bikeActionUseCase = get()
         )
-    }
-
-    viewModel {
-        ReturnBikeQuizViewModel()
     }
 
     single<BicycleApi> {
@@ -235,7 +232,9 @@ val bprModule = module {
 
     single { BikeHolder() }
 
-    single {
+    single { BikeDevolutionQuizBuilder() }
+
+    viewModel {
         StepOneReturnBikeViewModel(
             stepOneReturnBikeUseCase = get(),
             stepperAdapter = get(),
@@ -243,8 +242,12 @@ val bprModule = module {
         )
     }
 
-    single {
+    viewModel {
         ReturnBikeViewModel(stepper = get())
+    }
+
+    viewModel {
+        ReturnBikeQuizViewModel(quizBuilder = get())
     }
 
 }

@@ -147,4 +147,9 @@
     <string name="need_take_ride">Precisou levar alguma carona?</string>
     <string name="send_answers_button">Enviar respostas</string>
     <string name="invalid_district">Bairro inválido</string>
+
+    <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
+    <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="answer_quiz">Responda o questionário</string>
+    <string name="confirm_return">Confirme a devolução</string>
 </resources>
