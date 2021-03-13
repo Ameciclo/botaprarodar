@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,7 +15,6 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentStepOneReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.adapter.StepOneBikesAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
@@ -45,6 +43,8 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
                 container,
                 false
             )
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -80,8 +80,7 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
         viewModel.setBike(bike)
         viewModel.navigateToNextStep()
         val direction =
-            StepOneReturnBikeFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
+            StepOneReturnBikeFragmentDirections.actionReturnBikeFragmentToReturnBikeQuizFragment()
         navController.navigate(direction)
-        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
     }
 }

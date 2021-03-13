@@ -12,7 +12,21 @@
             android:label="@string/return_bike_toolbar_title"
             tools:layout="@layout/fragment_step_one_return_bike">
         <action
-                android:id="@+id/action_returnBikeFragment_to_stepFinalReturnBikeFragment"
+                android:id="@+id/action_returnBikeFragment_to_returnBikeQuizFragment"
+                app:destination="@id/returnBikeQuizFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/returnBikeQuizFragment"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.quiz.ReturnBikeQuizFragment"
+            android:label="ReturnBikeQuizFragment"
+            tools:layout="@layout/fragment_return_bike_quiz">
+        <action
+                android:id="@+id/action_returnBikeQuizFragment_to_stepFinalReturnBikeFragment"
                 app:destination="@id/stepFinalReturnBikeFragment"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
