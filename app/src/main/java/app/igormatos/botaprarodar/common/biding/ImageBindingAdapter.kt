@@ -10,14 +10,18 @@ import com.bumptech.glide.request.RequestOptions
 
 private const val ROUND_CORNER_VALUE = 16
 
-@BindingAdapter("app:imagePathOrUrl")
-fun setImagePathOrUrl(imageView: ImageView, imagePathOrUrl: String) {
-    Glide.with(imageView)
-        .load(imagePathOrUrl)
-        .apply(getRequestOptions())
-        .into(imageView)
-}
+object ImageBindingAdapter {
+    @JvmStatic
+    @BindingAdapter("app:imagePathOrUrl")
+    fun setImagePathOrUrl(imageView: ImageView, imagePathOrUrl: String) {
+        Glide.with(imageView)
+            .load(imagePathOrUrl)
+            .apply(getRequestOptions())
+            .into(imageView)
+    }
 
-private fun getRequestOptions() = RequestOptions()
-    .transforms(CenterCrop() ,RoundedCorners(ROUND_CORNER_VALUE))
-    .diskCacheStrategy(DiskCacheStrategy.ALL)
+    @JvmStatic
+    private fun getRequestOptions() = RequestOptions()
+        .transforms(CenterCrop(), RoundedCorners(ROUND_CORNER_VALUE))
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+}

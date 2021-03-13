@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/bikeImage"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:padding="@dimen/padding_small"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@id/bikeInfoContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:imagePathOrUrl="@{viewModel.bikeImageUrl}"
+                tools:src="@drawable/logo" />
+
+        <include
+                android:id="@+id/bikeInfoContainer"
+                layout="@layout/bike_confirmation_bike_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/bikeImage"
+                bind:viewModel="@{viewModel}" />
+
+        <include
+                android:id="@+id/userInfoContainer"
+                layout="@layout/bike_confirmation_user_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/bikeInfoContainer"
+                bind:viewModel="@{viewModel}" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirmButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:onClick="@{() -> viewModel.confirmBikeWithdraw()}"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/confirm_withdraw"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userInfoContainer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

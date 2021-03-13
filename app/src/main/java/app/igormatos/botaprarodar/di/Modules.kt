@@ -11,14 +11,15 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.repository.*
+import app.igormatos.botaprarodar.domain.UserHolder
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.GetUsersByCommunity
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
@@ -34,7 +35,13 @@ import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
+import app.igormatos.botaprarodar.domain.usecase.bikes.GetAvailableBikes
+import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
@@ -113,7 +120,7 @@ val bprModule = module {
     }
 
     single {
-        FirebaseHelperRepository(get<FirebaseStorage>())
+        FirebaseHelperRepository(get())
     }
 
 
@@ -161,8 +168,8 @@ val bprModule = module {
 
     single {
         BikeFormUseCase(
-            bikeRepository = get<BikeRepository>(),
-            firebaseHelperRepository = get<FirebaseHelperRepository>()
+            bikeRepository = get(),
+            firebaseHelperRepository = get()
         )
     }
 
@@ -176,15 +183,15 @@ val bprModule = module {
     //Bikes Fragment
 
     single {
-        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+        BikeRepository(get(), get())
     }
 
     single {
-        BikesUseCase(get<BikeRepository>())
+        BikesUseCase(get())
     }
 
     viewModel {
-        BikesViewModel(get<BikesUseCase>())
+        BikesViewModel(get())
     }
 
     //UserForm
@@ -207,15 +214,15 @@ val bprModule = module {
     //Users Fragment
 
     single {
-        UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
+        UserRepository(userApi = get(), firebaseDatabase = get())
     }
 
-    single {
-        UsersUseCase(get<UserRepository>())
+    factory {
+        GetUsersByCommunity(get())
     }
 
     viewModel {
-        UsersViewModel(get<UsersUseCase>())
+        UsersViewModel(get())
     }
 
     //Return Bikes
@@ -225,10 +232,14 @@ val bprModule = module {
     }
 
     single {
-        StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
+        providesReturnStepperAdapter()
+    }
+    single {
+        providesWithdrawStepperAdapter()
     }
 
     single { BikeHolder() }
+    single { UserHolder() }
 
     single {
         StepOneReturnBikeViewModel(
@@ -240,6 +251,27 @@ val bprModule = module {
 
     single {
         ReturnBikeViewModel(stepper = get())
+    }
+
+    viewModel {
+        BikeWithdrawViewModel(get())
+    }
+    viewModel {
+        BikeConfirmationViewModel(get(), get(), get(), get())
+    }
+    viewModel {
+        SelectBikeViewModel(get(), get(), get())
+    }
+    viewModel {
+        SelectUserViewModel(get(), get(), get())
+    }
+
+    factory {
+        GetAvailableBikes(get())
+    }
+
+    factory {
+        SendBikeWithdraw()
     }
 
 }
@@ -260,3 +292,24 @@ private fun buildRetrofit(): Retrofit {
 fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
     return AdminRemoteDataSource(firebaseAuth)
 }
+
+fun providesReturnStepperAdapter(): ReturnStepper {
+    val steps =
+        listOf(
+            StepConfigType.SELECT_BIKE,
+            StepConfigType.QUIZ,
+            StepConfigType.CONFIRM_DEVOLUTION
+        )
+    return ReturnStepper(StepConfigType.SELECT_BIKE)
+}
+
+fun providesWithdrawStepperAdapter(): WithdrawStepper {
+    val steps =
+        listOf(
+            StepConfigType.SELECT_BIKE,
+            StepConfigType.SELECT_USER,
+            StepConfigType.CONFIRM_DEVOLUTION
+        )
+    return WithdrawStepper(StepConfigType.SELECT_BIKE)
+}
+

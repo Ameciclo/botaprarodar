@@ -1,13 +1,14 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
-import org.parceler.Parcel
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Parcelize
 @IgnoreExtraProperties
-@Parcel
 data class User(
     @SerializedName("name")
     var name: String? = null,
@@ -33,7 +34,7 @@ data class User(
     var profilePictureThumbnail: String? = null,
     @SerializedName("communityId")
     var communityId: String? = ""
-) : Item {
+) : Parcelable, Item {
 
     @SerializedName("path")
     override var path: String = "users"

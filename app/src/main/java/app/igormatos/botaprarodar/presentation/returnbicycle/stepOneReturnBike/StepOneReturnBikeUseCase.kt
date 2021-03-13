@@ -1,25 +1,21 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import app.igormatos.botaprarodar.data.repository.BikeRepository
-import app.igormatos.botaprarodar.domain.converter.bicycle.ListBicyclesConverter
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
-    private val listBicyclesConverter = ListBicyclesConverter()
 
     suspend fun getBikesInUseToReturn(communityId: String): SimpleResult<List<Bike>> {
-        val bikesMap = bikeRepository.getBicycles()
-        return when (bikesMap) {
+        return when (val result = bikeRepository.getBicycles()) {
             is SimpleResult.Success -> {
-                val list = listBicyclesConverter.convert(bikesMap.data)
-                val bikesInUse = filterInUseBikes(list, communityId)
+                val bikesInUse = filterInUseBikes(result.data, communityId)
                 formatAnswer(bikesInUse)
             }
             is SimpleResult.Error -> {
-                bikesMap
+                result
             }
         }
     }

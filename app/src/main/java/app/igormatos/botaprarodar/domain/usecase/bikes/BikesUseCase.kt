@@ -14,18 +14,6 @@ class BikesUseCase(private val bikeRepository: BikeRepository) {
 
     private val listBicyclesConverter = ListBicyclesConverter()
 
-//    suspend fun list(communityId: String): SimpleResult<List<Bike>> {
-//        val bicyclesMap = bikeRepository.getBicycles(communityId)
-//        return when (bicyclesMap) {
-//            is SimpleResult.Success -> {
-//                val list = listBicyclesConverter.convert(bicyclesMap.data)
-//                formatAnswer(list)
-//            }
-//            is SimpleResult.Error -> {
-//                bicyclesMap
-//            }
-//        }
-//    }
 
     private fun formatAnswer(list: List<Bike>): SimpleResult<List<Bike>> {
         return when (list.isNotEmpty()) {

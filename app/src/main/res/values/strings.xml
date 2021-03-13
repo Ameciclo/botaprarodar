@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="complete_name">Nome completo</string>
+    <string name="complete_name">Nome completo $1</string>
     <string name="add_user_title">Cadastrar pessoa</string>
     <string name="confirmar_devolucao">Confirmar devolução</string>
     <string name="quiz_title">Questionário</string>
@@ -102,8 +102,9 @@
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 
     <!-- Bike -->
-    <string name="bike_order_number">Ordem: %s</string>
-    <string name="bike_series_number">Série: %s</string>
+    <string name="bike_name_with_label">Bike: %s</string>
+    <string name="bike_order_with_label">Ordem: %s</string>
+    <string name="bike_series_with_label">Série: %s</string>
     <string name="add_photo">Adicionar foto</string>
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
@@ -134,6 +135,11 @@
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
     <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="select_user">Selecione um usuário</string>
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
+    <string name="confirm_withdraw">Confirme o empréstimo</string>
+    <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
+    <string name="repeat_withdraw_title">Emprestar outra</string>
+    <string name="back_to_init_title">Voltar para o início</string>
 </resources>

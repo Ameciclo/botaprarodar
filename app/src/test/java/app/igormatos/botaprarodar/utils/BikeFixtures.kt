@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.utils
 import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -82,3 +83,34 @@ fun buildMapStringAndBicycle(howMuch: Int): Map<String, Bike> {
     }
     return map
 }
+
+val communityFixture = Community().apply {
+    id = "some id"
+}
+
+val availableBikes = listOf(
+    Bike().apply {
+        name = "caloi"
+        inUse = false
+        communityId = communityFixture.id
+    },
+    Bike().apply {
+        name = "caloi"
+        inUse = false
+        communityId = "123"
+    }
+)
+val borrowedBikes = listOf(
+    Bike().apply {
+        name = "monark"
+        inUse = true
+        communityId = "123"
+    },
+    Bike().apply {
+        name = "monark"
+        inUse = true
+        communityId = "123"
+    },
+)
+val bikeList = borrowedBikes.plus(availableBikes)
+

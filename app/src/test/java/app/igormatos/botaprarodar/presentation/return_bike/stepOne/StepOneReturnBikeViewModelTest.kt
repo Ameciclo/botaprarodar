@@ -2,12 +2,10 @@ package app.igormatos.botaprarodar.presentation.return_bike.stepOne
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
-import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
-import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
@@ -24,9 +22,9 @@ class StepOneReturnBikeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepperAdapter = spyk(StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE))
+    private val stepperAdapter = mockk<ReturnStepper>(relaxed = true)
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
-    private val bikeHolder = mockk<BikeHolder>()
+    private val bikeHolder = mockk<BikeHolder>(relaxed = true)
     private lateinit var viewModel: StepOneReturnBikeViewModel
 
     @Before
@@ -51,17 +49,18 @@ class StepOneReturnBikeViewModelTest {
     fun `when call setInitialStep() then the stepperAdapter should be update with the SELECT_BIKE value`() {
         viewModel.setInitialStep()
 
-        verify { stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE) }
+        val slot = slot<StepConfigType>()
+        verify { stepperAdapter.setCurrentStep(capture(slot)) }
 
-        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.SELECT_BIKE)
+        assertEquals(slot.captured, StepConfigType.SELECT_BIKE)
     }
 
     @Test
     fun `when call navigateToNextStep() then the stepperAdapter should be update with the new value`() {
         viewModel.navigateToNextStep()
 
-        verify { stepperAdapter.navigateToNext() }
-
-        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
+        verify {
+            stepperAdapter.navigateToNext()
+        }
     }
 }

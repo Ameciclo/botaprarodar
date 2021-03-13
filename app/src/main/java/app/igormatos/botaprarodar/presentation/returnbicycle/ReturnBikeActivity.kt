@@ -37,7 +37,7 @@ class ReturnBikeActivity : AppCompatActivity() {
             arrayListOf(
                 StepConfigType.SELECT_BIKE,
                 StepConfigType.QUIZ,
-                StepConfigType.CONFIRM_RETURN
+                StepConfigType.CONFIRM_DEVOLUTION
             )
         )
 
@@ -57,6 +57,6 @@ class ReturnBikeActivity : AppCompatActivity() {
 
     override fun finish() {
         super.finish()
-        viewModel.stepper.backToInitialState()
+        viewModel.backToInitialState()
     }
 }

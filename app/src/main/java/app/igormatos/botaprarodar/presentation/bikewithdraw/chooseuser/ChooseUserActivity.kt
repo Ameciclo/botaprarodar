@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser
+package app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser
 
 import android.os.Bundle
 import android.os.Parcelable
@@ -28,12 +28,7 @@ class ChooseUserActivity : AppCompatActivity() {
             ) else null
 
         val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
-        val fragment =
-            UsersFragment.newInstance(
-                withdrawal
-            )
 
-        supportFragmentManager.beginTransaction().add(R.id.chooseUserFragment, fragment, "1").commit()
 
     }
 
