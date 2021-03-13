@@ -16,7 +16,6 @@ class BikeDevolutionQuizBuilder : QuizBuilder {
         missingAnswers.remove(answerName)
     }
 
-
     fun withAnswer1(answer: Any): BikeDevolutionQuizBuilder {
         setAnswer(answer, DevolutionQuizAnswerName.RESPOSTA_1)
         return this

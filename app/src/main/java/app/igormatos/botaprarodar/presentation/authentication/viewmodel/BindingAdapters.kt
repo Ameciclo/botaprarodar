@@ -1,9 +1,7 @@
 package app.igormatos.botaprarodar.presentation.authentication.viewmodel
 
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import app.igormatos.botaprarodar.R

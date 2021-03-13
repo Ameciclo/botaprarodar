@@ -5,16 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.domain.adapter.StepperAdapter
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class StepOneReturnBikeViewModel(
-    val stepperAdapter: StepperAdapter.ReturnStepper,
+    val stepperAdapter: ReturnStepper,
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val bikeHolder: BikeHolder
 ) : ViewModel() {

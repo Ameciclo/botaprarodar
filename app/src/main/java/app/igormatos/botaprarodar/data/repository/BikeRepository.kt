@@ -2,11 +2,11 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.safeApiCall
+import app.igormatos.botaprarodar.domain.converter.bicycle.ListBicyclesConverter
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.*
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -19,29 +19,31 @@ class BikeRepository(
     private val bicycleApi: BicycleApi,
     private val firebaseDatabase: FirebaseDatabase
 ) {
+    private val bicyclesConverter = ListBicyclesConverter()
 
     lateinit var postListener: ValueEventListener
 
-    suspend fun getBicycles(): SimpleResult<Map<String, Bike>> {
+    suspend fun getBicycles(): SimpleResult<List<Bike>> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.getBicycles().await()
+
+                bicyclesConverter.convert(bicycleApi.getBicycles().await())
             }
         }
     }
 
-    suspend fun addNewBike(bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun addNewBike(bikeRequest: Bike): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.addNewBike(bike)
+                bicycleApi.addNewBike(bikeRequest)
             }
         }
     }
 
-    suspend fun updateBike(bike: Bike): SimpleResult<AddDataResponse> {
+    suspend fun updateBike(bikeRequest: Bike): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                bicycleApi.updateBike(bike.id.orEmpty(), bike)
+                bicycleApi.updateBike(bikeRequest.id.orEmpty(), bikeRequest)
             }
         }
     }

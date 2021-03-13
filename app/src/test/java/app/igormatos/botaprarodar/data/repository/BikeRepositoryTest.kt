@@ -3,10 +3,7 @@ package app.igormatos.botaprarodar.data.repository
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.utils.addDataResponseBike
-import app.igormatos.botaprarodar.utils.bicycleRequest
-import app.igormatos.botaprarodar.utils.bike
-import app.igormatos.botaprarodar.utils.mapOfBikes
+import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -54,14 +51,9 @@ internal class BikeRepositoryTest {
             coEvery { api.getBicycles().await() } returns mapOfBikes
 
             val response = repository.getBicycles()
-            val result = (response as SimpleResult.Success<Map<String, Bike>>).data
+            val result = (response as SimpleResult.Success<List<Bike>>).data
 
-            assertNotNull(result)
-            assertTrue(result.containsKey("123"))
-            assertTrue(result.containsKey("456"))
-            assertTrue(result.containsKey("789"))
-            assertTrue(result.containsKey("098"))
-            assertTrue(result.containsKey("876"))
+            assertEquals(mapOfBikes.size, result.size)
         }
     }
 

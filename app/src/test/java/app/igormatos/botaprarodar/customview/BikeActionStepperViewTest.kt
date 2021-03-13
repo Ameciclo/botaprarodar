@@ -44,23 +44,23 @@ class BikeActionStepperViewTest {
 
     @Test
     fun `when addStepConfig items, child count should match with list size`() {
-        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
+        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_DEVOLUTION)
         stepper.addItems(mock)
         assert(stepper.stepperContainer.childCount == mock.size)
     }
 
     @Test
     fun `stepper title should be the same as passed in stepConfigType enum when going next`() {
-        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
+        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_DEVOLUTION)
         stepper.addItems(mock)
 
-        stepper.setCurrentStep(StepConfigType.CONFIRM_RETURN)
-        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.CONFIRM_RETURN.title))
+        stepper.setCurrentStep(StepConfigType.CONFIRM_DEVOLUTION)
+        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.CONFIRM_DEVOLUTION.title))
     }
 
     @Test
     fun `stepper title should be the same as passed in stepConfigType enum when go back to the previous`() {
-        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_RETURN)
+        val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_DEVOLUTION)
         stepper.addItems(mock)
         stepper.completeAllSteps()
 
@@ -90,7 +90,7 @@ class BikeActionStepperViewTest {
         val mock = arrayListOf(
             StepConfigType.SELECT_BIKE,
             StepConfigType.QUIZ,
-            StepConfigType.CONFIRM_RETURN
+            StepConfigType.CONFIRM_DEVOLUTION
         )
         stepper.addItems(mock)
         val lastPositionList = mock.size - 1
