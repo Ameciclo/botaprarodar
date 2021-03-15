@@ -14,8 +14,8 @@ class ReturnBikeQuizViewModel(
     val quizBuilder: BikeDevolutionQuizBuilder
 ) : ViewModel() {
 
-    private val _finishQuiz = MutableLiveData<Boolean>(false)
-    val finishQuiz: LiveData<Boolean> = _finishQuiz
+    private val _clickToNextFragment = MutableLiveData<Boolean>(false)
+    val clickToNextFragment: LiveData<Boolean> = _clickToNextFragment
 
     val usedBikeToMoveRg = MutableLiveData(RADIO_INITIAL_VALUE)
     val problemsDuringRidingRg = MutableLiveData(RADIO_INITIAL_VALUE)
@@ -37,10 +37,6 @@ class ReturnBikeQuizViewModel(
         }
     }
 
-    fun navigateToNextStep() {
-        stepperAdapter.navigateToNext()
-    }
-
     private fun validateQuiz() {
         isEnabled.value = usedBikeToMoveRg.value.isRadioValid() &&
                 problemsDuringRidingRg.value.isRadioValid() &&
@@ -53,8 +49,16 @@ class ReturnBikeQuizViewModel(
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
+    fun navigateToNextStep() {
+        stepperAdapter.navigateToNext()
+    }
+
+    fun setClickToNextFragmentToFalse() {
+        _clickToNextFragment.value = false
+    }
+
     fun finishQuiz() {
-        _finishQuiz.postValue(true)
+        _clickToNextFragment.postValue(true)
     }
 
     fun setUsedBikeToMoveRb(id: Int) {
