@@ -11,6 +11,31 @@ class BikeDevolutionQuizBuilder : QuizBuilder {
     )
 
     private fun setAnswer(answer: Any, answerName: DevolutionQuizAnswerName) {
+        if (answers.isNotEmpty()) {
+            answers.forEach {
+                if (it.quizName.getQuizName() == answerName.getQuizName()) {
+                    updateValue(it, answer)
+                    return
+                }
+            }
+            addNewAnswer(answer, answerName)
+            return
+        } else {
+            addNewAnswer(answer, answerName)
+        }
+    }
+
+    private fun updateValue(
+        it: QuizAnswer,
+        answer: Any
+    ) {
+        it.value = answer
+    }
+
+    private fun addNewAnswer(
+        answer: Any,
+        answerName: DevolutionQuizAnswerName
+    ) {
         answers.add(QuizAnswer(answer, answerName))
         missingAnswers.remove(answerName)
     }

@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.data.local.quiz
 
-data class QuizAnswer(val value: Any, private val quizName: QuizAnswerName)
+data class QuizAnswer(var value: Any, val quizName: QuizAnswerName)
 
 interface QuizAnswerName {
     fun getQuizName(): String
