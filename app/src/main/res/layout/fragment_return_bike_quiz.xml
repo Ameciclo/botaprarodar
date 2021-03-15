@@ -187,11 +187,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_large"
                     android:enabled="@{viewModel.isEnabled}"
                     android:onClick="@{() -> viewModel.finishQuiz()}"
                     android:padding="@dimen/padding_medium"
                     android:text="@string/send_answers_button"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/needTakeRideRg" />
