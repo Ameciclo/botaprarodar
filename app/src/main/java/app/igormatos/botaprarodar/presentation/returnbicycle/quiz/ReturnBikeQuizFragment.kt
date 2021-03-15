@@ -43,16 +43,13 @@ class ReturnBikeQuizFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        binding.viewModel?.finishQuiz?.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                true -> {
-                    returnBikeQuizViewModel.navigateToNextStep()
-                    val direction =
-                        ReturnBikeQuizFragmentDirections.actionReturnBikeQuizFragmentToStepFinalReturnBikeFragment()
-                    navController.navigate(direction)
-                }
-                false -> {
-                }
+        binding.viewModel?.clickToNextFragment?.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                returnBikeQuizViewModel.setClickToNextFragmentToFalse()
+                returnBikeQuizViewModel.navigateToNextStep()
+                val direction =
+                    ReturnBikeQuizFragmentDirections.actionReturnBikeQuizFragmentToStepFinalReturnBikeFragment()
+                navController.navigate(direction)
             }
         })
     }
