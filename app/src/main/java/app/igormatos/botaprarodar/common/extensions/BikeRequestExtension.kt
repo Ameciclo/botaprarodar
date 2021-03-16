@@ -25,6 +25,11 @@ fun List<BikeRequest>.convertToBikeList(): MutableList<Bike> {
             bike.withdraws = listWithdraws
         }
 
+        bikeRequest.devolutions?.let { devolutions ->
+            val listDevolutions = devolutions.convertToList()
+            bike.devolutions = listDevolutions
+        }
+
         listToReturn.add(bike)
     }
 

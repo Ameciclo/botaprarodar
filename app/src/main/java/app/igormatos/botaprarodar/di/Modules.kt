@@ -40,6 +40,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.quiz.ReturnBikeQuizViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -235,6 +236,10 @@ val bprModule = module {
 
     single { BikeDevolutionQuizBuilder() }
 
+    single { DevolutionBikeRepository(bikeApi = get()) }
+
+    single { StepFinalReturnBikeUseCase(devolutionRepository = get()) }
+
     viewModel {
         StepOneReturnBikeViewModel(
             stepOneReturnBikeUseCase = get(),
@@ -244,7 +249,11 @@ val bprModule = module {
     }
 
     viewModel {
-        StepFinalReturnBikeViewModel(stepperAdapter = get(), bikeHolder = get())
+        StepFinalReturnBikeViewModel(
+            bikeHolder = get(),
+            quizBuilder = get(),
+            stepFinalUseCase = get()
+        )
     }
 
     viewModel {

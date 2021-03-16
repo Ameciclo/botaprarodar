@@ -8,6 +8,10 @@ fun Bike.convertToBikeRequest(): BikeRequest {
         it?.id to it
     }?.toMap()
 
+    val devolutionsMap = this.devolutions?.map {
+        it?.id to it
+    }?.toMap()
+
     return BikeRequest(
         id = this.id,
         orderNumber = this.orderNumber,
@@ -20,6 +24,7 @@ fun Bike.convertToBikeRequest(): BikeRequest {
         createdDate = this.createdDate,
         path = this.path,
         isAvailable = this.isAvailable,
-        withdraws = withdrawsMap
+        withdraws = withdrawsMap,
+        devolutions = devolutionsMap
     )
 }
