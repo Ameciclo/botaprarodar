@@ -1,12 +1,17 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Quiz(
     @SerializedName("destination")
-    val destination: String?,
-    @SerializedName("rating")
-    val rating: String?,
-    @SerializedName("usage")
-    val usage: String?
-)
+    var destination: String? = "",
+    @SerializedName("reason")
+    var reason: String? = "",
+    @SerializedName("problemsDuringRiding")
+    var problemsDuringRiding: String? = "",
+    @SerializedName("giveRide")
+    var giveRide: String? = ""
+) : Parcelable

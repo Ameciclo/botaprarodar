@@ -74,7 +74,7 @@ class ReturnBikeQuizViewModel(
     fun setNeedTakeRideRb(id: Int) {
         needTakeRideRg.value = getYesOrNoByRadioButton(id)
         quizBuilder.withAnswer4(getYesOrNoByRadioButton(id))
-        quizBuilder
+        quizBuilder.withAnswer2("teste")
     }
 
     companion object {

@@ -1,21 +1,29 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class StepFinalReturnBikeViewModel(
-    val stepperAdapter: StepperAdapter.ReturnStepper,
-    private val bikeHolder: BikeHolder
+    private val bikeHolder: BikeHolder,
+    val quizBuilder: BikeDevolutionQuizBuilder,
+    val stepFinalUseCase: StepFinalReturnBikeUseCase
 ) : ViewModel() {
 
-    fun finalizeDevolution() {}
+    private val date = Calendar.getInstance().time
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+    val devolutionDate = dateFormat.format(date)
 
     fun getBikeHolder() = bikeHolder.bike
 
-    val date = Calendar.getInstance().time
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-    val devolutionDate = dateFormat.format(date)
+    fun finalizeDevolution() {
+        viewModelScope.launch {
+            stepFinalUseCase.addDevolution(devolutionDate, bikeHolder, quizBuilder)
+        }
+    }
+
 }

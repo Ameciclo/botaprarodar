@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,27 +20,22 @@ data class Bike(
     var communityId: String? = "",
     @SerializedName("path")
     override var path: String = "bikes",
-
     @SerializedName("id")
     override var id: String? = null,
-
     @SerializedName("available")
     override var isAvailable: Boolean = true,
-
     @SerializedName("createdDate")
     var createdDate: String? = "",
-
     @SerializedName("inUse")
     var inUse: Boolean = false,
-
     @SerializedName("photoPath")
     var photoPath: String? = "",
-
     @SerializedName("photoThumbnailPath")
     var photoThumbnailPath: String? = "",
-
     @SerializedName("withdraws")
-    var withdraws: List<Withdraws?>? = null
+    var withdraws: MutableList<Withdraws?>? = null,
+    @SerializedName("devolutions")
+    var devolutions: MutableList<Devolution?>? = null
 ) : Parcelable, Item {
 
     init {
