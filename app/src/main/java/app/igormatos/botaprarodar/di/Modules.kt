@@ -39,7 +39,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -239,7 +239,11 @@ val bprModule = module {
 
     single { DevolutionBikeRepository(bikeApi = get()) }
 
-    single { StepFinalReturnBikeUseCase(devolutionRepository = get()) }
+    single {
+        StepFinalReturnBikeUseCase(
+            devolutionRepository = get()
+        )
+    }
 
     viewModel {
         StepOneReturnBikeViewModel(

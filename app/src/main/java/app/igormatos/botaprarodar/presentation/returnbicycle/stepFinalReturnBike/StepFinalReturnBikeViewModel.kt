@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBik
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
