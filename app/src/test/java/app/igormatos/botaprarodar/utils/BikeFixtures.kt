@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.*
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -90,6 +91,12 @@ val bikeSimpleSuccess = SimpleResult.Success(addDataResponseBike)
 val bikeSimpleError = SimpleResult.Error(Exception())
 
 val bikeSimpleSuccessEdit = SimpleResult.Success(addDataResponseEditBike)
+
+fun generateBikeHolder(): BikeHolder {
+    return BikeHolder().apply {
+        bike = bike2
+    }
+}
 
 fun generateBikeInUse(nameBicycle: String): BikeRequest {
     return BikeRequest().apply {

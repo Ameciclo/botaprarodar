@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
+package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
 import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
