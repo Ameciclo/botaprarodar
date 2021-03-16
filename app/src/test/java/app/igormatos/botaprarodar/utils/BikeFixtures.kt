@@ -7,6 +7,16 @@ import java.util.*
 
 val bike = Bike(name = "Caloi")
 
+val bike2 = Bike(
+    id = "",
+    isAvailable = true,
+    inUse = false,
+    name = "New Bicycle",
+    orderNumber = 1010,
+    serialNumber = "New Serial",
+    createdDate = Date().toString()
+)
+
 val bikeRequest = BikeRequest(
     id = "",
     isAvailable = true,
@@ -65,7 +75,7 @@ val listBikeRequest = mutableListOf(bikeRequest)
 
 val listBikeRequestWithdrawsDevolutions = mutableListOf(bikeRequestWithMappers)
 
-val listBikes = mutableListOf(bike)
+val listBikes = mutableListOf(bike2)
 
 val flowSuccess = flowOf(SimpleResult.Success(listBikeRequest))
 

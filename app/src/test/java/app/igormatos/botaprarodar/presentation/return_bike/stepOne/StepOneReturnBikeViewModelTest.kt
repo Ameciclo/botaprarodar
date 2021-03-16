@@ -9,7 +9,10 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.S
 import app.igormatos.botaprarodar.utils.listBikeRequest
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +46,7 @@ class StepOneReturnBikeViewModelTest {
         val bikesReturned = (viewModel.bikesAvailableToReturn.value as SimpleResult.Success).data
 
         assertTrue(viewModel.bikesAvailableToReturn.value is SimpleResult.Success)
-        assertEquals(bikesReturned, listBikeRequest)
+        assertEquals(bikesReturned, listBikes)
     }
 
     @Test
