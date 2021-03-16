@@ -10,26 +10,26 @@ import org.junit.jupiter.api.Test
 @DisplayName("Given BicycleRequestConvert")
 internal class BikeRequestConvertTest {
 
-    val bikeRequestConverter: BikeRequestConvert = BikeRequestConvert()
-
-    @Nested
-    @DisplayName("WHEN do convert")
-    inner class Convert {
-        @Test
-        fun `should convert bicycle to bicycleRequest`() {
-            var bike =  generateBike("Bicycle Converted")
-            val bicycleConverted = bikeRequestConverter.convert(bike)
-
-            assertEquals("Bicycle Converted", bicycleConverted.name)
-        }
-
-        @Test
-        fun ` When bike name is null then bicycleRequest name should be empty`() {
-            var bike =  Bike()
-            val bicycleConverted = bikeRequestConverter.convert(bike)
-
-            assertEquals("", bicycleConverted.name)
-        }
-
-    }
+//    val bikeRequestConverter: BikeRequestConvert = BikeRequestConvert()
+//
+//    @Nested
+//    @DisplayName("WHEN do convert")
+//    inner class Convert {
+//        @Test
+//        fun `should convert bicycle to bicycleRequest`() {
+//            var bike =  generateBike("Bicycle Converted")
+//            val bicycleConverted = bikeRequestConverter.convert(bike)
+//
+//            assertEquals("Bicycle Converted", bicycleConverted.name)
+//        }
+//
+//        @Test
+//        fun ` When bike name is null then bicycleRequest name should be empty`() {
+//            var bike =  Bike()
+//            val bicycleConverted = bikeRequestConverter.convert(bike)
+//
+//            assertEquals("", bicycleConverted.name)
+//        }
+//
+//    }
 }

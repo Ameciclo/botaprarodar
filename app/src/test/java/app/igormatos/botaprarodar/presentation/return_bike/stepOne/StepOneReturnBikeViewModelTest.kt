@@ -9,6 +9,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.S
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.listBikes
+import app.igormatos.botaprarodar.utils.listBikes2
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
 import junit.framework.Assert.assertEquals
@@ -38,7 +39,7 @@ class StepOneReturnBikeViewModelTest {
     fun `when call getBikesInUseToReturn() and the return is success then should return a list of bike`() {
         coEvery {
             stepOneReturnBikeUseCase.getBikesInUseToReturn(any())
-        } returns SimpleResult.Success(listBikes)
+        } returns SimpleResult.Success(listBikes2)
 
         viewModel.getBikesInUseToReturn("12345")
         val bikesReturned = (viewModel.bikesAvailableToReturn.value as SimpleResult.Success).data
