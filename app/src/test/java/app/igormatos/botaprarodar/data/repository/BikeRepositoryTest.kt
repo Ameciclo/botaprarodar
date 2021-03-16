@@ -5,7 +5,7 @@ import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.utils.addDataResponseBike
 import app.igormatos.botaprarodar.utils.bikeRequest
-import app.igormatos.botaprarodar.utils.mapOfBikes
+import app.igormatos.botaprarodar.utils.mapOfBikesRequest
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -50,7 +50,7 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should return all bicycles of community`() = runBlocking {
-            coEvery { api.getBicycles().await() } returns mapOfBikes
+            coEvery { api.getBicycles().await() } returns mapOfBikesRequest
 
             val response = repository.getBicycles()
             val result = (response as SimpleResult.Success<Map<String, BikeRequest>>).data

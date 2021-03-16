@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Withdraws(
     @SerializedName("id")
-    val id: String? = null,
+    val id: String = "",
     @SerializedName("date")
     val date: String? = null,
     @SerializedName("user")

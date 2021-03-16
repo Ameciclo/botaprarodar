@@ -5,11 +5,11 @@ import app.igormatos.botaprarodar.domain.model.BikeRequest
 
 fun Bike.convertToBikeRequest(): BikeRequest {
     val withdrawsMap = this.withdraws?.map {
-        it?.id to it
+        it.id to it
     }?.toMap()
 
     val devolutionsMap = this.devolutions?.map {
-        it?.id to it
+        it.id to it
     }?.toMap()
 
     return BikeRequest(

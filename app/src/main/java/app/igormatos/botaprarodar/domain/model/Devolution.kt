@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Devolution (
     @SerializedName("id")
-    val id: String? = "",
+    val id: String = "",
     @SerializedName("date")
     val date: String? = null,
     @SerializedName("user")

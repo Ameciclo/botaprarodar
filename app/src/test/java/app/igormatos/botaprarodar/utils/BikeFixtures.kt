@@ -17,6 +17,30 @@ val bikeRequest = BikeRequest(
     createdDate = Date().toString()
 )
 
+val mapOfWithdraws = mapOf(
+    Pair("123", Withdraws()),
+    Pair("456", Withdraws()),
+    Pair("789", Withdraws())
+)
+
+val mapOfDevolutions = mapOf(
+    Pair("123", Devolution()),
+    Pair("456", Devolution()),
+    Pair("789", Devolution())
+)
+
+val bikeRequestWithMappers = BikeRequest(
+    id = "",
+    isAvailable = true,
+    inUse = false,
+    name = "New Bicycle",
+    orderNumber = 1010,
+    serialNumber = "New Serial",
+    createdDate = Date().toString(),
+    withdraws = mapOfWithdraws,
+    devolutions = mapOfDevolutions
+)
+
 val withdraw = Withdraws(id = "123", date = "12/03/2021", user = userFake)
 
 val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
@@ -27,27 +51,29 @@ val bikeWithWithdraws = Bike(
     devolutions = mutableListOf(devolution)
 )
 
-val exception = Exception()
-
-val listBikes = mutableListOf(bikeRequest)
-
-val listBikes2 = mutableListOf(bike)
-
-val flowSuccess = flowOf(SimpleResult.Success(listBikes))
-
-val flowError = flowOf(SimpleResult.Error(exception))
-
-val addDataResponseBike = AddDataResponse("New Bicycle")
-
-val addDataResponseEditBike = AddDataResponse("Bicycle Edited")
-
-val mapOfBikes = mapOf(
+val mapOfBikesRequest = mapOf(
     Pair("123", BikeRequest()),
     Pair("456", BikeRequest()),
     Pair("789", BikeRequest()),
     Pair("098", BikeRequest()),
     Pair("876", BikeRequest())
 )
+
+val exception = Exception()
+
+val listBikeRequest = mutableListOf(bikeRequest)
+
+val listBikeRequestWithdrawsDevolutions = mutableListOf(bikeRequestWithMappers)
+
+val listBikes = mutableListOf(bike)
+
+val flowSuccess = flowOf(SimpleResult.Success(listBikeRequest))
+
+val flowError = flowOf(SimpleResult.Error(exception))
+
+val addDataResponseBike = AddDataResponse("New Bicycle")
+
+val addDataResponseEditBike = AddDataResponse("Bicycle Edited")
 
 val bikeSimpleSuccess = SimpleResult.Success(addDataResponseBike)
 
