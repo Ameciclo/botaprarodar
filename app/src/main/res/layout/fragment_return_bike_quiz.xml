@@ -6,7 +6,7 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.returnbicycle.quiz.ReturnBikeQuizViewModel" />
+                type="app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel" />
     </data>
 
     <ScrollView

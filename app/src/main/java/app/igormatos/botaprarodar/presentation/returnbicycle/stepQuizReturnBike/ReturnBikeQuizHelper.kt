@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.quiz
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike
 
 import app.igormatos.botaprarodar.R
 

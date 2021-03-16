@@ -1,12 +1,10 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.quiz
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
-import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
-import app.igormatos.botaprarodar.data.local.quiz.QuizBuilder
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 
 class ReturnBikeQuizViewModel(

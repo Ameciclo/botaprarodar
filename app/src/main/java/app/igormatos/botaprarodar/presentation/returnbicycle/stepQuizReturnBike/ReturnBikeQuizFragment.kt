@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.quiz
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.FragmentReturnBikeQuizBinding
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReturnBikeQuizFragment : Fragment() {
