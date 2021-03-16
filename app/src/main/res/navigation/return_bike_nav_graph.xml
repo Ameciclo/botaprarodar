@@ -22,7 +22,7 @@
 
     <fragment
             android:id="@+id/returnBikeQuizFragment"
-            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.quiz.ReturnBikeQuizFragment"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizFragment"
             android:label="ReturnBikeQuizFragment"
             tools:layout="@layout/fragment_return_bike_quiz">
         <action

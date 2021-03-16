@@ -2,9 +2,9 @@ package app.igormatos.botaprarodar.common.biding
 
 import android.widget.RadioGroup
 import androidx.databinding.BindingAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.quiz.getRadioButtonIdByGiveRide
-import app.igormatos.botaprarodar.presentation.returnbicycle.quiz.getRadioButtonIdByReason
-import app.igormatos.botaprarodar.presentation.returnbicycle.quiz.getRadioButtonIdBySufferedViolence
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByGiveRide
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByReason
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdBySufferedViolence
 import app.igormatos.botaprarodar.presentation.userForm.getRadioButtonId
 
 @BindingAdapter("app:setRadioGroupCheck")

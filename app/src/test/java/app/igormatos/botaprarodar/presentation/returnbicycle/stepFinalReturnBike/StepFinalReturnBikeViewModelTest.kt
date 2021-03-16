@@ -1,17 +1,11 @@
-package app.igormatos.botaprarodar.presentation.return_bike.stepFinalReturnBike
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
-import app.igormatos.botaprarodar.utils.bike
 import io.mockk.spyk
-import io.mockk.verify
-import junit.framework.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 
 class StepFinalReturnBikeViewModelTest {
 
