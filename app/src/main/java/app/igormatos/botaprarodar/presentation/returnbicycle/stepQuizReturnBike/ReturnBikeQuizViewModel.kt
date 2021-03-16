@@ -56,6 +56,7 @@ class ReturnBikeQuizViewModel(
     }
 
     fun finishQuiz() {
+        quizBuilder.withAnswer2(whichDistrict.value.orEmpty())
         _clickToNextFragment.postValue(true)
     }
 
@@ -72,7 +73,6 @@ class ReturnBikeQuizViewModel(
     fun setNeedTakeRideRb(id: Int) {
         needTakeRideRg.value = getYesOrNoByRadioButton(id)
         quizBuilder.withAnswer4(getYesOrNoByRadioButton(id))
-        quizBuilder.withAnswer2("teste")
     }
 
     companion object {
