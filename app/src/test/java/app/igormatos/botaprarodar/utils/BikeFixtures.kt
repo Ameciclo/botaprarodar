@@ -1,9 +1,6 @@
 package app.igormatos.botaprarodar.utils
 
-import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.model.BikeRequest
-import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.domain.model.*
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -22,7 +19,13 @@ val bikeRequest = BikeRequest(
 
 val withdraw = Withdraws(id = "123", date = "12/03/2021", user = userFake)
 
-val bikeWithWithdraws = Bike(name = "Caloi", withdraws = mutableListOf(withdraw))
+val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
+
+val bikeWithWithdraws = Bike(
+    name = "Caloi",
+    withdraws = mutableListOf(withdraw),
+    devolutions = mutableListOf(devolution)
+)
 
 val exception = Exception()
 
