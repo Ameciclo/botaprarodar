@@ -18,9 +18,9 @@ val bikeRequest = BikeRequest(
 )
 
 val mapOfWithdraws = mapOf(
-    Pair("123", Withdraws()),
-    Pair("456", Withdraws()),
-    Pair("789", Withdraws())
+    Pair("123", Withdraws(id = "111")),
+    Pair("456", Withdraws(id = "222")),
+    Pair("789", Withdraws(id = "333"))
 )
 
 val mapOfDevolutions = mapOf(
@@ -52,7 +52,7 @@ val bikeWithWithdraws = Bike(
 )
 
 val mapOfBikesRequest = mapOf(
-    Pair("123", BikeRequest()),
+    Pair("123", BikeRequest(withdraws = mapOfWithdraws, devolutions = mapOfDevolutions)),
     Pair("456", BikeRequest()),
     Pair("789", BikeRequest()),
     Pair("098", BikeRequest()),
