@@ -36,9 +36,7 @@ class QuizBuilderTest {
             1,
             "segunda resposta",
             1.1,
-            4,
-            5,
-            6
+            4
         )
 
         val quizBuilder = BikeDevolutionQuizBuilder().apply {
@@ -46,8 +44,6 @@ class QuizBuilderTest {
             withAnswer2(expectedAnswers[1])
             withAnswer3(expectedAnswers[2])
             withAnswer4(expectedAnswers[3])
-            withAnswer5(expectedAnswers[4])
-            withAnswer6(expectedAnswers[5])
         }
 
         val result = quizBuilder.build().answerList.map { it.value }
@@ -58,11 +54,10 @@ class QuizBuilderTest {
     @Test
     fun `when missing a quiz answer then build should throw MissingAnswerException with expected quizAnswerNames`() {
 
-        val quizAnswerNames = listOf(
-            DevolutionQuizAnswerName.RESPOSTA_2.getQuizName(),
-            DevolutionQuizAnswerName.RESPOSTA_3.getQuizName(),
-            DevolutionQuizAnswerName.RESPOSTA_4.getQuizName(),
-            DevolutionQuizAnswerName.RESPOSTA_5.getQuizName(),
+        val missingAnswersName = listOf(
+            DevolutionQuizAnswerName.DESTINATION.getQuizName(),
+            DevolutionQuizAnswerName.SUFFERED_VIOLENCE.getQuizName(),
+            DevolutionQuizAnswerName.GIVE_RIDE.getQuizName(),
         )
 
         val quizBuilder = BikeDevolutionQuizBuilder().apply {
@@ -73,6 +68,31 @@ class QuizBuilderTest {
             quizBuilder.build()
         }
 
-        assertEquals(exception.missingAnswers, quizAnswerNames)
+        assertEquals(exception.missingAnswers, missingAnswersName)
+    }
+
+    @Test
+    fun `when fill a quiz answer and after change it the answer list should contains just one register to that answer name`() {
+        val quizBuilder = BikeDevolutionQuizBuilder().apply {
+            withAnswer1("")
+            withAnswer2("resposta 2")
+            withAnswer3("resposta 3")
+            withAnswer4("resposta 4")
+        }
+
+        quizBuilder.apply {
+            withAnswer1("Nova resposta")
+        }
+
+        val expectedAnswers = listOf(
+            "Nova resposta",
+            "resposta 2",
+            "resposta 3",
+            "resposta 4"
+        )
+
+        val result = quizBuilder.build().answerList.map { it.value }
+
+        assertEquals(expectedAnswers, result)
     }
 }
