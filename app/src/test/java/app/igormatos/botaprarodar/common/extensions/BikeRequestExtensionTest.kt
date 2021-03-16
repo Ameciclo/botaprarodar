@@ -1,10 +1,8 @@
 package app.igormatos.botaprarodar.common.extensions
 
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.utils.listBikeRequest
 import app.igormatos.botaprarodar.utils.listBikeRequestWithdrawsDevolutions
 import junit.framework.Assert.assertTrue
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class BikeRequestExtensionTest {
