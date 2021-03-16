@@ -33,9 +33,9 @@ data class Bike(
     @SerializedName("photoThumbnailPath")
     var photoThumbnailPath: String? = "",
     @SerializedName("withdraws")
-    var withdraws: MutableList<Withdraws?>? = null,
+    var withdraws: MutableList<Withdraws>? = null,
     @SerializedName("devolutions")
-    var devolutions: MutableList<Devolution?>? = null
+    var devolutions: MutableList<Devolution>? = null
 ) : Parcelable, Item {
 
     init {

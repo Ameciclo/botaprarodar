@@ -6,7 +6,7 @@ import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.utils.exception
 import app.igormatos.botaprarodar.utils.flowError
 import app.igormatos.botaprarodar.utils.flowSuccess
-import app.igormatos.botaprarodar.utils.listBikes
+import app.igormatos.botaprarodar.utils.listBikeRequest
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -56,7 +56,7 @@ class BikesViewModelTest {
         viewModel.getBikes("123")
         val actual = viewModel.bikes.value as SimpleResult.Success
 
-        assertEquals(listBikes, actual.data)
+        assertEquals(listBikeRequest, actual.data)
     }
 
     @Test

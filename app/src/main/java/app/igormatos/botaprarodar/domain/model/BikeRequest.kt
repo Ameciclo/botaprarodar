@@ -32,9 +32,9 @@ data class BikeRequest(
     @SerializedName("photoThumbnailPath")
     var photoThumbnailPath: String? = "",
     @SerializedName("withdraws")
-    var withdraws: Map<String?, Withdraws?>? = null,
+    var withdraws: Map<String, Withdraws>? = null,
     @SerializedName("devolutions")
-    var devolutions: Map<String?, Devolution?>? = null
+    var devolutions: Map<String, Devolution>? = null
 ) : Item {
 
     init {
