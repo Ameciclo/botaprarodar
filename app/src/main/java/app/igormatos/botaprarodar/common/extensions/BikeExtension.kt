@@ -2,6 +2,10 @@ package app.igormatos.botaprarodar.common.extensions
 
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Bike.convertToBikeRequest(): BikeRequest {
     val withdrawsMap = this.withdraws?.map {
@@ -27,4 +31,24 @@ fun Bike.convertToBikeRequest(): BikeRequest {
         withdraws = withdrawsMap
         devolutions = devolutionsMap
     }
+}
+
+fun Bike.getLastWithdraw(): Withdraws? {
+    val lastWithdraw = this.withdraws?.let { withdrawList ->
+        withdrawList.mapNotNull { withdraw ->
+            val dateFormater = SimpleDateFormat(
+                "dd/MM/yyyy HH:mm:ss",
+                Locale.getDefault()
+            ).parse(withdraw.date)
+            try {
+                Pair(withdraw, dateFormater)
+            } catch (e: Exception) {
+                null
+            }
+        }.maxByOrNull {
+            it.second
+        }
+    }
+
+    return lastWithdraw?.first
 }

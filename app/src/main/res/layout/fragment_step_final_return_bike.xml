@@ -6,6 +6,14 @@
 
     <data>
 
+        <import
+                alias="ExtensionFunctions"
+                type="app.igormatos.botaprarodar.common.extensions.BikeExtensionKt" />
+
+        <import
+                alias="StringExtension"
+                type="com.brunotmgomes.ui.extensions.CharSequenceExtensionKt" />
+
         <variable
                 name="viewModel"
                 type="app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel" />
@@ -90,7 +98,7 @@
                     android:layout_width="@dimen/circle_image_40"
                     android:layout_height="@dimen/circle_image_40"
                     android:layout_marginStart="@dimen/margin_medium"
-                    app:imagePathOrUrlCircle="@{viewModel.bikeHolder.withdraws[0].user.profilePictureThumbnail}"
+                    app:imagePathOrUrlCircle="@{ExtensionFunctions.getLastWithdraw(viewModel.bikeHolder).user.profilePictureThumbnail}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_return_date_step_final_return_bike"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_user_name_step_final_return_bike"
@@ -104,7 +112,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:maxLength="20"
-                    android:text="@{viewModel.bikeHolder.withdraws[0].user.name}"
+                    android:text="@{ExtensionFunctions.getLastWithdraw(viewModel.bikeHolder).user.name}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_medium"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:text="@{@string/bike_withdraw_date(viewModel.bikeHolder.withdraws[0].date)}"
+                    android:text="@{@string/bike_withdraw_date(StringExtension.getDateFromDateTime(ExtensionFunctions.getLastWithdraw(viewModel.bikeHolder).date))}"
                     android:textColor="@color/text_gray"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -133,9 +141,9 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
+                    android:text="@{@string/bike_devolution_date(StringExtension.getDateFromDateTime(viewModel.devolutionDate))}"
                     android:textColor="@color/text_gray"
                     android:textSize="12sp"
-                    android:text="@{@string/bike_devolution_date(viewModel.devolutionDate)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_user_step_final_return_bike"
@@ -152,10 +160,10 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:onClick="@{() -> viewModel.finalizeDevolution()}"
                 android:padding="@dimen/padding_medium"
                 android:text="@string/confirmar_devolucao"
                 android:textStyle="bold"
-                android:onClick="@{() -> viewModel.finalizeDevolution()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
