@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
 import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
+import app.igormatos.botaprarodar.common.utils.generateRandomAlphanumeric
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
 import app.igormatos.botaprarodar.data.repository.DevolutionBikeRepository
@@ -28,8 +29,13 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
         bikeHolder: BikeHolder,
         devolution: Devolution
     ) {
-        bikeHolder.bike?.devolutions?.add(devolution)
-        bikeHolder.bike?.inUse = false
+        if (bikeHolder.bike?.devolutions == null) {
+            bikeHolder.bike?.devolutions = mutableListOf(devolution)
+            bikeHolder.bike?.inUse = false
+        } else {
+            bikeHolder.bike?.devolutions?.add(devolution)
+            bikeHolder.bike?.inUse = false
+        }
     }
 
     private fun devolutionToSend(
@@ -38,7 +44,7 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
         quiz: Quiz
     ): Devolution {
         return Devolution(
-            id = bikeHolder.bike?.id + "devolution",
+            id = generateRandomAlphanumeric(),
             date = devolutionDate,
             user = bikeHolder.bike?.withdraws?.get(0)?.user,
             quiz = quiz

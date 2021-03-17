@@ -12,19 +12,19 @@ fun Bike.convertToBikeRequest(): BikeRequest {
         it.id to it
     }?.toMap()
 
-    return BikeRequest(
-        id = this.id,
-        orderNumber = this.orderNumber,
-        serialNumber = this.serialNumber,
-        communityId = this.communityId,
-        name = this.name,
-        photoThumbnailPath = this.photoThumbnailPath,
-        photoPath = this.photoPath,
-        inUse = this.inUse,
-        createdDate = this.createdDate,
-        path = this.path,
-        isAvailable = this.isAvailable,
-        withdraws = withdrawsMap,
+    return BikeRequest().apply {
+        id = this@convertToBikeRequest.id
+        orderNumber = this@convertToBikeRequest.orderNumber
+        serialNumber = this@convertToBikeRequest.serialNumber
+        communityId = this@convertToBikeRequest.communityId
+        name = this@convertToBikeRequest.name
+        photoThumbnailPath = this@convertToBikeRequest.photoThumbnailPath
+        photoPath = this@convertToBikeRequest.photoPath
+        inUse = this@convertToBikeRequest.inUse
+        createdDate = this@convertToBikeRequest.createdDate
+        path = this@convertToBikeRequest.path
+        isAvailable = this@convertToBikeRequest.isAvailable
+        withdraws = withdrawsMap
         devolutions = devolutionsMap
-    )
+    }
 }
