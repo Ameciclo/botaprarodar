@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
 import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
+import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.common.utils.generateRandomAlphanumeric
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
@@ -44,9 +45,9 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
         quiz: Quiz
     ): Devolution {
         return Devolution(
-            id = generateRandomAlphanumeric(),
+            id = "-" + generateRandomAlphanumeric(),
             date = devolutionDate,
-            user = bikeHolder.bike?.withdraws?.get(0)?.user,
+            user = bikeHolder.bike?.getLastWithdraw()?.user,
             quiz = quiz
         )
     }
