@@ -2,11 +2,10 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.utils.addDataResponseBike
-import app.igormatos.botaprarodar.utils.bicycleRequest
-import app.igormatos.botaprarodar.utils.bike
-import app.igormatos.botaprarodar.utils.mapOfBikes
+import app.igormatos.botaprarodar.utils.bikeRequest
+import app.igormatos.botaprarodar.utils.mapOfBikesRequest
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -51,10 +50,10 @@ internal class BikeRepositoryTest {
 
         @Test
         fun `should return all bicycles of community`() = runBlocking {
-            coEvery { api.getBicycles().await() } returns mapOfBikes
+            coEvery { api.getBicycles().await() } returns mapOfBikesRequest
 
             val response = repository.getBicycles()
-            val result = (response as SimpleResult.Success<Map<String, Bike>>).data
+            val result = (response as SimpleResult.Success<Map<String, BikeRequest>>).data
 
             assertNotNull(result)
             assertTrue(result.containsKey("123"))
@@ -73,7 +72,7 @@ internal class BikeRepositoryTest {
         fun `should add new bicycle`() = runBlocking {
             coEvery { api.addNewBike(any()) } returns addDataResponseBike
 
-            val response = repository.addNewBike(bike)
+            val response = repository.addNewBike(bikeRequest)
             val result = response as SimpleResult.Success<AddDataResponse>
 
             assertEquals(SimpleResult.Success(addDataResponseBike), result)

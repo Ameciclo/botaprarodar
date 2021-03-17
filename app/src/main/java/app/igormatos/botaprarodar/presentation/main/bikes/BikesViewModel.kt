@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.common.extensions.convertToBikeList
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,15 @@ class BikesViewModel(private val bikesUseCase: BikesUseCase) : ViewModel() {
         viewModelScope.launch {
             bikesUseCase.getBikes(communityId)
                 .collect {
-                    _bikes.postValue(it)
+                    when (it) {
+                        is SimpleResult.Success -> {
+                            val a = it.data.convertToBikeList()
+                            _bikes.postValue(SimpleResult.Success(a))
+                        }
+                        is SimpleResult.Error -> {
+                            _bikes.postValue(it)
+                        }
+                    }
                 }
         }
     }

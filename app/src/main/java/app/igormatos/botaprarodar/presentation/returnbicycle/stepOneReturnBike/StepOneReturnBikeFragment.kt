@@ -1,12 +1,11 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -38,7 +37,14 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_step_one_return_bike, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_step_one_return_bike,
+                container,
+                false
+            )
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -73,9 +79,8 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     override fun bikeOnClickListener(bike: Bike) {
         viewModel.setBike(bike)
         viewModel.navigateToNextStep()
-//        val direction =
-//            StepOneBikesFragmentDirections.actionReturnBikeFragmentToStepFinalReturnBikeFragment()
-//        navController.navigate(direction)
-        Toast.makeText(requireContext(), bike.name, Toast.LENGTH_SHORT).show()
+        val direction =
+            StepOneReturnBikeFragmentDirections.actionReturnBikeFragmentToReturnBikeQuizFragment()
+        navController.navigate(direction)
     }
 }

@@ -1,13 +1,14 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
-import org.parceler.Parcel
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
 @IgnoreExtraProperties
-@Parcel
+@Parcelize
 data class Bike(
     @SerializedName("name")
     var name: String? = "",
@@ -16,26 +17,26 @@ data class Bike(
     @SerializedName("orderNumber")
     var orderNumber: Long? = null,
     @SerializedName("communityId")
-    var communityId: String? = ""
-) : Item {
-
+    var communityId: String? = "",
     @SerializedName("path")
-    override var path: String = "bikes"
+    override var path: String = "bikes",
     @SerializedName("id")
-    override var id: String? = null
+    override var id: String? = null,
     @SerializedName("available")
-    override var isAvailable: Boolean = true
-
+    override var isAvailable: Boolean = true,
     @SerializedName("createdDate")
-    var createdDate: String?
+    var createdDate: String? = "",
     @SerializedName("inUse")
-    var inUse: Boolean = false
+    var inUse: Boolean = false,
     @SerializedName("photoPath")
-    var photoPath: String? = ""
+    var photoPath: String? = "",
     @SerializedName("photoThumbnailPath")
-    var photoThumbnailPath: String? = ""
-//    @SerializedName("withdraw")
-//    var withdraw: Withdraw? = null
+    var photoThumbnailPath: String? = "",
+    @SerializedName("withdraws")
+    var withdraws: MutableList<Withdraws>? = null,
+    @SerializedName("devolutions")
+    var devolutions: MutableList<Devolution>? = null
+) : Parcelable, Item {
 
     init {
         val date = Calendar.getInstance().time

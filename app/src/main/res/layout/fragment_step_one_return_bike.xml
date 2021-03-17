@@ -8,7 +8,7 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragment" />
+                type="app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

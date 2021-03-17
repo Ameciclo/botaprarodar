@@ -1,13 +1,10 @@
-package app.igormatos.botaprarodar.presentation.return_bike
+package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 

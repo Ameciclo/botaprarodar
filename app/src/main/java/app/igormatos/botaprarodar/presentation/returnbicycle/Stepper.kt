@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 sealed class StepperAdapter(val steps: List<StepConfigType>) {
     abstract fun navigateToNext()
     abstract fun navigateToPrevious()
-    abstract fun backToInitialState()
     abstract val currentStep: MutableStateFlow<StepConfigType>
 
     class ReturnStepper(private val initialStep: StepConfigType) : StepperAdapter(
@@ -38,13 +37,9 @@ sealed class StepperAdapter(val steps: List<StepConfigType>) {
             currentStep.value = result
         }
 
-        override fun backToInitialState() {
-            _currentStep = StepConfigType.SELECT_BIKE
-            currentStep.value = _currentStep
-        }
-
         override fun setCurrentStep(currentStep: StepConfigType) {
             _currentStep = currentStep
+            this.currentStep.value = _currentStep
         }
     }
 
@@ -64,9 +59,6 @@ sealed class StepperAdapter(val steps: List<StepConfigType>) {
         }
 
         override fun navigateToNext() {
-        }
-
-        override fun backToInitialState() {
         }
 
         override fun navigateToPrevious() {

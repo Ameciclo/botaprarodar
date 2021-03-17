@@ -3,10 +3,7 @@ package app.igormatos.botaprarodar.presentation.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
-import app.igormatos.botaprarodar.utils.exception
-import app.igormatos.botaprarodar.utils.flowError
-import app.igormatos.botaprarodar.utils.flowSuccess
-import app.igormatos.botaprarodar.utils.listBikes
+import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
