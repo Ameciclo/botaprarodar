@@ -18,6 +18,8 @@ val bike2 = Bike(
     createdDate = Date().toString()
 )
 
+val bike3 = Bike(name = "Monark")
+
 val bikeRequest = BikeRequest(
     id = "",
     isAvailable = true,
@@ -94,7 +96,7 @@ val bikeSimpleSuccessEdit = SimpleResult.Success(addDataResponseEditBike)
 
 fun generateBikeHolder(): BikeHolder {
     return BikeHolder().apply {
-        bike = bike2
+        bike = bike3
     }
 }
 

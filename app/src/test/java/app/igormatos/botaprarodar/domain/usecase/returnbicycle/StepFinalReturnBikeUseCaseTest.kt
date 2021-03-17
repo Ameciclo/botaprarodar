@@ -29,7 +29,7 @@ class StepFinalReturnBikeUseCaseTest {
 
         val responseResult =
             useCase.addDevolution(
-                "15/02/2021",
+                "11/02/2021",
                 generateBikeHolder(),
                 bikeDevolutionQuizBuilder
             ) as SimpleResult.Success
