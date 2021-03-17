@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.di
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
 import app.igormatos.botaprarodar.data.network.api.UserApi
@@ -12,7 +13,6 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
 import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -35,8 +35,11 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
@@ -220,17 +223,29 @@ val bprModule = module {
 
     //Return Bikes
 
-    single {
-        StepOneReturnBikeUseCase(bikeRepository = get())
-    }
+    single { BikeHolder() }
 
     single {
         StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
     }
 
-    single { BikeHolder() }
+    single {
+        StepOneReturnBikeUseCase(
+            bikeRepository = get()
+        )
+    }
+
+    single { BikeDevolutionQuizBuilder() }
+
+    single { DevolutionBikeRepository(bikeApi = get()) }
 
     single {
+        StepFinalReturnBikeUseCase(
+            devolutionRepository = get()
+        )
+    }
+
+    viewModel {
         StepOneReturnBikeViewModel(
             stepOneReturnBikeUseCase = get(),
             stepperAdapter = get(),
@@ -238,8 +253,20 @@ val bprModule = module {
         )
     }
 
-    single {
+    viewModel {
+        StepFinalReturnBikeViewModel(
+            bikeHolder = get(),
+            quizBuilder = get(),
+            stepFinalUseCase = get()
+        )
+    }
+
+    viewModel {
         ReturnBikeViewModel(stepper = get())
+    }
+
+    viewModel {
+        ReturnBikeQuizViewModel(stepperAdapter = get(), quizBuilder = get())
     }
 
 }

@@ -1,40 +1,15 @@
 package app.igormatos.botaprarodar.domain.usecase.bikes
 
 import app.igormatos.botaprarodar.data.repository.BikeRepository
-import app.igormatos.botaprarodar.domain.converter.bicycle.ListBicyclesConverter
-import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 
 @ExperimentalCoroutinesApi
 class BikesUseCase(private val bikeRepository: BikeRepository) {
 
-    private val listBicyclesConverter = ListBicyclesConverter()
-
-//    suspend fun list(communityId: String): SimpleResult<List<Bike>> {
-//        val bicyclesMap = bikeRepository.getBicycles(communityId)
-//        return when (bicyclesMap) {
-//            is SimpleResult.Success -> {
-//                val list = listBicyclesConverter.convert(bicyclesMap.data)
-//                formatAnswer(list)
-//            }
-//            is SimpleResult.Error -> {
-//                bicyclesMap
-//            }
-//        }
-//    }
-
-    private fun formatAnswer(list: List<Bike>): SimpleResult<List<Bike>> {
-        return when (list.isNotEmpty()) {
-            true -> SimpleResult.Success(list)
-            false -> SimpleResult.Error(Exception(""))
-        }
-    }
-
-    suspend fun getBikes(communityId: String): Flow<SimpleResult<List<Bike>>> {
+    suspend fun getBikes(communityId: String): Flow<SimpleResult<List<BikeRequest>>> {
         return bikeRepository.getBikes(communityId)
     }
 }

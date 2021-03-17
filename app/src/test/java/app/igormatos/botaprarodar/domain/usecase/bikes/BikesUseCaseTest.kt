@@ -2,7 +2,9 @@ package app.igormatos.botaprarodar.domain.usecase.bikes
 
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.utils.bike
+import app.igormatos.botaprarodar.utils.bikeRequest
 import app.igormatos.botaprarodar.utils.flowError
 import app.igormatos.botaprarodar.utils.flowSuccess
 import com.brunotmgomes.ui.SimpleResult
@@ -54,9 +56,9 @@ class BikesUseCaseTest {
         coEvery { repository.getBikes(any()) } returns flowSuccess
 
         val response = useCase.getBikes("123").first()
-        val actual = response as SimpleResult.Success<List<Bike>>
+        val actual = response as SimpleResult.Success<List<BikeRequest>>
 
-        assertEquals(bike, actual.data[0])
+        assertEquals(bikeRequest, actual.data[0])
     }
 
     @Test
