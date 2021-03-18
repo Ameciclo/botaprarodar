@@ -4,9 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import app.igormatos.botaprarodar.databinding.BicycleCellBinding
-import app.igormatos.botaprarodar.databinding.UserCellBinding
-import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.databinding.UsersItemBinding
 import app.igormatos.botaprarodar.domain.model.User
 
 class SelectUserListAdapter(private val onClick: (User) -> Unit) :
@@ -18,7 +16,7 @@ class SelectUserListAdapter(private val onClick: (User) -> Unit) :
         parent: ViewGroup,
         viewType: Int
     ): FormListItemViewHolder<User> {
-        val binding = UserCellBinding.inflate(
+        val binding = UsersItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
