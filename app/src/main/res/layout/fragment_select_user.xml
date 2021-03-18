@@ -22,6 +22,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/bicycle_cell" />
+                tools:listitem="@layout/users_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
