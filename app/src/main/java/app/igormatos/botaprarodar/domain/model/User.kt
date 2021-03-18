@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Parcelize
 @IgnoreExtraProperties
+@Parcelize
 data class User(
     @SerializedName("name")
     var name: String? = null,
@@ -33,15 +33,14 @@ data class User(
     @SerializedName("profilePictureThumbnail")
     var profilePictureThumbnail: String? = null,
     @SerializedName("communityId")
-    var communityId: String? = ""
-) : Parcelable, Item {
-
+    var communityId: String? = "",
     @SerializedName("path")
-    override var path: String = "users"
+    override var path: String = "users",
     @SerializedName("id")
-    override var id: String? = null
+    override var id: String? = null,
     @SerializedName("available")
     override var isAvailable: Boolean = true
+) : Parcelable, Item {
 
     init {
         val date = Calendar.getInstance().time
@@ -64,5 +63,4 @@ data class User(
     override fun subtitle(): String {
         return "Cadastrado desde $createdDate"
     }
-
 }

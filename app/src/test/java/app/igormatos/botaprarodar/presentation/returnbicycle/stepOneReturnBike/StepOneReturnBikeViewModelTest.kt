@@ -1,14 +1,17 @@
-package app.igormatos.botaprarodar.presentation.return_bike.stepOne
+package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
+import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,9 +25,9 @@ class StepOneReturnBikeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepperAdapter = mockk<ReturnStepper>(relaxed = true)
+    private val stepperAdapter = spyk(ReturnStepper(StepConfigType.SELECT_BIKE))
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
-    private val bikeHolder = mockk<BikeHolder>(relaxed = true)
+    private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: StepOneReturnBikeViewModel
 
     @Before
@@ -49,18 +52,24 @@ class StepOneReturnBikeViewModelTest {
     fun `when call setInitialStep() then the stepperAdapter should be update with the SELECT_BIKE value`() {
         viewModel.setInitialStep()
 
-        val slot = slot<StepConfigType>()
-        verify { stepperAdapter.setCurrentStep(capture(slot)) }
+        verify { stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE) }
 
-        assertEquals(slot.captured, StepConfigType.SELECT_BIKE)
+        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.SELECT_BIKE)
     }
 
     @Test
     fun `when call navigateToNextStep() then the stepperAdapter should be update with the new value`() {
         viewModel.navigateToNextStep()
 
-        verify {
-            stepperAdapter.navigateToNext()
-        }
+        verify { stepperAdapter.navigateToNext() }
+
+        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
+    }
+
+    @Test
+    fun `when call setBike() then the bikeHolder should be update with the bike value`() {
+        viewModel.setBike(bike)
+
+        verify { bikeHolder.bike = bike }
     }
 }

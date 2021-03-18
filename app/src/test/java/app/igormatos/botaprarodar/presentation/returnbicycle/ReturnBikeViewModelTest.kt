@@ -1,10 +1,9 @@
-package app.igormatos.botaprarodar.presentation.return_bike
+package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import io.mockk.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking

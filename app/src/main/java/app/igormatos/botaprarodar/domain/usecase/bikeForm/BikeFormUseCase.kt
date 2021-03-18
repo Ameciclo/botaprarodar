@@ -1,11 +1,13 @@
 package app.igormatos.botaprarodar.domain.usecase.bikeForm
 
+import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
 
 private const val FIREBASE_URL = "https://"
@@ -68,11 +70,11 @@ class BikeFormUseCase(
     }
 
     private suspend fun registerBike(bike: Bike): SimpleResult<AddDataResponse> {
-        return bikeRepository.addNewBike(bike)
+        return bikeRepository.addNewBike(bike.convertToBikeRequest())
     }
 
     private suspend fun updateBike(bike: Bike): SimpleResult<AddDataResponse> {
         bike.path = PATH
-        return bikeRepository.updateBike(bike)
+        return bikeRepository.updateBike(bike.convertToBikeRequest())
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentSelectUserBinding
@@ -14,7 +15,7 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUser
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SelectUserFragment: Fragment() {
+class SelectUserFragment : Fragment() {
     private val binding: FragmentSelectUserBinding by lazy {
         FragmentSelectUserBinding.inflate(layoutInflater)
     }
@@ -43,9 +44,9 @@ class SelectUserFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        binding.viewModel?.userList?.observe(viewLifecycleOwner) { userList ->
+        binding.viewModel?.userList?.observe(viewLifecycleOwner, Observer { userList ->
             selectUserAdapter.submitList(userList)
-        }
+        })
     }
 
     private fun initUI() {
