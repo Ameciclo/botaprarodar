@@ -37,7 +37,8 @@ class TripsFragment : Fragment() {
     val itemAdapter = WithdrawAdapter()
     private val bikeActionMenuAdapter = BikeActionMenuAdapter(
         BikeActionsMenuType.values().toMutableList(),
-        ::navigateToReturnBikeActivity
+        ::navigateToReturnBikeActivity,
+        ::navigateToBikeWithdrawActivity
     )
     var loadingDialog: AlertDialog? = null
 
@@ -144,6 +145,10 @@ class TripsFragment : Fragment() {
     private fun navigateToReturnBikeActivity() {
         val action = TripsFragmentDirections.actionNavigationHomeToReturnBikeActivity()
         findNavController().navigate(action)
-//      Navigation.findNavController(requireActivity(), R.id.action_navigationHome_to_returnBikeActivity)
+    }
+
+    private fun navigateToBikeWithdrawActivity() {
+        val action = TripsFragmentDirections.navigateFromHomeToBikeWithDraw()
+        findNavController().navigate(action)
     }
 }
