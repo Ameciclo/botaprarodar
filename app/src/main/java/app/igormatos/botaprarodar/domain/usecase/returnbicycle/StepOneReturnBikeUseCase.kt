@@ -1,5 +1,6 @@
-package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
+package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
+import app.igormatos.botaprarodar.common.extensions.convertMapperToBikeList
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
@@ -9,13 +10,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
 
     suspend fun getBikesInUseToReturn(communityId: String): SimpleResult<List<Bike>> {
-        return when (val result = bikeRepository.getBicycles()) {
+        val bikesMap = bikeRepository.getBicycles()
+        return when (bikesMap) {
             is SimpleResult.Success -> {
-                val bikesInUse = filterInUseBikes(result.data, communityId)
+                val list = bikesMap.data.convertMapperToBikeList()
+                val bikesInUse = filterInUseBikes(list, communityId)
                 formatAnswer(bikesInUse)
             }
             is SimpleResult.Error -> {
-                result
+                bikesMap
             }
         }
     }

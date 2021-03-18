@@ -2,9 +2,8 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.safeApiCall
-import app.igormatos.botaprarodar.domain.converter.bicycle.ListBicyclesConverter
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.*
 import kotlinx.coroutines.Dispatchers
@@ -19,20 +18,18 @@ class BikeRepository(
     private val bicycleApi: BicycleApi,
     private val firebaseDatabase: FirebaseDatabase
 ) {
-    private val bicyclesConverter = ListBicyclesConverter()
 
     lateinit var postListener: ValueEventListener
 
-    suspend fun getBicycles(): SimpleResult<List<Bike>> {
+    suspend fun getBicycles(): SimpleResult<Map<String, BikeRequest>> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-
-                bicyclesConverter.convert(bicycleApi.getBicycles().await())
+                bicycleApi.getBicycles().await()
             }
         }
     }
 
-    suspend fun addNewBike(bikeRequest: Bike): SimpleResult<AddDataResponse> {
+    suspend fun addNewBike(bikeRequest: BikeRequest): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 bicycleApi.addNewBike(bikeRequest)
@@ -40,7 +37,7 @@ class BikeRepository(
         }
     }
 
-    suspend fun updateBike(bikeRequest: Bike): SimpleResult<AddDataResponse> {
+    suspend fun updateBike(bikeRequest: BikeRequest): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 bicycleApi.updateBike(bikeRequest.id.orEmpty(), bikeRequest)
@@ -48,7 +45,7 @@ class BikeRepository(
         }
     }
 
-    suspend fun getBikes(communityId: String) = callbackFlow<SimpleResult<List<Bike>>> {
+    suspend fun getBikes(communityId: String) = callbackFlow<SimpleResult<List<BikeRequest>>> {
 
         postListener = object : ValueEventListener {
             override fun onCancelled(databaseError: DatabaseError) {
@@ -57,8 +54,8 @@ class BikeRepository(
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val items = dataSnapshot.children.map { data ->
-                    verifyItemIdAndUpdate(data.getValue(Bike::class.java)!!, data)
-                    data.getValue(Bike::class.java)
+                    verifyItemIdAndUpdate(data.getValue(BikeRequest::class.java)!!, data)
+                    data.getValue(BikeRequest::class.java)
                 }
                 this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
             }
@@ -77,7 +74,7 @@ class BikeRepository(
     }
 
     private fun verifyItemIdAndUpdate(
-        bike: Bike,
+        bike: BikeRequest,
         snapshot: DataSnapshot
     ) {
         if (bike.id.isNullOrEmpty()) {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -17,8 +18,10 @@ import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -48,7 +51,7 @@ class UserFormActivity : AppCompatActivity() {
 
         fun setupActivity(context: Context, user: User?): Intent {
             val intent = Intent(context, UserFormActivity::class.java)
-            intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, user))
+            intent.putExtra(USER_EXTRA, user)
             return intent
         }
     }
@@ -66,11 +69,9 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun checkEditMode() {
-        val parcelableUser: Parcelable? = intent.getParcelableExtra(USER_EXTRA)
-
-        parcelableUser?.let {
-            val user = Parcels.unwrap(it) as User
-            setValuesToEditUser(user)
+        if (intent.extras != null) {
+            val userExtra = intent.extras?.getParcelable<User>(USER_EXTRA)
+            setValuesToEditUser(userExtra)
         }
     }
 
@@ -214,7 +215,7 @@ class UserFormActivity : AppCompatActivity() {
             title = getString(R.string.warning),
             message = getString(R.string.lgpd_message),
             primaryButtonText = getString(R.string.lgpd_confirm),
-            primaryButtonListener = {
+            primaryButtonListener = View.OnClickListener {
                 binding.viewModel?.registerUser()
             }
         )

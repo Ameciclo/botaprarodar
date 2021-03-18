@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.common.biding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -18,6 +19,12 @@ object ImageBindingAdapter {
             .load(imagePathOrUrl)
             .apply(getRequestOptions())
             .into(imageView)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:imagePathOrUrlCircle")
+    fun setImagePathOrUrlCircle(imageView: ImageView, imagePathOrUrl: String){
+        imageView.loadPathOnCircle(imagePathOrUrl)
     }
 
     @JvmStatic

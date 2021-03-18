@@ -1,14 +1,17 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class Devolution(
+@Parcelize
+data class Devolution (
     @SerializedName("id")
-    val id: String?,
+    val id: String = "",
     @SerializedName("date")
-    val date: String?,
+    val date: String? = null,
     @SerializedName("user")
-    val user: User?,
+    val user: User? = null,
     @SerializedName("quiz")
-    val quiz: Quiz?
-)
+    val quiz: Quiz? = null
+) : Parcelable

@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.bikewithdraw
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -36,7 +37,7 @@ class BikeWithdrawActivity : AppCompatActivity() {
                 StepConfigType.CONFIRM_WITHDRAW
             )
         )
-        viewModel.uiState.observe(this, { stepConfigType ->
+        viewModel.uiState.observe(this, Observer { stepConfigType ->
             when (stepConfigType) {
                 StepConfigType.SELECT_BIKE -> {
                     binding.toolbar.let { toolbar ->

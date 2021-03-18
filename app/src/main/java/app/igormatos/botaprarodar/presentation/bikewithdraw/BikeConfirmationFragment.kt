@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -43,7 +44,7 @@ class BikeConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel?.uiState?.observe(viewLifecycleOwner) {
+        binding.viewModel?.uiState?.observe(viewLifecycleOwner, Observer {
             loadingDialog.dismiss()
             when (it) {
                 is BikeWithdrawUiState.Error -> {
@@ -56,7 +57,7 @@ class BikeConfirmationFragment : Fragment() {
 
                 is BikeWithdrawUiState.Success -> showConfirmDialog()
             }
-        }
+        })
     }
 
     private fun showConfirmDialog() {
@@ -66,10 +67,10 @@ class BikeConfirmationFragment : Fragment() {
             message = getString(R.string.lgpd_message),
             primaryButtonText = getString(R.string.repeat_withdraw_title),
             secondaryButtonText = getString(R.string.back_to_init_title),
-            primaryButtonListener = {
+            primaryButtonListener = View.OnClickListener {
                 binding.viewModel?.restartWithdraw()
             },
-            secondaryButtonListener = {
+            secondaryButtonListener = View.OnClickListener {
                 requireActivity().finish()
             }
         )
