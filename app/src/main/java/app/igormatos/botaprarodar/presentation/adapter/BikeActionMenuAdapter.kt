@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
@@ -12,7 +13,8 @@ import com.google.android.material.card.MaterialCardView
 
 class BikeActionMenuAdapter(
     private val itemList: MutableList<BikeActionsMenuType> = arrayListOf(),
-    private val navigateToReturnBikeActivity: () -> Unit
+    private val navigateToReturnBikeActivity: () -> Unit,
+    private val navigateToBikeWithdrawActivity: () -> Unit
 ) : RecyclerView.Adapter<BikeActionMenuAdapter.BikeActionMenuItemViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -34,7 +36,7 @@ class BikeActionMenuAdapter(
 
     override fun onBindViewHolder(holder: BikeActionMenuItemViewHolder, position: Int) {
         holder.bind(itemList[position])
-        holder.onItemClick()
+        holder.onItemClick(itemList[position])
     }
 
     fun updateItems(list: List<BikeActionsMenuType>) {
@@ -56,9 +58,16 @@ class BikeActionMenuAdapter(
             actionImageView.setImageResource(item.icon)
         }
 
-        fun onItemClick() {
+        fun onItemClick(bikeActionsMenuType: BikeActionsMenuType) {
             bikeActionMenuContainer.setOnClickListener {
-                navigateToReturnBikeActivity.invoke()
+                when (bikeActionsMenuType) {
+                    BikeActionsMenuType.BORROW -> {
+                        navigateToBikeWithdrawActivity.invoke()
+                    }
+                    BikeActionsMenuType.RETURN -> {
+                        navigateToReturnBikeActivity.invoke()
+                    }
+                }
             }
         }
     }
