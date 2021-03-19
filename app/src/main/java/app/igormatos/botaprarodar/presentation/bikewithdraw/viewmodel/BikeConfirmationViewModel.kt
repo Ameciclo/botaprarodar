@@ -9,6 +9,7 @@ import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
+import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -55,8 +56,14 @@ class BikeConfirmationViewModel(
 
         viewModelScope.launch {
             try {
-                sendBikeWithdraw.execute(bikeHolder, userHolder)
-                _uiState.postValue(BikeWithdrawUiState.Success)
+                when (sendBikeWithdraw.execute(withdrawDate, bikeHolder, userHolder)) {
+                    is SimpleResult.Success -> {
+                        _uiState.postValue(BikeWithdrawUiState.Success)
+                    }
+                    is SimpleResult.Error -> {
+                        _uiState.postValue(BikeWithdrawUiState.Error(DEFAULT_WITHDRAW_ERROR_MESSAGE))
+                    }
+                }
             } catch (e: Exception) {
                 _uiState.postValue(BikeWithdrawUiState.Error(DEFAULT_WITHDRAW_ERROR_MESSAGE))
             }
