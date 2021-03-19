@@ -164,6 +164,7 @@
     <string name="back_to_init_title">Voltar para o início</string>
     <string name="success_devolution_message">Devolução realizada com sucesso!</string>
     <string name="repeat_devolution_title">Devolver outra</string>
+    <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
 
 
 </resources>
