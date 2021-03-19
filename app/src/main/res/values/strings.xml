@@ -162,4 +162,8 @@
     <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
     <string name="repeat_withdraw_title">Emprestar outra</string>
     <string name="back_to_init_title">Voltar para o início</string>
+    <string name="success_devolution_message">Devolução realizada com sucesso!</string>
+    <string name="repeat_devolution_title">Devolver outra</string>
+
+
 </resources>

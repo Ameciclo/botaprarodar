@@ -270,7 +270,8 @@ val bprModule = module {
         StepFinalReturnBikeViewModel(
             bikeHolder = get(),
             quizBuilder = get(),
-            stepFinalUseCase = get()
+            stepFinalUseCase = get(),
+            devolutionStepper = get()
         )
     }
 
