@@ -158,6 +158,7 @@
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
     <string name="confirm_withdraw">Confirme o empréstimo</string>
+    <string name="to_confirm_withdraw">Confirmar empréstimo</string>
     <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
     <string name="repeat_withdraw_title">Emprestar outra</string>
     <string name="back_to_init_title">Voltar para o início</string>
