@@ -239,6 +239,8 @@ val bprModule = module {
 
     single { DevolutionBikeRepository(bikeApi = get()) }
 
+    single { WithdrawBikeRepository(bikeApi = get()) }
+
     single {
         StepOneReturnBikeUseCase(bikeRepository = get())
     }
@@ -298,7 +300,7 @@ val bprModule = module {
     }
 
     factory {
-        SendBikeWithdraw()
+        SendBikeWithdraw(withdrawRepository = get())
     }
 
 }
