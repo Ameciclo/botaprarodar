@@ -47,23 +47,13 @@ class TripsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentTripsBinding.inflate(inflater)
-
-        val bitmap = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.ic_directions_bike
-        )
-
-        binding.root.addItemFab.setImageDrawable(bitmap)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupClickListener()
         setupTripsRecyclerView()
         setupBikeActionRecyclerView()
         setupObserves()
@@ -72,12 +62,6 @@ class TripsFragment : Fragment() {
         getWithdrawals(selectedCommunityId)
 
         tripsViewModel.loadBikeActions()
-    }
-
-    private fun setupClickListener() {
-        binding.addItemFab.setOnClickListener {
-            navigateToBikeWithdraw()
-        }
     }
 
     private fun navigateToBikeWithdraw() {
