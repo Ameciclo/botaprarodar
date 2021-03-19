@@ -35,7 +35,7 @@ fun setErrorBicycleOrderNumber(view: TextInputLayout, bicycleOrderNumber: String
 
 @BindingAdapter("bikeNameWithLabel")
 fun TextView.setBikeNameWithLabel(userName: String) {
-    text = context.getString(R.string.bike_name_with_label, userName)
+    text = userName
 }
 
 @BindingAdapter("bikeOrderWithLabel")

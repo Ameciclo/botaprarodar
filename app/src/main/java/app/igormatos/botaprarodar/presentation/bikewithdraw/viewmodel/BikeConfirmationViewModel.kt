@@ -11,6 +11,8 @@ import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BikeConfirmationViewModel(
     private val bikeHolder: BikeHolder,
@@ -22,6 +24,10 @@ class BikeConfirmationViewModel(
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()
     val uiState: LiveData<BikeWithdrawUiState>
         get() = _uiState
+
+    private val date = Calendar.getInstance().time
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+    val withdrawDate = dateFormat.format(date)
 
     val bikeImageUrl = MutableLiveData<String>()
     val userImageUrl = MutableLiveData<String>()
@@ -36,7 +42,7 @@ class BikeConfirmationViewModel(
         }
 
     init {
-        bikeImageUrl.value = bikeHolder.bike?.photoPath
+        bikeImageUrl.value = bikeHolder.bike?.photoPath ?: ""
         userImageUrl.value = userHolder.user?.profilePicture ?: ""
         userName.value = userHolder.user?.name ?: ""
         bikeOrderNumber.value = bikeHolder.bike?.orderNumber?.toString() ?: ""
