@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,12 +18,17 @@ import app.igormatos.botaprarodar.databinding.FragmentStepFinalReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.createLoading
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StepFinalReturnBikeFragment : Fragment() {
 
     private lateinit var binding: FragmentStepFinalReturnBikeBinding
     private val viewModel: StepFinalReturnBikeViewModel by viewModel()
+
+    private val loadingDialog: AlertDialog by lazy {
+        requireContext().createLoading(R.layout.loading_dialog_animation)
+    }
 
     private val navController: NavController by lazy {
         findNavController()
@@ -52,10 +58,13 @@ class StepFinalReturnBikeFragment : Fragment() {
     private fun initObserver() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is SimpleResult.Success -> {
+                BikeDevolutionUiState.Loading -> {
+                    loadingDialog.show()
+                }
+                is BikeDevolutionUiState.Success -> {
                     showConfirmDialog()
                 }
-                is SimpleResult.Error -> {
+                is BikeDevolutionUiState.Error -> {
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }

@@ -22,8 +22,8 @@ class StepFinalReturnBikeViewModel(
     val devolutionStepper: ReturnStepper
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<SimpleResult<AddDataResponse>>()
-    val state: LiveData<SimpleResult<AddDataResponse>>
+    private val _state = MutableLiveData<BikeDevolutionUiState>()
+    val state: LiveData<BikeDevolutionUiState>
         get() = _state
 
     private val _restartDevolutionFlow = MutableLiveData<Boolean>()
@@ -37,13 +37,21 @@ class StepFinalReturnBikeViewModel(
     fun getBikeHolder() = bikeHolder.bike
 
     fun finalizeDevolution() {
+        _state.value = BikeDevolutionUiState.Loading
         viewModelScope.launch {
             val response = stepFinalUseCase.addDevolution(
                 devolutionDate,
                 bikeHolder,
                 quizBuilder
             )
-            _state.postValue(response)
+            when (response) {
+                is SimpleResult.Success -> {
+                    _state.postValue(BikeDevolutionUiState.Success)
+                }
+                is SimpleResult.Error -> {
+                    _state.postValue(BikeDevolutionUiState.Error(DEFAULT_WITHDRAW_ERROR_MESSAGE))
+                }
+            }
         }
 
     }
