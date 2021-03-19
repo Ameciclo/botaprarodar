@@ -1,11 +1,9 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.bikeSimpleError
 import app.igormatos.botaprarodar.utils.bikeSimpleSuccess
