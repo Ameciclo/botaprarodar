@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
@@ -17,12 +18,17 @@ import java.util.*
 class StepFinalReturnBikeViewModel(
     private val bikeHolder: BikeHolder,
     val quizBuilder: BikeDevolutionQuizBuilder,
-    val stepFinalUseCase: StepFinalReturnBikeUseCase
+    val stepFinalUseCase: StepFinalReturnBikeUseCase,
+    val devolutionStepper: ReturnStepper
 ) : ViewModel() {
 
     private val _state = MutableLiveData<SimpleResult<AddDataResponse>>()
     val state: LiveData<SimpleResult<AddDataResponse>>
         get() = _state
+
+    private val _restartDevolutionFlow = MutableLiveData<Boolean>()
+    val restartDevolutionFlow: LiveData<Boolean>
+        get() = _restartDevolutionFlow
 
     private val date = Calendar.getInstance().time
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -40,5 +46,10 @@ class StepFinalReturnBikeViewModel(
             _state.postValue(response)
         }
 
+    }
+
+    fun restartDevolution() {
+        devolutionStepper.navigateToInitialStep()
+        _restartDevolutionFlow.value = true
     }
 }

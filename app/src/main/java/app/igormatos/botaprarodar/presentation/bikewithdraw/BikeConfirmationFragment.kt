@@ -62,15 +62,10 @@ class BikeConfirmationFragment : Fragment() {
 
     private fun showConfirmDialog() {
         val dialogModel = CustomDialogModel(
-            icon = R.drawable.ic_confirm,
-            title = getString(R.string.warning),
-            message = getString(R.string.lgpd_message),
-            primaryButtonText = getString(R.string.repeat_withdraw_title),
-            secondaryButtonText = getString(R.string.back_to_init_title),
+            icon = R.drawable.ic_success,
+            title = getString(R.string.success_withdraw_message),
+            primaryButtonText = getString(R.string.back_to_init_title),
             primaryButtonListener = View.OnClickListener {
-                binding.viewModel?.restartWithdraw()
-            },
-            secondaryButtonListener = View.OnClickListener {
                 requireActivity().finish()
             }
         )
