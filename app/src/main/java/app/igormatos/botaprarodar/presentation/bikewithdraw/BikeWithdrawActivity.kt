@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import app.igormatos.botaprarodar.R
@@ -13,6 +14,16 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdr
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BikeWithdrawActivity : AppCompatActivity() {
+
+    private val navBuilder: NavOptions by lazy {
+        NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_right)
+            .setExitAnim(R.anim.slide_out_left)
+            .setPopEnterAnim(R.anim.slide_in_left)
+            .setPopExitAnim(R.anim.slide_out_right)
+            .build()
+    }
+
     private val navController: NavController by lazy {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.bikeWithdrawNavHostFragment) as NavHostFragment
@@ -26,9 +37,11 @@ class BikeWithdrawActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBikeWithdrawBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
+
         setSupportActionBar(binding.toolbar)
         val rootView = binding.root
         setContentView(rootView)
+
         NavigationUI.setupWithNavController(binding.toolbar, navController)
         binding.bikeActionStepper.addItems(
             arrayListOf(
@@ -37,6 +50,7 @@ class BikeWithdrawActivity : AppCompatActivity() {
                 StepConfigType.CONFIRM_WITHDRAW
             )
         )
+
         viewModel.uiState.observe(this, Observer { stepConfigType ->
             when (stepConfigType) {
                 StepConfigType.SELECT_BIKE -> {
@@ -46,14 +60,17 @@ class BikeWithdrawActivity : AppCompatActivity() {
                             onBackPressed()
                         }
                     }
-                    navController.navigate(R.id.selectBike)
+                    navController.navigate(R.id.selectBike, null, navBuilder)
                 }
-                StepConfigType.SELECT_USER -> navController.navigate(R.id.selectUser)
-                else -> navController.navigate(R.id.confirmBikeSelection)
+                StepConfigType.SELECT_USER -> navController.navigate(
+                    R.id.selectUser,
+                    null,
+                    navBuilder
+                )
+                else -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
             }
             binding.bikeActionStepper.setCurrentStep(stepConfigType)
-        }
-        )
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
