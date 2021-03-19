@@ -114,10 +114,44 @@ fun generateBikeInUse(nameBicycle: String): BikeRequest {
     }
 }
 
+fun generateBikeInNotUse(nameBicycle: String): BikeRequest {
+    return BikeRequest().apply {
+        name = nameBicycle
+        orderNumber = System.currentTimeMillis()
+        serialNumber = "123serial"
+        photoPath = "http://bla.com"
+        photoThumbnailPath = "http://bla.com"
+        inUse = false
+        communityId = communityFixture.id
+    }
+}
+
 fun buildMapStringAndBicycleInUse(howMuch: Int): Map<String, BikeRequest> {
     val map = mutableMapOf<String, BikeRequest>()
     for (i in howMuch downTo 1) {
         map[i.toString()] = generateBikeInUse("bicycle $i")
+    }
+    return map
+}
+
+fun buildMapStringAndBicycleInNotUse(howMuch: Int): Map<String, BikeRequest> {
+    val map = mutableMapOf<String, BikeRequest>()
+    for (i in howMuch downTo 1) {
+        map[i.toString()] = generateBikeInNotUse("bicycle $i")
+    }
+    return map
+}
+
+fun buildMapStringAndBicycleRandom(
+    howMuchBikesInUse: Int,
+    howMuchBikesInNotUse: Int
+): Map<String, BikeRequest> {
+    val map = mutableMapOf<String, BikeRequest>()
+    for (i in howMuchBikesInUse downTo 1) {
+        map[i.toString()] = generateBikeInUse("bicycle $i")
+    }
+    for (i in howMuchBikesInNotUse downTo 1) {
+        map[i.toString()] = generateBikeInNotUse("bicycle $i")
     }
     return map
 }
@@ -156,6 +190,7 @@ val availableBikes = listOf(
         communityId = "123"
     }
 )
+
 val borrowedBikes = listOf(
     Bike().apply {
         name = "monark"
@@ -168,4 +203,5 @@ val borrowedBikes = listOf(
         communityId = "123"
     },
 )
+
 val bikeList = borrowedBikes.plus(availableBikes)

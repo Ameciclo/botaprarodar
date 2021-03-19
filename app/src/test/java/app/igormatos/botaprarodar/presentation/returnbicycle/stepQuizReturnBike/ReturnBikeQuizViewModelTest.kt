@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
@@ -20,7 +20,7 @@ class ReturnBikeQuizViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepperAdapter = spyk(StepperAdapter.ReturnStepper(StepConfigType.QUIZ))
+    private val stepperAdapter = spyk(ReturnStepper(StepConfigType.QUIZ))
     private val quizBuilder = spyk<BikeDevolutionQuizBuilder>()
     private lateinit var viewModel: ReturnBikeQuizViewModel
 
@@ -66,7 +66,7 @@ class ReturnBikeQuizViewModelTest {
 
         verify { stepperAdapter.navigateToNext() }
 
-        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.CONFIRM_RETURN)
+        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.CONFIRM_DEVOLUTION)
     }
 
     @Test
