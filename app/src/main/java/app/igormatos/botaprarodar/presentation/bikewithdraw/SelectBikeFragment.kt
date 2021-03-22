@@ -27,7 +27,6 @@ class SelectBikeFragment : Fragment() {
         SelectBikeListAdapter {
             viewModel.setBike(it)
             viewModel.navigateToNextStep()
-            Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -30,11 +30,11 @@ class ReturnBikeActivity : AppCompatActivity() {
 
         binding = ActivityReturnBikeBinding.inflate(layoutInflater)
 
+        setSupportActionBar(binding.returnBikeToolbar)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(binding.returnBikeToolbar)
-        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
 
+        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
         binding.bikeActionStepper.addItems(
             arrayListOf(
                 StepConfigType.SELECT_BIKE,

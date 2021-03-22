@@ -23,7 +23,7 @@
     <fragment
             android:id="@+id/returnBikeQuizFragment"
             android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizFragment"
-            android:label="ReturnBikeQuizFragment"
+            android:label="@string/return_bike_toolbar_title"
             tools:layout="@layout/fragment_return_bike_quiz">
         <action
                 android:id="@+id/action_returnBikeQuizFragment_to_stepFinalReturnBikeFragment"
@@ -37,6 +37,6 @@
     <fragment
             android:id="@+id/stepFinalReturnBikeFragment"
             android:name="app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeFragment"
-            android:label="StepFinalReturnBikeFragment"
+            android:label="@string/return_bike_toolbar_title"
             tools:layout="@layout/fragment_step_final_return_bike" />
 </navigation>

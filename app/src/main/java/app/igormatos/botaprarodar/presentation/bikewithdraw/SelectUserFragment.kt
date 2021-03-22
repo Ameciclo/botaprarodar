@@ -30,7 +30,6 @@ class SelectUserFragment : Fragment() {
         SelectUserListAdapter {
             viewModel.setUser(it)
             viewModel.navigateToNextStep()
-            Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
         }
     }
 
