@@ -25,12 +25,12 @@
                 android:layout_height="75dp"
                 android:padding="@dimen/padding_medium"
                 android:scaleType="fitXY"
+                app:imagePathOrUrlCircle="@{viewModel.userImageUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/userInfoFieldsContainer"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imagePathOrUrlCircle="@{viewModel.userImageUrl}"
                 tools:src="@tools:sample/avatars" />
 
         <LinearLayout
@@ -48,10 +48,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_minimum"
                     android:text="@{viewModel.userName}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold"
                     tools:text="@string/complete_name" />
 
             <TextView
@@ -59,9 +59,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_minimum"
+                    android:text="@{@string/bike_withdraw_date(StringExtension.getDateFromDateTime(viewModel.withdrawDate))}"
                     android:textColor="@color/text_gray"
                     android:textSize="12sp"
-                    android:text="@{@string/bike_withdraw_date(StringExtension.getDateFromDateTime(viewModel.withdrawDate))}"
                     tools:text="Data de empréstimo: 15/02/2021" />
 
             <TextView
