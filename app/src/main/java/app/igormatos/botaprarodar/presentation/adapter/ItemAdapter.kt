@@ -18,11 +18,10 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity
-import app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity
+import app.igormatos.botaprarodar.presentation.bikewithdraw.choosebicycle.WithdrawActivity
+import app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity.Companion.BIKE_EXTRA
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_BICYCLE
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity

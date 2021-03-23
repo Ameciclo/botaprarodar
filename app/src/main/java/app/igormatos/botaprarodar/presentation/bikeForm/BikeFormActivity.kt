@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,7 +15,6 @@ import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.parceler.Parcels
 
 class BikeFormActivity : AppCompatActivity() {
 

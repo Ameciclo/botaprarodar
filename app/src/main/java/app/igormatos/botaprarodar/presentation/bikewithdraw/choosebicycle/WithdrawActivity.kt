@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle
+package app.igormatos.botaprarodar.presentation.bikewithdraw.choosebicycle
 
 import android.app.Activity
 import android.content.Intent

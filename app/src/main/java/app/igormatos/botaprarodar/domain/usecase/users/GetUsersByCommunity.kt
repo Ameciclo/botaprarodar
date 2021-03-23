@@ -8,9 +8,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
 @ExperimentalCoroutinesApi
-class UsersUseCase(private val userRepository: UserRepository) {
+class GetUsersByCommunity(private val userRepository: UserRepository) {
 
-    suspend fun getUsers(communityId: String): Flow<SimpleResult<List<User>>> {
+    suspend fun execute(communityId: String): Flow<SimpleResult<List<User>>> {
         return userRepository.getUsers(communityId)
     }
 }
