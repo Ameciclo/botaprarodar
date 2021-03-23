@@ -3,44 +3,49 @@ package app.igormatos.botaprarodar.presentation.returnbicycle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import io.mockk.*
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class ReturnBikeViewModelTest {
 
-    private val stepper = StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE)
-    private val viewModel = ReturnBikeViewModel(stepper)
+    private val stepper = mockk<ReturnStepper>(relaxed = true)
+    private lateinit var viewModel: ReturnBikeViewModel
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setup(){
+        every { stepper.currentStep } returns MutableStateFlow(StepConfigType.SELECT_BIKE)
+        viewModel = ReturnBikeViewModel(stepper)
+    }
 
     @Test
     fun `when init viewModel then steps should be SELECT_BIKE`() = runBlocking {
 
         val observer = spyk<Observer<StepConfigType>>()
-
         viewModel.uiState.observeForever(observer)
 
-        verify {
+        coVerify {
             observer.onChanged(StepConfigType.SELECT_BIKE)
         }
     }
 
     @Test
-    fun `stepStatus should match Stepper currentStep sort`() = runBlocking {
-        val observer = spyk<Observer<StepConfigType>>()
+    fun `when backToInitialStep then stepper should be in SELECT_BIKE state `() = runBlocking {
+        val stepTypeSlot = slot<StepConfigType>()
+        viewModel.backToInitialState()
 
-        viewModel.uiState.observeForever(observer)
-
-        stepper.currentStep.value = StepConfigType.QUIZ
-        stepper.currentStep.value = StepConfigType.CONFIRM_RETURN
-
-        verifyOrder {
-            observer.onChanged(StepConfigType.SELECT_BIKE)
-            observer.onChanged(StepConfigType.QUIZ)
-            observer.onChanged(StepConfigType.CONFIRM_RETURN)
+        verify {
+            stepper.setCurrentStep(capture(stepTypeSlot))
         }
+
+        assertEquals(stepTypeSlot.captured, StepConfigType.SELECT_BIKE)
     }
 }

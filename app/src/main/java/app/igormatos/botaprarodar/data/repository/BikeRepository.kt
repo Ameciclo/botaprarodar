@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.data.repository
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.safeApiCall
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.*

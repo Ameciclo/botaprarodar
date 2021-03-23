@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import org.parceler.Parcel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,15 +33,14 @@ data class User(
     @SerializedName("profilePictureThumbnail")
     var profilePictureThumbnail: String? = null,
     @SerializedName("communityId")
-    var communityId: String? = ""
-) : Parcelable, Item {
-
+    var communityId: String? = "",
     @SerializedName("path")
-    override var path: String = "users"
+    override var path: String = "users",
     @SerializedName("id")
-    override var id: String? = null
+    override var id: String? = null,
     @SerializedName("available")
     override var isAvailable: Boolean = true
+) : Parcelable, Item {
 
     init {
         val date = Calendar.getInstance().time
@@ -65,5 +63,4 @@ data class User(
     override fun subtitle(): String {
         return "Cadastrado desde $createdDate"
     }
-
 }

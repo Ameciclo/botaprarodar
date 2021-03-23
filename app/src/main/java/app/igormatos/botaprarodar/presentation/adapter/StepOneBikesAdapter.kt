@@ -44,9 +44,9 @@ class StepOneBikesAdapter(val listener: ReturnBikesAdapterClickListener) :
         fun bind(bike: Bike) {
             itemView.findViewById<TextView>(R.id.tv_name_bike_item).text = bike.title()
             itemView.findViewById<TextView>(R.id.tv_order_bike_item).text =
-                itemView.context.getString(R.string.bike_order_number, bike.orderNumber.toString())
+                itemView.context.getString(R.string.bike_order_with_label, bike.orderNumber.toString())
             itemView.findViewById<TextView>(R.id.tv_series_bike_item).text =
-                itemView.context.getString(R.string.bike_series_number, bike.serialNumber)
+                itemView.context.getString(R.string.bike_series_with_label, bike.serialNumber)
             val imageView = itemView.findViewById<ImageView>(R.id.iv_bike_item)
 
             if (!bike.isAvailable) {

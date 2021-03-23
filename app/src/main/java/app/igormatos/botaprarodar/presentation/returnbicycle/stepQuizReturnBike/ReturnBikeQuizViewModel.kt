@@ -5,10 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 
 class ReturnBikeQuizViewModel(
-    val stepperAdapter: StepperAdapter.ReturnStepper,
+    val stepperAdapter: ReturnStepper,
     val quizBuilder: BikeDevolutionQuizBuilder
 ) : ViewModel() {
 

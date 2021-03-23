@@ -30,16 +30,16 @@ class ReturnBikeActivity : AppCompatActivity() {
 
         binding = ActivityReturnBikeBinding.inflate(layoutInflater)
 
+        setSupportActionBar(binding.returnBikeToolbar)
         val view = binding.root
         setContentView(view)
-        setSupportActionBar(binding.returnBikeToolbar)
-        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
 
+        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
         binding.bikeActionStepper.addItems(
             arrayListOf(
                 StepConfigType.SELECT_BIKE,
                 StepConfigType.QUIZ,
-                StepConfigType.CONFIRM_RETURN
+                StepConfigType.CONFIRM_DEVOLUTION
             )
         )
 
@@ -48,8 +48,17 @@ class ReturnBikeActivity : AppCompatActivity() {
         })
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         viewModel.navigateToPrevious()
+    }
+
+    override fun finish() {
+        super.finish()
+        viewModel.backToInitialState()
     }
 }

@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.*
+import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
@@ -29,6 +30,7 @@ val bikeRequest = BikeRequest(
     serialNumber = "New Serial",
     createdDate = Date().toString()
 )
+
 
 val mapOfWithdraws = mapOf(
     Pair("123", Withdraws(id = "111")),
@@ -112,10 +114,44 @@ fun generateBikeInUse(nameBicycle: String): BikeRequest {
     }
 }
 
+fun generateBikeInNotUse(nameBicycle: String): BikeRequest {
+    return BikeRequest().apply {
+        name = nameBicycle
+        orderNumber = System.currentTimeMillis()
+        serialNumber = "123serial"
+        photoPath = "http://bla.com"
+        photoThumbnailPath = "http://bla.com"
+        inUse = false
+        communityId = communityFixture.id
+    }
+}
+
 fun buildMapStringAndBicycleInUse(howMuch: Int): Map<String, BikeRequest> {
     val map = mutableMapOf<String, BikeRequest>()
     for (i in howMuch downTo 1) {
         map[i.toString()] = generateBikeInUse("bicycle $i")
+    }
+    return map
+}
+
+fun buildMapStringAndBicycleInNotUse(howMuch: Int): Map<String, BikeRequest> {
+    val map = mutableMapOf<String, BikeRequest>()
+    for (i in howMuch downTo 1) {
+        map[i.toString()] = generateBikeInNotUse("bicycle $i")
+    }
+    return map
+}
+
+fun buildMapStringAndBicycleRandom(
+    howMuchBikesInUse: Int,
+    howMuchBikesInNotUse: Int
+): Map<String, BikeRequest> {
+    val map = mutableMapOf<String, BikeRequest>()
+    for (i in howMuchBikesInUse downTo 1) {
+        map[i.toString()] = generateBikeInUse("bicycle $i")
+    }
+    for (i in howMuchBikesInNotUse downTo 1) {
+        map[i.toString()] = generateBikeInNotUse("bicycle $i")
     }
     return map
 }
@@ -137,3 +173,35 @@ fun buildMapStringAndBicycle(howMuch: Int): Map<String, BikeRequest> {
     }
     return map
 }
+
+val communityFixture = Community().apply {
+    id = "some id"
+}
+
+val availableBikes = listOf(
+    Bike().apply {
+        name = "caloi"
+        inUse = false
+        communityId = communityFixture.id
+    },
+    Bike().apply {
+        name = "caloi"
+        inUse = false
+        communityId = "123"
+    }
+)
+
+val borrowedBikes = listOf(
+    Bike().apply {
+        name = "monark"
+        inUse = true
+        communityId = "123"
+    },
+    Bike().apply {
+        name = "monark"
+        inUse = true
+        communityId = "123"
+    },
+)
+
+val bikeList = borrowedBikes.plus(availableBikes)

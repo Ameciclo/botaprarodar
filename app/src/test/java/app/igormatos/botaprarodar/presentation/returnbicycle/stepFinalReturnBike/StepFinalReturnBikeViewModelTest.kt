@@ -3,9 +3,9 @@ package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBik
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.bikeSimpleError
 import app.igormatos.botaprarodar.utils.bikeSimpleSuccess
@@ -27,6 +27,7 @@ class StepFinalReturnBikeViewModelTest {
     private val useCase = mockk<StepFinalReturnBikeUseCase>()
     private val bikeHolder = spyk(BikeHolder())
     private val quizBuilder = spyk(BikeDevolutionQuizBuilder())
+    private val returnStepper = spyk(ReturnStepper(StepConfigType.SELECT_BIKE))
     private lateinit var viewModel: StepFinalReturnBikeViewModel
 
     @Before
@@ -34,7 +35,8 @@ class StepFinalReturnBikeViewModelTest {
         viewModel = StepFinalReturnBikeViewModel(
             quizBuilder = quizBuilder,
             stepFinalUseCase = useCase,
-            bikeHolder = bikeHolder
+            bikeHolder = bikeHolder,
+            devolutionStepper = returnStepper
         )
     }
 
@@ -55,7 +57,7 @@ class StepFinalReturnBikeViewModelTest {
 
         viewModel.finalizeDevolution()
 
-        assert(viewModel.state.value is SimpleResult.Success)
+        assert(viewModel.state.value is BikeDevolutionUiState.Success)
     }
 
     @Test
@@ -64,6 +66,6 @@ class StepFinalReturnBikeViewModelTest {
 
         viewModel.finalizeDevolution()
 
-        assert(viewModel.state.value is SimpleResult.Error)
+        assert(viewModel.state.value is BikeDevolutionUiState.Error)
     }
 }

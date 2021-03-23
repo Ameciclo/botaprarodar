@@ -2,9 +2,9 @@ package app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
-import app.igormatos.botaprarodar.presentation.returnbicycle.StepperAdapter
 import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
@@ -25,7 +25,7 @@ class StepOneReturnBikeViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepperAdapter = spyk(StepperAdapter.ReturnStepper(StepConfigType.SELECT_BIKE))
+    private val stepperAdapter = spyk(ReturnStepper(StepConfigType.SELECT_BIKE))
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
     private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: StepOneReturnBikeViewModel

@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="complete_name">Nome completo</string>
+    <string name="complete_name">Nome completo $1</string>
     <string name="add_user_title">Cadastrar pessoa</string>
     <string name="confirmar_devolucao">Confirmar devolução</string>
     <string name="quiz_title">Questionário</string>
@@ -102,13 +102,15 @@
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 
     <!-- Bike -->
-    <string name="bike_order_number">Ordem: %s</string>
-    <string name="bike_series_number">Série: %s</string>
+    <string name="bike_order_with_label">Ordem: %s</string>
+    <string name="bike_series_with_label">Série: %s</string>
     <string name="add_photo">Adicionar foto</string>
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="bike_withdraw_date">Data de empréstimo: %s</string>
     <string name="bike_devolution_date">Data de devolução: %s</string>
+    <string name="bike_series_number">Série: %s</string>
+    <string name="bike_order_number">Ordem: %s</string>
 
     <!-- USER -->
     <string name="user_created_since">Cadastrado desde %s</string>
@@ -129,8 +131,8 @@
     <string name="edit_user_toolbar_title">Editar Usuário</string>
     <string name="user_update_success">Usuário atualizado com sucesso</string>
     <string name="user_add_success">Usuário adicionado com sucesso</string>
-    <string name="borrow_bike">EMPRESTAR BICILETA</string>
-    <string name="return_bike">DEVOLVER BICILETA</string>
+    <string name="borrow_bike">EMPRESTAR BICICLETA</string>
+    <string name="return_bike">DEVOLVER BICICLETA</string>
     <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta</string>
     <string name="lgpd_confirm">De acordo</string>
 
@@ -152,6 +154,17 @@
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
     <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="select_user">Selecione um usuário</string>
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
+    <string name="confirm_withdraw">Confirme o empréstimo</string>
+    <string name="to_confirm_withdraw">Confirmar empréstimo</string>
+    <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
+    <string name="repeat_withdraw_title">Emprestar outra</string>
+    <string name="back_to_init_title">Voltar para o início</string>
+    <string name="success_devolution_message">Devolução realizada com sucesso!</string>
+    <string name="repeat_devolution_title">Devolver outra</string>
+    <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
+
+
 </resources>
