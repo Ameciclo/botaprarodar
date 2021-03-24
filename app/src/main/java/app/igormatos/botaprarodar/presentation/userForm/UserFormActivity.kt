@@ -22,12 +22,10 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
-import com.brunotmgomes.ui.extensions.createLoading
-import com.brunotmgomes.ui.extensions.hideKeyboard
-import com.brunotmgomes.ui.extensions.snackBarMaker
-import com.brunotmgomes.ui.extensions.takePictureIntent
+import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
+import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
 
@@ -118,15 +116,19 @@ class UserFormActivity : AppCompatActivity() {
         when (whichImageCode) {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
+                binding.tvAddProfilePhoto.gone()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
+                binding.tvAddFrontDocumentPhoto.gone()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
+                binding.tvAddBackDocumentPhoto.gone()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
+                binding.tvAddResidencePhoto.gone()
             }
         }
     }
