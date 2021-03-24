@@ -20,13 +20,14 @@ private const val INDEX_INVALID = -1
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
 
-    private val users = mutableListOf<User>()
+    private var users = mutableListOf<User>()
     var filteredList = mutableListOf<User>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
         val layoutInflater =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.users_item, parent, false)
+        users = currentList
         return UsersViewHolder(layoutInflater)
     }
 
