@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.userForm
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
@@ -25,6 +27,7 @@ import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
+import org.jetbrains.anko.textColor
 import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
@@ -70,11 +73,27 @@ class UserFormActivity : AppCompatActivity() {
         if (intent.extras != null) {
             val userExtra = intent.extras?.getParcelable<User>(USER_EXTRA)
             setValuesToEditUser(userExtra)
+            setImageDescriptionsToGone()
+            setImageEditDescriptionsToVisible()
         }
     }
 
     private fun setValuesToEditUser(user: User?) {
         user?.let { userFormViewModel.updateUserValues(it) }
+    }
+
+    private fun setImageDescriptionsToGone() {
+        binding.tvAddResidencePhoto.gone()
+        binding.tvAddBackDocumentPhoto.gone()
+        binding.tvAddFrontDocumentPhoto.gone()
+        binding.tvAddProfilePhoto.gone()
+    }
+
+    private fun setImageEditDescriptionsToVisible() {
+        binding.ivEditProfilePhoto.visible()
+        binding.ivEditResidencePhoto.visible()
+        binding.ivEditFrontPhoto.visible()
+        binding.ivEditBackPhoto.visible()
     }
 
     private fun setupViewModelStatus() {
@@ -117,18 +136,22 @@ class UserFormActivity : AppCompatActivity() {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
                 binding.tvAddProfilePhoto.gone()
+                binding.ivEditProfilePhoto.visible()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
                 binding.tvAddFrontDocumentPhoto.gone()
+                binding.ivEditFrontPhoto.visible()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
                 binding.tvAddBackDocumentPhoto.gone()
+                binding.ivEditBackPhoto.visible()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
                 binding.tvAddResidencePhoto.gone()
+                binding.ivEditResidencePhoto.visible()
             }
         }
     }

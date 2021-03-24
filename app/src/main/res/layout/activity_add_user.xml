@@ -76,6 +76,20 @@
                         app:layout_constraintStart_toStartOf="@+id/profileImageView"
                         app:layout_constraintTop_toTopOf="@+id/profileImageView" />
 
+                <ImageView
+                        android:id="@+id/ivEditProfilePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:drawablePadding="@dimen/margin_12"
+                        android:src="@drawable/ic_camera"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+                        app:layout_constraintEnd_toEndOf="@+id/profileImageView"
+                        app:layout_constraintStart_toStartOf="@+id/profileImageView"
+                        app:layout_constraintTop_toTopOf="@+id/profileImageView"
+                        app:tint="@color/gray_5" />
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCompleteName"
                         style="@style/textInputLayout"
@@ -189,6 +203,20 @@
                         app:layout_constraintStart_toStartOf="@+id/ivResidenceProof"
                         app:layout_constraintTop_toTopOf="@+id/ivResidenceProof" />
 
+                <ImageView
+                        android:id="@+id/ivEditResidencePhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:drawablePadding="@dimen/margin_12"
+                        android:src="@drawable/ic_camera"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivResidenceProof"
+                        app:layout_constraintEnd_toEndOf="@+id/ivResidenceProof"
+                        app:layout_constraintStart_toStartOf="@+id/ivResidenceProof"
+                        app:layout_constraintTop_toTopOf="@+id/ivResidenceProof"
+                        app:tint="@color/gray_5" />
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCpf"
                         style="@style/textInputLayout"
@@ -246,6 +274,20 @@
                         app:layout_constraintStart_toStartOf="@+id/ivFrontDocument"
                         app:layout_constraintTop_toTopOf="@+id/ivFrontDocument" />
 
+                <ImageView
+                        android:id="@+id/ivEditFrontPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:drawablePadding="@dimen/margin_12"
+                        android:src="@drawable/ic_camera"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivFrontDocument"
+                        app:layout_constraintEnd_toEndOf="@+id/ivFrontDocument"
+                        app:layout_constraintStart_toStartOf="@+id/ivFrontDocument"
+                        app:layout_constraintTop_toTopOf="@+id/ivFrontDocument"
+                        app:tint="@color/gray_5" />
+
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -281,6 +323,20 @@
                         app:layout_constraintEnd_toEndOf="@+id/ivBackDocument"
                         app:layout_constraintStart_toStartOf="@+id/ivBackDocument"
                         app:layout_constraintTop_toTopOf="@+id/ivBackDocument" />
+
+                <ImageView
+                        android:id="@+id/ivEditBackPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:drawablePadding="@dimen/margin_12"
+                        android:src="@drawable/ic_camera"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/ivBackDocument"
+                        app:layout_constraintEnd_toEndOf="@+id/ivBackDocument"
+                        app:layout_constraintStart_toStartOf="@+id/ivBackDocument"
+                        app:layout_constraintTop_toTopOf="@+id/ivBackDocument"
+                        app:tint="@color/gray_5" />
 
                 <TextView
                         android:layout_width="wrap_content"
