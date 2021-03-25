@@ -167,4 +167,15 @@
     <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
 
 
+    <!-- User Quiz -->
+    <string name="user_quiz_means_transport_question">Você tem acesso a outro meio de transporte?</string>
+    <string name="user_quiz_which_question">Qual?</string>
+    <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
+    <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
+    <string name="user_quiz_motivation_question">Qual sua motivação para utilizar a bicicleta como meio de transporte?</string>
+    <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?</string>
+    <string name="user_quiz_problems_on_way_question">Quais os problemas que você mais percebe durante o seu trajeto?</string>
+    <string name="user_quiz_time_on_way_question">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?</string>
+
+
 </resources>
