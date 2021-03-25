@@ -20,7 +20,7 @@ import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_users.*

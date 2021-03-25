@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.userForm
+package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.R
@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import app.igormatos.botaprarodar.utils.userFake
 import app.igormatos.botaprarodar.utils.userSimpleSuccess
 import com.brunotmgomes.ui.SimpleResult
