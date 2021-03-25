@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/user_nav_graph"
+        app:startDestination="@id/userFormFragment">
+
+    <fragment
+            android:id="@+id/userFormFragment"
+            android:name="app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment"
+            android:label="UserFormFragment"
+            tools:layout="@layout/fragment_user_form">
+
+        <action
+                android:id="@+id/action_userFormFragment_to_userQuizFragment"
+                app:destination="@id/userQuizFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/userQuizFragment"
+            android:name="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizFragment"
+            android:label="UserQuizFragment"
+            tools:layout="@layout/fragment_user_quiz" />
+
+</navigation>
