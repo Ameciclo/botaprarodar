@@ -1,18 +1,15 @@
-package app.igormatos.botaprarodar.presentation.userForm
+package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
@@ -20,17 +17,12 @@ import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
-import org.jetbrains.anko.textColor
-import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.parceler.Parcels
 
 class UserFormActivity : AppCompatActivity() {
 

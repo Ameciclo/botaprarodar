@@ -24,8 +24,8 @@ import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity.Companion.BIKE_EXTRA
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_BICYCLE
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity.Companion.USER_EXTRA
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormActivity
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormActivity.Companion.USER_EXTRA
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*

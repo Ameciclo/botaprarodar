@@ -48,7 +48,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
-import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModelImpl

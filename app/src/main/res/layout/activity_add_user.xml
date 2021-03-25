@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel" />
+                type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:context=".presentation.userForm.UserFormActivity">
+                    tools:context=".presentation.user.userform.UserFormActivity">
 
                 <ImageView
                         android:id="@+id/profileImageView"

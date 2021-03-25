@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByGiveRide
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByReason
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdBySufferedViolence
-import app.igormatos.botaprarodar.presentation.userForm.getRadioButtonId
+import app.igormatos.botaprarodar.presentation.user.userform.getRadioButtonId
 
 @BindingAdapter("app:setRadioGroupCheck")
 fun setRadioGroupCheck(view: RadioGroup, genderId: Int) {
