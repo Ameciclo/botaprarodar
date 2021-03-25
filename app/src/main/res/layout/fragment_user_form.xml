@@ -45,7 +45,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:context=".presentation.user.userform.UserFormActivity">
+                    tools:context=".presentation.user.userform.UserFormFragment">
 
                 <ImageView
                         android:id="@+id/profileImageView"
