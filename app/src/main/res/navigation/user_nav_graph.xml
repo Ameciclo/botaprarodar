@@ -11,6 +11,12 @@
             android:label="UserFormFragment"
             tools:layout="@layout/fragment_user_form">
 
+        <argument
+                android:name="user"
+                app:argType="app.igormatos.botaprarodar.domain.model.User"
+                app:nullable="true"
+                android:defaultValue="@null" />
+
         <action
                 android:id="@+id/action_userFormFragment_to_userQuizFragment"
                 app:destination="@id/userQuizFragment"
@@ -18,6 +24,7 @@
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
