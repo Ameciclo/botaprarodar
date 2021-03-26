@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_FORM
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_QUIZ
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
 import app.igormatos.botaprarodar.domain.model.User
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,10 +30,29 @@ class UserActivity : AppCompatActivity() {
         viewModel.isEditableAvailable = intent.extras?.getParcelable<User>(USER_BUNDLE) != null
 
         setupNavGraph()
+
+        setupStepperView()
+
+        setupObservers()
     }
 
     private fun setupNavGraph() {
         navController.setGraph(R.navigation.user_nav_graph, intent.extras)
+    }
+
+    private fun setupStepperView() {
+        binding.userActionStepper.addItems(
+            arrayListOf(
+                USER_FORM,
+                USER_QUIZ
+            )
+        )
+    }
+
+    private fun setupObservers() {
+        viewModel.uiState.observe(this) {
+            binding.userActionStepper.setCurrentStep(it)
+        }
     }
 
     companion object {

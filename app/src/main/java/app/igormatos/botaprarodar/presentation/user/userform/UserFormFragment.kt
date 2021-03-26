@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,7 +42,6 @@ class UserFormFragment : Fragment() {
         private const val REQUEST_ID_PHOTO = 2
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
-        const val USER_EXTRA = "user"
     }
 
     override fun onCreateView(
