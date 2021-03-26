@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.components.CustomDialog
@@ -27,9 +28,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserFormFragment : Fragment() {
 
+    private val args: UserFormFragmentArgs by navArgs()
+
     private val userFormViewModel: UserFormViewModel by viewModel()
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
+
     private lateinit var loadingDialog: AlertDialog
 
     private lateinit var binding: FragmentUserFormBinding
@@ -39,13 +43,7 @@ class UserFormFragment : Fragment() {
         private const val REQUEST_ID_PHOTO = 2
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
-        const val USER_EXTRA = "USER_EXTRA"
-
-        fun setupActivity(context: Context, user: User?): Intent {
-            val intent = Intent(context, UserFormFragment::class.java)
-            intent.putExtra(USER_EXTRA, user)
-            return intent
-        }
+        const val USER_EXTRA = "user"
     }
 
     override fun onCreateView(
@@ -69,9 +67,8 @@ class UserFormFragment : Fragment() {
     }
 
     private fun checkEditMode() {
-        if (arguments != null) {
-            val userExtra = arguments?.getParcelable<User>(USER_EXTRA)
-            setValuesToEditUser(userExtra)
+        if (args.user != null) {
+            setValuesToEditUser(args.user)
             setImageDescriptionsToGone()
             setImageEditDescriptionsToVisible()
         }
