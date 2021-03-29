@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_minimum"
-                    android:text="@{@string/bike_withdraw_date(StringExtension.getDateFromDateTime(viewModel.withdrawDate))}"
+                    android:text="@{@string/bike_withdraw_date(viewModel.withdrawDate)}"
                     android:textColor="@color/text_gray"
                     android:textSize="12sp"
                     tools:text="Data de empréstimo: 15/02/2021" />
