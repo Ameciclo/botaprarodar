@@ -51,6 +51,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import app.igormatos.botaprarodar.presentation.user.UserViewModel
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
+import app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModelImpl
@@ -310,6 +311,10 @@ val bprModule = module {
 
     viewModel {
         UserViewModel(get())
+    }
+
+    viewModel {
+        UserQuizViewModel()
     }
 }
 
