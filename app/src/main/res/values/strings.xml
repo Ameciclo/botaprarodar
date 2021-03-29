@@ -116,6 +116,10 @@
     <string name="user_created_since">Cadastrado desde %s</string>
     <string name="add_user_invalid_name">Nome inválido</string>
     <string name="add_user_invalid_address">Endereço inválido</string>
+    <string name="add_user_invalid_age">Idade inválida</string>
+    <string name="add_user_invalid_income">Renda inválida</string>
+    <string name="add_user_invalid_racial">Raça inválida</string>
+    <string name="add_user_invalid_schooling">Escolaridade inválida</string>
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
     <string name="add_user_cpf_hint">Número do RG ou CPF</string>
     <string name="add_user_invalid_cpf">CPF inválido</string>

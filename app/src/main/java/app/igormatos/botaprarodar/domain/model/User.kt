@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.model
 
 import android.os.Parcelable
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -34,6 +35,14 @@ data class User(
     var profilePictureThumbnail: String? = null,
     @SerializedName("communityId")
     var communityId: String? = "",
+    @SerializedName("userRacial")
+    var racial: String? = null,
+    @SerializedName("userSchooling")
+    var schooling: String? = null,
+    @SerializedName("userIncome")
+    var income: String? = null,
+    @SerializedName("userAge")
+    var age: String? = null,
     @SerializedName("path")
     override var path: String = "users",
     @SerializedName("id")
