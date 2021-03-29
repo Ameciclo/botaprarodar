@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="complete_name">Nome completo $1</string>
+    <string name="complete_name">Nome completo</string>
     <string name="add_user_title">Cadastrar pessoa</string>
     <string name="confirmar_devolucao">Confirmar devolução</string>
     <string name="quiz_title">Questionário</string>
@@ -133,7 +133,7 @@
     <string name="user_add_success">Usuário adicionado com sucesso</string>
     <string name="borrow_bike">EMPRESTAR BICICLETA</string>
     <string name="return_bike">DEVOLVER BICICLETA</string>
-    <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta</string>
+    <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta e geração de relatórios de mobilidade.</string>
     <string name="lgpd_confirm">De acordo</string>
 
     <!-- Return bike quiz -->
