@@ -30,6 +30,10 @@ class UserFormViewModel(
     var userImageDocumentFront = MutableLiveData<String>("")
     var userImageDocumentBack = MutableLiveData<String>("")
     var userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
+    var userRacial = MutableLiveData<String>("")
+    var userSchooling = MutableLiveData<String>("")
+    var userIncome = MutableLiveData<String>("")
+    var userAge = MutableLiveData<String>("")
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -40,6 +44,10 @@ class UserFormViewModel(
         addSource(userImageDocumentFront) { validateUserForm() }
         addSource(userImageDocumentBack) { validateUserForm() }
         addSource(userGender) { validateUserForm() }
+        addSource(userRacial) { validateUserForm() }
+        addSource(userSchooling) { validateUserForm() }
+        addSource(userIncome) { validateUserForm() }
+        addSource(userAge) { validateUserForm() }
     }
 
     fun updateUserValues(currentUser: User) {
@@ -52,6 +60,10 @@ class UserFormViewModel(
             userImageDocumentFront.value = this.docPicture.orEmpty()
             userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender
+            userRacial.value = this.racial.orEmpty()
+            userSchooling.value = this.schooling.orEmpty()
+            userIncome.value = this.income.orEmpty()
+            userAge.value = this.age.orEmpty()
         }
         isEditableAvailable = true
     }
@@ -64,6 +76,10 @@ class UserFormViewModel(
                 isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
+                isTextValid(userRacial.value) &&
+                isTextValid(userSchooling.value) &&
+                isTextValid(userIncome.value) &&
+                isTextValid(userAge.value) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }
 
@@ -109,6 +125,10 @@ class UserFormViewModel(
             docPictureBack = userImageDocumentBack.value
             gender = userGender.value ?: NO_ANSWER
             communityId = community.id
+            racial = userRacial.value
+            schooling = userSchooling.value
+            income = userIncome.value
+            age = userAge.value
         }
     }
 
