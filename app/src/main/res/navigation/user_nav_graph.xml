@@ -31,6 +31,10 @@
             android:id="@+id/userQuizFragment"
             android:name="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizFragment"
             android:label="UserQuizFragment"
-            tools:layout="@layout/fragment_user_quiz" />
+            tools:layout="@layout/fragment_user_quiz" >
+        <argument
+                android:name="user"
+                app:argType="app.igormatos.botaprarodar.domain.model.User" />
+    </fragment>
 
 </navigation>

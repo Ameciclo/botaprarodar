@@ -213,7 +213,8 @@ val bprModule = module {
     viewModel {
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            userUseCase = get()
+            userUseCase = get(),
+            stepper = get()
         )
     }
 

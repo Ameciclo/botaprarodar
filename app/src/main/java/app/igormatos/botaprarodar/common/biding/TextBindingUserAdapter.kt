@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.common.biding
 
 import androidx.databinding.BindingAdapter
-import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.utils.focusChangeListener
 import app.igormatos.botaprarodar.common.biding.utils.textWatcherListener
 import com.google.android.material.textfield.TextInputLayout
