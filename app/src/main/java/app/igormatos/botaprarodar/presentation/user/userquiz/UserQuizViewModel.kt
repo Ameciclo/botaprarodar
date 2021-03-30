@@ -4,10 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import com.brunotmgomes.ui.extensions.isNotNull
 import com.brunotmgomes.ui.extensions.isNotNullOrBlank
 
-class UserQuizViewModel : ViewModel()  {
+class UserQuizViewModel(
+    private val userUseCase: UserFormUseCase,
+    private val community: Community
+) : ViewModel()  {
 
     var isEditableAvailable = false
 
@@ -32,6 +38,8 @@ class UserQuizViewModel : ViewModel()  {
     val problemsOnWayOpenQuestion = MutableLiveData<String>()
 
     val timeOnWayOpenQuestion = MutableLiveData<String>()
+
+    private var user = User()
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(accessOtherTransport) { validateQuestions() }
