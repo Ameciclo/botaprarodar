@@ -270,7 +270,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:text="@={viewModel.quizTimeOnWayOpenQuestion}" />
+                    android:text="@={viewModel.timeOnWayOpenQuestion}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -280,6 +280,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_big"
                 android:layout_marginBottom="@dimen/margin_small"
+                android:enabled="@{viewModel.isButtonEnabled}"
                 android:onClick="@{() -> viewModel.onSaveClick()}"
                 android:padding="@dimen/padding_medium"
                 android:textStyle="bold"

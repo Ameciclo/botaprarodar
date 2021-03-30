@@ -1,8 +1,11 @@
 package app.igormatos.botaprarodar.presentation.user.userquiz
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.brunotmgomes.ui.extensions.isNotNull
+import com.brunotmgomes.ui.extensions.isNotNullOrBlank
 
 class UserQuizViewModel : ViewModel()  {
 
@@ -28,9 +31,39 @@ class UserQuizViewModel : ViewModel()  {
 
     val problemsOnWayOpenQuestion = MutableLiveData<String>()
 
-    val quizTimeOnWayOpenQuestion = MutableLiveData<String>()
+    val timeOnWayOpenQuestion = MutableLiveData<String>()
+
+    val isButtonEnabled = MediatorLiveData<Boolean>().apply {
+        addSource(accessOtherTransport) { validateQuestions() }
+        addSource(accessOtherTransportOpenQuestion) { validateQuestions() }
+        addSource(alreadyUseBPR) { validateQuestions() }
+        addSource(alreadyUseBPROpenQuestion) { validateQuestions() }
+        addSource(motivationOpenQuestion) { validateQuestions() }
+        addSource(alreadyAccidentVictim) { validateQuestions() }
+        addSource(problemsOnWayOpenQuestion) { validateQuestions() }
+        addSource(timeOnWayOpenQuestion) { validateQuestions() }
+    }
 
     fun onSaveClick() {
 
+    }
+
+    private fun validateQuestions() {
+        isButtonEnabled.value =
+            isQuestionValid(accessOtherTransport, accessOtherTransportOpenQuestion) &&
+                    isQuestionValid(alreadyUseBPR, alreadyUseBPROpenQuestion) &&
+                    motivationOpenQuestion.isNotNullOrBlank() &&
+                    alreadyAccidentVictim.isNotNull() &&
+                    problemsOnWayOpenQuestion.isNotNullOrBlank() &&
+                    timeOnWayOpenQuestion.isNotNullOrBlank()
+    }
+
+    private fun isQuestionValid(
+        yesNoQuestion: MutableLiveData<Boolean>,
+        openQuestion: MutableLiveData<String>
+    ) = when (yesNoQuestion.value) {
+        null -> false
+        true -> !openQuestion.value.isNullOrBlank()
+        else -> true
     }
 }
