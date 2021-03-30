@@ -314,7 +314,10 @@ val bprModule = module {
     }
 
     viewModel {
-        UserQuizViewModel()
+        UserQuizViewModel(
+            community = get<SharedPreferencesModule>().getJoinedCommunity(),
+            userUseCase = get()
+        )
     }
 }
 

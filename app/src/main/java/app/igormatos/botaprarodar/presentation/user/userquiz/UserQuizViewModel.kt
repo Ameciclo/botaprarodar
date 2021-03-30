@@ -39,7 +39,7 @@ class UserQuizViewModel(
 
     val timeOnWayOpenQuestion = MutableLiveData<String>()
 
-    private var user = User()
+    private lateinit var user: User
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(accessOtherTransport) { validateQuestions() }
@@ -50,6 +50,10 @@ class UserQuizViewModel(
         addSource(alreadyAccidentVictim) { validateQuestions() }
         addSource(problemsOnWayOpenQuestion) { validateQuestions() }
         addSource(timeOnWayOpenQuestion) { validateQuestions() }
+    }
+
+    fun init(user: User) {
+        this.user = user
     }
 
     fun onSaveClick() {
