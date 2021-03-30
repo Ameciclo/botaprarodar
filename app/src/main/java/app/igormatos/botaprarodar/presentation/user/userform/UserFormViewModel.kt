@@ -5,12 +5,15 @@ import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
+import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.ViewEvent
 import kotlinx.coroutines.launch
 
 class UserFormViewModel(
     private val userUseCase: UserFormUseCase,
-    private val community: Community
+    private val community: Community,
+    private val stepper: RegisterUserStepper
 ) : ViewModel() {
 
     private val _status = MutableLiveData<ViewModelStatus<String>>()
@@ -18,6 +21,8 @@ class UserFormViewModel(
 
     private val _lgpd = MutableLiveData<Boolean>()
     val lgpd: LiveData<Boolean> = _lgpd
+
+    val openQuiz = MutableLiveData<ViewEvent<User>>()
 
     var isEditableAvailable = false
     var user = User()
@@ -163,6 +168,11 @@ class UserFormViewModel(
 
     fun showLgpd() {
         _lgpd.value = true
+    }
+
+    fun navigateToNextStep() {
+        stepper.navigateToNext()
+        openQuiz.value = ViewEvent(user)
     }
 
     companion object {

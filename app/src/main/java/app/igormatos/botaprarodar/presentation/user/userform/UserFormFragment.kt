@@ -12,6 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
@@ -20,6 +23,7 @@ import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragmentDirections
 import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
@@ -36,6 +40,10 @@ class UserFormFragment : Fragment() {
     private lateinit var loadingDialog: AlertDialog
 
     private lateinit var binding: FragmentUserFormBinding
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     companion object {
         private const val REQUEST_PROFILE_PHOTO = 1
@@ -122,6 +130,14 @@ class UserFormFragment : Fragment() {
                 binding.viewModel?.registerUser()
             } else if (it) {
                 showConfirmDialog()
+            }
+        })
+
+        userFormViewModel.openQuiz.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { user ->
+                val direction =
+                    UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(user)
+                navController.navigate(direction)
             }
         })
     }
