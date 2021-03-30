@@ -1,28 +1,20 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.*
-import app.igormatos.botaprarodar.common.ViewModelStatus
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
-import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.ViewEvent
-import kotlinx.coroutines.launch
 
 class UserFormViewModel(
-    private val userUseCase: UserFormUseCase,
     private val community: Community,
     private val stepper: RegisterUserStepper
 ) : ViewModel() {
 
-    private val _status = MutableLiveData<ViewModelStatus<String>>()
-    val status: LiveData<ViewModelStatus<String>> = _status
-
-    private val _lgpd = MutableLiveData<Boolean>()
-    val lgpd: LiveData<Boolean> = _lgpd
-
-    val openQuiz = MutableLiveData<ViewEvent<User>>()
+    val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
 
     var isEditableAvailable = false
     var user = User()
@@ -90,34 +82,6 @@ class UserFormViewModel(
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
-    fun registerUser() {
-        _status.value = ViewModelStatus.Loading
-        createUser()
-        viewModelScope.launch {
-            if (isEditableAvailable)
-                updateUser()
-            else
-                addUser()
-        }
-    }
-
-    private suspend fun updateUser() {
-        userUseCase.startUpdateUser(user).let {
-            when (it) {
-                is SimpleResult.Success -> showSuccess()
-                is SimpleResult.Error -> showError()
-            }
-        }
-    }
-
-    private suspend fun addUser() {
-        userUseCase.addUser(user).let {
-            when (it) {
-                is SimpleResult.Success -> showSuccess()
-                is SimpleResult.Error -> showError()
-            }
-        }
-    }
 
     private fun createUser() {
         user.apply {
@@ -157,27 +121,13 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
-    private fun showSuccess() {
-        _status.value = ViewModelStatus.Success("")
-    }
-
-    private fun showError() {
-        val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
-        _status.value = ViewModelStatus.Error(message)
-    }
-
-    fun showLgpd() {
-        _lgpd.value = true
-    }
-
     fun navigateToNextStep() {
         stepper.navigateToNext()
-        openQuiz.value = ViewEvent(user)
+        createUser()
+        openQuiz.value = ViewEvent(user to isEditableAvailable)
     }
 
     companion object {
-        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar o usuário"
-        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar o usuário"
         private const val GENDER_INITIAL_VALUE = -1
     }
 }

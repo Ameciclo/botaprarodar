@@ -1,10 +1,13 @@
 package app.igormatos.botaprarodar.presentation.user
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import app.igormatos.botaprarodar.R
@@ -56,6 +59,24 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        viewModel.navigateToPrevious()
+    }
+
+    override fun finish() {
+        super.finish()
+        viewModel.backToInitialState()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val fragment = supportFragmentManager.currentNavigationFragment
+
+        fragment?.onActivityResult(requestCode, resultCode, data)
+    }
+
     companion object {
         const val USER_BUNDLE = "user"
 
@@ -66,3 +87,6 @@ class UserActivity : AppCompatActivity() {
         }
     }
 }
+
+val FragmentManager.currentNavigationFragment: Fragment?
+    get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()

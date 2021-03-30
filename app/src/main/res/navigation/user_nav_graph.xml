@@ -35,6 +35,9 @@
         <argument
                 android:name="user"
                 app:argType="app.igormatos.botaprarodar.domain.model.User" />
+        <argument
+                android:name="editMode"
+                app:argType="boolean" />
     </fragment>
 
 </navigation>
