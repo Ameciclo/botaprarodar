@@ -35,14 +35,16 @@ data class User(
     var profilePictureThumbnail: String? = null,
     @SerializedName("communityId")
     var communityId: String? = "",
-    @SerializedName("userRacial")
+    @SerializedName("racial")
     var racial: String? = null,
-    @SerializedName("userSchooling")
+    @SerializedName("schooling")
     var schooling: String? = null,
-    @SerializedName("userIncome")
+    @SerializedName("income")
     var income: String? = null,
-    @SerializedName("userAge")
+    @SerializedName("age")
     var age: String? = null,
+    @SerializedName("userQuiz")
+    var userQuiz: UserQuiz? = null,
     @SerializedName("path")
     override var path: String = "users",
     @SerializedName("id")

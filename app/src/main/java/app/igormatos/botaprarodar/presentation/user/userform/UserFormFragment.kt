@@ -37,8 +37,6 @@ class UserFormFragment : Fragment() {
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
-    private lateinit var loadingDialog: AlertDialog
-
     private lateinit var binding: FragmentUserFormBinding
 
     private val navController: NavController by lazy {
@@ -66,7 +64,6 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadingDialog = requireContext().createLoading(R.layout.loading_dialog_animation)
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -99,44 +96,14 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupViewModelStatus() {
-        binding.viewModel?.status?.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is ViewModelStatus.Success -> {
-                    loadingDialog.dismiss()
-                    val intent = Intent().putExtra(
-                        "isEditModeAvailable",
-                        userFormViewModel.isEditableAvailable
-                    )
-                    // TODO
-                    //setResult(RESULT_OK, intent)
-                    //finish()
-                }
-                is ViewModelStatus.Loading -> {
-                    requireActivity().window.decorView.hideKeyboard()
-                    loadingDialog.show()
-                }
-                is ViewModelStatus.Error -> {
-                    snackBarMaker(it.message, binding.scrollContainer).apply {
-                        setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
-                        show()
-                    }
-                    loadingDialog.dismiss()
-                }
-            }
-        })
-
-        binding.viewModel?.lgpd?.observe(viewLifecycleOwner, Observer {
-            if (binding.viewModel?.isEditableAvailable == true) {
-                binding.viewModel?.registerUser()
-            } else if (it) {
-                showConfirmDialog()
-            }
-        })
-
         userFormViewModel.openQuiz.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let { user ->
+            it.getContentIfNotHandled()?.let { data ->
+                val (user, editMode) = data
                 val direction =
-                    UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(user)
+                    UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(
+                        user,
+                        editMode
+                    )
                 navController.navigate(direction)
             }
         })
@@ -168,10 +135,9 @@ class UserFormFragment : Fragment() {
     }
 
     private fun dispatchTakePictureIntent(code: Int) {
-        // TODO
-        //takePictureIntent(code) { path ->
-        //    mCurrentPhotoPath = path
-        //}
+        requireActivity().takePictureIntent(code) { path ->
+            mCurrentPhotoPath = path
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -245,18 +211,5 @@ class UserFormFragment : Fragment() {
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
-    }
-
-    private fun showConfirmDialog() {
-        val dialogModel = CustomDialogModel(
-            title = getString(R.string.warning),
-            message = getString(R.string.lgpd_message),
-            primaryButtonText = getString(R.string.lgpd_confirm),
-            primaryButtonListener = View.OnClickListener {
-                binding.viewModel?.registerUser()
-            }
-        )
-
-        CustomDialog.newInstance(dialogModel).show(childFragmentManager, TAG)
     }
 }
