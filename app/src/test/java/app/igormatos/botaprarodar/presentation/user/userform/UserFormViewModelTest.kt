@@ -1,22 +1,15 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import app.igormatos.botaprarodar.utils.userFake
-import com.brunotmgomes.ui.ViewEvent
-import com.firebase.ui.auth.data.model.User
-import io.mockk.MockKSettings.relaxed
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import org.hamcrest.Matcher
-
-import junit.framework.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
