@@ -18,14 +18,12 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.bikewithdraw.choosebicycle.WithdrawActivity
-import app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity.Companion.BIKE_EXTRA
+import app.igormatos.botaprarodar.presentation.bikewithdraw.choosebicycle.WithdrawActivity
+import app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser.ChooseUserActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_BICYCLE
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity.Companion.USER_EXTRA
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
@@ -223,9 +221,9 @@ class ItemAdapter(private var activity: Activity? = null) :
 
             if (item is User) {
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, UserFormActivity::class.java)
-                    intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
-                    itemView.context.startActivity(intent)
+                    //val intent = Intent(itemView.context, UserFormActivity::class.java)
+                    //intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
+                    //itemView.context.startActivity(intent)
                 }
             }
 

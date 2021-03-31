@@ -36,7 +36,7 @@
                 android:name=".presentation.main.MainActivity"
                 android:label="@string/app_name">
         </activity>
-        <activity android:name=".presentation.userForm.UserFormActivity">
+        <activity android:name=".presentation.user.UserActivity">
         </activity>
 
         <provider
