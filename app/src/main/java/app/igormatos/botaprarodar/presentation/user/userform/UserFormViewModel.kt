@@ -11,7 +11,7 @@ import com.brunotmgomes.ui.ViewEvent
 
 class UserFormViewModel(
     private val community: Community,
-    private val stepper: RegisterUserStepper
+    val stepper: RegisterUserStepper
 ) : ViewModel() {
 
     val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
