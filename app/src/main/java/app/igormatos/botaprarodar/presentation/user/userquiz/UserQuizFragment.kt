@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.user.userquiz
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -58,9 +59,8 @@ class UserQuizFragment : Fragment() {
                         "isEditModeAvailable",
                         viewModel.editMode
                     )
-                    // TODO
-                    //setResult(RESULT_OK, intent)
-                    //finish()
+                    activity?.setResult(RESULT_OK, intent)
+                    activity?.finish()
                 }
                 is ViewModelStatus.Loading -> {
                     requireActivity().window.decorView.hideKeyboard()
