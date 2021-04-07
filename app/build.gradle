@@ -16,10 +16,24 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore_path")
+            storePassword "store_passwarod"
+            keyAlias "alias"
+            keyPassword "key_password"
+        }
+    }
+
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
 
             buildConfigField "String", "BASE_URL", "\"https://bpr-production.firebaseio.com\""
         }
