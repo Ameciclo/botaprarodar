@@ -1,8 +1,8 @@
-name: Continuous Integration
+name: DEV_CI
 
 on:
   pull_request:
-    branches: [ main, development ]
+    branches: [ development ]
 
 jobs:
   build:
