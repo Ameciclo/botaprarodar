@@ -71,4 +71,4 @@ jobs:
           appId: ${{secrets.FIREBASE_PROJECT_ID_RELEASE}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: DEV
-          file: release.apk
+          file: app-release-unsigned-signed.apk
