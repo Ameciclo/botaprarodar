@@ -1,4 +1,4 @@
-name: DEV_CI
+name: Run UI and Unit tests
 
 on:
   pull_request:
