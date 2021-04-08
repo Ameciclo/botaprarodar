@@ -7,6 +7,10 @@ alternativa a desigualdades socioespaciais.
 
 [mais informações](https://botaprarodar.ameciclo.org/)
 
+## Gerenciamento do Projeto
+Utilizamos o Firebase para gerenciar o app. Temos dois projetos no firebase para Desenvolvimento
+e Produção. Para acesso, consulte a equipe de desenvolvimento da aplicação.
+
 ## Configuração do projeto
 1. Baixe e instale o [Android Studio](https://developer.android.com/studio?gclid=CjwKCAiAmrOBBhA0EiwArn3mfJ_wOSFMNgorYFzGPgb_7jFW8sZL8Rt7MqfhzvMVKILYYaboqkEywhoCXYQQAvD_BwE&gclsrc=aw.ds)
 2. Clone este repositório, abra o projeto no Android Studio.
@@ -59,7 +63,6 @@ Antes de abrir um pull request rode os testes e garanta que todos estejam passan
 Nossos testes rodam sempre em debug e estão divididos em instrumentados e não instrumentados.
 
   1. Intrumentados: abra o emulador e execute o comando abaixo
-
     - ```./gradlew connectedDebugAndroidTest```
 
   2. Não instrumentados: execute o comando abaixo diretamente no terminal
@@ -70,9 +73,14 @@ Nosso fluxo de CI é implementado pelo [github actions](https://github.com/Ameci
 Os arquivos de configuração com os jobs ficam localizados no diretório ***/.github*** na raíz do projeto.
 Atualmente há dois pipelines de CI:
 1. executa a cada pull request aberto pra development ou main, com os jobs
-    - Tests Unitaires
+    - Unit Tests
+    - Generate APK
     - UI tests no firebase test lab
-2. executa a cada merge na development ou main, com os jobs:
-    - Tests Unitaires
+2. executa a cada push na main, com os jobs:
+    - Build
+    - Bump Version
+    - Deploy
 
+Quando o segundo workflow finaliza com sucesso, o app é enviado por email pra uma lista de usuários
+gerenciada pelo Firebase App Distribution.
 

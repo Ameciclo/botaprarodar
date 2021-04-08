@@ -2,7 +2,7 @@ name: Run UI and Unit tests
 
 on:
   pull_request:
-    branches: [ development ]
+    branches: [ main, development ]
 
 jobs:
   build:
