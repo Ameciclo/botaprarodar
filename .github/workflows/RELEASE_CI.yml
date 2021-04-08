@@ -1,74 +1,23 @@
-# This is a basic workflow to help you get started with Actions
-
-name: RELEASE_CI
-
-# Controls when the action will run.
+name: Bump tag version
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    tags:
-      - 'v*'
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+      - main
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # 1 Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      # 2 decode google-services.json
-      - name: Decode google-services.json
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
         env:
-          FIREBASE_SECRET_RELEASE: ${{ secrets.FIREBASE_SECRET_RELEASE }}
-        run: echo $FIREBASE_SECRET_RELEASE > app/google-services.json
-
-      # 3 Generate Release APK
-      - name: Generate Release APK
-        run: bash ./gradlew clean assembleRelease --stacktrace
-
-      # 4 Sign APK
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        # ID used to access action output
-        id: sign_app
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.SIGNING_ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-      # 5 Upload apk to github action
-      - uses: actions/upload-artifact@master
-        with:
-          name: release.apk
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
-      # 6 Upload mapping file to github action
-      - uses: actions/upload-artifact@master
-        with:
-          name: mapping.txt
-          path: app/build/outputs/mapping/release/mapping.txt
-
-  deploy-firebase:
-    # 1
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    steps:
-      # 2
-      - uses: actions/download-artifact@master
-        with:
-          name: release.apk
-      #3
-      - name: upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.FIREBASE_PROJECT_ID_RELEASE}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: DEV
-          file: app-release-unsigned-signed.apk
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
