@@ -2,21 +2,23 @@ package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.model.UserRequest
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.SimpleResult
+import kotlinx.coroutines.flow.flowOf
 
 val userFake = User().apply {
     name = "Capitão América"
-    doc_number = 1234567890
-    doc_picture_back = "https://docback.jpeg"
-    doc_picture = "https://doc.jpeg"
+    docNumber = 1234567890
+    docPictureBack = "https://docback.jpeg"
+    docPicture = "https://doc.jpeg"
     address = "Polo Norte - 433La 092Lg"
-    birthday = "01/01/1900"
-    created_date = "01/01/2021"
+    createdDate = "01/01/2021"
     gender = 0
-    doc_type = 1
-    profile_picture = "https://profile.jpeg"
-    profile_picture_thumbnail = "https://thumb.jpeg"
-    residence_proof_picture = "https://residence.jpeg"
+    docType = 1
+    profilePicture = "https://profile.jpeg"
+    profilePictureThumbnail = "https://thumb.jpeg"
+    residenceProofPicture = "https://residence.jpeg"
 }
 
 val userRequest = UserRequest(
@@ -39,3 +41,15 @@ val mockImageUploadResponse = ImageUploadResponse(
     fullImagePath = "teste",
     thumbPath = "teste"
 )
+
+val listUsers = mutableListOf(userFake)
+
+val userException = Exception()
+
+val userFlowSuccess = flowOf(SimpleResult.Success(listUsers))
+
+val userFlowError = flowOf(SimpleResult.Error(userException))
+
+val userSimpleSuccess = SimpleResult.Success(AddDataResponse("User registered"))
+
+val userSimpleSuccessEdit = SimpleResult.Success(AddDataResponse("User edited"))

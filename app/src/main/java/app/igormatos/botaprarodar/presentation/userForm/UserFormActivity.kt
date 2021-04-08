@@ -1,25 +1,34 @@
 package app.igormatos.botaprarodar.presentation.userForm
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.components.CustomDialog
+import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.ActivityAddUserBinding
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
-import com.brunotmgomes.ui.extensions.createLoading
-import com.brunotmgomes.ui.extensions.hideKeyboard
-import com.brunotmgomes.ui.extensions.snackBarMaker
-import com.brunotmgomes.ui.extensions.takePictureIntent
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
+import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
+import org.jetbrains.anko.textColor
+import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.parceler.Parcels
 
@@ -40,6 +49,12 @@ class UserFormActivity : AppCompatActivity() {
         private const val REQUEST_RESIDENCE_PHOTO = 3
         private const val REQUEST_ID_PHOTO_BACK = 4
         const val USER_EXTRA = "USER_EXTRA"
+
+        fun setupActivity(context: Context, user: User?): Intent {
+            val intent = Intent(context, UserFormActivity::class.java)
+            intent.putExtra(USER_EXTRA, user)
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +70,11 @@ class UserFormActivity : AppCompatActivity() {
     }
 
     private fun checkEditMode() {
-        val parcelableUser: Parcelable? = intent.getParcelableExtra(USER_EXTRA)
-
-        parcelableUser?.let{
-            val user = Parcels.unwrap(it) as User
-            setValuesToEditUser(user)
+        if (intent.extras != null) {
+            val userExtra = intent.extras?.getParcelable<User>(USER_EXTRA)
+            setValuesToEditUser(userExtra)
+            setImageDescriptionsToGone()
+            setImageEditDescriptionsToVisible()
         }
     }
 
@@ -67,8 +82,22 @@ class UserFormActivity : AppCompatActivity() {
         user?.let { userFormViewModel.updateUserValues(it) }
     }
 
+    private fun setImageDescriptionsToGone() {
+        binding.tvAddResidencePhoto.gone()
+        binding.tvAddBackDocumentPhoto.gone()
+        binding.tvAddFrontDocumentPhoto.gone()
+        binding.tvAddProfilePhoto.gone()
+    }
+
+    private fun setImageEditDescriptionsToVisible() {
+        binding.ivEditProfilePhoto.visible()
+        binding.ivEditResidencePhoto.visible()
+        binding.ivEditFrontPhoto.visible()
+        binding.ivEditBackPhoto.visible()
+    }
+
     private fun setupViewModelStatus() {
-        binding.viewModel?.status?.observe(this, {
+        binding.viewModel?.status?.observe(this, Observer {
             when (it) {
                 is ViewModelStatus.Success -> {
                     loadingDialog.dismiss()
@@ -79,7 +108,7 @@ class UserFormActivity : AppCompatActivity() {
                     setResult(RESULT_OK, intent)
                     finish()
                 }
-                ViewModelStatus.Loading -> {
+                is ViewModelStatus.Loading -> {
                     window.decorView.hideKeyboard()
                     loadingDialog.show()
                 }
@@ -92,21 +121,37 @@ class UserFormActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.viewModel?.lgpd?.observe(this, Observer {
+            if (binding.viewModel?.isEditableAvailable == true) {
+                binding.viewModel?.registerUser()
+            } else if (it) {
+                showConfirmDialog()
+            }
+        })
     }
 
     private fun updateViewModelLiveData(whichImageCode: Int, path: String) {
         when (whichImageCode) {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
+                binding.tvAddProfilePhoto.gone()
+                binding.ivEditProfilePhoto.visible()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
+                binding.tvAddFrontDocumentPhoto.gone()
+                binding.ivEditFrontPhoto.visible()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
+                binding.tvAddBackDocumentPhoto.gone()
+                binding.ivEditBackPhoto.visible()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
+                binding.tvAddResidencePhoto.gone()
+                binding.ivEditResidencePhoto.visible()
             }
         }
     }
@@ -188,5 +233,18 @@ class UserFormActivity : AppCompatActivity() {
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
+    }
+
+    private fun showConfirmDialog() {
+        val dialogModel = CustomDialogModel(
+            title = getString(R.string.warning),
+            message = getString(R.string.lgpd_message),
+            primaryButtonText = getString(R.string.lgpd_confirm),
+            primaryButtonListener = View.OnClickListener {
+                binding.viewModel?.registerUser()
+            }
+        )
+
+        CustomDialog.newInstance(dialogModel).show(supportFragmentManager, TAG)
     }
 }

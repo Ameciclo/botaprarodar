@@ -4,17 +4,20 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.user.UserUseCase
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
 class UserFormViewModel(
-    private val userUseCase: UserUseCase,
+    private val userUseCase: UserFormUseCase,
     private val community: Community
 ) : ViewModel() {
 
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
+
+    private val _lgpd = MutableLiveData<Boolean>()
+    val lgpd: LiveData<Boolean> = _lgpd
 
     var isEditableAvailable = false
     var user = User()
@@ -41,13 +44,13 @@ class UserFormViewModel(
 
     fun updateUserValues(currentUser: User) {
         user = currentUser.apply {
-            userCompleteName.value = this.name
-            userAddress.value = this.address
-            userDocument.value = this.doc_number.toString()
-            userImageProfile.value = this.profile_picture
-            userImageDocumentResidence.value = this.residence_proof_picture
-            userImageDocumentFront.value = this.doc_picture
-            userImageDocumentBack.value = this.doc_picture_back
+            userCompleteName.value = this.name.orEmpty()
+            userAddress.value = this.address.orEmpty()
+            userDocument.value = this.docNumber.toString()
+            userImageProfile.value = this.profilePicture.orEmpty()
+            userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
+            userImageDocumentFront.value = this.docPicture.orEmpty()
+            userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender
         }
         isEditableAvailable = true
@@ -78,7 +81,7 @@ class UserFormViewModel(
     }
 
     private suspend fun updateUser() {
-        userUseCase.updateUser(community.id, user).let {
+        userUseCase.startUpdateUser(user).let {
             when (it) {
                 is SimpleResult.Success -> showSuccess()
                 is SimpleResult.Error -> showError()
@@ -87,7 +90,7 @@ class UserFormViewModel(
     }
 
     private suspend fun addUser() {
-        userUseCase.addUser(community.id, user).let {
+        userUseCase.addUser(user).let {
             when (it) {
                 is SimpleResult.Success -> showSuccess()
                 is SimpleResult.Error -> showError()
@@ -99,12 +102,13 @@ class UserFormViewModel(
         user.apply {
             name = userCompleteName.value
             address = userAddress.value
-            doc_number = userDocument.value?.toLong() ?: 0L
-            profile_picture = userImageProfile.value
-            residence_proof_picture = userImageDocumentResidence.value
-            doc_picture = userImageDocumentFront.value
-            doc_picture_back = userImageDocumentBack.value
+            docNumber = userDocument.value?.toLong() ?: 0L
+            profilePicture = userImageProfile.value
+            residenceProofPicture = userImageDocumentResidence.value
+            docPicture = userImageDocumentFront.value
+            docPictureBack = userImageDocumentBack.value
             gender = userGender.value ?: NO_ANSWER
+            communityId = community.id
         }
     }
 
@@ -135,6 +139,10 @@ class UserFormViewModel(
     private fun showError() {
         val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
         _status.value = ViewModelStatus.Error(message)
+    }
+
+    fun showLgpd() {
+        _lgpd.value = true
     }
 
     companion object {

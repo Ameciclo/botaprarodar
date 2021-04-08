@@ -97,13 +97,23 @@
     <string name="submit_form_error">Não foi possível executar a ação.</string>
     <string name="sign_in_password_error">Senha incorreta.</string>
     <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
-    <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
-    <string name="add_bicycle_title">Cadastrar Bicicleta</string>
     <string name="edit_bicycle_title">Editar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
     <string name="reset_password_email_sent_error">Falha ao enviar email, tente novamente.</string>
 
+    <!-- Bike -->
+    <string name="bike_order_with_label">Ordem: %s</string>
+    <string name="bike_series_with_label">Série: %s</string>
+    <string name="add_photo">Adicionar foto</string>
+    <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
+    <string name="add_bicycle_title">Cadastrar Bicicleta</string>
+    <string name="bike_withdraw_date">Data de empréstimo: %s</string>
+    <string name="bike_devolution_date">Data de devolução: %s</string>
+    <string name="bike_series_number">Série: %s</string>
+    <string name="bike_order_number">Ordem: %s</string>
+
     <!-- USER -->
+    <string name="user_created_since">Cadastrado desde %s</string>
     <string name="add_user_invalid_name">Nome inválido</string>
     <string name="add_user_invalid_address">Endereço inválido</string>
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
@@ -121,5 +131,40 @@
     <string name="edit_user_toolbar_title">Editar Usuário</string>
     <string name="user_update_success">Usuário atualizado com sucesso</string>
     <string name="user_add_success">Usuário adicionado com sucesso</string>
+    <string name="borrow_bike">EMPRESTAR BICICLETA</string>
+    <string name="return_bike">DEVOLVER BICICLETA</string>
+    <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta e geração de relatórios de mobilidade.</string>
+    <string name="lgpd_confirm">De acordo</string>
+
+    <!-- Return bike quiz -->
+    <string name="which_district_hint">Qual o bairro de destino?</string>
+    <string name="used_bike_to_move">Você utilizou a bicicleta para se locomover até:</string>
+    <string name="your_workplace">Seu local de trabalho</string>
+    <string name="your_place_study">Seu local de estudo</string>
+    <string name="your_place_entertainment">Seu local de lazer / convivência social</string>
+    <string name="your_place_shopping">Seu local de compras</string>
+    <string name="child_study_place">Local de estudo da criança</string>
+    <string name="other_reason">Outro motivo não especificado</string>
+    <string name="problems_during_riding">Você sofreu alguma violência no trânsito durante o seu trajeto? (exemplo: carro passou perto e rápido demais, foi fechada numa curva, etc)?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="need_take_ride">Precisou levar alguma carona?</string>
+    <string name="send_answers_button">Enviar respostas</string>
+    <string name="invalid_district">Bairro inválido</string>
+
+    <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
+    <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="select_user">Selecione um usuário</string>
+    <string name="answer_quiz">Responda o questionário</string>
+    <string name="confirm_return">Confirme a devolução</string>
+    <string name="confirm_withdraw">Confirme o empréstimo</string>
+    <string name="to_confirm_withdraw">Confirmar empréstimo</string>
+    <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
+    <string name="repeat_withdraw_title">Emprestar outra</string>
+    <string name="back_to_init_title">Voltar para o início</string>
+    <string name="success_devolution_message">Devolução realizada com sucesso!</string>
+    <string name="repeat_devolution_title">Devolver outra</string>
+    <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
+
 
 </resources>

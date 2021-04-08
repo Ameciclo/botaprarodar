@@ -7,14 +7,33 @@
 
     <fragment
             android:id="@+id/navigationHome"
-            android:name="app.igormatos.botaprarodar.presentation.main.TripsFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.trips.TripsFragment">
+        <action
+                android:id="@+id/action_navigationHome_to_returnBikeActivity"
+                app:destination="@id/returnBikeActivity" />
+        <action
+                android:id="@+id/navigateFromHomeToBikeWithDraw"
+                app:destination="@id/bikeWithdrawActivity" />
+    </fragment>
 
     <fragment
             android:id="@+id/navigationUsers"
-            android:name="app.igormatos.botaprarodar.presentation.main.UsersFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.users.UsersFragment" />
     <fragment
             android:id="@+id/navigationBicycles"
-            android:name="app.igormatos.botaprarodar.presentation.main.BicyclesFragment" />
+            android:name="app.igormatos.botaprarodar.presentation.main.bikes.BikesFragment" />
+
+    <activity
+            android:id="@+id/returnBikeActivity"
+            android:name="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity"
+            android:label="@string/return_bike_toolbar_title"
+            tools:layout="@layout/activity_return_bike" />
+<activity
+            android:id="@+id/bikeWithdrawActivity"
+            android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity"
+            android:label="@string/borrow_bike"
+            tools:layout="@layout/activity_bike_withdraw" />
+
 </navigation>
 
 

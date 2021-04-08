@@ -3,10 +3,11 @@ package app.igormatos.botaprarodar.presentation.bikeform
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.BikeFormStatus
+import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.bicycle.BikeFormUseCase
-import app.igormatos.botaprarodar.presentation.addbicycle.BikeFormViewModel
+import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
 import org.junit.Assert.assertEquals
@@ -30,7 +31,7 @@ class BikeFormViewModelTest {
     fun setup() {
         bikeViewModel =
             BikeFormViewModel(bikeFormUseCase = bikeFormUseCase, community = community)
-        bikeViewModel.orderNumber.postValue(bikeFake.order_number.toString())
+        bikeViewModel.orderNumber.postValue(bikeFake.orderNumber.toString())
     }
 
     @Test
@@ -84,9 +85,9 @@ class BikeFormViewModelTest {
     @Test
     fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Success Status`() {
         val bikeFake = slot<Bike>()
-        val result = SimpleResult.Success("")
+        val result = SimpleResult.Success(AddDataResponse(""))
         coEvery {
-            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -99,7 +100,7 @@ class BikeFormViewModelTest {
         val result = SimpleResult.Error(Exception())
 
         coEvery {
-            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -111,10 +112,10 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val observerBikeResultMock = mockk<Observer<BikeFormStatus>>(relaxed = true)
         val simpleResultData = "bicicleta caloi"
-        val result = SimpleResult.Success(simpleResultData)
+        val result = SimpleResult.Success(AddDataResponse(simpleResultData))
 
         coEvery {
-            bikeFormUseCase.addNewBike(community.id, capture(bikeFake))
+            bikeFormUseCase.addNewBike(capture(bikeFake))
         } returns result
         bikeViewModel.state.observeForever(observerBikeResultMock)
         bikeViewModel.saveBike()
@@ -127,7 +128,7 @@ class BikeFormViewModelTest {
 
     @Test
     fun `when 'updateImagePath', should update imagePath value`() {
-        bikeViewModel.imagePath.value = bikeFake.photo_path
+        bikeViewModel.imagePath.value = bikeFake.photoPath
         val expected = "new image path"
         bikeViewModel.updateImagePath(expected)
 
@@ -171,9 +172,9 @@ class BikeFormViewModelTest {
         bikeViewModel.updateBikeValues(bikeFake)
 
         assertEquals(bikeFake.name, bikeViewModel.bike.name)
-        assertEquals(bikeFake.serial_number, bikeViewModel.bike.serial_number)
-        assertEquals(bikeFake.order_number, bikeViewModel.bike.order_number)
-        assertEquals(bikeFake.photo_path, bikeViewModel.bike.photo_path)
+        assertEquals(bikeFake.serialNumber, bikeViewModel.bike.serialNumber)
+        assertEquals(bikeFake.orderNumber, bikeViewModel.bike.orderNumber)
+        assertEquals(bikeFake.photoPath, bikeViewModel.bike.photoPath)
     }
 
     @Test
@@ -191,9 +192,9 @@ class BikeFormViewModelTest {
     fun `when 'saveBike' to edit and 'isEditModeAvailable' is true, should return Success Status`() {
         bikeViewModel.isEditModeAvailable = true
         val bikeFake = slot<Bike>()
-        val result = SimpleResult.Success("")
+        val result = SimpleResult.Success(AddDataResponse(""))
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -206,7 +207,7 @@ class BikeFormViewModelTest {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
         coEvery {
-            bikeFormUseCase.updateBike(community.id, capture(bikeFake))
+            bikeFormUseCase.startUpdateBike(capture(bikeFake))
         } returns result
 
         bikeViewModel.saveBike()
@@ -215,8 +216,8 @@ class BikeFormViewModelTest {
 
     private val bikeFake = Bike().apply {
         name = "Monark"
-        serial_number = "12345"
-        order_number = 0
-        photo_path = "path"
+        serialNumber = "12345"
+        orderNumber = 0
+        photoPath = "path"
     }
 }
