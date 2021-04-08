@@ -55,18 +55,20 @@ jobs:
           path: app/build/outputs/mapping/release/mapping.txt
 
   bump-version:
-    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.26.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
+    - name: Create a GitHub release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}
+        release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
 
   deploy-firebase:
     # 1
-    needs: [ bump-version ]
+    needs: [ bump-version, build ]
     runs-on: ubuntu-latest
     steps:
       # 2
