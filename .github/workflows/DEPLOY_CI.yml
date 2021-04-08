@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Sign APK and Deploy to Firebase
+name: Sign APK, Bump Version and Deploy to Firebase
 
 # Controls when the action will run.
 on:
@@ -55,9 +55,18 @@ jobs:
           name: mapping.txt
           path: app/build/outputs/mapping/release/mapping.txt
 
+  bump-version:
+    needs: [ build ]
+    steps:
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.26.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+
   deploy-firebase:
     # 1
-    needs: [ build ]
+    needs: [ bump-version ]
     runs-on: ubuntu-latest
     steps:
       # 2
