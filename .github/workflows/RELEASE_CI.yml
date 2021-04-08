@@ -26,8 +26,8 @@ jobs:
       # 2 decode google-services.json
       - name: Decode google-services.json
         env:
-          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET_RELEASE }}
-        run: echo $FIREBASE_SECRET_RELEASE && echo $FIREBASE_SECRET_RELEASE > app/google-services.json
+          FIREBASE_SECRET_RELEASE: ${{ secrets.FIREBASE_SECRET_RELEASE }}
+        run: echo $FIREBASE_SECRET_RELEASE > app/google-services.json
 
       # 3 Generate Release APK
       - name: Generate Release APK
