@@ -3,24 +3,24 @@ package app.igormatos.botaprarodar.data.network.api
 import app.igormatos.botaprarodar.data.model.BicycleRequest
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.DevolutionRequest
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
 interface BicycleApi {
 
-    @GET("/communities/{communityId}/bicycles.json")
-    fun getBicycles(@Path("communityId") communityId: String): Deferred<Map<String, Bike>>
+    @GET("bikes.json")
+    fun getBicycles(): Deferred<Map<String, BikeRequest>>
 
-    @POST("/communities/{communityId}/bicycles.json")
+    @POST("bikes.json")
     suspend fun addNewBike(
-        @Path("communityId") communityId: String,
-        @Body bicycle: BicycleRequest
+        @Body bike: BikeRequest
     ): AddDataResponse
 
-    @PATCH("/communities/{communityId}/bicycles/{bicycleId}.json")
+    @PATCH("/bikes/{bikeId}.json")
     suspend fun updateBike(
-        @Path("communityId") communityId: String,
-        @Path("bicycleId") bicycleId: String,
-        @Body bicycle: BicycleRequest
+        @Path("bikeId") bikeId: String,
+        @Body bike: BikeRequest
     ): AddDataResponse
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">#2A9698</color>
+    <color name="colorPrimary">#018786</color>
     <color name="tintColor">#037F83</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">@color/red</color>
@@ -8,10 +8,23 @@
     <color name="white">#ffffff</color>
     <color name="rent">#cdcdcd</color>
     <color name="dark_gray">#4E4E4E</color>
+    <color name="light_gray">#979797</color>
     <color name="orange">#ffab00</color>
     <color name="purple">#7b1fa2</color>
     <color name="green">#388e3c</color>
     <color name="blue">#1976d2</color>
     <color name="red">#C24439</color>
+    <color name="black">#000</color>
+    <color name="black_opacity_60">#99000000</color>
+    <color name="text_gray">#515151</color>
+    <color name="background_gray">#F4F4F4</color>
+    <color name="separator_gray">#14212121</color>
+    <color name="gray_2">#4F4F4F</color>
+    <color name="gray_3">#828282</color>
+    <color name="gray_5">#E0E0E0</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorPrimary</color>
+    <color name="title_gray">#4F4F4F</color>
+    <color name="bike_action_text_gray">#828282</color>
+    <color name="green_teal">#018786</color>
+    <color name="gray_silver">#BDBDBD</color>
 </resources>

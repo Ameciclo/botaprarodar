@@ -1,6 +1,12 @@
 package app.igormatos.botaprarodar
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Bundle
+import android.provider.MediaStore
 import android.view.KeyEvent
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
@@ -9,11 +15,19 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import app.igormatos.botaprarodar.bicycle.bicycle
+import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import org.hamcrest.Matcher
 
 abstract class BaseRobot {
     val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -58,7 +72,7 @@ abstract class BaseRobot {
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
-    fun checkViewById(resId: Int) {
+    fun checkViewIsDisplayed(resId: Int) {
         onView(withId(resId)).check(matches(isDisplayed()))
     }
 
@@ -98,5 +112,27 @@ abstract class BaseRobot {
             return device.wait(Until.gone(By.res(launcherPackage, resId)), timeout)
 
         return device.wait(Until.hasObject(By.res(launcherPackage, resId)), timeout)
+    }
+
+    fun simulateCallbackFromCameraIntent(intentsTestRule: IntentsTestRule<*>, clickTakePhoto: () -> Unit) {
+        val activityResult = createImageToActivityResult(intentsTestRule)
+        val expectedIntent: Matcher<Intent> = hasAction(MediaStore.ACTION_IMAGE_CAPTURE)
+        intending(expectedIntent).respondWith(activityResult)
+
+        clickTakePhoto()
+        intending(expectedIntent)
+    }
+
+    fun createImageToActivityResult(intentsTestRule: IntentsTestRule<*>): Instrumentation.ActivityResult? {
+        val bundle = Bundle()
+        bundle.putParcelable(
+            REQUEST_PHOTO.toString(), BitmapFactory.decodeResource(
+                intentsTestRule.activity.resources,
+                R.drawable.ic_check_dialog
+            )
+        )
+        val resultData = Intent()
+        resultData.putExtras(bundle)
+        return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
     }
 }

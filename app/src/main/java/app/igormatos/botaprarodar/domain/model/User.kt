@@ -1,51 +1,66 @@
 package app.igormatos.botaprarodar.domain.model
 
+import android.os.Parcelable
 import com.google.firebase.database.IgnoreExtraProperties
-import org.parceler.Parcel
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
 @IgnoreExtraProperties
-@Parcel
-open class User : Item {
-
-    override var path: String = "users"
-
-    override var id: String? = null
-
+@Parcelize
+data class User(
+    @SerializedName("name")
+    var name: String? = null,
+    @SerializedName("createdDate")
+    var createdDate: String? = null,
+    @SerializedName("address")
+    var address: String? = null,
+    @SerializedName("gender")
+    var gender: Int = 3,
+    @SerializedName("profilePicture")
+    var profilePicture: String? = null,
+    @SerializedName("residenceProofPicture")
+    var residenceProofPicture: String? = null,
+    @SerializedName("docPicture")
+    var docPicture: String? = null,
+    @SerializedName("docPictureBack")
+    var docPictureBack: String? = null,
+    @SerializedName("docType")
+    var docType: Int = 0,
+    @SerializedName("docNumber")
+    var docNumber: Long = 0,
+    @SerializedName("profilePictureThumbnail")
+    var profilePictureThumbnail: String? = null,
+    @SerializedName("communityId")
+    var communityId: String? = "",
+    @SerializedName("path")
+    override var path: String = "users",
+    @SerializedName("id")
+    override var id: String? = null,
+    @SerializedName("available")
     override var isAvailable: Boolean = true
-
-    var name: String? = null
-    var created_date: String? = null
-    var birthday: String? = null
-    var address: String? = null
-    var gender: Int = 3
-    var profile_picture: String? = null
-    var residence_proof_picture: String? = null
-    var doc_picture: String? = null
-    var doc_picture_back: String? = null
-    var doc_type: Int = 0
-    var doc_number: Long = 0
-    var profile_picture_thumbnail: String? = null
+) : Parcelable, Item {
 
     init {
         val date = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        created_date = dateFormat.format(date)
+        createdDate = dateFormat.format(date)
     }
 
     override fun title(): String {
-        val nameCapitalized = name?.split(" ")?.take(2)?.map { it.capitalize() }?.joinToString(separator = " ") { it }
+        val nameCapitalized =
+            name?.split(" ")?.take(2)?.map { it.capitalize() }?.joinToString(separator = " ") { it }
 
         return nameCapitalized ?: "erro_01"
     }
 
     override fun iconPath(): String {
-        return profile_picture_thumbnail ?: profile_picture ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return profilePictureThumbnail ?: profilePicture
+        ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
     }
 
     override fun subtitle(): String {
-        return "Cadastrado desde $created_date"
+        return "Cadastrado desde $createdDate"
     }
-
 }

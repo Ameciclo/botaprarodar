@@ -3,14 +3,17 @@ package app.igormatos.botaprarodar.bicycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.authentication.login
 import app.igormatos.botaprarodar.createcommunity.addCommunity
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import org.junit.Before
 import org.junit.FixMethodOrder
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
@@ -20,6 +23,9 @@ import org.junit.runners.MethodSorters
 @LargeTest
 class BikeTest {
     private lateinit var scenario: ActivityScenario<WelcomeActivity>
+
+    @get:Rule
+    val intentsTestRule = IntentsTestRule(BikeFormActivity::class.java)
 
     @Before
     fun setup() {
@@ -46,8 +52,7 @@ class BikeTest {
             clickBicycleNavigation()
             addBicycle()
             hideKeyboard()
-            clickTakeBicyclePhoto()
-            captureImage()
+            simulateCallbackFromCameraIntent(intentsTestRule, ::clickTakeBicyclePhoto)
             sleep(2000)
             hideKeyboard()
             fillBicycleNumberSerie("123")

@@ -49,17 +49,17 @@
                     android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".presentation.addbicycle.BikeFormActivity">
+        <activity android:name=".presentation.bikeForm.BikeFormActivity">
         </activity>
-        <activity android:name="app.igormatos.botaprarodar.presentation.bicyclewithdrawal.choosebicycle.BicycleWithdrawActivity">
+        <activity android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity">
         </activity>
-        <activity android:name=".presentation.bicyclewithdrawal.choosebicycle.WithdrawActivity">
+        <activity android:name=".presentation.bikewithdraw.choosebicycle.WithdrawActivity">
         </activity>
         <activity android:name=".presentation.returnbicycle.ReturnBikeActivity">
         </activity>
         <activity android:name=".presentation.returnbicycle.RideQuizActivity">
         </activity>
-        <activity android:name="app.igormatos.botaprarodar.presentation.bicyclewithdrawal.chooseuser.ChooseUserActivity">
+        <activity android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser.ChooseUserActivity">
             <meta-data
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable"/>
