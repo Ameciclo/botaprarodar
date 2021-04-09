@@ -57,14 +57,17 @@ jobs:
         with:
           name: version-name
       - name: Read Version Name
+        id: read_version_name
+        env:
+          VERSION_NAME:
         run: read -r VERSION_NAME<version_name.txt
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $VERSION_NAME
-          release_name: Release $VERSION_NAME
+          tag_name: ${{steps.read_version_name.VERSION_NAME}}
+          release_name: Release ${{steps.read_version_name.VERSION_NAME}}
 
   bump-version:
     runs-on: ubuntu-latest
