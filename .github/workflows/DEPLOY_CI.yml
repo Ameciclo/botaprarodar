@@ -27,7 +27,21 @@ jobs:
         env:
           FIREBASE_SECRET_RELEASE: ${{ secrets.FIREBASE_SECRET_RELEASE }}
         run: echo $FIREBASE_SECRET_RELEASE > app/google-services.json
-
+      - name: Download Version Name File
+      - uses: actions/download-artifact@master
+        with:
+          name: version-name
+      - name: Read Version Name
+        run: |
+          read -r TEMP_VERSION_NAME < version_name.txt
+          echo "VERSION_NAME=$TEMP_VERSION_NAME" >> $GITHUB_ENV
+      - name: Bump App version
+        id: bump_version
+        uses: chkfung/android-version-actions@v1.1
+        with:
+          gradlePath: app/build.gradle
+          versionCode: ${{github.run_number}}
+          versionName: ${{env.VERSION_NAME}}
       # 3 Generate Release APK
       - name: Generate Release APK
         run: bash ./gradlew clean assembleRelease --stacktrace
@@ -53,6 +67,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Download Version Name File
       - uses: actions/download-artifact@master
         with:
           name: version-name
@@ -77,13 +92,6 @@ jobs:
         uses: mathieudutour/github-tag-action@v5.4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Bump App version
-        id: bump_version
-        uses: chkfung/android-version-actions@v1.1
-        with:
-          gradlePath: app/build.gradle
-          versionCode: ${{github.run_number}}
-          versionName: ${{steps.tag_version.outputs.new_tag}}
       - name: Create Version Name file
         run: echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
       - uses: actions/upload-artifact@master
