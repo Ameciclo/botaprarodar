@@ -57,7 +57,7 @@ jobs:
         with:
           name: version_name.txt
       - name: Read Version Name
-        run: bash read -r VERSION_NAME<version_name.txt
+        run: read -r VERSION_NAME<version_name.txt
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
@@ -83,10 +83,11 @@ jobs:
           versionCode: ${{github.run_number}}
           versionName: ${{steps.tag_version.outputs.new_tag}}
       - name: Create Version Name file
-        run: bash echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
+        run: echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
       - uses: actions/upload-artifact@master
         with:
           name: version_name.txt
+
   deploy-firebase:
     # 1
     needs: [ create-release-tag ]
