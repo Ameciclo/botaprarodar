@@ -49,6 +49,23 @@ jobs:
           name: release.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
+  create-release-tag:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: version_name.txt
+      - name: Read Version Name
+        run: bash read -r VERSION_NAME<version_name.txt
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: $VERSION_NAME
+          release_name: Release $VERSION_NAME
+
   bump-version:
     runs-on: ubuntu-latest
     steps:
@@ -65,10 +82,14 @@ jobs:
           gradlePath: app/build.gradle
           versionCode: ${{github.run_number}}
           versionName: ${{steps.tag_version.outputs.new_tag}}
-
+      - name: Create Version Name file
+        run: bash echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
+      - uses: actions/upload-artifact@master
+        with:
+          name: version_name.txt
   deploy-firebase:
     # 1
-    needs: [ build ]
+    needs: [ create-release-tag ]
     runs-on: ubuntu-latest
     steps:
       # 2
