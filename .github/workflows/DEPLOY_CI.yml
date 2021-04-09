@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@master
         with:
-          name: version_name.txt
+          name: version-name
       - name: Read Version Name
         run: read -r VERSION_NAME<version_name.txt
       - name: Create a GitHub release
@@ -86,7 +86,8 @@ jobs:
         run: echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
       - uses: actions/upload-artifact@master
         with:
-          name: version_name.txt
+          name: version-name
+          path: version_name.txt
 
   deploy-firebase:
     # 1
