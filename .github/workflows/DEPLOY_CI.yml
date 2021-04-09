@@ -57,7 +57,9 @@ jobs:
         with:
           name: version-name
       - name: Read Version Name
-        run: echo "VERSION_NAME=$(read -r VERSION_NAME < version_name.txt)" >> $GITHUB_ENV
+        run: |
+            read -r TEMP_VERSION_NAME < version_name.txt
+            echo "VERSION_NAME=$TEMP_VERSION_NAME" >> $GITHUB_ENV
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
