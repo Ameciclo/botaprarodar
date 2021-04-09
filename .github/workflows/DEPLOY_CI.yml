@@ -28,7 +28,7 @@ jobs:
           FIREBASE_SECRET_RELEASE: ${{ secrets.FIREBASE_SECRET_RELEASE }}
         run: echo $FIREBASE_SECRET_RELEASE > app/google-services.json
       - name: Download Version Name File
-      - uses: actions/download-artifact@master
+        uses: actions/download-artifact@master
         with:
           name: version-name
       - name: Read Version Name
