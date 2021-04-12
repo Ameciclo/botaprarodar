@@ -73,9 +73,9 @@ Nosso fluxo de CI é implementado pelo [github actions](https://github.com/Ameci
 Os arquivos de configuração com os jobs ficam localizados no diretório ***/.github*** na raíz do projeto.
 Atualmente há dois fluxos na pipeline de CI:
 
-![CI](https://github.com/Ameciclo/botaprarodar/blob/main/continuous_integration.png?raw=true)
+![CI](https://github.com/Ameciclo/botaprarodar/blob/main/.github/continuous_integration.png?raw=true)
 
-![CD](https://github.com/Ameciclo/botaprarodar/blob/main/continuous_delivery.png?raw=true)
+![CD](https://github.com/Ameciclo/botaprarodar/blob/main/.github/continuous_delivery.png?raw=true)
 
 Quando o segundo workflow finaliza com sucesso, o app é enviado por email pra uma lista de usuários
 gerenciada pelo Firebase App Distribution.
