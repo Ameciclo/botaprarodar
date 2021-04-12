@@ -71,15 +71,11 @@ Nossos testes rodam sempre em debug e estão divididos em instrumentados e não 
 ## Integração Contínua
 Nosso fluxo de CI é implementado pelo [github actions](https://github.com/Ameciclo/botaprarodar/actions).
 Os arquivos de configuração com os jobs ficam localizados no diretório ***/.github*** na raíz do projeto.
-Atualmente há dois pipelines de CI:
-1. executa a cada pull request aberto pra development ou main, com os jobs
-    - Unit Tests
-    - Generate APK
-    - UI tests no firebase test lab
-2. executa a cada push na main, com os jobs:
-    - Build
-    - Bump Version
-    - Deploy
+Atualmente há dois fluxos na pipeline de CI:
+
+![CI](https://github.com/Ameciclo/botaprarodar/blob/main/continuous_integration.png?raw=true)
+
+![CD](https://github.com/Ameciclo/botaprarodar/blob/main/continuous_delivery.png?raw=true)
 
 Quando o segundo workflow finaliza com sucesso, o app é enviado por email pra uma lista de usuários
 gerenciada pelo Firebase App Distribution.
