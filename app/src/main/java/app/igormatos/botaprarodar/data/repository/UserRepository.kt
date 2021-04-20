@@ -46,6 +46,8 @@ class UserRepository(
                 val items = dataSnapshot.children.map { data ->
                     verifyItemIdAndUpdate(data.getValue(User::class.java), data)
                     data.getValue(User::class.java)
+                }.filter {
+                    it?.communityId == communityId
                 }
                 this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
             }

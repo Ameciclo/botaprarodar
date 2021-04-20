@@ -56,6 +56,8 @@ class BikeRepository(
                 val items = dataSnapshot.children.map { data ->
                     verifyItemIdAndUpdate(data.getValue(BikeRequest::class.java)!!, data)
                     data.getValue(BikeRequest::class.java)
+                }.filter {
+                    it?.communityId == communityId
                 }
                 this@callbackFlow.sendBlocking(SimpleResult.Success(items.filterNotNull()))
             }
