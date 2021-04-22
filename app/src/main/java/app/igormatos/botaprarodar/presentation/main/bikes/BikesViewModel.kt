@@ -24,8 +24,8 @@ class BikesViewModel(private val bikesUseCase: BikesUseCase) : ViewModel() {
                 .collect {
                     when (it) {
                         is SimpleResult.Success -> {
-                            val a = it.data.convertToBikeList()
-                            _bikes.postValue(SimpleResult.Success(a))
+                            val bikeList = it.data.convertToBikeList()
+                            _bikes.postValue(SimpleResult.Success(bikeList))
                         }
                         is SimpleResult.Error -> {
                             _bikes.postValue(it)
