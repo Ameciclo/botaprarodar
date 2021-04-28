@@ -186,5 +186,9 @@
     <string name="user_quiz_time_on_way_question_label">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?</string>
     <string name="user_quiz_time_on_way_question">Tempo</string>
 
+    <!-- Trips Fragment -->
+    <string name="activities_historic">Histórico de atividades</string>
+
+
 
 </resources>
