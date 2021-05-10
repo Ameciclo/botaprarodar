@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,12 +25,15 @@ import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.TripsAdapter
 import app.igormatos.botaprarodar.presentation.adapter.WithdrawAdapter
 import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
+import com.brunotmgomes.ui.SimpleResult
 import kotlinx.android.synthetic.main.fragment_trips.*
 import kotlinx.android.synthetic.main.fragment_trips.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class TripsFragment : Fragment() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
@@ -45,7 +49,7 @@ class TripsFragment : Fragment() {
     )
     var loadingDialog: AlertDialog? = null
 
-    val tripsAdapter by lazy { TripsAdapter() }
+    private val tripsAdapter by lazy { TripsAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,23 +71,38 @@ class TripsFragment : Fragment() {
 
         tripsViewModel.loadBikeActions()
 
-        val list: List<TripsAdapter.TripsLayoutType> = mutableListOf(
-            TripsAdapter.TripsLayoutType.TitleType("Dom, 24 de janeiro"),
-            TripsAdapter.TripsLayoutType.BikeType(
-                Bike(
-                    name = "Monark",
-                    orderNumber = 1234,
-                    serialNumber = "dsf1234234"
-                )
-            )
-        )
+//        val list: List<TripsAdapter.TripsLayoutType> = mutableListOf(
+//            TripsAdapter.TripsLayoutType.TitleType("Dom, 24 de janeiro"),
+//            TripsAdapter.TripsLayoutType.BikeType(
+//                Bike(
+//                    name = "Monark",
+//                    orderNumber = 1234,
+//                    serialNumber = "dsf1234234"
+//                )
+//            )
+//        )
         binding.apply {
             rvActivities.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             setRecyclerViewItemMarginRight()
             rvActivities.adapter = tripsAdapter
         }
-        tripsAdapter.submitList(list)
+
+        tripsViewModel.getBikes(selectedCommunityId)
+        observerTrips()
+    }
+
+    private fun observerTrips() {
+        tripsViewModel.trips.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is SimpleResult.Success -> {
+                    tripsAdapter.submitList(it.data)
+                }
+                is SimpleResult.Error -> {
+                    Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun navigateToBikeWithdraw() {

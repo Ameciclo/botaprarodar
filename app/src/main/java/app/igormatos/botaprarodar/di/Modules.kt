@@ -152,7 +152,7 @@ val bprModule = module {
     }
 
     single {
-        BikeActionUseCase()
+        BikeActionUseCase(get())
     }
 
     viewModel {
