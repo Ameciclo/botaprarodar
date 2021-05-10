@@ -1,29 +1,28 @@
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ItemActivitiesHistoricBinding
 import app.igormatos.botaprarodar.databinding.ItemActivitiesHistoricTitleBinding
-import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.adapter.TripsAdapter.TripsLayoutType
-import app.igormatos.botaprarodar.presentation.adapter.TripsAdapter.TripsLayoutType.BikeType
-import app.igormatos.botaprarodar.presentation.adapter.TripsAdapter.TripsLayoutType.TitleType
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.BikeType
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.TitleType
+import com.bumptech.glide.Glide
+import org.jetbrains.anko.backgroundColor
 
-abstract class ViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
-    open fun bind(item: T) {
-    }
-}
-
-class TripsAdapter : ListAdapter<TripsLayoutType, ViewHolder<TripsLayoutType>>(TripsDiffUtil()) {
+class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(TripsDiffUtil()) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<TripsLayoutType> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<TripsItemType> {
         return when (viewType) {
             VIEW_TYPE_TITLE -> {
                 val binding = ItemActivitiesHistoricTitleBinding.inflate(
@@ -42,10 +41,10 @@ class TripsAdapter : ListAdapter<TripsLayoutType, ViewHolder<TripsLayoutType>>(T
                 BikeViewHolder(binding)
             }
             else -> error("Invalid type")
-        } as ViewHolder<TripsLayoutType>
+        } as BaseViewHolder<TripsItemType>
     }
 
-    override fun onBindViewHolder(holder: ViewHolder<TripsLayoutType>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<TripsItemType>, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
         }
@@ -58,7 +57,7 @@ class TripsAdapter : ListAdapter<TripsLayoutType, ViewHolder<TripsLayoutType>>(T
     }
 
     inner class TitleViewHolder(val binding: ItemActivitiesHistoricTitleBinding) :
-        ViewHolder<TitleType>(view = binding.root) {
+        BaseViewHolder<TitleType>(view = binding.root) {
 
         override fun bind(item: TitleType) {
             binding.tvTitleItemActivitiesHistoric.text = item.title.orEmpty()
@@ -66,12 +65,23 @@ class TripsAdapter : ListAdapter<TripsLayoutType, ViewHolder<TripsLayoutType>>(T
     }
 
     inner class BikeViewHolder(val binding: ItemActivitiesHistoricBinding) :
-        ViewHolder<BikeType>(view = binding.root) {
+        BaseViewHolder<BikeType>(view = binding.root) {
 
         override fun bind(item: BikeType) {
-            binding.tvNameBikeItemActivities.text = item.bike.name.orEmpty()
-            binding.tvOrderBikeItemActivities.text = item.bike.orderNumber.toString()
-            binding.tvSeriesBikeItem.text = item.bike.serialNumber.orEmpty()
+            with(binding) {
+                tvNameBikeItemActivities.text = item.bike.name.orEmpty()
+                tvOrderBikeItemActivities.text = item.bike.orderNumber.toString()
+                tvSeriesBikeItem.text = item.bike.serialNumber.orEmpty()
+                if (item.bike.status == "EMPRÉSTIMO") {
+                    tvBikeStatusItemActivities.setBackgroundColor(itemView.resources.getColor(R.color.yellow))
+                } else {
+                    tvBikeStatusItemActivities.setBackgroundColor(itemView.resources.getColor(R.color.bg_green))
+                }
+                tvBikeStatusItemActivities.text = item.bike.status
+                Glide.with(itemView.context)
+                    .load(item.bike.photoThumbnailPath)
+                    .into(ivBikeItemActvities)
+            }
         }
     }
 
@@ -88,11 +98,4 @@ class TripsAdapter : ListAdapter<TripsLayoutType, ViewHolder<TripsLayoutType>>(T
         override fun areContentsTheSame(oldItem: T, newItem: T): Boolean =
             oldItem == newItem
     }
-
-    sealed class TripsLayoutType {
-        data class TitleType(val title: String) : TripsLayoutType()
-        data class BikeType(val bike: Bike) : TripsLayoutType()
-    }
-
-
 }
