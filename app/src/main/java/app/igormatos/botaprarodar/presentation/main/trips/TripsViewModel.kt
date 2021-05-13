@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.common.extensions.convertToBikeList
-import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,10 +36,14 @@ class TripsViewModel(
                     when (it) {
                         is SimpleResult.Success -> {
                             val bikeList = it.data.convertToBikeList()
-                            val response = bikeActionUseCase.teste(bikeList)
-                            _trips.value = response
+                            val tripsBikeType = bikeActionUseCase.convertBikesToTripsItem(bikeList)
+                            val trips =
+                                bikeActionUseCase.createTitleTripsItem(tripsBikeType.data as MutableList<TripsItemType>)
+                            _trips.value = trips
                         }
-                        is SimpleResult.Error -> {}
+                        is SimpleResult.Error -> {
+                            _trips.value = it
+                        }
                     }
                 }
         }

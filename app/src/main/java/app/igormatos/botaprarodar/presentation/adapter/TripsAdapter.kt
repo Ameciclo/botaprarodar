@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -14,7 +13,6 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.BikeType
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.TitleType
 import com.bumptech.glide.Glide
-import org.jetbrains.anko.backgroundColor
 
 class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(TripsDiffUtil()) {
 
@@ -69,17 +67,23 @@ class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(T
 
         override fun bind(item: BikeType) {
             with(binding) {
-                tvNameBikeItemActivities.text = item.bike.name.orEmpty()
-                tvOrderBikeItemActivities.text = item.bike.orderNumber.toString()
-                tvSeriesBikeItem.text = item.bike.serialNumber.orEmpty()
-                if (item.bike.status == "EMPRÉSTIMO") {
+                tvNameBikeItemActivities.text = item.bikeActivity.name.orEmpty()
+                tvOrderBikeItemActivities.text = itemView.resources.getString(
+                    R.string.bike_order_number,
+                    item.bikeActivity.orderNumber.toString()
+                )
+                tvSeriesBikeItem.text = itemView.resources.getString(
+                    R.string.bike_series_number,
+                    item.bikeActivity.serialNumber.orEmpty()
+                )
+                if (item.bikeActivity.status == "EMPRÉSTIMO") {
                     tvBikeStatusItemActivities.setBackgroundColor(itemView.resources.getColor(R.color.yellow))
                 } else {
                     tvBikeStatusItemActivities.setBackgroundColor(itemView.resources.getColor(R.color.bg_green))
                 }
-                tvBikeStatusItemActivities.text = item.bike.status
+                tvBikeStatusItemActivities.text = item.bikeActivity.status
                 Glide.with(itemView.context)
-                    .load(item.bike.photoThumbnailPath)
+                    .load(item.bikeActivity.photoThumbnailPath)
                     .into(ivBikeItemActvities)
             }
         }

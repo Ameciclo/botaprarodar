@@ -1,25 +1,23 @@
 package app.igormatos.botaprarodar.domain.usecase.trips
 
-import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
-import app.igormatos.botaprarodar.common.extensions.convertToBikeList
+import app.igormatos.botaprarodar.common.extensions.orderByDate
 import app.igormatos.botaprarodar.data.repository.BikeRepository
-import app.igormatos.botaprarodar.domain.model.*
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeActivity
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import java.util.concurrent.ConcurrentLinkedDeque
+import java.util.concurrent.ConcurrentLinkedQueue
 
 @ExperimentalCoroutinesApi
 class BikeActionUseCase(private val bikeRepository: BikeRepository) {
 
-    private var result: SimpleResult<MutableList<TripsItemType>> =
-        SimpleResult.Error(Exception(""))
-
-    var a = mutableListOf<Bike>()
+//    private var result: SimpleResult<MutableList<TripsItemType>> =
+//        SimpleResult.Error(Exception(""))
 
     fun getBikeActionsList(): List<BikeActionsMenuType> {
         return BikeActionsMenuType.values().toMutableList()
@@ -29,21 +27,7 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
         return bikeRepository.getBikes(communityId)
     }
 
-//    bikeRepository.getBikes(communityId)
-//    .collect {
-//        when (it) {
-//            is SimpleResult.Success -> {
-//                val bikeList = it.data.convertToBikeList()
-//                a = bikeList
-////                        teste(bikeList)
-//            }
-//            is SimpleResult.Error -> {
-//                result = it
-//            }
-//        }
-//    }
-
-    fun teste(bikeList: List<Bike>): SimpleResult<List<TripsItemType>> {
+    fun convertBikesToTripsItem(bikeList: List<Bike>): SimpleResult.Success<List<TripsItemType>> {
         val bikeActivities = mutableListOf<TripsItemType>()
 
         bikeList.forEach { bike ->
@@ -76,7 +60,30 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
             }
         }
 
-        result = SimpleResult.Success(bikeActivities)
-        return result
+        return SimpleResult.Success(bikeActivities)
+    }
+
+    fun createTitleTripsItem(trips: MutableList<TripsItemType>): SimpleResult.Success<MutableList<TripsItemType>> {
+        val orderingTrips = trips.orderByDate()
+        val tripsToReturn = mutableListOf<TripsItemType>()
+        val dates = mutableListOf<String>()
+        var currentDate = ""
+
+        orderingTrips.forEachIndexed {index, it ->
+            when (it) {
+                is TripsItemType.TitleType -> {
+                }
+                is TripsItemType.BikeType -> {
+                    currentDate = it.bikeActivity.date.toString()
+                    if (dates.contains(currentDate).not()) {
+                        dates.add(currentDate)
+                        tripsToReturn.add(TripsItemType.TitleType(currentDate))
+                    }
+                    tripsToReturn.add(it)
+                }
+            }
+        }
+
+        return SimpleResult.Success(tripsToReturn)
     }
 }
