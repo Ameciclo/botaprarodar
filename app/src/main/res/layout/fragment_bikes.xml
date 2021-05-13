@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:backgroundTint="@color/white"
-                android:paddingVertical="@dimen/padding_24"
+                android:paddingVertical="@dimen/padding_large"
                 android:text="@string/btn_register_bicycle"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
