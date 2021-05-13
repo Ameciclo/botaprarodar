@@ -7,12 +7,12 @@
 
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/stepperImageCard"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/width_48"
+            android:layout_height="@dimen/height_48"
             tools:cardBackgroundColor="@color/green"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="@dimen/corner_radius_50"
             android:elevation="0dp"
-            app:strokeWidth="1dp"
+            app:strokeWidth="@dimen/separator_height"
             app:strokeColor="@color/blue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,8 +25,8 @@
 
             <ImageView
                     android:id="@+id/stepperImage"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="@dimen/width_14"
+                    android:layout_height="@dimen/height_14"
                     tools:src="@drawable/ic_bike"
                     tools:tint="@color/white"/>
 
@@ -36,8 +36,8 @@
 
     <View
             android:id="@+id/stepperConnector"
-            android:layout_width="42dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/width_42"
+            android:layout_height="@dimen/separator_height"
             android:background="@color/green"
             app:layout_constraintTop_toTopOf="@id/stepperImageCard"
             app:layout_constraintBottom_toBottomOf="@id/stepperImageCard"
