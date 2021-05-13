@@ -32,7 +32,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_180"
                     android:scaleType="centerCrop"
-                    app:imagePathOrUrl="@{viewModel.bikeHolder.photoPath}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +89,6 @@
                     android:layout_width="@dimen/circle_image_40"
                     android:layout_height="@dimen/circle_image_40"
                     android:layout_marginStart="@dimen/margin_medium"
-                    app:imagePathOrUrlCircle="@{ExtensionFunctions.getLastWithdraw(viewModel.bikeHolder).user.profilePictureThumbnail}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_trip_detail_return_date"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_trip_detail_user_name"
@@ -141,6 +139,7 @@
                     tools:text="Data de devolução: 19/02/2021" />
 
             <TextView
+                    android:id="@+id/tv_trip_detail_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

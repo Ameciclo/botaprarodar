@@ -6,32 +6,36 @@ import app.igormatos.botaprarodar.domain.model.BikeRequest
 fun List<BikeRequest>.convertToBikeList(): MutableList<Bike> {
     val listToReturn = mutableListOf<Bike>()
 
-    this.forEachIndexed { index, bikeRequest ->
-        val bike = Bike().apply {
-            name = bikeRequest.name
-            communityId = bikeRequest.communityId
-            serialNumber = bikeRequest.serialNumber
-            orderNumber = bikeRequest.orderNumber
-            createdDate = bikeRequest.createdDate
-            inUse = bikeRequest.inUse
-            photoPath = bikeRequest.photoPath
-            photoThumbnailPath = bikeRequest.photoThumbnailPath
-            id = bikeRequest.id
-            isAvailable = bikeRequest.isAvailable
-        }
-
-        bikeRequest.withdraws?.let { withdraws ->
-            val listWithdraws = withdraws.convertToList()
-            bike.withdraws = listWithdraws
-        }
-
-        bikeRequest.devolutions?.let { devolutions ->
-            val listDevolutions = devolutions.convertToList()
-            bike.devolutions = listDevolutions
-        }
-
-        listToReturn.add(bike)
+    this.forEach { bikeRequest ->
+        listToReturn.add(bikeRequest.convertToBike())
     }
 
     return listToReturn
+}
+
+fun BikeRequest.convertToBike(): Bike {
+    val bike = Bike().apply {
+        name = this@convertToBike.name
+        communityId = this@convertToBike.communityId
+        serialNumber = this@convertToBike.serialNumber
+        orderNumber = this@convertToBike.orderNumber
+        createdDate = this@convertToBike.createdDate
+        inUse = this@convertToBike.inUse
+        photoPath = this@convertToBike.photoPath
+        photoThumbnailPath = this@convertToBike.photoThumbnailPath
+        id = this@convertToBike.id
+        isAvailable = this@convertToBike.isAvailable
+    }
+
+    this.withdraws?.let { withdraws ->
+        val listWithdraws = withdraws.convertToList()
+        bike.withdraws = listWithdraws
+    }
+
+    this.devolutions?.let { devolutions ->
+        val listDevolutions = devolutions.convertToList()
+        bike.devolutions = listDevolutions
+    }
+
+    return bike
 }

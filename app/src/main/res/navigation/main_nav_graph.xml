@@ -14,6 +14,9 @@
         <action
                 android:id="@+id/navigateFromHomeToBikeWithDraw"
                 app:destination="@id/bikeWithdrawActivity" />
+        <action
+                android:id="@+id/action_navigationHome_to_tripDetailActivity"
+                app:destination="@id/tripDetailActivity" />
     </fragment>
 
     <fragment
@@ -33,6 +36,18 @@
             android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity"
             android:label="@string/borrow_bike"
             tools:layout="@layout/activity_bike_withdraw" />
+    <activity
+            android:id="@+id/tripDetailActivity"
+            android:name="app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity"
+            android:label="activity_trip_detail"
+            tools:layout="@layout/activity_trip_detail" >
+        <argument
+                android:name="bikeId"
+                app:argType="string" />
+        <argument
+                android:name="bikeStatus"
+                app:argType="string" />
+    </activity>
 
 </navigation>
 
