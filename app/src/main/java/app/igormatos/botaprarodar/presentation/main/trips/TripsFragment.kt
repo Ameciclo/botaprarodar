@@ -27,7 +27,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class TripsFragment : Fragment() {
+class TripsFragment : Fragment(), TripsAdapter.TripsAdapterClickListener {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
@@ -42,7 +42,7 @@ class TripsFragment : Fragment() {
     )
     var loadingDialog: AlertDialog? = null
 
-    private val tripsAdapter by lazy { TripsAdapter() }
+    private val tripsAdapter by lazy { TripsAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -150,6 +150,14 @@ class TripsFragment : Fragment() {
 
     private fun navigateToBikeWithdrawActivity() {
         val action = TripsFragmentDirections.navigateFromHomeToBikeWithDraw()
+        findNavController().navigate(action)
+    }
+
+    override fun tripOnClickListener(bikeId: String?, bikeStatus: String?) {
+        val action = TripsFragmentDirections.actionNavigationHomeToTripDetailActivity(
+            bikeId = bikeId.orEmpty(),
+            bikeStatus = bikeStatus.orEmpty()
+        )
         findNavController().navigate(action)
     }
 }

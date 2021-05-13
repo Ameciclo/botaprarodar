@@ -188,6 +188,8 @@
 
     <!-- Trips Fragment -->
     <string name="activities_historic">Histórico de atividades</string>
+    <string name="trip_withdraw">Empréstimo</string>
+    <string name="trip_devolution">Devolução</string>
 
 
 </resources>
