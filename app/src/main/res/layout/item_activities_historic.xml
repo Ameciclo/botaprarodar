@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_12"
+        android:background="@color/white"
+        app:cardUseCompatPadding="true">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+        <ImageView
+                android:id="@+id/iv_bike_item_actvities"
+                android:layout_width="@dimen/width_100"
+                android:layout_height="@dimen/height_96"
+                android:layout_weight="0.25"
+                android:adjustViewBounds="false"
+                android:contentDescription="@string/bicycle_image_view_descripition"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75">
+
+            <TextView
+                    android:id="@+id/tv_name_bike_item_activities"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:maxLines="1"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toStartOf="@id/iv_arrow_bike_item_activities"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nome da bike" />
+
+            <TextView
+                    android:id="@+id/tv_order_bike_item_activities"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toStartOf="@id/iv_arrow_bike_item_activities"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_name_bike_item_activities"
+                    app:layout_constraintRight_toRightOf="@id/tv_name_bike_item_activities"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_bike_item_activities"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_bike_item_activities"
+                    tools:text="Ordem: 123" />
+
+            <TextView
+                    android:id="@+id/tv_series_bike_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toStartOf="@id/iv_arrow_bike_item_activities"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_bike_item_activities"
+                    app:layout_constraintTop_toBottomOf="@id/tv_order_bike_item_activities"
+                    tools:text="Serie: ABCDX123" />
+
+            <ImageView
+                    android:id="@+id/iv_arrow_bike_item_activities"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_series_bike_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_name_bike_item_activities"
+                    app:tint="@color/text_gray" />
+
+            <TextView
+                    android:id="@+id/tv_bike_status_item_activities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_green"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_minimun"
+                    tools:text="devolvida"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
