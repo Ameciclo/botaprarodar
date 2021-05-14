@@ -1,5 +1,7 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -10,11 +12,25 @@ import androidx.navigation.ui.NavigationUI
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
 class ReturnBikeActivity : AppCompatActivity() {
+
+    companion object {
+        const val ORIGIN_FLOW = "origin flow"
+        const val BIKE = "bike"
+
+        fun setupActivity(context: Context, originFlow: String, bike: Bike? = null): Intent {
+            val intent = Intent(context, ReturnBikeActivity::class.java)
+            intent.putExtra(ORIGIN_FLOW, originFlow)
+            intent.putExtra(BIKE, bike)
+            return intent
+        }
+    }
 
     private val navController: NavController by lazy {
         val navhosterFragment = supportFragmentManager
