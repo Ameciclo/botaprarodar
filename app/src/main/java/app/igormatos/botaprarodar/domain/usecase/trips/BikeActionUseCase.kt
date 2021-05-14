@@ -66,7 +66,7 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
     }
 
     fun createTitleTripsItem(trips: MutableList<TripsItemType>): SimpleResult.Success<MutableList<TripsItemType>> {
-        val orderingTrips = trips.orderByDate()
+        val orderingTrips = trips.orderByDate().reversed()
         val tripsToReturn = mutableListOf<TripsItemType>()
         val dates = mutableListOf<String>()
         var currentDate = ""

@@ -50,52 +50,77 @@ class TripDetailActivity : AppCompatActivity() {
     }
 
     private fun setupTripDetailView(bike: Bike) {
-        val isWithdraw = (args.bikeStatus.equals(getString(R.string.trip_withdraw), true))
-        var devolution: Devolution? = null
-        var withdraw: Withdraws? = null
+        val withdrawDevolutionPair = viewModel.returnWithdrawAndDevolution(
+            status = args.bikeStatus,
+            id = args.id,
+            bike = bike
+        )
 
-        if (isWithdraw.not()) {
-            devolution = viewModel.getDevolutionById(bike, args.id)
-            withdraw = devolution?.withdrawId?.let { viewModel.getWithdrawById(bike, it) }
-        } else {
-            withdraw = viewModel.getWithdrawById(bike, args.id)
-            devolution = viewModel.getDevolutionByWithdrawId(bike, args.id)
-        }
-
+        val withdraw = withdrawDevolutionPair.first
+        val devolution = withdrawDevolutionPair.second
 
         binding.apply {
-
-            bike.photoThumbnailPath?.let { ivTripDetailBike.loadPath(it) }
-
-            tvTripDetailBikeName.text = bike.name
-            tvTripDetailBikeOrder.text = bike.orderNumber.toString()
-            tvTripDetailBikeSeries.text = bike.serialNumber
-            withdraw?.user?.profilePicture?.let { ivTripDetailUser.loadPathOnCircle(it) }
-            tvTripDetailUserName.text = withdraw?.user?.name
-
-            tvTripDetailWithdrawDate.text =
-                getString(R.string.bike_withdraw_date, withdraw?.date)
-            tvTripDetailReturnDate.text =
-                getString(R.string.bike_devolution_date, devolution?.date)
-
-            tvTripDetailStatus.apply {
-                text = args.bikeStatus
-                backgroundColor =
-                    if (args.bikeStatus.equals(getString(R.string.trip_withdraw), true))
-                        ContextCompat.getColor(context, R.color.yellow)
-                    else
-                        ContextCompat.getColor(context, R.color.bg_green)
-
-            }
-
-            if (viewModel.verifyIfBikeIsInUse(bike))
-                btnTripDetailConfirm.visible()
-            else
-                btnTripDetailConfirm.gone()
-
-
+            setBikeAndUserInfos(bike, withdraw)
+            setImagesValues(withdraw, bike)
+            setDatesValues(withdraw, devolution)
+            setBackgroundStatusColor()
+            setDevolutionButtonVisibility(bike)
         }
 
+    }
+
+    private fun ActivityTripDetailBinding.setBikeAndUserInfos(
+        bike: Bike,
+        withdraw: Withdraws?
+    ) {
+        tvTripDetailBikeName.text = bike.name
+        tvTripDetailBikeOrder.text =
+            getString(R.string.bike_order_number, bike.orderNumber.toString())
+        tvTripDetailBikeSeries.text =
+            getString(R.string.bike_series_number, bike.serialNumber)
+        tvTripDetailUserName.text = withdraw?.user?.name
+    }
+
+    private fun ActivityTripDetailBinding.setImagesValues(
+        withdraw: Withdraws?,
+        bike: Bike
+    ) {
+        withdraw?.user?.profilePicture?.let { ivTripDetailUser.loadPathOnCircle(it) }
+        bike.photoThumbnailPath?.let { ivTripDetailBike.loadPath(it) }
+    }
+
+    private fun ActivityTripDetailBinding.setDatesValues(
+        withdraw: Withdraws?,
+        devolution: Devolution?
+    ) {
+        tvTripDetailWithdrawDate.text =
+            getString(R.string.bike_withdraw_date, withdraw?.date)
+        tvTripDetailReturnDate.text =
+            getString(
+                R.string.bike_devolution_date,
+                devolution?.date ?: getString(R.string.waiting_devolution)
+            )
+    }
+
+    private fun ActivityTripDetailBinding.setBackgroundStatusColor() {
+        tvTripDetailStatus.apply {
+            text = args.bikeStatus
+            backgroundColor =
+                if (viewModel.verifyIfIsWithdraw(args.bikeStatus))
+                    ContextCompat.getColor(context, R.color.yellow)
+                else
+                    ContextCompat.getColor(context, R.color.bg_green)
+
+        }
+    }
+
+    private fun ActivityTripDetailBinding.setDevolutionButtonVisibility(
+        bike: Bike
+    ) {
+        if (viewModel.verifyIfBikeIsInUse(bike))
+            btnTripDetailConfirm.visible()
+        else
+            btnTripDetailConfirm.gone()
     }
 
 }
