@@ -30,4 +30,12 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
         }
     }
 
+    fun getWithdrawById(bike: Bike, id: String) = tripDetailUseCase.getWithdrawById(bike, id)
+
+    fun getDevolutionById(bike: Bike, id: String) = tripDetailUseCase.getDevolutionById(bike, id)
+
+    fun getDevolutionByWithdrawId(bike: Bike, id: String) =
+        tripDetailUseCase.getDevolutionByWithdrawId(bike, id)
+
+    fun verifyIfBikeIsInUse(bike: Bike) = tripDetailUseCase.verifyIfBikeIsInUse(bike)
 }

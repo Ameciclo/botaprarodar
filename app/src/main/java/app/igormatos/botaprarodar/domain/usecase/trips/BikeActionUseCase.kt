@@ -34,7 +34,8 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
             bike.withdraws?.map { withdraw ->
                 bikeActivities.add(
                     TripsItemType.BikeType(BikeActivity().apply {
-                        this.id = bike.id
+                        this.id = withdraw.id
+                        this.bikeId = bike.id
                         this.name = bike.name
                         this.orderNumber = bike.orderNumber
                         this.serialNumber = bike.serialNumber
@@ -48,7 +49,8 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
             bike.devolutions?.map { devolution ->
                 bikeActivities.add(
                     TripsItemType.BikeType(BikeActivity().apply {
-                        this.id = bike.id
+                        this.id = devolution.id
+                        this.bikeId = bike.id
                         this.name = bike.name
                         this.orderNumber = bike.orderNumber
                         this.serialNumber = bike.serialNumber
@@ -69,7 +71,7 @@ class BikeActionUseCase(private val bikeRepository: BikeRepository) {
         val dates = mutableListOf<String>()
         var currentDate = ""
 
-        orderingTrips.forEachIndexed {index, it ->
+        orderingTrips.forEachIndexed { index, it ->
             when (it) {
                 is TripsItemType.TitleType -> {
                 }

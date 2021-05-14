@@ -153,8 +153,9 @@ class TripsFragment : Fragment(), TripsAdapter.TripsAdapterClickListener {
         findNavController().navigate(action)
     }
 
-    override fun tripOnClickListener(bikeId: String?, bikeStatus: String?) {
+    override fun tripOnClickListener(id: String?, bikeId: String?, bikeStatus: String?) {
         val action = TripsFragmentDirections.actionNavigationHomeToTripDetailActivity(
+            id = id.orEmpty(),
             bikeId = bikeId.orEmpty(),
             bikeStatus = bikeStatus.orEmpty()
         )

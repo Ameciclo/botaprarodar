@@ -55,7 +55,7 @@ class TripsAdapter(val tripClickListener: TripsAdapterClickListener) :
     }
 
     interface TripsAdapterClickListener {
-        fun tripOnClickListener(bikeId: String?, bikeStatus: String?)
+        fun tripOnClickListener(id: String?, bikeId: String?, bikeStatus: String?)
     }
 
     inner class TitleViewHolder(val binding: ItemActivitiesHistoricTitleBinding) :
@@ -93,6 +93,7 @@ class TripsAdapter(val tripClickListener: TripsAdapterClickListener) :
             binding.root.setOnClickListener {
                 tripClickListener.tripOnClickListener(
                     item.bikeActivity.id,
+                    item.bikeActivity.bikeId,
                     item.bikeActivity.status
                 )
             }

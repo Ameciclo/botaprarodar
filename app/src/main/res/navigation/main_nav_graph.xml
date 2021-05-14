@@ -47,6 +47,9 @@
         <argument
                 android:name="bikeStatus"
                 app:argType="string" />
+        <argument
+                android:name="id"
+                app:argType="string" />
     </activity>
 
 </navigation>
