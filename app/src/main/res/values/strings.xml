@@ -190,6 +190,7 @@
     <string name="activities_historic">Histórico de atividades</string>
     <string name="trip_withdraw">Empréstimo</string>
     <string name="trip_devolution">Devolução</string>
+    <string name="waiting_devolution">aguardando devolução</string>
 
 
 </resources>

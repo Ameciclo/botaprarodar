@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.extensions.convertToBike
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.Devolution
+import app.igormatos.botaprarodar.domain.model.Withdraws
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
@@ -38,4 +40,26 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
         tripDetailUseCase.getDevolutionByWithdrawId(bike, id)
 
     fun verifyIfBikeIsInUse(bike: Bike) = tripDetailUseCase.verifyIfBikeIsInUse(bike)
+
+    fun verifyIfIsWithdraw(status: String) = (status.equals(IS_WITHDRAW, true))
+
+    fun returnWithdrawAndDevolution(
+        status: String,
+        id: String,
+        bike: Bike
+    ): Pair<Withdraws?, Devolution?> {
+        return if (verifyIfIsWithdraw(status).not()) {
+            val devolution = getDevolutionById(bike, id)
+            val withdraw = devolution?.withdrawId?.let { getWithdrawById(bike, it) }
+            Pair(withdraw, devolution)
+        } else {
+            val devolution = getDevolutionByWithdrawId(bike, id)
+            val withdraw = getWithdrawById(bike, id)
+            Pair(withdraw, devolution)
+        }
+    }
+
+    companion object {
+        const val IS_WITHDRAW = "empréstimo"
+    }
 }
