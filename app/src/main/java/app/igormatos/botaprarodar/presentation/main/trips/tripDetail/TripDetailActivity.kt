@@ -10,14 +10,17 @@ import app.igormatos.botaprarodar.databinding.ActivityTripDetailBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPath
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.brunotmgomes.ui.extensions.visible
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class TripDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTripDetailBinding
@@ -117,10 +120,22 @@ class TripDetailActivity : AppCompatActivity() {
     private fun ActivityTripDetailBinding.setDevolutionButtonVisibility(
         bike: Bike
     ) {
-        if (viewModel.verifyIfBikeIsInUse(bike))
+        if (viewModel.verifyIfBikeIsInUse(bike)) {
             btnTripDetailConfirm.visible()
-        else
+            btnTripDetailConfirm.setOnClickListener {
+                val intent = ReturnBikeActivity.setupActivity(
+                    context = this@TripDetailActivity,
+                    originFlow = TRIP_DETAIL_FLOW,
+                    bike = bike
+                )
+                startActivity(intent)
+            }
+        } else
             btnTripDetailConfirm.gone()
+    }
+
+    companion object {
+        const val TRIP_DETAIL_FLOW = "TRIP_DETAIL"
     }
 
 }
