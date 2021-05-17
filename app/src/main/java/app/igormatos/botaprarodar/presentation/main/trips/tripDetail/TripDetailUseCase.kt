@@ -24,7 +24,7 @@ class TripDetailUseCase(private val repository: TripDetailRepository) {
     }
 
     fun getDevolutionByWithdrawId(bike: Bike, id: String): Devolution? {
-        return bike.devolutions?.first { it.withdrawId == id }
+        return bike.devolutions?.firstOrNull { it.withdrawId == id }
     }
 
     fun getLastDevolutionDate(bike: Bike): String {

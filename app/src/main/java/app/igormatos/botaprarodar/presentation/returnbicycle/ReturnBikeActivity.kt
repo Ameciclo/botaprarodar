@@ -6,14 +6,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +24,7 @@ class ReturnBikeActivity : AppCompatActivity() {
     companion object {
         const val ORIGIN_FLOW = "origin flow"
         const val BIKE = "bike"
+        const val SECOND_STEP = "QUIZ"
 
         fun setupActivity(context: Context, originFlow: String, bike: Bike? = null): Intent {
             val intent = Intent(context, ReturnBikeActivity::class.java)
@@ -37,6 +39,7 @@ class ReturnBikeActivity : AppCompatActivity() {
             .findFragmentById(R.id.returnNavHostFragment) as NavHostFragment
         navhosterFragment.navController
     }
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var binding: ActivityReturnBikeBinding
     private val viewModel: ReturnBikeViewModel by viewModel()
@@ -50,7 +53,9 @@ class ReturnBikeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        NavigationUI.setupWithNavController(binding.returnBikeToolbar, navController)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
         binding.bikeActionStepper.addItems(
             arrayListOf(
                 StepConfigType.SELECT_BIKE,
@@ -65,16 +70,31 @@ class ReturnBikeActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp()
+        checkFlowOnBackPressed()
+
+        if(flowIsDetailBikeActivityAndSecondStep(intent.getStringExtra(ORIGIN_FLOW)).not())
+            viewModel.navigateToPrevious()
+
+        return navController.navigateUp(appBarConfiguration)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        checkFlowOnBackPressed()
         viewModel.navigateToPrevious()
     }
 
-    override fun finish() {
-        super.finish()
-        viewModel.backToInitialState()
+    private fun checkFlowOnBackPressed() {
+        val originFlow = intent.getStringExtra(ORIGIN_FLOW)
+        if (flowIsDetailBikeActivityAndSecondStep(originFlow))
+            finish()
     }
+
+    private fun flowIsDetailBikeActivityAndSecondStep(originFlow: String?) =
+        flowIsDetailBikeActivity(originFlow) && isSecondStep()
+
+    private fun flowIsDetailBikeActivity(originFlow: String?) =
+        originFlow.equals(TripDetailActivity.TRIP_DETAIL_FLOW, true)
+
+    private fun isSecondStep() = viewModel.stepper.currentStep.value.name.equals(SECOND_STEP, true)
 }
