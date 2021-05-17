@@ -8,6 +8,7 @@ import app.igormatos.botaprarodar.common.extensions.convertToBike
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 
@@ -17,16 +18,22 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
     val bike: LiveData<SimpleResult<Bike>>
         get() = _bike
 
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState>
+        get() = _uiState
+
     fun getBikeById(bikeId: String) {
+        _uiState.value = UiState.Loading
         viewModelScope.launch {
             when (val response = tripDetailUseCase.getBikeById(bikeId)) {
                 is SimpleResult.Success -> {
                     val bike = response.data.convertToBike()
                     _bike.postValue(SimpleResult.Success(bike))
-
+                    _uiState.value = UiState.Success
                 }
                 is SimpleResult.Error -> {
                     _bike.postValue(response)
+                    _uiState.value = UiState.Error(response.exception.message.toString())
                 }
             }
         }

@@ -3,9 +3,9 @@ package app.igormatos.botaprarodar.presentation.main.trips.tripDetail
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ActivityTripDetailBinding
@@ -13,11 +13,9 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.gone
-import com.brunotmgomes.ui.extensions.loadPath
-import com.brunotmgomes.ui.extensions.loadPathOnCircle
-import com.brunotmgomes.ui.extensions.visible
+import com.brunotmgomes.ui.extensions.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,6 +36,10 @@ class TripDetailActivity : AppCompatActivity() {
             }
         }
 
+    private val loadingDialog: AlertDialog by lazy {
+        createLoading(R.layout.loading_dialog_animation)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,7 +51,7 @@ class TripDetailActivity : AppCompatActivity() {
     }
 
     private fun bikeObserver() {
-        viewModel.bike.observe(this, Observer {
+        viewModel.bike.observe(this, {
             when (it) {
                 is SimpleResult.Success -> {
                     setupTripDetailView(it.data)
@@ -57,6 +59,14 @@ class TripDetailActivity : AppCompatActivity() {
                 is SimpleResult.Error -> {
                     // error
                 }
+            }
+        })
+
+        viewModel.uiState.observe(this, { uiState ->
+            when (uiState) {
+                is UiState.Error -> loadingDialog.hide()
+                UiState.Loading -> loadingDialog.show()
+                UiState.Success -> loadingDialog.hide()
             }
         })
     }
