@@ -59,13 +59,13 @@ class StepFinalReturnBikeFragment : Fragment() {
     private fun initObserver() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
-                BikeDevolutionUiState.Loading -> {
+                UiState.Loading -> {
                     loadingDialog.show()
                 }
-                is BikeDevolutionUiState.Success -> {
+                is UiState.Success -> {
                     showConfirmDialog()
                 }
-                is BikeDevolutionUiState.Error -> {
+                is UiState.Error -> {
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }
