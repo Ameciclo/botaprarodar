@@ -1,6 +1,8 @@
 package app.igormatos.botaprarodar.presentation.main.trips.tripDetail
 
+import android.app.Activity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -28,6 +30,13 @@ class TripDetailActivity : AppCompatActivity() {
     private val args: TripDetailActivityArgs by navArgs()
 
     private val viewModel by viewModel<TripDetailViewModel>()
+
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.getBikeById(args.bikeId)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +137,7 @@ class TripDetailActivity : AppCompatActivity() {
                     originFlow = TRIP_DETAIL_FLOW,
                     bike = bike
                 )
-                startActivity(intent)
+                startForResult.launch(intent)
             }
         } else
             btnTripDetailConfirm.gone()
