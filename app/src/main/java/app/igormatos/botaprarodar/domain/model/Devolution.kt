@@ -8,6 +8,8 @@ import kotlinx.android.parcel.Parcelize
 data class Devolution (
     @SerializedName("id")
     val id: String = "",
+    @SerializedName("withdrawId")
+    val withdrawId: String = "",
     @SerializedName("date")
     val date: String? = null,
     @SerializedName("user")

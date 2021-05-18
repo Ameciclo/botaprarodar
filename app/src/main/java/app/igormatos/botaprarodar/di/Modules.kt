@@ -42,6 +42,9 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUser
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
@@ -317,6 +320,20 @@ val bprModule = module {
         UserQuizViewModel(
             userUseCase = get()
         )
+    }
+
+    //Trip Detail
+
+    factory {
+        TripDetailRepository(get())
+    }
+
+    factory {
+        TripDetailUseCase(get())
+    }
+
+    viewModel {
+        TripDetailViewModel(get())
     }
 }
 

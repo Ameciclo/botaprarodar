@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
-private const val ROUND_CORNER_VALUE = 16
+const val ROUND_CORNER_VALUE = 16
 
 object ImageBindingAdapter {
     @JvmStatic

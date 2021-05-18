@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.common.extensions
 
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import java.text.SimpleDateFormat
@@ -51,4 +52,24 @@ fun Bike.getLastWithdraw(): Withdraws? {
     }
 
     return lastWithdraw?.first
+}
+
+fun Bike.getLastDevolution(): Devolution? {
+    val lastDevolution = this.devolutions?.let { devolutionList ->
+        devolutionList.mapNotNull { devolution ->
+            val dateFormatter = SimpleDateFormat(
+                "dd/MM/yyyy HH:mm:ss",
+                Locale.getDefault()
+            ).parse(devolution.date.orEmpty())
+            try {
+                Pair(devolution, dateFormatter)
+            } catch (e: Exception) {
+                null
+            }
+        }.maxByOrNull {
+            it.second
+        }
+    }
+
+    return lastDevolution?.first
 }
