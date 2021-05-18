@@ -27,14 +27,6 @@ class TripDetailUseCase(private val repository: TripDetailRepository) {
         return bike.devolutions?.firstOrNull { it.withdrawId == id }
     }
 
-    fun getLastDevolutionDate(bike: Bike): String {
-        return if (verifyIfBikeIsInUse(bike)) {
-            devolutionMessage
-        } else {
-            bike.getLastDevolution()?.date.orEmpty()
-        }
-    }
-
     fun verifyIfBikeIsInUse(bike: Bike) = bike.inUse
 
 }
