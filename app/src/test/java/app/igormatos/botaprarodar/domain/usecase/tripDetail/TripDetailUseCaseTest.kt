@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.domain.usecase.tripDetail
 
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
@@ -77,32 +78,73 @@ internal class TripDetailUseCaseTest {
     }
 
     @Test
-    fun `should return null when bike no has withdraw with the given id`() {
+    fun `should return devolution when bike has any devolution with the given id`() {
         // arrange
         val bike: Bike = bikeWithWithdraws
-        val withdrawId = "999"
-        val expectedWithdrawResult = null
+        val devolutionId = "999"
+        val expectedDevolution = Devolution(id = devolutionId, date = "12/03/2021", user = userFake)
+        bike.devolutions?.add(expectedDevolution)
 
         // action
-        val response: Withdraws? = useCase.getWithdrawById(bike, withdrawId)
+        val response: Devolution? = useCase.getDevolutionById(bike, devolutionId)
 
         // assert
-        assertEquals(response, expectedWithdrawResult)
+        assertEquals(response, expectedDevolution)
     }
 
     @Test
-    fun getDevolutionById() {
+    fun `should return devolution when bike has any devolution with the given withdrawId`() {
+        // arrange
+        val bike: Bike = bikeWithWithdraws
+        val withdrawId = "909"
+        val expectedDevolution = Devolution(id = "999", date = "12/03/2021", user = userFake, withdrawId = withdrawId)
+        bike.devolutions?.add(expectedDevolution)
+
+        // action
+        val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
+
+        // assert
+        assertEquals(response, expectedDevolution)
     }
 
     @Test
-    fun getDevolutionByWithdrawId() {
+    fun `should return null when bike no has devolution with the given withdrawId`() {
+        // arrange
+        val bike: Bike = bikeWithWithdraws
+        val withdrawId = "909"
+        val devolution = Devolution(id = "999", date = "12/03/2021", user = userFake)
+        bike.devolutions?.add(devolution)
+
+        // action
+        val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
+
+        // assert
+        assertEquals(response, null)
     }
 
     @Test
-    fun getLastDevolutionDate() {
+    fun `should return true when bike is in use`() {
+        // arrange
+        val bike: Bike = bikeWithWithdraws
+        bike.inUse = true
+
+        // action
+        val response: Boolean = useCase.verifyIfBikeIsInUse(bike)
+
+        // assert
+        assertEquals(response, true)
     }
 
     @Test
-    fun verifyIfBikeIsInUse() {
+    fun `should return false when bike is not in use`() {
+        // arrange
+        val bike: Bike = bikeWithWithdraws
+        bike.inUse = false
+
+        // action
+        val response: Boolean = useCase.verifyIfBikeIsInUse(bike)
+
+        // assert
+        assertEquals(response, false)
     }
 }

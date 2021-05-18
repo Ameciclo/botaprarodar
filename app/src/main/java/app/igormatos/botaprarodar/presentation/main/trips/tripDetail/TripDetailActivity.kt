@@ -73,8 +73,8 @@ class TripDetailActivity : AppCompatActivity() {
 
     private fun setupTripDetailView(bike: Bike) {
         val withdrawDevolutionPair = viewModel.returnWithdrawAndDevolution(
-            status = args.bikeStatus,
-            id = args.id,
+            historicStatus = args.bikeStatus,
+            withdrawOrDevolutionId = args.id,
             bike = bike
         )
 

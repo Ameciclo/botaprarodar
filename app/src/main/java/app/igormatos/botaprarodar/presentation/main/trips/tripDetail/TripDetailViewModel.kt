@@ -23,17 +23,17 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
         get() = _uiState
 
     fun getBikeById(bikeId: String) {
-        _uiState.value = UiState.Loading
+        _uiState.postValue(UiState.Loading)
         viewModelScope.launch {
             when (val response = tripDetailUseCase.getBikeById(bikeId)) {
                 is SimpleResult.Success -> {
                     val bike = response.data.convertToBike()
                     _bike.postValue(SimpleResult.Success(bike))
-                    _uiState.value = UiState.Success
+                    _uiState.postValue(UiState.Success)
                 }
                 is SimpleResult.Error -> {
                     _bike.postValue(response)
-                    _uiState.value = UiState.Error(response.exception.message.toString())
+                    _uiState.postValue(UiState.Error(response.exception.message.toString()))
                 }
             }
         }
@@ -51,17 +51,17 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
     fun verifyIfIsWithdraw(status: String) = (status.equals(IS_WITHDRAW, true))
 
     fun returnWithdrawAndDevolution(
-        status: String,
-        id: String,
+        historicStatus: String,
+        withdrawOrDevolutionId: String,
         bike: Bike
     ): Pair<Withdraws?, Devolution?> {
-        return if (verifyIfIsWithdraw(status).not()) {
-            val devolution = getDevolutionById(bike, id)
+        return if (verifyIfIsWithdraw(historicStatus).not()) {
+            val devolution = getDevolutionById(bike, withdrawOrDevolutionId)
             val withdraw = devolution?.withdrawId?.let { getWithdrawById(bike, it) }
             Pair(withdraw, devolution)
         } else {
-            val devolution = getDevolutionByWithdrawId(bike, id)
-            val withdraw = getWithdrawById(bike, id)
+            val devolution = getDevolutionByWithdrawId(bike, withdrawOrDevolutionId)
+            val withdraw = getWithdrawById(bike, withdrawOrDevolutionId)
             Pair(withdraw, devolution)
         }
     }
