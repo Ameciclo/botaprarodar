@@ -153,6 +153,11 @@ class TripDetailActivity : AppCompatActivity() {
             btnTripDetailConfirm.gone()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        loadingDialog.cancel()
+    }
+
     companion object {
         const val TRIP_DETAIL_FLOW = "TRIP_DETAIL"
     }
