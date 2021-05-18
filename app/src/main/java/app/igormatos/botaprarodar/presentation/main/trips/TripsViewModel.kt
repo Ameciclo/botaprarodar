@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.common.extensions.convertToBikeList
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -23,6 +24,10 @@ class TripsViewModel(
     val trips: LiveData<SimpleResult<List<TripsItemType>>>
         get() = _trips
 
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState>
+        get() = _uiState
+
     fun loadBikeActions() {
         bikeActionLiveData.postValue(bikeActionUseCase.getBikeActionsList())
     }
@@ -30,6 +35,7 @@ class TripsViewModel(
     fun getBikeActions(): LiveData<List<BikeActionsMenuType>> = bikeActionLiveData
 
     fun getBikes(communityId: String) {
+        _uiState.value = UiState.Loading
         viewModelScope.launch {
             bikeActionUseCase.getBikes(communityId)
                 .collect {
@@ -40,9 +46,11 @@ class TripsViewModel(
                             val trips =
                                 bikeActionUseCase.createTitleTripsItem(tripsBikeType.data as MutableList<TripsItemType>)
                             _trips.value = trips
+                            _uiState.value = UiState.Success
                         }
                         is SimpleResult.Error -> {
                             _trips.value = it
+                            _uiState.value = UiState.Error(it.exception.message.toString())
                         }
                     }
                 }

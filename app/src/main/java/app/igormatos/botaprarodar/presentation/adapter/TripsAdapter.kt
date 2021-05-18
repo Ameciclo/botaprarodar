@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import app.igormatos.botaprarodar.R
@@ -14,7 +13,8 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.BikeType
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType.TitleType
 import com.bumptech.glide.Glide
 
-class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(TripsDiffUtil()) {
+class TripsAdapter(val tripClickListener: TripsAdapterClickListener) :
+    ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(TripsDiffUtil()) {
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(
@@ -54,6 +54,10 @@ class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(T
         else -> error("Item type not supported")
     }
 
+    interface TripsAdapterClickListener {
+        fun tripOnClickListener(id: String?, bikeId: String?, bikeStatus: String?)
+    }
+
     inner class TitleViewHolder(val binding: ItemActivitiesHistoricTitleBinding) :
         BaseViewHolder<TitleType>(view = binding.root) {
 
@@ -85,6 +89,13 @@ class TripsAdapter : ListAdapter<TripsItemType, BaseViewHolder<TripsItemType>>(T
                 Glide.with(itemView.context)
                     .load(item.bikeActivity.photoThumbnailPath)
                     .into(ivBikeItemActvities)
+            }
+            binding.root.setOnClickListener {
+                tripClickListener.tripOnClickListener(
+                    item.bikeActivity.id,
+                    item.bikeActivity.bikeId,
+                    item.bikeActivity.status
+                )
             }
         }
     }

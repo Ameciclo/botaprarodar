@@ -12,6 +12,8 @@ data class BikeActivity(
     var serialNumber: String? = "",
     @SerializedName("orderNumber")
     var orderNumber: Long? = null,
+    @SerializedName("bikeId")
+    var bikeId: String? = null,
     @SerializedName("id")
     var id: String? = null,
     @SerializedName("photoThumbnailPath")
