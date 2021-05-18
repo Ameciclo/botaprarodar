@@ -45,7 +45,7 @@ val mapOfDevolutions = mapOf(
 )
 
 val bikeRequestWithMappers = BikeRequest(
-    id = "",
+    id = "1",
     isAvailable = true,
     inUse = false,
     name = "New Bicycle",

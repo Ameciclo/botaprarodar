@@ -13,6 +13,9 @@ interface BicycleApi {
     @GET("bikes.json")
     fun getBicycles(): Deferred<Map<String, BikeRequest>>
 
+    @GET("/bikes/{bikeId}.json")
+    suspend fun getBikeById(@Path("bikeId") bikeId: String): BikeRequest
+
     @POST("bikes.json")
     suspend fun addNewBike(
         @Body bike: BikeRequest

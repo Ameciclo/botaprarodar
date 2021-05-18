@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="schooling_array">
+        <item>Ensino fundamental incompleto</item>
+        <item>Ensino fundamental completo</item>
+        <item>Ensino médio incompleto</item>
+        <item>Ensino médio completo</item>
+        <item>Ensino superior incompleto</item>
+        <item>Ensino superior completo</item>
+        <item>Pós-graduação incompleta</item>
+        <item>Pós-graduação completa</item>
+        <item>Mestrado incompleto</item>
+        <item>Mestrado completo</item>
+        <item>Doutorado incompleto</item>
+        <item>Doutorado completo</item>
+    </string-array>
+</resources>

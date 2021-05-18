@@ -8,9 +8,13 @@
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_big">32dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
 
+    <dimen name="padding_minimun">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
 
     <dimen name="fragment_horizontal_margin">24dp</dimen>
     <dimen name="fragment_vertical_margin">24dp</dimen>
@@ -22,11 +26,22 @@
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_xlarge">34sp</dimen>
 
-    <dimen name="margin_12">12dp</dimen>
-    <dimen name="padding_24">24dp</dimen>
     <dimen name="separator_height">1dp</dimen>
     <dimen name="circle_image_40">40dp</dimen>
 
     <dimen name="card_elevation">4dp</dimen>
+
+    <dimen name="height_14">14dp</dimen>
+    <dimen name="height_48">48dp</dimen>
+    <dimen name="height_96">96dp</dimen>
+    <dimen name="height_160">160dp</dimen>
+    <dimen name="height_180">180dp</dimen>
+
+    <dimen name="width_14">14dp</dimen>
+    <dimen name="width_42">42dp</dimen>
+    <dimen name="width_48">48dp</dimen>
+    <dimen name="width_100">100dp</dimen>
+
+    <dimen name="corner_radius_50">50dp</dimen>
 
 </resources>
