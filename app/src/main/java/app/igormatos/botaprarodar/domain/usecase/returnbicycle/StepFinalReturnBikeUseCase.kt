@@ -46,6 +46,7 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
     ): Devolution {
         return Devolution(
             id = "-" + generateRandomAlphanumeric(),
+            withdrawId = bikeHolder.bike?.getLastWithdraw()?.id.orEmpty(),
             date = devolutionDate,
             user = bikeHolder.bike?.getLastWithdraw()?.user,
             quiz = quiz

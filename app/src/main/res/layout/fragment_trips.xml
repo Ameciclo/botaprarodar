@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/listContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -9,54 +10,43 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bikeActionMenuRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="@dimen/height_160"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="@dimen/margin_48"
             android:layout_marginEnd="@dimen/margin_medium"
             android:clipToPadding="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tripsRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bikeActionMenuRecyclerView" />
-
-    <ImageView
-            android:id="@+id/iv_build"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="96dp"
-            android:src="@drawable/ic_build"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bikeActionMenuRecyclerView" />
-
     <TextView
-            android:id="@+id/tv_build"
+            android:id="@+id/tvActivities"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_big"
-            android:text="@string/wait_in_build"
+            android:text="@string/activities_historic"
+            android:textAllCaps="true"
+            android:textColor="@color/gray_2"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bikeActionMenuRecyclerView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvActivities"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/padding_medium"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_build"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tvActivities"
+            tools:listitem="@layout/item_activities_historic" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

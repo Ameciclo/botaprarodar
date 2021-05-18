@@ -10,4 +10,6 @@ enum class StepConfigType(@DrawableRes val icon: Int, @StringRes val title: Int)
     CONFIRM_DEVOLUTION(R.drawable.ic_confirm, R.string.confirm_return),
     CONFIRM_WITHDRAW(R.drawable.ic_confirm, R.string.confirm_withdraw),
     SELECT_USER(R.drawable.ic_directions_bike, R.string.select_user),
+    USER_FORM(R.drawable.ic_person, R.string.user_form_step_label),
+    USER_QUIZ(R.drawable.ic_confirm, R.string.answer_quiz),
 }

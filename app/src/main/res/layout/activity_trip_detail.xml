@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray"
+        tools:context=".presentation.main.trips.tripDetail.TripDetailActivity">
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_container_trip_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                    android:id="@+id/iv_trip_detail_bike"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_180"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_bike_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_trip_detail_bike"
+                    tools:text="Monark" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_bike_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintStart_toEndOf="@id/tv_trip_detail_bike_name"
+                    app:layout_constraintTop_toBottomOf="@id/iv_trip_detail_bike"
+                    tools:text="Ordem: 12345" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_bike_series"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tv_trip_detail_bike_order"
+                    app:layout_constraintTop_toBottomOf="@id/iv_trip_detail_bike"
+                    tools:text="Série: 09876" />
+
+            <View
+                    android:id="@+id/divider_trip_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separator_height"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:background="@color/background_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_trip_detail_bike_series" />
+
+            <ImageView
+                    android:id="@+id/iv_trip_detail_user"
+                    android:layout_width="@dimen/circle_image_40"
+                    android:layout_height="@dimen/circle_image_40"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_trip_detail_return_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_trip_detail_user_name"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:maxLength="20"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_trip_detail_user"
+                    app:layout_constraintTop_toBottomOf="@id/divider_trip_detail"
+                    tools:text="Bruce Wayne" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_withdraw_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_trip_detail_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_trip_detail_user_name"
+                    tools:text="Data de empréstimo: 15/02/2021" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_return_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_trip_detail_user"
+                    app:layout_constraintTop_toBottomOf="@id/tv_trip_detail_withdraw_date"
+                    tools:text="Data de devolução: 19/02/2021" />
+
+            <TextView
+                    android:id="@+id/tv_trip_detail_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/padding_small"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_trip_detail_return_date"
+                    tools:background="@color/yellow"
+                    tools:text="EMPRÉSTIMO" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+            android:id="@+id/btn_trip_detail_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/return_bike"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

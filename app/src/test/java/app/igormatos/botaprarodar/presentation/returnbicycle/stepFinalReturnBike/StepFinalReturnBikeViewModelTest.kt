@@ -9,7 +9,6 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.bikeSimpleError
 import app.igormatos.botaprarodar.utils.bikeSimpleSuccess
-import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
@@ -57,7 +56,7 @@ class StepFinalReturnBikeViewModelTest {
 
         viewModel.finalizeDevolution()
 
-        assert(viewModel.state.value is BikeDevolutionUiState.Success)
+        assert(viewModel.state.value is UiState.Success)
     }
 
     @Test
@@ -66,6 +65,6 @@ class StepFinalReturnBikeViewModelTest {
 
         viewModel.finalizeDevolution()
 
-        assert(viewModel.state.value is BikeDevolutionUiState.Error)
+        assert(viewModel.state.value is UiState.Error)
     }
 }

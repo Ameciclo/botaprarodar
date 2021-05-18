@@ -1,17 +1,15 @@
-package app.igormatos.botaprarodar.presentation.userForm
+package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.ViewModelStatus
-import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
+import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import app.igormatos.botaprarodar.utils.userFake
-import app.igormatos.botaprarodar.utils.userSimpleSuccess
-import com.brunotmgomes.ui.SimpleResult
-import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
-import io.mockk.slot
+import io.mockk.spyk
+import io.mockk.verify
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -22,13 +20,13 @@ class UserFormViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val userUseCase = mockk<UserFormUseCase>()
+    private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_FORM))
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
 
     @Before
     fun setup() {
-        formViewModel = UserFormViewModel(userUseCase, community)
+        formViewModel = UserFormViewModel(community, stepper)
     }
 
     @Test
@@ -74,30 +72,6 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when 'registerUser' should return success`() {
-        formViewModel.userDocument.value = "1"
-        val userFake = slot<User>()
-        coEvery {
-            userUseCase.addUser(capture(userFake))
-        } returns userSimpleSuccess
-
-        formViewModel.registerUser()
-        assertTrue(formViewModel.status.value is ViewModelStatus.Success)
-    }
-
-    @Test
-    fun `when 'registerUser' should return error`() {
-        formViewModel.userDocument.value = "1"
-        val userFake = slot<User>()
-        coEvery {
-            userUseCase.addUser(capture(userFake))
-        } returns SimpleResult.Error(Exception())
-
-        formViewModel.registerUser()
-        assertTrue(formViewModel.status.value is ViewModelStatus.Error)
-    }
-
-    @Test
     fun `when 'updateUser' should update the liveDatas values`() {
         formViewModel.updateUserValues(userFake)
 
@@ -112,6 +86,7 @@ class UserFormViewModelTest {
         assertEquals(userFake.docPicture, formViewModel.userImageDocumentFront.value)
         assertEquals(userFake.docPictureBack, formViewModel.userImageDocumentBack.value)
         assertEquals(userFake.gender, formViewModel.userGender.value)
+        assertTrue(formViewModel.isEditableAvailable)
     }
 
     @Test
@@ -121,28 +96,26 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when 'registerUser' and 'isEditableAvailable' is true should return success`() {
+    fun `when call navigateToNextStep() then the stepperAdapter should be update with the new value`() {
         formViewModel.userDocument.value = "1"
-        formViewModel.isEditableAvailable = true
-        val userFake = slot<User>()
-        coEvery {
-            userUseCase.startUpdateUser(capture(userFake))
-        } returns userSimpleSuccess
+        formViewModel.navigateToNextStep()
 
-        formViewModel.registerUser()
-        assertTrue(formViewModel.status.value is ViewModelStatus.Success)
+        verify { stepper.navigateToNext() }
+
+        assertEquals(formViewModel.stepper.currentStep.value, StepConfigType.USER_QUIZ)
     }
 
     @Test
-    fun `when 'registerUser' and 'IsEditableAvailable' is true should return error`() {
+    fun `when call navigateToNextStep() then the openQuiz value should be update`() {
+        every { stepper.navigateToNext() } answers { formViewModel.user = userFake }
         formViewModel.userDocument.value = "1"
-        formViewModel.isEditableAvailable = true
-        val userFake = slot<User>()
-        coEvery {
-            userUseCase.startUpdateUser(capture(userFake))
-        } returns SimpleResult.Error(Exception())
+        formViewModel.navigateToNextStep()
 
-        formViewModel.registerUser()
-        assertTrue(formViewModel.status.value is ViewModelStatus.Error)
+        val openQuiz = formViewModel.openQuiz.value
+
+        assertNotNull(formViewModel.openQuiz.value)
+        assertEquals(openQuiz?.peekContent()?.first, userFake)
+        assertEquals(openQuiz?.peekContent()?.second, false)
     }
+
 }
