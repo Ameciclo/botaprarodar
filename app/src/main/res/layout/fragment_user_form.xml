@@ -7,31 +7,12 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel" />
+                type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white"
-                    app:setTitle="@{viewModel.isEditableAvailable}"
-                    app:titleTextColor="@color/dark_gray" />
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
                 android:id="@+id/scrollContainer"
@@ -40,12 +21,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+                app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:context=".presentation.userForm.UserFormActivity">
+                    tools:context=".presentation.user.userform.UserFormFragment">
 
                 <ImageView
                         android:id="@+id/profileImageView"
@@ -99,10 +80,11 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/complete_name"
-                        app:errorUserCompleteName="@{viewModel.userCompleteName}"
+                        app:errorMessage="@{`add_user_invalid_name`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/profileImageView">
+                        app:layout_constraintTop_toBottomOf="@id/profileImageView"
+                        app:textCaptured="@{viewModel.userCompleteName}">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietCompleteName"
@@ -113,15 +95,77 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilAge"
+                        style="@style/textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:hint="Idade"
+                        app:errorMessage="@{`add_user_invalid_age`}"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
+                        app:textCaptured="@{viewModel.userAge}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ietAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:text="@={viewModel.userAge}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilIncome"
+                        style="@style/textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="16dp"
+                        android:hint="Renda mensal"
+                        app:errorMessage="@{`add_user_invalid_income`}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
+                        app:textCaptured="@{viewModel.userIncome}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ietIncome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:text="@={viewModel.userIncome}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                        android:id="@+id/tvGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Qual gênero a pessoa se identifica?"
+                        android:textColor="@color/title_gray"
+                        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilAge" />
 
                 <RadioGroup
                         android:id="@+id/genderRadioGroup"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="@id/ilCompleteName"
                         app:layout_constraintStart_toStartOf="@id/ilCompleteName"
-                        app:layout_constraintTop_toBottomOf="@id/ilCompleteName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvGender"
                         app:setRadioGroupCheck="@{viewModel.userGender}">
 
                     <RadioButton
@@ -153,6 +197,65 @@
                             android:text="@string/rb_no_answer_option" />
                 </RadioGroup>
 
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilRacial"
+                        style="@style/textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:hint="Com qual raça a pessoa se identifica?"
+                        app:errorMessage="@{`add_user_invalid_racial`}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
+                        app:textCaptured="@{viewModel.userRacial}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ietRacial"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:text="@={viewModel.userRacial}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilSchooling"
+                        style="@style/textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:hint="Qual o grau de escolaridade?"
+                        app:errorMessage="@{`add_user_invalid_schooling`}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilRacial"
+                        app:textCaptured="@{viewModel.userSchooling}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ietSchooling"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:text="@={viewModel.userSchooling}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                        android:id="@+id/addressDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/separator_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling" />
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilAddress"
@@ -163,10 +266,11 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_address_hint"
-                        app:errorUserAddress="@{viewModel.userAddress}"
+                        app:errorMessage="@{`add_user_invalid_address`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/genderRadioGroup">
+                        app:layout_constraintTop_toBottomOf="@+id/addressDivider"
+                        app:textCaptured="@{viewModel.userAddress}">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietAddress"
@@ -217,6 +321,20 @@
                         app:layout_constraintTop_toTopOf="@+id/ivResidenceProof"
                         app:tint="@color/gray_5" />
 
+                <View
+                        android:id="@+id/residenceDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/separator_gray"
+                        app:layout_constraintBottom_toTopOf="@+id/ilCpf"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ivResidenceProof" />
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCpf"
                         style="@style/textInputLayout"
@@ -226,10 +344,11 @@
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_cpf_hint"
-                        app:errorUserCpf="@{viewModel.userDocument}"
+                        app:errorMessage="@{`add_user_invalid_cpf`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivResidenceProof">
+                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider"
+                        app:textCaptured="@{viewModel.userDocument}">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietCpf"
@@ -249,9 +368,11 @@
 
                 <ImageView
                         android:id="@+id/ivFrontDocument"
-                        android:layout_width="155dp"
+                        android:layout_width="0dp"
                         android:layout_height="120dp"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:background="@drawable/background_image_bike"
                         app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -288,20 +409,13 @@
                         app:layout_constraintTop_toTopOf="@+id/ivFrontDocument"
                         app:tint="@color/gray_5" />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:text="@string/txt_doc_image_front"
-                        app:layout_constraintLeft_toLeftOf="@id/ivFrontDocument"
-                        app:layout_constraintRight_toRightOf="@id/ivFrontDocument"
-                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
-
                 <ImageView
                         android:id="@+id/ivBackDocument"
-                        android:layout_width="155dp"
+                        android:layout_width="0dp"
                         android:layout_height="120dp"
+                        android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
                         android:background="@drawable/background_image_bike"
                         app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
                         app:layout_constraintLeft_toLeftOf="@id/guideline"
@@ -338,15 +452,6 @@
                         app:layout_constraintTop_toTopOf="@+id/ivBackDocument"
                         app:tint="@color/gray_5" />
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:text="@string/txt_doc_image_back"
-                        app:layout_constraintLeft_toLeftOf="@id/ivBackDocument"
-                        app:layout_constraintRight_toRightOf="@id/ivBackDocument"
-                        app:layout_constraintTop_toBottomOf="@id/ivBackDocument" />
-
                 <Button
                         android:id="@+id/saveButton"
                         android:layout_width="0dp"
@@ -356,14 +461,14 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginBottom="@dimen/margin_small"
                         android:enabled="@{viewModel.isButtonEnabled}"
-                        android:onClick="@{() -> viewModel.showLgpd()}"
+                        android:onClick="@{() -> viewModel.navigateToNextStep()}"
                         android:padding="@dimen/padding_medium"
+                        android:text="@string/action_next"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument"
-                        app:setUserFormButtonText="@{viewModel.isEditableAvailable}" />
+                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

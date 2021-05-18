@@ -5,7 +5,7 @@
         android:id="@+id/cellContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_12"
         android:background="@color/white"
         app:cardUseCompatPadding="true">
@@ -17,7 +17,7 @@
 
         <ImageView
                 android:id="@+id/iv_bike_item"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/width_100"
                 android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:adjustViewBounds="false"

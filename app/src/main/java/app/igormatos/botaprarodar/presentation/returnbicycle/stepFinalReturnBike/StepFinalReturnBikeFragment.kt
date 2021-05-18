@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 
+import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.databinding.FragmentStepFinalReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
-import com.brunotmgomes.ui.SimpleResult
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import com.brunotmgomes.ui.extensions.createLoading
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StepFinalReturnBikeFragment : Fragment() {
@@ -58,13 +59,13 @@ class StepFinalReturnBikeFragment : Fragment() {
     private fun initObserver() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
-                BikeDevolutionUiState.Loading -> {
+                UiState.Loading -> {
                     loadingDialog.show()
                 }
-                is BikeDevolutionUiState.Success -> {
+                is UiState.Success -> {
                     showConfirmDialog()
                 }
-                is BikeDevolutionUiState.Error -> {
+                is UiState.Error -> {
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -80,12 +81,21 @@ class StepFinalReturnBikeFragment : Fragment() {
 
     }
 
+    @ExperimentalCoroutinesApi
     private fun showConfirmDialog() {
         val dialogModel = CustomDialogModel(
             icon = R.drawable.ic_success,
             title = getString(R.string.success_devolution_message),
             primaryButtonText = getString(R.string.back_to_init_title),
             primaryButtonListener = View.OnClickListener {
+
+                val originFlow = (activity as ReturnBikeActivity).intent.getStringExtra(
+                    ReturnBikeActivity.ORIGIN_FLOW
+                )
+                if (originFlow.equals(TripDetailActivity.TRIP_DETAIL_FLOW)) {
+                    requireActivity().setResult(RESULT_OK)
+                }
+
                 requireActivity().finish()
             }
         )

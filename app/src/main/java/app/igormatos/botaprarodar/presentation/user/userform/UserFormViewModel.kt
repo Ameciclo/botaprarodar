@@ -1,23 +1,20 @@
-package app.igormatos.botaprarodar.presentation.userForm
+package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.*
-import app.igormatos.botaprarodar.common.ViewModelStatus
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import com.brunotmgomes.ui.SimpleResult
-import kotlinx.coroutines.launch
+import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
+import com.brunotmgomes.ui.ViewEvent
 
 class UserFormViewModel(
-    private val userUseCase: UserFormUseCase,
-    private val community: Community
+    private val community: Community,
+    val stepper: RegisterUserStepper
 ) : ViewModel() {
 
-    private val _status = MutableLiveData<ViewModelStatus<String>>()
-    val status: LiveData<ViewModelStatus<String>> = _status
-
-    private val _lgpd = MutableLiveData<Boolean>()
-    val lgpd: LiveData<Boolean> = _lgpd
+    val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
 
     var isEditableAvailable = false
     var user = User()
@@ -30,6 +27,10 @@ class UserFormViewModel(
     var userImageDocumentFront = MutableLiveData<String>("")
     var userImageDocumentBack = MutableLiveData<String>("")
     var userGender = MutableLiveData<Int>(GENDER_INITIAL_VALUE)
+    var userRacial = MutableLiveData<String>("")
+    var userSchooling = MutableLiveData<String>("")
+    var userIncome = MutableLiveData<String>("")
+    var userAge = MutableLiveData<String>("")
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -40,6 +41,10 @@ class UserFormViewModel(
         addSource(userImageDocumentFront) { validateUserForm() }
         addSource(userImageDocumentBack) { validateUserForm() }
         addSource(userGender) { validateUserForm() }
+        addSource(userRacial) { validateUserForm() }
+        addSource(userSchooling) { validateUserForm() }
+        addSource(userIncome) { validateUserForm() }
+        addSource(userAge) { validateUserForm() }
     }
 
     fun updateUserValues(currentUser: User) {
@@ -52,6 +57,10 @@ class UserFormViewModel(
             userImageDocumentFront.value = this.docPicture.orEmpty()
             userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender
+            userRacial.value = this.racial.orEmpty()
+            userSchooling.value = this.schooling.orEmpty()
+            userIncome.value = this.income.orEmpty()
+            userAge.value = this.age.orEmpty()
         }
         isEditableAvailable = true
     }
@@ -64,39 +73,15 @@ class UserFormViewModel(
                 isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
+                isTextValid(userRacial.value) &&
+                isTextValid(userSchooling.value) &&
+                isTextValid(userIncome.value) &&
+                isTextValid(userAge.value) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
-    fun registerUser() {
-        _status.value = ViewModelStatus.Loading
-        createUser()
-        viewModelScope.launch {
-            if (isEditableAvailable)
-                updateUser()
-            else
-                addUser()
-        }
-    }
-
-    private suspend fun updateUser() {
-        userUseCase.startUpdateUser(user).let {
-            when (it) {
-                is SimpleResult.Success -> showSuccess()
-                is SimpleResult.Error -> showError()
-            }
-        }
-    }
-
-    private suspend fun addUser() {
-        userUseCase.addUser(user).let {
-            when (it) {
-                is SimpleResult.Success -> showSuccess()
-                is SimpleResult.Error -> showError()
-            }
-        }
-    }
 
     private fun createUser() {
         user.apply {
@@ -109,6 +94,10 @@ class UserFormViewModel(
             docPictureBack = userImageDocumentBack.value
             gender = userGender.value ?: NO_ANSWER
             communityId = community.id
+            racial = userRacial.value
+            schooling = userSchooling.value
+            income = userIncome.value
+            age = userAge.value
         }
     }
 
@@ -132,22 +121,13 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
-    private fun showSuccess() {
-        _status.value = ViewModelStatus.Success("")
-    }
-
-    private fun showError() {
-        val message = if (isEditableAvailable) UNKNOWN_ERROR_EDIT else UNKNOWN_ERROR_REGISTER
-        _status.value = ViewModelStatus.Error(message)
-    }
-
-    fun showLgpd() {
-        _lgpd.value = true
+    fun navigateToNextStep() {
+        stepper.navigateToNext()
+        createUser()
+        openQuiz.value = ViewEvent(user to isEditableAvailable)
     }
 
     companion object {
-        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar o usuário"
-        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar o usuário"
         private const val GENDER_INITIAL_VALUE = -1
     }
 }
