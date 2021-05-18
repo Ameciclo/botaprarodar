@@ -42,13 +42,19 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUser
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
+import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailViewModel
 import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
-import app.igormatos.botaprarodar.presentation.userForm.UserFormViewModel
+import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
+import app.igormatos.botaprarodar.presentation.user.UserViewModel
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
+import app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityNavigator
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModel
 import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivityViewModelImpl
@@ -149,7 +155,7 @@ val bprModule = module {
     }
 
     single {
-        BikeActionUseCase()
+        BikeActionUseCase(get())
     }
 
     viewModel {
@@ -211,7 +217,7 @@ val bprModule = module {
     viewModel {
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            userUseCase = get()
+            stepper = get()
         )
     }
 
@@ -304,6 +310,31 @@ val bprModule = module {
         SendBikeWithdraw(withdrawRepository = get())
     }
 
+    single { RegisterUserStepper(StepConfigType.USER_FORM) }
+
+    viewModel {
+        UserViewModel(get())
+    }
+
+    viewModel {
+        UserQuizViewModel(
+            userUseCase = get()
+        )
+    }
+
+    //Trip Detail
+
+    factory {
+        TripDetailRepository(get())
+    }
+
+    factory {
+        TripDetailUseCase(get())
+    }
+
+    viewModel {
+        TripDetailViewModel(get())
+    }
 }
 
 fun provideEmailValidator(): Validator<String> {

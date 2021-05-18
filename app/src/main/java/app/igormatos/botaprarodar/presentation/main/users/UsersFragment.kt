@@ -17,10 +17,10 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
-import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
+import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
-import app.igormatos.botaprarodar.presentation.userForm.UserFormActivity
+import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.fragment_users.*
@@ -49,7 +49,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnRegisterUsers.setOnClickListener {
-            val intent = Intent(it.context, UserFormActivity::class.java)
+            val intent = UserActivity.setupActivity(requireContext())
             startForResult.launch(intent)
         }
         binding.tieSearchUsers.addTextChangedListener {
@@ -107,7 +107,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
             getString(R.string.user_add_success)
 
     override fun onUserClicked(user: User) {
-        val intent = UserFormActivity.setupActivity(requireContext(), user)
+        val intent = UserActivity.setupActivity(requireContext(), user)
         startForResult.launch(intent)
     }
 
