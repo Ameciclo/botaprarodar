@@ -67,14 +67,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
                     android:textColor="@color/text_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/iv_arrow_bike_item"
                     app:layout_constraintStart_toStartOf="@+id/tv_name_bike_item"
                     app:layout_constraintTop_toBottomOf="@+id/tv_order_bike_item"
-                    app:layout_constraintVertical_bias="0.0"
                     tools:text="Serie: ABCDX123" />
+
+            <TextView
+                    android:id="@+id/tv_withdraw_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/bg_green"
+                    android:padding="4dp"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_series_bike_item"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:text="José Santos Silveira de Lima Moraes" />
 
             <ImageView
                     android:id="@+id/iv_arrow_bike_item"
@@ -82,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_withdraw_user_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/text_gray" />
