@@ -1,8 +1,10 @@
 package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
 import app.igormatos.botaprarodar.common.extensions.convertMapperToBikeList
+import app.igormatos.botaprarodar.common.extensions.sortByOrderNumber
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -10,12 +12,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
 
     suspend fun getBikesInUseToReturn(communityId: String): SimpleResult<List<Bike>> {
-        val bikesMap = bikeRepository.getBicycles()
+        val bikesMap: SimpleResult<Map<String, BikeRequest>> = bikeRepository.getBicycles()
         return when (bikesMap) {
             is SimpleResult.Success -> {
-                val list = bikesMap.data.convertMapperToBikeList()
-                val bikesInUse = filterInUseBikes(list, communityId)
-                formatAnswer(bikesInUse)
+                val bikes = bikesMap.data.convertMapperToBikeList()
+                val bikesInUse = filterInUseBikes(bikes, communityId)
+                formatAnswer(bikesInUse.sortByOrderNumber())
             }
             is SimpleResult.Error -> {
                 bikesMap
@@ -23,8 +25,8 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
         }
     }
 
-    private fun filterInUseBikes(list: List<Bike>, communityId: String): List<Bike> {
-        return list.filter {
+    private fun filterInUseBikes(bikes: List<Bike>, communityId: String): List<Bike> {
+        return bikes.filter {
             it.inUse && it.communityId == communityId
         }
     }
