@@ -43,6 +43,8 @@ data class User(
     var income: String? = null,
     @SerializedName("age")
     var age: String? = null,
+    @SerializedName("telephone")
+    var telephone: String? = null,
     @SerializedName("userQuiz")
     var userQuiz: UserQuiz? = null,
     @SerializedName("path")
