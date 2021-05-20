@@ -31,6 +31,7 @@ class UserFormViewModel(
     var userSchooling = MutableLiveData<String>("")
     var userIncome = MutableLiveData<String>("")
     var userAge = MutableLiveData<String>("")
+    var userTelephone = MutableLiveData<String>("")
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -61,6 +62,7 @@ class UserFormViewModel(
             userSchooling.value = this.schooling.orEmpty()
             userIncome.value = this.income.orEmpty()
             userAge.value = this.age.orEmpty()
+            userTelephone.value = this.telephone.orEmpty()
         }
         isEditableAvailable = true
     }
@@ -98,6 +100,7 @@ class UserFormViewModel(
             schooling = userSchooling.value
             income = userIncome.value
             age = userAge.value
+            telephone = userTelephone.value
         }
     }
 
