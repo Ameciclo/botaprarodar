@@ -256,9 +256,7 @@
                         android:hint="@string/add_user_telephone_hint"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling"
-                        app:errorMessage="@{`add_user_invalid_telephone`}"
-                        app:textCaptured="@{viewModel.userTelephone}">
+                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietTelephone"
