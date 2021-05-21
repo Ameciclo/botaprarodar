@@ -2,12 +2,13 @@ package app.igormatos.botaprarodar.presentation.welcome
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import app.igormatos.botaprarodar.data.network.*
-import app.igormatos.botaprarodar.domain.model.RequestException
-import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.RequestError
+import app.igormatos.botaprarodar.data.network.SingleRequestListener
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
+import app.igormatos.botaprarodar.domain.model.RequestException
+import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.domain.model.community.Community
 import com.brunotmgomes.ui.ViewEvent
 
@@ -34,10 +35,7 @@ class WelcomeActivityViewModelImpl(
         get() = _showResendEmailSnackBar
 
     override fun checkPreviousState() {
-        if (isLogged() && isCommunitySelected()) {
-            val community = preferencesModule.getJoinedCommunity()
-            goToMainActivity(community)
-        } else if (isLogged()) {
+        if (isLogged()) {
             onUserLoggedIn()
         }
     }
@@ -112,10 +110,6 @@ class WelcomeActivityViewModelImpl(
     private fun goToMainActivity(community: Community) {
         firebaseHelperModule.setCommunityId(community.id!!)
         _navigateMain.postValue(ViewEvent(true))
-    }
-
-    private fun isCommunitySelected(): Boolean {
-        return preferencesModule.isCommunitySelected()
     }
 
     private fun isLogged(): Boolean {

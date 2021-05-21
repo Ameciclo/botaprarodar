@@ -1,23 +1,23 @@
 package app.igormatos.botaprarodar.presentation.welcome
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ActivityWelcomeBinding
 import app.igormatos.botaprarodar.domain.model.UserCommunityInfo
 import app.igormatos.botaprarodar.presentation.authentication.AuthenticationActivity
 import com.brunotmgomes.ui.SnackbarModule
+import com.brunotmgomes.ui.extensions.createLoading
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.adapter_community.view.*
 import org.koin.android.ext.android.inject
-import com.brunotmgomes.ui.extensions.createLoading
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
@@ -174,5 +174,11 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
         welcomeActivityResultLauncher.launch(
             Intent(this, AuthenticationActivity::class.java)
         )
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, WelcomeActivity::class.java)
+        }
     }
 }
