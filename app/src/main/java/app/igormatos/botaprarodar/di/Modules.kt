@@ -51,6 +51,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
+import app.igormatos.botaprarodar.presentation.splash.SplashViewModel
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import app.igormatos.botaprarodar.presentation.user.UserViewModel
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
@@ -82,6 +83,14 @@ val bprModule = module {
     single { WelcomeActivityNavigator() }
     viewModel<WelcomeActivityViewModel> {
         WelcomeActivityViewModelImpl(
+            preferencesModule = get(),
+            firebaseAuthModule = get(),
+            firebaseHelperModule = get()
+        )
+    }
+
+    viewModel {
+        SplashViewModel(
             preferencesModule = get(),
             firebaseAuthModule = get(),
             firebaseHelperModule = get()

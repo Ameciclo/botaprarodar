@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -70,6 +71,12 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
         }
     }
 }
