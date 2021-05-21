@@ -174,8 +174,6 @@ val bprModule = module {
         PasswordRecoveryViewModel(get(), get())
     }
 
-    //BikeForm
-
     single {
         BikeFormUseCase(
             bikeRepository = get<BikeRepository>(),
@@ -190,8 +188,6 @@ val bprModule = module {
         )
     }
 
-    //Bikes Fragment
-
     single {
         BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
     }
@@ -204,9 +200,7 @@ val bprModule = module {
         BikesViewModel(get<BikesUseCase>())
     }
 
-    //UserForm
-
-    single {
+    factory {
         UserFormUseCase(
             userRepository = get(),
             firebaseHelperRepository = get(),
@@ -221,8 +215,6 @@ val bprModule = module {
         )
     }
 
-    //Users Fragment
-
     single {
         UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
     }
@@ -234,8 +226,6 @@ val bprModule = module {
     viewModel {
         UsersViewModel(get())
     }
-
-    //Return Bikes
 
     single { BikeHolder() }
 
@@ -321,8 +311,6 @@ val bprModule = module {
             userUseCase = get()
         )
     }
-
-    //Trip Detail
 
     factory {
         TripDetailRepository(get())
