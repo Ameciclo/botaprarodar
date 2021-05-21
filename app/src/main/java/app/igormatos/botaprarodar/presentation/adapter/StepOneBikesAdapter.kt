@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.adapter
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -49,8 +50,10 @@ class StepOneBikesAdapter(val listener: ReturnBikesAdapterClickListener) :
                 )
             binding.tvSeriesBikeItem.text =
                 itemView.context.getString(R.string.bike_series_with_label, bike.serialNumber)
-            binding.tvWithdrawUserName.text =
-                bike.getLastWithdraw()?.user?.name
+            binding.tvWithdrawUserName.apply {
+                visibility = View.VISIBLE
+                text = bike.getLastWithdraw()?.user?.name
+            }
             val imageView = binding.ivBikeItem
 
             if (!bike.isAvailable) {
