@@ -75,7 +75,11 @@ class UserFormUseCase(
             uploadOnlyImages(user.docPictureBack, user.docNumber, documentBackSimpleResult)
         }
         checkFirebaseUrl(user.residenceProofPicture, user, residenceSimpleResult) {
-            uploadOnlyImages(user.residenceProofPicture, user.docNumber, residenceSimpleResult)
+            if (user.residenceProofPicture.isNullOrEmpty()) {
+                residenceSimpleResult = SimpleResult.Success(ImageUploadResponse("", ""))
+            } else {
+                uploadOnlyImages(user.residenceProofPicture, user.docNumber, residenceSimpleResult)
+            }
         }
     }
 

@@ -38,7 +38,6 @@ class UserFormViewModel(
         addSource(userAddress) { validateUserForm() }
         addSource(userDocument) { validateUserForm() }
         addSource(userImageProfile) { validateUserForm() }
-        addSource(userImageDocumentResidence) { validateUserForm() }
         addSource(userImageDocumentFront) { validateUserForm() }
         addSource(userImageDocumentBack) { validateUserForm() }
         addSource(userGender) { validateUserForm() }
@@ -72,7 +71,6 @@ class UserFormViewModel(
                 isTextValid(userAddress.value) &&
                 isTextValid(userDocument.value) &&
                 isTextValid(userImageProfile.value) &&
-                isTextValid(userImageDocumentResidence.value) &&
                 isTextValid(userImageDocumentFront.value) &&
                 isTextValid(userImageDocumentBack.value) &&
                 isTextValid(userRacial.value) &&
