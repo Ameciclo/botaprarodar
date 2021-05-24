@@ -4,7 +4,6 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
-import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,4 +71,8 @@ fun Bike.getLastDevolution(): Devolution? {
     }
 
     return lastDevolution?.first
+}
+
+fun List<Bike>.sortByOrderNumber(): List<Bike> {
+    return this.sortedBy { bike -> bike.orderNumber }
 }

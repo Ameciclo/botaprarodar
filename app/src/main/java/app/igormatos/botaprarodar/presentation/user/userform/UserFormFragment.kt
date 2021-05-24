@@ -8,23 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.ViewModelStatus
-import app.igormatos.botaprarodar.common.components.CustomDialog
-import app.igormatos.botaprarodar.common.components.CustomDialog.Companion.TAG
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
-import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeFragmentDirections
-import com.brunotmgomes.ui.extensions.*
+import com.brunotmgomes.ui.extensions.gone
+import com.brunotmgomes.ui.extensions.takePictureIntent
+import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -82,17 +77,25 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setImageDescriptionsToGone() {
-        binding.tvAddResidencePhoto.gone()
+        if (userHasResidenceProofPicture())
+            binding.tvAddResidencePhoto.gone()
+
         binding.tvAddBackDocumentPhoto.gone()
         binding.tvAddFrontDocumentPhoto.gone()
         binding.tvAddProfilePhoto.gone()
     }
 
     private fun setImageEditDescriptionsToVisible() {
-        binding.ivEditProfilePhoto.visible()
-        binding.ivEditResidencePhoto.visible()
-        binding.ivEditFrontPhoto.visible()
+        if (userHasResidenceProofPicture())
+            binding.ivEditResidencePhoto.visible()
+
         binding.ivEditBackPhoto.visible()
+        binding.ivEditFrontPhoto.visible()
+        binding.ivEditProfilePhoto.visible()
+    }
+
+    private fun userHasResidenceProofPicture(): Boolean {
+        return args.user?.residenceProofPicture?.isNotEmpty() == true
     }
 
     private fun setupViewModelStatus() {

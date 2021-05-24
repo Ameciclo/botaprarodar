@@ -103,7 +103,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_small"
-                        android:hint="Idade"
+                        android:hint="@string/add_user_age"
                         app:errorMessage="@{`add_user_invalid_age`}"
                         app:layout_constraintEnd_toStartOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="16dp"
-                        android:hint="Renda mensal"
+                        android:hint="@string/add_user_income"
                         app:errorMessage="@{`add_user_invalid_income`}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -151,7 +151,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Qual gênero a pessoa se identifica?"
+                        android:text="@string/add_user_gender"
                         android:textColor="@color/title_gray"
                         app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -205,7 +205,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="Com qual raça a pessoa se identifica?"
+                        android:hint="@string/add_user_racial"
                         app:errorMessage="@{`add_user_invalid_racial`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -229,7 +229,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="Qual o grau de escolaridade?"
+                        android:hint="@string/add_user_schooling"
                         app:errorMessage="@{`add_user_invalid_schooling`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -245,6 +245,28 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilTelephone"
+                        style="@style/textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:hint="@string/add_user_telephone_hint"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ietTelephone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:text="@={viewModel.userTelephone}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <View
                         android:id="@+id/addressDivider"
                         android:layout_width="match_parent"
@@ -255,7 +277,7 @@
                         android:background="@color/separator_gray"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling" />
+                        app:layout_constraintTop_toBottomOf="@+id/ilTelephone" />
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilAddress"
@@ -297,7 +319,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/margin_12"
                         android:gravity="center"
-                        android:text="Comprovante de residência"
+                        android:text="@string/txt_doc_address"
                         android:textColor="@color/gray_3"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold"
@@ -385,7 +407,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/margin_12"
                         android:gravity="center"
-                        android:text="Frente do documento"
+                        android:text="@string/txt_doc_front"
                         android:textColor="@color/gray_3"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold"
@@ -428,7 +450,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/margin_12"
                         android:gravity="center"
-                        android:text="Verso do documento"
+                        android:text="@string/txt_doc_back"
                         android:textColor="@color/gray_3"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold"
