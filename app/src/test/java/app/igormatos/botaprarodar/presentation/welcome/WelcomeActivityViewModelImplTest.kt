@@ -11,19 +11,7 @@ class WelcomeActivityViewModelImplTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun userLoggedInCommunityChosen_navigatesToMainActivity() {
-        WelcomeActivityViewModelRobot.test(
-            userLoggedIn = true,
-            userChoseCommunity = true
-        ) {
-            triggerCheckPreviousState()
-
-            verifyNavigatedToMainActivity()
-        }
-    }
-
-    @Test
-    fun userLoggedInCommunityNotChosenEmailNotVerified_showsEmailNotVerified(){
+    fun userLoggedInCommunityNotChosenEmailNotVerified_showsEmailNotVerified() {
         WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false,
@@ -94,7 +82,7 @@ class WelcomeActivityViewModelImplTest {
     }
 
     @Test
-    fun errorLoadCommunities_reloadCommunities_callsLoadCommunities(){
+    fun errorLoadCommunities_reloadCommunities_callsLoadCommunities() {
         WelcomeActivityViewModelRobot.test(
             userLoggedIn = true,
             userChoseCommunity = false
@@ -111,7 +99,7 @@ class WelcomeActivityViewModelImplTest {
             userLoggedIn = true,
             userChoseCommunity = false
         ) {
-            val chosenCommunity = Community(id="chooseCommunity", name = "testCommunity")
+            val chosenCommunity = Community(id = "chooseCommunity", name = "testCommunity")
 
             chooseCommunity(chosenCommunity)
 
