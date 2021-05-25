@@ -10,8 +10,9 @@
         <item name="actionBarTheme">@style/ActionBar</item>
     </style>
 
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
+    <style name="SplashScreenTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_image_bg</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="AppTheme.WhiteEditText" parent="Widget.AppCompat.EditText">

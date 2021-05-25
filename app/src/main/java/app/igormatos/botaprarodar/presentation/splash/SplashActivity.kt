@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.splash
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
@@ -26,8 +27,12 @@ class SplashActivity : AppCompatActivity() {
                 SplashViewModel.UserLoginState.PartiallyLoggedIn,
                 SplashViewModel.UserLoginState.NotLoggedIn -> WelcomeActivity.getStartIntent(this)
             }
-            startActivity(intent)
-            finish()
+            navigateToActivity(intent)
         }
+    }
+
+    private fun navigateToActivity(intent: Intent) {
+        startActivity(intent)
+        finish()
     }
 }
