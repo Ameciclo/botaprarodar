@@ -4,6 +4,6 @@
     <item android:drawable="@color/white" />
     <item>
         <bitmap
-                android:src="@drawable/bike_bg" />
+                android:src="@drawable/splash_image_bg" />
     </item>
 </layer-list>

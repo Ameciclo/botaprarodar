@@ -51,13 +51,16 @@ class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         views = ActivityWelcomeBinding.inflate(layoutInflater)
-        val rootView = views.root
-        setContentView(rootView)
+        setContentView(views.root)
+        setupClickListeners()
+        initScreenObjects()
+        bindViewModel()
+    }
+
+    private fun setupClickListeners() {
         views.loginButton.setOnClickListener {
             startLoginFlow()
         }
-        initScreenObjects()
-        bindViewModel()
     }
 
     private fun initScreenObjects() {
