@@ -82,7 +82,8 @@ class SignInFragment : Fragment() {
         when (errorType) {
             BprErrorType.NETWORK -> R.string.network_error_message
             BprErrorType.UNKNOWN -> R.string.login_error
-            BprErrorType.UNAUTHORIZED -> R.string.sign_in_password_error
+            BprErrorType.INVALID_PASSWORD -> R.string.sign_in_password_error
+            else -> R.string.login_error
         }
 
     private fun showErrorMessage(@StringRes messageId: Int) {
@@ -95,7 +96,7 @@ class SignInFragment : Fragment() {
 
     private fun updatePasswordError(errorType: BprErrorType) {
         when (errorType) {
-            BprErrorType.UNAUTHORIZED -> {
+            BprErrorType.INVALID_PASSWORD -> {
                 binding.password.error =
                     getString(R.string.sign_in_password_error)
                 binding.password.requestFocus()

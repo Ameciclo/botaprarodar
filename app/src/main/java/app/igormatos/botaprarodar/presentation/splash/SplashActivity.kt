@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
 import app.igormatos.botaprarodar.presentation.main.MainActivity
-import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : AppCompatActivity() {
@@ -23,9 +24,12 @@ class SplashActivity : AppCompatActivity() {
     private fun observeEvents() {
         viewModel.userloginState.observe(this) { userLoginState ->
             val intent = when (userLoginState) {
-                SplashViewModel.UserLoginState.LoggedIn -> MainActivity.getStartIntent(this)
-                SplashViewModel.UserLoginState.PartiallyLoggedIn,
-                SplashViewModel.UserLoginState.NotLoggedIn -> WelcomeActivity.getStartIntent(this)
+                SplashViewModel.UserLoginState.LoggedIn ->
+                    MainActivity.getStartIntent(this)
+                SplashViewModel.UserLoginState.PartiallyLoggedIn ->
+                    SelectCommunityActivity.getStartIntent(this)
+                SplashViewModel.UserLoginState.NotLoggedIn ->
+                    LoginActivity.getStartIntent(this)
             }
             navigateToActivity(intent)
         }

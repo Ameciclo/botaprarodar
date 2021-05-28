@@ -5,5 +5,8 @@ import java.lang.Exception
 sealed class UserAdminErrorException: Exception(){
     object AdminNetwork: UserAdminErrorException()
     object AdminNotCreated: UserAdminErrorException()
-    object AdminNotFound: UserAdminErrorException()
+    object AdminPasswordInvalid: UserAdminErrorException()
+    object AdminAccountNotFound: UserAdminErrorException()
+    object AdminAccountAlreadyExists: UserAdminErrorException()
+    object AdminEmailNotVerified: UserAdminErrorException()
 }

@@ -4,7 +4,6 @@ import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseUser
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -58,32 +57,6 @@ class AdminRepositoryTest {
         assertTrue(result.password == password)
     }
 
-    @Test(expected = UserAdminErrorException.AdminNotCreated::class)
-    fun `When admin is null, then createAdmin should throw AdminNotCreated exception`(): Unit =
-        runBlocking {
-            coEvery {
-                adminRemoteDataSource.createAdmin(
-                    email,
-                    password
-                )
-            } returns null
-
-            adminRepository.createAdmin(email, password)
-        }
-
-    @Test(expected = UserAdminErrorException.AdminNotFound::class)
-    fun `When admin is null, then authenticateAdmin should throw AdminNotFound exception`(): Unit =
-        runBlocking {
-            coEvery {
-                adminRemoteDataSource.authenticateAdmin(
-                    email,
-                    password
-                )
-            } returns null
-
-            adminRepository.authenticateAdmin(email, password)
-        }
-
     @Test
     fun `When authenticateAdmin with given params, then result admin should have given id`(): Unit =
         runBlocking {
@@ -134,7 +107,6 @@ class AdminRepositoryTest {
             val result = adminRepository.isAdminRegistered(email)
             assertTrue(result)
         }
-
 
 
     @Test
@@ -200,7 +172,7 @@ class AdminRepositoryTest {
             adminRepository.sendPasswordResetEmail(email)
         }
 
-    @Test(expected = UserAdminErrorException.AdminNotFound::class)
+    @Test(expected = UserAdminErrorException.AdminPasswordInvalid::class)
     fun `When admin credentials are incorrect, then authenticateAdmin should throw AdminNotFound`(): Unit =
         runBlocking {
             val expectedError = FirebaseAuthInvalidCredentialsException("", "")

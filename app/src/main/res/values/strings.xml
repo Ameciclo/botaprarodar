@@ -95,7 +95,7 @@
     <string name="action_sign_in">Entrar</string>
     <string name="password_length_error">Senha precisa ter no mínimo 6 dígitos</string>
     <string name="submit_form_error">Não foi possível executar a ação.</string>
-    <string name="sign_in_password_error">Senha incorreta.</string>
+    <string name="sign_in_password_error">Senha incorreta</string>
     <string name="bicycle_serie_number_invalid">Número da bicicleta inválido</string>
     <string name="edit_bicycle_title">Editar Bicicleta</string>
     <string name="reset_password_email_sent">Email de recuperação de senha enviado.</string>
@@ -202,5 +202,33 @@
     <string name="trip_devolution">Devolução</string>
     <string name="waiting_devolution">aguardando devolução</string>
 
+    <!-- Login Activity -->
+    <string name="forgot_my_password">Esqueci minha senha</string>
+    <string name="sign_up">Não tem conta? <b><u>Cadastra-se</u></b></string>
+    <string name="title_resend_email">Reenvio de email</string>
+    <string name="message_resend_email">Reenviado email com sucesso</string>
+    <string name="ok">OK</string>
+
+    <!-- Password Revocery Activity -->
+    <string name="enter_email_to_recover_password">Insira o e-mail associado à sua conta e iremos enviar um link para recuperar a sua senha.</string>
+    <string name="btn_send">Enviar</string>
+    <string name="confirm_password">Repita a senha</string>
+    <string name="unkown_error">Erro desconhecido</string>
+    <string name="title_recovery_link_send">Confira seu e-mail</string>
+    <string name="message_password_recovery_link_send">Enviamos um link de recuperação de senha para o seu e-mail.</string>
+
+    <!-- Register Activity -->
+    <string name="registration_toolbar_title">Cadastrar-se</string>
+    <string name="btn_register">Cadastrar</string>
+    <string name="sign_in_email_error">E-mail não encontrado</string>
+    <string name="title_register_completed">Cadastro realizado com sucesso</string>
+    <string name="message_register_completed">Enviamos um e-mail de confirmação para concluir o seu cadastro.</string>
+    <string name="email_already_registered_error">Email já cadastrado</string>
+
+    <!-- Select Community Activity -->
+    <string name="select_community_toolbar_title">Selecionar comunidade</string>
+    <string name="select_community">Selecione a comunidade</string>
+    <string name="community_description">Descrição: %s</string>
+    <string name="community_address">Endereço: %s</string>
 
 </resources>

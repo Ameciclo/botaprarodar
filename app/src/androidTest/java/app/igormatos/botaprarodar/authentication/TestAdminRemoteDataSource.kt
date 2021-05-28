@@ -24,6 +24,10 @@ class TestAdminRemoteDataSource(
         return sendPasswordRecoverEmailStub?.invoke() ?: Unit
     }
 
+    override suspend fun sendEmailVerification() {
+        // TODO
+    }
+
     override suspend fun isAdminRegistered(email: String): Boolean {
         return isAdminRegisteredStub?.invoke() ?: true
     }
