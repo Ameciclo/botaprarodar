@@ -90,7 +90,7 @@ class SignInViewModelTest {
                 fakeEmail,
                 fakeInvalidPassword
             )
-        } throws UserAdminErrorException.AdminNotFound
+        } throws UserAdminErrorException.AdminPasswordInvalid
 
         viewModel.sendForm(fakeEmail)
 

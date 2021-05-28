@@ -40,6 +40,14 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdr
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
+import app.igormatos.botaprarodar.presentation.login.LoginUseCase
+import app.igormatos.botaprarodar.presentation.login.LoginViewModel
+import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryUseCase
+import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPasswordViewModel
+import app.igormatos.botaprarodar.presentation.login.registration.RegisterUseCase
+import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
+import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
@@ -68,6 +76,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -94,6 +103,62 @@ val bprModule = module {
             preferencesModule = get(),
             firebaseAuthModule = get(),
             firebaseHelperModule = get()
+        )
+    }
+
+    viewModel {
+        LoginViewModel(
+            loginUseCase = get(),
+            resendEmailUseCase = get()
+        )
+    }
+
+    factory {
+        LoginUseCase(
+            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
+            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME)),
+            adminRepository = get()
+        )
+    }
+
+    factory {
+        ResendEmailUseCase(
+            adminRepository = get()
+        )
+    }
+
+    viewModel {
+        RecoveryPasswordViewModel(
+            passwordRecoveryUseCase = get()
+        )
+    }
+
+    factory {
+        PasswordRecoveryUseCase(
+            adminRepository = get(),
+            emailValidator = get(named(EMAIL_VALIDADOR_NAME))
+        )
+    }
+
+    viewModel {
+        RegisterViewModel(
+            registerUseCase = get()
+        )
+    }
+
+    factory {
+        RegisterUseCase(
+            adminRepository = get(),
+            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
+            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME))
+        )
+    }
+
+    viewModel {
+        SelectCommunityViewModel(
+            firebaseAuthModule = get(),
+            firebaseHelperModule = get(),
+            preferencesModule = get()
         )
     }
 
@@ -156,10 +221,6 @@ val bprModule = module {
     }
 
     single {
-        provideEmailValidator()
-    }
-
-    single {
         UserRequestConvert()
     }
 
@@ -168,11 +229,17 @@ val bprModule = module {
     }
 
     viewModel {
-        EmailValidationViewModel(get(), get())
+        EmailValidationViewModel(
+            adminRepository = get(),
+            emailValidator = get(named(EMAIL_VALIDADOR_NAME))
+        )
     }
 
     viewModel {
-        SignInViewModel(get(), PasswordValidator())
+        SignInViewModel(
+            adminRepository = get(),
+            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME))
+        )
     }
 
     viewModel {
@@ -180,7 +247,10 @@ val bprModule = module {
     }
 
     viewModel {
-        PasswordRecoveryViewModel(get(), get())
+        PasswordRecoveryViewModel(
+            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
+            adminRepository = get()
+        )
     }
 
     single {
@@ -332,11 +402,18 @@ val bprModule = module {
     viewModel {
         TripDetailViewModel(get())
     }
+
+    factory<Validator<String?>>(named(EMAIL_VALIDADOR_NAME)) {
+        EmailValidator()
+    }
+
+    factory<Validator<String?>>(named(PASSWORD_VALIDADOR_NAME)) {
+        PasswordValidator()
+    }
 }
 
-fun provideEmailValidator(): Validator<String> {
-    return EmailValidator()
-}
+const val EMAIL_VALIDADOR_NAME = "email_validador"
+const val PASSWORD_VALIDADOR_NAME = "password_validador"
 
 private fun buildRetrofit(): Retrofit {
     return Retrofit.Builder()

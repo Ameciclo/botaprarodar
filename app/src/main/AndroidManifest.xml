@@ -19,17 +19,22 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".presentation.login.selectCommunity.SelectCommunityActivity"/>
+        <activity android:name=".presentation.login.registration.RegisterActivity" />
+        <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />
+        <activity android:name=".presentation.login.LoginActivity" />
         <activity
                 android:name=".presentation.splash.SplashActivity"
                 android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".presentation.main.trips.tripDetail.TripDetailActivity" />
         <activity android:name=".presentation.createcommunity.AddCommunityActivity" />
-        <activity android:name=".presentation.welcome.WelcomeActivity"/>
+        <activity android:name=".presentation.welcome.WelcomeActivity" />
         <activity android:name=".presentation.fullscreenimage.FullscreenImageActivity" />
         <activity android:name=".presentation.authentication.AuthenticationActivity" />
         <activity

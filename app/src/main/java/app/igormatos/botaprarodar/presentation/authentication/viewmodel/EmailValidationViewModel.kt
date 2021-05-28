@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class EmailValidationViewModel(
     private val adminRepository: AdminRepository,
-    private val emailValidator: Validator<String>
+    private val emailValidator: Validator<String?>
 ) : ViewModel() {
     private val _viewState = MutableLiveData<EmailValidationState>()
     val viewState: LiveData<EmailValidationState>
