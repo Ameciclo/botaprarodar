@@ -2,12 +2,21 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
+import app.igormatos.botaprarodar.data.network.api.AdminApiService
+import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
+import app.igormatos.botaprarodar.domain.model.admin.AdminRequest
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import retrofit2.Response
+import java.net.UnknownHostException
 
-class AdminRepository(private val adminRemoteDataSource: AdminDataSource) {
+class AdminRepository(
+    private val adminRemoteDataSource: AdminDataSource,
+    private val adminApiService: AdminApiService,
+    private val adminMapper: AdminMapper
+) {
 
     suspend fun createAdmin(
         email: String, password: String
@@ -79,6 +88,18 @@ class AdminRepository(private val adminRemoteDataSource: AdminDataSource) {
             throw UserAdminErrorException.AdminAccountNotFound
         } catch (e: Exception) {
             false
+        }
+    }
+
+    suspend fun getAdminById(id: String): Admin? {
+        return try {
+            val response: Response<AdminRequest> = adminApiService.getAdminById(id)
+            if (response.isSuccessful && response.body() != null) {
+                return adminMapper.adminRequestToAdmin(response.body()!!)
+            }
+            return null
+        } catch (e: UnknownHostException) {
+            throw UserAdminErrorException.AdminNetwork
         }
     }
 

@@ -21,6 +21,12 @@ fun communityListResponseStub() =
         communityResponseStub()
     )
 
+fun communityMapResponseStub() =
+    mapOf(
+        Pair("1", communityResponseStub()),
+        Pair("2", communityResponseStub())
+    )
+
 fun mappedCommunityStub() =
     Community(
         "Teste",
@@ -63,4 +69,10 @@ fun nullCommunityResponseItemListStub() =
     listOf(
         nullCommunityResponseItemStub(),
         nullCommunityResponseItemStub()
+    )
+
+fun nullCommunityResponseItemMapStub() =
+    mapOf(
+        Pair("1", nullCommunityResponseItemStub()),
+        Pair("2", nullCommunityResponseItemStub())
     )
