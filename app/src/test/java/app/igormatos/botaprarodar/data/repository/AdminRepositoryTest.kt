@@ -2,16 +2,22 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
+import app.igormatos.botaprarodar.data.network.api.AdminApiService
+import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
+import app.igormatos.botaprarodar.domain.model.admin.AdminRequest
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
+import java.net.UnknownHostException
 
 class AdminRepositoryTest {
     private lateinit var adminRepository: AdminRepository
@@ -20,6 +26,8 @@ class AdminRepositoryTest {
     private lateinit var adminRemoteDataSource: AdminRemoteDataSource
 
     private val adminUser = mockk<Admin>()
+    private val adminApiService: AdminApiService = mockk()
+    private val adminMapper: AdminMapper = mockk(relaxed = true)
 
     private val email = "admin@admin.com"
     private val password = "admin"
@@ -27,7 +35,11 @@ class AdminRepositoryTest {
     @Before
     fun setUp() {
         init(this)
-        adminRepository = AdminRepository(adminRemoteDataSource)
+        adminRepository = AdminRepository(
+            adminRemoteDataSource,
+            adminApiService,
+            adminMapper
+        )
 
         coEvery { adminUser.id } returns "123456"
     }
@@ -184,4 +196,87 @@ class AdminRepositoryTest {
             } throws expectedError
             adminRepository.authenticateAdmin(email, password)
         }
+
+    @Test
+    fun `should return Admin object when adminApiService execute with success and user is admin`() {
+        runBlocking {
+            // arrange
+            val response: Response<AdminRequest> = mockk()
+            val id = "1";
+            val email = "email@email.com"
+            val adminRequest = AdminRequest(id, email)
+            val expectedAdmin = Admin("", id, email)
+
+            every {
+                response.isSuccessful
+            } returns true
+
+            every {
+                response.body()
+            } returns adminRequest
+
+            coEvery {
+                adminApiService.getAdminById(id)
+            } returns response
+
+            coEvery {
+                adminMapper.adminRequestToAdmin(adminRequest)
+            } returns expectedAdmin
+
+            // action
+            val result: Admin? = adminRepository.getAdminById(id)
+
+            // assert
+            assertEquals(expectedAdmin, result)
+        }
+    }
+
+    @Test
+    fun `should return null when adminApiService execute with success and user is not admin`() {
+        runBlocking {
+            // arrange
+            val response: Response<AdminRequest> = mockk()
+            val id = "1";
+            val email = "email@email.com"
+            val adminRequest = AdminRequest(id, email)
+            val expectedAdmin = Admin("", id, email)
+
+            every {
+                response.isSuccessful
+            } returns true
+
+            every {
+                response.body()
+            } returns adminRequest
+
+            coEvery {
+                adminApiService.getAdminById(id)
+            } returns response
+
+            coEvery {
+                adminMapper.adminRequestToAdmin(adminRequest)
+            } returns expectedAdmin
+
+            // action
+            val result: Admin? = adminRepository.getAdminById(id)
+
+            // assert
+            assertEquals(expectedAdmin, result)
+        }
+    }
+
+    @Test(expected = UserAdminErrorException.AdminNetwork::class)
+    fun `should throws UserAdminErrorException AdminNetwork exception when adminApiService throws UnknownHostException`() {
+        runBlocking {
+            // arrange
+            val id = "1";
+
+            coEvery {
+                adminApiService.getAdminById(id)
+            } throws UnknownHostException()
+
+            // action
+            adminRepository.getAdminById(id)
+        }
+    }
 }

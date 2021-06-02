@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.databinding.ActivitySelectCommunityBinding
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityActivity
@@ -37,7 +38,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
         setupAdapter()
         setupRecyclerView()
 
-        viewModel.loadcommunities()
+        viewModel.loadCommunities()
         observeEvents()
         setupEventListeners()
     }
@@ -71,7 +72,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
             when (selectCommunityState) {
                 is SelectCommunityState.Error -> {
                     loadingDialog.hide()
-                    showMessage(R.string.unkown_error)
+                    notifyErrorEvents(selectCommunityState.error)
                 }
                 SelectCommunityState.Loading -> loadingDialog.show()
                 is SelectCommunityState.Success -> {
@@ -80,6 +81,13 @@ class SelectCommunityActivity : BaseAuthActivity() {
                 }
             }
         })
+    }
+
+    private fun notifyErrorEvents(errorType: BprErrorType) {
+        when (errorType) {
+            BprErrorType.NETWORK -> showMessage(R.string.network_error_message)
+            else -> showMessage(R.string.unkown_error)
+        }
     }
 
     private fun notifySuccessEvents(selectCommunityState: SelectCommunityState.Success) {

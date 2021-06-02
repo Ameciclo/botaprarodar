@@ -2,8 +2,9 @@ package app.igormatos.botaprarodar.presentation.login.passwordRecovery
 
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
+import app.igormatos.botaprarodar.utils.loginRequestValid
+import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +30,7 @@ internal class RecoveryPasswordViewModelTest {
     fun `should change isButtonEnable to false when email is invalid`() {
         // arrange
         val expectedResult = false
-        val invalidEmail = INVALID_EMAIL
+        val invalidEmail = loginRequestWithInvalidEmail.email
         every {
             useCase.isEmailValid(invalidEmail)
         } returns false
@@ -54,7 +55,7 @@ internal class RecoveryPasswordViewModelTest {
     fun `should change isButtonEnable to true when email is valid`() {
         // arrange
         val expectedResult = true
-        val validEmail = VALID_EMAIL
+        val validEmail = loginRequestValid.email
         every {
             useCase.isEmailValid(validEmail)
         } returns true
@@ -76,9 +77,9 @@ internal class RecoveryPasswordViewModelTest {
     }
 
     @Test
-    fun `should change passwordRecoveryState to success when usecase execute with success`() {
+    fun `should change passwordRecoveryState to Success when usecase execute with success`() {
         // arrange
-        val validEmail = VALID_EMAIL
+        val validEmail = loginRequestValid.email
         coEvery {
             useCase.sendPasswordResetEmail(validEmail)
         } returns PasswordRecoveryState.Success
@@ -95,10 +96,10 @@ internal class RecoveryPasswordViewModelTest {
     }
 
     @Test
-    fun `should change passwordRecoveryState to network error when usecase execute with network fail`() {
+    fun `should change passwordRecoveryState to NETWORK error when usecase execute with network fail`() {
         // arrange
         val expectedErrorType = PasswordRecoveryState.Error(BprErrorType.NETWORK)
-        val validEmail = VALID_EMAIL
+        val validEmail = loginRequestValid.email
         coEvery {
             useCase.sendPasswordResetEmail(validEmail)
         } returns expectedErrorType
@@ -118,7 +119,7 @@ internal class RecoveryPasswordViewModelTest {
     fun `should change passwordRecoveryState to INVALID_ACCOUNT error when usecase execute with email invalid account`() {
         // arrange
         val expectedErrorType = PasswordRecoveryState.Error(BprErrorType.INVALID_ACCOUNT)
-        val email = INVALID_ACCOUNT
+        val email = loginRequestValid.email
         coEvery {
             useCase.sendPasswordResetEmail(email)
         } returns expectedErrorType
@@ -136,8 +137,5 @@ internal class RecoveryPasswordViewModelTest {
 
     companion object {
         private const val VALIDATE_FORM_METHOD = "validateForm"
-        private const val VALID_EMAIL = "test@test.com"
-        private const val INVALID_EMAIL = "test@test"
-        private const val INVALID_ACCOUNT = "test@test.test"
     }
 }

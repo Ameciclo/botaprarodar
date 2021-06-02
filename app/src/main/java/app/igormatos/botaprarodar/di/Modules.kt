@@ -4,6 +4,7 @@ import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.data.network.api.AdminApiService
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
 import app.igormatos.botaprarodar.data.network.api.UserApi
@@ -16,6 +17,7 @@ import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -47,7 +49,10 @@ import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPa
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterUseCase
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityUseCase
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.AdminUseCase
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
@@ -115,8 +120,8 @@ val bprModule = module {
 
     factory {
         LoginUseCase(
-            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
-            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME)),
+            emailValidator = get(named(EMAIL_VALIDATOR_NAME)),
+            passwordValidator = get(named(PASSWORD_VALIDATOR_NAME)),
             adminRepository = get()
         )
     }
@@ -136,7 +141,7 @@ val bprModule = module {
     factory {
         PasswordRecoveryUseCase(
             adminRepository = get(),
-            emailValidator = get(named(EMAIL_VALIDADOR_NAME))
+            emailValidator = get(named(EMAIL_VALIDATOR_NAME))
         )
     }
 
@@ -149,18 +154,43 @@ val bprModule = module {
     factory {
         RegisterUseCase(
             adminRepository = get(),
-            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
-            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME))
+            emailValidator = get(named(EMAIL_VALIDATOR_NAME)),
+            passwordValidator = get(named(PASSWORD_VALIDATOR_NAME))
         )
     }
 
     viewModel {
         SelectCommunityViewModel(
             firebaseAuthModule = get(),
-            firebaseHelperModule = get(),
-            preferencesModule = get()
+            preferencesModule = get(),
+            selectCommunityUseCase = get(),
         )
     }
+
+    factory {
+        SelectCommunityUseCase(
+            adminUseCase = get(),
+            communityUseCase = get()
+        )
+    }
+
+    factory {
+        CommunityUseCase(
+            communityRepository = get()
+        )
+    }
+
+    factory {
+        AdminUseCase(
+            adminRepository = get()
+        )
+    }
+
+    factory<AdminApiService> {
+        get<Retrofit>().create(AdminApiService::class.java)
+    }
+
+    factory { AdminMapper() }
 
     single { buildRetrofit() }
 
@@ -217,7 +247,11 @@ val bprModule = module {
     }
 
     single {
-        AdminRepository(get())
+        AdminRepository(
+            adminRemoteDataSource = get(),
+            adminApiService = get(),
+            adminMapper = get()
+        )
     }
 
     single {
@@ -231,14 +265,14 @@ val bprModule = module {
     viewModel {
         EmailValidationViewModel(
             adminRepository = get(),
-            emailValidator = get(named(EMAIL_VALIDADOR_NAME))
+            emailValidator = get(named(EMAIL_VALIDATOR_NAME))
         )
     }
 
     viewModel {
         SignInViewModel(
             adminRepository = get(),
-            passwordValidator = get(named(PASSWORD_VALIDADOR_NAME))
+            passwordValidator = get(named(PASSWORD_VALIDATOR_NAME))
         )
     }
 
@@ -248,7 +282,7 @@ val bprModule = module {
 
     viewModel {
         PasswordRecoveryViewModel(
-            emailValidator = get(named(EMAIL_VALIDADOR_NAME)),
+            emailValidator = get(named(EMAIL_VALIDATOR_NAME)),
             adminRepository = get()
         )
     }
@@ -403,17 +437,17 @@ val bprModule = module {
         TripDetailViewModel(get())
     }
 
-    factory<Validator<String?>>(named(EMAIL_VALIDADOR_NAME)) {
+    factory<Validator<String?>>(named(EMAIL_VALIDATOR_NAME)) {
         EmailValidator()
     }
 
-    factory<Validator<String?>>(named(PASSWORD_VALIDADOR_NAME)) {
+    factory<Validator<String?>>(named(PASSWORD_VALIDATOR_NAME)) {
         PasswordValidator()
     }
 }
 
-const val EMAIL_VALIDADOR_NAME = "email_validador"
-const val PASSWORD_VALIDADOR_NAME = "password_validador"
+const val EMAIL_VALIDATOR_NAME = "email_validator"
+const val PASSWORD_VALIDATOR_NAME = "password_validator"
 
 private fun buildRetrofit(): Retrofit {
     return Retrofit.Builder()
