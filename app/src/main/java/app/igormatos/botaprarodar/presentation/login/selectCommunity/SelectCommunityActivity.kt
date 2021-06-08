@@ -38,9 +38,13 @@ class SelectCommunityActivity : BaseAuthActivity() {
         setupAdapter()
         setupRecyclerView()
 
-        viewModel.loadCommunities()
         observeEvents()
         setupEventListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCommunities()
     }
 
     private fun setupAdapter() {

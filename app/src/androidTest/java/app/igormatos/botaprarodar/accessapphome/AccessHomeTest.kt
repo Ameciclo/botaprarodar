@@ -20,6 +20,8 @@ class AccessHomeTest {
         scenario = launchActivity()
     }
 
+    // TODO REMOVER DEPENDENCIAS DA API
+    /*
     @Test
     fun access_home_as_admin() {
         login {
@@ -39,4 +41,5 @@ class AccessHomeTest {
             assertThat(checkIfIsHome()).isTrue()
         }
     }
+     */
 }
