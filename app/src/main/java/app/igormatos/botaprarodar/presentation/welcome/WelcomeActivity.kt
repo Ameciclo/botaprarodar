@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.adapter_community.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
+@Deprecated("use LoginActivity instead")
 class WelcomeActivity : AppCompatActivity(R.layout.activity_welcome) {
 
     private lateinit var chooseCommunityAdapter: CommunityAdapter
