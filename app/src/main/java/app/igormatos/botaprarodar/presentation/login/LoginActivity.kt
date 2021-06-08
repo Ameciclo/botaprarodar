@@ -11,7 +11,6 @@ import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRe
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterActivity
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailState
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
-import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
 import com.google.firebase.crashlytics.internal.common.CommonUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,11 +36,6 @@ class LoginActivity : BaseAuthActivity() {
     }
 
     fun setupEventListeners() {
-        binding.ivLogo.setOnClickListener {
-            val intent = WelcomeActivity.getStartIntent(this)
-            startActivity(intent)
-        }
-
         binding.btnLogin.setOnClickListener {
             doLogin()
         }

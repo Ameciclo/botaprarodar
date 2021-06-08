@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.internal.common.CommonUtils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
+@Deprecated("use LoginActivity instead")
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSignInBinding
