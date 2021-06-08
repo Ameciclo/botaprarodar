@@ -37,6 +37,8 @@ class AddCommunityActivityTest {
         }
     }
 
+    // TODO REMOVER DEPENDENCIAS DA API
+    /*
     @Test
     @LargeTest
     fun shouldAddNewCommunityUserJourney() {
@@ -49,4 +51,5 @@ class AddCommunityActivityTest {
             checkMessage(communityName)
         }
     }
+     */
 }

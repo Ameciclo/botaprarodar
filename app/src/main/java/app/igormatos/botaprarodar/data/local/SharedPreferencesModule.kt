@@ -6,12 +6,12 @@ import app.igormatos.botaprarodar.domain.model.community.Community
 
 class SharedPreferencesModule(appContext: Context) {
 
-    private val sharedPrefs: SharedPreferences = appContext.getSharedPreferences("BPR-SHARED", Context.MODE_PRIVATE)
+    private val sharedPrefs: SharedPreferences =
+        appContext.getSharedPreferences("BPR-SHARED", Context.MODE_PRIVATE)
 
     private val COMMUNITY_NAME = "COMMUNITY_NAME"
     private val COMMUNITY_ID = "COMMUNITY_ID"
     private val COMMUNITY_ORG_NAME = "COMMUNITY_ORG_NAME"
-    private val TRIPS_COUNT = "TRIPS_COUNT"
 
     fun saveJoinedCommmunity(community: Community) {
         val editor = sharedPrefs.edit()
@@ -25,7 +25,11 @@ class SharedPreferencesModule(appContext: Context) {
         val communityName = sharedPrefs.getString(COMMUNITY_NAME, "")
         val communityId = sharedPrefs.getString(COMMUNITY_ID, "")
         val communityOrgName = sharedPrefs.getString(COMMUNITY_ORG_NAME, "")
-        return Community(name = communityName ?: "", id = communityId ?: "", org_name = communityOrgName ?: "")
+        return Community(
+            name = communityName ?: "",
+            id = communityId ?: "",
+            org_name = communityOrgName ?: ""
+        )
     }
 
     fun isCommunitySelected(): Boolean {
@@ -35,16 +39,4 @@ class SharedPreferencesModule(appContext: Context) {
     fun clear(): Boolean {
         return sharedPrefs.edit().clear().commit()
     }
-
-    fun incrementTripCount() {
-        val editor = sharedPrefs.edit()
-        val newCount = getTripsCount() + 1
-        editor.putInt(TRIPS_COUNT, newCount)
-        editor.apply()
-    }
-
-    fun getTripsCount() : Int {
-        return sharedPrefs.getInt(TRIPS_COUNT, 0)
-    }
-
 }
