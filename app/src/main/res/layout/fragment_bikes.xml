@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_bikes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_gray">
+            android:layout_height="match_parent">
 
         <TextView
                 android:id="@+id/tv_title_bikes"
@@ -21,12 +20,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="Bicicletas"
+                android:text="@string/title_bikes"
                 android:textAllCaps="true"
                 android:textColor="@color/gray_2"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_search_bikes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_bikes"
+                app:startIconDrawable="@drawable/ic_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_search_bikes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register_bikes"
@@ -36,7 +55,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:backgroundTint="@color/white"
-                android:paddingVertical="@dimen/padding_large"
+                android:paddingVertical="@dimen/padding_medium"
                 android:text="@string/btn_register_bicycle"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -45,13 +64,12 @@
                 app:iconTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_bikes" />
+                app:layout_constraintTop_toBottomOf="@+id/til_search_bikes" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bikes"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
