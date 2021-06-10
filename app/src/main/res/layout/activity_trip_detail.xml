@@ -162,6 +162,8 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:padding="@dimen/padding_medium"
             android:text="@string/return_bike"
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
