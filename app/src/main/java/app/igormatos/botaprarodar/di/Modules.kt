@@ -363,7 +363,8 @@ val bprModule = module {
 
     single {
         StepFinalReturnBikeUseCase(
-            devolutionRepository = get()
+            devolutionRepository = get(),
+            userRepository = get()
         )
     }
 
@@ -410,7 +411,7 @@ val bprModule = module {
     }
 
     factory {
-        SendBikeWithdraw(withdrawRepository = get())
+        SendBikeWithdraw(withdrawRepository = get(), userRepository = get())
     }
 
     single { RegisterUserStepper(StepConfigType.USER_FORM) }
