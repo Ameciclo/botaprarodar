@@ -57,7 +57,7 @@ class TripDetailActivity : AppCompatActivity() {
                     setupTripDetailView(it.data)
                 }
                 is SimpleResult.Error -> {
-                    // error
+                    showErrorMessage(getString(R.string.unkown_error))
                 }
             }
         })
@@ -86,7 +86,8 @@ class TripDetailActivity : AppCompatActivity() {
             setImagesValues(withdraw, bike)
             setDatesValues(withdraw, devolution)
             setBackgroundStatusColor()
-            setDevolutionButtonVisibility(bike)
+            setDevolutionButtonClickEvent(bike)
+            setDevolutionButtonVisibility(devolution)
         }
 
     }
@@ -137,20 +138,32 @@ class TripDetailActivity : AppCompatActivity() {
     }
 
     private fun ActivityTripDetailBinding.setDevolutionButtonVisibility(
+        devolution: Devolution?
+    ) {
+        if (viewModel.bikeWithdrawHasDevolution(devolution))
+            btnTripDetailConfirm.gone()
+        else
+            btnTripDetailConfirm.visible()
+    }
+
+    private fun ActivityTripDetailBinding.setDevolutionButtonClickEvent(
         bike: Bike
     ) {
-        if (viewModel.verifyIfBikeIsInUse(bike)) {
-            btnTripDetailConfirm.visible()
-            btnTripDetailConfirm.setOnClickListener {
-                val intent = ReturnBikeActivity.setupActivity(
-                    context = this@TripDetailActivity,
-                    originFlow = TRIP_DETAIL_FLOW,
-                    bike = bike
-                )
-                startForResult.launch(intent)
-            }
-        } else
-            btnTripDetailConfirm.gone()
+        btnTripDetailConfirm.setOnClickListener {
+            val intent = ReturnBikeActivity.setupActivity(
+                context = this@TripDetailActivity,
+                originFlow = TRIP_DETAIL_FLOW,
+                bike = bike
+            )
+            startForResult.launch(intent)
+        }
+    }
+
+    private fun showErrorMessage(errorMessage: String) {
+        snackBarMaker(errorMessage, binding.cardView).apply {
+            setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.red))
+            show()
+        }
     }
 
     override fun onDestroy() {

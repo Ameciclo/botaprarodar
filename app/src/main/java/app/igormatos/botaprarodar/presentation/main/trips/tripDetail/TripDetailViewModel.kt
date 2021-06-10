@@ -46,7 +46,7 @@ class TripDetailViewModel(private val tripDetailUseCase: TripDetailUseCase) : Vi
     fun getDevolutionByWithdrawId(bike: Bike, id: String) =
         tripDetailUseCase.getDevolutionByWithdrawId(bike, id)
 
-    fun verifyIfBikeIsInUse(bike: Bike) = tripDetailUseCase.verifyIfBikeIsInUse(bike)
+    fun bikeWithdrawHasDevolution(devolution: Devolution?) = tripDetailUseCase.bikeWithdrawHasDevolution(devolution)
 
     fun verifyIfIsWithdraw(status: String) = (status.equals(IS_WITHDRAW, true))
 
