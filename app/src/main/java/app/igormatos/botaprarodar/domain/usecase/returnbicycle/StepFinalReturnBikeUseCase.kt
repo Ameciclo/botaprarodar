@@ -6,13 +6,18 @@ import app.igormatos.botaprarodar.common.utils.generateRandomAlphanumeric
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
 import app.igormatos.botaprarodar.data.repository.DevolutionBikeRepository
+import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Quiz
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 
-class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeRepository) {
+class StepFinalReturnBikeUseCase(
+    private val devolutionRepository: DevolutionBikeRepository,
+    private val userRepository: UserRepository
+) {
 
     suspend fun addDevolution(
         devolutionDate: String,
@@ -23,7 +28,14 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
         val devolution = devolutionToSend(bikeHolder, devolutionDate, quiz)
         updateBikeToSend(bikeHolder, devolution)
         val bikeRequest = bikeHolder.bike?.convertToBikeRequest()!!
-        return devolutionRepository.addDevolution(bikeRequest)
+
+        val addDevolutionResponse: SimpleResult<AddDataResponse> =
+            devolutionRepository.addDevolution(bikeRequest)
+
+        if (addDevolutionResponse is SimpleResult.Success)
+            return updateUserWithInactiveWithdraw(devolution)
+
+        return addDevolutionResponse
     }
 
     private fun updateBikeToSend(
@@ -72,5 +84,11 @@ class StepFinalReturnBikeUseCase(val devolutionRepository: DevolutionBikeReposit
             }
         }
         return quiz
+    }
+
+    private suspend fun updateUserWithInactiveWithdraw(devolution: Devolution): SimpleResult<AddDataResponse> {
+        val user: User? = devolution.user
+        user?.hasActiveWithdraw = false
+        return userRepository.updateUser(user!!)
     }
 }

@@ -1,14 +1,13 @@
 package app.igormatos.botaprarodar.presentation.adapter
 
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.UsersItemBinding
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
-import com.bumptech.glide.Glide
+import com.brunotmgomes.ui.extensions.visible
 
 class SelectUserViewHolder(
     private val onClick: (User) -> Unit,
@@ -24,8 +23,14 @@ class SelectUserViewHolder(
             loadPathOnCircle(item.iconPath())
         }
 
+        if (item.hasActiveWithdraw)
+            binding.tvActiveWithdraw.visible()
+        else
+            binding.tvActiveWithdraw.gone()
+
         itemView.setOnClickListener {
-            onClick(item)
+            if (item.hasActiveWithdraw.not())
+                onClick(item)
         }
     }
 

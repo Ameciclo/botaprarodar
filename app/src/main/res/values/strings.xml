@@ -180,6 +180,7 @@
     <string name="success_devolution_message">Devolução realizada com sucesso!</string>
     <string name="repeat_devolution_title">Devolver outra</string>
     <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
+    <string name="active_withdraw">Empréstimo<br>\nativo</br></string>
 
     <!-- User Form -->
     <string name="user_form_step_label">Preencha os dados</string>

@@ -56,7 +56,7 @@ val bikeRequestWithMappers = BikeRequest(
     devolutions = mapOfDevolutions
 )
 
-val withdraw = Withdraws(id = "123", date = "12/03/2021", user = userFake)
+val withdraw = Withdraws(id = "123", date = "12/03/2021 10:00:00", user = userFake)
 
 val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
 
@@ -98,7 +98,7 @@ val bikeSimpleSuccessEdit = SimpleResult.Success(addDataResponseEditBike)
 
 fun generateBikeHolder(): BikeHolder {
     return BikeHolder().apply {
-        bike = bike3
+        bike = bikeWithWithdraws
     }
 }
 
