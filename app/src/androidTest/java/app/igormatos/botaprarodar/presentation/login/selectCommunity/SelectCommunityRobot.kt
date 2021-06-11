@@ -20,6 +20,15 @@ class SelectCommunityRobot : BaseRobot() {
         checkViewIsDisplayed(R.id.btnAddCommunity)
     }
 
+    fun findItemOnRecyclerView(name: String) {
+        findItemInRecyclerView(R.id.recyclerviewCommunity, name)
+    }
+
+    fun selectAnyCommunity() {
+        waitViewByResId("recyclerviewCommunity")
+        selectAnyItemInRecyclerView(R.id.recyclerviewCommunity)
+    }
+
     fun checkBtnAddCommunityIsNotVisible() {
         checkViewIsNotDisplayed(R.id.btnAddCommunity)
     }

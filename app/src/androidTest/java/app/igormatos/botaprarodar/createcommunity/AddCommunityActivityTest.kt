@@ -2,54 +2,83 @@ package app.igormatos.botaprarodar.createcommunity
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.appendTimestamp
-import app.igormatos.botaprarodar.authentication.login
-import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
+import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.presentation.login.FirebaseAuthModuleTestImpl
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.*
+import com.brunotmgomes.ui.SimpleResult
+import io.mockk.coEvery
+import io.mockk.mockk
 import org.junit.Before
-import org.junit.FixMethodOrder
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import org.koin.core.context.loadKoinModules
+import org.koin.core.module.Module
+import org.koin.dsl.module
 
 @RunWith(AndroidJUnit4::class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class AddCommunityActivityTest {
 
-    private lateinit var scenario: ActivityScenario<WelcomeActivity>
+    private lateinit var scenario: ActivityScenario<SelectCommunityActivity>
+    private lateinit var testModule: Module
+    private lateinit var selectCommunityUseCase: SelectCommunityUseCase
+    private lateinit var addCommunityUseCase: AddCommunityUseCase
 
     @Before
     fun setUp() {
-        scenario = launchActivity()
-        login {
-            try {
-                logout()
-            } catch (e: NoMatchingViewException) {
-                // skip
-            } finally {
-                initAuthentication()
-                successfulLoginSteps("brunotmg@gmail.com", "abcd1234")
+
+        selectCommunityUseCase = mockk(relaxed = true)
+        addCommunityUseCase = mockk(relaxed = true)
+
+        testModule = module(override = true) {
+
+            factory {
+                selectCommunityUseCase
+            }
+
+            single<FirebaseAuthModule> {
+                FirebaseAuthModuleTestImpl(mockk(relaxed = true))
+            }
+
+            single {
+                addCommunityUseCase
             }
         }
+
+        loadKoinModules(testModule)
     }
 
-    // TODO REMOVER DEPENDENCIAS DA API
-    /*
     @Test
     @LargeTest
     fun shouldAddNewCommunityUserJourney() {
+        val communities: MutableList<Community> = mutableListOf()
+        defineUseCasesBehavior(communities)
+
+        scenario = launchActivity()
+
         val communityName = appendTimestamp("Comunidade")
-        addCommunity {
-            saveNewCommunity(communityName)
-            sleep(2000)
-            findItemOnRecyclerView(communityName)
+        selectCommunityActivity {
+            clickBtnAddCommunity()
+            addCommunity {
+                communities.add(Community(name = communityName))
+                saveNewCommunity(communityName)
+            }
         } verify {
-            checkMessage(communityName)
+            findItemOnRecyclerView(communityName)
         }
     }
-     */
+
+    private fun defineUseCasesBehavior(communities: MutableList<Community>) {
+        coEvery {
+            selectCommunityUseCase.loadCommunitiesByAdmin(any(), any())
+        } returns SelectCommunityState.Success(UserInfoState.Admin(communities))
+
+        coEvery {
+            addCommunityUseCase.addNewCommunity(any())
+        } returns SimpleResult.Success("")
+    }
 }
