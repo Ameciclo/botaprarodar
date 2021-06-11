@@ -3,7 +3,8 @@ package app.igormatos.botaprarodar.createcommunity
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-fun addCommunity(executeFun: AddCommunityActivityRobot.() -> Unit) = AddCommunityActivityRobot().apply{ executeFun() }
+fun addCommunity(executeFun: AddCommunityActivityRobot.() -> Unit) =
+    AddCommunityActivityRobot().apply { executeFun() }
 
 class AddCommunityActivityRobot : BaseRobot() {
 
@@ -41,10 +42,6 @@ class AddCommunityActivityRobot : BaseRobot() {
         fillFieldById(R.id.communityOrgEmailInput, orgEmail)
     }
 
-    fun findItemOnRecyclerView(name: String) {
-        findItemInRecyclerView(R.id.rvCommunityList, name)
-    }
-
     fun clickSaveCommunity() {
         clickButton(R.id.addCommunityButton)
     }
@@ -53,7 +50,7 @@ class AddCommunityActivityRobot : BaseRobot() {
         selectAnyItemInRecyclerView(R.id.rvCommunityList)
     }
 
-    fun showCommunityScreen(){
+    fun showCommunityScreen() {
         waitViewByResId("communityAdapterContainer")
     }
 
