@@ -58,7 +58,7 @@ jobs:
           name: app-debug-androidTest
           path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
-#  firebase:
+#  firebase: 
 #    name: Run UI tests with Firebase Test Lab
 #    needs: apk
 #    runs-on: ubuntu-18.04
