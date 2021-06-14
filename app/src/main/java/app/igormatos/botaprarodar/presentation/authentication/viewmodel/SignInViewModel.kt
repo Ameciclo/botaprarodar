@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class SignInViewModel(
     private val adminRepository: AdminRepository,
-    private val passwordValidator: Validator<String>
+    private val passwordValidator: Validator<String?>
 ) : ViewModel() {
     private val _viewState = MutableLiveData<SignInViewState>()
     val viewState: LiveData<SignInViewState>
@@ -37,8 +37,8 @@ class SignInViewModel(
                 }
             } catch (e: UserAdminErrorException.AdminNetwork) {
                 _viewState.value = SignInViewState.SendError(type = BprErrorType.NETWORK)
-            } catch (e: UserAdminErrorException.AdminNotFound) {
-                _viewState.value = SignInViewState.SendError(type = BprErrorType.UNAUTHORIZED)
+            } catch (e: UserAdminErrorException.AdminPasswordInvalid) {
+                _viewState.value = SignInViewState.SendError(type = BprErrorType.INVALID_PASSWORD)
             } catch (e: Exception) {
                 _viewState.value = SignInViewState.SendError(type = BprErrorType.UNKNOWN)
             }

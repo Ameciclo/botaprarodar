@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -12,7 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.ActivityMainBinding
-import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
+import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.ext.android.inject
 
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private val preferencesModule: SharedPreferencesModule by inject()
 
-    private val navController : NavController by lazy {
+    private val navController: NavController by lazy {
         findNavController(R.id.nav_host_fragment)
     }
 
@@ -63,13 +64,19 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 preferencesModule.clear()
 
-                val intent = Intent(this, WelcomeActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
 
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
         }
     }
 }

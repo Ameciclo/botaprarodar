@@ -21,6 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val MIN_PASSWORD_LENGTH = 6
 
+@Deprecated("use RegisterActivity instead")
 class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val registrationViewModel: RegistrationViewModel by viewModel()

@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class PasswordRecoveryViewModel(
-    private val emailValidator: Validator<String>,
+    private val emailValidator: Validator<String?>,
     private val adminRepository: AdminRepository
 ) : ViewModel() {
     private val _viewState = MutableLiveData<SendPasswordRecoveryViewState>()

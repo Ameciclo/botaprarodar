@@ -19,7 +19,7 @@ import org.junit.Test
 class PasswordRecoveryViewModelTest {
 
     @MockK
-    private lateinit var emailValidator: Validator<String>
+    private lateinit var emailValidator: Validator<String?>
 
     @MockK
     private lateinit var adminRepository: AdminRepository
