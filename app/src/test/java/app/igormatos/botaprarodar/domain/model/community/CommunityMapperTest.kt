@@ -1,7 +1,9 @@
 package app.igormatos.botaprarodar.domain.model.community
 
+import app.igormatos.botaprarodar.common.extensions.convertToList
 import app.igormatos.botaprarodar.utils.communityListResponseStub
-import app.igormatos.botaprarodar.utils.nullCommunityResponseItemListStub
+import app.igormatos.botaprarodar.utils.communityMapResponseStub
+import app.igormatos.botaprarodar.utils.nullCommunityResponseItemMapStub
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -24,11 +26,11 @@ class CommunityMapperTest {
 
         @Test
         fun `When Response has null items, should return a Community List with default values`() {
-            val communityResponse = nullCommunityResponseItemListStub()
+            val communityResponse = nullCommunityResponseItemMapStub()
 
             val communityMapped = communityMapper.mapCommunityResponseToCommunity(communityResponse)
 
-            for (index in communityResponse.indices) {
+            for (index in communityResponse.toList().indices) {
                 assertTrue(communityMapped[index].name.isEmpty())
                 assertTrue(communityMapped[index].description.isEmpty())
                 assertTrue(communityMapped[index].address.isEmpty())
@@ -40,17 +42,20 @@ class CommunityMapperTest {
 
         @Test
         fun `When Response has complete items, should return a Community List with same data`() {
-            val communityResponse = communityListResponseStub()
+            val communityResponse = communityMapResponseStub()
 
             val communityMapped = communityMapper.mapCommunityResponseToCommunity(communityResponse)
 
-            for (index in communityResponse.indices) {
-                assertEquals(communityResponse[index].name, communityMapped[index].name)
-                assertEquals(communityResponse[index].description, communityMapped[index].description)
-                assertEquals(communityResponse[index].address, communityMapped[index].address)
-                assertEquals(communityResponse[index].orgEmail, communityMapped[index].org_email)
-                assertEquals(communityResponse[index].orgName, communityMapped[index].org_name)
-                assertEquals(communityResponse[index].id, communityMapped[index].id)
+            for (index in communityResponse.convertToList().indices) {
+                assertEquals(communityResponse[index]?.name, communityMapped[index].name)
+                assertEquals(
+                    communityResponse[index]?.description,
+                    communityMapped[index].description
+                )
+                assertEquals(communityResponse[index]?.address, communityMapped[index].address)
+                assertEquals(communityResponse[index]?.orgEmail, communityMapped[index].org_email)
+                assertEquals(communityResponse[index]?.orgName, communityMapped[index].org_name)
+                assertEquals(communityResponse[index]?.id, communityMapped[index].id)
             }
         }
     }

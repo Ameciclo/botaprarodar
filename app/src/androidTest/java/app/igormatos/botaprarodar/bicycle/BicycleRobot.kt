@@ -1,24 +1,11 @@
 package app.igormatos.botaprarodar.bicycle
 
-import android.app.Activity
-import android.app.Instrumentation
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.os.Bundle
-import android.provider.MediaStore
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
-import app.igormatos.botaprarodar.presentation.welcome.WelcomeActivity
-import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
-import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf.allOf
 
 fun bicycle(executeFun: BicycleRobot.() -> Unit) = BicycleRobot().apply { executeFun() }

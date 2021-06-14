@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Usuários"
+                android:text="@string/title_users"
                 android:textAllCaps="true"
                 android:textColor="@color/gray_2"
                 android:textStyle="bold"
@@ -48,22 +48,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_register_users"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:drawableStart="@drawable/ic_add"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/colorPrimary"
-                android:focusable="true"
-                android:text="Cadastrar novo usuário"
-                android:textAlignment="textStart"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:backgroundTint="@color/white"
+                android:paddingVertical="@dimen/padding_medium"
+                android:text="@string/btn_register_user"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart"
+                app:iconTint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_search_users" />

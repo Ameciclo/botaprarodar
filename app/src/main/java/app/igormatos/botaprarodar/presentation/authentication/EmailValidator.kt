@@ -1,6 +1,8 @@
 package app.igormatos.botaprarodar.presentation.authentication
 
-class EmailValidator : Validator<String> {
-    override fun validate(value: String) =
-        value.isNotEmpty() && value.trim().contains("@")
+import android.util.Patterns
+
+class EmailValidator : Validator<String?> {
+    override fun validate(value: String?) =
+        Patterns.EMAIL_ADDRESS.matcher(value.toString()).matches()
 }

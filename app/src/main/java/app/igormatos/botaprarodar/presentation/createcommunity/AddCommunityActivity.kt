@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.ActivityAddCommunityBinding
-import com.brunotmgomes.ui.extensions.isValidEmail
 import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
-import kotlinx.android.synthetic.main.activity_add_community.*
 import com.brunotmgomes.ui.extensions.createLoading
+import com.brunotmgomes.ui.extensions.isValidEmail
 import com.brunotmgomes.ui.extensions.showDialogMessage
 import com.brunotmgomes.ui.extensions.snackBarMaker
+import kotlinx.android.synthetic.main.activity_add_community.*
 import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
@@ -44,11 +44,11 @@ class AddCommunityActivity : AppCompatActivity() {
         else snackBarMaker(getString(R.string.email_format_warning), addCommunityContainer).show()
     }
 
-    private fun validateEmailFormat() : Boolean {
+    private fun validateEmailFormat(): Boolean {
         return viewBinding.communityOrgEmailInput.text.isValidEmail()
     }
 
-    private fun createNewCommunity() : CommunityRequest {
+    private fun createNewCommunity(): CommunityRequest {
         viewBinding.let { view ->
             return CommunityRequest(
                 name = view.communityNameInput.text.toString(),
@@ -85,7 +85,10 @@ class AddCommunityActivity : AppCompatActivity() {
         })
         viewModel.getSuccessLiveDataValue().observe(this, Observer {
             if (it) finish()
-            else snackBarMaker(getString(R.string.add_community_error), addCommunityContainer).show()
+            else snackBarMaker(
+                getString(R.string.add_community_error),
+                addCommunityContainer
+            ).show()
         })
         viewModel.getErrorLiveDataValue().observe(this, Observer {
             snackBarMaker(getString(R.string.add_community_error), addCommunityContainer).show()
@@ -103,7 +106,8 @@ class AddCommunityActivity : AppCompatActivity() {
         )
     }
 
-    private fun getCommunityMessage(community: CommunityRequest) = "${community.name} \n${community.description} \n${community.address} \n${community.orgName} \n${community.orgEmail}"
+    private fun getCommunityMessage(community: CommunityRequest) =
+        "${community.name} \n${community.description} \n${community.address} \n${community.orgName} \n${community.orgEmail}"
 
     override fun onDestroy() {
         super.onDestroy()

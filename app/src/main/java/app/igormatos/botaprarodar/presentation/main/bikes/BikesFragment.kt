@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
@@ -51,13 +51,27 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     }
 
     private fun initUI() {
+        setupBtnRegisterClickEvent()
+        setupRecyclerView()
+        setupSearchBikesEvent()
+    }
+
+    private fun setupBtnRegisterClickEvent() {
         binding.btnRegisterBikes.setOnClickListener {
             val intent = BikeFormActivity.setupActivity(requireContext(), null)
             startForResult.launch(intent)
         }
+    }
 
+    private fun setupRecyclerView() {
         binding.rvBikes.layoutManager = LinearLayoutManager(context)
         binding.rvBikes.adapter = bicycleAdapter
+    }
+
+    private fun setupSearchBikesEvent() {
+        binding.tieSearchBikes.addTextChangedListener {
+            bicycleAdapter.filter.filter(it.toString())
+        }
     }
 
     private fun getBikes() {
@@ -66,14 +80,23 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     }
 
     private fun observerBikes() {
-        bikesViewModel.bikes.observe(viewLifecycleOwner, Observer {
+        bikesViewModel.bikes.observe(viewLifecycleOwner, {
             when (it) {
                 is SimpleResult.Success -> {
                     bicycleAdapter.submitList(it.data)
                 }
-                is SimpleResult.Error -> {}
+                is SimpleResult.Error -> {
+                    showErrorMessage(getString(R.string.unkown_error))
+                }
             }
         })
+    }
+
+    private fun showErrorMessage(errorMessage: String) {
+        snackBarMaker(errorMessage, binding.btnRegisterBikes).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
+            show()
+        }
     }
 
     override fun onBicycleClicked(bike: Bike) {
