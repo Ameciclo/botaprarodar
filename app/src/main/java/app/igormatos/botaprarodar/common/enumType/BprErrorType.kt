@@ -3,5 +3,7 @@ package app.igormatos.botaprarodar.common.enumType
 enum class BprErrorType {
     NETWORK,
     UNKNOWN,
-    UNAUTHORIZED
+    INVALID_PASSWORD,
+    INVALID_ACCOUNT,
+    EMAIL_NOT_VERIFIED
 }

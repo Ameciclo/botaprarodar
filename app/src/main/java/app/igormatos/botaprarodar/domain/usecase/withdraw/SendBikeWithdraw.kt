@@ -2,14 +2,19 @@ package app.igormatos.botaprarodar.domain.usecase.withdraw
 
 import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
 import app.igormatos.botaprarodar.common.utils.generateRandomAlphanumeric
+import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.data.repository.WithdrawBikeRepository
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 
-class SendBikeWithdraw(private val withdrawRepository: WithdrawBikeRepository) {
+class SendBikeWithdraw(
+    private val withdrawRepository: WithdrawBikeRepository,
+    private val userRepository: UserRepository
+) {
 
     suspend fun execute(
         withdrawDate: String,
@@ -19,7 +24,14 @@ class SendBikeWithdraw(private val withdrawRepository: WithdrawBikeRepository) {
         val withdraw = withdrawToSend(withdrawDate, userHolder)
         updateBikeToSend(bikeHolder, withdraw)
         val bikeRequest = bikeHolder.bike?.convertToBikeRequest()!!
-        return withdrawRepository.addWithdraw(bikeRequest)
+
+        val addWithdrawResponse: SimpleResult<AddDataResponse> =
+            withdrawRepository.addWithdraw(bikeRequest)
+
+        if (addWithdrawResponse is SimpleResult.Success)
+            return updateUserWithActiveWithdraw(withdraw)
+
+        return addWithdrawResponse
     }
 
     private fun withdrawToSend(
@@ -44,5 +56,11 @@ class SendBikeWithdraw(private val withdrawRepository: WithdrawBikeRepository) {
             bikeHolder.bike?.withdraws?.add(withdraws)
             bikeHolder.bike?.inUse = true
         }
+    }
+
+    private suspend fun updateUserWithActiveWithdraw(withdraw: Withdraws): SimpleResult<AddDataResponse> {
+        val user: User? = withdraw.user
+        user?.hasActiveWithdraw = true
+        return userRepository.updateUser(user!!)
     }
 }

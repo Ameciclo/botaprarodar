@@ -52,7 +52,9 @@ data class User(
     @SerializedName("id")
     override var id: String? = null,
     @SerializedName("available")
-    override var isAvailable: Boolean = true
+    override var isAvailable: Boolean = true,
+    @SerializedName("hasActiveWithdraw")
+    var hasActiveWithdraw: Boolean = false
 ) : Parcelable, Item {
 
     init {
