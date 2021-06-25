@@ -14,9 +14,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
-import java.lang.Exception
+import org.junit.runner.RunWith
+import org.koin.test.AutoCloseKoinTest
+import org.robolectric.RobolectricTestRunner
 
-class RegistrationViewModelTest {
+@RunWith(RobolectricTestRunner::class)
+class RegistrationViewModelTest : AutoCloseKoinTest() {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -43,7 +46,7 @@ class RegistrationViewModelTest {
     @Test
     fun `When password and email are valid, then createAccount is able to complete`() {
         coEvery { adminRepository.createAdmin(email, password) } returns admin
-        val observer = mockk<Observer<RegistrationState>>() { every { onChanged(any()) } just Runs}
+        val observer = mockk<Observer<RegistrationState>>() { every { onChanged(any()) } just Runs }
 
         viewModel.registrationState.observeForever(observer)
         viewModel.createAccount(email, password)
@@ -60,7 +63,7 @@ class RegistrationViewModelTest {
     @Test
     fun `When createAccount is called, then loading state has correct order`() {
         coEvery { adminRepository.createAdmin(email, password) } returns admin
-        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs}
+        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs }
 
         viewModel.loading.observeForever(observer)
         viewModel.emailValid.observeForever(observer)
@@ -77,7 +80,7 @@ class RegistrationViewModelTest {
 
     @Test
     fun `When password is invalid, then account registration flow does not start`() {
-        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs}
+        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs }
 
         viewModel.emailValid.observeForever(observer)
         viewModel.passwordValid.observeForever(observer)
@@ -93,7 +96,7 @@ class RegistrationViewModelTest {
 
     @Test
     fun `When email is invalid, then account registration flow does not start`() {
-        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs}
+        val observer = mockk<Observer<Boolean>>() { every { onChanged(any()) } just Runs }
 
         viewModel.emailValid.observeForever(observer)
         viewModel.passwordValid.observeForever(observer)
@@ -109,8 +112,13 @@ class RegistrationViewModelTest {
 
     @Test
     fun `When a network related exception occurs, then state should send an Network error type`() {
-        coEvery { adminRepository.createAdmin(email, password) } throws UserAdminErrorException.AdminNetwork
-        val observer = mockk<Observer<RegistrationState>>() { every { onChanged(any()) } just Runs}
+        coEvery {
+            adminRepository.createAdmin(
+                email,
+                password
+            )
+        } throws UserAdminErrorException.AdminNetwork
+        val observer = mockk<Observer<RegistrationState>>() { every { onChanged(any()) } just Runs }
         val errorSlot = slot<RegistrationState.SendError>()
 
         viewModel.registrationState.observeForever(observer)

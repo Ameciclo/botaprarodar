@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 
 import app.igormatos.botaprarodar.data.repository.DevolutionBikeRepository
+import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.utils.bikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.utils.bikeSimpleError
 import app.igormatos.botaprarodar.utils.bikeSimpleSuccess
@@ -16,16 +17,18 @@ import org.junit.jupiter.api.Assertions
 class StepFinalReturnBikeUseCaseTest {
 
     private val repository = mockk<DevolutionBikeRepository>()
+    private val userRepository = mockk<UserRepository>()
     private lateinit var useCase: StepFinalReturnBikeUseCase
 
     @Before
     fun setup() {
-        useCase = StepFinalReturnBikeUseCase(repository)
+        useCase = StepFinalReturnBikeUseCase(repository, userRepository)
     }
 
     @Test
     fun `when call addDevolution() should return a success`() = runBlocking {
         coEvery { repository.addDevolution(any()) } returns bikeSimpleSuccess
+        coEvery { userRepository.updateUser(any()) } returns bikeSimpleSuccess
 
         val responseResult =
             useCase.addDevolution(

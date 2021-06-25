@@ -27,7 +27,7 @@ class EmailValidationViewModelTest {
     private lateinit var adminRepository: AdminRepository
 
     @MockK
-    private lateinit var emailValidator: Validator<String>
+    private lateinit var emailValidator: Validator<String?>
 
     private lateinit var viewModel: EmailValidationViewModel
 

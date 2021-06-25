@@ -19,9 +19,6 @@ class BikesFragmentTest {
     @Before
     fun setup() {
         fragmentScenario = launchFragmentInContainer(themeResId = R.style.AppTheme)
-        fragmentScenario.withFragment {
-            this.bicycleAdapter.submitList(mutableListOf(bike))
-        }
     }
 
     @Test
@@ -45,6 +42,8 @@ class BikesFragmentTest {
 
     @Test
     fun whenClickInABike_shouldOpenBikeFormActivity() {
+        addItemAtRecycler()
+
         bikesFragment {
             clickOnFirstBike()
         } verify {
@@ -54,11 +53,19 @@ class BikesFragmentTest {
 
     @Test
     fun whenLoadFragment_shouldVerifyFirstItemAtRecycler() {
+        addItemAtRecycler()
+
         bikesFragment {
         } verify {
             checkBikeName()
             checkBikeOrderNumber()
             checkBikeSerialNumber()
+        }
+    }
+
+    private fun addItemAtRecycler() {
+        fragmentScenario.withFragment {
+            this.bicycleAdapter.submitList(mutableListOf(bike))
         }
     }
 }

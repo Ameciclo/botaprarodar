@@ -16,10 +16,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
-import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -27,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_users.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.parceler.Parcels
 
 @ExperimentalCoroutinesApi
 class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapterListener {
@@ -48,16 +45,29 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initUI()
+        getUsers()
+        observerUsers()
+    }
+
+    private fun initUI() {
+        setupBtnRegisterClickEvent()
+        setupSearchUsersEvent()
+        setupRecyclerView()
+    }
+
+    private fun setupBtnRegisterClickEvent() {
         binding.btnRegisterUsers.setOnClickListener {
             val intent = UserActivity.setupActivity(requireContext())
             startForResult.launch(intent)
         }
+    }
+
+    private fun setupSearchUsersEvent() {
         binding.tieSearchUsers.addTextChangedListener {
             usersAdapter.filter.filter(it.toString())
         }
-        setupRecyclerView()
-        getUsers()
-        observerUsers()
     }
 
     private fun setupRecyclerView() {
@@ -78,9 +88,18 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
                 is SimpleResult.Success -> {
                     usersAdapter.submitList(it.data)
                 }
-                is SimpleResult.Error -> {}
+                is SimpleResult.Error -> {
+                    showErrorMessage(getString(R.string.unkown_error))
+                }
             }
         })
+    }
+
+    private fun showErrorMessage(errorMessage: String) {
+        snackBarMaker(errorMessage, binding.btnRegisterUsers).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
+            show()
+        }
     }
 
     private val startForResult =
@@ -109,16 +128,5 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
     override fun onUserClicked(user: User) {
         val intent = UserActivity.setupActivity(requireContext(), user)
         startForResult.launch(intent)
-    }
-
-    companion object {
-        fun newInstance(withdraw: Withdraw): UsersFragment {
-            val fragment =
-                UsersFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdraw))
-            fragment.arguments = bundle
-            return fragment
-        }
     }
 }

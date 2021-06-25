@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
-
-private const val INDEX_INVALID = -1
 
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
@@ -40,14 +37,10 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val searchWord = constraint.toString()
 
-                filteredList = if (searchWord.isEmpty()) {
+                filteredList = if (searchWord.isEmpty())
                     users
-                } else {
-                    users.filter { item ->
-                        item.name!!.contains(searchWord, true) ||
-                                item.docNumber.toString().contains(searchWord, true)
-                    }.toMutableList()
-                }
+                else
+                    applyFilter(searchWord)
 
                 val filterResults = FilterResults()
                 filterResults.values = filteredList
@@ -59,7 +52,19 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
                 submitList(filteredList)
             }
         }
+    }
 
+    private fun applyFilter(searchWord: String): MutableList<User> {
+        return users.filter { user ->
+            user.run {
+                contains(name, searchWord) ||
+                        contains(docNumber.toString(), searchWord)
+            }
+        }.toMutableList()
+    }
+
+    private fun contains(word: String?, searchWord: String): Boolean {
+        return word.toString().contains(searchWord, true)
     }
 
     interface UsersAdapterListener {
@@ -91,6 +96,4 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
             oldItem == newItem
     }
-
-    fun Int.validateIndex() = this != INDEX_INVALID
 }

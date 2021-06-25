@@ -16,6 +16,7 @@ import com.brunotmgomes.ui.extensions.snackBarMaker
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
+@Deprecated("use PasswordRecoveryActivity instead")
 class PasswordRecoveryFragment : Fragment() {
     private lateinit var binding: FragmentPasswordRecoveryBinding
     private val passwordRecoveryViewModel: PasswordRecoveryViewModel by koinViewModel()

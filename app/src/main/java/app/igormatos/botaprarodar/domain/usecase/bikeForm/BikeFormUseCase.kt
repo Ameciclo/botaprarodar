@@ -4,10 +4,8 @@ import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
-import app.igormatos.botaprarodar.domain.converter.bicycle.BikeRequestConvert
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.model.BikeRequest
 import com.brunotmgomes.ui.SimpleResult
 
 private const val FIREBASE_URL = "https://"

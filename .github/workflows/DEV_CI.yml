@@ -58,7 +58,7 @@ jobs:
           name: app-debug-androidTest
           path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
-  firebase:
+  firebase: 
     name: Run UI tests with Firebase Test Lab
     needs: apk
     runs-on: ubuntu-18.04
@@ -90,6 +90,6 @@ jobs:
           --type instrumentation
           --test app-debug-androidTest/app-debug-androidTest.apk
           --app botaprarodar/botaprarodar.apk
-          --device model=Pixel2,version=29,locale=pt_BR,orientation=portrait
+          --device model=flame,version=29,locale=pt_BR,orientation=portrait
           --use-orchestrator
           --environment-variables clearPackageData=true

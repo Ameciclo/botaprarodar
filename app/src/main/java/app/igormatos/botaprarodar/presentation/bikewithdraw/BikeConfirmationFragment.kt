@@ -10,15 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.components.CustomDialog
-import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentBikeConfirmationBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
-import kotlinx.android.synthetic.main.activity_fullscreen_image.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BikeConfirmationFragment : Fragment() {
@@ -27,7 +24,6 @@ class BikeConfirmationFragment : Fragment() {
     }
 
     private val viewModel: BikeConfirmationViewModel by viewModel()
-    private val preferencesModule: SharedPreferencesModule by inject()
     private val loadingDialog: AlertDialog by lazy {
         requireContext().createLoading(R.layout.loading_dialog_animation)
     }
