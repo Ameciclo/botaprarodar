@@ -2,8 +2,10 @@ package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.*
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
@@ -204,4 +206,15 @@ val borrowedBikes = listOf(
     },
 )
 
-val bikeList = borrowedBikes.plus(availableBikes)
+val tripsItemTypeWithoutTitle: TripsItemType = TripsItemType.BikeType(BikeActivity().apply {
+    id = "1"
+    bikeId = "1"
+    name = "Caloi"
+    orderNumber = 1
+    serialNumber = "XXX"
+    photoThumbnailPath = "XXX"
+    date = "11/11/1111"
+    status = "Test"
+})
+
+val tripsItemTypeWithoutTitleList = mutableListOf(tripsItemTypeWithoutTitle)
