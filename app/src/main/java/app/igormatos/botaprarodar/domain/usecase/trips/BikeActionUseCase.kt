@@ -16,9 +16,6 @@ import java.util.concurrent.ConcurrentLinkedQueue
 @ExperimentalCoroutinesApi
 class BikeActionUseCase(private val bikeRepository: BikeRepository) {
 
-//    private var result: SimpleResult<MutableList<TripsItemType>> =
-//        SimpleResult.Error(Exception(""))
-
     fun getBikeActionsList(): List<BikeActionsMenuType> {
         return BikeActionsMenuType.values().toMutableList()
     }
