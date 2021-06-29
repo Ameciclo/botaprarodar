@@ -6,10 +6,7 @@ import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
-import app.igormatos.botaprarodar.utils.bikeRequestWithMappers
-import app.igormatos.botaprarodar.utils.bikeWithWithdraws
-import app.igormatos.botaprarodar.utils.exception
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -62,7 +59,7 @@ internal class TripDetailUseCaseTest {
 
     @Test
     fun `should return withdraw when bike has any withdraw with the given id`() {
-        val expectedWithdraw = Withdraws(id = withdrawId, date = "12/03/2021", user = userFake)
+        val expectedWithdraw = Withdraws(id = withdrawId, date = withdrawDate, user = userFake)
         bike.withdraws?.add(expectedWithdraw)
 
         val response: Withdraws? = useCase.getWithdrawById(bike, withdrawId)
@@ -72,7 +69,8 @@ internal class TripDetailUseCaseTest {
 
     @Test
     fun `should return devolution when bike has any devolution with the given id`() {
-        val expectedDevolution = Devolution(id = devolutionId, date = "12/03/2021", user = userFake)
+        val expectedDevolution =
+            Devolution(id = devolutionId, date = devolutionDate, user = userFake)
         bike.devolutions?.add(expectedDevolution)
 
         val response: Devolution? = useCase.getDevolutionById(bike, devolutionId)
@@ -85,7 +83,7 @@ internal class TripDetailUseCaseTest {
         val expectedDevolution =
             Devolution(
                 id = devolutionId,
-                date = "12/03/2021",
+                date = devolutionDate,
                 user = userFake,
                 withdrawId = withdrawId
             )
@@ -98,7 +96,7 @@ internal class TripDetailUseCaseTest {
 
     @Test
     fun `should return null when bike no has devolution with the given withdrawId`() {
-        val devolution = Devolution(id = devolutionId, date = "12/03/2021", user = userFake)
+        val devolution = Devolution(id = devolutionId, date = devolutionDate, user = userFake)
         bike.devolutions?.add(devolution)
 
         val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)

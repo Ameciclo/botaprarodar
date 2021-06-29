@@ -58,9 +58,13 @@ val bikeRequestWithMappers = BikeRequest(
     devolutions = mapOfDevolutions
 )
 
-val withdraw = Withdraws(id = "123", date = "12/03/2021 10:00:00", user = userFake)
+const val withdrawDate = "12/03/2021 10:00:00"
 
-val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
+val withdraw = Withdraws(id = "123", date = withdrawDate, user = userFake)
+
+const val devolutionDate = "15/03/2021 10:00:00"
+
+val devolution = Devolution(id = "098", date = devolutionDate, user = userFake)
 
 val bikeWithWithdraws = Bike(
     name = "Caloi",
