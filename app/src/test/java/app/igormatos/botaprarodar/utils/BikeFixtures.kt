@@ -2,8 +2,10 @@ package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.*
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
@@ -56,9 +58,13 @@ val bikeRequestWithMappers = BikeRequest(
     devolutions = mapOfDevolutions
 )
 
-val withdraw = Withdraws(id = "123", date = "12/03/2021 10:00:00", user = userFake)
+const val withdrawDate = "12/03/2021 10:00:00"
 
-val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
+val withdraw = Withdraws(id = "123", date = withdrawDate, user = userFake)
+
+const val devolutionDate = "15/03/2021 10:00:00"
+
+val devolution = Devolution(id = "098", date = devolutionDate, user = userFake)
 
 val bikeWithWithdraws = Bike(
     name = "Caloi",
@@ -204,4 +210,15 @@ val borrowedBikes = listOf(
     },
 )
 
-val bikeList = borrowedBikes.plus(availableBikes)
+val tripsItemTypeWithoutTitle: TripsItemType = TripsItemType.BikeType(BikeActivity().apply {
+    id = "1"
+    bikeId = "1"
+    name = "Caloi"
+    orderNumber = 1
+    serialNumber = "XXX"
+    photoThumbnailPath = "XXX"
+    date = "11/11/1111"
+    status = "Test"
+})
+
+val tripsItemTypeWithoutTitleList = mutableListOf(tripsItemTypeWithoutTitle)

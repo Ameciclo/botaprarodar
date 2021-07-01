@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.domain.model.community
 
 import app.igormatos.botaprarodar.common.extensions.convertToList
-import app.igormatos.botaprarodar.utils.communityListResponseStub
 import app.igormatos.botaprarodar.utils.communityMapResponseStub
 import app.igormatos.botaprarodar.utils.nullCommunityResponseItemMapStub
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -43,19 +42,19 @@ class CommunityMapperTest {
         @Test
         fun `When Response has complete items, should return a Community List with same data`() {
             val communityResponse = communityMapResponseStub()
-
             val communityMapped = communityMapper.mapCommunityResponseToCommunity(communityResponse)
+            val communityResponseList = communityResponse.convertToList()
 
-            for (index in communityResponse.convertToList().indices) {
-                assertEquals(communityResponse[index]?.name, communityMapped[index].name)
+            for (index in communityResponseList.indices) {
+                assertEquals(communityResponseList[index].name, communityMapped[index].name)
                 assertEquals(
-                    communityResponse[index]?.description,
+                    communityResponseList[index].description,
                     communityMapped[index].description
                 )
-                assertEquals(communityResponse[index]?.address, communityMapped[index].address)
-                assertEquals(communityResponse[index]?.orgEmail, communityMapped[index].org_email)
-                assertEquals(communityResponse[index]?.orgName, communityMapped[index].org_name)
-                assertEquals(communityResponse[index]?.id, communityMapped[index].id)
+                assertEquals(communityResponseList[index].address, communityMapped[index].address)
+                assertEquals(communityResponseList[index].orgEmail, communityMapped[index].org_email)
+                assertEquals(communityResponseList[index].orgName, communityMapped[index].org_name)
+                assertEquals(communityResponseList[index].id, communityMapped[index].id)
             }
         }
     }
