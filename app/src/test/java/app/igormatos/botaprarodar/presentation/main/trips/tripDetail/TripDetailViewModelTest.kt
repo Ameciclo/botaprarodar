@@ -7,10 +7,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
-import app.igormatos.botaprarodar.utils.bikeRequest
-import app.igormatos.botaprarodar.utils.bikeWithWithdraws
-import app.igormatos.botaprarodar.utils.exception
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.every
@@ -123,7 +120,7 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = "12/03/2021", user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
         bike.withdraws?.add(withdraw)
 
         every {
@@ -150,13 +147,13 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = "12/03/2021", user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
         bike.withdraws?.add(withdraw)
 
         val devolutionId = "909"
         val devolution = Devolution(
             id = devolutionId,
-            date = "12/03/2021",
+            date = devolutionDate,
             user = userFake,
             withdrawId = withdrawID
         )
@@ -186,13 +183,13 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = "12/03/2021", user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
         bike.withdraws?.add(withdraw)
 
         val devolutionId = "909"
         val devolution = Devolution(
             id = devolutionId,
-            date = "12/03/2021",
+            date = devolutionDate,
             user = userFake,
             withdrawId = withdrawID
         )
