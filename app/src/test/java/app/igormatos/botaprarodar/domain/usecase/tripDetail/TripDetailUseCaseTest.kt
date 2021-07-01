@@ -18,26 +18,29 @@ import org.junit.jupiter.api.Test
 internal class TripDetailUseCaseTest {
 
     private val repository = mockk<TripDetailRepository>()
+    private val withdrawId = "909"
+    private val devolutionId = "999"
+    private val bikeId = "1"
     private lateinit var useCase: TripDetailUseCase
+    private lateinit var bike: Bike
 
     @BeforeEach
     fun setUp() {
         useCase = TripDetailUseCase(repository)
+        bike = bikeWithWithdraws.copy(
+            withdraws = bikeWithWithdraws.withdraws?.toMutableList(),
+            devolutions = bikeWithWithdraws.devolutions?.toMutableList()
+        )
     }
 
     @Test
     fun `should return bikeRequest when the repository execute with success`() {
         runBlocking {
-            // arrange
-            val bikeId = "1"
             val expectedResultSuccess = SimpleResult.Success(bikeRequestWithMappers)
-
             coEvery { repository.getBikeById(bikeId) } returns expectedResultSuccess
 
-            // action
             val response: SimpleResult<BikeRequest> = useCase.getBikeById(bikeId)
 
-            // assert
             assertEquals(response, expectedResultSuccess)
         }
     }
@@ -45,110 +48,81 @@ internal class TripDetailUseCaseTest {
     @Test
     fun `should return exception when the repository execute with error`() {
         runBlocking {
-            // arrange
-            val bikeId = "1"
             val expectedResultError = SimpleResult.Error(exception)
-
             coEvery { repository.getBikeById(bikeId) } returns expectedResultError
 
-            // action
             val response: SimpleResult<BikeRequest> = useCase.getBikeById(bikeId)
 
-            // assert
             assertEquals(response, expectedResultError)
         }
     }
 
     @Test
     fun `should return withdraw when bike has any withdraw with the given id`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val withdrawId = "999"
-        val expectedWithdraw = Withdraws(id = withdrawId, date = "12/03/2021", user = userFake)
+        val expectedWithdraw = Withdraws(id = withdrawId, date = withdrawDate, user = userFake)
         bike.withdraws?.add(expectedWithdraw)
 
-        // action
         val response: Withdraws? = useCase.getWithdrawById(bike, withdrawId)
 
-        // assert
         assertEquals(response, expectedWithdraw)
     }
 
     @Test
     fun `should return devolution when bike has any devolution with the given id`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val devolutionId = "999"
-        val expectedDevolution = Devolution(id = devolutionId, date = "12/03/2021", user = userFake)
+        val expectedDevolution =
+            Devolution(id = devolutionId, date = devolutionDate, user = userFake)
         bike.devolutions?.add(expectedDevolution)
 
-        // action
         val response: Devolution? = useCase.getDevolutionById(bike, devolutionId)
 
-        // assert
         assertEquals(response, expectedDevolution)
     }
 
     @Test
     fun `should return devolution when bike has any devolution with the given withdrawId`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val withdrawId = "909"
         val expectedDevolution =
-            Devolution(id = "999", date = "12/03/2021", user = userFake, withdrawId = withdrawId)
+            Devolution(
+                id = devolutionId,
+                date = devolutionDate,
+                user = userFake,
+                withdrawId = withdrawId
+            )
         bike.devolutions?.add(expectedDevolution)
 
-        // action
         val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
 
-        // assert
         assertEquals(response, expectedDevolution)
     }
 
     @Test
     fun `should return null when bike no has devolution with the given withdrawId`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val withdrawId = "909"
-        val devolution = Devolution(id = "999", date = "12/03/2021", user = userFake)
+        val devolution = Devolution(id = devolutionId, date = devolutionDate, user = userFake)
         bike.devolutions?.add(devolution)
 
-        // action
         val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
 
-        // assert
         assertEquals(response, null)
     }
 
     @Test
     fun `should return true when bike withdraw has devolution`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val withdrawId = "909"
-        val devolution = Devolution(id = "999", withdrawId = withdrawId)
+        val devolution = Devolution(id = devolutionId, withdrawId = withdrawId)
         bike.devolutions?.add(devolution)
 
-        val devolutionFound: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
+        val response: Boolean = checkBikeWithdrawHasDevolution(bike)
 
-        // action
-        val response: Boolean = useCase.bikeWithdrawHasDevolution(devolutionFound)
-
-        // assert
         assertEquals(response, true)
     }
 
     @Test
     fun `should return false when bike withdraw no has devolution`() {
-        // arrange
-        val bike: Bike = bikeWithWithdraws
-        val withdrawId = "909"
+        val response: Boolean = checkBikeWithdrawHasDevolution(bike)
 
-        val devolutionFound: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
-
-        // action
-        val response: Boolean = useCase.bikeWithdrawHasDevolution(devolutionFound)
-
-        // assert
         assertEquals(response, false)
+    }
+
+    private fun checkBikeWithdrawHasDevolution(bike: Bike): Boolean {
+        val devolutionFound: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
+        return useCase.bikeWithdrawHasDevolution(devolutionFound)
     }
 }
