@@ -56,6 +56,9 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        unitTests.all {
+            useJUnitPlatform()
+        }
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
@@ -154,7 +157,7 @@ dependencies {
     // JUnit 5
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.6.1"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.7.0"
 
     // Task await
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
