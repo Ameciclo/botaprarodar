@@ -91,5 +91,6 @@ jobs:
           --test app-debug-androidTest/app-debug-androidTest.apk
           --app botaprarodar/botaprarodar.apk
           --device model=flame,version=29,locale=pt_BR,orientation=portrait
+          --device model=Pixel2,version=30,locale=pt_BR,orientation=portrait
           --use-orchestrator
           --environment-variables clearPackageData=true
