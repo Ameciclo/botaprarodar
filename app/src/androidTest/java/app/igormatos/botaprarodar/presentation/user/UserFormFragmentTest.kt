@@ -8,6 +8,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
 import org.hamcrest.CoreMatchers.equalTo
@@ -29,7 +30,8 @@ class UserFormFragmentTest {
     }
 
     @Test
-    fun shouldOpenCameraView_whenClickToTakeProfilePicture() {
+    @SdkSuppress(minSdkVersion = 30)
+    fun givenAndroidSdk30_shouldOpenCameraView_whenClickToTakeProfilePicture() {
         userFormFragment {
             clickProfileImage()
             clickConfirmDialog()
