@@ -4,6 +4,7 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.fragment.app.testing.withFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.FlakyTest
 import app.igormatos.botaprarodar.Fixtures.bike
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesFragment
@@ -52,6 +53,7 @@ class BikesFragmentTest {
     }
 
     @Test
+    @FlakyTest(detail = "bicycleAdapter list mock sometimes is cleaned in physical devices")
     fun whenLoadFragment_shouldVerifyFirstItemAtRecycler() {
         addItemAtRecycler()
 
