@@ -17,7 +17,7 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.profileImageView)
     }
 
-    fun clickConfirm() {
+    fun clickConfirmDialog() {
         val buttonText = context.resources.getString(R.string.camera_dialog_positive_button_text)
         clickButtonByText(buttonText)
     }
