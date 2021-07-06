@@ -6,6 +6,8 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import com.google.gson.annotations.SerializedName
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
@@ -20,8 +22,6 @@ val bike2 = Bike(
     serialNumber = "New Serial",
     createdDate = Date().toString()
 )
-
-val bike3 = Bike(name = "Monark")
 
 val bikeRequest = BikeRequest(
     id = "",
@@ -71,6 +71,15 @@ val bikeWithWithdraws = Bike(
     withdraws = mutableListOf(withdraw),
     devolutions = mutableListOf(devolution)
 )
+
+val bikeWithOnlyOneWithdraw = Bike(
+    withdraws = mutableListOf(withdraw)
+)
+
+val bikeWithOnlyOneDevolution = Bike(
+    devolutions = mutableListOf(devolution)
+)
+
 
 val mapOfBikesRequest = mapOf(
     Pair("123", BikeRequest(withdraws = mapOfWithdraws, devolutions = mapOfDevolutions)),
@@ -210,6 +219,8 @@ val borrowedBikes = listOf(
     },
 )
 
+const val bikeActivityDate = "11/11/1111"
+
 val tripsItemTypeWithoutTitle: TripsItemType = TripsItemType.BikeType(BikeActivity().apply {
     id = "1"
     bikeId = "1"
@@ -217,7 +228,7 @@ val tripsItemTypeWithoutTitle: TripsItemType = TripsItemType.BikeType(BikeActivi
     orderNumber = 1
     serialNumber = "XXX"
     photoThumbnailPath = "XXX"
-    date = "11/11/1111"
+    date = bikeActivityDate
     status = "Test"
 })
 
