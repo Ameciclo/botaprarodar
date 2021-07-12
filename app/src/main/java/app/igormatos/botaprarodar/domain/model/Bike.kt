@@ -35,7 +35,9 @@ data class Bike(
     @SerializedName("withdraws")
     var withdraws: MutableList<Withdraws>? = null,
     @SerializedName("devolutions")
-    var devolutions: MutableList<Devolution>? = null
+    var devolutions: MutableList<Devolution>? = null,
+    @SerializedName("withdrawToUser")
+    var withdrawToUser: String? = null
 ) : Parcelable, Item {
 
     init {
