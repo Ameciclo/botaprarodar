@@ -14,7 +14,7 @@ interface BicycleApi {
     suspend fun getBikeById(@Path("bikeId") bikeId: String): BikeRequest
 
     @GET("/bikes.json?orderBy=\"withdrawToUser\"")
-    suspend fun getBikeByUserId(@Query("equalTo") userId: String): Map<String, BikeRequest>
+    suspend fun getBikeWithWithdrawByUserId(@Query("equalTo") userId: String): Map<String, BikeRequest>
 
     @POST("bikes.json")
     suspend fun addNewBike(
