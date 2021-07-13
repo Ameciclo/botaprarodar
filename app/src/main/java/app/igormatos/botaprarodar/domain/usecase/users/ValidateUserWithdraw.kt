@@ -24,7 +24,7 @@ class ValidateUserWithdraw(private val bikeRepository: BikeRepository,
     }
 
     private suspend fun isInvalidActiveWithdraw(userId: String): Boolean {
-        val response = bikeRepository.getBikeByUser(userId)
+        val response = bikeRepository.getBikeWithWithdrawByUser(userId)
 
         if (response is SimpleResult.Success) {
             return response.data.isEmpty()
