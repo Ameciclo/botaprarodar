@@ -62,12 +62,14 @@
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
 
-    <string name="bicycle_serial_number_invalid">Número de série da bicileta inválido</string>
+    <string name="bicycle_serial_number_invalid">Número de série da bicileta inválido ou já cadastrado na comunidade</string>
     <string name="bicycle_name_invalid">Nome da bicicleta inválido</string>
     <string name="bike_serial_number">Número de série da bicicleta</string>
     <string name="bike_name">Nome da bicicleta</string>
     <string name="bicycle_invalid_order_number">Número de ordem inválido</string>
     <string name="order_number">Número de ordem</string>
+    <string name="error_registering_bicycle">Falha ao cadastrar a bicicleta</string>
+    <string name="error_editing_bicycle">Falha ao editar a bicicleta</string>
 
     <string name="email_format_warning">Insira um email válido</string>
     <string name="prompt_email">Email</string>

@@ -17,6 +17,7 @@ import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
@@ -294,10 +295,11 @@ val bprModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (communityBikes: ArrayList<Bike>) ->
         BikeFormViewModel(
             bikeFormUseCase = get(),
-            community = get<SharedPreferencesModule>().getJoinedCommunity()
+            community = get<SharedPreferencesModule>().getJoinedCommunity(),
+            communityBikes = communityBikes
         )
     }
 
