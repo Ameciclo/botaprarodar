@@ -8,6 +8,7 @@ import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 
 val userFake = User().apply {
+    id = "testId"
     name = "Capitão América"
     docNumber = 1234567890
     docPictureBack = "https://docback.jpeg"
