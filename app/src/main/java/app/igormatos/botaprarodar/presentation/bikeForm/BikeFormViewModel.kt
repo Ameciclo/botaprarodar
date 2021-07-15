@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.bikeForm
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
     private val bikeFormUseCase: BikeFormUseCase,
-    private val community: Community
+    private val community: Community,
+    private val communityBikes: ArrayList<Bike>
 ) : BprViewModel<BikeFormStatus>() {
 
     var isEditModeAvailable = false
@@ -51,12 +53,17 @@ class BikeFormViewModel(
 
     private fun validateForm() {
         valid.value = isTextValid(imagePath.value) &&
-                isTextValid(serialNumber.value) &&
                 isTextValid(bikeName.value) &&
-                isTextValid(orderNumber.value)
+                isTextValid(orderNumber.value) &&
+                isValidUniqueCommunitySerialNumber()
     }
 
-    fun isTextValid(data: String?) = !data.isNullOrBlank()
+    internal fun isTextValid(data: String?) = !data.isNullOrBlank()
+
+    fun isValidUniqueCommunitySerialNumber(): Boolean {
+        return  isTextValid(serialNumber.value) &&
+                !communityBikes.any { it.serialNumber.equals(serialNumber.value) }
+    }
 
     fun updateImagePath(imagePath: String) {
         this.imagePath.value = imagePath
@@ -111,7 +118,7 @@ class BikeFormViewModel(
     }
 
     companion object {
-        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar a bicicleta"
-        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar a bicicleta"
+        private const val UNKNOWN_ERROR_REGISTER =  R.string.error_registering_bicycle
+        private const val UNKNOWN_ERROR_EDIT = R.string.error_editing_bicycle
     }
 }
