@@ -42,12 +42,14 @@ class StepFinalReturnBikeUseCase(
         bikeHolder: BikeHolder,
         devolution: Devolution
     ) {
-        if (bikeHolder.bike?.devolutions == null) {
-            bikeHolder.bike?.devolutions = mutableListOf(devolution)
-            bikeHolder.bike?.inUse = false
-        } else {
-            bikeHolder.bike?.devolutions?.add(devolution)
-            bikeHolder.bike?.inUse = false
+        with(bikeHolder.bike!!) {
+            if (this.devolutions == null) {
+                this.devolutions = mutableListOf(devolution)
+            } else {
+                this.devolutions?.add(devolution)
+            }
+            this.inUse = false
+            this.withdrawToUser = ""
         }
     }
 
