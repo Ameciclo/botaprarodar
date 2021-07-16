@@ -82,6 +82,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "com.google.truth:truth:1.1.2"
