@@ -237,4 +237,7 @@
     <string name="title_users">Usuários</string>
     <string name="btn_register_user">Cadastrar novo usuário</string>
 
+    <!-- Camera confirmation dialog-->
+    <string name="camera_dialog_positive_button_text">Tirar foto!</string>
+
 </resources>
