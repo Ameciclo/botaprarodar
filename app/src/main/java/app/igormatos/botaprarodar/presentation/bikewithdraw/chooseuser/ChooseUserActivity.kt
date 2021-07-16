@@ -28,8 +28,6 @@ class ChooseUserActivity : AppCompatActivity() {
             ) else null
 
         val withdrawal = Parcels.unwrap(withdrawalParcelable) as Withdraw
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

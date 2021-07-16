@@ -34,7 +34,9 @@ data class BikeRequest(
     @SerializedName("withdraws")
     var withdraws: Map<String, Withdraws>? = null,
     @SerializedName("devolutions")
-    var devolutions: Map<String, Devolution>? = null
+    var devolutions: Map<String, Devolution>? = null,
+    @SerializedName("withdrawToUser")
+    var withdrawToUser: String? = ""
 ) : Item {
 
     init {

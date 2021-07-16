@@ -16,16 +16,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
-@DisplayName("Given BicycleRepository")
 internal class BikeRepositoryTest {
     @InjectMockKs
     private lateinit var repository: BikeRepository
@@ -39,44 +38,46 @@ internal class BikeRepositoryTest {
     @MockK
     private lateinit var iterator: Iterator<DataSnapshot>
 
-    @BeforeEach
+    @Before
     fun setUp() {
         init(this)
     }
 
-    @Nested
-    @DisplayName("WHEN request for get Bicycles")
-    inner class GetBicycles {
+    @Test
+    fun `should return all bicycles of community`() = runBlocking {
+        coEvery { api.getBicycles().await() } returns mapOfBikesRequest
 
-        @Test
-        fun `should return all bicycles of community`() = runBlocking {
-            coEvery { api.getBicycles().await() } returns mapOfBikesRequest
+        val response = repository.getBicycles()
+        val result = (response as SimpleResult.Success<Map<String, BikeRequest>>).data
 
-            val response = repository.getBicycles()
-            val result = (response as SimpleResult.Success<Map<String, BikeRequest>>).data
-
-            assertNotNull(result)
-            assertTrue(result.containsKey("123"))
-            assertTrue(result.containsKey("456"))
-            assertTrue(result.containsKey("789"))
-            assertTrue(result.containsKey("098"))
-            assertTrue(result.containsKey("876"))
-        }
+        assertNotNull(result)
+        assertTrue(result.containsKey("123"))
+        assertTrue(result.containsKey("456"))
+        assertTrue(result.containsKey("789"))
+        assertTrue(result.containsKey("098"))
+        assertTrue(result.containsKey("876"))
     }
 
-    @Nested
-    @DisplayName("WHEN add new bicycle")
-    inner class AddNewBike {
 
-        @Test
-        fun `should add new bicycle`() = runBlocking {
-            coEvery { api.addNewBike(any()) } returns addDataResponseBike
+    @Test
+    fun `should add new bicycle`() = runBlocking {
+        coEvery { api.addNewBike(any()) } returns addDataResponseBike
 
-            val response = repository.addNewBike(bikeRequest)
-            val result = response as SimpleResult.Success<AddDataResponse>
+        val response = repository.addNewBike(bikeRequest)
+        val result = response as SimpleResult.Success<AddDataResponse>
 
-            assertEquals(SimpleResult.Success(addDataResponseBike), result)
-            assertEquals("New Bicycle", result.data.name)
-        }
+        assertEquals(SimpleResult.Success(addDataResponseBike), result)
+        assertEquals("New Bicycle", result.data.name)
     }
+
+
+    @Test
+    fun `should return bike with withdraw by user` () =
+        runBlocking {
+            coEvery { api.getBikeWithWithdrawByUserId(any()) } returns mapOfBikesRequest
+
+            val bikeWithWithdrawByUser = repository.getBikeWithWithdrawByUser("testUserId")
+
+            assertThat(SimpleResult.Success(mapOfBikesRequest), equalTo(bikeWithWithdrawByUser))
+        }
 }

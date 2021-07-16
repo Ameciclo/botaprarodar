@@ -28,6 +28,7 @@ import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBike
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.GetUsersByCommunity
+import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
@@ -336,6 +337,10 @@ val bprModule = module {
         GetUsersByCommunity(get<UserRepository>())
     }
 
+    single {
+        ValidateUserWithdraw(get(), get())
+    }
+
     viewModel {
         UsersViewModel(get())
     }
@@ -403,7 +408,12 @@ val bprModule = module {
         SelectBikeViewModel(get(), get(), get())
     }
     viewModel {
-        SelectUserViewModel(get(), get(), get())
+        SelectUserViewModel(
+            userHolder = get(),
+            stepperAdapter = get(),
+            getUsersByCommunity = get(),
+            validateUserWithdraw = get()
+        )
     }
 
     factory {
