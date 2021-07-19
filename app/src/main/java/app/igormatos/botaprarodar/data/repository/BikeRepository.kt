@@ -75,6 +75,18 @@ class BikeRepository(
         }
     }
 
+    suspend fun getBikeWithWithdrawByUser(userId: String): SimpleResult<Map<String, BikeRequest>> {
+        return withContext(Dispatchers.IO) {
+            safeApiCall {
+                bicycleApi.getBikeWithWithdrawByUserId(formatAsJSONValidType(userId))
+            }
+        }
+    }
+
+    private fun formatAsJSONValidType(userId: String): String {
+        return "\"$userId\""
+    }
+
     private fun verifyItemIdAndUpdate(
         bike: BikeRequest,
         snapshot: DataSnapshot
