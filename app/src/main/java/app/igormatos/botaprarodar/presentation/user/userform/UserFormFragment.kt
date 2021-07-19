@@ -166,7 +166,7 @@ class UserFormFragment : Fragment() {
 
         MaterialAlertDialogBuilder(requireContext())
             .setView(tipLayout)
-            .setPositiveButton("Tirar foto!") { _, _ ->
+            .setPositiveButton(getString(R.string.camera_dialog_positive_button_text)) { _, _ ->
                 click(true)
             }
             .show()

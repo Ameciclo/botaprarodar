@@ -30,6 +30,7 @@ fun Bike.convertToBikeRequest(): BikeRequest {
         isAvailable = this@convertToBikeRequest.isAvailable
         withdraws = withdrawsMap
         devolutions = devolutionsMap
+        withdrawToUser = this@convertToBikeRequest.withdrawToUser
     }
 }
 
