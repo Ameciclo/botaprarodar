@@ -235,6 +235,10 @@ class BikeFormViewModelTest {
         val bikeName = "S1209"
         val orderNumber = "12345678"
         val imagePath = "data/img/image.jpeg"
+        val observerBikeSerialNumberErrorValidation =
+            mockk<Observer<MutableMap<Int, Boolean>>>(relaxed = true)
+        bikeViewModel.serialNumberErrorValidationMap
+            .observeForever(observerBikeSerialNumberErrorValidation)
         val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
         bikeViewModel.valid.observeForever(observerBikeResultMock)
         bikeViewModel.serialNumber.postValue(serialNumber)
