@@ -2,35 +2,37 @@ package app.igormatos.botaprarodar.common.biding
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.utils.focusChangeListener
-import app.igormatos.botaprarodar.common.biding.utils.textWatcherListener
+import app.igormatos.botaprarodar.common.extensions.focusChangedErrorListener
+import app.igormatos.botaprarodar.common.extensions.textChangedErrorListener
+import app.igormatos.botaprarodar.common.extensions.validateTextChanged
+import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
 import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("app:errorBicycleSerialNumber")
-fun setErrorBicycleSerialNumber(view: TextInputLayout, bicycleSerialNumber: String) {
-    view.editText?.focusChangeListener(
-        view,
-        bicycleSerialNumber,
-        R.string.bicycle_serial_number_invalid
-    )
-    view.editText?.textWatcherListener(view, R.string.bicycle_serial_number_invalid)
+fun setErrorBicycleSerialNumber(view: TextInputLayout,
+                                serialNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>) {
+    view.editText?.focusChangedErrorListener(
+        serialNumberErrorValidationMap,
+        view)
+    view.editText?.textChangedErrorListener(serialNumberErrorValidationMap, view)
 }
 
 @BindingAdapter("app:errorBicycleName")
 fun setErrorBicycleName(view: TextInputLayout, bicycleName: String) {
-    view.editText?.focusChangeListener(view, bicycleName, R.string.bicycle_name_invalid)
-    view.editText?.textWatcherListener(view, R.string.bicycle_name_invalid)
+    view.editText?.validateTextInFocusChange(view, bicycleName, R.string.bicycle_name_invalid)
+    view.editText?.validateTextChanged(view, R.string.bicycle_name_invalid)
 }
 
 @BindingAdapter("app:errorBicycleOrderNumber")
 fun setErrorBicycleOrderNumber(view: TextInputLayout, bicycleOrderNumber: String) {
-    view.editText?.focusChangeListener(
+    view.editText?.validateTextInFocusChange(
         view,
         bicycleOrderNumber,
         R.string.bicycle_invalid_order_number
     )
-    view.editText?.textWatcherListener(view, R.string.bicycle_invalid_order_number)
+    view.editText?.validateTextChanged(view, R.string.bicycle_invalid_order_number)
 }
 
 @BindingAdapter("bikeNameWithLabel")
