@@ -3,16 +3,19 @@ package app.igormatos.botaprarodar.presentation.bikeForm
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.isNotNull
 import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
     private val bikeFormUseCase: BikeFormUseCase,
-    private val community: Community
+    private val community: Community,
+    private val communityBikes: ArrayList<Bike>
 ) : BprViewModel<BikeFormStatus>() {
 
     var isEditModeAvailable = false
@@ -22,6 +25,14 @@ class BikeFormViewModel(
     val bikeName = MutableLiveData("")
     val orderNumber = MutableLiveData("")
     val imagePath = MutableLiveData("")
+
+    val serialNumberErrorValidationMap = MediatorLiveData<MutableMap<Int, Boolean>>().apply {
+        value = mutableMapOf()
+
+        addSource(serialNumber) {
+            validateSerialNumber()
+        }
+    }
 
     val valid = MediatorLiveData<Boolean>().apply {
         addSource(imagePath) {
@@ -38,6 +49,36 @@ class BikeFormViewModel(
         }
     }
 
+    private fun validateSerialNumber() {
+        with(serialNumberErrorValidationMap.value) {
+            this?.set(
+                SERIAL_NUMBER_INVALID_ERROR,
+                !isTextValid(serialNumber.value)
+            )
+
+            this?.set(
+                SERIAL_NUMBER_ALREADY_REGISTERED_ERROR,
+                communityBikesHasSerialNumber(serialNumber.value)
+            )
+        }
+    }
+
+    private fun communityBikesHasSerialNumber(serialNumber: String?) =
+        communityBikes.any { it.serialNumber.equals(serialNumber) }
+
+    private fun validateForm() {
+        valid.value = isTextValid(imagePath.value) &&
+                isTextValid(bikeName.value) &&
+                isTextValid(orderNumber.value) &&
+                isSerialNumberValid()
+    }
+
+    internal fun isTextValid(data: String?) = !data.isNullOrBlank()
+
+    private fun isSerialNumberValid(): Boolean {
+        return !serialNumberErrorValidationMap.value?.containsValue(true)!!
+    }
+
     fun updateBikeValues(bike: Bike) {
         bike.apply {
             this@BikeFormViewModel.serialNumber.value = this.serialNumber
@@ -45,18 +86,14 @@ class BikeFormViewModel(
             this@BikeFormViewModel.orderNumber.value = this.orderNumber.toString()
             this@BikeFormViewModel.imagePath.value = this.photoPath
         }
+        setBikeToEditMode(bike)
+    }
+
+    private fun setBikeToEditMode(bike: Bike) {
         this.bike = bike
         isEditModeAvailable = true
+        communityBikes.remove(bike)
     }
-
-    private fun validateForm() {
-        valid.value = isTextValid(imagePath.value) &&
-                isTextValid(serialNumber.value) &&
-                isTextValid(bikeName.value) &&
-                isTextValid(orderNumber.value)
-    }
-
-    fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     fun updateImagePath(imagePath: String) {
         this.imagePath.value = imagePath
@@ -70,6 +107,16 @@ class BikeFormViewModel(
                 updateBike(bike)
             else
                 addNewBike(bike)
+        }
+    }
+
+    private fun getNewBike(): Bike {
+        return bike.apply {
+            name = this@BikeFormViewModel.bikeName.value
+            serialNumber = this@BikeFormViewModel.serialNumber.value
+            orderNumber = this@BikeFormViewModel.orderNumber.value?.toLong()
+            path = this@BikeFormViewModel.imagePath.value.orEmpty()
+            communityId = community.id
         }
     }
 
@@ -91,14 +138,8 @@ class BikeFormViewModel(
         }
     }
 
-    private fun getNewBike(): Bike {
-        return bike.apply {
-            name = this@BikeFormViewModel.bikeName.value
-            serialNumber = this@BikeFormViewModel.serialNumber.value
-            orderNumber = this@BikeFormViewModel.orderNumber.value?.toLong()
-            path = this@BikeFormViewModel.imagePath.value.orEmpty()
-            communityId = community.id
-        }
+    private fun resultSuccess(bikeName: String) {
+        _state.postValue(BikeFormStatus.Success(bikeName))
     }
 
     private fun resultError() {
@@ -106,12 +147,18 @@ class BikeFormViewModel(
         _state.postValue(BikeFormStatus.Error(message))
     }
 
-    private fun resultSuccess(bikeName: String) {
-        _state.postValue(BikeFormStatus.Success(bikeName))
+    companion object {
+        private const val UNKNOWN_ERROR_REGISTER =
+            R.string.error_registering_bicycle
+
+        private const val UNKNOWN_ERROR_EDIT =
+            R.string.error_editing_bicycle
+
+        private const val SERIAL_NUMBER_ALREADY_REGISTERED_ERROR =
+            R.string.bicycle_serial_number_already_registered
+
+        private const val SERIAL_NUMBER_INVALID_ERROR =
+            R.string.bicycle_serial_number_invalid
     }
 
-    companion object {
-        private const val UNKNOWN_ERROR_REGISTER = "Falha ao cadastrar a bicicleta"
-        private const val UNKNOWN_ERROR_EDIT = "Falha ao editar a bicicleta"
-    }
 }

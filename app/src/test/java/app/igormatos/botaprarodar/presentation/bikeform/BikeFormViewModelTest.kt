@@ -8,9 +8,11 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
+import app.igormatos.botaprarodar.utils.bike
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,12 +32,14 @@ class BikeFormViewModelTest {
     @Before
     fun setup() {
         bikeViewModel =
-            BikeFormViewModel(bikeFormUseCase = bikeFormUseCase, community = community)
+            BikeFormViewModel(bikeFormUseCase = bikeFormUseCase,
+                community = community,
+                communityBikes = arrayListOf(bike))
         bikeViewModel.orderNumber.postValue(bikeFake.orderNumber.toString())
     }
 
     @Test
-    fun `When 'BikeForm' is invalid then 'valid' return false`() {
+    fun `when 'BikeForm' is invalid then 'valid' return false`() {
 
         val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
 
@@ -51,17 +55,8 @@ class BikeFormViewModelTest {
     }
 
     @Test
-    fun `When 'BikeForm' is valid then 'valid' return true`() {
-        val serialNumber = "S1209"
-        val bikeName = "S1209"
-        val orderNumber = "12345678"
-        val imagePath = "data/img/image.jpeg"
-        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
-        bikeViewModel.valid.observeForever(observerBikeResultMock)
-        bikeViewModel.serialNumber.postValue(serialNumber)
-        bikeViewModel.bikeName.postValue(bikeName)
-        bikeViewModel.orderNumber.postValue(orderNumber)
-        bikeViewModel.imagePath.postValue(imagePath)
+    fun `when 'BikeForm' is valid then 'valid' return true`() {
+        val observerBikeResultMock = fillAndObserveValidBike()
 
         verify {
             observerBikeResultMock.onChanged(true)
@@ -69,21 +64,35 @@ class BikeFormViewModelTest {
     }
 
     @Test
-    fun `When 'serialnumber' is empty then 'isSerialNumberValid' return false`() {
+    fun `when 'serialnumber' is empty then 'isTextValid' return false`() {
         val serialNumber = ""
         bikeViewModel.serialNumber.postValue(serialNumber)
         assertFalse(bikeViewModel.isTextValid(serialNumber))
     }
 
     @Test
-    fun `When 'serialnumber' is not null or empty then 'isSerialNumberValid' return true`() {
+    fun `when 'serialnumber' is not null or empty then 'isTextValid' return true`() {
         val serialNumber = "S1209"
         bikeViewModel.serialNumber.postValue(serialNumber)
         assertTrue(bikeViewModel.isTextValid(serialNumber))
     }
 
     @Test
-    fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Success Status`() {
+    fun `when serial number is already registered in the community then it should be invalid`() {
+        fillAndObserveValidBike()
+        val registeredSerialNumber = bike.serialNumber
+
+        bikeViewModel.serialNumber.value = registeredSerialNumber
+        val isValid = bikeViewModel.valid.value
+
+        assertNotNull(isValid)
+        if (isValid != null) {
+            assertFalse(isValid)
+        }
+    }
+
+    @Test
+    fun `when 'saveBike' to register and 'isEditModeAvailable' is false, should return Success Status`() {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Success(AddDataResponse(""))
         coEvery {
@@ -95,7 +104,7 @@ class BikeFormViewModelTest {
     }
 
     @Test
-    fun `When 'saveBike' to register and 'isEditModeAvailable' is false, should return Error Status`() {
+    fun `when 'saveBike' to register and 'isEditModeAvailable' is false, should return Error Status`() {
         val bikeFake = slot<Bike>()
         val result = SimpleResult.Error(Exception())
 
@@ -219,5 +228,23 @@ class BikeFormViewModelTest {
         serialNumber = "12345"
         orderNumber = 0
         photoPath = "path"
+    }
+
+    private fun fillAndObserveValidBike(): Observer<Boolean> {
+        val serialNumber = "S1209"
+        val bikeName = "S1209"
+        val orderNumber = "12345678"
+        val imagePath = "data/img/image.jpeg"
+        val observerBikeSerialNumberErrorValidation =
+            mockk<Observer<MutableMap<Int, Boolean>>>(relaxed = true)
+        bikeViewModel.serialNumberErrorValidationMap
+            .observeForever(observerBikeSerialNumberErrorValidation)
+        val observerBikeResultMock = mockk<Observer<Boolean>>(relaxed = true)
+        bikeViewModel.valid.observeForever(observerBikeResultMock)
+        bikeViewModel.serialNumber.postValue(serialNumber)
+        bikeViewModel.bikeName.postValue(bikeName)
+        bikeViewModel.orderNumber.postValue(orderNumber)
+        bikeViewModel.imagePath.postValue(imagePath)
+        return observerBikeResultMock
     }
 }
