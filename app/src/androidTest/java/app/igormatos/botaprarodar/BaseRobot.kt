@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onView
@@ -34,7 +33,6 @@ import org.hamcrest.TypeSafeMatcher
 abstract class BaseRobot {
     val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    // (UiAutomator) Initialize UiDevice instance
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val launcherPackage: String = context.packageName
 
@@ -98,21 +96,12 @@ abstract class BaseRobot {
         onView(withId(containerId)).perform(swipeUp());
     }
 
-    fun captureImage() {
-        device.pressKeyCode(KeyEvent.KEYCODE_CAMERA)
-        device.pressKeyCode(KeyEvent.KEYCODE_BACK)
-    }
-
     fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 
     fun hideKeyboard() {
         onView(isRoot()).perform(closeSoftKeyboard())
-    }
-
-    fun scrollToViewById(resId: Int) {
-        onView(withId(resId)).perform(scrollTo())
     }
 
     fun waitViewByText(text: String, timeout: Long = 10000): Boolean = device.wait(

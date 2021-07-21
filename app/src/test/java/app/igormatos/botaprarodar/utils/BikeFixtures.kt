@@ -11,7 +11,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
-val bike = Bike(name = "Caloi")
+val bike = Bike(
+    name = "Caloi",
+    serialNumber = "testSerialNumber"
+)
 
 val bike2 = Bike(
     id = "",
