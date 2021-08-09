@@ -2,10 +2,12 @@ package app.igormatos.botaprarodar.presentation.bikeWithdraw
 
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
-import app.igormatos.botaprarodar.domain.usecase.users.GetUsersByCommunity
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
-import app.igormatos.botaprarodar.utils.userFlowSuccess
+import app.igormatos.botaprarodar.utils.communityFixture
+import app.igormatos.botaprarodar.utils.listUsers
+import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -18,7 +20,7 @@ import org.junit.jupiter.api.Test
 class SelectUserViewModelTest {
     private val userHolder = mockk<UserHolder>()
     private val stepperAdapter = mockk<WithdrawStepper>()
-    private val getUsersByCommunity = mockk<GetUsersByCommunity>()
+    private val getUsersByCommunity = mockk<UsersUseCase>()
     private val validateUserWithdraw = mockk<ValidateUserWithdraw>()
 
     private lateinit var selectUserViewModel : SelectUserViewModel
@@ -32,11 +34,12 @@ class SelectUserViewModelTest {
 
     @Test
     fun `when getUserList should call validateUserWithdraw`() {
-        coEvery { getUsersByCommunity.execute(any()) } returns userFlowSuccess
+        coEvery { getUsersByCommunity.getAvailableUsersByCommunityId(any()) } returns SimpleResult.Success(
+            listUsers)
         val anyTestResult = true
         coEvery { validateUserWithdraw.execute(any()) } returns anyTestResult
 
-        selectUserViewModel.getUserList("communityIdTest")
+        selectUserViewModel.getUserList(communityFixture.id)
 
         verify { runBlocking { validateUserWithdraw.execute(any()) } }
     }
