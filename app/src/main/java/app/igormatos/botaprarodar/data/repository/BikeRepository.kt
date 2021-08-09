@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.data.repository
 
+import app.igormatos.botaprarodar.common.utils.formatAsJSONValidType
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.safeApiCall
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
@@ -12,6 +13,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class BikeRepository(
@@ -81,10 +83,6 @@ class BikeRepository(
                 bicycleApi.getBikeWithWithdrawByUserId(formatAsJSONValidType(userId))
             }
         }
-    }
-
-    private fun formatAsJSONValidType(userId: String): String {
-        return "\"$userId\""
     }
 
     private fun verifyItemIdAndUpdate(

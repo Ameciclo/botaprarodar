@@ -17,6 +17,23 @@ val userFake = User().apply {
     createdDate = "01/01/2021"
     gender = 0
     docType = 1
+    isAvailable = true
+    profilePicture = "https://profile.jpeg"
+    profilePictureThumbnail = "https://thumb.jpeg"
+    residenceProofPicture = "https://residence.jpeg"
+}
+
+val unavailableUserFake = User().apply {
+    id = "testId"
+    name = "Capitão América"
+    docNumber = 1234567890
+    docPictureBack = "https://docback.jpeg"
+    docPicture = "https://doc.jpeg"
+    address = "Polo Norte - 433La 092Lg"
+    createdDate = "01/01/2021"
+    gender = 0
+    docType = 1
+    isAvailable = false
     profilePicture = "https://profile.jpeg"
     profilePictureThumbnail = "https://thumb.jpeg"
     residenceProofPicture = "https://residence.jpeg"
@@ -44,6 +61,30 @@ val mockImageUploadResponse = ImageUploadResponse(
 )
 
 val listUsers = mutableListOf(userFake)
+
+fun buildListAvailableUsers(howMuch: Int): List<User> {
+    val list = mutableListOf<User>()
+    for (i in howMuch downTo 1) {
+        list.add(userFake)
+    }
+    return list
+}
+
+fun buildListUnavailableUsers(howMuch: Int): List<User> {
+    val list = mutableListOf<User>()
+    for (i in howMuch downTo 1) {
+        list.add(unavailableUserFake)
+    }
+    return list
+}
+
+fun buildMapStringUser(howMuch: Int): Map<String, User> {
+    val map = mutableMapOf<String, User>()
+    for (i in howMuch downTo 1) {
+        map[i.toString()] = userFake
+    }
+    return map
+}
 
 val userException = Exception()
 
