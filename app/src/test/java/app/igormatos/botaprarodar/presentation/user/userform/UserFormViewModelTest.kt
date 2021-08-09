@@ -1,15 +1,19 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.validUser
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -26,7 +30,7 @@ class UserFormViewModelTest {
 
     @Before
     fun setup() {
-        formViewModel = UserFormViewModel(community, stepper)
+        formViewModel = UserFormViewModel(community, stepper, arrayListOf(validUser))
     }
 
     @Test
@@ -73,25 +77,25 @@ class UserFormViewModelTest {
 
     @Test
     fun `when 'updateUser' should update the liveDatas values`() {
-        formViewModel.updateUserValues(userFake)
+        formViewModel.updateUserValues(validUser)
 
-        assertEquals(userFake.name, formViewModel.userCompleteName.value)
-        assertEquals(userFake.address, formViewModel.userAddress.value)
-        assertEquals(userFake.docNumber.toString(), formViewModel.userDocument.value)
-        assertEquals(userFake.profilePicture, formViewModel.userImageProfile.value)
+        assertEquals(validUser.name, formViewModel.userCompleteName.value)
+        assertEquals(validUser.address, formViewModel.userAddress.value)
+        assertEquals(validUser.docNumber.toString(), formViewModel.userDocument.value)
+        assertEquals(validUser.profilePicture, formViewModel.userImageProfile.value)
         assertEquals(
-            userFake.residenceProofPicture,
+            validUser.residenceProofPicture,
             formViewModel.userImageDocumentResidence.value
         )
-        assertEquals(userFake.docPicture, formViewModel.userImageDocumentFront.value)
-        assertEquals(userFake.docPictureBack, formViewModel.userImageDocumentBack.value)
-        assertEquals(userFake.gender, formViewModel.userGender.value)
+        assertEquals(validUser.docPicture, formViewModel.userImageDocumentFront.value)
+        assertEquals(validUser.docPictureBack, formViewModel.userImageDocumentBack.value)
+        assertEquals(validUser.gender, formViewModel.userGender.value)
         assertTrue(formViewModel.isEditableAvailable)
     }
 
     @Test
     fun `when 'updateUser' should update 'isEditableAvailable' to true`() {
-        formViewModel.updateUserValues(userFake)
+        formViewModel.updateUserValues(validUser)
         assertTrue(formViewModel.isEditableAvailable)
     }
 
@@ -107,15 +111,94 @@ class UserFormViewModelTest {
 
     @Test
     fun `when call navigateToNextStep() then the openQuiz value should be update`() {
-        every { stepper.navigateToNext() } answers { formViewModel.user = userFake }
+        val testUser = createTestValidUser()
+        every { stepper.navigateToNext() } answers { formViewModel.user = testUser }
         formViewModel.userDocument.value = "1"
         formViewModel.navigateToNextStep()
 
         val openQuiz = formViewModel.openQuiz.value
 
         assertNotNull(formViewModel.openQuiz.value)
-        assertEquals(openQuiz?.peekContent()?.first, userFake)
+        assertEquals(openQuiz?.peekContent()?.first, testUser)
         assertEquals(openQuiz?.peekContent()?.second, false)
+    }
+
+    @Test
+    fun `when create user and docNumber is already registered in the community then button should be disabled`() {
+        val testValidUser = createTestValidUser()
+        createUserValues(testValidUser)
+        observeValidationResultFields()
+
+        postAlreadyRegisteredDocNumber()
+
+        doRegisterButtonAssertions(false)
+    }
+
+    @Test
+    fun `when update user and docNumber is already registered in the community then button should be disabled`() {
+        val testValidUser = createTestValidUser()
+        formViewModel.updateUserValues(testValidUser)
+        observeValidationResultFields()
+
+        postAlreadyRegisteredDocNumber()
+
+        doRegisterButtonAssertions(false)
+    }
+
+    @Test
+    fun `when user is valid then button should be enabled`() {
+        val testValidUser = createTestValidUser()
+        createUserValues(testValidUser)
+        observeValidationResultFields()
+
+        doRegisterButtonAssertions(true)
+    }
+
+    private fun createTestValidUser(): User {
+        val testValidUser = validUser.copy()
+        testValidUser.docNumber = 11111111111
+        return testValidUser
+    }
+
+    private fun createUserValues(testValidUser: User) {
+        with(formViewModel) {
+            userCompleteName.value = testValidUser.name.orEmpty()
+            userAddress.value = testValidUser.address.orEmpty()
+            userDocument.value = testValidUser.docNumber.toString()
+            userImageProfile.value = testValidUser.profilePicture.orEmpty()
+            userImageDocumentResidence.value = testValidUser.residenceProofPicture.orEmpty()
+            userImageDocumentFront.value = testValidUser.docPicture.orEmpty()
+            userImageDocumentBack.value = testValidUser.docPictureBack.orEmpty()
+            userGender.value = testValidUser.gender
+            userRacial.value = testValidUser.racial.orEmpty()
+            userSchooling.value = testValidUser.schooling.orEmpty()
+            userIncome.value = testValidUser.income.orEmpty()
+            userAge.value = testValidUser.age.orEmpty()
+            userTelephone.value = testValidUser.telephone.orEmpty()
+        }
+    }
+
+    private fun observeValidationResultFields() {
+        val observerUserDocNumberErrorValidation =
+            mockk<Observer<MutableMap<Int, Boolean>>>(relaxed = true)
+        formViewModel.docNumberErrorValidationMap
+            .observeForever(observerUserDocNumberErrorValidation)
+
+        val observerUserResultMock = mockk<Observer<Boolean>>(relaxed = true)
+        formViewModel.isButtonEnabled.observeForever(observerUserResultMock)
+    }
+
+    private fun postAlreadyRegisteredDocNumber() {
+        val registeredDocNumber = validUser.docNumber.toString()
+        formViewModel.userDocument.postValue(registeredDocNumber)
+    }
+
+    private fun doRegisterButtonAssertions(enableStateExpected: Boolean) {
+        val isButtonEnabled = formViewModel.isButtonEnabled.value
+        assertNotNull(isButtonEnabled)
+        if (isButtonEnabled != null) {
+            assertThat(isButtonEnabled, equalTo(enableStateExpected))
+        }
     }
 
 }

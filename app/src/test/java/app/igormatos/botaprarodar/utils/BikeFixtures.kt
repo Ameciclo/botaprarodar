@@ -5,9 +5,6 @@ import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
-import com.google.gson.annotations.SerializedName
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
@@ -63,11 +60,11 @@ val bikeRequestWithMappers = BikeRequest(
 
 const val withdrawDate = "12/03/2021 10:00:00"
 
-val withdraw = Withdraws(id = "123", date = withdrawDate, user = userFake)
+val withdraw = Withdraws(id = "123", date = withdrawDate, user = validUser)
 
 const val devolutionDate = "15/03/2021 10:00:00"
 
-val devolution = Devolution(id = "098", date = devolutionDate, user = userFake)
+val devolution = Devolution(id = "098", date = devolutionDate, user = validUser)
 
 val bikeWithWithdraws = Bike(
     name = "Caloi",

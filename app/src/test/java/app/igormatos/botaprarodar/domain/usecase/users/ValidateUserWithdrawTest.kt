@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.domain.usecase.users
 import app.igormatos.botaprarodar.data.repository.BikeRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.utils.buildMapStringAndBicycle
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.validUser
 import app.igormatos.botaprarodar.utils.userSimpleSuccessEdit
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 class ValidateUserWithdrawTest {
     private val bikeRepository = mockk<BikeRepository>()
     private val userRepository = mockk<UserRepository>()
-    private val testUser = userFake.copy()
+    private val testUser = validUser.copy()
     private lateinit var validateUserWithdraw: ValidateUserWithdraw
 
     @BeforeEach
