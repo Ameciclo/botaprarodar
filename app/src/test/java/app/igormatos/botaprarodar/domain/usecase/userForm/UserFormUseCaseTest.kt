@@ -33,7 +33,7 @@ class UserFormUseCaseTest {
             mockTestSuccess()
 
             val responseResult =
-                userUseCase.addUser(userFake) as SimpleResult.Success
+                userUseCase.addUser(validUser) as SimpleResult.Success
 
             assertEquals("User registered", responseResult.data.name)
         }
@@ -45,7 +45,7 @@ class UserFormUseCaseTest {
             val exceptionResult = Exception("")
             mockTestException(exceptionResult)
 
-            val responseResult = userUseCase.addUser(userFake)
+            val responseResult = userUseCase.addUser(validUser)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertThat(
@@ -60,7 +60,7 @@ class UserFormUseCaseTest {
             mockUpdateTestSuccess()
 
             val responseResult =
-                userUseCase.startUpdateUser(userFake) as SimpleResult.Success
+                userUseCase.startUpdateUser(validUser) as SimpleResult.Success
 
             assertEquals("User edited", responseResult.data.name)
         }
@@ -71,7 +71,7 @@ class UserFormUseCaseTest {
             val exceptionResult = Exception("")
             mockUpdateTestException(exceptionResult)
 
-            val responseResult = userUseCase.startUpdateUser(userFake)
+            val responseResult = userUseCase.startUpdateUser(validUser)
 
             assertTrue(responseResult is SimpleResult.Error)
             assertThat(
