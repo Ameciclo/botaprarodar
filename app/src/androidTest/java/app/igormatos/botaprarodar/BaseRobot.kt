@@ -91,10 +91,10 @@ abstract class BaseRobot {
 
     fun checkViewHasLength(resId: Int, expectedLengthResId: Int) {
         val expectedLength = context.resources.getInteger(expectedLengthResId)
-        onView(withId(resId)).check(matches(length(expectedLength)))
+        onView(withId(resId)).check(matches(hasLength(expectedLength)))
     }
 
-    private fun length(length: Int): Matcher<View> =
+    private fun hasLength(length: Int): Matcher<View> =
         object : TypeSafeMatcher<View>() {
 
             override fun describeTo(description: Description?) {
