@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.presentation.user
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -27,7 +26,6 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user)
         binding.viewModel = viewModel
 
@@ -79,9 +77,16 @@ class UserActivity : AppCompatActivity() {
 
     companion object {
         const val USER_BUNDLE = "user"
+        private const val COMMUNITY_USERS_BUNDLE = "communityUsers"
 
-        fun setupActivity(context: Context, user: User? = null): Intent {
+        fun setupActivity(
+            context: Context,
+            user: User? = null,
+            currentCommunityUserList: ArrayList<User>
+        ): Intent {
             val intent = Intent(context, UserActivity::class.java)
+            val communityUsersArray = currentCommunityUserList.toTypedArray()
+            intent.putExtra(COMMUNITY_USERS_BUNDLE, communityUsersArray)
             intent.putExtra(USER_BUNDLE, user)
             return intent
         }

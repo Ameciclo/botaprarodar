@@ -365,18 +365,18 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_cpf_hint"
-                        app:errorMessage="@{`add_user_invalid_cpf`}"
+                        android:hint="@string/add_user_doc_number_hint"
+                        app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider"
-                        app:textCaptured="@{viewModel.userDocument}">
+                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietCpf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
+                            android:maxLength="@integer/max_size_user_doc_number"
                             android:text="@={viewModel.userDocument}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
