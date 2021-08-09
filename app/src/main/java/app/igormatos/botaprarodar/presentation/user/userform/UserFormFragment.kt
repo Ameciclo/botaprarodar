@@ -22,13 +22,15 @@ import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class UserFormFragment : Fragment() {
 
     private val args: UserFormFragmentArgs by navArgs()
 
-    private val userFormViewModel: UserFormViewModel by viewModel()
+    private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
@@ -50,15 +52,31 @@ class UserFormFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val communityUsers = getCommunityUsers()
+        setupViewModel(communityUsers)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
         return binding.root
     }
 
+    private fun getCommunityUsers(): ArrayList<User> {
+        val communityUsers = args.communityUsers?.toCollection(ArrayList())
+        if (communityUsers.isNullOrEmpty()) {
+            return arrayListOf()
+        }
+        return communityUsers
+    }
+
+    private fun setupViewModel(communityUsers: ArrayList<User>): UserFormViewModel {
+        userFormViewModel = getViewModel {
+            parametersOf(communityUsers)
+        }
+        return userFormViewModel
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -99,7 +117,7 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupViewModelStatus() {
-        userFormViewModel.openQuiz.observe(viewLifecycleOwner, Observer {
+        userFormViewModel.openQuiz.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { data ->
                 val (user, editMode) = data
                 val direction =

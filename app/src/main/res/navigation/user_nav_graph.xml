@@ -13,9 +13,15 @@
 
         <argument
                 android:name="user"
+                android:defaultValue="@null"
                 app:argType="app.igormatos.botaprarodar.domain.model.User"
-                app:nullable="true"
-                android:defaultValue="@null" />
+                app:nullable="true" />
+
+        <argument
+                android:name="communityUsers"
+                android:defaultValue="@null"
+                app:argType="app.igormatos.botaprarodar.domain.model.User[]"
+                app:nullable="true" />
 
         <action
                 android:id="@+id/action_userFormFragment_to_userQuizFragment"
@@ -24,14 +30,13 @@
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right" />
-
     </fragment>
 
     <fragment
             android:id="@+id/userQuizFragment"
             android:name="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizFragment"
             android:label="UserQuizFragment"
-            tools:layout="@layout/fragment_user_quiz" >
+            tools:layout="@layout/fragment_user_quiz">
         <argument
                 android:name="user"
                 app:argType="app.igormatos.botaprarodar.domain.model.User" />

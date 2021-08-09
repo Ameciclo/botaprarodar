@@ -9,7 +9,6 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.isNotNull
 import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
@@ -76,7 +75,11 @@ class BikeFormViewModel(
     internal fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     private fun isSerialNumberValid(): Boolean {
-        return !serialNumberErrorValidationMap.value?.containsValue(true)!!
+        val existsSerialNumberError = serialNumberErrorValidationMap.value?.containsValue(true)
+        if (existsSerialNumberError != null) {
+            return !existsSerialNumberError
+        }
+        return true
     }
 
     fun updateBikeValues(bike: Bike) {
