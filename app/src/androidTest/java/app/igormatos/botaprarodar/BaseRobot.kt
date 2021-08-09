@@ -24,6 +24,7 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -88,6 +89,25 @@ abstract class BaseRobot {
         onView(withId(resId)).check(matches(not(isEnabled())))
     }
 
+    fun checkViewHasLength(resId: Int, expectedLengthResId: Int) {
+        val expectedLength = context.resources.getInteger(expectedLengthResId)
+        onView(withId(resId)).check(matches(length(expectedLength)))
+    }
+
+    private fun length(length: Int): Matcher<View> =
+        object : TypeSafeMatcher<View>() {
+
+            override fun describeTo(description: Description?) {
+                description?.appendText("EditText should have a expected length of $length")
+            }
+
+            override fun matchesSafely(item: View?): Boolean {
+                if (item !is TextInputEditText) return false
+                val textInput: TextInputEditText = item
+                return textInput.text.toString().length == length
+            }
+        }
+
     fun sleep(times: Long) = apply {
         Thread.sleep(times)
     }
@@ -96,7 +116,7 @@ abstract class BaseRobot {
         onView(withId(containerId)).perform(swipeUp());
     }
 
-    fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+    private fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 

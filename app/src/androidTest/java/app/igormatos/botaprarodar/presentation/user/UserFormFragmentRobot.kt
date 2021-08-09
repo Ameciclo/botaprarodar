@@ -21,4 +21,13 @@ class UserFormFragmentRobot : BaseRobot() {
         val buttonText = context.resources.getString(R.string.camera_dialog_positive_button_text)
         clickButtonByText(buttonText)
     }
+
+    fun fillUserDocNumber(docNumber: String) {
+        swipeUp(R.id.scrollContainer)
+        fillFieldById(R.id.ietCpf, docNumber)
+    }
+
+    fun checkDocNumberMaxLength() {
+        checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
+    }
 }
