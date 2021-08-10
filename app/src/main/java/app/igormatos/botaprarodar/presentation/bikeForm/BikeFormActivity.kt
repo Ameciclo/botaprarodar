@@ -144,8 +144,8 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val BIKE_EXTRA = "Bike_extra"
-        private const val COMMUNITY_BIKES_EXTRA = "Community_bikes_extra"
+        const val BIKE_EXTRA = "bike_extra"
+        private const val COMMUNITY_BIKES_EXTRA = "community_bikes_extra"
 
         fun setupActivity(context: Context, bike: Bike?, communityBikes: ArrayList<Bike>): Intent {
             val intent = Intent(context, BikeFormActivity::class.java)

@@ -46,7 +46,7 @@ class GetUsersByCommunityTest {
         val response = byCommunityGet.execute("123").first()
         val actual = response as SimpleResult.Success<List<User>>
 
-        assertEquals(userFake, actual.data[0])
+        assertEquals(validUser, actual.data[0])
     }
 
     @Test
