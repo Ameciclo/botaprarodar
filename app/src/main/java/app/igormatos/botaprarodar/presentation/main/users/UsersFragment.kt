@@ -33,6 +33,8 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
     private val usersAdapter = UsersAdapter(this)
     private lateinit var binding: FragmentUsersBinding
     private val usersViewModel: UsersViewModel by viewModel()
+    private var currentCommunityUserList: ArrayList<User> = arrayListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +61,10 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
 
     private fun setupBtnRegisterClickEvent() {
         binding.btnRegisterUsers.setOnClickListener {
-            val intent = UserActivity.setupActivity(requireContext())
+            val intent = UserActivity.setupActivity(
+                requireContext(),
+                currentCommunityUserList = currentCommunityUserList
+            )
             startForResult.launch(intent)
         }
     }
@@ -86,6 +91,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         usersViewModel.users.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is SimpleResult.Success -> {
+                    currentCommunityUserList = ArrayList(it.data)
                     usersAdapter.submitList(it.data)
                 }
                 is SimpleResult.Error -> {
@@ -126,7 +132,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
             getString(R.string.user_add_success)
 
     override fun onUserClicked(user: User) {
-        val intent = UserActivity.setupActivity(requireContext(), user)
+        val intent = UserActivity.setupActivity(requireContext(), user, currentCommunityUserList)
         startForResult.launch(intent)
     }
 }

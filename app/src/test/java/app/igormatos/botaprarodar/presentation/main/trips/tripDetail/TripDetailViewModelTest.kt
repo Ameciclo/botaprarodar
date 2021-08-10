@@ -120,7 +120,7 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = validUser)
         bike.withdraws?.add(withdraw)
 
         every {
@@ -147,14 +147,14 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = validUser)
         bike.withdraws?.add(withdraw)
 
         val devolutionId = "909"
         val devolution = Devolution(
             id = devolutionId,
             date = devolutionDate,
-            user = userFake,
+            user = validUser,
             withdrawId = withdrawID
         )
         bike.devolutions?.add(devolution)
@@ -183,14 +183,14 @@ class TripDetailViewModelTest {
         // arrange
         val bike = bikeWithWithdraws
         val withdrawID = "999"
-        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = userFake)
+        val withdraw = Withdraws(id = withdrawID, date = withdrawDate, user = validUser)
         bike.withdraws?.add(withdraw)
 
         val devolutionId = "909"
         val devolution = Devolution(
             id = devolutionId,
             date = devolutionDate,
-            user = userFake,
+            user = validUser,
             withdrawId = withdrawID
         )
         bike.devolutions?.add(devolution)

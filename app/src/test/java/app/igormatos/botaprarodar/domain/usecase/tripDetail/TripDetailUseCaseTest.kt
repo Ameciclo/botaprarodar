@@ -59,7 +59,7 @@ internal class TripDetailUseCaseTest {
 
     @Test
     fun `should return withdraw when bike has any withdraw with the given id`() {
-        val expectedWithdraw = Withdraws(id = withdrawId, date = withdrawDate, user = userFake)
+        val expectedWithdraw = Withdraws(id = withdrawId, date = withdrawDate, user = validUser)
         bike.withdraws?.add(expectedWithdraw)
 
         val response: Withdraws? = useCase.getWithdrawById(bike, withdrawId)
@@ -70,7 +70,7 @@ internal class TripDetailUseCaseTest {
     @Test
     fun `should return devolution when bike has any devolution with the given id`() {
         val expectedDevolution =
-            Devolution(id = devolutionId, date = devolutionDate, user = userFake)
+            Devolution(id = devolutionId, date = devolutionDate, user = validUser)
         bike.devolutions?.add(expectedDevolution)
 
         val response: Devolution? = useCase.getDevolutionById(bike, devolutionId)
@@ -84,7 +84,7 @@ internal class TripDetailUseCaseTest {
             Devolution(
                 id = devolutionId,
                 date = devolutionDate,
-                user = userFake,
+                user = validUser,
                 withdrawId = withdrawId
             )
         bike.devolutions?.add(expectedDevolution)
@@ -96,7 +96,7 @@ internal class TripDetailUseCaseTest {
 
     @Test
     fun `should return null when bike no has devolution with the given withdrawId`() {
-        val devolution = Devolution(id = devolutionId, date = devolutionDate, user = userFake)
+        val devolution = Devolution(id = devolutionId, date = devolutionDate, user = validUser)
         bike.devolutions?.add(devolution)
 
         val response: Devolution? = useCase.getDevolutionByWithdrawId(bike, withdrawId)
