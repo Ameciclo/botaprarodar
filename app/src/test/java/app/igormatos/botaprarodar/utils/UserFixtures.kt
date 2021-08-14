@@ -7,7 +7,7 @@ import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 
-val userFake = User().apply {
+val validUser = User().apply {
     id = "testId"
     name = "Capitão América"
     docNumber = 1234567890
@@ -37,6 +37,10 @@ val unavailableUserFake = User().apply {
     profilePicture = "https://profile.jpeg"
     profilePictureThumbnail = "https://thumb.jpeg"
     residenceProofPicture = "https://residence.jpeg"
+    racial = "Branca"
+    schooling = "Ensino superior completo"
+    income = "0"
+    age = "xx"
 }
 
 val userRequest = UserRequest(
@@ -60,7 +64,7 @@ val mockImageUploadResponse = ImageUploadResponse(
     thumbPath = "teste"
 )
 
-val listUsers = mutableListOf(userFake)
+val listUsers = mutableListOf(validUser)
 
 fun buildListAvailableUsers(howMuch: Int): List<User> {
     val list = mutableListOf<User>()
