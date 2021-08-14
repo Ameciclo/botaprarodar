@@ -8,7 +8,6 @@ import app.igormatos.botaprarodar.utils.bikeRequest
 import app.igormatos.botaprarodar.utils.mapOfBikesRequest
 import com.brunotmgomes.ui.SimpleResult
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.FirebaseDatabase
 import io.mockk.MockKAnnotations.init
 import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
@@ -31,9 +30,6 @@ internal class BikeRepositoryTest {
 
     @MockK
     private lateinit var api: BicycleApi
-
-    @MockK
-    private lateinit var firebaseDatabase: FirebaseDatabase
 
     @MockK
     private lateinit var iterator: Iterator<DataSnapshot>
@@ -61,7 +57,7 @@ internal class BikeRepositoryTest {
 
     @Test
     fun `should add new bicycle`() = runBlocking {
-        coEvery { api.addNewBike(any()) } returns addDataResponseBike
+        coEvery { api.addNewBike(any(), any()) } returns addDataResponseBike
 
         val response = repository.addNewBike(bikeRequest)
         val result = response as SimpleResult.Success<AddDataResponse>
@@ -77,6 +73,16 @@ internal class BikeRepositoryTest {
             coEvery { api.getBikeWithWithdrawByUserId(any()) } returns mapOfBikesRequest
 
             val bikeWithWithdrawByUser = repository.getBikeWithWithdrawByUser("testUserId")
+
+            assertThat(SimpleResult.Success(mapOfBikesRequest), equalTo(bikeWithWithdrawByUser))
+        }
+
+    @Test
+    fun `should return list of bikes from a community` () =
+        runBlocking {
+            coEvery { api.getBikesByCommunityId(any()) } returns mapOfBikesRequest
+
+            val bikeWithWithdrawByUser = repository.getBikesByCommunityId("someCommunityId")
 
             assertThat(SimpleResult.Success(mapOfBikesRequest), equalTo(bikeWithWithdrawByUser))
         }

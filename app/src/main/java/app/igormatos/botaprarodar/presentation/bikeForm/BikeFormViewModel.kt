@@ -9,7 +9,6 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.isNotNull
 import kotlinx.coroutines.launch
 
 class BikeFormViewModel(
