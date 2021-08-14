@@ -40,6 +40,16 @@ class UserFormFragmentTest {
         }
     }
 
+    @Test
+    fun givenDocNumber_shouldHaveMaxLength() {
+        userFormFragment {
+           val longDocNumber = "123456789123456789"
+           fillUserDocNumber(longDocNumber)
+        } verify {
+            checkDocNumberMaxLength()
+        }
+    }
+
     @After
     fun tearDown() {
         Intents.release()

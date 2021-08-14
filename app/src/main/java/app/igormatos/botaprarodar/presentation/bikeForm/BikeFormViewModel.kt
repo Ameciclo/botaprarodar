@@ -75,7 +75,11 @@ class BikeFormViewModel(
     internal fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     private fun isSerialNumberValid(): Boolean {
-        return !serialNumberErrorValidationMap.value?.containsValue(true)!!
+        val existsSerialNumberError = serialNumberErrorValidationMap.value?.containsValue(true)
+        if (existsSerialNumberError != null) {
+            return !existsSerialNumberError
+        }
+        return true
     }
 
     fun updateBikeValues(bike: Bike) {

@@ -129,8 +129,9 @@
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
-    <string name="add_user_cpf_hint">Número do RG ou CPF</string>
-    <string name="add_user_invalid_cpf">CPF inválido</string>
+    <string name="add_user_doc_number_hint">Número do RG ou CPF</string>
+    <string name="add_user_invalid_doc_number">Número do RG ou CPF inválido</string>
+    <string name="add_user_doc_number_already_registered">Documento já cadastrado em outro usuário na comunidade</string>
     <string name="add_user_telephone_hint">Telefone</string>
     <string name="add_user_invalid_telephone">Telefone inválido</string>
     <string name="btn_add_user">Adicionar usuário</string>

@@ -1,8 +1,11 @@
 package app.igormatos.botaprarodar.common.biding
 
 import androidx.databinding.BindingAdapter
-import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
+import androidx.lifecycle.MediatorLiveData
+import app.igormatos.botaprarodar.common.extensions.focusChangedErrorListener
+import app.igormatos.botaprarodar.common.extensions.textChangedErrorListener
 import app.igormatos.botaprarodar.common.extensions.validateTextChanged
+import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
 import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["app:textCaptured", "app:errorMessage"])
@@ -15,4 +18,14 @@ fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String, errorMess
         errorMessageId
     )
     this.editText?.validateTextChanged(this, errorMessageId)
+}
+
+@BindingAdapter("app:errorUserDocNumber")
+fun setErrorUserDocNumber(view: TextInputLayout,
+                                docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>
+) {
+    view.editText?.focusChangedErrorListener(
+        docNumberErrorValidationMap,
+        view)
+    view.editText?.textChangedErrorListener(docNumberErrorValidationMap, view)
 }

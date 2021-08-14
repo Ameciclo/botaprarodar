@@ -4,14 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.validUser
 import app.igormatos.botaprarodar.utils.userSimpleSuccess
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.slot
-import io.mockk.verify
-import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -28,7 +26,7 @@ class UserQuizViewModelTest {
     @Before
     fun setup() {
         viewModel = UserQuizViewModel(useCase)
-        viewModel.init(userFake, false)
+        viewModel.init(validUser, false)
     }
 
     @Test
