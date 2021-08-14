@@ -306,7 +306,7 @@ val bprModule = module {
     }
 
     single {
-        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+        BikeRepository(get<BicycleApi>())
     }
 
     single {

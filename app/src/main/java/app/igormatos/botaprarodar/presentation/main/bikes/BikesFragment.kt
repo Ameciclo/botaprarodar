@@ -115,6 +115,7 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                getBikes()
                 showSnackBar(result.data)
             }
         }
