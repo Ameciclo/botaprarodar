@@ -21,6 +21,10 @@ val validUser = User().apply {
     profilePicture = "https://profile.jpeg"
     profilePictureThumbnail = "https://thumb.jpeg"
     residenceProofPicture = "https://residence.jpeg"
+    racial = "Branca"
+    schooling = "Ensino superior completo"
+    income = "0"
+    age = "xx"
 }
 
 val unavailableUserFake = User().apply {
@@ -69,7 +73,7 @@ val listUsers = mutableListOf(validUser)
 fun buildListAvailableUsers(howMuch: Int): List<User> {
     val list = mutableListOf<User>()
     for (i in howMuch downTo 1) {
-        list.add(userFake)
+        list.add(validUser)
     }
     return list
 }
@@ -85,7 +89,7 @@ fun buildListUnavailableUsers(howMuch: Int): List<User> {
 fun buildMapStringUser(howMuch: Int): Map<String, User> {
     val map = mutableMapOf<String, User>()
     for (i in howMuch downTo 1) {
-        map[i.toString()] = userFake
+        map[i.toString()] = validUser
     }
     return map
 }

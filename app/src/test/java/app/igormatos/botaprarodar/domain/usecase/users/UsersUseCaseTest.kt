@@ -4,7 +4,7 @@ import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.utils.buildMapStringUser
 import app.igormatos.botaprarodar.utils.communityFixture
-import app.igormatos.botaprarodar.utils.userFake
+import app.igormatos.botaprarodar.utils.validUser
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -49,7 +49,7 @@ class UsersUseCaseTest {
         val response = byCommunity.getAvailableUsersByCommunityId("123")
         val actual = response as SimpleResult.Success<List<User>>
 
-        assertEquals(userFake, actual.data[0])
+        assertEquals(validUser, actual.data[0])
     }
 
     @Test
