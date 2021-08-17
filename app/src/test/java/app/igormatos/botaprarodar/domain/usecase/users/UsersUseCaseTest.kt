@@ -12,7 +12,7 @@ import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test
 class UsersUseCaseTest {
 
     private val repository = mockk<UserRepository>()
-    private lateinit var byCommunity: UsersUseCase
+    private lateinit var usersUseCase: UsersUseCase
 
     @BeforeEach
     fun setUp() {
-        byCommunity = UsersUseCase(repository)
+        usersUseCase = UsersUseCase(repository)
     }
 
     @Test
@@ -34,7 +34,7 @@ class UsersUseCaseTest {
 
         coEvery { repository.getUsersByCommunityId(any()) } returns SimpleResult.Success(buildMapStringUser(expectedSizeList))
 
-        val response = byCommunity.getAvailableUsersByCommunityId(communityFixture.id) as SimpleResult.Success
+        val response = usersUseCase.getAvailableUsersByCommunityId(communityFixture.id) as SimpleResult.Success
 
         assertNotNull(response)
         assertEquals(response.data.size, expectedSizeList)
@@ -46,7 +46,7 @@ class UsersUseCaseTest {
 
         coEvery { repository.getUsersByCommunityId(any()) } returns SimpleResult.Success(buildMapStringUser(expectedSizeList))
 
-        val response = byCommunity.getAvailableUsersByCommunityId("123")
+        val response = usersUseCase.getAvailableUsersByCommunityId("123")
         val actual = response as SimpleResult.Success<List<User>>
 
         assertEquals(validUser, actual.data[0])
@@ -56,9 +56,9 @@ class UsersUseCaseTest {
     fun `when getUsers() should return an error`() = runBlocking {
         coEvery { repository.getUsersByCommunityId(any()) } returns SimpleResult.Error(Exception())
 
-        val response = byCommunity.getAvailableUsersByCommunityId("123")
+        val response = usersUseCase.getAvailableUsersByCommunityId("123")
 
         assertNotNull(response)
-        assertThat(response, CoreMatchers.instanceOf(SimpleResult.Error::class.java))
+        assertThat(response, instanceOf(SimpleResult.Error::class.java))
     }
 }
