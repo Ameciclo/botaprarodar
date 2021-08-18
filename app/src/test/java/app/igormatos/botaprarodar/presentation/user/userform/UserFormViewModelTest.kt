@@ -154,6 +154,28 @@ class UserFormViewModelTest {
         doRegisterButtonAssertions(true)
     }
 
+    @Test
+    fun `when create user and residence proof is empty (optional), user should be valid`() {
+        val testValidUser = createTestValidUser()
+        testValidUser.residenceProofPicture = null
+        formViewModel.updateUserValues(testValidUser)
+
+        observeValidationResultFields()
+
+        doRegisterButtonAssertions(true)
+    }
+
+    @Test
+    fun `when update user and residence proof is empty (optional), user should be valid`() {
+        val testValidUser = createTestValidUser()
+        testValidUser.residenceProofPicture = null
+        createUserValues(testValidUser)
+
+        observeValidationResultFields()
+
+        doRegisterButtonAssertions(true)
+    }
+
     private fun createTestValidUser(): User {
         val testValidUser = validUser.copy()
         testValidUser.docNumber = 11111111111
