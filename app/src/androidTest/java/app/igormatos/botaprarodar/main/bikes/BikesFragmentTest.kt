@@ -59,7 +59,6 @@ class BikesFragmentTest {
 
         bikesFragment {
         } verify {
-            delay(500)
             checkBikeName()
             checkBikeOrderNumber()
             checkBikeSerialNumber()
