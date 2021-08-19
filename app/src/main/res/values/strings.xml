@@ -141,7 +141,7 @@
     <string name="rb_female_option">Feminino</string>
     <string name="rb_other_option">Outro</string>
     <string name="rb_no_answer_option">Prefere não responder</string>
-    <string name="txt_doc_address">Comprovante de residência</string>
+    <string name="txt_doc_address">Comprovante de residência (opcional)</string>
     <string name="txt_doc_image_front">Frente</string>
     <string name="txt_doc_front">Frente do documento</string>
     <string name="txt_doc_image_back">Verso</string>
