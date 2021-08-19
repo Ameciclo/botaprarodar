@@ -42,6 +42,7 @@ class BikesFragmentTest {
     }
 
     @Test
+    @FlakyTest(detail = "bicycleAdapter list mock sometimes is cleaned in physical devices")
     fun whenClickInABike_shouldOpenBikeFormActivity() {
         addItemAtRecycler()
 
@@ -68,6 +69,8 @@ class BikesFragmentTest {
     private fun addItemAtRecycler() {
         fragmentScenario.withFragment {
             this.bicycleAdapter.submitList(mutableListOf(bike))
+            this.bicycleAdapter.filteredList = mutableListOf(bike)
+            this.bicycleAdapter.notifyDataSetChanged()
         }
     }
 }
