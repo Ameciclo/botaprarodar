@@ -1,23 +1,18 @@
 package app.igormatos.botaprarodar.domain.usecase.bikes
 
+import app.igormatos.botaprarodar.common.extensions.convertToBike
 import app.igormatos.botaprarodar.data.repository.BikeRepository
-import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.model.BikeRequest
-import app.igormatos.botaprarodar.utils.bike
 import app.igormatos.botaprarodar.utils.bikeRequest
-import app.igormatos.botaprarodar.utils.flowError
-import app.igormatos.botaprarodar.utils.flowSuccess
+import app.igormatos.botaprarodar.utils.mapOfBikesRequest
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -34,39 +29,44 @@ class BikesUseCaseTest {
 
     @Test
     fun `when getBikes() should return a not null response`() = runBlocking {
-        coEvery { repository.getBikes(any()) } returns flowSuccess
+        coEvery { repository.getBikesByCommunityId(any()) } returns SimpleResult.Success(
+            mapOfBikesRequest
+        )
 
-        val response = useCase.getBikes("123").toList()
+        val response = useCase.getBikes("123") as SimpleResult.Success
 
-        assertNotNull(response)
+        assertNotNull(response.data)
     }
 
     @Test
     fun `when getBikes() should return a list of bikes`() = runBlocking {
-        coEvery { repository.getBikes(any()) } returns flowSuccess
+        coEvery { repository.getBikesByCommunityId(any()) } returns SimpleResult.Success(
+            mapOfBikesRequest
+        )
 
-        val response = useCase.getBikes("123").toList()
-        val expectedSizeList = 1
+        val response = useCase.getBikes("123") as SimpleResult.Success
+        val expectedSizeList = mapOfBikesRequest.entries.size
 
-        assertEquals(response.size, expectedSizeList)
+        assertEquals(response.data.size, expectedSizeList)
     }
 
     @Test
     fun `when getBikes() verifiy if has a correct item`() = runBlocking {
-        coEvery { repository.getBikes(any()) } returns flowSuccess
+        coEvery { repository.getBikesByCommunityId(any()) } returns SimpleResult.Success(
+            mapOfBikesRequest
+        )
 
-        val response = useCase.getBikes("123").first()
-        val actual = response as SimpleResult.Success<List<BikeRequest>>
+        val response = useCase.getBikes("123") as SimpleResult.Success
 
-        assertEquals(bikeRequest, actual.data[0])
+        assertEquals(bikeRequest.convertToBike(), response.data.last())
     }
 
     @Test
     fun `when getBikes() should return a error`() = runBlocking {
-        coEvery { repository.getBikes(any()) } returns flowError
+        coEvery { repository.getBikesByCommunityId(any()) } returns SimpleResult.Error(Exception())
 
-        val response = useCase.getBikes("123").toList()
+        val response = useCase.getBikes("123") as SimpleResult.Error
 
-        assertThat(response[0], instanceOf(SimpleResult.Error::class.java))
+        assertThat(response, instanceOf(SimpleResult.Error::class.java))
     }
 }

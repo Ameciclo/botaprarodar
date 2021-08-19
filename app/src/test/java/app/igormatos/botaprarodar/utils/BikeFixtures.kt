@@ -83,10 +83,10 @@ val bikeWithOnlyOneDevolution = Bike(
 
 val mapOfBikesRequest = mapOf(
     Pair("123", BikeRequest(withdraws = mapOfWithdraws, devolutions = mapOfDevolutions)),
-    Pair("456", BikeRequest()),
-    Pair("789", BikeRequest()),
-    Pair("098", BikeRequest()),
-    Pair("876", BikeRequest())
+    Pair("456", bikeRequest),
+    Pair("789", bikeRequest),
+    Pair("098", bikeRequest),
+    Pair("876", bikeRequest)
 )
 
 val exception = Exception()
