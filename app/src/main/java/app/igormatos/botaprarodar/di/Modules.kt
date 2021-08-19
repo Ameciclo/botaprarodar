@@ -29,7 +29,7 @@ import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBi
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.GetUsersByCommunity
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
@@ -83,6 +83,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -306,7 +307,7 @@ val bprModule = module {
     }
 
     single {
-        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+        BikeRepository(get<BicycleApi>())
     }
 
     single {
@@ -334,11 +335,11 @@ val bprModule = module {
     }
 
     single {
-        UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
+        UserRepository(userApi = get())
     }
 
     single {
-        GetUsersByCommunity(get<UserRepository>())
+        UsersUseCase(get<UserRepository>())
     }
 
     single {
@@ -415,7 +416,7 @@ val bprModule = module {
         SelectUserViewModel(
             userHolder = get(),
             stepperAdapter = get(),
-            getUsersByCommunity = get(),
+            usersUseCase = get(),
             validateUserWithdraw = get()
         )
     }
@@ -465,9 +466,18 @@ const val EMAIL_VALIDATOR_NAME = "email_validator"
 const val PASSWORD_VALIDATOR_NAME = "password_validator"
 
 private fun buildRetrofit(): Retrofit {
+    val logging = HttpLoggingInterceptor()
+    val httpClient =OkHttpClient.Builder()
+
+    // Logging retrofit calls
+    if(BuildConfig.DEBUG){
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        httpClient.addInterceptor(logging)
+    }
+
     return Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
-        .client(OkHttpClient.Builder().build())
+        .client(httpClient.build())
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()

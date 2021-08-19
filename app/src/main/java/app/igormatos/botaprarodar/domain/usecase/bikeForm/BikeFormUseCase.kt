@@ -7,10 +7,12 @@ import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.SimpleResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 private const val FIREBASE_URL = "https://"
 private const val PATH = "bikes"
 
+@ExperimentalCoroutinesApi
 class BikeFormUseCase(
     private val bikeRepository: BikeRepository,
     private val firebaseHelperRepository: FirebaseHelperRepository
@@ -66,6 +68,7 @@ class BikeFormUseCase(
         bike.photoThumbnailPath = imageResponse.thumbPath
         bike.path = PATH
     }
+
 
     private suspend fun registerBike(bike: Bike): SimpleResult<AddDataResponse> {
         return bikeRepository.addNewBike(bike.convertToBikeRequest())

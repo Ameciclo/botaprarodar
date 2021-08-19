@@ -12,5 +12,7 @@ object Fixtures {
         orderNumber = 123
         serialNumber = "serial mock"
         photoPath = "photo mock"
+        isAvailable = true
     }
+
 }

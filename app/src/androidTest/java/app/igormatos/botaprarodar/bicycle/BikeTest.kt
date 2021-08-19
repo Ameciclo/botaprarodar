@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
@@ -17,7 +18,6 @@ import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
-import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -92,18 +92,14 @@ class BikeTest {
     }
 
     private fun defineUseCasesBehavior() {
-        val flow = flow<SimpleResult<List<BikeRequest>>> {
-            emit(SimpleResult.Success(mutableListOf()))
-        }
-
         coEvery {
             bikeActionUseCase.getBikes(any())
-        } returns flow
+        } returns SimpleResult.Success(mutableListOf(BikeRequest()))
 
 
         coEvery {
-            bikesUseCase.getBikes(any())
-        } returns flow
+            bikesUseCase.getBikes(any()) as SimpleResult.Success<List<Bike>>
+        } returns SimpleResult.Success(mutableListOf(Bike()))
 
         coEvery {
             bikeFormUseCase.addNewBike(any())

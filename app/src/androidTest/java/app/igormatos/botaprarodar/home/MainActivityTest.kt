@@ -20,7 +20,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,13 +51,11 @@ class MainActivityTest {
     }
 
     private fun defineUseCasesBehavior() {
-        val flow = flow<SimpleResult<List<BikeRequest>>> {
-            emit(SimpleResult.Success(mutableListOf()))
-        }
+        val result = SimpleResult.Success(mutableListOf(BikeRequest()))
 
         coEvery {
             bikeActionUseCase.getBikes(any())
-        } returns flow
+        } returns result
     }
 
     @Test
