@@ -125,6 +125,7 @@
     <string name="add_user_income">Renda mensal</string>
     <string name="add_user_invalid_income">Renda inválida</string>
     <string name="add_user_racial">Com qual raça a pessoa se identifica?</string>
+    <string name="hint_user_racial">Selecione</string>
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
