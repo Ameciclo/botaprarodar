@@ -20,8 +20,10 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -197,29 +199,37 @@
                             android:text="@string/rb_no_answer_option" />
                 </RadioGroup>
 
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilRacial"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                <TextView
+                        android:id="@+id/tvRacialLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/add_user_racial"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup" />
+
+                <EditText
+                        android:id="@+id/tvRacial"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/margin_minimum"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_racial"
-                        app:errorMessage="@{`add_user_invalid_racial`}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
-                        app:textCaptured="@{viewModel.userRacial}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietRacial"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="@={viewModel.userRacial}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:padding="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="@={viewModel.userRacial}"
+                        app:drawableEndCompat="@drawable/ic_arrow"
+                        android:hint="@string/hint_user_racial"
+                        android:background="@drawable/border_rounded_corner"
+                        android:inputType="none"
+                        android:focusableInTouchMode="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvRacialLabel" />
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilSchooling"
@@ -233,7 +243,7 @@
                         app:errorMessage="@{`add_user_invalid_schooling`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilRacial"
+                        app:layout_constraintTop_toBottomOf="@+id/tvRacial"
                         app:textCaptured="@{viewModel.userSchooling}">
 
                     <com.google.android.material.textfield.TextInputEditText
