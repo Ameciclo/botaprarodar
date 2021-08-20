@@ -212,7 +212,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup" />
 
                 <EditText
-                        android:id="@+id/tvRacial"
+                        android:id="@+id/etRacial"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_medium"
@@ -243,7 +243,7 @@
                         app:errorMessage="@{`add_user_invalid_schooling`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvRacial"
+                        app:layout_constraintTop_toBottomOf="@+id/etRacial"
                         app:textCaptured="@{viewModel.userSchooling}">
 
                     <com.google.android.material.textfield.TextInputEditText

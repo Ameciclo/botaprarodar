@@ -180,6 +180,7 @@ class UserFormFragment : Fragment() {
             binding.viewModel?.setUserRace(racialValues[selectedRacial])
         }
         dialogBuilder.create().show()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -254,7 +255,7 @@ class UserFormFragment : Fragment() {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
 
-        binding.tvRacial.setOnClickListener {
+        binding.etRacial.setOnClickListener {
             openDialogToSelectRace()
         }
     }
