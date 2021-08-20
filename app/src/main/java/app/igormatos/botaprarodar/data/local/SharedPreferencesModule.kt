@@ -12,6 +12,7 @@ class SharedPreferencesModule(appContext: Context) {
     private val COMMUNITY_NAME = "COMMUNITY_NAME"
     private val COMMUNITY_ID = "COMMUNITY_ID"
     private val COMMUNITY_ORG_NAME = "COMMUNITY_ORG_NAME"
+    private val USER_TOKEN = "USER_TOKEN"
 
     fun saveJoinedCommmunity(community: Community) {
         val editor = sharedPrefs.edit()
@@ -38,5 +39,15 @@ class SharedPreferencesModule(appContext: Context) {
 
     fun clear(): Boolean {
         return sharedPrefs.edit().clear().commit()
+    }
+
+    fun getAuthToken(): String? {
+        return sharedPrefs.getString(USER_TOKEN, null)
+    }
+
+    fun saveAuthToken(token: String?) {
+        val editor = sharedPrefs.edit()
+        editor.putString(USER_TOKEN, token)
+        editor.apply()
     }
 }
