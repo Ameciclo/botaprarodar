@@ -222,7 +222,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:text="@={viewModel.userRacial}"
-                        app:drawableEndCompat="@drawable/ic_arrow"
+                        app:drawableEndCompat="@drawable/ic_arrow_down"
                         android:hint="@string/hint_user_racial"
                         android:background="@drawable/border_rounded_corner"
                         android:inputType="none"
