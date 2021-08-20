@@ -30,4 +30,20 @@ class UserFormFragmentRobot : BaseRobot() {
     fun checkDocNumberMaxLength() {
         checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
     }
+
+    fun clickRacialEditText() {
+        clickButton(R.id.etRacial)
+    }
+
+    fun clickRacialPositiveButton() {
+        clickButtonByText(context.resources.getString(R.string.ok))
+    }
+
+    fun verifyRacialDialogIsShowing() {
+        checkMessage(context.resources.getString(R.string.add_user_racial))
+    }
+
+    fun verifyRacialDialogIsClosed() {
+        checkViewIsNotDisplayed(context.resources.getString(R.string.add_user_racial))
+    }
 }

@@ -81,6 +81,10 @@ abstract class BaseRobot {
         onView(withId(resId)).check(matches(not(isDisplayed())))
     }
 
+    fun checkViewIsNotDisplayed(message: String) {
+        onView(withText(message)).check(matches(not(isDisplayed())))
+    }
+
     fun checkViewIsEnable(resId: Int) {
         onView(withId(resId)).check(matches(isEnabled()))
     }

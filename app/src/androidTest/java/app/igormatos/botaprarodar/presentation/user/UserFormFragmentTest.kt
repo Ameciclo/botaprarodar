@@ -43,10 +43,31 @@ class UserFormFragmentTest {
     @Test
     fun givenDocNumber_shouldHaveMaxLength() {
         userFormFragment {
-           val longDocNumber = "123456789123456789"
-           fillUserDocNumber(longDocNumber)
+            val longDocNumber = "123456789123456789"
+            fillUserDocNumber(longDocNumber)
         } verify {
             checkDocNumberMaxLength()
+        }
+    }
+
+    @Test
+    fun shouldOpenRacialDialog_whenClickToSelectRacial() {
+        userFormFragment {
+            clickRacialEditText()
+
+        } verify {
+            verifyRacialDialogIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldCloseRacialDialog_whenClickOnPositiveButton() {
+        userFormFragment {
+            clickRacialEditText()
+            clickRacialPositiveButton()
+
+        } verify {
+            //verifyRacialDialogIsClosed()
         }
     }
 
