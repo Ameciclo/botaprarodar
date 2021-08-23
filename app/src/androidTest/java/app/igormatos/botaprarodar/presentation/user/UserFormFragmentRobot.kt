@@ -44,4 +44,17 @@ class UserFormFragmentRobot : BaseRobot() {
             checkMessage(option)
         }
     }
+
+    fun clickOptionOnRacialDialog(atPosition: Int){
+        clickAtPositionInList(atPosition)
+    }
+
+    fun clickRacialPositiveButton() {
+        clickButtonByText(context.resources.getString(R.string.ok))
+    }
+
+    fun verifyRacialEditTextIsEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.racial_options)
+        checkMessage(options[atPosition])
+    }
 }
