@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.*
@@ -28,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.anything
 import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
 
@@ -181,5 +183,9 @@ abstract class BaseRobot {
         val resultData = Intent()
         resultData.putExtras(bundle)
         return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+    }
+
+    fun clickAtPositionInList(atPosition:Int){
+        onData(anything()).atPosition(atPosition).perform(click())
     }
 }

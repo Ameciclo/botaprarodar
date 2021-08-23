@@ -68,6 +68,20 @@ class UserFormFragmentTest {
         }
     }
 
+    @Test
+    fun shouldShowSelectedOption_whenRacialOptionIsSelected() {
+        val racialSelectedPosition = 2
+        userFormFragment {
+            clickRacialEditText()
+            sleep(1000)
+            clickOptionOnRacialDialog(racialSelectedPosition)
+            clickRacialPositiveButton()
+
+        } verify {
+            verifyRacialEditTextIsEqualSelected(racialSelectedPosition)
+        }
+    }
+
     @After
     fun tearDown() {
         Intents.release()
