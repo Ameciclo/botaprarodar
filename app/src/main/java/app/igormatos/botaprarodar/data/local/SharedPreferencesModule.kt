@@ -2,9 +2,22 @@ package app.igormatos.botaprarodar.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import app.igormatos.botaprarodar.domain.model.community.Community
 
 class SharedPreferencesModule(appContext: Context) {
+    private val masterKey = MasterKey.Builder(appContext)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    private val encryptedSharedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
+        appContext,
+        "BPR-SHARED-ENCRYPTED",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     private val sharedPrefs: SharedPreferences =
         appContext.getSharedPreferences("BPR-SHARED", Context.MODE_PRIVATE)
@@ -37,16 +50,17 @@ class SharedPreferencesModule(appContext: Context) {
         return sharedPrefs.getString(COMMUNITY_ID, "").isNullOrEmpty().not()
     }
 
-    fun clear(): Boolean {
-        return sharedPrefs.edit().clear().commit()
+    fun clear() {
+        encryptedSharedPrefs.edit().clear().apply()
+        sharedPrefs.edit().clear().apply()
     }
 
     fun getAuthToken(): String? {
-        return sharedPrefs.getString(USER_TOKEN, null)
+        return encryptedSharedPrefs.getString(USER_TOKEN, null)
     }
 
     fun saveAuthToken(token: String?) {
-        val editor = sharedPrefs.edit()
+        val editor = encryptedSharedPrefs.edit()
         editor.putString(USER_TOKEN, token)
         editor.apply()
     }
