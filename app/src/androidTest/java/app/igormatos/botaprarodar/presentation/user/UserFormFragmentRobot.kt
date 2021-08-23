@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.user
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-
 fun userFormFragment(executeFun: UserFormFragmentRobot.() -> Unit) =
     UserFormFragmentRobot().apply { executeFun() }
 
@@ -35,15 +34,14 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.etRacial)
     }
 
-    fun clickRacialPositiveButton() {
-        clickButtonByText(context.resources.getString(R.string.ok))
-    }
-
     fun verifyRacialDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_racial))
     }
 
-    fun verifyRacialDialogIsClosed() {
-        checkViewIsNotDisplayed(context.resources.getString(R.string.add_user_racial))
+    fun verifyRacialOptionIsShowing() {
+        val options = context.resources.getStringArray(R.array.racial_options)
+        for (option in options) {
+            checkMessage(option)
+        }
     }
 }

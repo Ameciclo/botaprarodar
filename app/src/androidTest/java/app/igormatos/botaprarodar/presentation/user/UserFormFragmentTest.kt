@@ -54,20 +54,17 @@ class UserFormFragmentTest {
     fun shouldOpenRacialDialog_whenClickToSelectRacial() {
         userFormFragment {
             clickRacialEditText()
-
         } verify {
             verifyRacialDialogIsShowing()
         }
     }
 
     @Test
-    fun shouldCloseRacialDialog_whenClickOnPositiveButton() {
+    fun shouldListRacialOptions_whenClickToSelectRacial() {
         userFormFragment {
             clickRacialEditText()
-            clickRacialPositiveButton()
-
         } verify {
-            //verifyRacialDialogIsClosed()
+            verifyRacialOptionIsShowing()
         }
     }
 

@@ -35,12 +35,7 @@ class UserFormFragment : Fragment() {
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
     private var selectedRacial = 0
-    private val racialValues = arrayOf("Amarela",
-        "Branca",
-        "Indígena",
-        "Parda",
-        "Preta",
-        "Outra/Não deseja informar")
+    private var racialValues = arrayOf<String>()
 
     private lateinit var binding: FragmentUserFormBinding
 
@@ -85,6 +80,9 @@ class UserFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        racialValues = requireContext().resources.getStringArray(R.array.racial_options)
+
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -180,7 +178,6 @@ class UserFormFragment : Fragment() {
             binding.viewModel?.setUserRace(racialValues[selectedRacial])
         }
         dialogBuilder.create().show()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
