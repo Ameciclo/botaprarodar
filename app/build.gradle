@@ -67,6 +67,7 @@ dependencies {
     implementation project(':core')
     implementation project(path: ':toolkit')
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha02'
 
     // Test
     testImplementation 'junit:junit:4.13.1'

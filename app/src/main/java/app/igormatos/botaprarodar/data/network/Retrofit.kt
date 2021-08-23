@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.data.network
 import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseSessionManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -40,7 +39,7 @@ class AuthTokenInterceptor(private val firebaseSessionManager: FirebaseSessionMa
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val httpUrl = originalRequest.url()
-        val currentToken = runBlocking { firebaseSessionManager.fetchAuthToken() }
+        val currentToken = firebaseSessionManager.fetchAuthToken()
         val authHttpUrl = httpUrl.newBuilder().addQueryParameter("auth", currentToken).build()
         val requestBuilder = originalRequest.newBuilder().url(authHttpUrl)
         val authRequest = requestBuilder.build()

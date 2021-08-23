@@ -455,7 +455,7 @@ val bprModule = module {
         PasswordValidator()
     }
 
-    single { FirebaseSessionManager(firebaseAuthModule = get(), sharedPreferencesModule = get()) }
+    single { FirebaseSessionManager(firebaseAuth = get(), sharedPreferencesModule = get()) }
 
     single { AuthTokenInterceptor(firebaseSessionManager = get()) }
 }
