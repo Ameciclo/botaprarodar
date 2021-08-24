@@ -257,7 +257,7 @@ class UserFormFragment : Fragment() {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
 
-        binding.ietSchooling.setOnClickListener {
+        binding.etSchooling.setOnClickListener {
             createDialogSchoolingLevel()
         }
 
