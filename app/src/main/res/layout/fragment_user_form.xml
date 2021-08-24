@@ -236,11 +236,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/ilRacial"
                         app:textCaptured="@{viewModel.userSchooling}">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                             android:id="@+id/ietSchooling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            android:drawableRight="@android:drawable/arrow_down_float"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
                             android:inputType="textPersonName"
+                            android:clickable="false"
                             android:text="@={viewModel.userSchooling}" />
 
                 </com.google.android.material.textfield.TextInputLayout>

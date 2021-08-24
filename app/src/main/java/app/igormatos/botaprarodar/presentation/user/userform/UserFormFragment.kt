@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,6 +40,9 @@ class UserFormFragment : Fragment() {
     private val navController: NavController by lazy {
         findNavController()
     }
+
+    private var selectedSchooling = 0
+    private var schoolingValues = arrayOf<String>()
 
     companion object {
         private const val REQUEST_PROFILE_PHOTO = 1
@@ -77,6 +81,8 @@ class UserFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        schoolingValues = requireContext().resources.getStringArray(R.array.schooling_level)
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -232,5 +238,28 @@ class UserFormFragment : Fragment() {
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
+
+        binding.ietSchooling.setOnClickListener {
+            createDialogSchoolingLevel()
+        }
+    }
+
+    private fun createDialogSchoolingLevel (){
+        val context = requireContext()
+        val builder = AlertDialog.Builder(context)
+
+
+        builder.setTitle(context.resources.getString(R.string.add_user_schooling))
+
+        builder.setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
+            selectedSchooling = indexEducationalLevel
+        }
+
+        builder.setPositiveButton(R.string.ok) { _, _ ->
+            binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

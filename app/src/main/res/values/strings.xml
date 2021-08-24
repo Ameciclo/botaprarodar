@@ -244,4 +244,17 @@
     <!-- Camera confirmation dialog-->
     <string name="camera_dialog_positive_button_text">Tirar foto!</string>
 
+    <!-- Schooling Level -->
+    <string-array name = "schooling_level">
+        <item> Sem instrução ou menos de 1 ano de estudo </item>
+        <item> Ensino fundamental incompleto </item>
+        <item> Ensino fundamental completo </item>
+        <item> Ensino médio incompleto </item>
+        <item> Ensino médio completo </item>
+        <item> Ensino técnico incompleto </item>
+        <item> Ensino técnico completo </item>
+        <item> Ensino superior incompleto </item>
+        <item> Ensino superior completo </item>
+        <item> Não determinado </item>
+    </string-array>
 </resources>
