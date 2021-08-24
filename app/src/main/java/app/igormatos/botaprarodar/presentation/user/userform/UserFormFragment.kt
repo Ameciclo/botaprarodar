@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,6 +34,8 @@ class UserFormFragment : Fragment() {
     private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
+    private var selectedRacial = 0
+    private var racialValues = arrayOf<String>()
 
     private lateinit var binding: FragmentUserFormBinding
 
@@ -77,6 +80,9 @@ class UserFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        racialValues = requireContext().resources.getStringArray(R.array.racial_options)
+
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -161,6 +167,19 @@ class UserFormFragment : Fragment() {
         }
     }
 
+    private fun openDialogToSelectRace() {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+
+        dialogBuilder.setTitle(getString(R.string.add_user_racial))
+        dialogBuilder.setSingleChoiceItems(racialValues, selectedRacial) { _, which ->
+            selectedRacial = which
+        }
+        dialogBuilder.setPositiveButton(getString(R.string.ok)) { _, _ ->
+            binding.viewModel?.setUserRace(racialValues[selectedRacial])
+        }
+        dialogBuilder.create().show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -231,6 +250,10 @@ class UserFormFragment : Fragment() {
 
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+        }
+
+        binding.etRacial.setOnClickListener {
+            openDialogToSelectRace()
         }
     }
 }
