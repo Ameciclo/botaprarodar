@@ -34,6 +34,8 @@ class UserFormFragment : Fragment() {
     private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
+    private var selectedRacial = 0
+    private var racialValues = arrayOf<String>()
 
     private lateinit var binding: FragmentUserFormBinding
 
@@ -81,8 +83,11 @@ class UserFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireContext().resources.apply {
+            schoolingValues = getStringArray(R.array.schooling_level)
+            racialValues = getStringArray(R.array.racial_options)
+        }
 
-        schoolingValues = requireContext().resources.getStringArray(R.array.schooling_level)
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -167,6 +172,19 @@ class UserFormFragment : Fragment() {
         }
     }
 
+    private fun openDialogToSelectRace() {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+
+        dialogBuilder.setTitle(getString(R.string.add_user_racial))
+        dialogBuilder.setSingleChoiceItems(racialValues, selectedRacial) { _, which ->
+            selectedRacial = which
+        }
+        dialogBuilder.setPositiveButton(getString(R.string.ok)) { _, _ ->
+            binding.viewModel?.setUserRace(racialValues[selectedRacial])
+        }
+        dialogBuilder.create().show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -242,21 +260,24 @@ class UserFormFragment : Fragment() {
         binding.ietSchooling.setOnClickListener {
             createDialogSchoolingLevel()
         }
+
+        binding.etRacial.setOnClickListener {
+            openDialogToSelectRace()
+        }
+
     }
 
     private fun createDialogSchoolingLevel (){
-        val context = requireContext()
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(requireContext())
 
-
-        builder.setTitle(context.resources.getString(R.string.add_user_schooling))
-
-        builder.setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
-            selectedSchooling = indexEducationalLevel
-        }
-
-        builder.setPositiveButton(R.string.ok) { _, _ ->
-            binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
+        builder.apply {
+            setTitle(getString(R.string.add_user_schooling))
+            setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
+                selectedSchooling = indexEducationalLevel
+            }
+            setPositiveButton(R.string.ok) { _, _ ->
+                binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
+            }
         }
 
         val dialog = builder.create()
