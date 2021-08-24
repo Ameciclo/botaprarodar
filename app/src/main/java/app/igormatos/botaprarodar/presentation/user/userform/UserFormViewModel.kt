@@ -155,6 +155,10 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
+    fun setSchooling(schoolingLevel: String) {
+        userSchooling.value = schoolingLevel
+    }
+
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
