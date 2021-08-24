@@ -20,8 +20,10 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -212,12 +214,22 @@
                         app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
                         app:textCaptured="@{viewModel.userRacial}">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietRacial"
+                    <EditText
+                            android:id="@+id/etRacial"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="@={viewModel.userRacial}" />
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@{viewModel.userRacial}"
+                            app:drawableEndCompat="@drawable/ic_arrow_down"
+                            android:inputType="textNoSuggestions"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ilRacial" />
+
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -241,12 +253,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:cursorVisible="false"
-                            android:drawableRight="@android:drawable/arrow_down_float"
+                            android:drawableRight="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
-                            android:inputType="textPersonName"
+                            android:inputType="textNoSuggestions"
                             android:clickable="false"
-                            android:text="@={viewModel.userSchooling}" />
+                            android:text="@{viewModel.userSchooling}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

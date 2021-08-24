@@ -176,6 +176,24 @@ class UserFormViewModelTest {
         doRegisterButtonAssertions(true)
     }
 
+    @Test
+    fun `when call setUserRace() then user racial value should be updated`() {
+        val racialSelected = "Amarela"
+
+        assertTrue(formViewModel.userRacial.value?.isEmpty() == true)
+
+        formViewModel.setUserRace(racialSelected)
+
+        assertEquals(racialSelected, formViewModel.userRacial.value)
+    }
+
+    @Test
+    fun `when 'setSchooling' should update user schooling value with different value`() {
+        val expectedSchoolingr = "Ensino médio completo"
+        formViewModel.setSchooling(expectedSchoolingr)
+        assertNotEquals(expectedSchoolingr, formViewModel.userSchooling.value)
+    }
+
     private fun createTestValidUser(): User {
         val testValidUser = validUser.copy()
         testValidUser.docNumber = 11111111111
@@ -222,5 +240,4 @@ class UserFormViewModelTest {
             assertThat(isButtonEnabled, equalTo(enableStateExpected))
         }
     }
-
 }

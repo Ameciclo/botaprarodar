@@ -159,6 +159,10 @@ class UserFormViewModel(
         userSchooling.value = schoolingLevel
     }
 
+    fun setUserRace(raceString: String) {
+        userRacial.value = raceString
+    }
+
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
