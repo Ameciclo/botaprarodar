@@ -57,4 +57,34 @@ class UserFormFragmentRobot : BaseRobot() {
         val options = context.resources.getStringArray(R.array.racial_options)
         checkMessage(options[atPosition])
     }
+
+
+
+    fun clickSchoolingEditText() {
+        clickButton(R.id.etSchooling)
+    }
+
+    fun verifySchoolingDialogIsShowing() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling))
+    }
+
+    fun verifySchoolingOptionIsShowing() {
+        val options = context.resources.getStringArray(R.array.schooling_level)
+        for (option in options) {
+            checkMessage(option)
+        }
+    }
+
+    fun clickOptionOnSchoolingDialog(atPosition: Int){
+        clickAtPositionInList(atPosition)
+    }
+
+    fun clickSchoolingPositiveButton() {
+        clickButtonByText(context.resources.getString(R.string.ok))
+    }
+
+    fun verifySchoolingEditTextIsEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.schooling_level)
+        checkMessage(options[atPosition])
+    }
 }

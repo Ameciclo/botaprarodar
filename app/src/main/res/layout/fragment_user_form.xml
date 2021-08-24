@@ -249,7 +249,7 @@
                         app:textCaptured="@{viewModel.userSchooling}">
 
                     <EditText
-                            android:id="@+id/ietSchooling"
+                            android:id="@+id/etSchooling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:cursorVisible="false"
