@@ -26,6 +26,7 @@ class SharedPreferencesModule(appContext: Context) {
     private val COMMUNITY_ID = "COMMUNITY_ID"
     private val COMMUNITY_ORG_NAME = "COMMUNITY_ORG_NAME"
     private val USER_TOKEN = "USER_TOKEN"
+    private val USER_TOKEN_RENOVATION = "USER_TOKEN_RENOVATION"
 
     fun saveJoinedCommmunity(community: Community) {
         val editor = sharedPrefs.edit()
@@ -62,6 +63,16 @@ class SharedPreferencesModule(appContext: Context) {
     fun saveAuthToken(token: String?) {
         val editor = encryptedSharedPrefs.edit()
         editor.putString(USER_TOKEN, token)
+        editor.apply()
+    }
+
+    fun getAuthTokenRenovationStatus(): Boolean {
+        return sharedPrefs.getBoolean(USER_TOKEN_RENOVATION, true)
+    }
+
+    fun saveAuthTokenRenovationStatus(shouldRenew: Boolean) {
+        val editor = sharedPrefs.edit()
+        editor.putBoolean(USER_TOKEN_RENOVATION, shouldRenew)
         editor.apply()
     }
 }
