@@ -4,12 +4,16 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
+import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.presentation.login.FirebaseAuthModuleTestImpl
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.*
+import com.brunotmgomes.ui.SimpleResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.spyk
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,16 +26,21 @@ class AccessHomeTest {
     private lateinit var scenario: ActivityScenario<SelectCommunityActivity>
     private lateinit var testModule: Module
     private lateinit var selectCommunityUseCase: SelectCommunityUseCase
+    private lateinit var bikeActionUseCase: BikeActionUseCase
 
     @Before
     fun setup() {
-
         selectCommunityUseCase = mockk(relaxed = true)
+        bikeActionUseCase = spyk(BikeActionUseCase(mockk(relaxed = true)))
 
         testModule = module(override = true) {
 
             factory {
                 selectCommunityUseCase
+            }
+
+            single {
+                bikeActionUseCase
             }
 
             single<FirebaseAuthModule> {
@@ -62,5 +71,8 @@ class AccessHomeTest {
             selectCommunityUseCase.loadCommunitiesByAdmin(any(), any())
         } returns SelectCommunityState.Success(UserInfoState.Admin(communities))
 
+        coEvery {
+            bikeActionUseCase.getBikes(any())
+        } returns SimpleResult.Success(mutableListOf(BikeRequest()))
     }
 }

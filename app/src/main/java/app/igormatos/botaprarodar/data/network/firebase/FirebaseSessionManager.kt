@@ -14,15 +14,22 @@ class FirebaseSessionManager(
     private val firebaseAuth: FirebaseAuth
 ) {
 
+
     fun fetchAuthToken(): String? {
-        val currentToken = fetchAuthTokenFromSession()
+        return fetchAuthTokenFromSession() ?: return fetchAuthTokenFromApi()
+    }
 
-        if (currentToken == null) {
-            runBlocking { updateSessionAuthToken() }
-            return fetchAuthTokenFromSession()
-        }
+    fun fetchAuthTokenFromApi(): String? {
+        runBlocking { updateSessionAuthToken() }
+        return fetchAuthTokenFromSession()
+    }
 
-        return currentToken
+    fun shouldRenewToken(): Boolean {
+        return sharedPreferencesModule.getAuthTokenRenovationStatus()
+    }
+
+    fun saveRenewStatusToken(shouldRenew : Boolean) {
+        sharedPreferencesModule.saveAuthTokenRenovationStatus(shouldRenew)
     }
 
     private fun fetchAuthTokenFromSession(): String? {
@@ -35,7 +42,6 @@ class FirebaseSessionManager(
         if (currentUser != null) {
             val authToken = getAuthToken(currentUser)
             saveAuthToken(authToken)
-            addAuthTokenListener()
         } else {
             throw UserAdminErrorException.AdminAccountNotFound
         }
@@ -43,6 +49,7 @@ class FirebaseSessionManager(
 
     private suspend fun getAuthToken(currentUser: FirebaseUser): String? {
         val result = getIdTokenForUser(currentUser)
+
         return result.token
     }
 
@@ -54,33 +61,4 @@ class FirebaseSessionManager(
     private fun saveAuthToken(token: String?) {
         sharedPreferencesModule.saveAuthToken(token)
     }
-
-    private val authTokenListener = FirebaseAuth.IdTokenListener {
-        val currentUser = firebaseAuth.currentUser
-        if (currentUser != null) {
-            saveRefreshAuthTokenInBackground(currentUser)
-        } else {
-            removeAuthTokenListener()
-        }
-    }
-
-    private fun saveRefreshAuthTokenInBackground(currentUser: FirebaseUser) {
-        currentUser.getIdToken(true).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val newAuthToken = task.result?.token
-                saveAuthToken(newAuthToken)
-            } else {
-                saveAuthToken(null)
-            }
-        }
-    }
-
-    private fun addAuthTokenListener() {
-        firebaseAuth.addIdTokenListener(authTokenListener)
-    }
-
-    private fun removeAuthTokenListener() {
-        firebaseAuth.removeIdTokenListener(authTokenListener)
-    }
-
 }
