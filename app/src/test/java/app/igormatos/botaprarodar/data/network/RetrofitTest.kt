@@ -16,20 +16,38 @@ class RetrofitTest {
     private val authInterceptor = AuthTokenInterceptor(firebaseSessionManager)
 
     @Test
-    fun `auth interceptor should fetch auth token`() {
-        mockResponse()
-        val request = mockRequest()
-        val url = mockRequestUrls(request)
-        mockBuilders(url)
-        mockToken()
+    fun `auth interceptor should fetch auth token when request`() {
+        val httpSuccessStatusCode = 200
+        mockAuthInterceptor(httpSuccessStatusCode)
 
         authInterceptor.intercept(chain)
 
         verify { firebaseSessionManager.fetchAuthToken() }
     }
 
+    @Test
+    fun `auth interceptor should fetch auth token from api when http code is unauthorized`() {
+        val httpUnauthorizedStatusCode = 401
+        mockAuthInterceptor(httpUnauthorizedStatusCode)
+
+        authInterceptor.intercept(chain)
+
+        verify { firebaseSessionManager.fetchAuthTokenFromApi() }
+    }
+
+    private fun mockAuthInterceptor(httpStatusCode: Int) {
+        mockResponse(httpStatusCode)
+        val request = mockRequest()
+        val url = mockRequestUrls(request)
+        mockBuilders(url)
+        mockToken()
+    }
+
     private fun mockToken() {
         every { firebaseSessionManager.fetchAuthToken() } returns "test"
+        every { firebaseSessionManager.fetchAuthTokenFromApi() } returns "test"
+        every { firebaseSessionManager.saveRenewStatusToken(any()) } returns Unit
+        every { firebaseSessionManager.shouldRenewToken() } returns true
     }
 
     private fun mockBuilders(url: HttpUrl) {
@@ -55,8 +73,10 @@ class RetrofitTest {
         return request
     }
 
-    private fun mockResponse() {
+    private fun mockResponse(httpStatusCode : Int) {
         val response: Response = mockk()
         every { chain.proceed(any()) } returns response
+        every { response.code() } returns httpStatusCode
+        every { response.close() } returns Unit
     }
 }
