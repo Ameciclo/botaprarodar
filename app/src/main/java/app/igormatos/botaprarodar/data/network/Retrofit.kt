@@ -40,12 +40,12 @@ private fun configureLoggingInterceptor(httpClientBuilder: OkHttpClient.Builder)
 class AuthTokenInterceptor(private val firebaseSessionManager: FirebaseSessionManager) :
     Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val invalidTokenError = 401
+        val httpUnauthorizedStatusCode = 401
         val currentToken = firebaseSessionManager.fetchAuthToken()
         val originalRequest = chain.request()
         var response = proceedWithAuthRequest(originalRequest, currentToken, chain)
 
-        if (response.code() == invalidTokenError) {
+        if (response.code() == httpUnauthorizedStatusCode) {
             if (firebaseSessionManager.shouldRenewToken()) {
                 val newToken = firebaseSessionManager.fetchAuthTokenFromApi()
                 // We try one more time with a new token. If it does not work, logout
