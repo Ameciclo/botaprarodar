@@ -155,6 +155,10 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
+    fun setUserRace(raceString: String) {
+        userRacial.value = raceString
+    }
+
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()

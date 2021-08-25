@@ -125,6 +125,7 @@
     <string name="add_user_income">Renda mensal</string>
     <string name="add_user_invalid_income">Renda inválida</string>
     <string name="add_user_racial">Com qual raça a pessoa se identifica?</string>
+    <string name="hint_user_racial">Selecione</string>
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
@@ -154,6 +155,14 @@
     <string name="return_bike">DEVOLVER BICICLETA</string>
     <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta e geração de relatórios de mobilidade.</string>
     <string name="lgpd_confirm">De acordo</string>
+    <string-array name="racial_options">
+        <item>Amarela</item>
+        <item>Branca</item>
+        <item>Indígena</item>
+        <item>Parda</item>
+        <item>Preta</item>
+        <item>Outra/Não deseja informar</item>
+    </string-array>
 
     <!-- Return bike quiz -->
     <string name="which_district_hint">Qual o bairro de destino?</string>
