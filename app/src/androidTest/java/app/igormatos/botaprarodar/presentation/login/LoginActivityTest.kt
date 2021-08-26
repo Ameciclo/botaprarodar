@@ -6,9 +6,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.LoginRequest
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
+import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.loginRequestValid
 import app.igormatos.botaprarodar.loginRequestWithInvalidEmail
 import app.igormatos.botaprarodar.loginRequestWithInvalidPassword
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityState
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityUseCase
+import app.igormatos.botaprarodar.presentation.login.selectCommunity.UserInfoState
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -24,15 +28,21 @@ internal class LoginActivityTest {
 
     private lateinit var scenario: ActivityScenario<LoginActivity>
     private lateinit var testModule: Module
-    private lateinit var useCase: LoginUseCase
+    private lateinit var loginUseCase: LoginUseCase
+    private lateinit var selectCommunityUseCase: SelectCommunityUseCase
 
     @Before
     fun setup() {
-        useCase = mockk(relaxed = true)
+        loginUseCase = mockk(relaxed = true)
+        selectCommunityUseCase = mockk(relaxed = true)
 
         testModule = module {
+            factory(override = true) {
+                selectCommunityUseCase
+            }
+
             single(override = true) {
-                useCase
+                loginUseCase
             }
             single<FirebaseAuthModule>(override = true) {
                 FirebaseAuthModuleTestImpl(mockk(relaxed = true))
@@ -45,7 +55,7 @@ internal class LoginActivityTest {
     @Test
     fun shouldButtonSignInDisable_whenEmailIsNotValid() {
         val loginRequest: LoginRequest = loginRequestWithInvalidEmail
-        defineUseCaseBehavior(loginRequest, false)
+        defineLoginUseCaseBehavior(loginRequest, false)
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -58,7 +68,7 @@ internal class LoginActivityTest {
     @Test
     fun shouldButtonSignInDisable_whenPasswordIsNotValid() {
         val loginRequest: LoginRequest = loginRequestWithInvalidPassword
-        defineUseCaseBehavior(loginRequest, false)
+        defineLoginUseCaseBehavior(loginRequest, false)
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -71,7 +81,7 @@ internal class LoginActivityTest {
     @Test
     fun shouldButtonSignInEnable_whenEmailAndPasswordAreValid() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true)
+        defineLoginUseCaseBehavior(loginRequest, true)
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -84,7 +94,11 @@ internal class LoginActivityTest {
     @Test
     fun shouldShowEmailNotFoundError_whenUnregisteredEmailIsInformedToLogin() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.INVALID_ACCOUNT))
+        defineLoginUseCaseBehavior(
+            loginRequest,
+            true,
+            LoginState.Error(BprErrorType.INVALID_ACCOUNT)
+        )
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -98,7 +112,11 @@ internal class LoginActivityTest {
     @Test
     fun shouldShowPasswordError_whenRegisteredEmailAndWrongPasswordAreInformedToLogin() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.INVALID_PASSWORD))
+        defineLoginUseCaseBehavior(
+            loginRequest,
+            true,
+            LoginState.Error(BprErrorType.INVALID_PASSWORD)
+        )
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -112,7 +130,7 @@ internal class LoginActivityTest {
     @Test
     fun shouldShowNetworkError_whenThereIsNoConnectionToLogin() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.NETWORK))
+        defineLoginUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.NETWORK))
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -126,7 +144,7 @@ internal class LoginActivityTest {
     @Test
     fun shouldShowUnknownError_whenUnmappedExceptionOccursOnLogin() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.UNKNOWN))
+        defineLoginUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.UNKNOWN))
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -140,7 +158,11 @@ internal class LoginActivityTest {
     @Test
     fun shouldShowEmailNotVerifiedError_whenUnverifiedEmailIsInformedToLogin() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Error(BprErrorType.EMAIL_NOT_VERIFIED))
+        defineLoginUseCaseBehavior(
+            loginRequest,
+            true,
+            LoginState.Error(BprErrorType.EMAIL_NOT_VERIFIED)
+        )
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -154,7 +176,8 @@ internal class LoginActivityTest {
     @Test
     fun shouldOpenSelectCommunityActivity_whenLoginIsSuccess() {
         val loginRequest: LoginRequest = loginRequestValid
-        defineUseCaseBehavior(loginRequest, true, LoginState.Success(mockk(relaxed = true)))
+        defineLoginUseCaseBehavior(loginRequest, true, LoginState.Success(mockk(relaxed = true)))
+        defineSelectCommunityUseCaseBehavior()
 
         loginActivity {
             fillEmailField(loginRequest.email)
@@ -165,20 +188,27 @@ internal class LoginActivityTest {
         }
     }
 
-    private fun defineUseCaseBehavior(
+    private fun defineSelectCommunityUseCaseBehavior() {
+        val communities: MutableList<Community> = mutableListOf(Community(name = "Test Community"))
+        coEvery {
+            selectCommunityUseCase.loadCommunitiesByAdmin(any(), any())
+        } returns SelectCommunityState.Success(UserInfoState.Admin(communities))
+    }
+
+    private fun defineLoginUseCaseBehavior(
         loginRequest: LoginRequest,
         isLoginFormValid: Boolean,
         loginState: LoginState = LoginState.Error(BprErrorType.UNKNOWN)
     ) {
         every {
-            useCase.isLoginFormValid(
+            loginUseCase.isLoginFormValid(
                 loginRequest.email,
                 loginRequest.password
             )
         } returns isLoginFormValid
 
         coEvery {
-            useCase.authenticateAdmin(
+            loginUseCase.authenticateAdmin(
                 loginRequest.email,
                 loginRequest.password
             )
