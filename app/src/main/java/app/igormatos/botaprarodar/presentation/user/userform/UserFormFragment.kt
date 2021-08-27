@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -211,6 +212,9 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
+
+        binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
+
         binding.profileImageView.setOnClickListener {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,

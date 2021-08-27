@@ -8,6 +8,8 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
+import com.brunotmgomes.ui.extensions.isNotNullOrNotEmpty
+import com.brunotmgomes.ui.extensions.isValidTelephone
 
 class UserFormViewModel(
     private val community: Community,
@@ -58,7 +60,7 @@ class UserFormViewModel(
         with(docNumberErrorValidationMap.value) {
             this?.set(
                 DOC_NUMBER_INVALID_ERROR,
-                !isTextValid(userDocument.value)
+                userDocument.value.isNullOrEmpty()
             )
 
             this?.set(
@@ -93,20 +95,20 @@ class UserFormViewModel(
 
 
     private fun validateUserForm() {
-        isButtonEnabled.value = isTextValid(userCompleteName.value) &&
-                isTextValid(userAddress.value) &&
+        isButtonEnabled.value = userCompleteName.value.isNotNullOrNotEmpty() &&
+                userAddress.value.isNotNullOrNotEmpty() &&
                 isDocNumberValid() &&
-                isTextValid(userImageProfile.value) &&
-                isTextValid(userImageDocumentFront.value) &&
-                isTextValid(userImageDocumentBack.value) &&
-                isTextValid(userRacial.value) &&
-                isTextValid(userSchooling.value) &&
-                isTextValid(userIncome.value) &&
-                isTextValid(userAge.value) &&
+                userImageProfile.value.isNotNullOrNotEmpty() &&
+                userImageDocumentFront.value.isNotNullOrNotEmpty() &&
+                userImageDocumentBack.value.isNotNullOrNotEmpty() &&
+                userRacial.value.isNotNullOrNotEmpty() &&
+                userSchooling.value.isNotNullOrNotEmpty() &&
+                userIncome.value.isNotNullOrNotEmpty() &&
+                userAge.value.isNotNullOrNotEmpty() &&
+                (userTelephone.value.isNullOrBlank() || userTelephone.value.isValidTelephone()) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }
 
-    private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     private fun isDocNumberValid(): Boolean {
         val existsDocNumberError = docNumberErrorValidationMap.value?.containsValue(true)

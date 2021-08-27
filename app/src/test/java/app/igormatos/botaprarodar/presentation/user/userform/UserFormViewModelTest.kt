@@ -187,6 +187,7 @@ class UserFormViewModelTest {
         assertEquals(racialSelected, formViewModel.userRacial.value)
     }
 
+
     private fun createTestValidUser(): User {
         val testValidUser = validUser.copy()
         testValidUser.docNumber = 11111111111
