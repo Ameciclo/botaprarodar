@@ -46,6 +46,7 @@ class UserFormViewModel(
         addSource(userSchooling) { validateUserForm() }
         addSource(userIncome) { validateUserForm() }
         addSource(userAge) { validateUserForm() }
+        addSource(userTelephone) { validateUserForm() }
     }
 
     val docNumberErrorValidationMap = MediatorLiveData<MutableMap<Int, Boolean>>().apply {
@@ -105,7 +106,7 @@ class UserFormViewModel(
                 userSchooling.value.isNotNullOrNotEmpty() &&
                 userIncome.value.isNotNullOrNotEmpty() &&
                 userAge.value.isNotNullOrNotEmpty() &&
-                (userTelephone.value.isNullOrBlank() || userTelephone.value.isValidTelephone()) &&
+                (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }
 

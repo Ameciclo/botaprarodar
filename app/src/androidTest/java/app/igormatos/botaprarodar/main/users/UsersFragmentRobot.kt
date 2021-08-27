@@ -17,8 +17,8 @@ class UsersFragmentRobot : BaseRobot() {
         checkViewIsDisplayed(R.id.tv_title_users)
     }
 
-    fun checkButtonIsVisible() {
-        checkViewIsDisplayed(R.id.btn_register_users)
+    fun checkSaveButtonIsEnable() {
+        checkViewIsEnable(R.id.saveButton)
     }
 
     fun checkRecyclerIsVisible() {
