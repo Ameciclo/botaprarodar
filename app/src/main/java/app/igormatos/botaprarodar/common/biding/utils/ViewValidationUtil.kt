@@ -24,7 +24,6 @@ fun validateField(
     clearError(view)
 }
 
-
 private fun displayError(
     view: TextInputLayout,
     errorMessageId: Int
