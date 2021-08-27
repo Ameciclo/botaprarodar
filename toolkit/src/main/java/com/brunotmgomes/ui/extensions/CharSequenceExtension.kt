@@ -14,3 +14,7 @@ fun String?.transformNullToEmpty(): String {
 }
 
 fun String.getDateFromDateTime() = this.substring(0, 10)
+
+fun String?.isNotNullOrNotEmpty() = !this.isNullOrBlank()
+
+fun String?.isValidTelephone() = !this.isNullOrBlank() && (Patterns.PHONE.matcher(this).matches() || this.length == 13 || this.length == 12)

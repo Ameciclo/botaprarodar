@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar
 
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.User
 
 object Fixtures {
 
@@ -13,6 +14,26 @@ object Fixtures {
         serialNumber = "serial mock"
         photoPath = "photo mock"
         isAvailable = true
+    }
+
+    val user = User().apply {
+        id = "testId"
+        name = "Capitão América"
+        docNumber = 1234567890
+        docPictureBack = "https://docback.jpeg"
+        docPicture = "https://doc.jpeg"
+        address = "Polo Norte - 433La 092Lg"
+        createdDate = "01/01/2021"
+        gender = 0
+        docType = 1
+        isAvailable = true
+        profilePicture = "https://profile.jpeg"
+        profilePictureThumbnail = "https://thumb.jpeg"
+        residenceProofPicture = "https://residence.jpeg"
+        racial = "Branca"
+        schooling = "Ensino superior completo"
+        income = "0"
+        age = "22"
     }
 
 }
