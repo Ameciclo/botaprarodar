@@ -188,10 +188,10 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when 'setSchooling' should update user schooling value with different value`() {
+    fun `when 'setSchooling' should update user schooling value with equal value`() {
         val expectedSchoolingr = "Ensino médio completo"
         formViewModel.setSchooling(expectedSchoolingr)
-        assertNotEquals(expectedSchoolingr, formViewModel.userSchooling.value)
+        assertEquals(expectedSchoolingr, formViewModel.userSchooling.value)
     }
 
     private fun createTestValidUser(): User {
