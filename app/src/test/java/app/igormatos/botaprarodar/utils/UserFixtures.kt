@@ -78,7 +78,6 @@ val racialOptions = listOf<String>(
     "Outra/Não deseja informar"
 )
 
-
 val incomeOptions = listOf<String>(
     "Até 150 reais",
     "Entre 150 e 350",
