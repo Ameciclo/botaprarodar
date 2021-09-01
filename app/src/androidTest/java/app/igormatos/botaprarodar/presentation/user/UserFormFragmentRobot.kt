@@ -39,6 +39,29 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.ietIncome)
     }
 
+    fun clickSchoolingEditText() {
+        clickButton(R.id.etSchooling)
+    }
+
+    fun verifySchoolingDialogIsShowing() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling))
+    }
+
+    fun clickOptionOnSchoolingDialog(atPosition: Int){
+        clickAtPositionInList(atPosition)
+    }
+
+    fun clickSchoolingPositiveButton() {
+        clickButtonByText(context.resources.getString(R.string.ok))
+    }
+
+    fun verifySchoolingOptionIsShowing() {
+        val options = context.resources.getStringArray(R.array.schooling_level)
+        for (option in options) {
+            checkMessage(option)
+        }
+    }
+
     fun verifyRacialDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_racial))
     }
@@ -66,6 +89,11 @@ class UserFormFragmentRobot : BaseRobot() {
         pressBack()
     }
 
+    fun verifySchoolingEditTextIsEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.schooling_level)
+        checkMessage(options[atPosition])
+    }
+
     fun verifyIncomeEditTextIsEqualSelected(atPosition:Int){
         val options = context.resources.getStringArray(R.array.income_options)
         checkMessage(options[atPosition])
@@ -76,32 +104,9 @@ class UserFormFragmentRobot : BaseRobot() {
         checkMessage(options[atPosition])
     }
 
-    fun clickSchoolingEditText() {
-        clickButton(R.id.etSchooling)
-    }
-
-    fun verifySchoolingDialogIsShowing() {
-        checkMessage(context.resources.getString(R.string.add_user_schooling))
-    }
-
-    fun verifySchoolingOptionIsShowing() {
+    fun verifySchoolingEditTextNotEqualSelected(atPosition:Int) {
         val options = context.resources.getStringArray(R.array.schooling_level)
-        for (option in options) {
-            checkMessage(option)
-        }
-    }
-
-    fun clickOptionOnSchoolingDialog(atPosition: Int){
-        clickAtPositionInList(atPosition)
-    }
-
-    fun clickSchoolingPositiveButton() {
-        clickButtonByText(context.resources.getString(R.string.ok))
-    }
-
-    fun verifySchoolingEditTextIsEqualSelected(atPosition:Int) {
-        val options = context.resources.getStringArray(R.array.schooling_level)
-        checkMessage(options[atPosition])
+        checkMessageIsNotDisplayed(options[atPosition])
     }
 
     fun verifyIncomeEditTextIsNotEqualSelected(atPosition:Int){
