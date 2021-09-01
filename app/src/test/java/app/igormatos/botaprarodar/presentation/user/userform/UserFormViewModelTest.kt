@@ -9,6 +9,7 @@ import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import app.igormatos.botaprarodar.utils.incomeOptions
 import app.igormatos.botaprarodar.utils.racialOptions
+import app.igormatos.botaprarodar.utils.schoolingOptions
 import app.igormatos.botaprarodar.utils.validUser
 import io.mockk.every
 import io.mockk.mockk
@@ -37,7 +38,9 @@ class UserFormViewModelTest {
             stepper,
             arrayListOf(validUser),
             racialOptions,
-            incomeOptions
+            incomeOptions,
+            schoolingOptions
+
         )
     }
 
@@ -185,6 +188,14 @@ class UserFormViewModelTest {
     }
 
     @Test
+    fun `when call setSelectSchoolingIndex() then user racial value should be updated`() {
+        val index = 2
+
+        formViewModel.setSelectSchoolingIndex(index)
+        assertEquals(index, formViewModel.selectedRacialIndex)
+    }
+
+    @Test
     fun `when call setSelectRacialIndex() then user racial value should be updated`() {
         val index = 2
 
@@ -198,6 +209,15 @@ class UserFormViewModelTest {
 
         formViewModel.setSelectIncomeIndex(index)
         assertEquals(index, formViewModel.selectedIncomeIndex)
+    }
+
+    @Test
+    fun `when call confirmUserSchooling() then user racial value should be updated`() {
+        val index = 2
+
+        formViewModel.setSelectSchoolingIndex(index)
+        formViewModel.confirmUserSchooling()
+        assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
     }
 
     @Test
@@ -221,9 +241,10 @@ class UserFormViewModelTest {
 
     @Test
     fun `when 'setSchooling' should update user schooling value with equal value`() {
-        val expectedSchoolingr = "Ensino médio completo"
-        formViewModel.setSchooling(expectedSchoolingr)
-        assertEquals(expectedSchoolingr, formViewModel.userSchooling.value)
+        val index = 1
+        formViewModel.setSelectSchoolingIndex(index)
+        formViewModel.confirmUserSchooling()
+        assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
     }
 
     private fun createTestValidUser(): User {
