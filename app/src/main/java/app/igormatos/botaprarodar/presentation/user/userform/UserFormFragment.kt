@@ -57,7 +57,8 @@ class UserFormFragment : Fragment() {
         val communityUsers = getCommunityUsers()
         val racialOptions = resources.getStringArray(R.array.racial_options).toList()
         val incomeOptions = resources.getStringArray(R.array.income_options).toList()
-        setupViewModel(communityUsers,racialOptions, incomeOptions)
+        val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
+        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -72,19 +73,15 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(communityUsers, racialOptions, incomeOptions)
+            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions)
         }
         return userFormViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireContext().resources.apply {
-            schoolingValues = getStringArray(R.array.schooling_level)
-        }
-
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -170,20 +167,16 @@ class UserFormFragment : Fragment() {
     }
 
     private fun createDialogSchooling (){
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.apply {
+        AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_schooling))
-            setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
-                selectedSchooling = indexEducationalLevel
+            setSingleChoiceItems(binding.viewModel?.schoolingList?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectSchoolingIndex(which)
             }
-            setPositiveButton(R.string.ok) { _, _ ->
-                binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserSchooling()
             }
+            create().show()
         }
-
-        val dialog = builder.create()
-        dialog.show()
     }
 
     private fun openDialogToSelectIncome() {
