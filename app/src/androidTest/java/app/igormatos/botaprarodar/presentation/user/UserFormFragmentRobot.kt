@@ -56,7 +56,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun verifySchoolingOptionIsShowing() {
-        val options = context.resources.getStringArray(R.array.schooling_level)
+        val options = context.resources.getStringArray(R.array.schooling_options)
         for (option in options) {
             checkMessage(option)
         }
@@ -90,7 +90,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun verifySchoolingEditTextIsEqualSelected(atPosition:Int){
-        val options = context.resources.getStringArray(R.array.schooling_level)
+        val options = context.resources.getStringArray(R.array.schooling_options)
         checkMessage(options[atPosition])
     }
 
@@ -105,7 +105,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun verifySchoolingEditTextNotEqualSelected(atPosition:Int) {
-        val options = context.resources.getStringArray(R.array.schooling_level)
+        val options = context.resources.getStringArray(R.array.schooling_options)
         checkMessageIsNotDisplayed(options[atPosition])
     }
 
