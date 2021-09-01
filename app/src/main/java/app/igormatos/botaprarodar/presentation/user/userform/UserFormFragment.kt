@@ -166,7 +166,7 @@ class UserFormFragment : Fragment() {
     private fun openDialogToSelectIncome() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_income))
-            setSingleChoiceItems(binding.viewModel?.incomeList?.toTypedArray(), binding.viewModel!!.getSelectedIncomeListIndex()) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.incomeList?.toTypedArray(), binding.viewModel?.getSelectedIncomeListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectIncomeIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -180,7 +180,7 @@ class UserFormFragment : Fragment() {
         AlertDialog.Builder(requireContext()).apply {
 
             setTitle(getString(R.string.add_user_racial))
-            setSingleChoiceItems(binding.viewModel?.racialList?.toTypedArray(), binding.viewModel!!.getSelectedRacialListIndex()) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.racialList?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectRacialIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->

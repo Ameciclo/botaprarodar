@@ -70,14 +70,14 @@ class UserFormFragmentTest {
 
     @Test
     fun shouldShowSelectedOption_whenRacialOptionIsSelected() {
-        val racialSelectedPosition = 2
+        val racialSelectedIndex = 2
         userFormFragment {
             clickRacialEditText()
             sleep(1000)
-            clickOptionOnUserFormFragmentDialog(racialSelectedPosition)
+            clickOptionOnUserFormFragmentDialog(racialSelectedIndex)
             clickPositiveButton()
         } verify {
-            verifyRacialEditTextIsEqualSelected(racialSelectedPosition)
+            verifyRacialEditTextIsEqualSelected(racialSelectedIndex)
         }
     }
 
@@ -92,41 +92,41 @@ class UserFormFragmentTest {
 
     @Test
     fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
-        val incomeSelectedPosition = 2
+        val incomeSelectedIndex = 2
         userFormFragment {
             clickIncomeEditText()
             sleep(1000)
-            clickOptionOnUserFormFragmentDialog(incomeSelectedPosition)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
             clickPositiveButton()
         } verify {
-            verifyIncomeEditTextIsEqualSelected(incomeSelectedPosition)
+            verifyIncomeEditTextIsEqualSelected(incomeSelectedIndex)
         }
     }
 
     @Test
     fun shouldShowSelectedOptionAndCloseDialog_whenRacialOptionIsNotSelected() {
-        val racialSelectedPosition = 2
+        val racialSelectedIndex = 2
         userFormFragment {
             clickRacialEditText()
             sleep(1000)
-            clickOptionOnUserFormFragmentDialog(racialSelectedPosition)
+            clickOptionOnUserFormFragmentDialog(racialSelectedIndex)
             clickBackButton()
         } verify {
-            verifyRacialEditTextIsNotEqualSelected(racialSelectedPosition)
+            verifyRacialEditTextIsNotEqualSelected(racialSelectedIndex)
         }
     }
 
 
     @Test
     fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
-        val incomeSelectedPosition = 2
+        val incomeSelectedIndex = 2
         userFormFragment {
             clickIncomeEditText()
             sleep(1000)
-            clickOptionOnUserFormFragmentDialog(incomeSelectedPosition)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
             clickBackButton()
         } verify {
-            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedPosition)
+            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
         }
     }
 
