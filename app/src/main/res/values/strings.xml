@@ -265,7 +265,7 @@
     <string name="camera_dialog_positive_button_text">Tirar foto!</string>
 
     <!-- Schooling Level -->
-    <string-array name = "schooling_level">
+    <string-array name = "schooling_options">
         <item> Sem instrução ou menos de 1 ano de estudo </item>
         <item> Ensino fundamental incompleto </item>
         <item> Ensino fundamental completo </item>
