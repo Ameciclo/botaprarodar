@@ -192,7 +192,7 @@ class UserFormViewModelTest {
         val index = 2
 
         formViewModel.setSelectSchoolingIndex(index)
-        assertEquals(index, formViewModel.selectedRacialIndex)
+        assertEquals(index, formViewModel.selectedSchoolingIndex)
     }
 
     @Test
