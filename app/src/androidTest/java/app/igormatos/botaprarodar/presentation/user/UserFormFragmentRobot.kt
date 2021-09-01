@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.user
 
+import androidx.test.espresso.Espresso.pressBack
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -43,8 +44,16 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.etRacial)
     }
 
+    fun clickIncomeEditText() {
+        clickButton(R.id.ietIncome)
+    }
+
     fun verifyRacialDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_racial))
+    }
+
+    fun verifyIncomeDialogIsShowing() {
+        checkMessage(context.resources.getString(R.string.add_user_income))
     }
 
     fun verifyRacialOptionIsShowing() {
@@ -54,16 +63,36 @@ class UserFormFragmentRobot : BaseRobot() {
         }
     }
 
-    fun clickOptionOnRacialDialog(atPosition: Int){
+    fun clickOptionOnUserFormFragmentDialog(atPosition: Int){
         clickAtPositionInList(atPosition)
     }
 
-    fun clickRacialPositiveButton() {
+    fun clickPositiveButton() {
         clickButtonByText(context.resources.getString(R.string.ok))
+    }
+
+    fun clickBackButton() {
+        pressBack()
+    }
+
+    fun verifyIncomeEditTextIsEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.income_options)
+        checkMessage(options[atPosition])
     }
 
     fun verifyRacialEditTextIsEqualSelected(atPosition:Int){
         val options = context.resources.getStringArray(R.array.racial_options)
         checkMessage(options[atPosition])
+    }
+
+
+    fun verifyIncomeEditTextIsNotEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.income_options)
+        checkMessageIsNotDisplayed(options[atPosition])
+    }
+
+    fun verifyRacialEditTextIsNotEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.racial_options)
+        checkMessageIsNotDisplayed(options[atPosition])
     }
 }

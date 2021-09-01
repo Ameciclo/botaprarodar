@@ -80,17 +80,66 @@ class UserFormFragmentTest {
 
     @Test
     fun shouldShowSelectedOption_whenRacialOptionIsSelected() {
-        val racialSelectedPosition = 2
+        val racialSelectedIndex = 2
         userFormFragment {
             clickRacialEditText()
             sleep(1000)
-            clickOptionOnRacialDialog(racialSelectedPosition)
-            clickRacialPositiveButton()
-
+            clickOptionOnUserFormFragmentDialog(racialSelectedIndex)
+            clickPositiveButton()
         } verify {
-            verifyRacialEditTextIsEqualSelected(racialSelectedPosition)
+            verifyRacialEditTextIsEqualSelected(racialSelectedIndex)
         }
     }
+
+    @Test
+    fun shouldOpenIncomeDialog_whenClickToSelectIncome() {
+        userFormFragment {
+            clickIncomeEditText()
+        } verify {
+            verifyIncomeDialogIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
+        val incomeSelectedIndex = 2
+        userFormFragment {
+            clickIncomeEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
+            clickPositiveButton()
+        } verify {
+            verifyIncomeEditTextIsEqualSelected(incomeSelectedIndex)
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOptionAndCloseDialog_whenRacialOptionIsNotSelected() {
+        val racialSelectedIndex = 2
+        userFormFragment {
+            clickRacialEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(racialSelectedIndex)
+            clickBackButton()
+        } verify {
+            verifyRacialEditTextIsNotEqualSelected(racialSelectedIndex)
+        }
+    }
+
+
+    @Test
+    fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
+        val incomeSelectedIndex = 2
+        userFormFragment {
+            clickIncomeEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
+            clickBackButton()
+        } verify {
+            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
+        }
+    }
+
 
     @After
     fun tearDown() {
