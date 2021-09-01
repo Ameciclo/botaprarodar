@@ -7,6 +7,8 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
+import app.igormatos.botaprarodar.utils.incomeOptions
+import app.igormatos.botaprarodar.utils.racialOptions
 import app.igormatos.botaprarodar.utils.validUser
 import io.mockk.every
 import io.mockk.mockk
@@ -30,7 +32,13 @@ class UserFormViewModelTest {
 
     @Before
     fun setup() {
-        formViewModel = UserFormViewModel(community, stepper, arrayListOf(validUser))
+        formViewModel = UserFormViewModel(
+            community,
+            stepper,
+            arrayListOf(validUser),
+            racialOptions,
+            incomeOptions
+        )
     }
 
     @Test
@@ -177,14 +185,38 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setUserRace() then user racial value should be updated`() {
-        val racialSelected = "Amarela"
+    fun `when call setSelectRacialIndex() then user racial value should be updated`() {
+        val index = 2
 
-        assertTrue(formViewModel.userRacial.value?.isEmpty() == true)
+        formViewModel.setSelectRacialIndex(index)
+        assertEquals(index, formViewModel.selectedRacialIndex)
+    }
 
-        formViewModel.setUserRace(racialSelected)
+    @Test
+    fun `when call setUserIncome() then user income value should be updated`() {
+        val index = 2
 
-        assertEquals(racialSelected, formViewModel.userRacial.value)
+        formViewModel.setSelectIncomeIndex(index)
+        assertEquals(index, formViewModel.selectedIncomeIndex)
+    }
+
+    @Test
+    fun `when call confirmUserRace() then user racial value should be updated`() {
+        val index = 2
+
+        formViewModel.setSelectRacialIndex(index)
+        formViewModel.confirmUserRace()
+        assertEquals(racialOptions[index], formViewModel.userRacial.value)
+    }
+
+
+    @Test
+    fun `when call confirmUserIncome() then user income value should be updated`() {
+        val index = 2
+
+        formViewModel.setSelectIncomeIndex(index)
+        formViewModel.confirmUserIncome()
+        assertEquals(incomeOptions[index], formViewModel.userIncome.value)
     }
 
     @Test

@@ -164,6 +164,17 @@
         <item>Outra/Não deseja informar</item>
     </string-array>
 
+    <string-array name="income_options">
+        <item>Até 150 reais</item>
+        <item>Entre 150 e 350</item>
+        <item>Entre 350 e 500</item>
+        <item>Entre 500 e 750</item>
+        <item>Entre 750 e 1100</item>
+        <item>Entre 1100 e 2000</item>
+        <item>Mais de 2000</item>
+        <item>Desejo não informar</item>
+    </string-array>
+
     <!-- Return bike quiz -->
     <string name="which_district_hint">Qual o bairro de destino?</string>
     <string name="used_bike_to_move">Você utilizou a bicicleta para se locomover até:</string>

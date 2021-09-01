@@ -13,6 +13,7 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
@@ -73,6 +74,10 @@ abstract class BaseRobot {
 
     fun checkMessage(message: String) {
         onView(withText(message)).check(matches(isDisplayed()))
+    }
+
+    fun checkMessageIsNotDisplayed(message: String) {
+        onView(withText(message)).check(doesNotExist())
     }
 
     fun checkViewIsDisplayed(resId: Int) {
