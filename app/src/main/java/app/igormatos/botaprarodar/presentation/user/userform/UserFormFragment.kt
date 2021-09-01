@@ -169,6 +169,23 @@ class UserFormFragment : Fragment() {
         }
     }
 
+    private fun createDialogSchooling (){
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.apply {
+            setTitle(getString(R.string.add_user_schooling))
+            setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
+                selectedSchooling = indexEducationalLevel
+            }
+            setPositiveButton(R.string.ok) { _, _ ->
+                binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
+            }
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
     private fun openDialogToSelectIncome() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_income))
@@ -269,7 +286,7 @@ class UserFormFragment : Fragment() {
         }
 
         binding.etSchooling.setOnClickListener {
-            createDialogSchoolingLevel()
+            createDialogSchooling()
         }
 
         binding.etRacial.setOnClickListener {
@@ -279,22 +296,5 @@ class UserFormFragment : Fragment() {
         binding.ietIncome.setOnClickListener {
             openDialogToSelectIncome()
         }
-    }
-
-    private fun createDialogSchoolingLevel (){
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.apply {
-            setTitle(getString(R.string.add_user_schooling))
-            setSingleChoiceItems(schoolingValues, selectedSchooling) { _, indexEducationalLevel ->
-                selectedSchooling = indexEducationalLevel
-            }
-            setPositiveButton(R.string.ok) { _, _ ->
-                binding.viewModel?.setSchooling(schoolingValues[selectedSchooling])
-            }
-        }
-
-        val dialog = builder.create()
-        dialog.show()
     }
 }
