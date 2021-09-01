@@ -74,13 +74,62 @@ class UserFormFragmentTest {
         userFormFragment {
             clickRacialEditText()
             sleep(1000)
-            clickOptionOnRacialDialog(racialSelectedPosition)
-            clickRacialPositiveButton()
-
+            clickOptionOnUserFormFragmentDialog(racialSelectedPosition)
+            clickPositiveButton()
         } verify {
             verifyRacialEditTextIsEqualSelected(racialSelectedPosition)
         }
     }
+
+    @Test
+    fun shouldOpenIncomeDialog_whenClickToSelectIncome() {
+        userFormFragment {
+            clickIncomeEditText()
+        } verify {
+            verifyIncomeDialogIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
+        val incomeSelectedPosition = 2
+        userFormFragment {
+            clickIncomeEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedPosition)
+            clickPositiveButton()
+        } verify {
+            verifyIncomeEditTextIsEqualSelected(incomeSelectedPosition)
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOptionAndCloseDialog_whenRacialOptionIsNotSelected() {
+        val racialSelectedPosition = 2
+        userFormFragment {
+            clickRacialEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(racialSelectedPosition)
+            clickBackButton()
+        } verify {
+            verifyRacialEditTextIsNotEqualSelected(racialSelectedPosition)
+        }
+    }
+
+
+    @Test
+    fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
+        val incomeSelectedPosition = 2
+        userFormFragment {
+            clickIncomeEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(incomeSelectedPosition)
+            clickBackButton()
+        } verify {
+            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedPosition)
+        }
+    }
+
 
     @After
     fun tearDown() {
