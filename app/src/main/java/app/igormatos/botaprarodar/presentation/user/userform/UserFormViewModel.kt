@@ -12,7 +12,9 @@ import com.brunotmgomes.ui.ViewEvent
 class UserFormViewModel(
     private val community: Community,
     val stepper: RegisterUserStepper,
-    val communityUsers: ArrayList<User>
+    val communityUsers: ArrayList<User>,
+    val racialList: List<String>,
+    val incomeList: List<String>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
     var isEditableAvailable = false
@@ -31,6 +33,9 @@ class UserFormViewModel(
     var userIncome = MutableLiveData("")
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
+    var selectedIncomeIndex = 0
+    var selectedRacialIndex = 0
+
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -155,8 +160,32 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
-    fun setUserRace(raceString: String) {
-        userRacial.value = raceString
+    fun confirmUserRace() {
+        userRacial.value = racialList[selectedRacialIndex]
+    }
+
+    fun confirmUserIncome() {
+        userIncome.value = incomeList[selectedIncomeIndex]
+    }
+
+    fun getSelectedIncomeListIndex(): Int {
+        selectedIncomeIndex =
+            incomeList.indexOfLast { userIncome.value.equals(it) }.takeIf { it > -1 } ?: 0
+        return selectedIncomeIndex
+    }
+
+    fun getSelectedRacialListIndex(): Int {
+        selectedRacialIndex =
+            racialList.indexOfLast { userRacial.value.equals(it) }.takeIf { it > -1 } ?: 0
+        return selectedRacialIndex
+    }
+
+    fun setSelectRacialIndex(index: Int) {
+        selectedRacialIndex = index
+    }
+
+    fun setSelectIncomeIndex(index: Int) {
+        selectedIncomeIndex = index
     }
 
     fun navigateToNextStep() {

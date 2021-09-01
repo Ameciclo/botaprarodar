@@ -70,6 +70,26 @@ val mockImageUploadResponse = ImageUploadResponse(
 
 val listUsers = mutableListOf(validUser)
 
+val racialOptions = listOf<String>(
+    "Amarela", "Branca",
+    "Indígena",
+    "Parda",
+    "Preta",
+    "Outra/Não deseja informar"
+)
+
+
+val incomeOptions = listOf<String>(
+    "Até 150 reais",
+    "Entre 150 e 350",
+    "Entre 350 e 500",
+    "Entre 500 e 750",
+    "Entre 750 e 1100",
+    "Entre 1100 e 2000",
+    "Mais de 2000",
+    "Desejo não informar"
+)
+
 fun buildListAvailableUsers(howMuch: Int): List<User> {
     val list = mutableListOf<User>()
     for (i in howMuch downTo 1) {

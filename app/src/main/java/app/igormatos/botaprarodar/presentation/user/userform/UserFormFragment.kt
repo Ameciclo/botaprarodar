@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,7 +23,6 @@ import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class UserFormFragment : Fragment() {
@@ -34,8 +32,6 @@ class UserFormFragment : Fragment() {
     private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
-    private var selectedRacial = 0
-    private var racialValues = arrayOf<String>()
 
     private lateinit var binding: FragmentUserFormBinding
 
@@ -56,7 +52,9 @@ class UserFormFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val communityUsers = getCommunityUsers()
-        setupViewModel(communityUsers)
+        val racialOptions = resources.getStringArray(R.array.racial_options).toList()
+        val incomeOptions = resources.getStringArray(R.array.income_options).toList()
+        setupViewModel(communityUsers,racialOptions, incomeOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -71,17 +69,15 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(communityUsers: ArrayList<User>): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(communityUsers)
+            parametersOf(communityUsers, racialOptions, incomeOptions)
         }
         return userFormViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        racialValues = requireContext().resources.getStringArray(R.array.racial_options)
 
         setupListeners()
         setupViewModelStatus()
@@ -167,17 +163,31 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun openDialogToSelectRace() {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
+    private fun openDialogToSelectIncome() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_income))
+            setSingleChoiceItems(binding.viewModel?.incomeList?.toTypedArray(), binding.viewModel!!.getSelectedIncomeListIndex()) { _, which ->
+                binding.viewModel?.setSelectIncomeIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserIncome()
+            }
+            create().show()
+        }
+    }
 
-        dialogBuilder.setTitle(getString(R.string.add_user_racial))
-        dialogBuilder.setSingleChoiceItems(racialValues, selectedRacial) { _, which ->
-            selectedRacial = which
+    private fun openDialogToSelectRace() {
+        AlertDialog.Builder(requireContext()).apply {
+
+            setTitle(getString(R.string.add_user_racial))
+            setSingleChoiceItems(binding.viewModel?.racialList?.toTypedArray(), binding.viewModel!!.getSelectedRacialListIndex()) { _, which ->
+                binding.viewModel?.setSelectRacialIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserRace()
+            }
+            create().show()
         }
-        dialogBuilder.setPositiveButton(getString(R.string.ok)) { _, _ ->
-            binding.viewModel?.setUserRace(racialValues[selectedRacial])
-        }
-        dialogBuilder.create().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -254,6 +264,10 @@ class UserFormFragment : Fragment() {
 
         binding.etRacial.setOnClickListener {
             openDialogToSelectRace()
+        }
+
+        binding.ietIncome.setOnClickListener {
+            openDialogToSelectIncome()
         }
     }
 }
