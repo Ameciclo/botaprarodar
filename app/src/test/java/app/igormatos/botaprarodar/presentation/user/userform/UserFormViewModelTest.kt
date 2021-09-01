@@ -2,7 +2,6 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.User
