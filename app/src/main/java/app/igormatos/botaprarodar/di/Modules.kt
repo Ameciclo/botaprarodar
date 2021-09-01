@@ -316,15 +316,18 @@ val bprModule = module {
         UserFormUseCase(
             userRepository = get(),
             firebaseHelperRepository = get(),
-            userConverter = get()
+            userConverter = get(),
         )
     }
 
-    viewModel { (communityUsers: ArrayList<User>) ->
+    viewModel { (communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>) ->
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
             stepper = get(),
-            communityUsers = communityUsers
+            communityUsers = communityUsers,
+            racialList = racialOptions,
+            incomeList = incomeOptions
+
         )
     }
 
