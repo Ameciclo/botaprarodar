@@ -89,6 +89,19 @@ val incomeOptions = listOf<String>(
     "Desejo não informar"
 )
 
+val schoolingOptions = listOf<String>(
+    "Sem instrução ou menos de 1 ano de estudo",
+    "Ensino fundamental incompleto",
+    "Ensino fundamental completo",
+    "Ensino médio incompleto",
+    "Ensino médio completo",
+    "Ensino técnico incompleto",
+    "Ensino técnico completo",
+    "Ensino superior incompleto",
+    "Ensino superior completo",
+    "Não determinado"
+)
+
 fun buildListAvailableUsers(howMuch: Int): List<User> {
     val list = mutableListOf<User>()
     for (i in howMuch downTo 1) {

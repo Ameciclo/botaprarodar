@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -39,6 +39,9 @@ class UserFormFragment : Fragment() {
         findNavController()
     }
 
+    private var selectedSchooling = 0
+    private var schoolingValues = arrayOf<String>()
+
     companion object {
         private const val REQUEST_PROFILE_PHOTO = 1
         private const val REQUEST_ID_PHOTO = 2
@@ -54,7 +57,8 @@ class UserFormFragment : Fragment() {
         val communityUsers = getCommunityUsers()
         val racialOptions = resources.getStringArray(R.array.racial_options).toList()
         val incomeOptions = resources.getStringArray(R.array.income_options).toList()
-        setupViewModel(communityUsers,racialOptions, incomeOptions)
+        val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
+        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -69,16 +73,15 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(communityUsers, racialOptions, incomeOptions)
+            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions)
         }
         return userFormViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -160,6 +163,19 @@ class UserFormFragment : Fragment() {
     private fun dispatchTakePictureIntent(code: Int) {
         requireActivity().takePictureIntent(code) { path ->
             mCurrentPhotoPath = path
+        }
+    }
+
+    private fun createDialogSchooling (){
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_schooling))
+            setSingleChoiceItems(binding.viewModel?.schoolingList?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectSchoolingIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserSchooling()
+            }
+            create().show()
         }
     }
 
@@ -260,6 +276,10 @@ class UserFormFragment : Fragment() {
 
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+        }
+
+        binding.etSchooling.setOnClickListener {
+            createDialogSchooling()
         }
 
         binding.etRacial.setOnClickListener {
