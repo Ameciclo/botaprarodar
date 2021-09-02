@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="app/src/main/res/layout/fragment_user_form.xml" value="0.13020833333333334" />
-      </map>
-    </option>
-  </component>
-  <component name="NullableNotNullManager">
+    <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
     <option name="myNullables">
@@ -32,7 +25,7 @@
     </option>
     <option name="myNotNulls">
       <value>
-        <list size="14">
+        <list size="13">
           <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
           <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
           <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
