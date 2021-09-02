@@ -91,6 +91,15 @@ class UserFormFragmentTest {
     }
 
     @Test
+    fun shouldOpenSchoolingDialog_whenClickToSelectSchooling() {
+        userFormFragment {
+            clickSchoolingEditText()
+        } verify {
+            verifySchoolingDialogIsShowing()
+        }
+    }
+
+    @Test
     fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
         val incomeSelectedIndex = 2
         userFormFragment {
@@ -104,6 +113,28 @@ class UserFormFragmentTest {
     }
 
     @Test
+    fun shouldListSchoolingOptions_whenClickToSelectSchooling() {
+        userFormFragment {
+            clickSchoolingEditText()
+        } verify {
+            verifySchoolingOptionIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenSchoolingOptionIsSelected() {
+        val schoolingSelectedPosition = 2
+        userFormFragment {
+            clickSchoolingEditText()
+            sleep(1000)
+            clickOptionOnSchoolingDialog(schoolingSelectedPosition)
+            clickSchoolingPositiveButton()
+
+        } verify {
+            verifySchoolingEditTextIsEqualSelected(schoolingSelectedPosition)
+        }
+    }
+
     fun shouldShowSelectedOptionAndCloseDialog_whenRacialOptionIsNotSelected() {
         val racialSelectedIndex = 2
         userFormFragment {
@@ -129,7 +160,6 @@ class UserFormFragmentTest {
             verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
         }
     }
-
 
     @After
     fun tearDown() {
