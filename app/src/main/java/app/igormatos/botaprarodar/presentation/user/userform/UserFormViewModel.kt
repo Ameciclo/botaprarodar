@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
-import com.brunotmgomes.ui.extensions.isNotNullOrNotEmpty
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
 
 class UserFormViewModel(
@@ -101,16 +101,16 @@ class UserFormViewModel(
 
 
     private fun validateUserForm() {
-        isButtonEnabled.value = userCompleteName.value.isNotNullOrNotEmpty() &&
-                userAddress.value.isNotNullOrNotEmpty() &&
+        isButtonEnabled.value = userCompleteName.value.isNotNullOrNotBlank() &&
+                userAddress.value.isNotNullOrNotBlank() &&
                 isDocNumberValid() &&
-                userImageProfile.value.isNotNullOrNotEmpty() &&
-                userImageDocumentFront.value.isNotNullOrNotEmpty() &&
-                userImageDocumentBack.value.isNotNullOrNotEmpty() &&
-                userRacial.value.isNotNullOrNotEmpty() &&
-                userSchooling.value.isNotNullOrNotEmpty() &&
-                userIncome.value.isNotNullOrNotEmpty() &&
-                userAge.value.isNotNullOrNotEmpty() &&
+                userImageProfile.value.isNotNullOrNotBlank() &&
+                userImageDocumentFront.value.isNotNullOrNotBlank() &&
+                userImageDocumentBack.value.isNotNullOrNotBlank() &&
+                userRacial.value.isNotNullOrNotBlank() &&
+                userSchooling.value.isNotNullOrNotBlank() &&
+                userIncome.value.isNotNullOrNotBlank() &&
+                userAge.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }

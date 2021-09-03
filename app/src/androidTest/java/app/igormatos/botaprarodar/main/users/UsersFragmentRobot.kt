@@ -33,10 +33,6 @@ class UsersFragmentRobot : BaseRobot() {
         waitViewByResId(resId = "scrollContainerUser", timeout = 2000)
     }
 
-    fun delay(delay: Long = 1000) {
-        Thread.sleep(delay)
-    }
-
     fun clickOnFirstUser() {
         selectAnyItemInRecyclerView(R.id.rv_users)
     }

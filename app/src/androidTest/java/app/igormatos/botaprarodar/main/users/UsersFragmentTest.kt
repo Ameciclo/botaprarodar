@@ -50,7 +50,7 @@ class UsersFragmentTest {
     }
 
     @Test
-    fun whenClickToRegisterNewBike_shouldOpenBikeFormActivity() {
+    fun whenClickToRegisterNewUser_shouldOpenUserFormActivity() {
         usersFragment {
             clickRegisterUserButton()
         } verify {
