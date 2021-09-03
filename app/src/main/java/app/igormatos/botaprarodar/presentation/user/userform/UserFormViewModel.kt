@@ -16,7 +16,8 @@ class UserFormViewModel(
     val stepper: RegisterUserStepper,
     val communityUsers: ArrayList<User>,
     val racialList: List<String>,
-    val incomeList: List<String>
+    val incomeList: List<String>,
+    val schoolingList: List<String>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
     var isEditableAvailable = false
@@ -35,6 +36,7 @@ class UserFormViewModel(
     var userIncome = MutableLiveData("")
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
+    var selectedSchoolingIndex = 0
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
 
@@ -167,8 +169,18 @@ class UserFormViewModel(
         userRacial.value = racialList[selectedRacialIndex]
     }
 
+    fun confirmUserSchooling() {
+        userSchooling.value = schoolingList[selectedSchoolingIndex]
+    }
+
     fun confirmUserIncome() {
         userIncome.value = incomeList[selectedIncomeIndex]
+    }
+
+    fun getSelectedSchoolingListIndex(): Int {
+        selectedSchoolingIndex =
+            schoolingList.indexOfLast { userSchooling.value.equals(it) }.takeIf { it > -1 } ?: 0
+        return selectedSchoolingIndex
     }
 
     fun getSelectedIncomeListIndex(): Int {
@@ -185,6 +197,10 @@ class UserFormViewModel(
 
     fun setSelectRacialIndex(index: Int) {
         selectedRacialIndex = index
+    }
+
+    fun setSelectSchoolingIndex(index: Int) {
+        selectedSchoolingIndex = index
     }
 
     fun setSelectIncomeIndex(index: Int) {
