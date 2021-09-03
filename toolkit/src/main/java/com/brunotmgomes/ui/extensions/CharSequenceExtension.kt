@@ -1,9 +1,9 @@
 package com.brunotmgomes.ui.extensions
 
-import android.util.Patterns
+import androidx.core.util.PatternsCompat
 
 fun CharSequence?.isValidEmail() =
-    !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    !isNullOrEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
 fun CharSequence?.isValidPassword() = !isNullOrEmpty() && this.length >= 6
 
@@ -13,7 +13,6 @@ fun String?.transformNullToEmpty(): String {
     } ?: ""
 }
 
-fun String?.isNotNullOrNotEmpty() = !this.isNullOrBlank()
+fun String?.isNotNullOrNotBlank() = !this.isNullOrBlank()
 
-fun String?.isValidTelephone() = !this.isNullOrBlank() && ((Patterns.PHONE.matcher(this)
-    .matches()) && (this.length == 13 || this.length == 12))
+fun String?.isValidTelephone() = !this.isNullOrEmpty() && (this.length == 13 || this.length == 12)
