@@ -8,6 +8,8 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
+import com.brunotmgomes.ui.extensions.isValidTelephone
 
 class UserFormViewModel(
     private val community: Community,
@@ -51,6 +53,7 @@ class UserFormViewModel(
         addSource(userSchooling) { validateUserForm() }
         addSource(userIncome) { validateUserForm() }
         addSource(userAge) { validateUserForm() }
+        addSource(userTelephone) { validateUserForm() }
     }
 
     val docNumberErrorValidationMap = MediatorLiveData<MutableMap<Int, Boolean>>().apply {
@@ -65,7 +68,7 @@ class UserFormViewModel(
         with(docNumberErrorValidationMap.value) {
             this?.set(
                 DOC_NUMBER_INVALID_ERROR,
-                !isTextValid(userDocument.value)
+                userDocument.value.isNullOrEmpty()
             )
 
             this?.set(
@@ -100,20 +103,20 @@ class UserFormViewModel(
 
 
     private fun validateUserForm() {
-        isButtonEnabled.value = isTextValid(userCompleteName.value) &&
-                isTextValid(userAddress.value) &&
+        isButtonEnabled.value = userCompleteName.value.isNotNullOrNotBlank() &&
+                userAddress.value.isNotNullOrNotBlank() &&
                 isDocNumberValid() &&
-                isTextValid(userImageProfile.value) &&
-                isTextValid(userImageDocumentFront.value) &&
-                isTextValid(userImageDocumentBack.value) &&
-                isTextValid(userRacial.value) &&
-                isTextValid(userSchooling.value) &&
-                isTextValid(userIncome.value) &&
-                isTextValid(userAge.value) &&
+                userImageProfile.value.isNotNullOrNotBlank() &&
+                userImageDocumentFront.value.isNotNullOrNotBlank() &&
+                userImageDocumentBack.value.isNotNullOrNotBlank() &&
+                userRacial.value.isNotNullOrNotBlank() &&
+                userSchooling.value.isNotNullOrNotBlank() &&
+                userIncome.value.isNotNullOrNotBlank() &&
+                userAge.value.isNotNullOrNotBlank() &&
+                (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
                 userGender.value != GENDER_INITIAL_VALUE
     }
 
-    private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
     private fun isDocNumberValid(): Boolean {
         val existsDocNumberError = docNumberErrorValidationMap.value?.containsValue(true)

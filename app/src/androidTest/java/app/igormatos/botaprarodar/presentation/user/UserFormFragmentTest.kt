@@ -51,6 +51,16 @@ class UserFormFragmentTest {
     }
 
     @Test
+    fun givenPhoneNumber_shouldHaveMaxLength() {
+        userFormFragment {
+            val longPhoneNumber = "123456789123456789"
+            fillUserPhone(longPhoneNumber)
+        } verify {
+            checkPhoneNumberMaxLength()
+        }
+    }
+
+    @Test
     fun shouldOpenRacialDialog_whenClickToSelectRacial() {
         userFormFragment {
             clickRacialEditText()

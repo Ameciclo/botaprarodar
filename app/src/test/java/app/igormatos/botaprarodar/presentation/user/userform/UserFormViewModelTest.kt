@@ -239,6 +239,7 @@ class UserFormViewModelTest {
         assertEquals(incomeOptions[index], formViewModel.userIncome.value)
     }
 
+
     @Test
     fun `when 'setSchooling' should update user schooling value with equal value`() {
         val index = 1

@@ -23,12 +23,21 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun fillUserDocNumber(docNumber: String) {
-        swipeUp(R.id.scrollContainer)
+        swipeUp(R.id.scrollContainerUser)
         fillFieldById(R.id.ietCpf, docNumber)
+    }
+
+    fun fillUserPhone(phoneNumber: String) {
+        swipeUp(R.id.scrollContainerUser)
+        fillFieldById(R.id.ietTelephone, phoneNumber)
     }
 
     fun checkDocNumberMaxLength() {
         checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
+    }
+
+    fun checkPhoneNumberMaxLength() {
+        checkViewHasLength(R.id.ietTelephone, R.integer.max_size_user_phone_number)
     }
 
     fun clickRacialEditText() {
