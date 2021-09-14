@@ -18,7 +18,7 @@ data class User(
     @SerializedName("address")
     var address: String? = null,
     @SerializedName("gender")
-    var gender: Int = 3,
+    var gender: String? = null,
     @SerializedName("profilePicture")
     var profilePicture: String? = null,
     @SerializedName("residenceProofPicture")

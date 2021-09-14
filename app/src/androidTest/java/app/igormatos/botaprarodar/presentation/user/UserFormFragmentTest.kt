@@ -51,6 +51,37 @@ class UserFormFragmentTest {
     }
 
     @Test
+    fun shouldOpenGenderDialog_whenClickToSelectGender() {
+        userFormFragment {
+            clickGenderEditText()
+        } verify {
+            verifyGenderDialogIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldListGenderOptions_whenClickToSelectGender() {
+        userFormFragment {
+            clickGenderEditText()
+        } verify {
+            verifyGenderOptionIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenGenderOptionIsSelected() {
+        val genderSelectedIndex = 1
+        userFormFragment {
+            clickGenderEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(genderSelectedIndex)
+            clickPositiveButton()
+        } verify {
+            verifyGenderEditTextIsEqualSelected(genderSelectedIndex)
+        }
+    }
+
+    @Test
     fun shouldOpenRacialDialog_whenClickToSelectRacial() {
         userFormFragment {
             clickRacialEditText()

@@ -320,14 +320,15 @@ val bprModule = module {
         )
     }
 
-    viewModel { (communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>) ->
+    viewModel { (communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>) ->
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
             stepper = get(),
             communityUsers = communityUsers,
             racialList = racialOptions,
             incomeList = incomeOptions,
-            schoolingList = schoolingOptions
+            schoolingList = schoolingOptions,
+            genderList = genderOptions
 
         )
     }
