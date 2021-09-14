@@ -12,7 +12,7 @@ data class UserRequest(
     @SerializedName("address")
     var address: String,
     @SerializedName("gender")
-    var gender: Int,
+    var gender: String,
     @SerializedName("profile_picture")
     var profilePicture: String,
     @SerializedName("residence_proof_picture")

@@ -13,7 +13,7 @@ import app.igormatos.botaprarodar.presentation.user.userform.getRadioButtonId
 
 @BindingAdapter("app:setRadioGroupCheck")
 fun setRadioGroupCheck(view: RadioGroup, genderId: Int) {
-    view.check(getRadioButtonId(genderId))
+//    view.check(getRadioButtonId(genderId))
 }
 
 @BindingAdapter("app:setRadioGroupReasonCheck")
