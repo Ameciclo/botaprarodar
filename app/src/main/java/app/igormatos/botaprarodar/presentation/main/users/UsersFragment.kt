@@ -30,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapterListener {
 
     private val preferencesModule: SharedPreferencesModule by inject()
-    private val usersAdapter = UsersAdapter(this)
+    val usersAdapter = UsersAdapter(this)
     private lateinit var binding: FragmentUsersBinding
     private val usersViewModel: UsersViewModel by viewModel()
     private var currentCommunityUserList: ArrayList<User> = arrayListOf()
@@ -88,7 +88,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
     }
 
     private fun observerUsers() {
-        usersViewModel.users.observe(viewLifecycleOwner, Observer {
+        usersViewModel.users.observe(viewLifecycleOwner, {
             when (it) {
                 is SimpleResult.Success -> {
                     currentCommunityUserList = ArrayList(it.data)
@@ -111,6 +111,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                getUsers()
                 showSnackBar(result.data)
             }
         }
