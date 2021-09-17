@@ -56,6 +56,9 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        unitTests.all {
+            useJUnitPlatform()
+        }
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
@@ -64,6 +67,7 @@ dependencies {
     implementation project(':core')
     implementation project(path: ':toolkit')
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.security:security-crypto:1.1.0-alpha02'
 
     // Test
     testImplementation 'junit:junit:4.13.1'
@@ -79,6 +83,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "com.google.truth:truth:1.1.2"
@@ -154,7 +159,7 @@ dependencies {
     // JUnit 5
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.7.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.6.1"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.7.0"
 
     // Task await
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
@@ -167,6 +172,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
 

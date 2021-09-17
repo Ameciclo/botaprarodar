@@ -1,22 +1,22 @@
 package app.igormatos.botaprarodar.di
 
-import app.igormatos.botaprarodar.BuildConfig
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
+import app.igormatos.botaprarodar.data.network.AuthTokenInterceptor
 import app.igormatos.botaprarodar.data.network.api.AdminApiService
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
 import app.igormatos.botaprarodar.data.network.api.UserApi
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
-import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
+import app.igormatos.botaprarodar.data.network.buildRetrofit
+import app.igormatos.botaprarodar.data.network.firebase.*
 import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
@@ -27,7 +27,8 @@ import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBi
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.GetUsersByCommunity
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
@@ -77,14 +78,11 @@ import com.brunotmgomes.ui.SnackbarModuleImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalCoroutinesApi::class)
 val bprModule = module {
@@ -192,7 +190,7 @@ val bprModule = module {
 
     factory { AdminMapper() }
 
-    single { buildRetrofit() }
+    single { buildRetrofit(get()) }
 
     single<CommunityApiService> {
         get<Retrofit>().create(CommunityApiService::class.java)
@@ -294,15 +292,16 @@ val bprModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (communityBikes: ArrayList<Bike>) ->
         BikeFormViewModel(
             bikeFormUseCase = get(),
-            community = get<SharedPreferencesModule>().getJoinedCommunity()
+            community = get<SharedPreferencesModule>().getJoinedCommunity(),
+            communityBikes = communityBikes
         )
     }
 
     single {
-        BikeRepository(get<BicycleApi>(), get<FirebaseDatabase>())
+        BikeRepository(get<BicycleApi>())
     }
 
     single {
@@ -317,23 +316,33 @@ val bprModule = module {
         UserFormUseCase(
             userRepository = get(),
             firebaseHelperRepository = get(),
-            userConverter = get()
+            userConverter = get(),
         )
     }
 
-    viewModel {
+    viewModel { (communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>) ->
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            stepper = get()
+            stepper = get(),
+            communityUsers = communityUsers,
+            racialList = racialOptions,
+            incomeList = incomeOptions,
+            schoolingList = schoolingOptions,
+            genderList = genderOptions
+
         )
     }
 
     single {
-        UserRepository(userApi = get(), firebaseDatabase = get<FirebaseDatabase>())
+        UserRepository(userApi = get())
     }
 
     single {
-        GetUsersByCommunity(get<UserRepository>())
+        UsersUseCase(get<UserRepository>())
+    }
+
+    single {
+        ValidateUserWithdraw(get(), get())
     }
 
     viewModel {
@@ -403,7 +412,12 @@ val bprModule = module {
         SelectBikeViewModel(get(), get(), get())
     }
     viewModel {
-        SelectUserViewModel(get(), get(), get())
+        SelectUserViewModel(
+            userHolder = get(),
+            stepperAdapter = get(),
+            usersUseCase = get(),
+            validateUserWithdraw = get()
+        )
     }
 
     factory {
@@ -445,19 +459,14 @@ val bprModule = module {
     factory<Validator<String?>>(named(PASSWORD_VALIDATOR_NAME)) {
         PasswordValidator()
     }
+
+    single { FirebaseSessionManager(firebaseAuth = get(), sharedPreferencesModule = get()) }
+
+    single { AuthTokenInterceptor(firebaseSessionManager = get()) }
 }
 
 const val EMAIL_VALIDATOR_NAME = "email_validator"
 const val PASSWORD_VALIDATOR_NAME = "password_validator"
-
-private fun buildRetrofit(): Retrofit {
-    return Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .client(OkHttpClient.Builder().build())
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .build()
-}
 
 fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
     return AdminRemoteDataSource(firebaseAuth)

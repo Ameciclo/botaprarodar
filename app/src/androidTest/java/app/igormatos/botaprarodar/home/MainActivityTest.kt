@@ -12,15 +12,18 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.presentation.main.MainActivity
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,15 +38,25 @@ class MainActivityTest {
 
     private lateinit var testModule: Module
     private lateinit var bikeActionUseCase: BikeActionUseCase
+    private lateinit var bikesUseCase: BikesUseCase
+    private lateinit var usersUseCase: UsersUseCase
 
     @Before
     fun setup() {
         bikeActionUseCase = spyk(BikeActionUseCase(mockk(relaxed = true)))
+        bikesUseCase = spyk(BikesUseCase(mockk(relaxed = true)))
+        usersUseCase = spyk(UsersUseCase(mockk(relaxed = true)))
 
         testModule = module(override = true) {
 
             single {
                 bikeActionUseCase
+            }
+            single {
+                bikesUseCase
+            }
+            single {
+                usersUseCase
             }
         }
         loadKoinModules(testModule)
@@ -52,13 +65,14 @@ class MainActivityTest {
     }
 
     private fun defineUseCasesBehavior() {
-        val flow = flow<SimpleResult<List<BikeRequest>>> {
-            emit(SimpleResult.Success(mutableListOf()))
-        }
+        coEvery { bikeActionUseCase.getBikes(any()) } returns
+                SimpleResult.Success(mutableListOf(BikeRequest()))
 
-        coEvery {
-            bikeActionUseCase.getBikes(any())
-        } returns flow
+        coEvery { usersUseCase.getAvailableUsersByCommunityId(any()) } returns
+                SimpleResult.Success(mutableListOf(User()))
+
+        coEvery { bikesUseCase.getBikes(any()) } returns
+                SimpleResult.Success(mutableListOf(Bike()))
     }
 
     @Test
@@ -74,7 +88,6 @@ class MainActivityTest {
 
     @Test
     fun showUsersScreen_whenClickInBottomMenuListIcon() {
-
         scenario.onActivity {
             val navController = NavController(it)
             Navigation.setViewNavController(it.activityMainContainer, navController)

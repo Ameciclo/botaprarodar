@@ -9,22 +9,23 @@ import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import java.util.concurrent.ConcurrentLinkedDeque
-import java.util.concurrent.ConcurrentLinkedQueue
 
 @ExperimentalCoroutinesApi
 class BikeActionUseCase(private val bikeRepository: BikeRepository) {
-
-//    private var result: SimpleResult<MutableList<TripsItemType>> =
-//        SimpleResult.Error(Exception(""))
 
     fun getBikeActionsList(): List<BikeActionsMenuType> {
         return BikeActionsMenuType.values().toMutableList()
     }
 
-    suspend fun getBikes(communityId: String): Flow<SimpleResult<List<BikeRequest>>> {
-        return bikeRepository.getBikes(communityId)
+    suspend fun getBikes(communityId: String): SimpleResult<List<BikeRequest>> {
+        return when (val result = bikeRepository.getBikesByCommunityId(communityId)) {
+            is SimpleResult.Success -> {
+                SimpleResult.Success(result.data.values.toList())
+            }
+            is SimpleResult.Error -> {
+                SimpleResult.Error(result.exception)
+            }
+        }
     }
 
     fun convertBikesToTripsItem(bikeList: List<Bike>): SimpleResult.Success<List<TripsItemType>> {

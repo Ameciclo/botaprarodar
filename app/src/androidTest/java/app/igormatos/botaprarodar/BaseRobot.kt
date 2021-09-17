@@ -7,12 +7,13 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
@@ -25,16 +26,17 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.anything
 import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
 
 abstract class BaseRobot {
     val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    // (UiAutomator) Initialize UiDevice instance
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val launcherPackage: String = context.packageName
 
@@ -74,12 +76,20 @@ abstract class BaseRobot {
         onView(withText(message)).check(matches(isDisplayed()))
     }
 
+    fun checkMessageIsNotDisplayed(message: String) {
+        onView(withText(message)).check(doesNotExist())
+    }
+
     fun checkViewIsDisplayed(resId: Int) {
         onView(withId(resId)).check(matches(isDisplayed()))
     }
 
     fun checkViewIsNotDisplayed(resId: Int) {
         onView(withId(resId)).check(matches(not(isDisplayed())))
+    }
+
+    fun checkViewIsNotDisplayed(message: String) {
+        onView(withText(message)).check(matches(not(isDisplayed())))
     }
 
     fun checkViewIsEnable(resId: Int) {
@@ -90,6 +100,25 @@ abstract class BaseRobot {
         onView(withId(resId)).check(matches(not(isEnabled())))
     }
 
+    fun checkViewHasLength(resId: Int, expectedLengthResId: Int) {
+        val expectedLength = context.resources.getInteger(expectedLengthResId)
+        onView(withId(resId)).check(matches(hasLength(expectedLength)))
+    }
+
+    private fun hasLength(length: Int): Matcher<View> =
+        object : TypeSafeMatcher<View>() {
+
+            override fun describeTo(description: Description?) {
+                description?.appendText("EditText should have a expected length of $length")
+            }
+
+            override fun matchesSafely(item: View?): Boolean {
+                if (item !is TextInputEditText) return false
+                val textInput: TextInputEditText = item
+                return textInput.text.toString().length == length
+            }
+        }
+
     fun sleep(times: Long) = apply {
         Thread.sleep(times)
     }
@@ -98,21 +127,12 @@ abstract class BaseRobot {
         onView(withId(containerId)).perform(swipeUp());
     }
 
-    fun captureImage() {
-        device.pressKeyCode(KeyEvent.KEYCODE_CAMERA)
-        device.pressKeyCode(KeyEvent.KEYCODE_BACK)
-    }
-
-    fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+    private fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 
     fun hideKeyboard() {
         onView(isRoot()).perform(closeSoftKeyboard())
-    }
-
-    fun scrollToViewById(resId: Int) {
-        onView(withId(resId)).perform(scrollTo())
     }
 
     fun waitViewByText(text: String, timeout: Long = 10000): Boolean = device.wait(
@@ -168,5 +188,9 @@ abstract class BaseRobot {
         val resultData = Intent()
         resultData.putExtras(bundle)
         return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+    }
+
+    fun clickAtPositionInList(atPosition:Int){
+        onData(anything()).atPosition(atPosition).perform(click())
     }
 }

@@ -8,11 +8,14 @@ import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.CoreMatchers
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.lang.Exception
 
 @ExperimentalCoroutinesApi
 class BikesViewModelTest {
@@ -29,8 +32,8 @@ class BikesViewModelTest {
     }
 
     @Test
-    fun `when getBikes() capture Success should return success`(){
-        coEvery { userCase.getBikes(any()) } returns flowSuccess
+    fun `when getBikes() capture Success should return success`() {
+        coEvery { userCase.getBikes(any()) } returns SimpleResult.Success(listBikes)
 
         viewModel.getBikes("123")
 
@@ -38,8 +41,8 @@ class BikesViewModelTest {
     }
 
     @Test
-    fun `when getBikes() capture Error should return an error`(){
-        coEvery { userCase.getBikes(any()) } returns flowError
+    fun `when getBikes() capture Error should return an error`() {
+        coEvery { userCase.getBikes(any()) } returns SimpleResult.Error(Exception())
 
         viewModel.getBikes("123")
 
@@ -47,8 +50,8 @@ class BikesViewModelTest {
     }
 
     @Test
-    fun `when getBikes() capture Success should return a list of bikes`(){
-        coEvery { userCase.getBikes(any()) } returns flowSuccess
+    fun `when getBikes() capture Success should return a list of bikes`() {
+        coEvery { userCase.getBikes(any()) } returns SimpleResult.Success(listBikes)
 
         viewModel.getBikes("123")
         val actual = viewModel.bikes.value as SimpleResult.Success
@@ -57,12 +60,15 @@ class BikesViewModelTest {
     }
 
     @Test
-    fun `when getBikes() capture Error should return an exception`(){
-        coEvery { userCase.getBikes(any()) } returns flowError
+    fun `when getBikes() capture Error should return an exception`() {
+        coEvery { userCase.getBikes(any()) } returns SimpleResult.Error(Exception())
 
         viewModel.getBikes("123")
-        val actual = viewModel.bikes.value as SimpleResult.Error
+        val actual = viewModel.bikes.value
 
-        assertEquals(exception, actual.exception)
+        assertThat(
+            (actual as SimpleResult.Error).exception,
+            CoreMatchers.instanceOf(Exception::class.java)
+        )
     }
 }

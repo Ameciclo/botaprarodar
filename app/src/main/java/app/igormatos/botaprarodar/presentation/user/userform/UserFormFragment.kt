@@ -3,14 +3,15 @@ package app.igormatos.botaprarodar.presentation.user.userform
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,13 +23,14 @@ import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class UserFormFragment : Fragment() {
 
     private val args: UserFormFragmentArgs by navArgs()
 
-    private val userFormViewModel: UserFormViewModel by viewModel()
+    private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
@@ -50,15 +52,35 @@ class UserFormFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val communityUsers = getCommunityUsers()
+        val racialOptions = resources.getStringArray(R.array.racial_options).toList()
+        val incomeOptions = resources.getStringArray(R.array.income_options).toList()
+        val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
+        val genderOptions = resources.getStringArray(R.array.gender_options).toList()
+        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions, genderOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
         return binding.root
     }
 
+    private fun getCommunityUsers(): ArrayList<User> {
+        val communityUsers = args.communityUsers?.toCollection(ArrayList())
+        if (communityUsers.isNullOrEmpty()) {
+            return arrayListOf()
+        }
+        return communityUsers
+    }
+
+    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>): UserFormViewModel {
+        userFormViewModel = getViewModel {
+            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions, genderOptions)
+        }
+        return userFormViewModel
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
@@ -99,7 +121,7 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupViewModelStatus() {
-        userFormViewModel.openQuiz.observe(viewLifecycleOwner, Observer {
+        userFormViewModel.openQuiz.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { data ->
                 val (user, editMode) = data
                 val direction =
@@ -143,6 +165,59 @@ class UserFormFragment : Fragment() {
         }
     }
 
+    private fun createDialogGender (){
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_gender))
+            setSingleChoiceItems(binding.viewModel?.genderList?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectGenderIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserGender()
+            }
+            create().show()
+        }
+    }
+
+    private fun createDialogSchooling (){
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_schooling))
+            setSingleChoiceItems(binding.viewModel?.schoolingList?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectSchoolingIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserSchooling()
+            }
+            create().show()
+        }
+    }
+
+    private fun openDialogToSelectIncome() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_income))
+            setSingleChoiceItems(binding.viewModel?.incomeList?.toTypedArray(), binding.viewModel?.getSelectedIncomeListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectIncomeIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserIncome()
+            }
+            create().show()
+        }
+    }
+
+    private fun openDialogToSelectRace() {
+        AlertDialog.Builder(requireContext()).apply {
+
+            setTitle(getString(R.string.add_user_racial))
+            setSingleChoiceItems(binding.viewModel?.racialList?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectRacialIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserRace()
+            }
+            create().show()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -166,7 +241,7 @@ class UserFormFragment : Fragment() {
 
         MaterialAlertDialogBuilder(requireContext())
             .setView(tipLayout)
-            .setPositiveButton("Tirar foto!") { _, _ ->
+            .setPositiveButton(getString(R.string.camera_dialog_positive_button_text)) { _, _ ->
                 click(true)
             }
             .show()
@@ -174,6 +249,9 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
+
+        binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
+
         binding.profileImageView.setOnClickListener {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
@@ -213,6 +291,22 @@ class UserFormFragment : Fragment() {
 
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+        }
+
+        binding.etGender.setOnClickListener {
+            createDialogGender()
+        }
+
+        binding.etSchooling.setOnClickListener {
+            createDialogSchooling()
+        }
+
+        binding.etRacial.setOnClickListener {
+            openDialogToSelectRace()
+        }
+
+        binding.ietIncome.setOnClickListener {
+            openDialogToSelectIncome()
         }
     }
 }

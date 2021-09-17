@@ -2,12 +2,16 @@ package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.domain.model.*
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
 
-val bike = Bike(name = "Caloi")
+val bike = Bike(
+    name = "Caloi",
+    serialNumber = "testSerialNumber"
+)
 
 val bike2 = Bike(
     id = "",
@@ -18,8 +22,6 @@ val bike2 = Bike(
     serialNumber = "New Serial",
     createdDate = Date().toString()
 )
-
-val bike3 = Bike(name = "Monark")
 
 val bikeRequest = BikeRequest(
     id = "",
@@ -56,9 +58,13 @@ val bikeRequestWithMappers = BikeRequest(
     devolutions = mapOfDevolutions
 )
 
-val withdraw = Withdraws(id = "123", date = "12/03/2021 10:00:00", user = userFake)
+const val withdrawDate = "12/03/2021 10:00:00"
 
-val devolution = Devolution(id = "098", date = "15/03/2021", user = userFake)
+val withdraw = Withdraws(id = "123", date = withdrawDate, user = validUser)
+
+const val devolutionDate = "15/03/2021 10:00:00"
+
+val devolution = Devolution(id = "098", date = devolutionDate, user = validUser)
 
 val bikeWithWithdraws = Bike(
     name = "Caloi",
@@ -66,12 +72,21 @@ val bikeWithWithdraws = Bike(
     devolutions = mutableListOf(devolution)
 )
 
+val bikeWithOnlyOneWithdraw = Bike(
+    withdraws = mutableListOf(withdraw)
+)
+
+val bikeWithOnlyOneDevolution = Bike(
+    devolutions = mutableListOf(devolution)
+)
+
+
 val mapOfBikesRequest = mapOf(
     Pair("123", BikeRequest(withdraws = mapOfWithdraws, devolutions = mapOfDevolutions)),
-    Pair("456", BikeRequest()),
-    Pair("789", BikeRequest()),
-    Pair("098", BikeRequest()),
-    Pair("876", BikeRequest())
+    Pair("456", bikeRequest),
+    Pair("789", bikeRequest),
+    Pair("098", bikeRequest),
+    Pair("876", bikeRequest)
 )
 
 val exception = Exception()
@@ -204,4 +219,17 @@ val borrowedBikes = listOf(
     },
 )
 
-val bikeList = borrowedBikes.plus(availableBikes)
+const val bikeActivityDate = "11/11/1111"
+
+val tripsItemTypeWithoutTitle: TripsItemType = TripsItemType.BikeType(BikeActivity().apply {
+    id = "1"
+    bikeId = "1"
+    name = "Caloi"
+    orderNumber = 1
+    serialNumber = "XXX"
+    photoThumbnailPath = "XXX"
+    date = bikeActivityDate
+    status = "Test"
+})
+
+val tripsItemTypeWithoutTitleList = mutableListOf(tripsItemTypeWithoutTitle)

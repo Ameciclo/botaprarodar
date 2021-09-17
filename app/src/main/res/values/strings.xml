@@ -62,12 +62,15 @@
     <string name="profile_picture_tip">Tire uma foto dos ombros para cima, estilo 3x4, procure locais claros, se aproxime da pessoa e verifique se é possível identificá-la depois.
     </string>
 
-    <string name="bicycle_serial_number_invalid">Número de série da bicileta inválido</string>
+    <string name="bicycle_serial_number_invalid">Número de série da bicicleta inválido</string>
+    <string name="bicycle_serial_number_already_registered">Número de série da bicicleta já cadastrado na comunidade</string>
     <string name="bicycle_name_invalid">Nome da bicicleta inválido</string>
     <string name="bike_serial_number">Número de série da bicicleta</string>
     <string name="bike_name">Nome da bicicleta</string>
     <string name="bicycle_invalid_order_number">Número de ordem inválido</string>
     <string name="order_number">Número de ordem</string>
+    <string name="error_registering_bicycle">Falha ao cadastrar a bicicleta</string>
+    <string name="error_editing_bicycle">Falha ao editar a bicicleta</string>
 
     <string name="email_format_warning">Insira um email válido</string>
     <string name="prompt_email">Email</string>
@@ -122,12 +125,14 @@
     <string name="add_user_income">Renda mensal</string>
     <string name="add_user_invalid_income">Renda inválida</string>
     <string name="add_user_racial">Com qual raça a pessoa se identifica?</string>
+    <string name="hint_user_racial">Selecione</string>
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
-    <string name="add_user_cpf_hint">Número do RG ou CPF</string>
-    <string name="add_user_invalid_cpf">CPF inválido</string>
+    <string name="add_user_doc_number_hint">Número do RG ou CPF</string>
+    <string name="add_user_invalid_doc_number">Número do RG ou CPF inválido</string>
+    <string name="add_user_doc_number_already_registered">Documento já cadastrado em outro usuário na comunidade</string>
     <string name="add_user_telephone_hint">Telefone</string>
     <string name="add_user_invalid_telephone">Telefone inválido</string>
     <string name="btn_add_user">Adicionar usuário</string>
@@ -137,7 +142,7 @@
     <string name="rb_female_option">Feminino</string>
     <string name="rb_other_option">Outro</string>
     <string name="rb_no_answer_option">Prefere não responder</string>
-    <string name="txt_doc_address">Comprovante de residência</string>
+    <string name="txt_doc_address">Comprovante de residência (opcional)</string>
     <string name="txt_doc_image_front">Frente</string>
     <string name="txt_doc_front">Frente do documento</string>
     <string name="txt_doc_image_back">Verso</string>
@@ -150,6 +155,25 @@
     <string name="return_bike">DEVOLVER BICICLETA</string>
     <string name="lgpd_message">Certifique-se que a pessoa disponibilizando os dados está ciente de que será usado para registro do empréstimo de bicicleta e geração de relatórios de mobilidade.</string>
     <string name="lgpd_confirm">De acordo</string>
+    <string-array name="racial_options">
+        <item>Amarela</item>
+        <item>Branca</item>
+        <item>Indígena</item>
+        <item>Parda</item>
+        <item>Preta</item>
+        <item>Outra/Não deseja informar</item>
+    </string-array>
+
+    <string-array name="income_options">
+        <item>Até 150 reais</item>
+        <item>Entre 150 e 350</item>
+        <item>Entre 350 e 500</item>
+        <item>Entre 500 e 750</item>
+        <item>Entre 750 e 1100</item>
+        <item>Entre 1100 e 2000</item>
+        <item>Mais de 2000</item>
+        <item>Desejo não informar</item>
+    </string-array>
 
     <!-- Return bike quiz -->
     <string name="which_district_hint">Qual o bairro de destino?</string>
@@ -237,4 +261,28 @@
     <string name="title_users">Usuários</string>
     <string name="btn_register_user">Cadastrar novo usuário</string>
 
+    <!-- Camera confirmation dialog-->
+    <string name="camera_dialog_positive_button_text">Tirar foto!</string>
+
+    <!-- Schooling Options -->
+    <string-array name = "schooling_options">
+        <item> Sem instrução ou menos de 1 ano de estudo </item>
+        <item> Ensino fundamental incompleto </item>
+        <item> Ensino fundamental completo </item>
+        <item> Ensino médio incompleto </item>
+        <item> Ensino médio completo </item>
+        <item> Ensino técnico incompleto </item>
+        <item> Ensino técnico completo </item>
+        <item> Ensino superior incompleto </item>
+        <item> Ensino superior completo </item>
+        <item> Não determinado </item>
+    </string-array>
+
+    <!-- Gender Options -->
+    <string-array name = "gender_options">
+        <item> Masculino </item>
+        <item> Feminino </item>
+        <item> Outro </item>
+        <item> Prefere não responder </item>
+    </string-array>
 </resources>
