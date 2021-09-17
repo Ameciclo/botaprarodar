@@ -23,6 +23,7 @@ class SendBikeWithdraw(
     ): SimpleResult<AddDataResponse> {
         val withdraw = withdrawToSend(withdrawDate, userHolder)
         updateBikeToSend(bikeHolder, withdraw)
+
         val bikeRequest = bikeHolder.bike?.convertToBikeRequest()!!
 
         val addWithdrawResponse: SimpleResult<AddDataResponse> =
@@ -49,12 +50,14 @@ class SendBikeWithdraw(
         bikeHolder: BikeHolder,
         withdraws: Withdraws
     ) {
-        if (bikeHolder.bike?.withdraws == null) {
-            bikeHolder.bike?.withdraws = mutableListOf(withdraws)
-            bikeHolder.bike?.inUse = true
-        } else {
-            bikeHolder.bike?.withdraws?.add(withdraws)
-            bikeHolder.bike?.inUse = true
+        with(bikeHolder.bike!!) {
+            if (this.withdraws == null) {
+                this.withdraws = mutableListOf(withdraws)
+            } else {
+                this.withdraws?.add(withdraws)
+            }
+            this.inUse = true
+            this.withdrawToUser = withdraws.user?.id
         }
     }
 

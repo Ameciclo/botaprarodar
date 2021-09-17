@@ -10,12 +10,11 @@ import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class TripsViewModel(
-    private val bikeActionUseCase: BikeActionUseCase
+    private val bikeActionUseCase: BikeActionUseCase,
 ) : ViewModel() {
 
     private val bikeActionLiveData = MutableLiveData<List<BikeActionsMenuType>>()
@@ -37,23 +36,20 @@ class TripsViewModel(
     fun getBikes(communityId: String) {
         _uiState.value = UiState.Loading
         viewModelScope.launch {
-            bikeActionUseCase.getBikes(communityId)
-                .collect {
-                    when (it) {
-                        is SimpleResult.Success -> {
-                            val bikeList = it.data.convertToBikeList()
-                            val tripsBikeType = bikeActionUseCase.convertBikesToTripsItem(bikeList)
-                            val trips =
-                                bikeActionUseCase.createTitleTripsItem(tripsBikeType.data as MutableList<TripsItemType>)
-                            _trips.value = trips
-                            _uiState.value = UiState.Success
-                        }
-                        is SimpleResult.Error -> {
-                            _trips.value = it
-                            _uiState.value = UiState.Error(it.exception.message.toString())
-                        }
-                    }
+            when (val result = bikeActionUseCase.getBikes(communityId)) {
+                is SimpleResult.Success -> {
+                    val bikeList = result.data.convertToBikeList()
+                    val tripsBikeType = bikeActionUseCase.convertBikesToTripsItem(bikeList)
+                    val trips =
+                        bikeActionUseCase.createTitleTripsItem(tripsBikeType.data as MutableList<TripsItemType>)
+                    _trips.value = trips
+                    _uiState.value = UiState.Success
                 }
+                is SimpleResult.Error -> {
+                    _trips.value = result
+                    _uiState.value = UiState.Error(result.exception.message.toString())
+                }
+            }
         }
     }
 }

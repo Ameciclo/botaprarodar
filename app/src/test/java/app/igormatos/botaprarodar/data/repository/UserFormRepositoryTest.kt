@@ -2,10 +2,8 @@ package app.igormatos.botaprarodar.data.repository
 
 import app.igormatos.botaprarodar.data.network.api.UserApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.utils.userFake
-import app.igormatos.botaprarodar.utils.userRequest
+import app.igormatos.botaprarodar.utils.validUser
 import com.brunotmgomes.ui.SimpleResult
-import com.google.firebase.database.FirebaseDatabase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -16,12 +14,11 @@ import org.junit.Test
 class UserFormRepositoryTest {
 
     private var mockApi = mockk<UserApi>()
-    private var firebaseDatabase = mockk<FirebaseDatabase>()
     private lateinit var userRepository: UserRepository
 
     @Before
     fun setup() {
-        userRepository = UserRepository(userApi = mockApi, firebaseDatabase = firebaseDatabase)
+        userRepository = UserRepository(userApi = mockApi)
     }
 
     @Test
@@ -31,7 +28,7 @@ class UserFormRepositoryTest {
                 mockApi.addUser(any())
             } returns AddDataResponse("User registered")
 
-            val request = userRepository.addNewUser(userFake)
+            val request = userRepository.addNewUser(validUser)
             val result = request as SimpleResult.Success<AddDataResponse>
 
             assertEquals("User registered", result.data.name)
@@ -44,7 +41,7 @@ class UserFormRepositoryTest {
                 mockApi.updateUser(any(), any())
             } returns AddDataResponse("User edited")
 
-            val request = userRepository.updateUser(userFake)
+            val request = userRepository.updateUser(validUser)
             val result = request as SimpleResult.Success<AddDataResponse>
 
             assertEquals("User edited", result.data.name)

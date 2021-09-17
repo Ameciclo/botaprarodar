@@ -16,7 +16,7 @@ class UserRequestConvert : Converter<User, UserRequest> {
             createdDate = user.createdDate.transformNullToEmpty(),
             address = user.address.transformNullToEmpty(),
             available = user.isAvailable,
-            gender = user.gender,
+            gender = user.gender.transformNullToEmpty(),
             residenceProofPicture = user.residenceProofPicture.transformNullToEmpty(),
             docNumber = user.docNumber,
             docPicture = user.docPicture.transformNullToEmpty(),

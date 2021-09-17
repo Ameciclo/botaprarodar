@@ -32,6 +32,7 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     private lateinit var binding: FragmentBikesBinding
     private val preferencesModule: SharedPreferencesModule by inject()
     private val bikesViewModel: BikesViewModel by viewModel()
+    private var currentCommunityBikeList: ArrayList<Bike> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +59,8 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
 
     private fun setupBtnRegisterClickEvent() {
         binding.btnRegisterBikes.setOnClickListener {
-            val intent = BikeFormActivity.setupActivity(requireContext(), null)
+            val intent = BikeFormActivity.setupActivity(requireContext(), null,
+                currentCommunityBikeList)
             startForResult.launch(intent)
         }
     }
@@ -83,7 +85,8 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
         bikesViewModel.bikes.observe(viewLifecycleOwner, {
             when (it) {
                 is SimpleResult.Success -> {
-                    bicycleAdapter.submitList(it.data)
+                    currentCommunityBikeList = ArrayList(it.data)
+                    bicycleAdapter.submitList(currentCommunityBikeList)
                 }
                 is SimpleResult.Error -> {
                     showErrorMessage(getString(R.string.unkown_error))
@@ -100,7 +103,7 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     }
 
     override fun onBicycleClicked(bike: Bike) {
-        val intent = BikeFormActivity.setupActivity(requireContext(), bike)
+        val intent = BikeFormActivity.setupActivity(requireContext(), bike, currentCommunityBikeList)
         startForResult.launch(intent)
     }
 
@@ -112,6 +115,7 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                getBikes()
                 showSnackBar(result.data)
             }
         }

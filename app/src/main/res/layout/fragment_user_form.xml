@@ -15,13 +15,15 @@
             android:layout_height="match_parent">
 
         <ScrollView
-                android:id="@+id/scrollContainer"
+                android:id="@+id/scrollContainerUser"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -135,67 +137,47 @@
                         app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
                         app:textCaptured="@{viewModel.userIncome}">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <EditText
                             android:id="@+id/ietIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="textNoSuggestions"
+                            app:drawableEndCompat="@drawable/ic_arrow_down"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
                             android:text="@={viewModel.userIncome}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                        android:id="@+id/tvGender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/add_user_gender"
-                        android:textColor="@color/title_gray"
-                        app:layout_constraintBottom_toTopOf="@+id/genderRadioGroup"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilAge" />
-
-                <RadioGroup
-                        android:id="@+id/genderRadioGroup"
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ilGender"
+                        style="@style/textInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@id/ilCompleteName"
-                        app:layout_constraintStart_toStartOf="@id/ilCompleteName"
-                        app:layout_constraintTop_toBottomOf="@+id/tvGender"
-                        app:setRadioGroupCheck="@{viewModel.userGender}">
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:hint="@string/add_user_gender"
+                        app:errorMessage="@{`add_user_invalid_gender`}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilAge"
+                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
+                        app:textCaptured="@{viewModel.userGender}">
 
-                    <RadioButton
-                            android:id="@+id/rbGenderMale"
-                            android:layout_width="wrap_content"
+                    <EditText
+                            android:id="@+id/etGender"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderMale)}"
-                            android:text="@string/rb_male_option" />
+                            android:cursorVisible="false"
+                            android:drawableRight="@drawable/ic_arrow_down"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="textNoSuggestions"
+                            android:clickable="false"
+                            android:text="@{viewModel.userGender}" />
 
-                    <RadioButton
-                            android:id="@+id/rbGenderFemale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderFemale)}"
-                            android:text="@string/rb_female_option" />
-
-                    <RadioButton
-                            android:id="@+id/rbGenderOther"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderOther)}"
-                            android:text="@string/rb_other_option" />
-
-                    <RadioButton
-                            android:id="@+id/rbGenderNoAnswer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{() -> viewModel.setUserGender(@id/rbGenderNoAnswer)}"
-                            android:text="@string/rb_no_answer_option" />
-                </RadioGroup>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilRacial"
@@ -209,15 +191,25 @@
                         app:errorMessage="@{`add_user_invalid_racial`}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/genderRadioGroup"
+                        app:layout_constraintTop_toBottomOf="@+id/ilGender"
                         app:textCaptured="@{viewModel.userRacial}">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietRacial"
+                    <EditText
+                            android:id="@+id/etRacial"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="@={viewModel.userRacial}" />
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:text="@{viewModel.userRacial}"
+                            app:drawableEndCompat="@drawable/ic_arrow_down"
+                            android:inputType="textNoSuggestions"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ilRacial" />
+
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -236,12 +228,17 @@
                         app:layout_constraintTop_toBottomOf="@+id/ilRacial"
                         app:textCaptured="@{viewModel.userSchooling}">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietSchooling"
+                    <EditText
+                            android:id="@+id/etSchooling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="@={viewModel.userSchooling}" />
+                            android:cursorVisible="false"
+                            android:drawableRight="@drawable/ic_arrow_down"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="textNoSuggestions"
+                            android:clickable="false"
+                            android:text="@{viewModel.userSchooling}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -263,6 +260,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="phone"
+                            android:maxLength="@integer/max_size_user_phone_number"
                             android:text="@={viewModel.userTelephone}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -365,18 +363,18 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_cpf_hint"
-                        app:errorMessage="@{`add_user_invalid_cpf`}"
+                        android:hint="@string/add_user_doc_number_hint"
+                        app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider"
-                        app:textCaptured="@{viewModel.userDocument}">
+                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietCpf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
+                            android:maxLength="@integer/max_size_user_doc_number"
                             android:text="@={viewModel.userDocument}" />
 
                 </com.google.android.material.textfield.TextInputLayout>

@@ -8,47 +8,57 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.BikeFormStatus
 import app.igormatos.botaprarodar.databinding.ActivityBikeFormBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.brunotmgomes.ui.extensions.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class BikeFormActivity : AppCompatActivity() {
-
-    var imagePath: String? = null
-    private lateinit var loadingDialog: AlertDialog
-
-    private val formViewModel: BikeFormViewModel by viewModel()
-
     private val binding: ActivityBikeFormBinding by lazy {
-        DataBindingUtil.setContentView<ActivityBikeFormBinding>(this, R.layout.activity_bike_form)
+        DataBindingUtil.setContentView(this, R.layout.activity_bike_form)
     }
 
-    companion object {
-        const val BIKE_EXTRA = "Bike_extra"
-
-        fun setupActivity(context: Context, bike: Bike?): Intent {
-            val intent = Intent(context, BikeFormActivity::class.java)
-            intent.putExtra(BIKE_EXTRA, bike)
-            return intent
-        }
-    }
+    private var imagePath: String? = null
+    private lateinit var formViewModel: BikeFormViewModel
+    private lateinit var loadingDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.lifecycleOwner = this
-        binding.viewModel = formViewModel
-
+        val communityBikes = getCommunityBikes()
+        formViewModel = setupViewModel(communityBikes)
+        setupBinding(formViewModel)
+        setupLoadingDialog()
         setupToolbar()
         onClickBicyclePhotoImage()
         waitBicycleRegisterResult()
         checkEditMode()
-        loadingDialog = createLoading(R.layout.loading_dialog_animation)
+    }
 
+    private fun getCommunityBikes(): ArrayList<Bike> {
+        if (intent.hasExtra(COMMUNITY_BIKES_EXTRA)) {
+            return intent.extras?.getParcelableArrayList(COMMUNITY_BIKES_EXTRA)!!
+        }
+        return arrayListOf()
+    }
+
+    private fun setupViewModel(communityBikes: ArrayList<Bike>): BikeFormViewModel {
+        formViewModel = getViewModel {
+            parametersOf(communityBikes)
+        }
+        return formViewModel
+    }
+
+    private fun setupBinding(formViewModel: BikeFormViewModel) {
+        binding.lifecycleOwner = this
+        binding.viewModel = formViewModel
+    }
+
+    private fun setupLoadingDialog() {
+        loadingDialog = createLoading(R.layout.loading_dialog_animation)
     }
 
     private fun setupToolbar() {
@@ -63,16 +73,6 @@ class BikeFormActivity : AppCompatActivity() {
             val userExtra = intent.extras?.getParcelable<Bike>(BIKE_EXTRA)
             setValuesToEditBike(userExtra)
         }
-//        val parcelableBike: Parcelable? =
-//            if (intent.hasExtra(BIKE_EXTRA)) intent.getParcelableExtra(BIKE_EXTRA) else null
-
-//        val parcelableBike = intent.getParcelableExtra<Bike>(BIKE_EXTRA)
-
-
-//        if (parcelableBike != null) {
-//            val bike = Parcels.unwrap(parcelableBike) as Bike
-//            setValuesToEditBike(bike)
-//        }
     }
 
     private fun onClickBicyclePhotoImage() {
@@ -90,7 +90,7 @@ class BikeFormActivity : AppCompatActivity() {
     }
 
     private fun waitBicycleRegisterResult() {
-        binding.viewModel?.state?.observe(this, Observer { bikeFormStatus ->
+        binding.viewModel?.state?.observe(this, { bikeFormStatus ->
             when (bikeFormStatus) {
                 is BikeFormStatus.Success -> {
                     loadingDialog.dismiss()
@@ -102,7 +102,7 @@ class BikeFormActivity : AppCompatActivity() {
                 }
                 is BikeFormStatus.Error -> {
                     loadingDialog.dismiss()
-                    errorText(bikeFormStatus.message)
+                    errorText(this.getString(bikeFormStatus.messageResId))
                 }
             }
         })
@@ -141,5 +141,17 @@ class BikeFormActivity : AppCompatActivity() {
     private fun setImageVisibilities() {
         binding.cameraImageView.visible()
         binding.addPhotoTextView.gone()
+    }
+
+    companion object {
+        const val BIKE_EXTRA = "bike_extra"
+        private const val COMMUNITY_BIKES_EXTRA = "community_bikes_extra"
+
+        fun setupActivity(context: Context, bike: Bike?, communityBikes: ArrayList<Bike>): Intent {
+            val intent = Intent(context, BikeFormActivity::class.java)
+            intent.putExtra(BIKE_EXTRA, bike)
+            intent.putParcelableArrayListExtra(COMMUNITY_BIKES_EXTRA, communityBikes)
+            return intent
+        }
     }
 }
