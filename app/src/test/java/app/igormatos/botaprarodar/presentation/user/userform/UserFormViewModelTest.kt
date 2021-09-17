@@ -7,10 +7,7 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
-import app.igormatos.botaprarodar.utils.incomeOptions
-import app.igormatos.botaprarodar.utils.racialOptions
-import app.igormatos.botaprarodar.utils.schoolingOptions
-import app.igormatos.botaprarodar.utils.validUser
+import app.igormatos.botaprarodar.utils.*
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -39,7 +36,8 @@ class UserFormViewModelTest {
             arrayListOf(validUser),
             racialOptions,
             incomeOptions,
-            schoolingOptions
+            schoolingOptions,
+            genderOptions
 
         )
     }
@@ -70,20 +68,6 @@ class UserFormViewModelTest {
         val expectedValue = "mock"
         formViewModel.setResidenceImage("mock")
         assertEquals(expectedValue, formViewModel.userImageDocumentResidence.value)
-    }
-
-    @Test
-    fun `when 'setUserGender' should update user gender value with correct value`() {
-        val expectedGender = 3
-        formViewModel.setUserGender(R.id.rbGenderNoAnswer)
-        assertEquals(expectedGender, formViewModel.userGender.value)
-    }
-
-    @Test
-    fun `when 'setUserGender' should update user gender value with different value`() {
-        val expectedGender = 2
-        formViewModel.setUserGender(R.id.rbGenderNoAnswer)
-        assertNotEquals(expectedGender, formViewModel.userGender.value)
     }
 
     @Test
@@ -188,6 +172,14 @@ class UserFormViewModelTest {
     }
 
     @Test
+    fun `when call setSelectGenderIndex() then user racial value should be updated`() {
+        val index = 1
+
+        formViewModel.setSelectGenderIndex(index)
+        assertEquals(index, formViewModel.selectedGenderIndex)
+    }
+
+    @Test
     fun `when call setSelectSchoolingIndex() then user racial value should be updated`() {
         val index = 2
 
@@ -204,11 +196,20 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setUserIncome() then user income value should be updated`() {
+    fun `when call setSelectIncomeIndex() then user income value should be updated`() {
         val index = 2
 
         formViewModel.setSelectIncomeIndex(index)
         assertEquals(index, formViewModel.selectedIncomeIndex)
+    }
+
+    @Test
+    fun `when call confirmUserGender() then user racial value should be updated`() {
+        val index = 1
+
+        formViewModel.setSelectGenderIndex(index)
+        formViewModel.confirmUserGender()
+        assertEquals(genderOptions[index], formViewModel.userGender.value)
     }
 
     @Test
@@ -229,7 +230,6 @@ class UserFormViewModelTest {
         assertEquals(racialOptions[index], formViewModel.userRacial.value)
     }
 
-
     @Test
     fun `when call confirmUserIncome() then user income value should be updated`() {
         val index = 2
@@ -237,15 +237,6 @@ class UserFormViewModelTest {
         formViewModel.setSelectIncomeIndex(index)
         formViewModel.confirmUserIncome()
         assertEquals(incomeOptions[index], formViewModel.userIncome.value)
-    }
-
-
-    @Test
-    fun `when 'setSchooling' should update user schooling value with equal value`() {
-        val index = 1
-        formViewModel.setSelectSchoolingIndex(index)
-        formViewModel.confirmUserSchooling()
-        assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
     }
 
     private fun createTestValidUser(): User {
@@ -263,7 +254,7 @@ class UserFormViewModelTest {
             userImageDocumentResidence.value = testValidUser.residenceProofPicture.orEmpty()
             userImageDocumentFront.value = testValidUser.docPicture.orEmpty()
             userImageDocumentBack.value = testValidUser.docPictureBack.orEmpty()
-            userGender.value = testValidUser.gender
+            userGender.value = testValidUser.gender.orEmpty()
             userRacial.value = testValidUser.racial.orEmpty()
             userSchooling.value = testValidUser.schooling.orEmpty()
             userIncome.value = testValidUser.income.orEmpty()

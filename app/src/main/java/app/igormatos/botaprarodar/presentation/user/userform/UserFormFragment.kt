@@ -40,9 +40,6 @@ class UserFormFragment : Fragment() {
         findNavController()
     }
 
-    private var selectedSchooling = 0
-    private var schoolingValues = arrayOf<String>()
-
     companion object {
         private const val REQUEST_PROFILE_PHOTO = 1
         private const val REQUEST_ID_PHOTO = 2
@@ -59,7 +56,8 @@ class UserFormFragment : Fragment() {
         val racialOptions = resources.getStringArray(R.array.racial_options).toList()
         val incomeOptions = resources.getStringArray(R.array.income_options).toList()
         val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
-        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions)
+        val genderOptions = resources.getStringArray(R.array.gender_options).toList()
+        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions, genderOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -74,9 +72,9 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions)
+            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions, genderOptions)
         }
         return userFormViewModel
     }
@@ -164,6 +162,19 @@ class UserFormFragment : Fragment() {
     private fun dispatchTakePictureIntent(code: Int) {
         requireActivity().takePictureIntent(code) { path ->
             mCurrentPhotoPath = path
+        }
+    }
+
+    private fun createDialogGender (){
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.add_user_gender))
+            setSingleChoiceItems(binding.viewModel?.genderList?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
+                binding.viewModel?.setSelectGenderIndex(which)
+            }
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserGender()
+            }
+            create().show()
         }
     }
 
@@ -280,6 +291,10 @@ class UserFormFragment : Fragment() {
 
         binding.ivResidenceProof.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+        }
+
+        binding.etGender.setOnClickListener {
+            createDialogGender()
         }
 
         binding.etSchooling.setOnClickListener {
