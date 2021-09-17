@@ -17,7 +17,8 @@ class UserFormViewModel(
     val communityUsers: ArrayList<User>,
     val racialList: List<String>,
     val incomeList: List<String>,
-    val schoolingList: List<String>
+    val schoolingList: List<String>,
+    val genderList: List<String>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
     var isEditableAvailable = false
@@ -30,7 +31,7 @@ class UserFormViewModel(
     var userImageDocumentResidence = MutableLiveData("")
     var userImageDocumentFront = MutableLiveData("")
     var userImageDocumentBack = MutableLiveData("")
-    var userGender = MutableLiveData(GENDER_INITIAL_VALUE)
+    var userGender = MutableLiveData("")
     var userRacial = MutableLiveData("")
     var userSchooling = MutableLiveData("")
     var userIncome = MutableLiveData("")
@@ -39,6 +40,7 @@ class UserFormViewModel(
     var selectedSchoolingIndex = 0
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
+    var selectedGenderIndex = 0
 
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
@@ -90,7 +92,7 @@ class UserFormViewModel(
             userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
             userImageDocumentFront.value = this.docPicture.orEmpty()
             userImageDocumentBack.value = this.docPictureBack.orEmpty()
-            userGender.value = this.gender
+            userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
             userIncome.value = this.income.orEmpty()
@@ -114,7 +116,7 @@ class UserFormViewModel(
                 userIncome.value.isNotNullOrNotBlank() &&
                 userAge.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
-                userGender.value != GENDER_INITIAL_VALUE
+                userGender.value.isNotNullOrNotBlank()
     }
 
 
@@ -135,7 +137,7 @@ class UserFormViewModel(
             residenceProofPicture = userImageDocumentResidence.value
             docPicture = userImageDocumentFront.value
             docPictureBack = userImageDocumentBack.value
-            gender = userGender.value ?: NO_ANSWER
+            gender = userGender.value
             communityId = community.id
             racial = userRacial.value
             schooling = userSchooling.value
@@ -143,10 +145,6 @@ class UserFormViewModel(
             age = userAge.value
             telephone = userTelephone.value
         }
-    }
-
-    fun setUserGender(radioButtonGenderId: Int) {
-        userGender.value = getGenderId(radioButtonGenderId)
     }
 
     fun setProfileImage(path: String) {
@@ -165,6 +163,10 @@ class UserFormViewModel(
         userImageDocumentResidence.value = path
     }
 
+    fun confirmUserGender() {
+        userGender.value = genderList[selectedGenderIndex]
+    }
+
     fun confirmUserRace() {
         userRacial.value = racialList[selectedRacialIndex]
     }
@@ -175,6 +177,12 @@ class UserFormViewModel(
 
     fun confirmUserIncome() {
         userIncome.value = incomeList[selectedIncomeIndex]
+    }
+
+    fun getSelectedGenderListIndex(): Int {
+        selectedGenderIndex =
+            genderList.indexOfLast { userGender.value.equals(it) }.takeIf { it > -1 } ?: 0
+        return selectedGenderIndex
     }
 
     fun getSelectedSchoolingListIndex(): Int {
@@ -193,6 +201,10 @@ class UserFormViewModel(
         selectedRacialIndex =
             racialList.indexOfLast { userRacial.value.equals(it) }.takeIf { it > -1 } ?: 0
         return selectedRacialIndex
+    }
+
+    fun setSelectGenderIndex(index: Int) {
+        selectedGenderIndex = index
     }
 
     fun setSelectRacialIndex(index: Int) {

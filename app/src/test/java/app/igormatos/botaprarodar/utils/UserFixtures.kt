@@ -15,7 +15,7 @@ val validUser = User().apply {
     docPicture = "https://doc.jpeg"
     address = "Polo Norte - 433La 092Lg"
     createdDate = "01/01/2021"
-    gender = 0
+    gender = "Outro"
     docType = 1
     isAvailable = true
     profilePicture = "https://profile.jpeg"
@@ -35,7 +35,7 @@ val unavailableUserFake = User().apply {
     docPicture = "https://doc.jpeg"
     address = "Polo Norte - 433La 092Lg"
     createdDate = "01/01/2021"
-    gender = 0
+    gender = "Outro"
     docType = 1
     isAvailable = false
     profilePicture = "https://profile.jpeg"
@@ -56,7 +56,7 @@ val userRequest = UserRequest(
     docPicture = "",
     docPictureBack = "",
     docType = 0,
-    gender = 0,
+    gender = "Outro",
     path = "",
     profilePicture = "",
     profilePictureThumbnail = "",
@@ -100,6 +100,13 @@ val schoolingOptions = listOf<String>(
     "Ensino superior incompleto",
     "Ensino superior completo",
     "Não determinado"
+)
+
+val genderOptions = listOf<String>(
+    "Masculino",
+    "Feminino",
+    "Outro",
+    "Prefere não responder"
 )
 
 fun buildListAvailableUsers(howMuch: Int): List<User> {

@@ -24,7 +24,7 @@ object Fixtures {
         docPicture = "https://doc.jpeg"
         address = "Polo Norte - 433La 092Lg"
         createdDate = "01/01/2021"
-        gender = 0
+        gender = "Outro"
         docType = 1
         isAvailable = true
         profilePicture = "https://profile.jpeg"

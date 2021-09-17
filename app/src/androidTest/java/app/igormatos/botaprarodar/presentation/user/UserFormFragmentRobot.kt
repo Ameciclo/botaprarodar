@@ -44,6 +44,10 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.etRacial)
     }
 
+    fun clickGenderEditText() {
+        clickButton(R.id.etGender)
+    }
+
     fun clickIncomeEditText() {
         clickButton(R.id.ietIncome)
     }
@@ -71,6 +75,10 @@ class UserFormFragmentRobot : BaseRobot() {
         }
     }
 
+    fun verifyGenderDialogIsShowing() {
+        checkMessage(context.resources.getString(R.string.add_user_gender))
+    }
+
     fun verifyRacialDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_racial))
     }
@@ -79,6 +87,12 @@ class UserFormFragmentRobot : BaseRobot() {
         checkMessage(context.resources.getString(R.string.add_user_income))
     }
 
+    fun verifyGenderOptionIsShowing() {
+        val options = context.resources.getStringArray(R.array.gender_options)
+        for (option in options) {
+            checkMessage(option)
+        }
+    }
     fun verifyRacialOptionIsShowing() {
         val options = context.resources.getStringArray(R.array.racial_options)
         for (option in options) {
@@ -96,6 +110,11 @@ class UserFormFragmentRobot : BaseRobot() {
 
     fun clickBackButton() {
         pressBack()
+    }
+
+    fun verifyGenderEditTextIsEqualSelected(atPosition:Int){
+        val options = context.resources.getStringArray(R.array.gender_options)
+        checkMessage(options[atPosition])
     }
 
     fun verifySchoolingEditTextIsEqualSelected(atPosition:Int){
