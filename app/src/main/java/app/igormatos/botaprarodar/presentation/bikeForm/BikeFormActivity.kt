@@ -28,8 +28,8 @@ class BikeFormActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val communityBikes = getCommunityBikes()
-        formViewModel = setupViewModel(communityBikes)
+        val communityBikesSerialNumbers = getCommunityBikesSerialNumbers()
+        formViewModel = setupViewModel(communityBikesSerialNumbers)
         setupBinding(formViewModel)
         setupLoadingDialog()
         setupToolbar()
@@ -38,16 +38,16 @@ class BikeFormActivity : AppCompatActivity() {
         checkEditMode()
     }
 
-    private fun getCommunityBikes(): ArrayList<Bike> {
+    private fun getCommunityBikesSerialNumbers(): ArrayList<String> {
         if (intent.hasExtra(COMMUNITY_BIKES_EXTRA)) {
-            return intent.extras?.getParcelableArrayList(COMMUNITY_BIKES_EXTRA)!!
+            return intent.extras?.getStringArrayList(COMMUNITY_BIKES_EXTRA)!!
         }
         return arrayListOf()
     }
 
-    private fun setupViewModel(communityBikes: ArrayList<Bike>): BikeFormViewModel {
+    private fun setupViewModel(communityBikesSerialNumbers: ArrayList<String>): BikeFormViewModel {
         formViewModel = getViewModel {
-            parametersOf(communityBikes)
+            parametersOf(communityBikesSerialNumbers)
         }
         return formViewModel
     }
@@ -71,7 +71,7 @@ class BikeFormActivity : AppCompatActivity() {
     private fun checkEditMode() {
         if (intent.extras != null) {
             val userExtra = intent.extras?.getParcelable<Bike>(BIKE_EXTRA)
-            if (userExtra != null ) setValuesToEditBike(userExtra)
+            setValuesToEditBike(userExtra)
         }
     }
 
@@ -150,7 +150,7 @@ class BikeFormActivity : AppCompatActivity() {
         fun setupActivity(context: Context, bike: Bike?, communityBikes: ArrayList<Bike>): Intent {
             val intent = Intent(context, BikeFormActivity::class.java)
             intent.putExtra(BIKE_EXTRA, bike)
-            intent.putParcelableArrayListExtra(COMMUNITY_BIKES_EXTRA, communityBikes)
+            intent.putStringArrayListExtra(COMMUNITY_BIKES_EXTRA, ArrayList(communityBikes.map { it.serialNumber }))
             return intent
         }
     }
