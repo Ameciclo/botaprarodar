@@ -292,11 +292,11 @@ val bprModule = module {
         )
     }
 
-    viewModel { (communityBikes: ArrayList<Bike>) ->
+    viewModel { (communityBikesSerialNumbers: ArrayList<String>) ->
         BikeFormViewModel(
             bikeFormUseCase = get(),
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            communityBikes = communityBikes
+            communityBikesSerialNumbers = communityBikesSerialNumbers
         )
     }
 
