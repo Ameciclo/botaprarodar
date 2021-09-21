@@ -71,7 +71,7 @@ class BikeFormActivity : AppCompatActivity() {
     private fun checkEditMode() {
         if (intent.extras != null) {
             val userExtra = intent.extras?.getParcelable<Bike>(BIKE_EXTRA)
-            setValuesToEditBike(userExtra)
+            if (userExtra != null ) setValuesToEditBike(userExtra)
         }
     }
 
