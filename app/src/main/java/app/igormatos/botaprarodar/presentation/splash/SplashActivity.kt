@@ -38,5 +38,9 @@ class SplashActivity : AppCompatActivity() {
     private fun navigateToActivity(intent: Intent) {
         startActivity(intent)
         finish()
+//        overridePendingTransition(
+//            R.anim.slide_in_bottom,
+//            R.anim.slide_out_top
+//        )
     }
 }
