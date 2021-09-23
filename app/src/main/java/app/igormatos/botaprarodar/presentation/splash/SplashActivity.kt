@@ -2,6 +2,8 @@ package app.igormatos.botaprarodar.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
@@ -17,8 +19,12 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        observeEvents()
-        viewModel.verifyUserLoginState()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { observeEvents()
+            viewModel.verifyUserLoginState()
+        }, 0)
+
+
     }
 
     private fun observeEvents() {
@@ -38,9 +44,9 @@ class SplashActivity : AppCompatActivity() {
     private fun navigateToActivity(intent: Intent) {
         startActivity(intent)
         finish()
-//        overridePendingTransition(
-//            R.anim.slide_in_bottom,
-//            R.anim.slide_out_top
-//        )
+        overridePendingTransition(
+            R.anim.slide_in_bottom,
+            R.anim.slide_out_top
+        )
     }
 }
