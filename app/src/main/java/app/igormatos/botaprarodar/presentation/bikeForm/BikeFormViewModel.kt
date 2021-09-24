@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class BikeFormViewModel(
     private val bikeFormUseCase: BikeFormUseCase,
     private val community: Community,
-    private val communityBikes: ArrayList<Bike>
+    private val communityBikesSerialNumbers: ArrayList<String>
 ) : BprViewModel<BikeFormStatus>() {
 
     var isEditModeAvailable = false
@@ -63,7 +63,7 @@ class BikeFormViewModel(
     }
 
     private fun communityBikesHasSerialNumber(serialNumber: String?) =
-        communityBikes.any { it.serialNumber.equals(serialNumber) }
+        communityBikesSerialNumbers.any { it.equals(serialNumber) }
 
     private fun validateForm() {
         valid.value = isTextValid(imagePath.value) &&
@@ -86,16 +86,18 @@ class BikeFormViewModel(
         bike.apply {
             this@BikeFormViewModel.serialNumber.value = this.serialNumber
             this@BikeFormViewModel.bikeName.value = this.name
-            this@BikeFormViewModel.orderNumber.value = this.orderNumber.toString()
+            this@BikeFormViewModel.orderNumber.value = this.orderNumber?.toString() ?: ""
             this@BikeFormViewModel.imagePath.value = this.photoPath
         }
         setBikeToEditMode(bike)
     }
 
     private fun setBikeToEditMode(bike: Bike) {
-        this.bike = bike
-        isEditModeAvailable = true
-        communityBikes.remove(bike)
+        if(bike != null) {
+            this.bike = bike
+            isEditModeAvailable = true
+            communityBikesSerialNumbers.remove(bike.serialNumber)
+        }
     }
 
     fun updateImagePath(imagePath: String) {
