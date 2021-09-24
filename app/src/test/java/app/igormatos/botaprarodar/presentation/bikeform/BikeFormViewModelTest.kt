@@ -34,7 +34,7 @@ class BikeFormViewModelTest {
         bikeViewModel =
             BikeFormViewModel(bikeFormUseCase = bikeFormUseCase,
                 community = community,
-                communityBikes = arrayListOf(bike))
+                communityBikesSerialNumbers = arrayListOf(bike.serialNumber!!))
         bikeViewModel.orderNumber.postValue(bikeFake.orderNumber.toString())
     }
 
