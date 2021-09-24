@@ -20,6 +20,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
+        observeEvents()
         Handler(Looper.getMainLooper()).postDelayed(Runnable { observeEvents()
             viewModel.verifyUserLoginState()
         }, 0)
