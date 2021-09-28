@@ -31,7 +31,7 @@ object Fixtures {
         profilePictureThumbnail = "https://thumb.jpeg"
         residenceProofPicture = "https://residence.jpeg"
         racial = "Branca"
-        schooling = "Ensino superior completo"
+        schooling = "Ensino superior"
         income = "0"
         age = "22"
     }
