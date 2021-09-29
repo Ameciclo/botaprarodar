@@ -219,6 +219,10 @@ class UserFormViewModel(
         selectedIncomeIndex = index
     }
 
+    fun getPathUserImageDocumentResidence(): String? {
+        return userImageDocumentResidence.value
+    }
+
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
