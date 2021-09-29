@@ -2,13 +2,16 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +23,7 @@ import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
+import com.brunotmgomes.ui.extensions.isNotNullOrBlank
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -176,7 +180,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun createDialogGender (){
+    private fun createDialogGender() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_gender))
             setSingleChoiceItems(binding.viewModel?.getGenderList()?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
@@ -189,7 +193,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun createDialogSchooling (){
+    private fun createDialogSchooling() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_schooling))
             setSingleChoiceItems(binding.viewModel?.getSchoolingList()?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
@@ -259,6 +263,21 @@ class UserFormFragment : Fragment() {
 
     }
 
+    private fun openDialogChangeImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_change_image, null)
+        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
+        dialog.setView(changeImageLayout)
+        dialog.show()
+
+       // changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImageURI(Uri.parse(binding.viewModel?.getPathUserImageDocumentResidence()))
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener { deleteImageProofResidence() }
+        changeImageLayout.findViewById<Button>(R.id.closeDialog).setOnClickListener { dialog.cancel() }
+    }
+
+    private fun deleteImageProofResidence() {
+        Toast.makeText(requireContext(), "TESTE ", Toast.LENGTH_SHORT).show()
+    }
+
     private fun setupListeners() {
         binding.ietAge.addTextChangedListener(
             EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
@@ -304,7 +323,11 @@ class UserFormFragment : Fragment() {
         }
 
         binding.ivResidenceProof.setOnClickListener {
-            dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            if (userFormViewModel.userImageDocumentResidence.isNotNullOrBlank()) {
+                dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            } else {
+                openDialogChangeImage()
+            }
         }
 
         binding.etGender.setOnClickListener {
@@ -328,4 +351,6 @@ class UserFormFragment : Fragment() {
             binding.viewModel?.confirmUserSchoolingStatus()
         }
     }
+
+
 }

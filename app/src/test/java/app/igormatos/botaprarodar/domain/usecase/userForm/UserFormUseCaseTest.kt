@@ -82,6 +82,17 @@ class UserFormUseCaseTest {
             )
         }
 
+    @Test
+    fun `when 'deleteImage' should return simple result without exception`() =
+        runBlocking {
+            val imagePath = validUser.residenceProofPicture.orEmpty()
+            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(Unit)
+
+            val responseResult = userUseCase.deleteImage(imagePath)
+
+            assertTrue(responseResult is SimpleResult.Success<Unit>)
+        }
+
     private fun mockTestSuccess() {
         coEvery {
             userRepository.addNewUser(any())

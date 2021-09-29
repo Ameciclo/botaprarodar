@@ -258,8 +258,12 @@ class UserFormViewModel(
         return mapOptions["schoolingStatusOptions"].orEmpty()
     }
 
-    fun getIncomeList() : List<String>{
+    fun getIncomeList() : List<String> {
         return mapOptions["incomeOptions"].orEmpty()
+    }
+
+    fun getPathUserImageDocumentResidence(): String? {
+        return userImageDocumentResidence.value
     }
 
     fun navigateToNextStep() {
