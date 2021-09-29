@@ -8,4 +8,10 @@
         <attr name="select_background" format="color"/>
         <attr name="unselect_background" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CustomEditText">
+        <attr name="text_label" format="string"/>
+        <attr name="text_hint" format="string"/>
+    </declare-styleable>
+
 </resources>
