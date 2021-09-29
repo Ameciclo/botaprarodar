@@ -265,13 +265,13 @@ class UserFormFragment : Fragment() {
 
     private fun openDialogChangeImage() {
         val changeImageLayout = layoutInflater.inflate(R.layout.dialog_change_image, null)
-        val dialog = MaterialAlertDialogBuilder(requireContext()).create()
-        dialog.setView(changeImageLayout)
-        dialog.show()
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
 
-       // changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImageURI(Uri.parse(binding.viewModel?.getPathUserImageDocumentResidence()))
+        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImageURI(Uri.parse(binding.viewModel?.userImageProfile!!.value))
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener { deleteImageProofResidence() }
-        changeImageLayout.findViewById<Button>(R.id.closeDialog).setOnClickListener { dialog.cancel() }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener { builder.cancel() }
     }
 
     private fun deleteImageProofResidence() {
