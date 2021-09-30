@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
@@ -18,7 +19,8 @@ class UserFormViewModel(
     val racialList: List<String>,
     val incomeList: List<String>,
     val schoolingList: List<String>,
-    val genderList: List<String>
+    val genderList: List<String>,
+    private val userUseCase: UserFormUseCase
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
     var isEditableAvailable = false
@@ -219,8 +221,12 @@ class UserFormViewModel(
         selectedIncomeIndex = index
     }
 
-    fun getPathUserImageDocumentResidence(): String? {
-        return userImageDocumentResidence.value
+    fun getPathUserImageDocumentResidence(): String {
+        return userImageDocumentResidence.value.orEmpty()
+    }
+
+    suspend fun deleteProofResidenceImage(){
+        userUseCase.deleteImage(getPathUserImageDocumentResidence())
     }
 
     fun navigateToNextStep() {

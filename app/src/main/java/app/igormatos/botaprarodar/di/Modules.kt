@@ -328,7 +328,8 @@ val bprModule = module {
             racialList = racialOptions,
             incomeList = incomeOptions,
             schoolingList = schoolingOptions,
-            genderList = genderOptions
+            genderList = genderOptions,
+            userUseCase = get()
 
         )
     }
