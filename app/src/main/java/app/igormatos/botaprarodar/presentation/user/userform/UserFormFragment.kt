@@ -265,7 +265,7 @@ class UserFormFragment : Fragment() {
         builder.setView(changeImageLayout)
         builder.show()
 
-        setImagePathOrUrl(changeImageLayout.findViewById<ImageView>(R.id.cancelButton), binding.viewModel?.userImageProfile?.value.orEmpty())
+        setImagePathOrUrl(changeImageLayout.findViewById<ImageView>(R.id.dialogImage), binding.viewModel?.getPathUserImageDocumentResidence().orEmpty())
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
             builder.cancel()
             openDialogDeleteImage()
@@ -282,7 +282,7 @@ class UserFormFragment : Fragment() {
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
             builder.cancel()
         }
-        changeImageLayout.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+        changeImageLayout.findViewById<Button>(R.id.dialogImage).setOnClickListener {
             builder.cancel()
             openDialogChangeImage()
         }
@@ -290,6 +290,9 @@ class UserFormFragment : Fragment() {
             builder.cancel()
         }
     }
+
+//    private deleteProofResidenceImage(){
+//    }
 
     private fun setupListeners() {
         binding.ietAge.addTextChangedListener(

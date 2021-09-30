@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
@@ -262,8 +263,8 @@ class UserFormViewModel(
         return mapOptions["incomeOptions"].orEmpty()
     }
 
-    fun getPathUserImageDocumentResidence(): String? {
-        return userImageDocumentResidence.value
+    fun getPathUserImageDocumentResidence(): String {
+        return userImageDocumentResidence.value.orEmpty()
     }
 
     fun navigateToNextStep() {
