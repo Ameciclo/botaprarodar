@@ -216,7 +216,12 @@
     <string name="user_form_step_label">Preencha os dados</string>
     <string name="title_dialog_change_image">Deseja alterar o comprovante?</string>
     <string name="subtitle_dialog_change_image">Certifique que as informações estão legíveis e clique na foto abaixo.</string>
-    <string name="button_delete_dialog_change_image">Deletar Comprovante</string>
+
+    <string name="title_dialog_delete_image">Deseja deletar o comprovante?</string>
+    <string name="subtitle_dialog_delete_image">Essa ação não pode ser desfeita!</string>
+    <string name="button_cancel_dialog_delete_image">Cancelar</string>
+
+    <string name="button_delete_dialog_image">Deletar Comprovante</string>
 
     <!-- User Quiz -->
     <string name="user_quiz_means_transport_question">Você tem acesso a outro meio de transporte?</string>

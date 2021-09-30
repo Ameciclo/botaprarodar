@@ -2,7 +2,6 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,12 +18,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
+import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
-import com.brunotmgomes.ui.extensions.gone
-import com.brunotmgomes.ui.extensions.isNotNullOrBlank
-import com.brunotmgomes.ui.extensions.takePictureIntent
-import com.brunotmgomes.ui.extensions.visible
+import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -269,13 +265,30 @@ class UserFormFragment : Fragment() {
         builder.setView(changeImageLayout)
         builder.show()
 
-        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImageURI(Uri.parse(binding.viewModel?.userImageProfile!!.value))
-        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener { deleteImageProofResidence() }
+        setImagePathOrUrl(changeImageLayout.findViewById<ImageView>(R.id.cancelButton), binding.viewModel?.userImageProfile?.value.orEmpty())
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            builder.cancel()
+            openDialogDeleteImage()
+        }
         changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener { builder.cancel() }
     }
 
-    private fun deleteImageProofResidence() {
-        Toast.makeText(requireContext(), "TESTE ", Toast.LENGTH_SHORT).show()
+    private fun openDialogDeleteImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_delete_image, null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
+
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            builder.cancel()
+        }
+        changeImageLayout.findViewById<Button>(R.id.cancelButton).setOnClickListener {
+            builder.cancel()
+            openDialogChangeImage()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener {
+            builder.cancel()
+        }
     }
 
     private fun setupListeners() {
@@ -323,7 +336,7 @@ class UserFormFragment : Fragment() {
         }
 
         binding.ivResidenceProof.setOnClickListener {
-            if (userFormViewModel.userImageDocumentResidence.isNotNullOrBlank()) {
+            if (userFormViewModel.userImageDocumentResidence.isNullOrBlank()) {
                 dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
             } else {
                 openDialogChangeImage()
