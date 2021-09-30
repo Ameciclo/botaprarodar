@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textColor="@color/black"
-            android:text="@string/title_dialog_change_image"
+            android:text="@string/title_dialog_delete_image"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:textSize="20sp"
-            android:text="@string/subtitle_dialog_change_image"
+            android:text="@string/subtitle_dialog_delete_image"
             android:layout_margin="@dimen/margin_big"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,41 +43,32 @@
             app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
             tools:text="Tire uma foto clara e que pegue todo o rosto." />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancelButton"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/background_image_bike"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialogSubtitle"/>
-
-
-
-    <ImageView
-            android:id="@+id/dialogImageIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_add_a_photo_white"
-            app:layout_constraintBottom_toBottomOf="@+id/cancelButton"
-            app:layout_constraintEnd_toEndOf="@+id/cancelButton"
-            app:layout_constraintStart_toStartOf="@+id/cancelButton"
-            app:layout_constraintTop_toTopOf="@+id/cancelButton" />
-
-
-    <Button
-            android:id="@+id/submitButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_big"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_big"
-            android:backgroundTint="@color/red"
-            android:padding="@dimen/padding_medium"
+            android:background="@drawable/shape_button_white"
+            android:text="@string/button_cancel_dialog_delete_image"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialogSubtitle"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submitButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:background="@drawable/shape_button_red"
             android:text="@string/button_delete_dialog_image"
             android:textColor="@color/white"
             android:textStyle="bold"
