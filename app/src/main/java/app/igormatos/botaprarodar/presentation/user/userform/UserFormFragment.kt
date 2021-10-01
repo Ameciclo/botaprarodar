@@ -22,6 +22,7 @@ import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.coroutineScope
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -284,7 +285,10 @@ class UserFormFragment : Fragment() {
         builder.setView(changeImageLayout)
         builder.show()
 
-        setImagePathOrUrl(changeImageLayout.findViewById<ImageView>(R.id.dialogImage), binding.viewModel?.getPathUserImageDocumentResidence().orEmpty())
+        setImagePathOrUrl(
+            changeImageLayout.findViewById<ImageView>(R.id.dialogImage),
+            binding.viewModel?.getPathUserImageDocumentResidence().orEmpty()
+        )
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
             builder.cancel()
             openDialogDeleteImage()
@@ -299,6 +303,7 @@ class UserFormFragment : Fragment() {
         builder.show()
 
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            binding.viewModel?.deleteProofResidenceImage()
             builder.cancel()
         }
         changeImageLayout.findViewById<Button>(R.id.dialogImage).setOnClickListener {
@@ -355,7 +360,7 @@ class UserFormFragment : Fragment() {
         }
 
         binding.ivResidenceProof.setOnClickListener {
-            if (userFormViewModel.userImageDocumentResidence.isNullOrBlank()) {
+            if (binding.viewModel?.getPathUserImageDocumentResidence().isNullOrBlank()) {
                 dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
             } else {
                 openDialogChangeImage()
