@@ -42,7 +42,7 @@ class UserFormUseCase(
     }
 
     suspend fun deleteImage(imagePath: String): SimpleResult<Unit> {
-        return firebaseHelperRepository.deleteImageResource(imagePath)
+            return firebaseHelperRepository.deleteImageResource(imagePath)
     }
 
     private suspend fun saveUser(
