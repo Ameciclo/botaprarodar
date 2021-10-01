@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.user.userform
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
@@ -12,6 +13,8 @@ import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class UserFormViewModel(
     private val community: Community,
@@ -265,6 +268,16 @@ class UserFormViewModel(
 
     fun getPathUserImageDocumentResidence(): String {
         return userImageDocumentResidence.value.orEmpty()
+    }
+
+    fun deleteProofResidenceImage(){
+        viewModelScope.launch {
+            getPathUserImageDocumentResidence().apply {
+                if (contains("firebase")) {
+//                    userUseCase.deleteImage(this)
+                }
+            }
+        }
     }
 
     fun navigateToNextStep() {
