@@ -1,8 +1,10 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
@@ -21,13 +23,31 @@ class CustomEditText @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
-        //binding.editText.setText("TESTE")
-
-        attrs?.let {
-            val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.CustomEditText, 0,0)
-            binding.label.text = typedArray.getString(R.styleable.CustomEditText_text_label)
-            binding.editText.hint = typedArray.getString(R.styleable.CustomEditText_text_hint)
+        attrs?.let { attributes ->
+            val typedArray = context.theme.obtainStyledAttributes(
+                attributes,
+                R.styleable.CustomEditText,
+                0,
+                0
+            )
+            with(binding){
+                label.text = typedArray.getString(R.styleable.CustomEditText_text_label)
+                editText.hint = typedArray.getString(R.styleable.CustomEditText_text_hint)
+                editText.inputType = typedArray.getInt(
+                    R.styleable.CustomEditText_android_inputType,
+                    EditorInfo.TYPE_NULL
+                )
+            }
         }
+    }
+
+    fun getEditTextValue() = binding.editText.text.toString()
+    fun setEditTextValue(value: String) {
+        binding.editText.setText(value)
+    }
+
+    fun addEditTextListener(textWatcher: TextWatcher){
+        binding.editText.addTextChangedListener(textWatcher)
     }
 
     fun setupText(userCompleteName: String, errorMessage: String){
