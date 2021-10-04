@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -8,14 +9,17 @@
     <TextView
             android:id="@+id/label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_14"
+            tools:text="Texto qualquer" />
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textLayout"
             style="@style/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/complete_name"
+            android:layout_marginTop="@dimen/margin_small"
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -25,8 +29,13 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:layout_height="@dimen/height_48"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_gray"
+                android:textColorHint="@color/gray_3"
+                android:textSize="@dimen/text_size_12"
+                android:textStyle="bold"
+                tools:hint="Texto qualquer" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
