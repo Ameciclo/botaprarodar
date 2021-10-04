@@ -545,9 +545,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:inputType="textPersonName"
                         app:text_hint="aqui vai o hint"
                         app:text_label="aqui vai o label"
-                        />
+                        app:textValue="@{viewModel.userCompleteName}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
