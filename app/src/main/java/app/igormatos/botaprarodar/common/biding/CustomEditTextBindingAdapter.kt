@@ -15,7 +15,7 @@ fun CustomEditText.setText(userCompleteName: String, errorMessage: String){
 
 @BindingAdapter("textValueAttrChanged")
 fun CustomEditText.setListener(listener: InverseBindingListener) {
-    addEditTextListener(object : TextWatcher {
+    this.addEditTextListener(object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             listener.onChange()
         }

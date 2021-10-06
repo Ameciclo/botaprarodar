@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_gray"
-            android:textSize="@dimen/text_size_14"
+            android:textSize="@dimen/text_size_18"
             tools:text="Texto qualquer" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -33,7 +33,6 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/text_gray"
                 android:textColorHint="@color/gray_3"
-                android:textSize="@dimen/text_size_12"
                 android:textStyle="bold"
                 tools:hint="Texto qualquer" />
 
