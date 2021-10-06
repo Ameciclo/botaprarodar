@@ -31,8 +31,8 @@ class CustomEditText @JvmOverloads constructor(
                 0
             )
             with(binding){
-                label.text = typedArray.getString(R.styleable.CustomEditText_text_label)
-                editText.hint = typedArray.getString(R.styleable.CustomEditText_text_hint)
+                label.text = typedArray.getString(R.styleable.CustomEditText_android_label)
+                editText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
                 editText.inputType = typedArray.getInt(
                     R.styleable.CustomEditText_android_inputType,
                     EditorInfo.TYPE_NULL

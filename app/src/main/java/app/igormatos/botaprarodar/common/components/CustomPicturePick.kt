@@ -42,7 +42,27 @@ class CustomPicturePick @JvmOverloads constructor(
     }
 
     fun setUpPicture(imageUrlOrPath: String){
-        setImagePathOrUrl(picture, imageUrlOrPath)
+        imageUrlOrPath.takeIf {
+            it.isNotBlank()
+        }?.apply {
+            setImagePathOrUrl(picture, imageUrlOrPath)
+            setupIconAndLabelVisibility(INVISIBLE)
+        } ?: apply {
+            setupIconAndLabelVisibility(VISIBLE)
+        }
+    }
+
+    private fun setupIconAndLabelVisibility(value: Int){
+        binding.apply {
+            icon.visibility = value
+            label.visibility = value
+        }
+    }
+
+    fun setupClick(clickAction: () -> Unit){
+        binding.picturePick.setOnClickListener {
+            clickAction.invoke()
+        }
     }
 
 }
