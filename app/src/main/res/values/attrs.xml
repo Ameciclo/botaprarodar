@@ -18,6 +18,7 @@
     <declare-styleable name="CustomPicturePick">
         <attr name="android:src"/>
         <attr name="android:text"/>
+        <attr name="picture" format="reference"/>
     </declare-styleable>
 
 </resources>
