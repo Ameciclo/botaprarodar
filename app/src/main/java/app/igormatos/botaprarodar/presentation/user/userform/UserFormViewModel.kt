@@ -1,10 +1,8 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
@@ -12,7 +10,6 @@ import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class UserFormViewModel(
@@ -25,7 +22,7 @@ class UserFormViewModel(
     val genderList: List<String>,
     private val userUseCase: UserFormUseCase
 ) : ViewModel() {
-    val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
+    val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
     var user = User()
 
@@ -33,7 +30,10 @@ class UserFormViewModel(
     var userAddress = MutableLiveData("")
     var userDocument = MutableLiveData("")
     var userImageProfile = MutableLiveData("")
-    var userImageDocumentResidence = MutableLiveData("")
+    private var _userImageDocumentResidence = MutableLiveData("")
+    val userImageDocumentResidence: LiveData<String> = _userImageDocumentResidence
+    private var _deleteImagePaths = MutableLiveData(ArrayList<String>())
+    val deleteImagePaths: LiveData<ArrayList<String>> = _deleteImagePaths
     var userImageDocumentFront = MutableLiveData("")
     var userImageDocumentBack = MutableLiveData("")
     var userGender = MutableLiveData("")
@@ -46,7 +46,8 @@ class UserFormViewModel(
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
     var selectedGenderIndex = 0
-
+    private var _statusDeleteImage = MutableLiveData<ViewModelStatus<Unit>>()
+    val statusDeleteImage: LiveData<ViewModelStatus<Unit>> = _statusDeleteImage
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -94,7 +95,7 @@ class UserFormViewModel(
             userAddress.value = this.address.orEmpty()
             userDocument.value = this.docNumber.toString()
             userImageProfile.value = this.profilePicture.orEmpty()
-            userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
+            _userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
             userImageDocumentFront.value = this.docPicture.orEmpty()
             userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender.orEmpty()
@@ -139,7 +140,7 @@ class UserFormViewModel(
             address = userAddress.value
             docNumber = userDocument.value?.toLong() ?: 0L
             profilePicture = userImageProfile.value
-            residenceProofPicture = userImageDocumentResidence.value
+            residenceProofPicture = _userImageDocumentResidence.value
             docPicture = userImageDocumentFront.value
             docPictureBack = userImageDocumentBack.value
             gender = userGender.value
@@ -165,7 +166,7 @@ class UserFormViewModel(
     }
 
     fun setResidenceImage(path: String) {
-        userImageDocumentResidence.value = path
+        _userImageDocumentResidence.value = path
     }
 
     fun confirmUserGender() {
@@ -224,24 +225,22 @@ class UserFormViewModel(
         selectedIncomeIndex = index
     }
 
-    fun getPathUserImageDocumentResidence(): String {
-        return userImageDocumentResidence.value.orEmpty()
-    }
-
-    fun deleteProofResidenceImage(){
+    fun deleteProofResidenceImage() {
         viewModelScope.launch {
-            getPathUserImageDocumentResidence().apply {
-                if (contains("firebase")) {
-                    userUseCase.deleteImage(this)
-                }
+            userImageDocumentResidence.value?.apply {
+                _deleteImagePaths.value?.add(_userImageDocumentResidence.value.orEmpty() )
+                _userImageDocumentResidence.value = ""
+                _statusDeleteImage.value = ViewModelStatus.Success(Unit)
             }
         }
     }
 
+
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
-        openQuiz.value = ViewEvent(user to isEditableAvailable)
+
+        openQuiz.value = ViewEvent(Triple(user, isEditableAvailable, deleteImagePaths.value?.toList() ?: listOf()))
     }
 
     companion object {
