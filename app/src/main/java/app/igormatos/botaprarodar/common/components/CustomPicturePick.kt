@@ -1,17 +1,14 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
-import android.text.TextWatcher
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
-import app.igormatos.botaprarodar.common.extensions.validateTextChanged
-import app.igormatos.botaprarodar.databinding.CustomEditTextBinding
+import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.CustomPicturePickBinding
+import kotlinx.android.synthetic.main.custom_picture_pick.view.*
 
 class CustomPicturePick @JvmOverloads constructor(
     context: Context,
@@ -27,15 +24,25 @@ class CustomPicturePick @JvmOverloads constructor(
         attrs?.let { attributes ->
             val typedArray = context.theme.obtainStyledAttributes(
                 attributes,
-                R.styleable.CustomEditText,
+                R.styleable.CustomPicturePick,
                 0,
                 0
             )
             with(binding) {
-                label.text = typedArray.getString(R.styleable.CustomEditText_text_label)
+                val sdk = Build.VERSION.SDK_INT
+                label.text = typedArray.getString(R.styleable.CustomPicturePick_android_text)
+                if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
+                    icon.setBackgroundDrawable(typedArray.getDrawable(R.styleable.CustomPicturePick_android_src))
+                } else {
+                    icon.background = typedArray.getDrawable(R.styleable.CustomPicturePick_android_src)
+                }
             }
 
         }
+    }
+
+    fun setUpPicture(imageUrlOrPath: String){
+        setImagePathOrUrl(picture, imageUrlOrPath)
     }
 
 }
