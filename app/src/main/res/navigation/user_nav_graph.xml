@@ -43,6 +43,9 @@
         <argument
                 android:name="editMode"
                 app:argType="boolean" />
+        <argument
+                android:name="deleteImagePaths"
+                app:argType="string[]"/>
     </fragment>
 
 </navigation>

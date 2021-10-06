@@ -49,18 +49,12 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
     suspend fun deleteImageResource(
         path: String
     ): SimpleResult<Unit> {
-        // Create a storage reference from our app
-        val storageRef = firebaseStorage.reference
+        val storageRef = firebaseStorage.getReferenceFromUrl(path)
 
-        // Create a reference to the file to delete
-        val desertRef = storageRef.child(path)
-
-        // Delete the file
         return try {
-            desertRef.delete()
+            storageRef.delete()
             SimpleResult.Success(Unit)
         } catch (e: Exception) {
-            // Uh-oh, an error occurred!
             SimpleResult.Error(e)
         }
     }

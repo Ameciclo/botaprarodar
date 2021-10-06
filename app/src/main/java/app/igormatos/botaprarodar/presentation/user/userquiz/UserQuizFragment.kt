@@ -46,7 +46,7 @@ class UserQuizFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loadingDialog = requireContext().createLoading(R.layout.loading_dialog_animation)
-        viewModel.init(args.user, args.editMode)
+        viewModel.init(args.user, args.editMode, args.deleteImagePaths.toList())
         setupObservables()
     }
 
