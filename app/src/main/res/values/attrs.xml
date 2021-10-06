@@ -10,10 +10,16 @@
     </declare-styleable>
 
     <declare-styleable name="CustomEditText">
-        <attr name="text_label" format="string"/>
-        <attr name="text_hint" format="string"/>
+        <attr name="android:label"/>
+        <attr name="android:hint"/>
         <attr name="android:inputType" />
     </declare-styleable>
+
+    <declare-styleable name="CustomSelectText">
+        <attr name="android:label"/>
+        <attr name="android:hint"/>
+    </declare-styleable>
+
 
     <declare-styleable name="CustomPicturePick">
         <attr name="android:src"/>
