@@ -15,4 +15,9 @@
         <attr name="android:inputType" />
     </declare-styleable>
 
+    <declare-styleable name="CustomPicturePick">
+        <attr name="android:src"/>
+        <attr name="android:text"/>
+    </declare-styleable>
+
 </resources>
