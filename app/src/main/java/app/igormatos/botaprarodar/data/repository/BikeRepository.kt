@@ -28,7 +28,7 @@ class BikeRepository(
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 bikeRequest.id = UUID.randomUUID().toString()
-                bicycleApi.addNewBike(bikeRequest, bikeRequest.id!!)
+                bicycleApi.addNewBike(bikeRequest, bikeRequest.id.orEmpty())
             }
         }
     }
