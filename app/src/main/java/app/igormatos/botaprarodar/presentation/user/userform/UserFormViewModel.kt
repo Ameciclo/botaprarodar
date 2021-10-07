@@ -270,6 +270,10 @@ class UserFormViewModel(
         return userImageDocumentResidence.value.orEmpty()
     }
 
+    fun setUserImageDocumentResidence(value: String){
+        _userImageDocumentResidence.value = value
+    }
+
     fun deleteProofResidenceImage() {
         viewModelScope.launch {
             userImageDocumentResidence.value?.apply {

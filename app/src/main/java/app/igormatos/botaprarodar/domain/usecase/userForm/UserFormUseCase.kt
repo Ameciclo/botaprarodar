@@ -54,14 +54,29 @@ class UserFormUseCase(
         return responseAction
     }
 
-    suspend fun deleteImages(imagePathsToDelete: List<String>) {
+    suspend fun deleteImages(imagePathsToDelete: List<String>){
         for (path in imagePathsToDelete) {
             if (path.contains(FIREBASE_URL)) {
-                firebaseHelperRepository.deleteImageResource(path)
+                deleteImageFromRepository(path)
             } else {
-                if (File(path).isFile)
-                    File(path).delete()
+                deleteImageLocal(path)
             }
+        }
+    }
+
+    suspend fun deleteImageFromRepository(path: String): SimpleResult<Unit>{
+        return firebaseHelperRepository.deleteImageResource(path)
+    }
+
+    fun deleteImageLocal(path: String): SimpleResult<Unit> {
+        var isFileDeleted = false
+        if (File(path).isFile) {
+            isFileDeleted = File(path).delete()
+        }
+        return if (isFileDeleted){
+            SimpleResult.Success(Unit)
+        } else {
+            SimpleResult.Error(Exception("File not deleted"))
         }
     }
 
