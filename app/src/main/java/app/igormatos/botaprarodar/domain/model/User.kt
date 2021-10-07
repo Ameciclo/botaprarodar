@@ -66,10 +66,8 @@ data class User(
     }
 
     override fun title(): String {
-        val nameCapitalized =
-            name?.split(" ")?.take(2)?.map { it.capitalize() }?.joinToString(separator = " ") { it }
-
-        return nameCapitalized ?: "erro_01"
+        val names = name?.split(" ")
+        return names?.first()?.capitalize().orEmpty() + " " + names?.last()?.capitalize().orEmpty()
     }
 
     override fun iconPath(): String {
