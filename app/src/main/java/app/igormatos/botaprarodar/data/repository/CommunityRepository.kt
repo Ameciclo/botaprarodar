@@ -12,6 +12,7 @@ class CommunityRepository(
     private val communityMapper: CommunityMapper
 ) {
 
+    //TODO verify this
     suspend fun getCommunities(): List<Community> {
         val communityListResponse = communityApiService.getCommunities()
         return mutableListOf()
