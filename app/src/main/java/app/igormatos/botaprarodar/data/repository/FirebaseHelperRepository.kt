@@ -46,7 +46,7 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
         }
     }
 
-    suspend fun deleteImageResource(
+    fun deleteImageResource(
         path: String
     ): SimpleResult<Unit> {
         val storageRef = firebaseStorage.getReferenceFromUrl(path)
@@ -97,6 +97,6 @@ class FirebaseHelperRepository(private val firebaseStorage: FirebaseStorage) {
 
     private fun getCurrentTimeStampMillis() = (System.currentTimeMillis() / 1000).toString()
 
-    private fun getStorageReference(storageRef: StorageReference, finalPath: String) =
+    fun getStorageReference(storageRef: StorageReference, finalPath: String) =
         storageRef.child(finalPath)
 }

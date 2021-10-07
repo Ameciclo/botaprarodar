@@ -262,7 +262,7 @@ class UserFormViewModelTest {
             userAddress.value = testValidUser.address.orEmpty()
             userDocument.value = testValidUser.docNumber.toString()
             userImageProfile.value = testValidUser.profilePicture.orEmpty()
-            userImageDocumentResidence.value = testValidUser.residenceProofPicture.orEmpty()
+            formViewModel.setUserImageDocumentResidence(testValidUser.residenceProofPicture.orEmpty())
             userImageDocumentFront.value = testValidUser.docPicture.orEmpty()
             userImageDocumentBack.value = testValidUser.docPictureBack.orEmpty()
             userGender.value = testValidUser.gender.orEmpty()
