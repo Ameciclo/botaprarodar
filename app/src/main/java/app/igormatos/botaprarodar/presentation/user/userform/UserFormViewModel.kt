@@ -19,8 +19,7 @@ class UserFormViewModel(
     val racialList: List<String>,
     val incomeList: List<String>,
     val schoolingList: List<String>,
-    val genderList: List<String>,
-    private val userUseCase: UserFormUseCase
+    val genderList: List<String>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
@@ -224,6 +223,11 @@ class UserFormViewModel(
     fun setSelectIncomeIndex(index: Int) {
         selectedIncomeIndex = index
     }
+
+    fun setUserImageDocumentResidence(value: String){
+        _userImageDocumentResidence.value = value
+    }
+
 
     fun deleteProofResidenceImage() {
         viewModelScope.launch {
