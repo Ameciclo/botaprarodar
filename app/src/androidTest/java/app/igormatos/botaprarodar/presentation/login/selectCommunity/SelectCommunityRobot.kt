@@ -13,7 +13,7 @@ class SelectCommunityRobot : BaseRobot() {
     }
 
     fun clickBtnAddCommunity() {
-        clickButton(R.id.btnAddCommunity)
+        clickView(R.id.btnAddCommunity)
     }
 
     fun checkBtnAddCommunityIsVisible() {

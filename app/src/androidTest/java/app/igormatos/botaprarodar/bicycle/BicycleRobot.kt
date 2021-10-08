@@ -13,7 +13,7 @@ fun bicycle(executeFun: BicycleRobot.() -> Unit) = BicycleRobot().apply { execut
 class BicycleRobot : BaseRobot() {
 
     fun clickBicycleNavigation() {
-        clickButton(R.id.navigationBicycles)
+        clickView(R.id.navigationBicycles)
     }
 
     fun addBicycle() {
