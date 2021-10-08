@@ -99,7 +99,7 @@ class UserFormUseCaseTest {
     @Test
     fun `when 'deleteImage' from local storage should return simple result without exception`() =
         runBlocking {
-            val file = File("teste.jpg")
+            val file = File.createTempFile("temImage", ".jpg")
             file.createNewFile()
 
             val responseResult = userUseCase.deleteImageLocal(file.path)
