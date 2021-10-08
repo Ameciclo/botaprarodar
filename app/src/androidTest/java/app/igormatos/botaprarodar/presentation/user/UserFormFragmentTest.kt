@@ -11,23 +11,42 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RunWith(AndroidJUnit4::class)
 class UserFormFragmentTest {
 
     private lateinit var fragmentScenario: FragmentScenario<UserFormFragment>
+    private lateinit var userFormViewModel: UserFormViewModel
+
+
 
     @Before
     fun setup() {
         val fragmentArgs = bundleOf()
-        fragmentScenario = launchFragmentInContainer(themeResId = R.style.AppTheme,
-            fragmentArgs = fragmentArgs)
+
+        userFormViewModel = mockk(relaxed = true)
+        fragmentScenario = launchFragmentInContainer(
+            themeResId = R.style.AppTheme,
+            fragmentArgs = fragmentArgs
+        )
 
         Intents.init()
     }
+
+
+
+
 
     @Test
     @SdkSuppress(minSdkVersion = 30)
@@ -198,6 +217,27 @@ class UserFormFragmentTest {
             clickBackButton()
         } verify {
             verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
+        }
+    }
+
+    @Test
+    fun shouldShowDialogWhenClickOnImageResidence_whenThereIsResidenceProofImage() {
+        userFormFragment {
+
+            clickResidenceProofImage()
+
+        } verify {
+            verifyDialogEditResidenceImageIsShowing()
+        }
+    }
+
+    @Test
+    fun shouldShowDialogWhenClickDeleteButton_whenTryToDeleteResidenceProofImage() {
+        userFormFragment {
+            clickResidenceProofImage()
+            clickDeleteButtonOnDialogImage()
+        } verify {
+            verifyDialogDeleteResidenceImageIsShowing()
         }
     }
 

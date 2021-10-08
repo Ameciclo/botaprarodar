@@ -25,7 +25,7 @@ class PasswordRecoveryRobot : BaseRobot() {
     }
 
     fun clickBtnSend() {
-        clickButton(R.id.btnSend)
+        clickView(R.id.btnSend)
     }
 
     fun checkSuccessMessage() {

@@ -28,7 +28,7 @@ class LoginRobot : BaseRobot() {
     }
 
     fun clickBtnSignIn() {
-        clickButton(R.id.btnLogin)
+        clickView(R.id.btnLogin)
     }
 
     fun checkInputEmailHasError() {
