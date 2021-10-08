@@ -14,7 +14,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickProfileImage() {
-        clickButton(R.id.profileImageView)
+        clickView(R.id.profileImageView)
     }
 
     fun clickConfirmDialog() {
@@ -41,31 +41,39 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickRacialEditText() {
-        clickButton(R.id.etRacial)
+        clickView(R.id.etRacial)
     }
 
     fun clickGenderEditText() {
-        clickButton(R.id.etGender)
+        clickView(R.id.etGender)
     }
 
     fun clickIncomeEditText() {
-        clickButton(R.id.ietIncome)
+        clickView(R.id.ietIncome)
+    }
+
+    fun clickResidenceProofImage() {
+        clickView(R.id.ivEditResidencePhoto)
+    }
+
+    fun clickDeleteButtonOnDialogImage() {
+        clickView(R.id.submitButton)
     }
 
     fun clickSchoolingEditText() {
-        clickButton(R.id.etSchooling)
+        clickView(R.id.etSchooling)
     }
 
     fun clickSchoolingStatusComplete() {
-        clickButton(R.id.schoolingStatusComplete)
+        clickView(R.id.schoolingStatusComplete)
     }
 
     fun clickSchoolingStatusIncomplete() {
-        clickButton(R.id.schoolingStatusIncomplete)
+        clickView(R.id.schoolingStatusIncomplete)
     }
 
     fun clickSchoolingStatusStudying() {
-        clickButton(R.id.schoolingStatusStudying)
+        clickView(R.id.schoolingStatusStudying)
     }
 
     fun verifySchoolingDialogIsShowing() {
@@ -75,11 +83,21 @@ class UserFormFragmentRobot : BaseRobot() {
     fun verifySchoolingStatusComplete() {
         checkMessage(context.resources.getString(R.string.add_user_schooling_status_complete))
     }
+
     fun verifySchoolingStatusIncompleteg() {
         checkMessage(context.resources.getString(R.string.add_user_schooling_status_incomplete))
     }
+
     fun verifySchoolingStatusStudying() {
         checkMessage(context.resources.getString(R.string.add_user_schooling_status_studying))
+    }
+
+    fun verifyDialogEditResidenceImageIsShowing() {
+        checkMessage(context.resources.getString(R.string.title_dialog_change_image))
+    }
+
+    fun verifyDialogDeleteResidenceImageIsShowing() {
+        checkMessage(context.resources.getString(R.string.title_dialog_delete_image))
     }
 
     fun clickOptionOnSchoolingDialog(atPosition: Int){
