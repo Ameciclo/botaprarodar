@@ -256,7 +256,7 @@ class UserFormViewModelTest {
 
         formViewModel.setSelectIncomeIndex(index)
         formViewModel.confirmUserIncome()
-        assertEquals(schoolingStatusOptions[index], formViewModel.userIncome.value)
+        assertEquals(incomeOptions[index], formViewModel.userIncome.value)
     }
 
     private fun createTestValidUser(): User {
