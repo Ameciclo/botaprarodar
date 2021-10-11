@@ -25,6 +25,11 @@ fun setRadioGroupGiveRideCheck(view: RadioGroup, reasonId: String) {
     view.check(getRadioButtonIdByGiveRide(reasonId))
 }
 
+@BindingAdapter("app:setRadioGroupValue")
+fun setRadioGroupValue(view: RadioGroup, buttonId: Int) {
+    view.check(buttonId)
+}
+
 @BindingAdapter("radioGroupYesNoQuestionCheckedChanged")
 fun setRadioGroupYesNoQuestion(group: RadioGroup, newValue: Boolean?) {
     newValue?.let { value ->
