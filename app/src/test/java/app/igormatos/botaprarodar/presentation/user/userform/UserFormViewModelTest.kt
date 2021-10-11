@@ -233,6 +233,15 @@ class UserFormViewModelTest {
     }
 
     @Test
+    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
+        val index = 1
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+        assertEquals(schoolingStatusOptions[index], formViewModel.userSchoolingStatus.value)
+    }
+
+    @Test
     fun `when call confirmUserRace() then user racial value should be updated`() {
         val index = 2
 
@@ -247,7 +256,7 @@ class UserFormViewModelTest {
 
         formViewModel.setSelectIncomeIndex(index)
         formViewModel.confirmUserIncome()
-        assertEquals(incomeOptions[index], formViewModel.userIncome.value)
+        assertEquals(schoolingStatusOptions[index], formViewModel.userIncome.value)
     }
 
     private fun createTestValidUser(): User {

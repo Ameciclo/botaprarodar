@@ -284,7 +284,6 @@ class UserFormViewModel(
         }
     }
 
-
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()

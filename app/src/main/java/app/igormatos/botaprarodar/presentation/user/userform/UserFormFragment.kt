@@ -234,7 +234,6 @@ class UserFormFragment : Fragment() {
 
     private fun openDialogToSelectRace() {
         AlertDialog.Builder(requireContext()).apply {
-
             setTitle(getString(R.string.add_user_racial))
             setSingleChoiceItems(binding.viewModel?.getRacialList()?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectRacialIndex(which)
