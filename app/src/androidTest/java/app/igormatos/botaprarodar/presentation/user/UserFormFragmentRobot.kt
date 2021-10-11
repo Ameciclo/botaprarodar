@@ -56,8 +56,30 @@ class UserFormFragmentRobot : BaseRobot() {
         clickButton(R.id.etSchooling)
     }
 
+    fun clickSchoolingStatusComplete() {
+        clickButton(R.id.etSchoolingStatusComplete)
+    }
+
+    fun clickSchoolingStatusIncomplete() {
+        clickButton(R.id.etSchoolingStatusIncomplete)
+    }
+
+    fun clickSchoolingStatusStudying() {
+        clickButton(R.id.etSchoolingStatusStudying)
+    }
+
     fun verifySchoolingDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_schooling))
+    }
+
+    fun verifySchoolingStatusComplete() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_complete))
+    }
+    fun verifySchoolingStatusIncompleteg() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_incomplete))
+    }
+    fun verifySchoolingStatusStudying() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_studying))
     }
 
     fun clickOptionOnSchoolingDialog(atPosition: Int){

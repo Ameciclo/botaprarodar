@@ -109,6 +109,12 @@ val genderOptions = listOf<String>(
     "Prefere não responder"
 )
 
+val schoolingStatusOptions = listOf<String>(
+    "Completo",
+    "incompleto",
+    "Cursando"
+)
+
 fun buildListAvailableUsers(howMuch: Int): List<User> {
     val list = mutableListOf<User>()
     for (i in howMuch downTo 1) {
