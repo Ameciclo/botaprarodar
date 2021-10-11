@@ -22,6 +22,7 @@ import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_ride_quiz.*
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -56,8 +57,12 @@ class UserFormFragment : Fragment() {
         val racialOptions = resources.getStringArray(R.array.racial_options).toList()
         val incomeOptions = resources.getStringArray(R.array.income_options).toList()
         val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
+        val schoolingStatusOptions = resources.getStringArray(R.array.schooling_status_options).toList()
         val genderOptions = resources.getStringArray(R.array.gender_options).toList()
-        setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions, genderOptions)
+        val mapOptions = mapOf("racialOptions" to racialOptions, "incomeOptions" to incomeOptions,
+            "schoolingOptions" to schoolingOptions, "schoolingStatusOptions" to schoolingStatusOptions,
+            "genderOptions" to genderOptions )
+        setupViewModel(communityUsers, mapOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -72,9 +77,9 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(communityUsers, racialOptions, incomeOptions, schoolingOptions, genderOptions)
+            parametersOf(communityUsers, mapOptions)
         }
         return userFormViewModel
     }
@@ -307,6 +312,12 @@ class UserFormFragment : Fragment() {
 
         binding.ietIncome.setOnClickListener {
             openDialogToSelectIncome()
+        }
+
+        binding.schoolingStatusRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            binding.viewModel?.setSelectSchoolingStatusIndex(checkedId)
+            binding.viewModel?.confirmUserSchoolingStatus()
+
         }
     }
 }

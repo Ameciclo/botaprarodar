@@ -141,11 +141,11 @@
                             android:id="@+id/ietIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="textNoSuggestions"
+                            app:drawableEndCompat="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
-                            android:text="@={viewModel.userIncome}"
-                            app:drawableEndCompat="@drawable/ic_arrow_down" />
+                            android:text="@={viewModel.userIncome}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,22 +159,22 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_gender"
                         app:errorMessage="@{`add_user_invalid_gender`}"
-                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ilAge"
+                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
                         app:textCaptured="@{viewModel.userGender}">
 
                     <EditText
                             android:id="@+id/etGender"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableRight="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:inputType="textNoSuggestions"
+                            android:clickable="false"
                             android:text="@{viewModel.userGender}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -198,14 +198,14 @@
                             android:id="@+id/etRacial"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
                             android:padding="12dp"
-                            android:text="@{viewModel.userRacial}"
                             android:textColor="@color/black"
                             android:textSize="16sp"
+                            android:text="@{viewModel.userRacial}"
                             app:drawableEndCompat="@drawable/ic_arrow_down"
+                            android:inputType="textNoSuggestions"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/ilRacial" />
@@ -218,8 +218,8 @@
                         style="@style/textInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_schooling"
                         app:errorMessage="@{`add_user_invalid_schooling`}"
@@ -242,6 +242,55 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                        android:id="@+id/schoolingStatusRadioGroupLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_14"
+                        android:text="@string/add_user_schooling_status"
+                        app:layout_constraintBottom_toTopOf="@+id/schoolingStatusRadioGroup"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling" />
+
+                <RadioGroup
+                        android:id="@+id/schoolingStatusRadioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:checkedButton="@{viewModel.selectedSchoolingStatusIndex}"
+                        app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}"
+                        app:layout_constraintStart_toStartOf="@+id/ilTelephone"
+                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel">
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusComplete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_complete" />
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusIncomplete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_incomplete" />
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusStudying"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_studying" />
+                </RadioGroup>
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilTelephone"
                         style="@style/textInputLayout"
@@ -253,7 +302,7 @@
                         android:hint="@string/add_user_telephone_hint"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling">
+                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroup">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietTelephone"
