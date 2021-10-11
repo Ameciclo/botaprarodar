@@ -57,15 +57,15 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickSchoolingStatusComplete() {
-        clickButton(R.id.etSchoolingStatusComplete)
+        clickButton(R.id.schoolingStatusComplete)
     }
 
     fun clickSchoolingStatusIncomplete() {
-        clickButton(R.id.etSchoolingStatusIncomplete)
+        clickButton(R.id.schoolingStatusIncomplete)
     }
 
     fun clickSchoolingStatusStudying() {
-        clickButton(R.id.etSchoolingStatusStudying)
+        clickButton(R.id.schoolingStatusStudying)
     }
 
     fun verifySchoolingDialogIsShowing() {

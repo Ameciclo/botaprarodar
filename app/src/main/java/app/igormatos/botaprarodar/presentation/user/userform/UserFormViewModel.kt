@@ -37,7 +37,7 @@ class UserFormViewModel(
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
     var selectedSchoolingIndex = 0
-    var selectedSchoolingStatusIndex = 0
+    var selectedSchoolingStatusIndex = MutableLiveData(getSelectedSchoolingStatusListIndex())
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
     var selectedGenderIndex = 0
@@ -95,6 +95,7 @@ class UserFormViewModel(
             userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
+            userSchoolingStatus.value = this.schoolingStatus.orEmpty()
             userIncome.value = this.income.orEmpty()
             userAge.value = this.age.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
@@ -113,6 +114,7 @@ class UserFormViewModel(
                 userImageDocumentBack.value.isNotNullOrNotBlank() &&
                 userRacial.value.isNotNullOrNotBlank() &&
                 userSchooling.value.isNotNullOrNotBlank() &&
+                userSchoolingStatus.value.isNotNullOrNotBlank() &&
                 userIncome.value.isNotNullOrNotBlank() &&
                 userAge.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
@@ -141,6 +143,7 @@ class UserFormViewModel(
             communityId = community.id
             racial = userRacial.value
             schooling = userSchooling.value
+            schoolingStatus = userSchoolingStatus.value
             income = userIncome.value
             age = userAge.value
             telephone = userTelephone.value
@@ -176,7 +179,12 @@ class UserFormViewModel(
     }
 
     fun confirmUserSchoolingStatus() {
-        userSchoolingStatus.value = getScoolingStatusList()[selectedSchoolingStatusIndex]
+        userSchoolingStatus.value = when (selectedSchoolingStatusIndex.value) {
+            R.id.schoolingStatusComplete -> getScoolingStatusList()[0]
+            R.id.schoolingStatusIncomplete -> getScoolingStatusList()[1]
+            R.id.schoolingStatusStudying -> getScoolingStatusList()[2]
+            else -> getScoolingStatusList()[0]
+        }
     }
 
     fun confirmUserIncome() {
@@ -194,8 +202,13 @@ class UserFormViewModel(
     }
 
     fun getSelectedSchoolingStatusListIndex(): Int {
-        selectedSchoolingIndex = mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())
-        return selectedSchoolingIndex
+        val schoolingStatusIndex = mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())
+        return when (schoolingStatusIndex) {
+            0 -> R.id.schoolingStatusComplete
+            1 -> R.id.schoolingStatusIncomplete
+            2 -> R.id.schoolingStatusStudying
+            else -> R.id.schoolingStatusComplete
+        }
     }
 
     fun getSelectedIncomeListIndex(): Int {
@@ -225,7 +238,12 @@ class UserFormViewModel(
     }
 
     fun setSelectSchoolingStatusIndex(index: Int) {
-        selectedSchoolingStatusIndex = index
+        selectedSchoolingStatusIndex.value = when (index) {
+            0 -> R.id.schoolingStatusComplete
+            1 -> R.id.schoolingStatusIncomplete
+            2 -> R.id.schoolingStatusStudying
+            else -> R.id.schoolingStatusComplete
+        }
     }
 
     fun getGenderList() : List<String>{

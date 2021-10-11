@@ -39,6 +39,8 @@ data class User(
     var racial: String? = null,
     @SerializedName("schooling")
     var schooling: String? = null,
+    @SerializedName("schoolingStatus")
+    var schoolingStatus: String? = "Incompleto",
     @SerializedName("income")
     var income: String? = null,
     @SerializedName("age")

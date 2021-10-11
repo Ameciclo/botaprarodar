@@ -10,6 +10,7 @@
     <dimen name="margin_big">32dp</dimen>
     <dimen name="margin_48">48dp</dimen>
     <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
 
     <dimen name="padding_minimun">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
