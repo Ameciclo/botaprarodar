@@ -27,6 +27,10 @@ class UserFormViewModelTest {
     private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_FORM))
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
+    private val mapOptions: Map<String, List<String>> = mapOf("racialOptions" to racialOptions, "incomeOptions" to incomeOptions,
+        "schoolingOptions" to schoolingOptions, "schoolingStatusOptions" to schoolingStatusOptions,
+        "genderOptions" to genderOptions )
+
 
     @Before
     fun setup() {
@@ -34,11 +38,7 @@ class UserFormViewModelTest {
             community,
             stepper,
             arrayListOf(validUser),
-            racialOptions,
-            incomeOptions,
-            schoolingOptions,
-            genderOptions
-
+            mapOptions
         )
     }
 
@@ -172,7 +172,7 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setSelectGenderIndex() then user racial value should be updated`() {
+    fun `when call setSelectGenderIndex() then user gender value should be updated`() {
         val index = 1
 
         formViewModel.setSelectGenderIndex(index)
@@ -180,11 +180,19 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setSelectSchoolingIndex() then user racial value should be updated`() {
+    fun `when call setSelectSchoolingIndex() then user schooling value should be updated`() {
         val index = 2
 
         formViewModel.setSelectSchoolingIndex(index)
         assertEquals(index, formViewModel.selectedSchoolingIndex)
+    }
+
+    @Test
+    fun `when call setSelectSchoolingStatusIndex() then user schoolingStatus value should be updated`() {
+        val index = 1
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        assertEquals(index, formViewModel.selectedSchoolingStatusIndex)
     }
 
     @Test
@@ -204,7 +212,7 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call confirmUserGender() then user racial value should be updated`() {
+    fun `when call confirmUserGender() then user gender value should be updated`() {
         val index = 1
 
         formViewModel.setSelectGenderIndex(index)
@@ -213,12 +221,21 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call confirmUserSchooling() then user racial value should be updated`() {
+    fun `when call confirmUserSchooling() then user schooling value should be updated`() {
         val index = 2
 
         formViewModel.setSelectSchoolingIndex(index)
         formViewModel.confirmUserSchooling()
         assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
+    }
+
+    @Test
+    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
+        val index = 1
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+        assertEquals(schoolingStatusOptions[index], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
@@ -236,7 +253,7 @@ class UserFormViewModelTest {
 
         formViewModel.setSelectIncomeIndex(index)
         formViewModel.confirmUserIncome()
-        assertEquals(incomeOptions[index], formViewModel.userIncome.value)
+        assertEquals(schoolingStatusOptions[index], formViewModel.userIncome.value)
     }
 
     private fun createTestValidUser(): User {
