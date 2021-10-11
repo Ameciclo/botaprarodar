@@ -130,6 +130,7 @@
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
 
+    <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
     <string name="add_user_schooling_status_complete">Sim</string>
     <string name="add_user_schooling_status_incomplete">Não</string>
     <string name="add_user_schooling_status_studying">Cursando</string>
@@ -289,5 +290,12 @@
         <item> Feminino </item>
         <item> Outro </item>
         <item> Prefere não responder </item>
+    </string-array>
+
+    <!-- Schooling Status Options -->
+    <string-array name = "schooling_status_options">
+        <item> Completo </item>
+        <item> Incompleto </item>
+        <item> Cursando </item>
     </string-array>
 </resources>
