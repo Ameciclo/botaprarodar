@@ -168,7 +168,7 @@ class UserFormFragment : Fragment() {
     private fun createDialogGender (){
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_gender))
-            setSingleChoiceItems(binding.viewModel?.genderList?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getGenderList()?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectGenderIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -181,7 +181,7 @@ class UserFormFragment : Fragment() {
     private fun createDialogSchooling (){
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_schooling))
-            setSingleChoiceItems(binding.viewModel?.schoolingList?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getSchoolingList()?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectSchoolingIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -194,7 +194,7 @@ class UserFormFragment : Fragment() {
     private fun openDialogToSelectIncome() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_income))
-            setSingleChoiceItems(binding.viewModel?.incomeList?.toTypedArray(), binding.viewModel?.getSelectedIncomeListIndex() ?: 0) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getIncomeList()?.toTypedArray(), binding.viewModel?.getSelectedIncomeListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectIncomeIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -208,7 +208,7 @@ class UserFormFragment : Fragment() {
         AlertDialog.Builder(requireContext()).apply {
 
             setTitle(getString(R.string.add_user_racial))
-            setSingleChoiceItems(binding.viewModel?.racialList?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getRacialList()?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectRacialIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->

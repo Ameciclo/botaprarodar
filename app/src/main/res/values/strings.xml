@@ -129,6 +129,11 @@
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
+
+    <string name="add_user_schooling_status_complete">Sim</string>
+    <string name="add_user_schooling_status_incomplete">Não</string>
+    <string name="add_user_schooling_status_studying">Cursando</string>
+
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
     <string name="add_user_doc_number_hint">Número do RG ou CPF</string>
     <string name="add_user_invalid_doc_number">Número do RG ou CPF inválido</string>
