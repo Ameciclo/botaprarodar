@@ -12,24 +12,18 @@ import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
-import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @RunWith(AndroidJUnit4::class)
-class UserFormFragmentTest {
+class UserFormFragmentCreateTest {
 
     private lateinit var fragmentScenario: FragmentScenario<UserFormFragment>
     private lateinit var userFormViewModel: UserFormViewModel
-
-
 
     @Before
     fun setup() {
@@ -43,9 +37,6 @@ class UserFormFragmentTest {
 
         Intents.init()
     }
-
-
-
 
 
     @Test
@@ -203,41 +194,6 @@ class UserFormFragmentTest {
             clickBackButton()
         } verify {
             verifyRacialEditTextIsNotEqualSelected(racialSelectedIndex)
-        }
-    }
-
-
-    @Test
-    fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
-        val incomeSelectedIndex = 2
-        userFormFragment {
-            clickIncomeEditText()
-            sleep(1000)
-            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
-            clickBackButton()
-        } verify {
-            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
-        }
-    }
-
-    @Test
-    fun shouldShowDialogWhenClickOnImageResidence_whenThereIsResidenceProofImage() {
-        userFormFragment {
-
-            clickResidenceProofImage()
-
-        } verify {
-            verifyDialogEditResidenceImageIsShowing()
-        }
-    }
-
-    @Test
-    fun shouldShowDialogWhenClickDeleteButton_whenTryToDeleteResidenceProofImage() {
-        userFormFragment {
-            clickResidenceProofImage()
-            clickDeleteButtonOnDialogImage()
-        } verify {
-            verifyDialogDeleteResidenceImageIsShowing()
         }
     }
 
