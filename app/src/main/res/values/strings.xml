@@ -273,14 +273,11 @@
     <!-- Schooling Options -->
     <string-array name = "schooling_options">
         <item> Sem instrução ou menos de 1 ano de estudo </item>
-        <item> Ensino fundamental incompleto </item>
-        <item> Ensino fundamental completo </item>
-        <item> Ensino médio incompleto </item>
-        <item> Ensino médio completo </item>
-        <item> Ensino técnico incompleto </item>
-        <item> Ensino técnico completo </item>
-        <item> Ensino superior incompleto </item>
-        <item> Ensino superior completo </item>
+        <item> Ensino fundamental 1 </item>
+        <item> Ensino fundamental 2 </item>
+        <item> Ensino médio </item>
+        <item> Ensino técnico </item>
+        <item> Ensino superior </item>
         <item> Não determinado </item>
     </string-array>
 

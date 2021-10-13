@@ -196,9 +196,21 @@ class UserFormFragmentTest {
             sleep(1000)
             clickOptionOnSchoolingDialog(schoolingSelectedPosition)
             clickSchoolingPositiveButton()
-
         } verify {
             verifySchoolingEditTextIsEqualSelected(schoolingSelectedPosition)
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenSchoolingOptionIsNotSelected() {
+        val schoolingSelectedPosition = 2
+        userFormFragment {
+            clickSchoolingEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(schoolingSelectedPosition)
+            clickBackButton()
+        } verify {
+            verifySchoolingEditTextNotEqualSelected(schoolingSelectedPosition)
         }
     }
 
