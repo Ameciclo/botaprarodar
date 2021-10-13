@@ -20,6 +20,7 @@
     <color name="text_gray">#515151</color>
     <color name="background_gray">#F4F4F4</color>
     <color name="separator_gray">#14212121</color>
+    <color name="gray_1">#F2F2F2</color>
     <color name="gray_2">#4F4F4F</color>
     <color name="gray_3">#828282</color>
     <color name="gray_5">#E0E0E0</color>
