@@ -306,6 +306,19 @@ class UserFormFragment : Fragment() {
             createDialogSchooling()
         }
 
+        binding.custom.setupClick {
+            showTipDialog(
+                R.drawable.iconfinder_user_profile_imagee,
+                getString(R.string.profile_picture),
+                getString(R.string.profile_picture_tip)
+            ) {
+                if (it) {
+                    currentPhotoId = REQUEST_PROFILE_PHOTO
+                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
+                }
+            }
+        }
+
         binding.etRacial.setOnClickListener {
             openDialogToSelectRace()
         }
