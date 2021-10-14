@@ -40,7 +40,7 @@ data class User(
     @SerializedName("schooling")
     var schooling: String? = null,
     @SerializedName("schoolingStatus")
-    var schoolingStatus: String? = "Incompleto",
+    var schoolingStatus: String? = null,
     @SerializedName("income")
     var income: String? = null,
     @SerializedName("age")

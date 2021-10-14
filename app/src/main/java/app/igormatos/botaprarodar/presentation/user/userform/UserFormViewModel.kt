@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.extensions.getIndexFromList
+import app.igormatos.botaprarodar.common.extensions.orValue
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -95,7 +96,7 @@ class UserFormViewModel(
             userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
-            userSchoolingStatus.value = this.schoolingStatus.orEmpty()
+            userSchoolingStatus.value = mapOptions["schoolingStatusOptions"]?.let { this.schoolingStatus.orValue(it.get(1)) }
             userIncome.value = this.income.orEmpty()
             userAge.value = this.age.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
