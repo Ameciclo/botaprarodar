@@ -22,7 +22,6 @@ import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_ride_quiz.*
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -100,7 +99,12 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setValuesToEditUser(user: User?) {
-        user?.let { userFormViewModel.updateUserValues(it) }
+        user?.let {
+            userFormViewModel.updateUserValues(it)
+            if (it.schoolingStatus.isNullOrBlank()){
+                binding.schoolingStatusRadioGroup.clearCheck()
+            }
+        }
     }
 
     private fun setImageDescriptionsToGone() {
@@ -317,7 +321,6 @@ class UserFormFragment : Fragment() {
         binding.schoolingStatusRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             binding.viewModel?.setSelectSchoolingStatusIndex(checkedId)
             binding.viewModel?.confirmUserSchoolingStatus()
-
         }
     }
 }

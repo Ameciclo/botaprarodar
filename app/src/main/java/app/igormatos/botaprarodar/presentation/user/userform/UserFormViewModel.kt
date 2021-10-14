@@ -37,7 +37,7 @@ class UserFormViewModel(
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
     var selectedSchoolingIndex = 0
-    var selectedSchoolingStatusIndex = MutableLiveData(getSelectedSchoolingStatusListIndex())
+    var selectedSchoolingStatusIndex = MutableLiveData(0)
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
     var selectedGenderIndex = 0
@@ -100,6 +100,8 @@ class UserFormViewModel(
             userAge.value = this.age.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
         }
+        setSelectSchoolingStatusIndex(getSelectedSchoolingStatusListIndex())
+        confirmUserSchoolingStatus()
         isEditableAvailable = true
         communityUsers.remove(currentUser)
     }
@@ -202,8 +204,7 @@ class UserFormViewModel(
     }
 
     fun getSelectedSchoolingStatusListIndex(): Int {
-        val schoolingStatusIndex = mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())
-        return when (schoolingStatusIndex) {
+        return when (mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())) {
             0 -> R.id.schoolingStatusComplete
             1 -> R.id.schoolingStatusIncomplete
             2 -> R.id.schoolingStatusStudying
@@ -238,12 +239,7 @@ class UserFormViewModel(
     }
 
     fun setSelectSchoolingStatusIndex(index: Int) {
-        selectedSchoolingStatusIndex.value = when (index) {
-            0 -> R.id.schoolingStatusComplete
-            1 -> R.id.schoolingStatusIncomplete
-            2 -> R.id.schoolingStatusStudying
-            else -> R.id.schoolingStatusComplete
-        }
+        selectedSchoolingStatusIndex.value = index
     }
 
     fun getGenderList() : List<String>{
