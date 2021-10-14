@@ -23,7 +23,7 @@
 
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
-    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_xlarge">34sp</dimen>
@@ -46,5 +46,7 @@
     <dimen name="width_156">156dp</dimen>
 
     <dimen name="corner_radius_50">50dp</dimen>
+
+    <dimen name="button_height">52dp</dimen>
 
 </resources>

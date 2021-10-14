@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="rectangle" >
 
-    <!-- View background color -->
+    <!--&lt;!&ndash; View background color &ndash;&gt;
     <solid
             android:color="@color/gray_1" >
-    </solid>
+    </solid>-->
 
     <!-- View border color and width -->
     <stroke
