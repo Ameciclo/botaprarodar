@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
 import app.igormatos.botaprarodar.common.extensions.validateTextChanged
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.CustomEditTextBinding
 
 class CustomEditText @JvmOverloads constructor(
@@ -48,6 +49,12 @@ class CustomEditText @JvmOverloads constructor(
 
     fun addEditTextListener(textWatcher: TextWatcher){
         binding.editText.addTextChangedListener(textWatcher)
+    }
+
+    fun addMask(format: String){
+        binding.editText.addTextChangedListener(
+            EditTextFormatMask.textMask(binding.editText, format)
+        )
     }
 
     fun setupText(userCompleteName: String, errorMessage: String){
