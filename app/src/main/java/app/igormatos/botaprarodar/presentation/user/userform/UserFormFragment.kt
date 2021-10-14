@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
@@ -25,6 +26,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -258,6 +260,9 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.ietAge.addTextChangedListener(
+            EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
+        )
 
         binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
 
@@ -308,19 +313,6 @@ class UserFormFragment : Fragment() {
 
         binding.etSchooling.setOnClickListener {
             createDialogSchooling()
-        }
-
-        binding.custom.setupClick {
-            showTipDialog(
-                R.drawable.iconfinder_user_profile_imagee,
-                getString(R.string.profile_picture),
-                getString(R.string.profile_picture_tip)
-            ) {
-                if (it) {
-                    currentPhotoId = REQUEST_PROFILE_PHOTO
-                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
-                }
-            }
         }
 
         binding.etRacial.setOnClickListener {
