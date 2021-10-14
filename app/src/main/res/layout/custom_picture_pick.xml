@@ -35,7 +35,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:textColor="@color/text_gray"
-            android:textSize="@dimen/text_size_18"
+            android:textSize="@dimen/text_size_14"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

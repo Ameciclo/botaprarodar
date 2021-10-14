@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Bota pra Rodar</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -117,6 +118,44 @@
     <string name="bike_order_number">Ordem: %s</string>
 
     <!-- USER -->
+
+        <!-- NEW -->
+        <string name="user_form_title">Cadastrar uma nova Usuária</string>
+
+        <string name="user_form_user_name_label">Nome Completo</string>
+        <string name="user_form_user_name_hint">Ex: Roberto Silva Ferreira</string>
+
+        <string name="user_form_user_document_number_label">CPF ou RG</string>
+        <string name="user_form_user_document_number_hint">Insira apenas números</string>
+
+        <string name="user_form_user_phone_label">Celular</string>
+        <string name="user_form_user_phone_hint">DDD + Número</string>
+
+        <string name="user_form_user_document_picture_label">Fotos do documento</string>
+        <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
+        <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
+
+        <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
+
+        <string name="user_form_user_age_label">Idade</string>
+
+        <string name="user_form_user_income_label">Renda Mensal</string>
+
+        <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
+
+        <string name="user_form_user_schooling_label">Até que grau a pessoa estudou?</string>
+
+        <string name="user_form_user_adrees_label">Endereço completo</string>
+        <string name="user_form_user_adrees_hint">Ex: Rua Marielle Franco, 123</string>
+
+        <string name="user_form_user_others_picture_label">Outros arquivos</string>
+        <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
+        <string name="user_form_user_perfil_picture_label">Foto de perfil (Opcinal)</string>
+
+        <string name="user_form_button">CRIAR USUÁRIA</string>
+
+    <!-- /NEW -->
+
     <string name="user_created_since">Cadastrado desde %s</string>
     <string name="add_user_invalid_name">Nome inválido</string>
     <string name="add_user_invalid_address">Endereço inválido</string>
@@ -282,4 +321,8 @@
         <item> Outro </item>
         <item> Prefere não responder </item>
     </string-array>
+
+    <!-- Default -->
+    <string name="default_custom_component_select_hint">Selecionar</string>
+
 </resources>

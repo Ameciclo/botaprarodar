@@ -50,4 +50,9 @@
         <item name="android:textColorHint">#000</item>
     </style>
 
+    <style name="TextLabel">
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
 </resources>
