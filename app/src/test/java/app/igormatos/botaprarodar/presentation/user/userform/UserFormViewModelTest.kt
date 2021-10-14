@@ -189,9 +189,11 @@ class UserFormViewModelTest {
 
     @Test
     fun `when call setSelectSchoolingStatusIndex() then user schoolingStatus value should be updated`() {
-        val index = 1
+        val index = R.id.schoolingStatusIncomplete
+
         formViewModel.setSelectSchoolingStatusIndex(index)
         formViewModel.confirmUserSchoolingStatus()
+
         val indexExpected = formViewModel.getSelectedSchoolingStatusListIndex()
         assertEquals(indexExpected, formViewModel.selectedSchoolingStatusIndex.value)
     }
@@ -228,15 +230,6 @@ class UserFormViewModelTest {
         formViewModel.setSelectSchoolingIndex(index)
         formViewModel.confirmUserSchooling()
         assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
-    }
-
-    @Test
-    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
-        val index = 1
-
-        formViewModel.setSelectSchoolingStatusIndex(index)
-        formViewModel.confirmUserSchoolingStatus()
-        assertEquals(schoolingStatusOptions[index], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
