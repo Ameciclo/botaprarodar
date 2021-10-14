@@ -26,6 +26,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -304,9 +305,11 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.ietAge.addTextChangedListener(
-            EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
+        binding.cetUserAge.addMask(
+            EditTextFormatMask.FORMAT_DATE
         )
+        //TODO fix this
+        //binding.phon.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
 
         binding.cppPerfilPicture.setOnClickListener {
             showTipDialog(
