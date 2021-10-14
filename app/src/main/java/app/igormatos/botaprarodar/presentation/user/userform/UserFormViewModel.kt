@@ -113,7 +113,7 @@ class UserFormViewModel(
 
 
     private fun validateUserForm() {
-        isButtonEnabled.value = userCompleteName.value.isNotNullOrNotBlank() &&
+        val validated = userCompleteName.value.isNotNullOrNotBlank() &&
                 userAddress.value.isNotNullOrNotBlank() &&
                 isDocNumberValid() &&
                 userImageProfile.value.isNotNullOrNotBlank() &&
@@ -126,6 +126,8 @@ class UserFormViewModel(
                 userAge.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
                 userGender.value.isNotNullOrNotBlank()
+
+        isButtonEnabled.value = validated
     }
 
 
