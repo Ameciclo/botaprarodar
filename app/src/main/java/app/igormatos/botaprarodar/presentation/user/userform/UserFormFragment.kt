@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
+import app.igormatos.botaprarodar.databinding.FragmentUserFormNewBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
@@ -34,7 +35,7 @@ class UserFormFragment : Fragment() {
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
-    private lateinit var binding: FragmentUserFormBinding
+    private lateinit var binding: FragmentUserFormNewBinding
 
     private val navController: NavController by lazy {
         findNavController()
@@ -58,7 +59,7 @@ class UserFormFragment : Fragment() {
         val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
         val genderOptions = resources.getStringArray(R.array.gender_options).toList()
         setupViewModel(communityUsers,racialOptions, incomeOptions, schoolingOptions, genderOptions)
-        binding = FragmentUserFormBinding.inflate(inflater)
+        binding = FragmentUserFormNewBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
         return binding.root
@@ -99,21 +100,21 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setImageDescriptionsToGone() {
-        if (userHasResidenceProofPicture())
+        /*if (userHasResidenceProofPicture())
             binding.tvAddResidencePhoto.gone()
 
         binding.tvAddBackDocumentPhoto.gone()
         binding.tvAddFrontDocumentPhoto.gone()
-        binding.tvAddProfilePhoto.gone()
+        binding.tvAddProfilePhoto.gone()*/
     }
 
     private fun setImageEditDescriptionsToVisible() {
-        if (userHasResidenceProofPicture())
+        /*if (userHasResidenceProofPicture())
             binding.ivEditResidencePhoto.visible()
 
         binding.ivEditBackPhoto.visible()
         binding.ivEditFrontPhoto.visible()
-        binding.ivEditProfilePhoto.visible()
+        binding.ivEditProfilePhoto.visible()*/
     }
 
     private fun userHasResidenceProofPicture(): Boolean {
@@ -138,23 +139,23 @@ class UserFormFragment : Fragment() {
         when (whichImageCode) {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
-                binding.tvAddProfilePhoto.gone()
-                binding.ivEditProfilePhoto.visible()
+                //binding.tvAddProfilePhoto.gone()
+                //binding.ivEditProfilePhoto.visible()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
-                binding.tvAddFrontDocumentPhoto.gone()
-                binding.ivEditFrontPhoto.visible()
+                //binding.tvAddFrontDocumentPhoto.gone()
+                //binding.ivEditFrontPhoto.visible()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
-                binding.tvAddBackDocumentPhoto.gone()
-                binding.ivEditBackPhoto.visible()
+                //binding.tvAddBackDocumentPhoto.gone()
+                //binding.ivEditBackPhoto.visible()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
-                binding.tvAddResidencePhoto.gone()
-                binding.ivEditResidencePhoto.visible()
+                //binding.tvAddResidencePhoto.gone()
+                //binding.ivEditResidencePhoto.visible()
             }
         }
     }
@@ -250,9 +251,9 @@ class UserFormFragment : Fragment() {
 
     private fun setupListeners() {
 
-        binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
+        //binding.phon.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
 
-        binding.profileImageView.setOnClickListener {
+        binding.cppPerfilPicture.setOnClickListener {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
                 getString(R.string.profile_picture),
@@ -265,7 +266,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivFrontDocument.setOnClickListener {
+        binding.cppDocumentFrontPicture.setOnClickListener {
             showTipDialog(
                 R.drawable.id_front,
                 getString(R.string.warning),
@@ -277,7 +278,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivBackDocument.setOnClickListener {
+        binding.cppDocumentBackPicture.setOnClickListener {
             showTipDialog(
                 R.drawable.id_back,
                 getString(R.string.warning),
@@ -289,36 +290,23 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivResidenceProof.setOnClickListener {
+        binding.cppResidenceProofPicture.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
         }
 
-        binding.etGender.setOnClickListener {
+        binding.cstUserGender.setupClick {
             createDialogGender()
         }
 
-        binding.etSchooling.setOnClickListener {
+        binding.cstUserSchooling.setupClick {
             createDialogSchooling()
         }
 
-        binding.custom.setupClick {
-            showTipDialog(
-                R.drawable.iconfinder_user_profile_imagee,
-                getString(R.string.profile_picture),
-                getString(R.string.profile_picture_tip)
-            ) {
-                if (it) {
-                    currentPhotoId = REQUEST_PROFILE_PHOTO
-                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
-                }
-            }
-        }
-
-        binding.etRacial.setOnClickListener {
+        binding.cstUserRacial.setupClick {
             openDialogToSelectRace()
         }
 
-        binding.ietIncome.setOnClickListener {
+        binding.cstUserIncome.setupClick {
             openDialogToSelectIncome()
         }
     }
