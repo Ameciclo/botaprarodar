@@ -27,7 +27,6 @@ import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_ride_quiz.*
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
