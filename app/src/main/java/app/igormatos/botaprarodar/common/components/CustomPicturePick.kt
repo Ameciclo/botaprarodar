@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.CustomPicturePickBinding
+import kotlinx.android.synthetic.main.activity_fullscreen_image.view.*
 import kotlinx.android.synthetic.main.custom_picture_pick.view.*
 
 class CustomPicturePick @JvmOverloads constructor(
@@ -47,8 +48,10 @@ class CustomPicturePick @JvmOverloads constructor(
         }?.apply {
             setImagePathOrUrl(picture, imageUrlOrPath)
             setupIconAndLabelVisibility(INVISIBLE)
+            setupImageAndLabelVisibility(VISIBLE)
         } ?: apply {
             setupIconAndLabelVisibility(VISIBLE)
+            setupImageAndLabelVisibility(INVISIBLE)
         }
     }
 
@@ -57,6 +60,10 @@ class CustomPicturePick @JvmOverloads constructor(
             icon.visibility = value
             label.visibility = value
         }
+    }
+
+    private fun setupImageAndLabelVisibility(value: Int){
+        binding.picture.visibility = value
     }
 
     fun setupClick(clickAction: () -> Unit){
