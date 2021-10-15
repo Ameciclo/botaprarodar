@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -193,9 +194,19 @@ class UserFormViewModelTest {
 
         formViewModel.setSelectSchoolingStatusIndex(index)
         formViewModel.confirmUserSchoolingStatus()
-
         val indexExpected = formViewModel.getSelectedSchoolingStatusListIndex()
         assertEquals(indexExpected, formViewModel.selectedSchoolingStatusIndex.value)
+    }
+
+    @Test
+    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
+        val index = R.id.schoolingStatusIncomplete
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+
+        val indexExpected = formViewModel.mapOptions.getIndexFromList("schoolingStatusOptions", formViewModel.userSchoolingStatus.value.toString())
+        assertEquals(schoolingStatusOptions[indexExpected], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
@@ -230,15 +241,6 @@ class UserFormViewModelTest {
         formViewModel.setSelectSchoolingIndex(index)
         formViewModel.confirmUserSchooling()
         assertEquals(schoolingOptions[index], formViewModel.userSchooling.value)
-    }
-
-    @Test
-    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
-        val index = 1
-
-        formViewModel.setSelectSchoolingStatusIndex(index)
-        formViewModel.confirmUserSchoolingStatus()
-        assertEquals(schoolingStatusOptions[index], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
