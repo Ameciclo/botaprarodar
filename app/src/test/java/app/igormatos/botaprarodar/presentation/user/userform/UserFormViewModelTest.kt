@@ -39,7 +39,7 @@ class UserFormViewModelTest {
             community,
             stepper,
             arrayListOf(validUser),
-            mapOptions
+            mapOptions)
     }
 
     @Test
