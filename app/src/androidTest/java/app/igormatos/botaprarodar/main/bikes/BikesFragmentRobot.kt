@@ -25,7 +25,7 @@ class BikesFragmentRobot : BaseRobot() {
     }
 
     fun clickRegisterBikesButton() {
-        clickButton(R.id.btn_register_bikes)
+        clickView(R.id.btn_register_bikes)
     }
 
     fun checkBikeFormActivityIsVisible() {

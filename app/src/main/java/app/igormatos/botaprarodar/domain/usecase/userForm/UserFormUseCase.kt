@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
+import java.io.File
 
 private const val FIREBASE_URL = "https://"
 
@@ -31,13 +32,51 @@ class UserFormUseCase(
         }
     }
 
-    suspend fun startUpdateUser(user: User): SimpleResult<AddDataResponse> {
+    suspend fun startUpdateUser(
+        user: User,
+        deleteImagesPath: List<String> = emptyList()
+    ): SimpleResult<AddDataResponse> {
         uploadImages(user)
         if (!checkAllImagesSuccess()) {
             return SimpleResult.Error(Exception(""))
         }
-        return saveUser(user) {
-            updateUser(it)
+        val responseAction = saveUser(user) {
+            val response = updateUser(it)
+            response.let { res ->
+                when (res) {
+                    is SimpleResult.Success -> {
+                        deleteImages(deleteImagesPath)
+                    }
+                }
+            }
+            return@saveUser response
+        }
+        return responseAction
+    }
+
+    suspend fun deleteImages(imagePathsToDelete: List<String>){
+        for (path in imagePathsToDelete) {
+            if (path.contains(FIREBASE_URL)) {
+                deleteImageFromRepository(path)
+            } else {
+                deleteImageLocal(path)
+            }
+        }
+    }
+
+    suspend fun deleteImageFromRepository(path: String): SimpleResult<Unit>{
+        return firebaseHelperRepository.deleteImageResource(path)
+    }
+
+    fun deleteImageLocal(path: String): SimpleResult<Unit> {
+        var isFileDeleted = false
+        if (File(path).isFile) {
+            isFileDeleted = File(path).delete()
+        }
+        return if (isFileDeleted){
+            SimpleResult.Success(Unit)
+        } else {
+            SimpleResult.Error(Exception("File not deleted"))
         }
     }
 
