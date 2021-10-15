@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -27,6 +28,10 @@ class UserFormViewModelTest {
     private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_FORM))
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
+    private val mapOptions: Map<String, List<String>> = mapOf("racialOptions" to racialOptions, "incomeOptions" to incomeOptions,
+        "schoolingOptions" to schoolingOptions, "schoolingStatusOptions" to schoolingStatusOptions,
+        "genderOptions" to genderOptions )
+
 
     @Before
     fun setup() {
@@ -34,11 +39,7 @@ class UserFormViewModelTest {
             community,
             stepper,
             arrayListOf(validUser),
-            racialOptions,
-            incomeOptions,
-            schoolingOptions,
-            genderOptions
-        )
+            mapOptions)
     }
 
     @Test
@@ -171,7 +172,7 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setSelectGenderIndex() then user racial value should be updated`() {
+    fun `when call setSelectGenderIndex() then user gender value should be updated`() {
         val index = 1
 
         formViewModel.setSelectGenderIndex(index)
@@ -179,11 +180,32 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call setSelectSchoolingIndex() then user racial value should be updated`() {
+    fun `when call setSelectSchoolingIndex() then user schooling value should be updated`() {
         val index = 2
 
         formViewModel.setSelectSchoolingIndex(index)
         assertEquals(index, formViewModel.selectedSchoolingIndex)
+    }
+
+    @Test
+    fun `when call setSelectSchoolingStatusIndex() then user schoolingStatus value should be updated`() {
+        val index = R.id.schoolingStatusIncomplete
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+        val indexExpected = formViewModel.getSelectedSchoolingStatusListIndex()
+        assertEquals(indexExpected, formViewModel.selectedSchoolingStatusIndex.value)
+    }
+
+    @Test
+    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
+        val index = R.id.schoolingStatusIncomplete
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+
+        val indexExpected = formViewModel.mapOptions.getIndexFromList("schoolingStatusOptions", formViewModel.userSchoolingStatus.value.toString())
+        assertEquals(schoolingStatusOptions[indexExpected], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
@@ -203,7 +225,7 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call confirmUserGender() then user racial value should be updated`() {
+    fun `when call confirmUserGender() then user gender value should be updated`() {
         val index = 1
 
         formViewModel.setSelectGenderIndex(index)
@@ -212,7 +234,7 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call confirmUserSchooling() then user racial value should be updated`() {
+    fun `when call confirmUserSchooling() then user schooling value should be updated`() {
         val index = 2
 
         formViewModel.setSelectSchoolingIndex(index)
@@ -256,6 +278,7 @@ class UserFormViewModelTest {
             userGender.value = testValidUser.gender.orEmpty()
             userRacial.value = testValidUser.racial.orEmpty()
             userSchooling.value = testValidUser.schooling.orEmpty()
+            userSchoolingStatus.value = testValidUser.schoolingStatus.orEmpty()
             userIncome.value = testValidUser.income.orEmpty()
             userAge.value = testValidUser.age.orEmpty()
             userTelephone.value = testValidUser.telephone.orEmpty()

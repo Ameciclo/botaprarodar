@@ -19,19 +19,16 @@ import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
-import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrlWithTransformation
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
-import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -63,14 +60,12 @@ class UserFormFragment : Fragment() {
         val racialOptions = resources.getStringArray(R.array.racial_options).toList()
         val incomeOptions = resources.getStringArray(R.array.income_options).toList()
         val schoolingOptions = resources.getStringArray(R.array.schooling_options).toList()
+        val schoolingStatusOptions = resources.getStringArray(R.array.schooling_status_options).toList()
         val genderOptions = resources.getStringArray(R.array.gender_options).toList()
-        setupViewModel(
-            communityUsers,
-            racialOptions,
-            incomeOptions,
-            schoolingOptions,
-            genderOptions
-        )
+        val mapOptions = mapOf("racialOptions" to racialOptions, "incomeOptions" to incomeOptions,
+            "schoolingOptions" to schoolingOptions, "schoolingStatusOptions" to schoolingStatusOptions,
+            "genderOptions" to genderOptions )
+        setupViewModel(communityUsers, mapOptions)
         binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
@@ -85,21 +80,9 @@ class UserFormFragment : Fragment() {
         return communityUsers
     }
 
-    private fun setupViewModel(
-        communityUsers: ArrayList<User>,
-        racialOptions: List<String>,
-        incomeOptions: List<String>,
-        schoolingOptions: List<String>,
-        genderOptions: List<String>
-    ): UserFormViewModel {
+    private fun setupViewModel(communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>): UserFormViewModel {
         userFormViewModel = getViewModel {
-            parametersOf(
-                communityUsers,
-                racialOptions,
-                incomeOptions,
-                schoolingOptions,
-                genderOptions
-            )
+            parametersOf(communityUsers, mapOptions)
         }
         return userFormViewModel
     }
@@ -120,7 +103,12 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setValuesToEditUser(user: User?) {
-        user?.let { userFormViewModel.updateUserValues(it) }
+        user?.let {
+            userFormViewModel.updateUserValues(it)
+            if (it.schoolingStatus.isNullOrBlank()){
+                binding.schoolingStatusRadioGroup.clearCheck()
+            }
+        }
     }
 
     private fun setImageDescriptionsToGone() {
@@ -206,10 +194,7 @@ class UserFormFragment : Fragment() {
     private fun createDialogGender() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_gender))
-            setSingleChoiceItems(
-                binding.viewModel?.genderList?.toTypedArray(),
-                binding.viewModel?.getSelectedGenderListIndex() ?: 0
-            ) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getGenderList()?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectGenderIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -222,10 +207,7 @@ class UserFormFragment : Fragment() {
     private fun createDialogSchooling() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_schooling))
-            setSingleChoiceItems(
-                binding.viewModel?.schoolingList?.toTypedArray(),
-                binding.viewModel?.getSelectedSchoolingListIndex() ?: 0
-            ) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getSchoolingList()?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectSchoolingIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -238,10 +220,7 @@ class UserFormFragment : Fragment() {
     private fun openDialogToSelectIncome() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_income))
-            setSingleChoiceItems(
-                binding.viewModel?.incomeList?.toTypedArray(),
-                binding.viewModel?.getSelectedIncomeListIndex() ?: 0
-            ) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getIncomeList()?.toTypedArray(), binding.viewModel?.getSelectedIncomeListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectIncomeIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -253,12 +232,8 @@ class UserFormFragment : Fragment() {
 
     private fun openDialogToSelectRace() {
         AlertDialog.Builder(requireContext()).apply {
-
             setTitle(getString(R.string.add_user_racial))
-            setSingleChoiceItems(
-                binding.viewModel?.racialList?.toTypedArray(),
-                binding.viewModel?.getSelectedRacialListIndex() ?: 0
-            ) { _, which ->
+            setSingleChoiceItems(binding.viewModel?.getRacialList()?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectRacialIndex(which)
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
@@ -405,6 +380,11 @@ class UserFormFragment : Fragment() {
 
         binding.ietIncome.setOnClickListener {
             openDialogToSelectIncome()
+        }
+
+        binding.schoolingStatusRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            binding.viewModel?.setSelectSchoolingStatusIndex(checkedId)
+            binding.viewModel?.confirmUserSchoolingStatus()
         }
     }
 

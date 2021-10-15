@@ -219,8 +219,8 @@
                         style="@style/textInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_schooling"
                         app:errorMessage="@{`add_user_invalid_schooling`}"
@@ -243,6 +243,54 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                        android:id="@+id/schoolingStatusRadioGroupLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_14"
+                        android:text="@string/add_user_schooling_status"
+                        app:layout_constraintBottom_toTopOf="@+id/schoolingStatusRadioGroup"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling" />
+
+                <RadioGroup
+                        android:id="@+id/schoolingStatusRadioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}"
+                        app:layout_constraintStart_toStartOf="@+id/ilTelephone"
+                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel">
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusComplete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_complete" />
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusIncomplete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_incomplete" />
+
+                    <RadioButton
+                            android:id="@+id/schoolingStatusStudying"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="28dp"
+                            android:layout_weight="1"
+                            android:paddingRight="@dimen/margin_12"
+                            android:text="@string/add_user_schooling_status_studying" />
+                </RadioGroup>
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilTelephone"
                         style="@style/textInputLayout"
@@ -254,7 +302,7 @@
                         android:hint="@string/add_user_telephone_hint"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling">
+                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroup">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietTelephone"
