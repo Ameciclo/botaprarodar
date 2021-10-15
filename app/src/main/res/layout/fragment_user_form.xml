@@ -74,19 +74,6 @@
                         app:layout_constraintTop_toTopOf="@+id/profileImageView"
                         app:tint="@color/gray_5" />
 
-                <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                        android:id="@+id/custom"
-                        android:layout_width="@dimen/width_156"
-                        android:layout_height="@dimen/width_100"
-                        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.516"
-                        tools:ignore="MissingConstraints"
-                        app:imagePathOrUrl="@{viewModel.userImageProfile}"
-                        tools:layout_editor_absoluteX="5dp"
-                        android:src="@drawable/ic_baseline_add_a_photo"
-                        android:text="Lesley kkkk" />
-
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilCompleteName"
                         style="@style/textInputLayout"
@@ -273,7 +260,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:checkedButton="@{viewModel.selectedSchoolingStatusIndex}"
                         app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}"
                         app:layout_constraintStart_toStartOf="@+id/ilTelephone"
                         app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel">

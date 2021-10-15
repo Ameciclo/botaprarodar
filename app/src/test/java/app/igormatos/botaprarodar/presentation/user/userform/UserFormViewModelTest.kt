@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -189,11 +190,23 @@ class UserFormViewModelTest {
 
     @Test
     fun `when call setSelectSchoolingStatusIndex() then user schoolingStatus value should be updated`() {
-        val index = 1
+        val index = R.id.schoolingStatusIncomplete
+
         formViewModel.setSelectSchoolingStatusIndex(index)
         formViewModel.confirmUserSchoolingStatus()
         val indexExpected = formViewModel.getSelectedSchoolingStatusListIndex()
         assertEquals(indexExpected, formViewModel.selectedSchoolingStatusIndex.value)
+    }
+
+    @Test
+    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
+        val index = R.id.schoolingStatusIncomplete
+
+        formViewModel.setSelectSchoolingStatusIndex(index)
+        formViewModel.confirmUserSchoolingStatus()
+
+        val indexExpected = formViewModel.mapOptions.getIndexFromList("schoolingStatusOptions", formViewModel.userSchoolingStatus.value.toString())
+        assertEquals(schoolingStatusOptions[indexExpected], formViewModel.userSchoolingStatus.value)
     }
 
     @Test
@@ -231,15 +244,6 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call confirmUserSchoolingStatus() then user schoolingStatus value should be updated`() {
-        val index = 1
-
-        formViewModel.setSelectSchoolingStatusIndex(index)
-        formViewModel.confirmUserSchoolingStatus()
-        assertEquals(schoolingStatusOptions[index], formViewModel.userSchoolingStatus.value)
-    }
-
-    @Test
     fun `when call confirmUserRace() then user racial value should be updated`() {
         val index = 2
 
@@ -269,7 +273,7 @@ class UserFormViewModelTest {
             userAddress.value = testValidUser.address.orEmpty()
             userDocument.value = testValidUser.docNumber.toString()
             userImageProfile.value = testValidUser.profilePicture.orEmpty()
-            userImageDocumentResidence.value = testValidUser.residenceProofPicture.orEmpty()
+            formViewModel.setResidenceImage(testValidUser.residenceProofPicture.orEmpty())
             userImageDocumentFront.value = testValidUser.docPicture.orEmpty()
             userImageDocumentBack.value = testValidUser.docPictureBack.orEmpty()
             userGender.value = testValidUser.gender.orEmpty()
