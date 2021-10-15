@@ -44,6 +44,12 @@ abstract class BaseRobot {
         onView(withId(idButton)).perform(click())
     }
 
+    fun clickAndScrollView(idButton: Int) {
+        onView(withId(idButton))
+            .perform(scrollTo())
+            .perform(click())
+    }
+
     fun clickButtonByText(text: String) {
         onView(withText(text)).perform(click())
     }

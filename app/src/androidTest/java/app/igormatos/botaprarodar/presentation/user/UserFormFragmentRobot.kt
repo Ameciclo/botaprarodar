@@ -53,7 +53,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickResidenceProofImage() {
-        clickView(R.id.ivEditResidencePhoto)
+        clickAndScrollView(R.id.ivEditResidencePhoto)
     }
 
     fun clickDeleteButtonOnDialogImage() {
@@ -64,8 +64,32 @@ class UserFormFragmentRobot : BaseRobot() {
         clickView(R.id.etSchooling)
     }
 
+    fun clickSchoolingStatusComplete() {
+        clickView(R.id.schoolingStatusComplete)
+    }
+
+    fun clickSchoolingStatusIncomplete() {
+        clickView(R.id.schoolingStatusIncomplete)
+    }
+
+    fun clickSchoolingStatusStudying() {
+        clickView(R.id.schoolingStatusStudying)
+    }
+
     fun verifySchoolingDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_schooling))
+    }
+
+    fun verifySchoolingStatusComplete() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_complete))
+    }
+
+    fun verifySchoolingStatusIncompleteg() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_incomplete))
+    }
+
+    fun verifySchoolingStatusStudying() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_studying))
     }
 
     fun verifyDialogEditResidenceImageIsShowing() {

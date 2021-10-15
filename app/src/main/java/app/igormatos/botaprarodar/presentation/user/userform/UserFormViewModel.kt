@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
@@ -16,10 +17,7 @@ class UserFormViewModel(
     private val community: Community,
     val stepper: RegisterUserStepper,
     val communityUsers: ArrayList<User>,
-    val racialList: List<String>,
-    val incomeList: List<String>,
-    val schoolingList: List<String>,
-    val genderList: List<String>
+    val mapOptions: Map<String, List<String>>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
@@ -38,10 +36,12 @@ class UserFormViewModel(
     var userGender = MutableLiveData("")
     var userRacial = MutableLiveData("")
     var userSchooling = MutableLiveData("")
+    var userSchoolingStatus = MutableLiveData("")
     var userIncome = MutableLiveData("")
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
     var selectedSchoolingIndex = 0
+    var selectedSchoolingStatusIndex = MutableLiveData(0)
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
     var selectedGenderIndex = 0
@@ -100,10 +100,13 @@ class UserFormViewModel(
             userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
+            userSchoolingStatus.value = this.schoolingStatus.orEmpty()
             userIncome.value = this.income.orEmpty()
             userAge.value = this.age.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
         }
+        setSelectSchoolingStatusIndex(getSelectedSchoolingStatusListIndex())
+        confirmUserSchoolingStatus()
         isEditableAvailable = true
         communityUsers.remove(currentUser)
     }
@@ -118,6 +121,7 @@ class UserFormViewModel(
                 userImageDocumentBack.value.isNotNullOrNotBlank() &&
                 userRacial.value.isNotNullOrNotBlank() &&
                 userSchooling.value.isNotNullOrNotBlank() &&
+                userSchoolingStatus.value.isNotNullOrNotBlank() &&
                 userIncome.value.isNotNullOrNotBlank() &&
                 userAge.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
@@ -146,6 +150,7 @@ class UserFormViewModel(
             communityId = community.id
             racial = userRacial.value
             schooling = userSchooling.value
+            schoolingStatus = userSchoolingStatus.value
             income = userIncome.value
             age = userAge.value
             telephone = userTelephone.value
@@ -169,42 +174,56 @@ class UserFormViewModel(
     }
 
     fun confirmUserGender() {
-        userGender.value = genderList[selectedGenderIndex]
+        userGender.value = getGenderList()[selectedGenderIndex]
     }
 
     fun confirmUserRace() {
-        userRacial.value = racialList[selectedRacialIndex]
+        userRacial.value = getRacialList()[selectedRacialIndex]
     }
 
     fun confirmUserSchooling() {
-        userSchooling.value = schoolingList[selectedSchoolingIndex]
+        userSchooling.value = getSchoolingList()[selectedSchoolingIndex]
+    }
+
+    fun confirmUserSchoolingStatus() {
+        userSchoolingStatus.value = when (selectedSchoolingStatusIndex.value) {
+            R.id.schoolingStatusComplete -> getScoolingStatusList()[0]
+            R.id.schoolingStatusIncomplete -> getScoolingStatusList()[1]
+            R.id.schoolingStatusStudying -> getScoolingStatusList()[2]
+            else -> getScoolingStatusList()[0]
+        }
     }
 
     fun confirmUserIncome() {
-        userIncome.value = incomeList[selectedIncomeIndex]
+        userIncome.value = getIncomeList()[selectedIncomeIndex]
     }
 
     fun getSelectedGenderListIndex(): Int {
-        selectedGenderIndex =
-            genderList.indexOfLast { userGender.value.equals(it) }.takeIf { it > -1 } ?: 0
+        selectedGenderIndex = mapOptions.getIndexFromList("genderOptions", userGender.value.toString())
         return selectedGenderIndex
     }
 
     fun getSelectedSchoolingListIndex(): Int {
-        selectedSchoolingIndex =
-            schoolingList.indexOfLast { userSchooling.value.equals(it) }.takeIf { it > -1 } ?: 0
+        selectedSchoolingIndex = mapOptions.getIndexFromList("schoolingOptions", userSchooling.value.toString())
         return selectedSchoolingIndex
     }
 
+    fun getSelectedSchoolingStatusListIndex(): Int {
+        return when (mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())) {
+            0 -> R.id.schoolingStatusComplete
+            1 -> R.id.schoolingStatusIncomplete
+            2 -> R.id.schoolingStatusStudying
+            else -> R.id.schoolingStatusComplete
+        }
+    }
+
     fun getSelectedIncomeListIndex(): Int {
-        selectedIncomeIndex =
-            incomeList.indexOfLast { userIncome.value.equals(it) }.takeIf { it > -1 } ?: 0
+        selectedIncomeIndex = mapOptions.getIndexFromList("incomeOptions", userIncome.value.toString())
         return selectedIncomeIndex
     }
 
     fun getSelectedRacialListIndex(): Int {
-        selectedRacialIndex =
-            racialList.indexOfLast { userRacial.value.equals(it) }.takeIf { it > -1 } ?: 0
+        selectedRacialIndex = mapOptions.getIndexFromList("racialOptions", userRacial.value.toString())
         return selectedRacialIndex
     }
 
@@ -223,6 +242,38 @@ class UserFormViewModel(
     fun setSelectIncomeIndex(index: Int) {
         selectedIncomeIndex = index
     }
+    
+    fun setSelectSchoolingStatusIndex(index: Int) {
+        selectedSchoolingStatusIndex.value = index
+    }
+
+    fun getGenderList() : List<String>{
+        return mapOptions["genderOptions"].orEmpty()
+    }
+
+    fun getRacialList() : List<String>{
+        return mapOptions["racialOptions"].orEmpty()
+    }
+
+    fun getSchoolingList() : List<String>{
+        return mapOptions["schoolingOptions"].orEmpty()
+    }
+
+    fun getScoolingStatusList() : List<String>{
+        return mapOptions["schoolingStatusOptions"].orEmpty()
+    }
+
+    fun getIncomeList() : List<String> {
+        return mapOptions["incomeOptions"].orEmpty()
+    }
+
+    fun getPathUserImageDocumentResidence(): String {
+        return userImageDocumentResidence.value.orEmpty()
+    }
+
+    fun setUserImageDocumentResidence(value: String){
+        _userImageDocumentResidence.value = value
+    }
 
     fun deleteProofResidenceImage() {
         viewModelScope.launch {
@@ -233,8 +284,7 @@ class UserFormViewModel(
             }
         }
     }
-
-
+    
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()

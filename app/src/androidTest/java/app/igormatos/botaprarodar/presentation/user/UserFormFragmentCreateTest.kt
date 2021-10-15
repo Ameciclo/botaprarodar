@@ -150,6 +150,33 @@ class UserFormFragmentCreateTest {
     }
 
     @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusComplete() {
+        userFormFragment {
+            clickSchoolingStatusComplete()
+        } verify {
+            verifySchoolingStatusComplete()
+        }
+    }
+
+    @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusIncomplete() {
+        userFormFragment {
+            clickSchoolingStatusIncomplete()
+        } verify {
+            verifySchoolingStatusIncompleteg()
+        }
+    }
+
+    @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusStudying() {
+        userFormFragment {
+            clickSchoolingStatusStudying()
+        } verify {
+            verifySchoolingStatusStudying()
+        }
+    }
+
+    @Test
     fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
         val incomeSelectedIndex = 2
         userFormFragment {
