@@ -25,7 +25,7 @@ class UserFormRepositoryTest {
     fun `when 'addNewUser' should add a user`() =
         runBlocking {
             coEvery {
-                mockApi.addUser(any())
+                mockApi.addUser(any(), any())
             } returns AddDataResponse("User registered")
 
             val request = userRepository.addNewUser(validUser)

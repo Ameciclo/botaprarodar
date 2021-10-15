@@ -26,7 +26,7 @@ class UserQuizViewModelTest {
     @Before
     fun setup() {
         viewModel = UserQuizViewModel(useCase)
-        viewModel.init(validUser, false)
+        viewModel.init(validUser, false, listOf())
     }
 
     @Test

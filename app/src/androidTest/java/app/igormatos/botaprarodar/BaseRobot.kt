@@ -40,7 +40,7 @@ abstract class BaseRobot {
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val launcherPackage: String = context.packageName
 
-    fun clickButton(idButton: Int) {
+    fun clickView(idButton: Int) {
         onView(withId(idButton)).perform(click())
     }
 

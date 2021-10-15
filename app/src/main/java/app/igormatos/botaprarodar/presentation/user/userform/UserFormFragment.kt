@@ -7,6 +7,7 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +17,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
+import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrlWithTransformation
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
@@ -100,7 +104,7 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupViewModelStatus()
+        setupViewModelObservers()
         checkEditMode()
     }
 
@@ -117,13 +121,25 @@ class UserFormFragment : Fragment() {
     private fun setupViewModelStatus() {
         userFormViewModel.openQuiz.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { data ->
-                val (user, editMode) = data
+                val (user, editMode, deleteImagePaths) = data
                 val direction =
                     UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(
                         user,
                         editMode
                     )
                 navController.navigate(direction)
+            }
+        })
+        userFormViewModel.statusDeleteImage.observe(viewLifecycleOwner, {
+            when (it) {
+                is ViewModelStatus.Success -> {
+                    binding.tvAddResidencePhoto.visible()
+                    binding.ivEditResidencePhoto.gone()
+                }
+                is ViewModelStatus.Error -> {
+                    binding.tvAddResidencePhoto.gone()
+                    binding.ivEditResidencePhoto.visible()
+                }
             }
         })
     }
@@ -246,6 +262,47 @@ class UserFormFragment : Fragment() {
 
     }
 
+    private fun openDialogChangeImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_change_image, null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
+
+        setImagePathOrUrl(
+            changeImageLayout.findViewById(R.id.dialogImage),
+            binding.viewModel?.userImageDocumentResidence?.value.orEmpty()
+        )
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            builder.cancel()
+            openDialogDeleteImage()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setOnClickListener {
+            dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            builder.cancel()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog)
+            .setOnClickListener { builder.cancel() }
+    }
+
+    private fun openDialogDeleteImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_delete_image, null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
+
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            binding.viewModel?.deleteProofResidenceImage()
+            builder.cancel()
+        }
+        changeImageLayout.findViewById<Button>(R.id.dialogImage).setOnClickListener {
+            builder.cancel()
+            openDialogChangeImage()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener {
+            builder.cancel()
+        }
+    }
+
     private fun setupListeners() {
         binding.cetUserAge.addMask(
             EditTextFormatMask.FORMAT_DATE
@@ -292,6 +349,12 @@ class UserFormFragment : Fragment() {
 
         binding.cppResidenceProofPicture.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+        binding.ivResidenceProof.setOnClickListener {
+            if (binding.viewModel?.userImageDocumentResidence?.value.isNullOrBlank()) {
+                dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            } else {
+                openDialogChangeImage()
+            }
         }
 
         binding.cstUserGender.setupClick {

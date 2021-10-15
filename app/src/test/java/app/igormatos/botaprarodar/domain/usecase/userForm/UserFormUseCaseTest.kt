@@ -1,10 +1,12 @@
 package app.igormatos.botaprarodar.domain.usecase.userForm
 
+import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.createImageFile
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -14,6 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import java.io.File
 
 class UserFormUseCaseTest {
     private val userRepository = mockk<UserRepository>()
@@ -82,6 +85,28 @@ class UserFormUseCaseTest {
             )
         }
 
+    @Test
+    fun `when 'deleteImage' from repository should return simple result without exception`() =
+        runBlocking {
+            val imagePath = validUser.residenceProofPicture.orEmpty()
+            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(Unit)
+
+            val responseResult = userUseCase.deleteImageFromRepository(imagePath)
+
+            assertTrue(responseResult is SimpleResult.Success<Unit>)
+        }
+
+    @Test
+    fun `when 'deleteImage' from local storage should return simple result without exception`() =
+        runBlocking {
+            val file = File.createTempFile("temImage", ".jpg")
+            file.createNewFile()
+
+            val responseResult = userUseCase.deleteImageLocal(file.path)
+
+            assertTrue(responseResult is SimpleResult.Success<Unit>)
+        }
+
     private fun mockTestSuccess() {
         coEvery {
             userRepository.addNewUser(any())
@@ -129,4 +154,6 @@ class UserFormUseCaseTest {
             firebaseHelperRepository.uploadOnlyImage(any(), any())
         } returns SimpleResult.Error(exceptionResult)
     }
+
+    private fun getContext() = InstrumentationRegistry.getInstrumentation().context
 }
