@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -42,6 +43,12 @@ class CustomEditText @JvmOverloads constructor(
                     R.styleable.CustomEditText_android_inputType,
                     EditorInfo.TYPE_NULL
                 )
+                typedArray.getInt(R.styleable.CustomEditText_android_maxLength, 0).takeIf { max ->
+                    max > 0
+                }?.apply {
+                    editText.filters = arrayOf(InputFilter.LengthFilter(this))
+                }
+
             }
         }
     }

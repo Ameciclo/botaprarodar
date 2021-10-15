@@ -1,548 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-                name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
+            name="viewModel"
+            type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_5">
 
         <ScrollView
-                android:id="@+id/scrollContainerUser"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
+            android:id="@+id/scrollContainerUser"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:context=".presentation.user.userform.UserFormFragment">
-
-                <ImageView
-                        android:id="@+id/profileImageView"
-                        android:layout_width="146dp"
-                        android:layout_height="146dp"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:background="@drawable/circle_background"
-                        android:scaleType="center"
-                        app:imagePathOrUrlCircle="@{viewModel.userImageProfile}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.497"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".presentation.user.userform.UserFormFragment">
 
                 <TextView
-                        android:id="@+id/tvAddProfilePhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:text="@string/add_photo"
-                        android:textColor="@color/gray_3"
-                        android:textSize="@dimen/text_size_14"
-                        android:textStyle="bold"
-                        app:drawableTopCompat="@drawable/ic_camera"
-                        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-                        app:layout_constraintEnd_toEndOf="@+id/profileImageView"
-                        app:layout_constraintStart_toStartOf="@+id/profileImageView"
-                        app:layout_constraintTop_toTopOf="@+id/profileImageView" />
-
-                <ImageView
-                        android:id="@+id/ivEditProfilePhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:src="@drawable/ic_camera"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-                        app:layout_constraintEnd_toEndOf="@+id/profileImageView"
-                        app:layout_constraintStart_toStartOf="@+id/profileImageView"
-                        app:layout_constraintTop_toTopOf="@+id/profileImageView"
-                        app:tint="@color/gray_5" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilCompleteName"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/complete_name"
-                        app:errorMessage="@{`add_user_invalid_name`}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/profileImageView"
-                        app:textCaptured="@{viewModel.userCompleteName}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietCompleteName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="@={viewModel.userCompleteName}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilAge"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:hint="@string/add_user_age"
-                        app:errorMessage="@{`add_user_invalid_age`}"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
-                        app:textCaptured="@{viewModel.userAge}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietAge"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:text="@={viewModel.userAge}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilIncome"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="16dp"
-                        android:hint="@string/add_user_income"
-                        app:errorMessage="@{`add_user_invalid_income`}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
-                        app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
-                        app:textCaptured="@{viewModel.userIncome}">
-
-                    <EditText
-                            android:id="@+id/ietIncome"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
-                            android:text="@={viewModel.userIncome}"
-                            app:drawableEndCompat="@drawable/ic_arrow_down" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilGender"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_gender"
-                        app:errorMessage="@{`add_user_invalid_gender`}"
-                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilAge"
-                        app:textCaptured="@{viewModel.userGender}">
-
-                    <EditText
-                            android:id="@+id/etGender"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:drawableRight="@drawable/ic_arrow_down"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
-                            android:text="@{viewModel.userGender}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilRacial"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_racial"
-                        app:errorMessage="@{`add_user_invalid_racial`}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilGender"
-                        app:textCaptured="@{viewModel.userRacial}">
-
-                    <EditText
-                            android:id="@+id/etRacial"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
-                            android:padding="12dp"
-                            android:text="@{viewModel.userRacial}"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            app:drawableEndCompat="@drawable/ic_arrow_down"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ilRacial" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilSchooling"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_schooling"
-                        app:errorMessage="@{`add_user_invalid_schooling`}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilRacial"
-                        app:textCaptured="@{viewModel.userSchooling}">
-
-                    <EditText
-                            android:id="@+id/etSchooling"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="false"
-                            android:cursorVisible="false"
-                            android:drawableRight="@drawable/ic_arrow_down"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:inputType="textNoSuggestions"
-                            android:text="@{viewModel.userSchooling}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                        android:id="@+id/schoolingStatusRadioGroupLabel"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_14"
-                        android:text="@string/add_user_schooling_status"
-                        app:layout_constraintBottom_toTopOf="@+id/schoolingStatusRadioGroup"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilSchooling" />
+                    android:id="@+id/schoolingStatusRadioGroupLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_14"
+                    android:text="@string/add_user_schooling_status"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintBottom_toTopOf="@+id/schoolingStatusRadioGroup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_schooling" />
 
                 <RadioGroup
-                        android:id="@+id/schoolingStatusRadioGroup"
+                    android:id="@+id/schoolingStatusRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel"
+                    app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}">
+
+                    <RadioButton
+                        android:id="@+id/schoolingStatusComplete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}"
-                        app:layout_constraintStart_toStartOf="@+id/ilTelephone"
-                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel">
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_16"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_complete" />
 
                     <RadioButton
-                            android:id="@+id/schoolingStatusComplete"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingRight="@dimen/margin_12"
-                            android:text="@string/add_user_schooling_status_complete" />
+                        android:id="@+id/schoolingStatusIncomplete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_16"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_incomplete" />
 
                     <RadioButton
-                            android:id="@+id/schoolingStatusIncomplete"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="28dp"
-                            android:layout_weight="1"
-                            android:paddingRight="@dimen/margin_12"
-                            android:text="@string/add_user_schooling_status_incomplete" />
-
-                    <RadioButton
-                            android:id="@+id/schoolingStatusStudying"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="28dp"
-                            android:layout_weight="1"
-                            android:paddingRight="@dimen/margin_12"
-                            android:text="@string/add_user_schooling_status_studying" />
+                        android:id="@+id/schoolingStatusStudying"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_16"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_studying" />
                 </RadioGroup>
 
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilTelephone"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_telephone_hint"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroup">
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:gravity="center"
+                    android:text="@string/user_form_title"
+                    android:textColor="@color/gray_6"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietTelephone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone"
-                            android:maxLength="@integer/max_size_user_phone_number"
-                            android:text="@={viewModel.userTelephone}" />
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_name_hint"
+                    android:inputType="textPersonName"
+                    android:label="@string/user_form_user_name_label"
+                    app:errorMessage="@{`add_user_invalid_name`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    app:textCaptured="@{viewModel.userCompleteName}"
+                    app:textValue="@={viewModel.userCompleteName}" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_document"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_document_number_hint"
+                    android:inputType="number"
+                    android:label="@string/user_form_user_document_number_label"
+                    app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
+                    app:layout_constraintEnd_toStartOf="@+id/cet_user_phone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cet_user_name"
+                    app:textValue="@={viewModel.userDocument}" />
 
-                <View
-                        android:id="@+id/addressDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/separator_gray"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ilTelephone" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilAddress"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_address_hint"
-                        app:errorMessage="@{`add_user_invalid_address`}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/addressDivider"
-                        app:textCaptured="@{viewModel.userAddress}">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@={viewModel.userAddress}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                        android:id="@+id/ivResidenceProof"
-                        android:layout_width="155dp"
-                        android:layout_height="120dp"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:background="@drawable/background_image_bike"
-                        app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ilAddress" />
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/user_form_user_phone_hint"
+                    android:inputType="phone"
+                    android:label="@string/user_form_user_phone_label"
+                    android:maxLength="@integer/max_size_user_phone_number"
+                    app:layout_constraintBottom_toBottomOf="@+id/cet_user_document"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cet_user_document"
+                    app:layout_constraintTop_toTopOf="@+id/cet_user_document"
+                    app:textValue="@={viewModel.userTelephone}" />
 
                 <TextView
-                        android:id="@+id/tvAddResidencePhoto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:gravity="center"
-                        android:text="@string/txt_doc_address"
-                        android:textColor="@color/gray_3"
-                        android:textSize="@dimen/text_size_14"
-                        android:textStyle="bold"
-                        app:drawableTopCompat="@drawable/ic_camera"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivResidenceProof"
-                        app:layout_constraintEnd_toEndOf="@+id/ivResidenceProof"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/ivResidenceProof"
-                        app:layout_constraintTop_toTopOf="@+id/ivResidenceProof"
-                        app:layout_constraintVertical_bias="0.511" />
+                    android:id="@+id/tv_document_label"
+                    style="@style/TextLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/user_form_user_document_picture_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cet_user_document" />
 
-                <ImageView
-                        android:id="@+id/ivEditResidencePhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:src="@drawable/ic_camera"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivResidenceProof"
-                        app:layout_constraintEnd_toEndOf="@+id/ivResidenceProof"
-                        app:layout_constraintStart_toStartOf="@+id/ivResidenceProof"
-                        app:layout_constraintTop_toTopOf="@+id/ivResidenceProof"
-                        app:tint="@color/gray_5" />
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_document_front_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_document_picture_front_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
+                    app:layout_constraintEnd_toStartOf="@+id/cpp_document_back_picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_document_label" />
 
-                <View
-                        android:id="@+id/residenceDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@color/separator_gray"
-                        app:layout_constraintBottom_toTopOf="@+id/ilCpf"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivResidenceProof" />
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_document_back_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_document_picture_back_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
+                    app:layout_constraintBottom_toBottomOf="@id/cpp_document_front_picture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cpp_document_front_picture"
+                    app:layout_constraintTop_toTopOf="@id/cpp_document_front_picture" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/ilCpf"
-                        style="@style/textInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:hint="@string/add_user_doc_number_hint"
-                        app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/residenceDivider">
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_age"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_age_hint"
+                    android:inputType="number"
+                    android:label="@string/user_form_user_age_label"
+                    app:errorMessage="@{`add_user_invalid_age`}"
+                    app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cpp_document_back_picture"
+                    app:textValue="@={viewModel.userAge}"
+                    app:textCaptured="@{viewModel.userAge}"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ietCpf"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:maxLength="@integer/max_size_user_doc_number"
-                            android:text="@={viewModel.userDocument}" />
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_income"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_income_label"
+                    app:layout_constraintBottom_toBottomOf="@+id/cet_user_age"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cet_user_age"
+                    app:layout_constraintTop_toTopOf="@+id/cet_user_age"
+                    app:textValue="@{viewModel.userIncome}" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_gender_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_income"
+                    app:textValue="@{viewModel.userGender}" />
 
-                <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_racial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_race_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_gender"
+                    app:textValue="@{viewModel.userRacial}" />
 
-                <ImageView
-                        android:id="@+id/ivFrontDocument"
-                        android:layout_width="0dp"
-                        android:layout_height="120dp"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:background="@drawable/background_image_bike"
-                        app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/guideline"
-                        app:layout_constraintTop_toBottomOf="@id/ilCpf" />
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_schooling"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_schooling_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_racial"
+                    app:textValue="@{viewModel.userSchooling}" />
 
-                <TextView
-                        android:id="@+id/tvAddFrontDocumentPhoto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:gravity="center"
-                        android:text="@string/txt_doc_front"
-                        android:textColor="@color/gray_3"
-                        android:textSize="@dimen/text_size_14"
-                        android:textStyle="bold"
-                        app:drawableTopCompat="@drawable/ic_camera"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivFrontDocument"
-                        app:layout_constraintEnd_toEndOf="@+id/ivFrontDocument"
-                        app:layout_constraintStart_toStartOf="@+id/ivFrontDocument"
-                        app:layout_constraintTop_toTopOf="@+id/ivFrontDocument" />
-
-                <ImageView
-                        android:id="@+id/ivEditFrontPhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:src="@drawable/ic_camera"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivFrontDocument"
-                        app:layout_constraintEnd_toEndOf="@+id/ivFrontDocument"
-                        app:layout_constraintStart_toStartOf="@+id/ivFrontDocument"
-                        app:layout_constraintTop_toTopOf="@+id/ivFrontDocument"
-                        app:tint="@color/gray_5" />
-
-                <ImageView
-                        android:id="@+id/ivBackDocument"
-                        android:layout_width="0dp"
-                        android:layout_height="120dp"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:background="@drawable/background_image_bike"
-                        app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
-                        app:layout_constraintLeft_toLeftOf="@id/guideline"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ilCpf" />
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_adress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_adrees_hint"
+                    android:label="@string/user_form_user_adrees_label"
+                    app:errorMessage="@{`add_user_invalid_address`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroup"
+                    app:textValue="@{viewModel.userAddress}"
+                    app:textCaptured="@{viewModel.userAddress}"/>
 
                 <TextView
-                        android:id="@+id/tvAddBackDocumentPhoto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:gravity="center"
-                        android:text="@string/txt_doc_back"
-                        android:textColor="@color/gray_3"
-                        android:textSize="@dimen/text_size_14"
-                        android:textStyle="bold"
-                        app:drawableTopCompat="@drawable/ic_camera"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivBackDocument"
-                        app:layout_constraintEnd_toEndOf="@+id/ivBackDocument"
-                        app:layout_constraintStart_toStartOf="@+id/ivBackDocument"
-                        app:layout_constraintTop_toTopOf="@+id/ivBackDocument" />
+                    android:id="@+id/tv_other_pictures_label"
+                    style="@style/TextLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/user_form_user_others_picture_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cet_user_adress" />
 
-                <ImageView
-                        android:id="@+id/ivEditBackPhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:drawablePadding="@dimen/margin_12"
-                        android:src="@drawable/ic_camera"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivBackDocument"
-                        app:layout_constraintEnd_toEndOf="@+id/ivBackDocument"
-                        app:layout_constraintStart_toStartOf="@+id/ivBackDocument"
-                        app:layout_constraintTop_toTopOf="@+id/ivBackDocument"
-                        app:tint="@color/gray_5" />
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_residence_proof_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_residence_proof_picture_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
+                    app:layout_constraintEnd_toStartOf="@+id/cpp_perfil_picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_other_pictures_label" />
+
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_perfil_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_perfil_picture_label"
+                    app:imagePathOrUrl="@{viewModel.userImageProfile}"
+                    app:layout_constraintBottom_toBottomOf="@id/cpp_residence_proof_picture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cpp_residence_proof_picture"
+                    app:layout_constraintTop_toTopOf="@id/cpp_residence_proof_picture" />
 
                 <Button
-                        android:id="@+id/saveButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_big"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_small"
-                        android:enabled="@{viewModel.isButtonEnabled}"
-                        android:onClick="@{() -> viewModel.navigateToNextStep()}"
-                        android:padding="@dimen/padding_medium"
-                        android:text="@string/action_next"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
-
+                    android:id="@+id/saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:enabled="@{viewModel.isButtonEnabled}"
+                    android:onClick="@{() -> viewModel.navigateToNextStep()}"
+                    android:text="@string/user_form_button"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cpp_residence_proof_picture" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </ScrollView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
