@@ -53,7 +53,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickResidenceProofImage() {
-        clickView(R.id.ivEditResidencePhoto)
+        clickAndScrollView(R.id.ivEditResidencePhoto)
     }
 
     fun clickDeleteButtonOnDialogImage() {
