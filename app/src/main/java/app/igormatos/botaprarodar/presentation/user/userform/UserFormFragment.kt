@@ -18,11 +18,8 @@ import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
-import app.igormatos.botaprarodar.databinding.FragmentUserFormNewBinding
 import app.igormatos.botaprarodar.domain.model.User
-import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
-import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -37,7 +34,7 @@ class UserFormFragment : Fragment() {
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
-    private lateinit var binding: FragmentUserFormNewBinding
+    private lateinit var binding: FragmentUserFormBinding
 
     private val navController: NavController by lazy {
         findNavController()
@@ -67,7 +64,7 @@ class UserFormFragment : Fragment() {
             schoolingOptions,
             genderOptions
         )
-        binding = FragmentUserFormNewBinding.inflate(inflater)
+        binding = FragmentUserFormBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = userFormViewModel
         return binding.root
@@ -110,35 +107,11 @@ class UserFormFragment : Fragment() {
     private fun checkEditMode() {
         if (args.user != null) {
             setValuesToEditUser(args.user)
-            setImageDescriptionsToGone()
-            setImageEditDescriptionsToVisible()
         }
     }
 
     private fun setValuesToEditUser(user: User?) {
         user?.let { userFormViewModel.updateUserValues(it) }
-    }
-
-    private fun setImageDescriptionsToGone() {
-        /*if (userHasResidenceProofPicture())
-            binding.tvAddResidencePhoto.gone()
-
-        binding.tvAddBackDocumentPhoto.gone()
-        binding.tvAddFrontDocumentPhoto.gone()
-        binding.tvAddProfilePhoto.gone()*/
-    }
-
-    private fun setImageEditDescriptionsToVisible() {
-        /*if (userHasResidenceProofPicture())
-            binding.ivEditResidencePhoto.visible()
-
-        binding.ivEditBackPhoto.visible()
-        binding.ivEditFrontPhoto.visible()
-        binding.ivEditProfilePhoto.visible()*/
-    }
-
-    private fun userHasResidenceProofPicture(): Boolean {
-        return args.user?.residenceProofPicture?.isNotEmpty() == true
     }
 
     private fun setupViewModelStatus() {
@@ -159,23 +132,15 @@ class UserFormFragment : Fragment() {
         when (whichImageCode) {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
-                //binding.tvAddProfilePhoto.gone()
-                //binding.ivEditProfilePhoto.visible()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
-                //binding.tvAddFrontDocumentPhoto.gone()
-                //binding.ivEditFrontPhoto.visible()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
-                //binding.tvAddBackDocumentPhoto.gone()
-                //binding.ivEditBackPhoto.visible()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
-                //binding.tvAddResidencePhoto.gone()
-                //binding.ivEditResidencePhoto.visible()
             }
         }
     }
@@ -285,8 +250,8 @@ class UserFormFragment : Fragment() {
         binding.cetUserAge.addMask(
             EditTextFormatMask.FORMAT_DATE
         )
-        //TODO fix this
-        //binding.phon.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
+
+        binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
 
         binding.cppPerfilPicture.setOnClickListener {
             showTipDialog(
