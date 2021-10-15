@@ -14,7 +14,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickProfileImage() {
-        clickView(R.id.profileImageView)
+        clickView(R.id.cpp_perfil_picture)
     }
 
     fun clickConfirmDialog() {
@@ -24,36 +24,36 @@ class UserFormFragmentRobot : BaseRobot() {
 
     fun fillUserDocNumber(docNumber: String) {
         swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietCpf, docNumber)
+        fillFieldById(R.id.cet_user_document, docNumber)
     }
 
     fun fillUserPhone(phoneNumber: String) {
         swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietTelephone, phoneNumber)
+        fillFieldById(R.id.cet_user_phone, phoneNumber)
     }
 
     fun checkDocNumberMaxLength() {
-        checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
+        checkViewHasLength(R.id.cet_user_document, R.integer.max_size_user_doc_number)
     }
 
     fun checkPhoneNumberMaxLength() {
-        checkViewHasLength(R.id.ietTelephone, R.integer.max_size_user_phone_number)
+        checkViewHasLength(R.id.cet_user_phone, R.integer.max_size_user_phone_number)
     }
 
     fun clickRacialEditText() {
-        clickView(R.id.etRacial)
+        clickView(R.id.cst_user_racial)
     }
 
     fun clickGenderEditText() {
-        clickView(R.id.etGender)
+        clickView(R.id.cst_user_gender)
     }
 
     fun clickIncomeEditText() {
-        clickView(R.id.ietIncome)
+        clickView(R.id.cst_user_income)
     }
 
     fun clickResidenceProofImage() {
-        clickAndScrollView(R.id.ivEditResidencePhoto)
+        clickAndScrollView(R.id.cpp_residence_proof_picture)
     }
 
     fun clickDeleteButtonOnDialogImage() {
@@ -61,7 +61,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickSchoolingEditText() {
-        clickView(R.id.etSchooling)
+        clickView(R.id.cst_user_schooling)
     }
 
     fun clickSchoolingStatusComplete() {

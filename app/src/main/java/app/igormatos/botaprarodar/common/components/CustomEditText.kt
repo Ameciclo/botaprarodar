@@ -1,14 +1,20 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
+import app.igormatos.botaprarodar.common.biding.setErrorUserDocNumber
+import app.igormatos.botaprarodar.common.biding.utils.validateText
 import app.igormatos.botaprarodar.common.extensions.validateTextChanged
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.CustomEditTextBinding
 
 class CustomEditText @JvmOverloads constructor(
@@ -37,6 +43,12 @@ class CustomEditText @JvmOverloads constructor(
                     R.styleable.CustomEditText_android_inputType,
                     EditorInfo.TYPE_NULL
                 )
+                typedArray.getInt(R.styleable.CustomEditText_android_maxLength, 0).takeIf { max ->
+                    max > 0
+                }?.apply {
+                    editText.filters = arrayOf(InputFilter.LengthFilter(this))
+                }
+
             }
         }
     }
@@ -50,13 +62,29 @@ class CustomEditText @JvmOverloads constructor(
         binding.editText.addTextChangedListener(textWatcher)
     }
 
-    fun setupText(userCompleteName: String, errorMessage: String){
+    fun addMask(format: String){
+        binding.editText.addTextChangedListener(
+            EditTextFormatMask.textMask(binding.editText, format)
+        )
+    }
+
+    fun validate(errorMessageId: Int){
+        binding.editText.doAfterTextChanged {
+            validateText(it.toString(), binding.textLayout, errorMessageId)
+        }
+    }
+
+    fun validateText(userCompleteName: String, errorMessage: String) {
         binding.apply {
             textLayout.setErrorUserCompleteName(
                 userCompleteName,
                 errorMessage
             )
         }
+    }
+
+    fun validateDocument(docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>) {
+        binding.textLayout.setErrorUserDocNumber(docNumberErrorValidationMap)
     }
 
 }
