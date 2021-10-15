@@ -39,6 +39,8 @@ class UserQuizViewModel(
 
     val timeOnWayOpenQuestion = MutableLiveData<String>()
 
+    private lateinit var deleteImagePaths: List<String>
+
     private lateinit var user: User
 
     private val _status = MutableLiveData<ViewModelStatus<String>>()
@@ -58,9 +60,10 @@ class UserQuizViewModel(
         addSource(timeOnWayOpenQuestion) { validateQuestions() }
     }
 
-    fun init(user: User, editMode: Boolean) {
+    fun init(user: User, editMode: Boolean, deleteImagePaths: List<String>) {
         this.user = user
         this.editMode = editMode
+        this.deleteImagePaths = deleteImagePaths
         if (editMode) {
             fillUserQuiz()
         }
@@ -106,9 +109,11 @@ class UserQuizViewModel(
     }
 
     private suspend fun updateUser() {
-        userUseCase.startUpdateUser(user).let {
+        userUseCase.startUpdateUser(user, deleteImagePaths).let {
             when (it) {
-                is SimpleResult.Success -> showSuccess()
+                is SimpleResult.Success -> {
+                    showSuccess()
+                }
                 is SimpleResult.Error -> showError()
             }
         }
