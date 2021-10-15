@@ -40,7 +40,6 @@ class UserFormViewModelTest {
             stepper,
             arrayListOf(validUser),
             mapOptions
-        )
     }
 
     @Test

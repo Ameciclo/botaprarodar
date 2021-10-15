@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
+import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
@@ -241,7 +242,7 @@ class UserFormViewModel(
     fun setSelectIncomeIndex(index: Int) {
         selectedIncomeIndex = index
     }
-
+    
     fun setSelectSchoolingStatusIndex(index: Int) {
         selectedSchoolingStatusIndex.value = index
     }
@@ -283,7 +284,7 @@ class UserFormViewModel(
             }
         }
     }
-
+    
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
