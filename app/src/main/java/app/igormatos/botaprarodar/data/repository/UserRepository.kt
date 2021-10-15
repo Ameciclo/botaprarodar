@@ -9,6 +9,7 @@ import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class UserRepository(private val userApi: UserApi) {
@@ -16,7 +17,8 @@ class UserRepository(private val userApi: UserApi) {
     suspend fun addNewUser(user: User): SimpleResult<AddDataResponse> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
-                userApi.addUser(user)
+                user.id = UUID.randomUUID().toString()
+                userApi.addUser(user, user.id.orEmpty())
             }
         }
     }
