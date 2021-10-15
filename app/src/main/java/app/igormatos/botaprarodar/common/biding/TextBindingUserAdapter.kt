@@ -21,11 +21,11 @@ fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String, errorMess
 }
 
 @BindingAdapter("app:errorUserDocNumber")
-fun setErrorUserDocNumber(view: TextInputLayout,
+fun TextInputLayout.setErrorUserDocNumber(
                                 docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>
 ) {
-    view.editText?.focusChangedErrorListener(
+    this.editText?.focusChangedErrorListener(
         docNumberErrorValidationMap,
-        view)
-    view.editText?.textChangedErrorListener(docNumberErrorValidationMap, view)
+        this)
+    this.editText?.textChangedErrorListener(docNumberErrorValidationMap, this)
 }
