@@ -20,6 +20,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrlWithTransformation
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
@@ -30,6 +31,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -338,6 +340,9 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.ietAge.addTextChangedListener(
+            EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
+        )
 
         binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
 
