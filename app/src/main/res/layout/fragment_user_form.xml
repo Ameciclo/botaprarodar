@@ -41,6 +41,7 @@
                         android:scaleType="center"
                         app:imagePathOrUrlCircle="@{viewModel.userImageProfile}"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.497"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,11 +142,11 @@
                             android:id="@+id/ietIncome"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textNoSuggestions"
-                            app:drawableEndCompat="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
-                            android:text="@={viewModel.userIncome}" />
+                            android:inputType="textNoSuggestions"
+                            android:text="@={viewModel.userIncome}"
+                            app:drawableEndCompat="@drawable/ic_arrow_down" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,22 +160,22 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:hint="@string/add_user_gender"
                         app:errorMessage="@{`add_user_invalid_gender`}"
+                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ilAge"
-                        app:layout_constraintBottom_toTopOf="@+id/ilRacial"
                         app:textCaptured="@{viewModel.userGender}">
 
                     <EditText
                             android:id="@+id/etGender"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableRight="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:inputType="textNoSuggestions"
-                            android:clickable="false"
                             android:text="@{viewModel.userGender}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -198,14 +199,14 @@
                             android:id="@+id/etRacial"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="12dp"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:text="@{viewModel.userRacial}"
-                            app:drawableEndCompat="@drawable/ic_arrow_down"
-                            android:inputType="textNoSuggestions"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
+                            android:inputType="textNoSuggestions"
+                            android:padding="12dp"
+                            android:text="@{viewModel.userRacial}"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:drawableEndCompat="@drawable/ic_arrow_down"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/ilRacial" />
@@ -232,12 +233,12 @@
                             android:id="@+id/etSchooling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
                             android:cursorVisible="false"
                             android:drawableRight="@drawable/ic_arrow_down"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:inputType="textNoSuggestions"
-                            android:clickable="false"
                             android:text="@{viewModel.userSchooling}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -324,8 +325,10 @@
                         app:drawableTopCompat="@drawable/ic_camera"
                         app:layout_constraintBottom_toBottomOf="@+id/ivResidenceProof"
                         app:layout_constraintEnd_toEndOf="@+id/ivResidenceProof"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="@+id/ivResidenceProof"
-                        app:layout_constraintTop_toTopOf="@+id/ivResidenceProof" />
+                        app:layout_constraintTop_toTopOf="@+id/ivResidenceProof"
+                        app:layout_constraintVertical_bias="0.511" />
 
                 <ImageView
                         android:id="@+id/ivEditResidencePhoto"
@@ -489,6 +492,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ivFrontDocument" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
