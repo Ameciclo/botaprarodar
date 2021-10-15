@@ -7,6 +7,7 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -16,16 +17,20 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
+import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.brunotmgomes.ui.extensions.visible
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.activity_ride_quiz.*
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -87,7 +92,7 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupViewModelStatus()
+        setupViewModelObservers()
         checkEditMode()
     }
 
@@ -100,7 +105,12 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setValuesToEditUser(user: User?) {
-        user?.let { userFormViewModel.updateUserValues(it) }
+        user?.let {
+            userFormViewModel.updateUserValues(it)
+            if (it.schoolingStatus.isNullOrBlank()){
+                binding.schoolingStatusRadioGroup.clearCheck()
+            }
+        }
     }
 
     private fun setImageDescriptionsToGone() {
@@ -125,16 +135,29 @@ class UserFormFragment : Fragment() {
         return args.user?.residenceProofPicture?.isNotEmpty() == true
     }
 
-    private fun setupViewModelStatus() {
+    private fun setupViewModelObservers() {
         userFormViewModel.openQuiz.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { data ->
-                val (user, editMode) = data
+                val (user, editMode, deleteImagePaths) = data
                 val direction =
                     UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(
                         user,
-                        editMode
+                        editMode,
+                        deleteImagePaths.toTypedArray()
                     )
                 navController.navigate(direction)
+            }
+        })
+        userFormViewModel.statusDeleteImage.observe(viewLifecycleOwner, {
+            when (it) {
+                is ViewModelStatus.Success -> {
+                    binding.tvAddResidencePhoto.visible()
+                    binding.ivEditResidencePhoto.gone()
+                }
+                is ViewModelStatus.Error -> {
+                    binding.tvAddResidencePhoto.gone()
+                    binding.ivEditResidencePhoto.visible()
+                }
             }
         })
     }
@@ -170,7 +193,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun createDialogGender (){
+    private fun createDialogGender() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_gender))
             setSingleChoiceItems(binding.viewModel?.getGenderList()?.toTypedArray(), binding.viewModel?.getSelectedGenderListIndex() ?: 0) { _, which ->
@@ -183,7 +206,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun createDialogSchooling (){
+    private fun createDialogSchooling() {
         AlertDialog.Builder(requireContext()).apply {
             setTitle(getString(R.string.add_user_schooling))
             setSingleChoiceItems(binding.viewModel?.getSchoolingList()?.toTypedArray(), binding.viewModel?.getSelectedSchoolingListIndex() ?: 0) { _, which ->
@@ -211,7 +234,6 @@ class UserFormFragment : Fragment() {
 
     private fun openDialogToSelectRace() {
         AlertDialog.Builder(requireContext()).apply {
-
             setTitle(getString(R.string.add_user_racial))
             setSingleChoiceItems(binding.viewModel?.getRacialList()?.toTypedArray(), binding.viewModel?.getSelectedRacialListIndex() ?: 0) { _, which ->
                 binding.viewModel?.setSelectRacialIndex(which)
@@ -253,7 +275,51 @@ class UserFormFragment : Fragment() {
 
     }
 
+    private fun openDialogChangeImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_change_image, null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
+
+        setImagePathOrUrl(
+            changeImageLayout.findViewById(R.id.dialogImage),
+            binding.viewModel?.userImageDocumentResidence?.value.orEmpty()
+        )
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            builder.cancel()
+            openDialogDeleteImage()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setOnClickListener {
+            dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            builder.cancel()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog)
+            .setOnClickListener { builder.cancel() }
+    }
+
+    private fun openDialogDeleteImage() {
+        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_delete_image, null)
+        val builder = MaterialAlertDialogBuilder(requireContext()).create()
+        builder.setView(changeImageLayout)
+        builder.show()
+
+        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+            binding.viewModel?.deleteProofResidenceImage()
+            builder.cancel()
+        }
+        changeImageLayout.findViewById<Button>(R.id.dialogImage).setOnClickListener {
+            builder.cancel()
+            openDialogChangeImage()
+        }
+        changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener {
+            builder.cancel()
+        }
+    }
+
     private fun setupListeners() {
+        binding.ietAge.addTextChangedListener(
+            EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
+        )
 
         binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
 
@@ -295,7 +361,11 @@ class UserFormFragment : Fragment() {
         }
 
         binding.ivResidenceProof.setOnClickListener {
-            dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            if (binding.viewModel?.userImageDocumentResidence?.value.isNullOrBlank()) {
+                dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
+            } else {
+                openDialogChangeImage()
+            }
         }
 
         binding.etGender.setOnClickListener {
@@ -304,19 +374,6 @@ class UserFormFragment : Fragment() {
 
         binding.etSchooling.setOnClickListener {
             createDialogSchooling()
-        }
-
-        binding.custom.setupClick {
-            showTipDialog(
-                R.drawable.iconfinder_user_profile_imagee,
-                getString(R.string.profile_picture),
-                getString(R.string.profile_picture_tip)
-            ) {
-                if (it) {
-                    currentPhotoId = REQUEST_PROFILE_PHOTO
-                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
-                }
-            }
         }
 
         binding.etRacial.setOnClickListener {
@@ -330,7 +387,8 @@ class UserFormFragment : Fragment() {
         binding.schoolingStatusRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             binding.viewModel?.setSelectSchoolingStatusIndex(checkedId)
             binding.viewModel?.confirmUserSchoolingStatus()
-
         }
     }
+
+
 }

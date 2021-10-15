@@ -1,17 +1,16 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.extensions.getIndexFromList
-import app.igormatos.botaprarodar.common.extensions.orValue
+import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
+import kotlinx.coroutines.launch
 
 class UserFormViewModel(
     private val community: Community,
@@ -19,7 +18,7 @@ class UserFormViewModel(
     val communityUsers: ArrayList<User>,
     val mapOptions: Map<String, List<String>>
 ) : ViewModel() {
-    val openQuiz = MutableLiveData<ViewEvent<Pair<User, Boolean>>>()
+    val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
     var user = User()
 
@@ -27,7 +26,10 @@ class UserFormViewModel(
     var userAddress = MutableLiveData("")
     var userDocument = MutableLiveData("")
     var userImageProfile = MutableLiveData("")
-    var userImageDocumentResidence = MutableLiveData("")
+    private var _userImageDocumentResidence = MutableLiveData("")
+    val userImageDocumentResidence: LiveData<String> = _userImageDocumentResidence
+    private var _deleteImagePaths = MutableLiveData(ArrayList<String>())
+    val deleteImagePaths: LiveData<ArrayList<String>> = _deleteImagePaths
     var userImageDocumentFront = MutableLiveData("")
     var userImageDocumentBack = MutableLiveData("")
     var userGender = MutableLiveData("")
@@ -38,11 +40,12 @@ class UserFormViewModel(
     var userAge = MutableLiveData("")
     var userTelephone = MutableLiveData("")
     var selectedSchoolingIndex = 0
-    var selectedSchoolingStatusIndex = MutableLiveData(getSelectedSchoolingStatusListIndex())
+    var selectedSchoolingStatusIndex = MutableLiveData(0)
     var selectedIncomeIndex = 0
     var selectedRacialIndex = 0
     var selectedGenderIndex = 0
-
+    private var _statusDeleteImage = MutableLiveData<ViewModelStatus<Unit>>()
+    val statusDeleteImage: LiveData<ViewModelStatus<Unit>> = _statusDeleteImage
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -90,17 +93,19 @@ class UserFormViewModel(
             userAddress.value = this.address.orEmpty()
             userDocument.value = this.docNumber.toString()
             userImageProfile.value = this.profilePicture.orEmpty()
-            userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
+            _userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
             userImageDocumentFront.value = this.docPicture.orEmpty()
             userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
-            userSchoolingStatus.value = mapOptions["schoolingStatusOptions"]?.let { this.schoolingStatus.orValue(it.get(1)) }
+            userSchoolingStatus.value = this.schoolingStatus.orEmpty()
             userIncome.value = this.income.orEmpty()
             userAge.value = this.age.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
         }
+        setSelectSchoolingStatusIndex(getSelectedSchoolingStatusListIndex())
+        confirmUserSchoolingStatus()
         isEditableAvailable = true
         communityUsers.remove(currentUser)
     }
@@ -137,7 +142,7 @@ class UserFormViewModel(
             address = userAddress.value
             docNumber = userDocument.value?.toLong() ?: 0L
             profilePicture = userImageProfile.value
-            residenceProofPicture = userImageDocumentResidence.value
+            residenceProofPicture = _userImageDocumentResidence.value
             docPicture = userImageDocumentFront.value
             docPictureBack = userImageDocumentBack.value
             gender = userGender.value
@@ -164,7 +169,7 @@ class UserFormViewModel(
     }
 
     fun setResidenceImage(path: String) {
-        userImageDocumentResidence.value = path
+        _userImageDocumentResidence.value = path
     }
 
     fun confirmUserGender() {
@@ -203,8 +208,7 @@ class UserFormViewModel(
     }
 
     fun getSelectedSchoolingStatusListIndex(): Int {
-        val schoolingStatusIndex = mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())
-        return when (schoolingStatusIndex) {
+        return when (mapOptions.getIndexFromList("schoolingStatusOptions", userSchoolingStatus.value.toString())) {
             0 -> R.id.schoolingStatusComplete
             1 -> R.id.schoolingStatusIncomplete
             2 -> R.id.schoolingStatusStudying
@@ -239,12 +243,7 @@ class UserFormViewModel(
     }
 
     fun setSelectSchoolingStatusIndex(index: Int) {
-        selectedSchoolingStatusIndex.value = when (index) {
-            0 -> R.id.schoolingStatusComplete
-            1 -> R.id.schoolingStatusIncomplete
-            2 -> R.id.schoolingStatusStudying
-            else -> R.id.schoolingStatusComplete
-        }
+        selectedSchoolingStatusIndex.value = index
     }
 
     fun getGenderList() : List<String>{
@@ -263,14 +262,33 @@ class UserFormViewModel(
         return mapOptions["schoolingStatusOptions"].orEmpty()
     }
 
-    fun getIncomeList() : List<String>{
+    fun getIncomeList() : List<String> {
         return mapOptions["incomeOptions"].orEmpty()
+    }
+
+    fun getPathUserImageDocumentResidence(): String {
+        return userImageDocumentResidence.value.orEmpty()
+    }
+
+    fun setUserImageDocumentResidence(value: String){
+        _userImageDocumentResidence.value = value
+    }
+
+    fun deleteProofResidenceImage() {
+        viewModelScope.launch {
+            userImageDocumentResidence.value?.apply {
+                _deleteImagePaths.value?.add(_userImageDocumentResidence.value.orEmpty() )
+                _userImageDocumentResidence.value = ""
+                _statusDeleteImage.value = ViewModelStatus.Success(Unit)
+            }
+        }
     }
 
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
-        openQuiz.value = ViewEvent(user to isEditableAvailable)
+
+        openQuiz.value = ViewEvent(Triple(user, isEditableAvailable, deleteImagePaths.value?.toList() ?: listOf()))
     }
 
     companion object {

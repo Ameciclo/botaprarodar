@@ -11,23 +11,33 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
+import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class UserFormFragmentTest {
+class UserFormFragmentCreateTest {
 
     private lateinit var fragmentScenario: FragmentScenario<UserFormFragment>
+    private lateinit var userFormViewModel: UserFormViewModel
 
     @Before
     fun setup() {
         val fragmentArgs = bundleOf()
-        fragmentScenario = launchFragmentInContainer(themeResId = R.style.AppTheme,
-            fragmentArgs = fragmentArgs)
+
+        userFormViewModel = mockk(relaxed = true)
+        fragmentScenario = launchFragmentInContainer(
+            themeResId = R.style.AppTheme,
+            fragmentArgs = fragmentArgs
+        )
 
         Intents.init()
     }
+
 
     @Test
     @SdkSuppress(minSdkVersion = 30)
@@ -223,20 +233,6 @@ class UserFormFragmentTest {
             clickBackButton()
         } verify {
             verifyRacialEditTextIsNotEqualSelected(racialSelectedIndex)
-        }
-    }
-
-
-    @Test
-    fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
-        val incomeSelectedIndex = 2
-        userFormFragment {
-            clickIncomeEditText()
-            sleep(1000)
-            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
-            clickBackButton()
-        } verify {
-            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
         }
     }
 
