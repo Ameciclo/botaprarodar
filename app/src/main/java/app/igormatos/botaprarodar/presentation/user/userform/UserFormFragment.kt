@@ -88,7 +88,7 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupViewModelObservers()
+        setupViewModelStatus()
         checkEditMode()
     }
 
@@ -120,18 +120,7 @@ class UserFormFragment : Fragment() {
                 navController.navigate(direction)
             }
         })
-        userFormViewModel.statusDeleteImage.observe(viewLifecycleOwner, {
-            when (it) {
-                is ViewModelStatus.Success -> {
-                    binding.tvAddResidencePhoto.visible()
-                    binding.ivEditResidencePhoto.gone()
-                }
-                is ViewModelStatus.Error -> {
-                    binding.tvAddResidencePhoto.gone()
-                    binding.ivEditResidencePhoto.visible()
-                }
-            }
-        })
+
     }
 
     private fun updateViewModelLiveData(whichImageCode: Int, path: String) {
@@ -287,7 +276,7 @@ class UserFormFragment : Fragment() {
 
         binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
 
-        binding.cppPerfilPicture.setOnClickListener {
+        binding.cppPerfilPicture.setupClick {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
                 getString(R.string.profile_picture),
@@ -300,7 +289,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.cppDocumentFrontPicture.setOnClickListener {
+        binding.cppDocumentFrontPicture.setupClick {
             showTipDialog(
                 R.drawable.id_front,
                 getString(R.string.warning),
@@ -312,7 +301,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.cppDocumentBackPicture.setOnClickListener {
+        binding.cppDocumentBackPicture.setupClick {
             showTipDialog(
                 R.drawable.id_back,
                 getString(R.string.warning),
@@ -324,7 +313,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivResidenceProof.setOnClickListener {
+        binding.cppResidenceProofPicture.setupClick {
             if (binding.viewModel?.userImageDocumentResidence?.value.isNullOrBlank()) {
                 dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
             } else {
