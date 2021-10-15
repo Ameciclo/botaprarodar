@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
@@ -54,9 +53,11 @@
                     android:hint="@string/user_form_user_name_hint"
                     android:inputType="textPersonName"
                     android:label="@string/user_form_user_name_label"
+                    app:errorMessage="@{`add_user_invalid_name`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    app:textCaptured="@{viewModel.userCompleteName}"
                     app:textValue="@={viewModel.userCompleteName}" />
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
@@ -68,6 +69,7 @@
                     android:hint="@string/user_form_user_document_number_hint"
                     android:inputType="number"
                     android:label="@string/user_form_user_document_number_label"
+                    app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
                     app:layout_constraintEnd_toStartOf="@+id/cet_user_phone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cet_user_name"
@@ -134,10 +136,12 @@
                     android:hint="@string/user_form_user_age_hint"
                     android:inputType="number"
                     android:label="@string/user_form_user_age_label"
+                    app:errorMessage="@{`add_user_invalid_address`}"
                     app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cpp_document_back_picture"
-                    app:textValue="@{viewModel.userAge}" />
+                    app:textValue="@{viewModel.userAge}"
+                    app:textCaptured="@{viewModel.userAge}"/>
 
                 <app.igormatos.botaprarodar.common.components.CustomSelectText
                     android:id="@+id/cst_user_income"
@@ -199,10 +203,12 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:hint="@string/user_form_user_adrees_hint"
                     android:label="@string/user_form_user_adrees_label"
+                    app:errorMessage="@{`add_user_invalid_address`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cst_user_schooling"
-                    app:textValue="@{viewModel.userAddress}" />
+                    app:textValue="@{viewModel.userAddress}"
+                    app:textCaptured="@{viewModel.userAddress}"/>
 
                 <TextView
                     android:id="@+id/tv_other_pictures_label"
