@@ -22,8 +22,7 @@
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileImageView">
+            app:layout_constraintRight_toRightOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText"
