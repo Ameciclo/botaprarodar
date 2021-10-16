@@ -20,9 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         app:hintAnimationEnabled="false"
-        app:hintEnabled="false"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"
@@ -35,7 +33,6 @@
             android:inputType="textNoSuggestions"
             android:textColor="@color/text_gray"
             android:textColorHint="@color/gray_3"
-
             android:textSize="@dimen/text_size_14"
             android:textStyle="bold"
             tools:hint="Texto qualquer" />
