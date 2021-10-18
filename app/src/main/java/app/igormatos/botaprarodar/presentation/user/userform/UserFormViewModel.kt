@@ -116,6 +116,7 @@ class UserFormViewModel(
         val validated = userCompleteName.value.isNotNullOrNotBlank() &&
                 userAddress.value.isNotNullOrNotBlank() &&
                 isDocNumberValid() &&
+                userImageProfile.value.isNotNullOrNotBlank() &&
                 userImageDocumentFront.value.isNotNullOrNotBlank() &&
                 userImageDocumentBack.value.isNotNullOrNotBlank() &&
                 userRacial.value.isNotNullOrNotBlank() &&
