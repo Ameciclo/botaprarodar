@@ -11,23 +11,33 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
+import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class UserFormFragmentTest {
+class UserFormFragmentCreateTest {
 
     private lateinit var fragmentScenario: FragmentScenario<UserFormFragment>
+    private lateinit var userFormViewModel: UserFormViewModel
 
     @Before
     fun setup() {
         val fragmentArgs = bundleOf()
-        fragmentScenario = launchFragmentInContainer(themeResId = R.style.AppTheme,
-            fragmentArgs = fragmentArgs)
+
+        userFormViewModel = mockk(relaxed = true)
+        fragmentScenario = launchFragmentInContainer(
+            themeResId = R.style.AppTheme,
+            fragmentArgs = fragmentArgs
+        )
 
         Intents.init()
     }
+
 
     @Test
     @SdkSuppress(minSdkVersion = 30)
@@ -43,7 +53,7 @@ class UserFormFragmentTest {
     @Test
     fun givenDocNumber_shouldHaveMaxLength() {
         userFormFragment {
-            val longDocNumber = "123456789123456789"
+            val longDocNumber = "12345678901"
             fillUserDocNumber(longDocNumber)
         } verify {
             checkDocNumberMaxLength()
@@ -81,9 +91,10 @@ class UserFormFragmentTest {
         }
     }
 
+    @Test
     fun givenPhoneNumber_shouldHaveMaxLength() {
         userFormFragment {
-            val longPhoneNumber = "123456789123456789"
+            val longPhoneNumber = "1234567890123"
             fillUserPhone(longPhoneNumber)
         } verify {
             checkPhoneNumberMaxLength()
@@ -140,6 +151,33 @@ class UserFormFragmentTest {
     }
 
     @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusComplete() {
+        userFormFragment {
+            clickSchoolingStatusComplete()
+        } verify {
+            verifySchoolingStatusComplete()
+        }
+    }
+
+    @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusIncomplete() {
+        userFormFragment {
+            clickSchoolingStatusIncomplete()
+        } verify {
+            verifySchoolingStatusIncompleteg()
+        }
+    }
+
+    @Test
+    fun shouldOpenSchoolingStatusRadioButton_whenClickToSelectSchoolingStatusStudying() {
+        userFormFragment {
+            clickSchoolingStatusStudying()
+        } verify {
+            verifySchoolingStatusStudying()
+        }
+    }
+
+    @Test
     fun shouldShowSelectedOption_whenIncomeOptionIsSelected() {
         val incomeSelectedIndex = 2
         userFormFragment {
@@ -169,9 +207,21 @@ class UserFormFragmentTest {
             sleep(1000)
             clickOptionOnSchoolingDialog(schoolingSelectedPosition)
             clickSchoolingPositiveButton()
-
         } verify {
             verifySchoolingEditTextIsEqualSelected(schoolingSelectedPosition)
+        }
+    }
+
+    @Test
+    fun shouldShowSelectedOption_whenSchoolingOptionIsNotSelected() {
+        val schoolingSelectedPosition = 2
+        userFormFragment {
+            clickSchoolingEditText()
+            sleep(1000)
+            clickOptionOnUserFormFragmentDialog(schoolingSelectedPosition)
+            clickBackButton()
+        } verify {
+            verifySchoolingEditTextNotEqualSelected(schoolingSelectedPosition)
         }
     }
 
@@ -184,20 +234,6 @@ class UserFormFragmentTest {
             clickBackButton()
         } verify {
             verifyRacialEditTextIsNotEqualSelected(racialSelectedIndex)
-        }
-    }
-
-
-    @Test
-    fun shouldShowSelectedOptionAndCloseDialog_whenIncomeOptionIsNotSelected() {
-        val incomeSelectedIndex = 2
-        userFormFragment {
-            clickIncomeEditText()
-            sleep(1000)
-            clickOptionOnUserFormFragmentDialog(incomeSelectedIndex)
-            clickBackButton()
-        } verify {
-            verifyIncomeEditTextIsNotEqualSelected(incomeSelectedIndex)
         }
     }
 

@@ -62,11 +62,15 @@ Antes de abrir um pull request rode os testes e garanta que todos estejam passan
 ## Como testar o projeto
 Nossos testes rodam sempre em debug e estão divididos em instrumentados e não instrumentados.
 
-  1. Intrumentados: abra o emulador e execute o comando abaixo
-    - ```./gradlew connectedDebugAndroidTest```
+1. Intrumentados: abra o emulador e execute o comando abaixo
+   - ```./gradlew connectedDebugAndroidTest```
 
-  2. Não instrumentados: execute o comando abaixo diretamente no terminal
-    - ```./gradlew testDebugUnitTest```
+2. Não instrumentados: execute o comando abaixo diretamente no terminal
+   - ```./gradlew testDebugUnitTest```
+
+## Recomendações de teste
+Como utilizamos arquitetura Serveless(Firebase RealTime Database) grande parte do processamento dos dados são feitos no aplicativo e não no servidor.
+Assim a um grande consumo de memória, recomendamos testar e debugar utilizando o emulador com o SDK 21(nosso sdk mínimo) e também ficar sempre de olho no [Android Profiler](https://developer.android.com/studio/profile/android-profiler), para verificar se há consumo excessivo de memória.
 
 ## Integração Contínua
 Nosso fluxo de CI é implementado pelo [github actions](https://github.com/Ameciclo/botaprarodar/actions).

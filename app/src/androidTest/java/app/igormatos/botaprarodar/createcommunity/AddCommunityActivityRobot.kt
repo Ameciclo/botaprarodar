@@ -43,7 +43,7 @@ class AddCommunityActivityRobot : BaseRobot() {
     }
 
     fun clickSaveCommunity() {
-        clickButton(R.id.addCommunityButton)
+        clickView(R.id.addCommunityButton)
     }
 
     fun selectCommunity() {

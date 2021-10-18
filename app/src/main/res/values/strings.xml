@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Bota pra Rodar</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -117,6 +118,45 @@
     <string name="bike_order_number">Ordem: %s</string>
 
     <!-- USER -->
+
+        <!-- NEW -->
+        <string name="user_form_title">Cadastrar uma nova Usuária</string>
+
+        <string name="user_form_user_name_label">Nome Completo</string>
+        <string name="user_form_user_name_hint">Ex: Roberto Silva Ferreira</string>
+
+        <string name="user_form_user_document_number_label">CPF ou RG</string>
+        <string name="user_form_user_document_number_hint">Insira apenas números</string>
+
+        <string name="user_form_user_phone_label">Celular</string>
+        <string name="user_form_user_phone_hint">DDD + Número</string>
+
+        <string name="user_form_user_document_picture_label">Fotos do documento</string>
+        <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
+        <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
+
+        <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
+
+        <string name="user_form_user_age_label">Idade</string>
+        <string name="user_form_user_age_hint">DD/MM/AAAA</string>
+
+        <string name="user_form_user_income_label">Renda Mensal</string>
+
+        <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
+
+        <string name="user_form_user_schooling_label">Até que grau a pessoa estudou?</string>
+
+        <string name="user_form_user_adrees_label">Endereço completo</string>
+        <string name="user_form_user_adrees_hint">Ex: Rua Marielle Franco, 123</string>
+
+        <string name="user_form_user_others_picture_label">Outros arquivos</string>
+        <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
+        <string name="user_form_user_perfil_picture_label">Foto de perfil</string>
+
+        <string name="user_form_button">CRIAR USUÁRIA</string>
+
+    <!-- /NEW -->
+
     <string name="user_created_since">Cadastrado desde %s</string>
     <string name="add_user_invalid_name">Nome inválido</string>
     <string name="add_user_invalid_address">Endereço inválido</string>
@@ -129,6 +169,12 @@
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
+
+    <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
+    <string name="add_user_schooling_status_complete">Sim</string>
+    <string name="add_user_schooling_status_incomplete">Não</string>
+    <string name="add_user_schooling_status_studying">Cursando</string>
+
     <string name="add_user_address_hint">Endereço (Rua, número)</string>
     <string name="add_user_doc_number_hint">Número do RG ou CPF</string>
     <string name="add_user_invalid_doc_number">Número do RG ou CPF inválido</string>
@@ -208,6 +254,14 @@
 
     <!-- User Form -->
     <string name="user_form_step_label">Preencha os dados</string>
+    <string name="title_dialog_change_image">Deseja alterar o comprovante?</string>
+    <string name="subtitle_dialog_change_image">Certifique que as informações estão legíveis e clique na foto abaixo.</string>
+
+    <string name="title_dialog_delete_image">Deseja deletar o comprovante?</string>
+    <string name="subtitle_dialog_delete_image">Essa ação não pode ser desfeita!</string>
+    <string name="button_cancel_dialog_delete_image">Cancelar</string>
+
+    <string name="button_delete_dialog_image">Deletar Comprovante</string>
 
     <!-- User Quiz -->
     <string name="user_quiz_means_transport_question">Você tem acesso a outro meio de transporte?</string>
@@ -267,14 +321,11 @@
     <!-- Schooling Options -->
     <string-array name = "schooling_options">
         <item> Sem instrução ou menos de 1 ano de estudo </item>
-        <item> Ensino fundamental incompleto </item>
-        <item> Ensino fundamental completo </item>
-        <item> Ensino médio incompleto </item>
-        <item> Ensino médio completo </item>
-        <item> Ensino técnico incompleto </item>
-        <item> Ensino técnico completo </item>
-        <item> Ensino superior incompleto </item>
-        <item> Ensino superior completo </item>
+        <item> Ensino fundamental 1 </item>
+        <item> Ensino fundamental 2 </item>
+        <item> Ensino médio </item>
+        <item> Ensino técnico </item>
+        <item> Ensino superior </item>
         <item> Não determinado </item>
     </string-array>
 
@@ -285,4 +336,14 @@
         <item> Outro </item>
         <item> Prefere não responder </item>
     </string-array>
+
+    <!-- Schooling Status Options -->
+    <string-array name = "schooling_status_options">
+        <item> Completo </item>
+        <item> Incompleto </item>
+        <item> Cursando </item>
+    </string-array>
+
+    <!-- Default -->
+    <string name="default_custom_component_select_hint">Selecionar</string>
 </resources>

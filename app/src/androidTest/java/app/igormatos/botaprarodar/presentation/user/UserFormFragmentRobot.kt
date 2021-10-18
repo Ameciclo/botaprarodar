@@ -14,7 +14,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickProfileImage() {
-        clickButton(R.id.profileImageView)
+        clickAndScrollView(R.id.cpp_perfil_picture)
     }
 
     fun clickConfirmDialog() {
@@ -23,41 +23,79 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun fillUserDocNumber(docNumber: String) {
-        swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietCpf, docNumber)
+        fillFieldByHint(context.getString(R.string.user_form_user_document_number_hint), docNumber)
     }
 
     fun fillUserPhone(phoneNumber: String) {
-        swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietTelephone, phoneNumber)
+        fillFieldByHint(context.getString(R.string.user_form_user_phone_hint), phoneNumber)
     }
 
     fun checkDocNumberMaxLength() {
-        checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
+        checkViewHasLength(R.string.user_form_user_document_number_hint, R.integer.max_size_user_doc_number)
     }
 
     fun checkPhoneNumberMaxLength() {
-        checkViewHasLength(R.id.ietTelephone, R.integer.max_size_user_phone_number)
+        checkViewHasLength(R.string.user_form_user_phone_hint, R.integer.max_size_user_phone_number)
     }
 
     fun clickRacialEditText() {
-        clickButton(R.id.etRacial)
+        clickView(R.id.cst_user_racial)
     }
 
     fun clickGenderEditText() {
-        clickButton(R.id.etGender)
+        clickView(R.id.cst_user_gender)
     }
 
     fun clickIncomeEditText() {
-        clickButton(R.id.ietIncome)
+        clickAndScrollView(R.id.cst_user_income)
+    }
+
+    fun clickResidenceProofImage() {
+        clickAndScrollView(R.id.cpp_residence_proof_picture)
+    }
+
+    fun clickDeleteButtonOnDialogImage() {
+        clickView(R.id.submitButton)
     }
 
     fun clickSchoolingEditText() {
-        clickButton(R.id.etSchooling)
+        clickAndScrollView(R.id.cst_user_schooling)
+    }
+
+    fun clickSchoolingStatusComplete() {
+        clickAndScrollView(R.id.schoolingStatusComplete)
+    }
+
+    fun clickSchoolingStatusIncomplete() {
+        clickAndScrollView(R.id.schoolingStatusIncomplete)
+    }
+
+    fun clickSchoolingStatusStudying() {
+        clickAndScrollView(R.id.schoolingStatusStudying)
     }
 
     fun verifySchoolingDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_schooling))
+    }
+
+    fun verifySchoolingStatusComplete() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_complete))
+    }
+
+    fun verifySchoolingStatusIncompleteg() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_incomplete))
+    }
+
+    fun verifySchoolingStatusStudying() {
+        checkMessage(context.resources.getString(R.string.add_user_schooling_status_studying))
+    }
+
+    fun verifyDialogEditResidenceImageIsShowing() {
+        checkMessage(context.resources.getString(R.string.title_dialog_change_image))
+    }
+
+    fun verifyDialogDeleteResidenceImageIsShowing() {
+        checkMessage(context.resources.getString(R.string.title_dialog_delete_image))
     }
 
     fun clickOptionOnSchoolingDialog(atPosition: Int){

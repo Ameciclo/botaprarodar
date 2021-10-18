@@ -40,8 +40,14 @@ abstract class BaseRobot {
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val launcherPackage: String = context.packageName
 
-    fun clickButton(idButton: Int) {
+    fun clickView(idButton: Int) {
         onView(withId(idButton)).perform(click())
+    }
+
+    fun clickAndScrollView(idButton: Int) {
+        onView(withId(idButton))
+            .perform(scrollTo())
+            .perform(click())
     }
 
     fun clickButtonByText(text: String) {
@@ -54,6 +60,10 @@ abstract class BaseRobot {
 
     fun fillFieldById(resId: Int, content: String) {
         performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
+    }
+
+    fun fillFieldByIdWithScroll(resId: Int, content: String) {
+        performTypeTextWithCloseSoftKeyboardWithScrol(onView(withId(resId)), content)
     }
 
     fun findItemInRecyclerView(recyclerId: Int, withText: String) {
@@ -102,7 +112,7 @@ abstract class BaseRobot {
 
     fun checkViewHasLength(resId: Int, expectedLengthResId: Int) {
         val expectedLength = context.resources.getInteger(expectedLengthResId)
-        onView(withId(resId)).check(matches(hasLength(expectedLength)))
+        onView(withHint(resId)).check(matches(hasLength(expectedLength)))
     }
 
     private fun hasLength(length: Int): Matcher<View> =
@@ -128,6 +138,10 @@ abstract class BaseRobot {
     }
 
     private fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+        view.perform(replaceText(content), closeSoftKeyboard())
+    }
+
+    private fun performTypeTextWithCloseSoftKeyboardWithScrol(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 
