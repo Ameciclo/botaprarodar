@@ -62,6 +62,10 @@ abstract class BaseRobot {
         performTypeTextWithCloseSoftKeyboard(onView(withId(resId)), content)
     }
 
+    fun fillFieldByIdWithScroll(resId: Int, content: String) {
+        performTypeTextWithCloseSoftKeyboardWithScrol(onView(withId(resId)), content)
+    }
+
     fun findItemInRecyclerView(recyclerId: Int, withText: String) {
         onView(withId(recyclerId))
             .perform(
@@ -108,7 +112,7 @@ abstract class BaseRobot {
 
     fun checkViewHasLength(resId: Int, expectedLengthResId: Int) {
         val expectedLength = context.resources.getInteger(expectedLengthResId)
-        onView(withId(resId)).check(matches(hasLength(expectedLength)))
+        onView(withHint(resId)).check(matches(hasLength(expectedLength)))
     }
 
     private fun hasLength(length: Int): Matcher<View> =
@@ -134,6 +138,10 @@ abstract class BaseRobot {
     }
 
     private fun performTypeTextWithCloseSoftKeyboard(view: ViewInteraction, content: String) {
+        view.perform(replaceText(content), closeSoftKeyboard())
+    }
+
+    private fun performTypeTextWithCloseSoftKeyboardWithScrol(view: ViewInteraction, content: String) {
         view.perform(replaceText(content), closeSoftKeyboard())
     }
 
