@@ -26,7 +26,7 @@ class UsersFragmentRobot : BaseRobot() {
     }
 
     fun clickRegisterUserButton() {
-        clickButton(R.id.btn_register_users)
+        clickView(R.id.btn_register_users)
     }
 
     fun checkUserFormFragmentIsVisible() {

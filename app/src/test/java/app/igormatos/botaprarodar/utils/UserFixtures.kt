@@ -23,6 +23,7 @@ val validUser = User().apply {
     residenceProofPicture = "https://residence.jpeg"
     racial = "Branca"
     schooling = "Ensino superior completo"
+    schoolingStatus = "Completo"
     income = "0"
     age = "xx"
 }
@@ -43,6 +44,7 @@ val unavailableUserFake = User().apply {
     residenceProofPicture = "https://residence.jpeg"
     racial = "Branca"
     schooling = "Ensino superior completo"
+    schoolingStatus = "Completo"
     income = "0"
     age = "xx"
 }
@@ -91,14 +93,11 @@ val incomeOptions = listOf<String>(
 
 val schoolingOptions = listOf<String>(
     "Sem instrução ou menos de 1 ano de estudo",
-    "Ensino fundamental incompleto",
-    "Ensino fundamental completo",
-    "Ensino médio incompleto",
-    "Ensino médio completo",
-    "Ensino técnico incompleto",
-    "Ensino técnico completo",
-    "Ensino superior incompleto",
-    "Ensino superior completo",
+    "Ensino fundamental 1",
+    "Ensino fundamental 2",
+    "Ensino médio",
+    "Ensino técnico",
+    "Ensino superior",
     "Não determinado"
 )
 
@@ -107,6 +106,12 @@ val genderOptions = listOf<String>(
     "Feminino",
     "Outro",
     "Prefere não responder"
+)
+
+val schoolingStatusOptions = listOf<String>(
+    "Completo",
+    "Incompleto",
+    "Cursando"
 )
 
 fun buildListAvailableUsers(howMuch: Int): List<User> {

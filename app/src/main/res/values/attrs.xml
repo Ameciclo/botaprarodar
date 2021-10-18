@@ -8,4 +8,24 @@
         <attr name="select_background" format="color"/>
         <attr name="unselect_background" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CustomEditText">
+        <attr name="android:label"/>
+        <attr name="android:hint"/>
+        <attr name="android:inputType" />
+        <attr name="android:maxLength" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomSelectText">
+        <attr name="android:label"/>
+        <attr name="android:hint"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CustomPicturePick">
+        <attr name="android:src"/>
+        <attr name="android:text"/>
+        <attr name="picture" format="reference"/>
+    </declare-styleable>
+
 </resources>

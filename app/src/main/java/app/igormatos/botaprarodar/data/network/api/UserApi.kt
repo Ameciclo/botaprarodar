@@ -5,9 +5,9 @@ import app.igormatos.botaprarodar.domain.model.User
 import retrofit2.http.*
 
 interface UserApi {
-    @POST("users.json")
+    @PUT("users/{userId}.json")
     suspend fun addUser(
-        @Body user: User
+        @Body user: User, @Path("userId") userId: String
     ): AddDataResponse
 
     @PATCH("/users/{userId}.json")

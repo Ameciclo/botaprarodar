@@ -292,11 +292,11 @@ val bprModule = module {
         )
     }
 
-    viewModel { (communityBikes: ArrayList<Bike>) ->
+    viewModel { (communityBikesSerialNumbers: ArrayList<String>) ->
         BikeFormViewModel(
             bikeFormUseCase = get(),
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            communityBikes = communityBikes
+            communityBikesSerialNumbers = communityBikesSerialNumbers
         )
     }
 
@@ -320,16 +320,12 @@ val bprModule = module {
         )
     }
 
-    viewModel { (communityUsers: ArrayList<User>, racialOptions: List<String>, incomeOptions: List<String>, schoolingOptions: List<String>, genderOptions: List<String>) ->
+    viewModel { (communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>) ->
         UserFormViewModel(
             community = get<SharedPreferencesModule>().getJoinedCommunity(),
             stepper = get(),
             communityUsers = communityUsers,
-            racialList = racialOptions,
-            incomeList = incomeOptions,
-            schoolingList = schoolingOptions,
-            genderList = genderOptions
-
+            mapOptions = mapOptions
         )
     }
 
