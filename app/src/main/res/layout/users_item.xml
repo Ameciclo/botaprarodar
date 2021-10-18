@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cellContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray">
+
+    <ImageView
+            android:id="@+id/iv_user_item"
+            android:layout_width="@dimen/circle_image_40"
+            android:layout_height="@dimen/circle_image_40"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+            android:id="@+id/tv_name_user_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:maxLength="20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toStartOf="@+id/tv_active_withdraw"
+            app:layout_constraintStart_toEndOf="@id/iv_user_item"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nome Usuário" />
+
+    <TextView
+            android:id="@+id/tv_registered_since_user_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:textColor="@color/text_gray"
+            app:layout_constraintEnd_toStartOf="@+id/tv_active_withdraw"
+            app:layout_constraintStart_toStartOf="@+id/tv_name_user_item"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_user_item"
+            tools:text="Cadastrado desde 15/02/2021" />
+
+    <TextView
+            android:id="@+id/tv_active_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:lines="2"
+            android:padding="@dimen/padding_minimun"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:textStyle="bold"
+            android:text="@string/active_withdraw"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/tv_last_withdraw_user_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:textColor="@color/text_gray"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_user_item"
+            app:layout_constraintTop_toBottomOf="@id/tv_registered_since_user_item"
+            tools:text="Último empréstimo: 10/02/2021" />
+
+    <View
+            android:id="@+id/separator_user_item"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/separator_height"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/separator_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_user_item"
+            app:layout_constraintTop_toBottomOf="@+id/tv_registered_since_user_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

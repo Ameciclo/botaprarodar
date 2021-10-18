@@ -5,15 +5,23 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+/.idea/gradle.xml
+.idea/misc.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 
+./credentials.properties
+
 \.idea/
+*.idea
 
 app/src/debug/google-services\.json
 
 app/src/release/google-services\.json
 
 app/src/debug/google-services_debug.json
+app/google-services.json
+*.json
+/.idea/codeStyles/

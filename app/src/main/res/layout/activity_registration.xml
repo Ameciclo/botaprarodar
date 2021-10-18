@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".presentation.login.registration.RegisterActivity">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/registrationBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/registrationToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/white"
+                    app:title="@string/registration_toolbar_title"
+                    app:titleTextColor="@color/dark_gray" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ilEmail"
+                style="@style/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/prompt_email"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/registrationBarLayout"
+                app:layout_constraintStart_toStartOf="@+id/registrationBarLayout"
+                app:layout_constraintTop_toBottomOf="@+id/registrationBarLayout"
+                app:layout_constraintVertical_bias="0.22000003">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ietEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.email}"
+                    android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ilPassword"
+                style="@style/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:hint="@string/prompt_password_registration"
+                app:layout_constraintEnd_toEndOf="@+id/ilEmail"
+                app:layout_constraintStart_toStartOf="@+id/ilEmail"
+                app:layout_constraintTop_toBottomOf="@+id/ilEmail"
+                app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ietPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.password}"
+                    android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ilConfirmPassword"
+                style="@style/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:hint="@string/confirm_password"
+                app:layout_constraintEnd_toEndOf="@+id/ilPassword"
+                app:layout_constraintStart_toStartOf="@+id/ilPassword"
+                app:layout_constraintTop_toBottomOf="@+id/ilPassword"
+                app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ietConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.confirmPassword}"
+                    android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+                android:id="@+id/btnSend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="33dp"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/btn_register"
+                android:enabled="@{viewModel.isButtonRegisterEnable()}"
+                app:layout_constraintEnd_toEndOf="@+id/ilConfirmPassword"
+                app:layout_constraintStart_toStartOf="@+id/ilConfirmPassword"
+                app:layout_constraintTop_toBottomOf="@+id/ilConfirmPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

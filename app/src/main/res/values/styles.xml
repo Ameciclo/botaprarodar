@@ -10,6 +10,15 @@
         <item name="actionBarTheme">@style/ActionBar</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_image_bg</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="AppTheme.WhiteEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="AppThemeWithActionbar" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="actionBarTheme">@style/ActionBar</item>
@@ -35,6 +44,15 @@
 
     <style name="bprButton.image" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
+    <style name="textInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textColorHint">#000</item>
+    </style>
+
+    <style name="TextLabel">
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
 </resources>

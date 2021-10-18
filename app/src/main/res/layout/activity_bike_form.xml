@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="viewModel"
+                type="app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel" />
+    </data>
+
+    <ScrollView
+            android:id="@+id/containerAddBike"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:context=".presentation.bikeForm.BikeFormActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_gray">
+
+            <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appBarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@color/white"
+                        app:title="@{viewModel.editModeAvailable}"
+                        app:titleTextColor="@color/dark_gray"
+                        tools:title="@string/add_bicycle_title" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+            <ImageView
+                    android:id="@+id/bikePhotoImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="176dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:scaleType="center"
+                    android:background="@drawable/background_image_bike"
+                    app:imagePathOrUrl="@{viewModel.imagePath}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+            <ImageView
+                    android:id="@+id/cameraImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_camera"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="@+id/bikePhotoImageView"
+                    app:layout_constraintTop_toTopOf="@+id/bikePhotoImageView" />
+
+            <TextView
+                    android:id="@+id/addPhotoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_photo"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/gray_3"
+                    android:drawablePadding="@dimen/margin_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/bikePhotoImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/bikePhotoImageView"
+                    app:layout_constraintStart_toStartOf="@+id/bikePhotoImageView"
+                    app:layout_constraintTop_toTopOf="@+id/bikePhotoImageView"
+                    app:drawableTopCompat="@drawable/ic_camera" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/serialNumberTil"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/bike_serial_number"
+                    app:errorBicycleSerialNumber="@{viewModel.serialNumberErrorValidationMap}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bikePhotoImageView">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/serialNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.serialNumber}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bikeNameTil"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/bike_name"
+                    app:errorBicycleName="@{viewModel.bikeName}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/serialNumberTil">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/bikeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.bikeName}"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/orderNumberTil"
+                    style="@style/textInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_big"
+                    android:hint="@string/order_number"
+                    app:errorBicycleOrderNumber="@{viewModel.orderNumber}"
+                    app:layout_constraintBottom_toTopOf="@+id/saveButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bikeNameTil"
+                    app:layout_constraintVertical_bias="0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/orderNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:inputType="number"
+                        android:text="@={viewModel.orderNumber}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:enabled="@{viewModel.valid}"
+                    android:onClick="@{()-> viewModel.saveBike()}"
+                    android:padding="@dimen/padding_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:setBikeFormButtonText="@{viewModel.editModeAvailable}"
+                    tools:text="@string/bicycle_add_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/withdraw_bike_nav_graph"
+        android:label="@string/borrow_bike"
+        app:startDestination="@id/selectBike">
+
+    <fragment
+            android:id="@+id/selectBike"
+            android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.SelectBikeFragment"
+            tools:layout="@layout/fragment_select_bike" />
+    <fragment
+            android:id="@+id/selectUser"
+            android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.SelectUserFragment"
+            tools:layout="@layout/fragment_select_user" />
+    <fragment
+            android:id="@+id/confirmBikeSelection"
+            android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.BikeConfirmationFragment"
+            tools:layout="@layout/fragment_bike_confirmation" />
+</navigation>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollContainerUser"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".presentation.user.userform.UserFormFragment">
+
+                <TextView
+                        android:id="@+id/schoolingStatusRadioGroupLabel"
+                        style="@style/TextLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_14"
+                        android:text="@string/add_user_schooling_status"
+                        app:layout_constraintBottom_toTopOf="@+id/schoolingStatusRadioGroup"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cst_user_schooling" />
+
+                <RadioGroup
+                    android:id="@+id/schoolingStatusRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroupLabel"
+                    app:setRadioGroupValue="@{viewModel.selectedSchoolingStatusIndex}">
+
+                    <RadioButton
+                        android:id="@+id/schoolingStatusComplete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_complete" />
+
+                    <RadioButton
+                        android:id="@+id/schoolingStatusIncomplete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_weight="1"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_incomplete" />
+
+                    <RadioButton
+                        android:id="@+id/schoolingStatusStudying"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_weight="1"
+                        android:paddingRight="@dimen/margin_12"
+                        android:text="@string/add_user_schooling_status_studying" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:gravity="center"
+                    android:text="@string/user_form_title"
+                    android:textColor="@color/gray_6"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_name_hint"
+                    android:inputType="textPersonName"
+                    android:label="@string/user_form_user_name_label"
+                    app:errorMessage="@{`add_user_invalid_name`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    app:textCaptured="@{viewModel.userCompleteName}"
+                    app:textValue="@={viewModel.userCompleteName}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_document"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_document_number_hint"
+                    android:inputType="number"
+                    android:label="@string/user_form_user_document_number_label"
+                    app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
+                    app:layout_constraintEnd_toStartOf="@+id/cet_user_phone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cet_user_name"
+                    app:textValue="@={viewModel.userDocument}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/user_form_user_phone_hint"
+                    android:inputType="phone"
+                    android:label="@string/user_form_user_phone_label"
+                    android:maxLength="@integer/max_size_user_phone_number"
+                    app:layout_constraintBottom_toBottomOf="@+id/cet_user_document"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cet_user_document"
+                    app:layout_constraintTop_toTopOf="@+id/cet_user_document"
+                    app:textValue="@={viewModel.userTelephone}" />
+
+                <TextView
+                    android:id="@+id/tv_document_label"
+                    style="@style/TextLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/user_form_user_document_picture_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cet_user_document" />
+
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_document_front_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_document_picture_front_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
+                    app:layout_constraintEnd_toStartOf="@+id/cpp_document_back_picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_document_label" />
+
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_document_back_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_document_picture_back_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
+                    app:layout_constraintBottom_toBottomOf="@id/cpp_document_front_picture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cpp_document_front_picture"
+                    app:layout_constraintTop_toTopOf="@id/cpp_document_front_picture" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_age"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_age_hint"
+                    android:inputType="number"
+                    android:label="@string/user_form_user_age_label"
+                    app:errorMessage="@{`add_user_invalid_age`}"
+                    app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cpp_document_back_picture"
+                    app:textValue="@={viewModel.userAge}"
+                    app:textCaptured="@{viewModel.userAge}"/>
+
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_income"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_income_label"
+                    app:layout_constraintBottom_toBottomOf="@+id/cet_user_age"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cet_user_age"
+                    app:layout_constraintTop_toTopOf="@+id/cet_user_age"
+                    app:textValue="@{viewModel.userIncome}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_gender_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_income"
+                    app:textValue="@{viewModel.userGender}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_racial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_race_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_gender"
+                    app:textValue="@{viewModel.userRacial}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/cst_user_schooling"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/default_custom_component_select_hint"
+                    android:label="@string/user_form_user_schooling_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cst_user_racial"
+                    app:textValue="@{viewModel.userSchooling}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/cet_user_adress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:hint="@string/user_form_user_adrees_hint"
+                    android:label="@string/user_form_user_adrees_label"
+                    app:errorMessage="@{`add_user_invalid_address`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schoolingStatusRadioGroup"
+                    app:textValue="@={viewModel.userAddress}"
+                    app:textCaptured="@{viewModel.userAddress}"/>
+
+                <TextView
+                    android:id="@+id/tv_other_pictures_label"
+                    style="@style/TextLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/user_form_user_others_picture_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cet_user_adress" />
+
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_residence_proof_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_residence_proof_picture_label"
+                    app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
+                    app:layout_constraintEnd_toStartOf="@+id/cpp_perfil_picture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_other_pictures_label" />
+
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/cpp_perfil_picture"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_perfil_picture_label"
+                    app:imagePathOrUrl="@{viewModel.userImageProfile}"
+                    app:layout_constraintBottom_toBottomOf="@id/cpp_residence_proof_picture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cpp_residence_proof_picture"
+                    app:layout_constraintTop_toTopOf="@id/cpp_residence_proof_picture" />
+
+                <Button
+                    android:id="@+id/saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:enabled="@{viewModel.isButtonEnabled}"
+                    android:onClick="@{() -> viewModel.navigateToNextStep()}"
+                    app:setUserFormButtonText="@{viewModel.isEditableAvailable}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cpp_residence_proof_picture" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
