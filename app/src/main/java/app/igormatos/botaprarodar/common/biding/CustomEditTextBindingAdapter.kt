@@ -5,13 +5,21 @@ import android.text.TextWatcher
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.common.components.CustomEditText
+import app.igormatos.botaprarodar.common.extensions.validateTextChanged
+import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
+import com.google.android.material.textfield.TextInputLayout
 
-@BindingAdapter(value = ["app:textCaptured", "app:errorMessage"])
-fun CustomEditText.setText(userCompleteName: String, errorMessage: String){
-    this.setupText(userCompleteName, errorMessage)
+@BindingAdapter(value = ["textCaptured", "errorMessage"])
+fun CustomEditText.setErrorUserCompleteName(userCompleteName: String, errorMessage: String) {
+    this.validateText(userCompleteName, errorMessage)
 }
 
+@BindingAdapter("errorUserDocNumber")
+fun CustomEditText.setErrorUserCompleteName(docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>) {
+    this.validateDocument(docNumberErrorValidationMap)
+}
 
 @BindingAdapter("textValueAttrChanged")
 fun CustomEditText.setListener(listener: InverseBindingListener) {

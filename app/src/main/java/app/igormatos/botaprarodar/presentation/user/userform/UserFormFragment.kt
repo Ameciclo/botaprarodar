@@ -17,18 +17,16 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
-import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.takePictureIntent
-import com.brunotmgomes.ui.extensions.visible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.collections.ArrayList
 
 class UserFormFragment : Fragment() {
 
@@ -90,15 +88,13 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupViewModelObservers()
+        setupViewModelStatus()
         checkEditMode()
     }
 
     private fun checkEditMode() {
         if (args.user != null) {
             setValuesToEditUser(args.user)
-            setImageDescriptionsToGone()
-            setImageEditDescriptionsToVisible()
         }
     }
 
@@ -111,29 +107,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun setImageDescriptionsToGone() {
-        if (userHasResidenceProofPicture())
-            binding.tvAddResidencePhoto.gone()
-
-        binding.tvAddBackDocumentPhoto.gone()
-        binding.tvAddFrontDocumentPhoto.gone()
-        binding.tvAddProfilePhoto.gone()
-    }
-
-    private fun setImageEditDescriptionsToVisible() {
-        if (userHasResidenceProofPicture())
-            binding.ivEditResidencePhoto.visible()
-
-        binding.ivEditBackPhoto.visible()
-        binding.ivEditFrontPhoto.visible()
-        binding.ivEditProfilePhoto.visible()
-    }
-
-    private fun userHasResidenceProofPicture(): Boolean {
-        return args.user?.residenceProofPicture?.isNotEmpty() == true
-    }
-
-    private fun setupViewModelObservers() {
+    private fun setupViewModelStatus() {
         userFormViewModel.openQuiz.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { data ->
                 val (user, editMode, deleteImagePaths) = data
@@ -146,41 +120,22 @@ class UserFormFragment : Fragment() {
                 navController.navigate(direction)
             }
         })
-        userFormViewModel.statusDeleteImage.observe(viewLifecycleOwner, {
-            when (it) {
-                is ViewModelStatus.Success -> {
-                    binding.tvAddResidencePhoto.visible()
-                    binding.ivEditResidencePhoto.gone()
-                }
-                is ViewModelStatus.Error -> {
-                    binding.tvAddResidencePhoto.gone()
-                    binding.ivEditResidencePhoto.visible()
-                }
-            }
-        })
+
     }
 
     private fun updateViewModelLiveData(whichImageCode: Int, path: String) {
         when (whichImageCode) {
             REQUEST_PROFILE_PHOTO -> {
                 binding.viewModel?.setProfileImage(path)
-                binding.tvAddProfilePhoto.gone()
-                binding.ivEditProfilePhoto.visible()
             }
             REQUEST_ID_PHOTO -> {
                 binding.viewModel?.setDocumentImageFront(path)
-                binding.tvAddFrontDocumentPhoto.gone()
-                binding.ivEditFrontPhoto.visible()
             }
             REQUEST_ID_PHOTO_BACK -> {
                 binding.viewModel?.setDocumentImageBack(path)
-                binding.tvAddBackDocumentPhoto.gone()
-                binding.ivEditBackPhoto.visible()
             }
             REQUEST_RESIDENCE_PHOTO -> {
                 binding.viewModel?.setResidenceImage(path)
-                binding.tvAddResidencePhoto.gone()
-                binding.ivEditResidencePhoto.visible()
             }
         }
     }
@@ -315,13 +270,13 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.ietAge.addTextChangedListener(
-            EditTextFormatMask.textMask(binding.ietAge, EditTextFormatMask.FORMAT_DATE)
+        binding.cetUserAge.addMask(
+            EditTextFormatMask.FORMAT_DATE
         )
 
-        binding.ietTelephone.addTextChangedListener(PhoneNumberFormattingTextWatcher("BR"))
+        binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
 
-        binding.profileImageView.setOnClickListener {
+        binding.cppPerfilPicture.setupClick {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
                 getString(R.string.profile_picture),
@@ -334,7 +289,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivFrontDocument.setOnClickListener {
+        binding.cppDocumentFrontPicture.setupClick {
             showTipDialog(
                 R.drawable.id_front,
                 getString(R.string.warning),
@@ -346,7 +301,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivBackDocument.setOnClickListener {
+        binding.cppDocumentBackPicture.setupClick {
             showTipDialog(
                 R.drawable.id_back,
                 getString(R.string.warning),
@@ -358,7 +313,7 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.ivResidenceProof.setOnClickListener {
+        binding.cppResidenceProofPicture.setupClick {
             if (binding.viewModel?.userImageDocumentResidence?.value.isNullOrBlank()) {
                 dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
             } else {
@@ -366,19 +321,19 @@ class UserFormFragment : Fragment() {
             }
         }
 
-        binding.etGender.setOnClickListener {
+        binding.cstUserGender.setupClick {
             createDialogGender()
         }
 
-        binding.etSchooling.setOnClickListener {
+        binding.cstUserSchooling.setupClick {
             createDialogSchooling()
         }
 
-        binding.etRacial.setOnClickListener {
+        binding.cstUserRacial.setupClick {
             openDialogToSelectRace()
         }
 
-        binding.ietIncome.setOnClickListener {
+        binding.cstUserIncome.setupClick {
             openDialogToSelectIncome()
         }
 
@@ -387,6 +342,4 @@ class UserFormFragment : Fragment() {
             binding.viewModel?.confirmUserSchoolingStatus()
         }
     }
-
-
 }

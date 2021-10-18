@@ -53,7 +53,7 @@ class UserFormFragmentCreateTest {
     @Test
     fun givenDocNumber_shouldHaveMaxLength() {
         userFormFragment {
-            val longDocNumber = "123456789123456789"
+            val longDocNumber = "12345678901"
             fillUserDocNumber(longDocNumber)
         } verify {
             checkDocNumberMaxLength()
@@ -91,9 +91,10 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Test
     fun givenPhoneNumber_shouldHaveMaxLength() {
         userFormFragment {
-            val longPhoneNumber = "123456789123456789"
+            val longPhoneNumber = "1234567890123"
             fillUserPhone(longPhoneNumber)
         } verify {
             checkPhoneNumberMaxLength()

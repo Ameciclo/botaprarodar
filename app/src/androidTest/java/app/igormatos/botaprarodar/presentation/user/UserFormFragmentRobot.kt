@@ -14,7 +14,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickProfileImage() {
-        clickView(R.id.profileImageView)
+        clickAndScrollView(R.id.cpp_perfil_picture)
     }
 
     fun clickConfirmDialog() {
@@ -23,37 +23,35 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun fillUserDocNumber(docNumber: String) {
-        swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietCpf, docNumber)
+        fillFieldByHint(context.getString(R.string.user_form_user_document_number_hint), docNumber)
     }
 
     fun fillUserPhone(phoneNumber: String) {
-        swipeUp(R.id.scrollContainerUser)
-        fillFieldById(R.id.ietTelephone, phoneNumber)
+        fillFieldByHint(context.getString(R.string.user_form_user_phone_hint), phoneNumber)
     }
 
     fun checkDocNumberMaxLength() {
-        checkViewHasLength(R.id.ietCpf, R.integer.max_size_user_doc_number)
+        checkViewHasLength(R.string.user_form_user_document_number_hint, R.integer.max_size_user_doc_number)
     }
 
     fun checkPhoneNumberMaxLength() {
-        checkViewHasLength(R.id.ietTelephone, R.integer.max_size_user_phone_number)
+        checkViewHasLength(R.string.user_form_user_phone_hint, R.integer.max_size_user_phone_number)
     }
 
     fun clickRacialEditText() {
-        clickView(R.id.etRacial)
+        clickView(R.id.cst_user_racial)
     }
 
     fun clickGenderEditText() {
-        clickView(R.id.etGender)
+        clickView(R.id.cst_user_gender)
     }
 
     fun clickIncomeEditText() {
-        clickView(R.id.ietIncome)
+        clickAndScrollView(R.id.cst_user_income)
     }
 
     fun clickResidenceProofImage() {
-        clickAndScrollView(R.id.ivEditResidencePhoto)
+        clickAndScrollView(R.id.cpp_residence_proof_picture)
     }
 
     fun clickDeleteButtonOnDialogImage() {
@@ -61,19 +59,19 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickSchoolingEditText() {
-        clickView(R.id.etSchooling)
+        clickAndScrollView(R.id.cst_user_schooling)
     }
 
     fun clickSchoolingStatusComplete() {
-        clickView(R.id.schoolingStatusComplete)
+        clickAndScrollView(R.id.schoolingStatusComplete)
     }
 
     fun clickSchoolingStatusIncomplete() {
-        clickView(R.id.schoolingStatusIncomplete)
+        clickAndScrollView(R.id.schoolingStatusIncomplete)
     }
 
     fun clickSchoolingStatusStudying() {
-        clickView(R.id.schoolingStatusStudying)
+        clickAndScrollView(R.id.schoolingStatusStudying)
     }
 
     fun verifySchoolingDialogIsShowing() {
