@@ -11,6 +11,7 @@ import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRe
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterActivity
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailState
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
+import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.google.firebase.crashlytics.internal.common.CommonUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -116,7 +117,7 @@ class LoginActivity : BaseAuthActivity() {
 
     private fun doLogin() {
         resetFormErrors()
-        CommonUtils.hideKeyboard(this, binding.ilPassword)
+        binding.ilPassword.hideKeyboard()
         val email: String = binding.ietEmail.text.toString()
         val password: String = binding.ietPassword.text.toString()
         viewModel.login(email, password)
