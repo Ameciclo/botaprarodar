@@ -30,7 +30,6 @@ android {
             multiDexEnabled true
             shrinkResources false
             minifyEnabled false
-            useProguard false
 
             buildConfigField "String", "BASE_URL", "\"https://bpr-dev.firebaseio.com\""
         }
