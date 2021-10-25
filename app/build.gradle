@@ -36,8 +36,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -46,7 +46,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -70,13 +70,13 @@ dependencies {
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 
     // Test
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation 'androidx.navigation:navigation-testing:2.3.5'
-    androidTestImplementation "androidx.test.ext:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$junit_ext_version"
     androidTestImplementation "androidx.test:runner:$test_version"
     androidTestImplementation "androidx.test:core-ktx:$test_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
