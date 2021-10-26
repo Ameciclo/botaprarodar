@@ -61,6 +61,12 @@ android {
         }
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.test:monitor:1.4.0'
+        }
+    }
 }
 
 dependencies {
