@@ -5,8 +5,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.CustomSelectTextBinding
+import com.brunotmgomes.ui.extensions.hideKeyboard
+import org.jetbrains.anko.activityManager
 
 class CustomSelectText @JvmOverloads constructor(
     context: Context,
@@ -36,6 +39,8 @@ class CustomSelectText @JvmOverloads constructor(
 
     fun setupClick(clickAction: () -> Unit){
         binding.editText.setOnClickListener {
+            (context as? AppCompatActivity)?.currentFocus?.clearFocus()
+            hideKeyboard()
             clickAction.invoke()
         }
     }

@@ -4,10 +4,12 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.CustomPicturePickBinding
+import com.brunotmgomes.ui.extensions.hideKeyboard
 import kotlinx.android.synthetic.main.activity_fullscreen_image.view.*
 import kotlinx.android.synthetic.main.custom_picture_pick.view.*
 
@@ -68,6 +70,8 @@ class CustomPicturePick @JvmOverloads constructor(
 
     fun setupClick(clickAction: () -> Unit){
         binding.picturePick.setOnClickListener {
+            (context as? AppCompatActivity)?.currentFocus?.clearFocus()
+            hideKeyboard()
             clickAction.invoke()
         }
     }
