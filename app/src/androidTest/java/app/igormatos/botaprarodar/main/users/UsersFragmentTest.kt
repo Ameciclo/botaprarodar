@@ -83,13 +83,22 @@ class UsersFragmentTest {
     }
 
     @Test
-    fun whenLoadFragment_shouldVerifyUserIsBlockedAtRecycler() {
+    fun whenLoadFragment_shouldVerifyUserIconBlockedAtRecyclerIsVisible() {
         addItemAtRecycler()
         sleep(5000)
         usersFragment {
         } verify {
-            checkUserIsBlocked(0)
-            checkUserIsBlocked(1)
+            checkUserIconBlockedIsVisible(0)
+        }
+    }
+
+    @Test
+    fun whenLoadFragment_shouldVerifyUserIconBlockedAtRecyclerNotIsVisible() {
+        addItemAtRecycler()
+        sleep(5000)
+        usersFragment {
+        } verify {
+            checkUserIconBlockedNotIsVisible(1)
         }
     }
 

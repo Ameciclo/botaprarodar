@@ -82,12 +82,22 @@ abstract class BaseRobot {
             )
     }
 
-    fun findItemInRecyclerViewAndVerifyUserIsBlocked(recyclerId: Int, position: Int) {
+    fun findItemInRecyclerViewAndVerifyUserIconBlockedIsVisible(recyclerId: Int, position: Int) {
         onView(withId(recyclerId)).check(
             itemViewHasIconMatches(
                 position,
                 R.id.user_blocked_icon,
                 withEffectiveVisibility(Visibility.VISIBLE)
+            )
+        )
+    }
+
+    fun findItemInRecyclerViewAndVerifyUserIconBlockedNotIsVisible(recyclerId: Int, position: Int) {
+        onView(withId(recyclerId)).check(
+            itemViewHasIconMatches(
+                position,
+                R.id.user_blocked_icon,
+                withEffectiveVisibility(Visibility.GONE)
             )
         )
     }
@@ -158,14 +168,16 @@ abstract class BaseRobot {
 
             val recyclerView = view as RecyclerView
             val adapter = recyclerView.adapter
-            val itemType = adapter!!.getItemViewType(position)
-            val viewHolder = adapter.createViewHolder(recyclerView, itemType)
-            adapter.bindViewHolder(viewHolder, position)
+            adapter?.let {
+                val itemType = it.getItemViewType(position)
+                val viewHolder = it.createViewHolder(recyclerView, itemType)
+                adapter.bindViewHolder(viewHolder, position)
 
-            val targetView =  viewHolder.itemView.findViewById<ImageView>(resId)
+                val targetView =  viewHolder.itemView.findViewById<ImageView>(resId)
 
-            if (viewMatcher.matches(targetView)) {
-                return@ViewAssertion
+                if (viewMatcher.matches(targetView)) {
+                    return@ViewAssertion
+                }
             }
 
             fail("No match found")

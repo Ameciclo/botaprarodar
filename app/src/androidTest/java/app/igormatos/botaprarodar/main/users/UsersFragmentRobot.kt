@@ -45,8 +45,12 @@ class UsersFragmentRobot : BaseRobot() {
         findItemInRecyclerView(R.id.rv_users, context.resources.getString(R.string.user_created_since, validUser.createdDate))
     }
 
-    fun checkUserIsBlocked(position: Int) {
-        findItemInRecyclerViewAndVerifyUserIsBlocked(R.id.rv_users, position)
+    fun checkUserIconBlockedIsVisible(position: Int) {
+        findItemInRecyclerViewAndVerifyUserIconBlockedIsVisible(R.id.rv_users, position)
+    }
+
+    fun checkUserIconBlockedNotIsVisible(position: Int) {
+        findItemInRecyclerViewAndVerifyUserIconBlockedNotIsVisible(R.id.rv_users, position)
     }
 
 }
