@@ -8,6 +8,18 @@
         android:background="@color/background_gray">
 
     <ImageView
+        android:id="@+id/user_blocked_icon"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="@dimen/margin_48"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_circle_lock" />
+
+    <ImageView
             android:id="@+id/iv_user_item"
             android:layout_width="@dimen/circle_image_40"
             android:layout_height="@dimen/circle_image_40"
