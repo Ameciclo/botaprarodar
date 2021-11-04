@@ -27,7 +27,7 @@ object Fixtures {
         gender = "Outro"
         docType = 1
         isAvailable = true
-        isBlocked = false
+        isBlocked = true
         profilePicture = "https://profile.jpeg"
         profilePictureThumbnail = "https://thumb.jpeg"
         residenceProofPicture = "https://residence.jpeg"
@@ -49,7 +49,7 @@ object Fixtures {
         gender = "Outro"
         docType = 1
         isAvailable = false
-        isBlocked = true
+        isBlocked = false
         profilePicture = "https://profile.jpeg"
         profilePictureThumbnail = "https://thumb.jpeg"
         residenceProofPicture = "https://residence.jpeg"

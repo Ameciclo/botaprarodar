@@ -94,18 +94,18 @@ class UsersFragmentTest {
 
     @Test
     fun whenLoadFragment_shouldVerifyUserIconBlockedAtRecyclerNotIsVisible() {
+        validUser.isBlocked = false
         addItemAtRecycler()
-        sleep(5000)
         usersFragment {
         } verify {
-            checkUserIconBlockedNotIsVisible(1)
+            checkUserIconBlockedNotIsVisible(0)
         }
     }
 
     private fun addItemAtRecycler() {
         fragmentScenario.withFragment {
-            this.usersAdapter.submitList(mutableListOf(validUser, unavailableUserFake))
-            this.usersAdapter.filteredList = mutableListOf(validUser, unavailableUserFake)
+            this.usersAdapter.submitList(mutableListOf(validUser))
+            this.usersAdapter.filteredList = mutableListOf(validUser)
             this.usersAdapter.notifyDataSetChanged()
         }
     }
