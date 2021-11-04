@@ -7,16 +7,21 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import androidx.annotation.IdRes
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.rule.IntentsTestRule
@@ -28,6 +33,7 @@ import androidx.test.uiautomator.Until
 import com.brunotmgomes.ui.extensions.REQUEST_PHOTO
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import junit.framework.Assert.*
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.anything
@@ -76,10 +82,20 @@ abstract class BaseRobot {
             )
     }
 
+    fun findItemInRecyclerViewAndVerifyUserIsBlocked(recyclerId: Int, position: Int) {
+        onView(withId(recyclerId)).check(
+            itemViewHasIconMatches(
+                position,
+                R.id.userBlockedIcon,
+                withEffectiveVisibility(Visibility.VISIBLE)
+            )
+        )
+    }
+
     fun selectAnyItemInRecyclerView(recyclerId: Int): ViewInteraction =
         onView(withId(recyclerId))
             .perform(
-                RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click())
+                actionOnItemAtPosition<ViewHolder>(0, click())
             )
 
     fun checkMessage(message: String) {
@@ -128,6 +144,33 @@ abstract class BaseRobot {
                 return textInput.text.toString().length == length
             }
         }
+
+
+    private fun itemViewHasIconMatches(position: Int, resId: Int, viewMatcher: Matcher<View>): ViewAssertion {
+        assertNotNull(viewMatcher)
+
+        return ViewAssertion { view, noViewException ->
+            if (noViewException != null) {
+                throw noViewException
+            }
+
+            assertTrue("View is RecyclerView", view is RecyclerView)
+
+            val recyclerView = view as RecyclerView
+            val adapter = recyclerView.adapter
+            val itemType = adapter!!.getItemViewType(position)
+            val viewHolder = adapter.createViewHolder(recyclerView, itemType)
+            adapter.bindViewHolder(viewHolder, position)
+
+            val targetView =  viewHolder.itemView.findViewById<ImageView>(resId)
+
+            if (viewMatcher.matches(targetView)) {
+                return@ViewAssertion
+            }
+
+            fail("No match found")
+        }
+    }
 
     fun sleep(times: Long) = apply {
         Thread.sleep(times)

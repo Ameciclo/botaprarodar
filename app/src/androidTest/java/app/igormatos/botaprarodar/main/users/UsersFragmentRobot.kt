@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.main.users
 
 import app.igormatos.botaprarodar.BaseRobot
-import app.igormatos.botaprarodar.Fixtures.user
+import app.igormatos.botaprarodar.Fixtures.validUser
 import app.igormatos.botaprarodar.R
 
 fun usersFragment(executeFun: UsersFragmentRobot.() -> Unit) =
@@ -38,11 +38,15 @@ class UsersFragmentRobot : BaseRobot() {
     }
 
     fun checkUserName() {
-        findItemInRecyclerView(R.id.rv_users, user.name!!)
+        findItemInRecyclerView(R.id.rv_users, validUser.name!!)
     }
 
     fun checkUserDate() {
-        findItemInRecyclerView(R.id.rv_users, context.resources.getString(R.string.user_created_since, user.createdDate))
+        findItemInRecyclerView(R.id.rv_users, context.resources.getString(R.string.user_created_since, validUser.createdDate))
+    }
+
+    fun checkUserIsBlocked(position: Int) {
+        findItemInRecyclerViewAndVerifyUserIsBlocked(R.id.rv_users, position)
     }
 
 }
