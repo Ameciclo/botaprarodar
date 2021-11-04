@@ -123,7 +123,7 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.11'
     kapt 'org.parceler:parceler:1.1.11'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.airbnb.android:lottie:3.6.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -140,6 +140,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"

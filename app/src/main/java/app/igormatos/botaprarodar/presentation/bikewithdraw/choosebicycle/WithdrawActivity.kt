@@ -28,7 +28,7 @@ class WithdrawActivity : AppCompatActivity() {
             ItemAdapter(activity = this)
         logRecyclerView.adapter = itemAdapter
 
-        val selectedCommunityId = preferencesModule.getJoinedCommunity().id!!
+        val selectedCommunityId = preferencesModule.getJoinedCommunity().id
         FirebaseHelper.getBicycles(
             selectedCommunityId,
             true,
