@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,10 +24,14 @@ import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.default
+import id.zelory.compressor.constraint.destination
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.collections.ArrayList
+import java.io.File
 
 class UserFormFragment : Fragment() {
 
@@ -202,7 +207,19 @@ class UserFormFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            updateViewModelLiveData(requestCode, mCurrentPhotoPath)
+            lifecycleScope.launch {
+                compressImage(mCurrentPhotoPath)
+                updateViewModelLiveData(requestCode, mCurrentPhotoPath)
+            }
+
+        }
+    }
+
+    private suspend fun compressImage(path: String) {
+        val imageFile = File(path)
+        Compressor.compress(requireContext(), imageFile) {
+            default()
+            destination(imageFile)
         }
     }
 
