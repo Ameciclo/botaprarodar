@@ -28,6 +28,11 @@ class SelectUserViewHolder(
         else
             binding.tvActiveWithdraw.gone()
 
+        if (item.isBlocked)
+            binding.userBlockedIcon.visible()
+        else
+            binding.userBlockedIcon.gone()
+
         itemView.setOnClickListener {
             if (item.hasActiveWithdraw.not())
                 onClick(item)

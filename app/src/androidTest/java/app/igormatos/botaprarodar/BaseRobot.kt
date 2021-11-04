@@ -86,7 +86,7 @@ abstract class BaseRobot {
         onView(withId(recyclerId)).check(
             itemViewHasIconMatches(
                 position,
-                R.id.userBlockedIcon,
+                R.id.user_blocked_icon,
                 withEffectiveVisibility(Visibility.VISIBLE)
             )
         )

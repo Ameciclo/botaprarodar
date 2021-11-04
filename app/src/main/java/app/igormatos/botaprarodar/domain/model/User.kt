@@ -55,7 +55,7 @@ data class User(
     override var id: String? = null,
     @SerializedName("available")
     override var isAvailable: Boolean = true,
-    @SerializedName("blocked")
+    @SerializedName("isBlocked")
     var isBlocked: Boolean = false,
     @SerializedName("hasActiveWithdraw")
     var hasActiveWithdraw: Boolean = false

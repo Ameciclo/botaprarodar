@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
+import com.brunotmgomes.ui.extensions.visible
 
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
@@ -86,6 +88,11 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
             itemView.setOnClickListener {
                 listener.onUserClicked(user)
             }
+
+            if (user.isBlocked)
+                itemView.findViewById<ImageView>(R.id.user_blocked_icon).visibility = View.VISIBLE
+            else
+                itemView.findViewById<ImageView>(R.id.user_blocked_icon).visibility = View.GONE
         }
     }
 
