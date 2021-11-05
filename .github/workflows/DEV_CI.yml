@@ -90,6 +90,6 @@ jobs:
           --type instrumentation
           --test app-debug-androidTest/app-debug-androidTest.apk
           --app botaprarodar/botaprarodar.apk
-          --device model=Pixel 2, version=30
+          --device model=Pixel 2, version=11
           --use-orchestrator
           --environment-variables clearPackageData=true
