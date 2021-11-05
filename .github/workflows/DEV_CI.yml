@@ -90,6 +90,7 @@ jobs:
           --type instrumentation
           --test app-debug-androidTest/app-debug-androidTest.apk
           --app botaprarodar/botaprarodar.apk
-          --device model=Sailfish,version=30,locale=pt_BR,orientation=portrait
+          --device model=flame,version=29,locale=pt_BR,orientation=portrait
+          --device model=blueline,version=30,locale=pt_BR,orientation=portrait
           --use-orchestrator
           --environment-variables clearPackageData=true
