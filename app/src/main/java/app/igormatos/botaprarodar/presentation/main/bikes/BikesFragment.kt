@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.databinding.ActivityMainBinding
 import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter

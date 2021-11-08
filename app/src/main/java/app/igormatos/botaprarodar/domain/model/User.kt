@@ -71,8 +71,7 @@ data class User(
     }
 
     override fun iconPath(): String {
-        return profilePictureThumbnail ?: profilePicture
-        ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return profilePictureThumbnail ?: profilePicture.orEmpty()
     }
 
     override fun subtitle(): String {
