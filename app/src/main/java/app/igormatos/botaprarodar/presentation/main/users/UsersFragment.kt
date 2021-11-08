@@ -41,7 +41,7 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_users, container, false)
+        binding = FragmentUsersBinding.inflate(inflater, container, false)
         return binding.root
     }
 
