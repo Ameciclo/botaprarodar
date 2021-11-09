@@ -17,8 +17,8 @@ import app.igormatos.botaprarodar.databinding.FragmentSignInBinding
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewState
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.main.MainActivity
+import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.crashlytics.internal.common.CommonUtils.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 @Deprecated("use LoginActivity instead")
@@ -44,7 +44,7 @@ class SignInFragment : Fragment() {
             binding.viewmodel?.viewState?.observe(it) { viewState ->
                 when (viewState) {
                     is SignInViewState.SendError -> {
-                        hideKeyboard(requireContext(), binding.password)
+                        binding.password.hideKeyboard()
                         updatePasswordError(viewState.type)
                         val errorMessage = createErrorMessage(viewState.type)
                         showErrorMessage(errorMessage)
