@@ -5,7 +5,6 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.fragment.app.testing.withFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.Fixtures.validUser
-import app.igormatos.botaprarodar.Fixtures.unavailableUserFake
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase

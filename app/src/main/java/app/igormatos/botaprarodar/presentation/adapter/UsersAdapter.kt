@@ -1,3 +1,4 @@
+
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
@@ -5,16 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.databinding.UsersItemBinding
 import app.igormatos.botaprarodar.domain.model.User
-import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
-import com.brunotmgomes.ui.extensions.visible
 
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
@@ -23,11 +21,13 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
     var filteredList = mutableListOf<User>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
+
         val layoutInflater =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.users_item, parent, false)
+        val binding = UsersItemBinding.inflate(layoutInflater)
+
         users = currentList
-        return UsersViewHolder(layoutInflater)
+        return UsersViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
@@ -73,26 +73,21 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
         fun onUserClicked(user: User)
     }
 
-    inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class UsersViewHolder(val binding: UsersItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User) {
-            itemView.findViewById<TextView>(R.id.tv_name_user_item).text = user.title()
+            binding.tvNameUserItem.text = user.title()
             user.profilePictureThumbnail?.let { profileImage ->
-                itemView.findViewById<ImageView>(R.id.iv_user_item).loadPathOnCircle(
-                    profileImage
-                )
+                binding.ivUserItem.loadPathOnCircle(profileImage)
             }
-            itemView.findViewById<TextView>(R.id.tv_registered_since_user_item).text =
-                itemView.context.getString(R.string.user_created_since, user.createdDate)
+            binding.tvRegisteredSinceUserItem.text = itemView.context.getString(R.string.user_created_since, user.createdDate)
 
-            itemView.setOnClickListener {
-                listener.onUserClicked(user)
-            }
+            binding.root.setOnClickListener { listener.onUserClicked(user) }
 
             if (user.isBlocked)
-                itemView.findViewById<ImageView>(R.id.user_blocked_icon).visibility = View.VISIBLE
+                binding.userBlockedIcon.visibility = View.VISIBLE
             else
-                itemView.findViewById<ImageView>(R.id.user_blocked_icon).visibility = View.GONE
+                binding.userBlockedIcon.visibility = View.GONE
         }
     }
 

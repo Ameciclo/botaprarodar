@@ -35,28 +35,6 @@ object Fixtures {
         schooling = "Ensino superior completo"
         schoolingStatus = "Completo"
         income = "0"
-        age = "xx"
-    }
-
-    val unavailableUserFake = User().apply {
-        id = "testId"
-        name = "Capitão América"
-        docNumber = 1234567890
-        docPictureBack = "https://docback.jpeg"
-        docPicture = "https://doc.jpeg"
-        address = "Polo Norte - 433La 092Lg"
-        createdDate = "01/01/2021"
-        gender = "Outro"
-        docType = 1
-        isAvailable = false
-        isBlocked = false
-        profilePicture = "https://profile.jpeg"
-        profilePictureThumbnail = "https://thumb.jpeg"
-        residenceProofPicture = "https://residence.jpeg"
-        racial = "Branca"
-        schooling = "Ensino superior completo"
-        schoolingStatus = "Completo"
-        income = "0"
-        age = "xx"
+        age = "01/01/2000"
     }
 }
