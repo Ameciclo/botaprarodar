@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.common.extensions.validateTextChanged
 import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
 import com.google.android.material.textfield.TextInputLayout
 
-@BindingAdapter(value = ["app:textCaptured", "app:errorMessage"])
+@BindingAdapter(value = ["textCaptured", "errorMessage"])
 fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String, errorMessage: String) {
     val errorMessageId = this.resources.getIdentifier(errorMessage, "string", this.context.packageName)
 
@@ -20,7 +20,7 @@ fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String, errorMess
     this.editText?.validateTextChanged(this, errorMessageId)
 }
 
-@BindingAdapter("app:errorUserDocNumber")
+@BindingAdapter("errorUserDocNumber")
 fun TextInputLayout.setErrorUserDocNumber(
                                 docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>
 ) {

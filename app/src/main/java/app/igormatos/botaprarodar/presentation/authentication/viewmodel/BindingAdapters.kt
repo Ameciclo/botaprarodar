@@ -10,7 +10,7 @@ import com.brunotmgomes.ui.extensions.isValidPassword
 
 
 object BindingAdapters {
-    @BindingAdapter("app:animationVisibility")
+    @BindingAdapter("animationVisibility")
     @JvmStatic
     fun isViewVisible(view: LottieAnimationView, visible: Boolean) {
         if (visible) {
@@ -20,10 +20,10 @@ object BindingAdapters {
         }
     }
 
-    @BindingAdapter(value = ["app:onPasswordValidate", "app:onSubmitForm"], requireAll = false)
+    @BindingAdapter(value = ["onPasswordValidate", "onSubmitForm"], requireAll = false)
     @JvmStatic
     fun validatePassword(view: EditText, password: String?, sendFormView: View?) {
-        view.setOnEditorActionListener { v, actionId, event ->
+        view.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && password.isValidPassword()) {
                 sendFormView?.callOnClick()
                 view.error = null

@@ -10,35 +10,35 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByReason
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdBySufferedViolence
 
-@BindingAdapter("app:setRadioGroupReasonCheck")
-fun setRadioGroupReasonCheck(view: RadioGroup, reasonId: String) {
-    view.check(getRadioButtonIdByReason(reasonId))
+@BindingAdapter("setRadioGroupReasonCheck")
+fun RadioGroup.setRadioGroupReasonCheck(reasonId: String) {
+    this.check(getRadioButtonIdByReason(reasonId))
 }
 
-@BindingAdapter("app:setRadioGroupReasonSufferedViolenceCheck")
-fun setRadioGroupSufferedViolenceCheck(view: RadioGroup, reasonId: String) {
-    view.check(getRadioButtonIdBySufferedViolence(reasonId))
+@BindingAdapter("setRadioGroupReasonSufferedViolenceCheck")
+fun RadioGroup.setRadioGroupSufferedViolenceCheck(reasonId: String) {
+    this.check(getRadioButtonIdBySufferedViolence(reasonId))
 }
 
-@BindingAdapter("app:setRadioGroupGiveRideCheck")
-fun setRadioGroupGiveRideCheck(view: RadioGroup, reasonId: String) {
-    view.check(getRadioButtonIdByGiveRide(reasonId))
+@BindingAdapter("setRadioGroupGiveRideCheck")
+fun RadioGroup.setRadioGroupGiveRideCheck(reasonId: String) {
+    this.check(getRadioButtonIdByGiveRide(reasonId))
 }
 
-@BindingAdapter("app:setRadioGroupValue")
-fun setRadioGroupValue(view: RadioGroup, buttonId: Int) {
-    view.check(buttonId)
+@BindingAdapter("setRadioGroupValue")
+fun RadioGroup.setRadioGroupValue(buttonId: Int) {
+    this.check(buttonId)
 }
 
 @BindingAdapter("radioGroupYesNoQuestionCheckedChanged")
-fun setRadioGroupYesNoQuestion(group: RadioGroup, newValue: Boolean?) {
+fun RadioGroup.setRadioGroupYesNoQuestion(newValue: Boolean?) {
     newValue?.let { value ->
         val text = if (value) "sim" else "não"
 
-        group.children.forEach { child ->
+        this.children.forEach { child ->
             val button = child as RadioButton
-            if (button.text.toString().toLowerCase() == text) {
-                group.check(button.id)
+            if (button.text.toString().lowercase() == text) {
+                this.check(button.id)
                 return
             }
         }
@@ -46,11 +46,11 @@ fun setRadioGroupYesNoQuestion(group: RadioGroup, newValue: Boolean?) {
 }
 
 @InverseBindingAdapter(attribute = "radioGroupYesNoQuestionCheckedChanged", event = "radioGroupYesNoQuestionAttrChanged")
-fun getRadioGroupYesNoQuestion(group: RadioGroup): Boolean {
-    val checkedId = group.checkedRadioButtonId
-    val button: RadioButton = group.findViewById(checkedId)
+fun RadioGroup.getRadioGroupYesNoQuestion(): Boolean {
+    val checkedId = this.checkedRadioButtonId
+    val button: RadioButton = this.findViewById(checkedId)
 
-    return when (button.text.toString().toLowerCase()) {
+    return when (button.text.toString().lowercase()) {
         "sim" -> true
         "não" -> false
         else -> false
@@ -58,8 +58,8 @@ fun getRadioGroupYesNoQuestion(group: RadioGroup): Boolean {
 }
 
 @BindingAdapter("radioGroupYesNoQuestionAttrChanged")
-fun setRadioGroupYesNoQuestionListener(view: RadioGroup, listener: InverseBindingListener) {
-    view.setOnCheckedChangeListener { _, _ ->
+fun RadioGroup.setRadioGroupYesNoQuestionListener(listener: InverseBindingListener) {
+    this.setOnCheckedChangeListener { _, _ ->
         listener.onChange()
     }
 }

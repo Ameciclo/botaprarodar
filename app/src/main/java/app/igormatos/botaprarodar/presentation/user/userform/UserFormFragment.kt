@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
+import app.igormatos.botaprarodar.common.biding.setImagePathOrUrl
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
@@ -251,8 +251,7 @@ class UserFormFragment : Fragment() {
         builder.setView(changeImageLayout)
         builder.show()
 
-        setImagePathOrUrl(
-            changeImageLayout.findViewById(R.id.dialogImage),
+        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImagePathOrUrl(
             binding.viewModel?.userImageDocumentResidence?.value.orEmpty()
         )
         changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {

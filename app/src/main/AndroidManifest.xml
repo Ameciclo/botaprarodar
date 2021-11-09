@@ -31,7 +31,8 @@
         <activity android:name=".presentation.login.LoginActivity" />
         <activity
                 android:name=".presentation.splash.SplashActivity"
-                android:theme="@style/SplashScreenTheme">
+                android:theme="@style/SplashScreenTheme"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +64,8 @@
         <activity android:name=".presentation.bikewithdraw.choosebicycle.WithdrawActivity" />
         <activity android:name=".presentation.returnbicycle.ReturnBikeActivity" />
         <activity android:name=".presentation.returnbicycle.RideQuizActivity" />
-        <activity android:name=".presentation.bikewithdraw.chooseuser.ChooseUserActivity">
+        <activity android:name=".presentation.bikewithdraw.chooseuser.ChooseUserActivity"
+            android:exported="true">
             <meta-data
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable" />
