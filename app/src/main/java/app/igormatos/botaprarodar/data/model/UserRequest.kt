@@ -9,6 +9,8 @@ data class UserRequest(
     var createdDate: String,
     @SerializedName("available")
     var available: Boolean = true,
+    @SerializedName("isBlocked")
+    var blocked: Boolean = false,
     @SerializedName("address")
     var address: String,
     @SerializedName("gender")

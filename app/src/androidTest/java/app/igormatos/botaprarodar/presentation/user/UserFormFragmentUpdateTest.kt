@@ -5,7 +5,7 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.igormatos.botaprarodar.Fixtures.user
+import app.igormatos.botaprarodar.Fixtures.validUser
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
@@ -23,7 +23,7 @@ class UserFormFragmentUpdateTest {
 
     @Before
     fun setup() {
-        val fragmentArgs = bundleOf("user" to user)
+        val fragmentArgs = bundleOf("user" to validUser)
 
         userFormViewModel = mockk(relaxed = true)
         fragmentScenario = launchFragmentInContainer(

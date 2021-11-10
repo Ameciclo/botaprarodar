@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:gravity="fill"
+        android:drawable="@drawable/ic_baseline_circle"
+        />
+    <item
+        android:gravity="center"
+        android:drawable="@drawable/ic_baseline_lock"
+        android:top="8dp"
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp"
+        />
+
+</layer-list>
