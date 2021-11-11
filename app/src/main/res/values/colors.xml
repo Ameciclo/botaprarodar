@@ -26,10 +26,14 @@
     <color name="gray_5">#E0E0E0</color>
     <color name="gray_5_opacity_40">#65E0E0E0</color>
     <color name="gray_6">#1C1C28</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorPrimary</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
+        @color/colorPrimary
+    </color>
     <color name="title_gray">#4F4F4F</color>
     <color name="bike_action_text_gray">#828282</color>
     <color name="green_teal">#018786</color>
     <color name="gray_silver">#BDBDBD</color>
     <color name="yellow">#F2C94C</color>
+    <color name="background_card_user_item_gray">#F5F5F5</color>
+    <color name="information_blue_color">#0063E7</color>
 </resources>
