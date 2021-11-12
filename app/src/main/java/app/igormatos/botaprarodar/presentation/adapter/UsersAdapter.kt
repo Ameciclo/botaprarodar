@@ -1,4 +1,3 @@
-
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
@@ -73,21 +72,37 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
         fun onUserClicked(user: User)
     }
 
-    inner class UsersViewHolder(val binding: UsersItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class UsersViewHolder(val binding: UsersItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User) {
             binding.tvNameUserItem.text = user.title()
+            binding.tvUserPhoneNumber.text = user.telephoneHide4Chars()
             user.profilePictureThumbnail?.let { profileImage ->
                 binding.ivUserItem.loadPathOnCircle(profileImage)
             }
-            binding.tvRegisteredSinceUserItem.text = itemView.context.getString(R.string.user_created_since, user.createdDate)
 
             binding.root.setOnClickListener { listener.onUserClicked(user) }
 
+            userIsBlocked(user)
+            auxiliarText(user)
+        }
+
+        private fun userIsBlocked(user: User) {
             if (user.isBlocked)
                 binding.userBlockedIcon.visibility = View.VISIBLE
             else
                 binding.userBlockedIcon.visibility = View.GONE
+        }
+
+        private fun auxiliarText(user: User) {
+            if (user.hasActiveWithdraw) {
+                binding.tvActiveWithdraw.visibility = View.VISIBLE
+                binding.tvUserPhoneNumber.visibility = View.GONE
+            } else {
+                binding.tvActiveWithdraw.visibility = View.GONE
+                binding.tvUserPhoneNumber.visibility = View.VISIBLE
+            }
         }
     }
 

@@ -31,6 +31,7 @@
 
     <dimen name="separator_height">1dp</dimen>
     <dimen name="circle_image_40">40dp</dimen>
+    <dimen name="circle_image_54">54dp</dimen>
 
     <dimen name="card_elevation">4dp</dimen>
 

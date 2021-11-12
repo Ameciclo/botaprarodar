@@ -1,7 +1,7 @@
 package app.igormatos.botaprarodar.domain.model
 
 import android.os.Parcelable
-import androidx.lifecycle.MutableLiveData
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -79,5 +79,17 @@ data class User(
 
     override fun subtitle(): String {
         return "Cadastrado desde $createdDate"
+    }
+
+    fun telephoneHide4Chars(): String {
+        return telephone?.let {
+            if (it.length >= 6) {
+                val firstTwoChars = it.substring(0, 2)
+                val lastFourChars = it.replace("-", "").takeLast(4)
+                val phoneHided = "$firstTwoChars •••• $lastFourChars"
+
+                "Telefone: $phoneHided"
+            } else telephone!!
+        }.orEmpty()
     }
 }
