@@ -238,7 +238,7 @@
     <string name="invalid_district">Bairro inválido</string>
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
-    <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="select_bike">Selecione a bicicleta</string>
     <string name="select_user">Selecione um usuário</string>
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
