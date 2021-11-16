@@ -116,6 +116,7 @@
     <string name="bike_devolution_date">Data de devolução: %s</string>
     <string name="bike_series_number">Série: %s</string>
     <string name="bike_order_number">Ordem: %s</string>
+    <string name="search_cyclist_name">Procure a ciclista pelo nome...</string>
 
     <!-- USER -->
 
