@@ -112,7 +112,7 @@
     <string name="add_photo">Adicionar foto</string>
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
-    <string name="bike_withdraw_date">Data de empréstimo: %s</string>
+    <string name="bike_withdraw_date">Empréstimo em: %s</string>
     <string name="bike_devolution_date">Data de devolução: %s</string>
     <string name="bike_series_number">Série: %s</string>
     <string name="bike_order_number">Ordem: %s</string>

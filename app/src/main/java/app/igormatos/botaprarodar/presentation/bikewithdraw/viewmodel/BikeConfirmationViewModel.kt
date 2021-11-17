@@ -26,9 +26,9 @@ class BikeConfirmationViewModel(
     val uiState: LiveData<BikeWithdrawUiState>
         get() = _uiState
 
-    private val date = Calendar.getInstance().time
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-    val withdrawDate = dateFormat.format(date)
+    private val date = Calendar.getInstance(Locale("pt", "BR")).time
+    private val dateFormat = SimpleDateFormat("dd MMM yyyy")
+    val withdrawDate = dateFormat.format(date).replace(" ", " de ")
 
     val bikeImageUrl = MutableLiveData<String>()
     val userImageUrl = MutableLiveData<String>()
