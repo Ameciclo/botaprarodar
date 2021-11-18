@@ -16,10 +16,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class BikeConfirmationViewModel(
-    private val bikeHolder: BikeHolder,
-    private val userHolder: UserHolder,
-    private val sendBikeWithdraw: SendBikeWithdraw,
-    private val withdrawStepper: WithdrawStepper
+        private val bikeHolder: BikeHolder,
+        private val userHolder: UserHolder,
+        private val sendBikeWithdraw: SendBikeWithdraw,
+        private val withdrawStepper: WithdrawStepper
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()
@@ -27,8 +27,8 @@ class BikeConfirmationViewModel(
         get() = _uiState
 
     private val date = Calendar.getInstance(Locale("pt", "BR")).time
-    private val dateFormat = SimpleDateFormat("dd MMM yyyy")
-    val withdrawDate = dateFormat.format(date).replace(" ", " de ")
+    val withdrawDate = dateFormatted("dd MMM yyyy").format(date).replace(" ", " de ")
+    private val withdrawDateBase = dateFormatted().format(date)
 
     val bikeImageUrl = MutableLiveData<String>()
     val userImageUrl = MutableLiveData<String>()
@@ -56,7 +56,7 @@ class BikeConfirmationViewModel(
 
         viewModelScope.launch {
             try {
-                when (sendBikeWithdraw.execute(withdrawDate, bikeHolder, userHolder)) {
+                when (sendBikeWithdraw.execute(withdrawDateBase, bikeHolder, userHolder)) {
                     is SimpleResult.Success -> {
                         _uiState.postValue(BikeWithdrawUiState.Success)
                     }
@@ -72,5 +72,9 @@ class BikeConfirmationViewModel(
 
     fun restartWithdraw() {
         withdrawStepper.navigateToInitialStep()
+    }
+
+    private fun dateFormatted(format: String = "dd/MM/yyyy HH:mm:ss"): SimpleDateFormat {
+        return SimpleDateFormat(format)
     }
 }
