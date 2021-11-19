@@ -12,7 +12,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import java.text.SimpleDateFormat
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import java.util.*
 
 class BikeConfirmationViewModel(
@@ -27,8 +27,8 @@ class BikeConfirmationViewModel(
         get() = _uiState
 
     private val date = Calendar.getInstance(Locale("pt", "BR")).time
-    val withdrawDate = dateFormatted("dd MMM yyyy").format(date).replace(" ", " de ")
-    private val withdrawDateBase = dateFormatted().format(date)
+    val withdrawDate = formattedDate("dd MMM yyyy").format(date).replace(" ", " de ")
+    private val withdrawDateBase = formattedDate().format(date)
 
     val bikeImageUrl = MutableLiveData<String>()
     val userImageUrl = MutableLiveData<String>()
@@ -72,9 +72,5 @@ class BikeConfirmationViewModel(
 
     fun restartWithdraw() {
         withdrawStepper.navigateToInitialStep()
-    }
-
-    private fun dateFormatted(format: String = "dd/MM/yyyy HH:mm:ss"): SimpleDateFormat {
-        return SimpleDateFormat(format)
     }
 }
