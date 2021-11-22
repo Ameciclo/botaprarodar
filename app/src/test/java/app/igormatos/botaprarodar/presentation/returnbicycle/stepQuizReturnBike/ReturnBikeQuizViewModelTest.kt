@@ -36,7 +36,7 @@ class ReturnBikeQuizViewModelTest {
 
         viewModel.isEnabled.observeForever(observerQuizForm)
         viewModel.problemsDuringRidingRg.value = "Não"
-        viewModel.usedBikeToMoveRg.value = "Trabalho"
+//        viewModel.usedBikeToMoveRg.value = "Trabalho"
         viewModel.whichDistrict.value = "Bairro qualquer"
 
         verify {
@@ -52,7 +52,7 @@ class ReturnBikeQuizViewModelTest {
         viewModel.isEnabled.observeForever(observerQuizForm)
         viewModel.problemsDuringRidingRg.value = "Não"
         viewModel.needTakeRideRg.value = "Não"
-        viewModel.usedBikeToMoveRg.value = "Trabalho"
+//        viewModel.usedBikeToMoveRg.value = "Trabalho"
         viewModel.whichDistrict.value = "Bairro qualquer"
 
         verify {
@@ -94,17 +94,6 @@ class ReturnBikeQuizViewModelTest {
         }
 
         assertEquals(viewModel.clickToNextFragment.value, true)
-    }
-
-    @Test
-    fun `when call 'setUsedBikeToMoveRb()' then the 'usedBikeToMoveRg' should be update with the correct value`() {
-        val expectedReason = "Seu local de trabalho"
-
-        viewModel.setUsedBikeToMoveRb(R.id.workplaceRb)
-
-        verify { viewModel.quizBuilder.withAnswer1(expectedReason) }
-
-        Assert.assertEquals(expectedReason, viewModel.usedBikeToMoveRg.value)
     }
 
     @Test

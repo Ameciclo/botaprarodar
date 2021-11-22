@@ -224,7 +224,7 @@
 
     <!-- Return bike quiz -->
     <string name="which_district_hint">Qual o bairro de destino?</string>
-    <string name="used_bike_to_move">Você utilizou a bicicleta para se locomover até:</string>
+    <string name="used_bike_to_move">A bicicleta foi usada para que?</string>
     <string name="your_workplace">Seu local de trabalho</string>
     <string name="your_place_study">Seu local de estudo</string>
     <string name="your_place_entertainment">Seu local de lazer / convivência social</string>
@@ -237,6 +237,15 @@
     <string name="need_take_ride">Precisou levar alguma carona?</string>
     <string name="send_answers_button">Enviar respostas</string>
     <string name="invalid_district">Bairro inválido</string>
+
+    <string-array name="used_bike_to_move_list">
+        <item>Seu local de trabalho</item>
+        <item>Seu local de estudo</item>
+        <item>Seu local de lazer / convivência social</item>
+        <item>Seu local de compras</item>
+        <item>Local de estudo da criança</item>
+        <item>Outro motivo não especificado</item>
+    </string-array>
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
     <string name="select_bike">Selecione a bicicleta</string>

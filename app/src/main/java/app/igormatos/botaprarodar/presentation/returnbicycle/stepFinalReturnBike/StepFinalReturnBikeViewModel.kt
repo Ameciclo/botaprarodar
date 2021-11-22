@@ -35,10 +35,11 @@ class StepFinalReturnBikeViewModel(
 
     fun getBikeHolder() = bikeHolder.bike
 
-    val withdrawDate =
-        formattedDate().parse(getBikeHolder()?.getLastWithdraw()?.date).let { baseDate ->
-            formattedDate("dd MMM yyyy").format(baseDate).replace(" ", " de ")
-        }
+    val withdrawDate
+        get() =
+            formattedDate().parse(getBikeHolder()?.getLastWithdraw()?.date).let { baseDate ->
+                formattedDate("dd MMM yyyy").format(baseDate).replace(" ", " de ")
+            }
 
     fun finalizeDevolution() {
         _state.value = UiState.Loading

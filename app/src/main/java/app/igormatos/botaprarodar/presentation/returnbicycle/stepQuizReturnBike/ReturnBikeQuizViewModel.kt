@@ -15,15 +15,11 @@ class ReturnBikeQuizViewModel(
     private val _clickToNextFragment = MutableLiveData<Boolean>(false)
     val clickToNextFragment: LiveData<Boolean> = _clickToNextFragment
 
-    val usedBikeToMoveRg = MutableLiveData(RADIO_INITIAL_VALUE)
     val problemsDuringRidingRg = MutableLiveData(RADIO_INITIAL_VALUE)
     val needTakeRideRg = MutableLiveData(RADIO_INITIAL_VALUE)
     val whichDistrict = MutableLiveData("")
 
     val isEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(usedBikeToMoveRg) {
-            validateQuiz()
-        }
         addSource(problemsDuringRidingRg) {
             validateQuiz()
         }
@@ -36,7 +32,7 @@ class ReturnBikeQuizViewModel(
     }
 
     private fun validateQuiz() {
-        isEnabled.value = usedBikeToMoveRg.value.isRadioValid() &&
+        isEnabled.value =
                 problemsDuringRidingRg.value.isRadioValid() &&
                 needTakeRideRg.value.isRadioValid() &&
                 isTextValid(whichDistrict.value)
@@ -61,8 +57,7 @@ class ReturnBikeQuizViewModel(
     }
 
     fun setUsedBikeToMoveRb(id: Int) {
-        usedBikeToMoveRg.value = getReasonByRadioButton(id)
-        quizBuilder.withAnswer1(getReasonByRadioButton(id))
+//        quizBuilder.withAnswer1(getReasonByRadioButton(id))
     }
 
     fun setProblemsDuringRidingRb(id: Int) {

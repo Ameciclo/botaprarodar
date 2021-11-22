@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,7 +33,18 @@ class ReturnBikeQuizFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_return_bike_quiz, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = returnBikeQuizViewModel
+
+        loadDropdownItems()
         return binding.root
+    }
+
+    private fun loadDropdownItems() {
+        val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
+            layoutInflater.context,
+            R.array.used_bike_to_move_list,
+            R.layout.used_bike_items
+        )
+        (binding.usedBikeToMoveDropdownLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
