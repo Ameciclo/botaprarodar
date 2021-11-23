@@ -1,53 +1,46 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
-import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
-import app.igormatos.botaprarodar.common.biding.setErrorUserDocNumber
 import app.igormatos.botaprarodar.common.biding.utils.validateText
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
-import app.igormatos.botaprarodar.databinding.CustomEditTextBinding
+import app.igormatos.botaprarodar.databinding.CustomEditTextWithButtonBinding
 
-class CustomEditText @JvmOverloads constructor(
+class CustomEditTextWithButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val binding = CustomEditTextBinding.inflate(
+    private val binding = CustomEditTextWithButtonBinding.inflate(
         LayoutInflater.from(context), this, true
     )
+    private var isNeedQuestion = false
 
     init {
         orientation = VERTICAL
         attrs?.let { attributes ->
             val typedArray = context.theme.obtainStyledAttributes(
                 attributes,
-                R.styleable.CustomEditText,
+                R.styleable.CustomEditTextWithButton,
                 0,
                 0
             )
             with(binding){
-                label.text = typedArray.getString(R.styleable.CustomEditText_android_label)
-                editText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
+                label.text = typedArray.getString(R.styleable.CustomEditTextWithButton_android_label)
+                questionLabel.text = typedArray.getString(R.styleable.CustomEditTextWithButton_questionLabel)
+                editText.hint = typedArray.getString(R.styleable.CustomEditTextWithButton_android_hint)
+                isNeedQuestion = typedArray.getBoolean(R.styleable.CustomEditTextWithButton_isNeedQuestion, false)
                 editText.inputType = typedArray.getInt(
-                    R.styleable.CustomEditText_android_inputType,
+                    R.styleable.CustomEditTextWithButton_android_inputType,
                     EditorInfo.TYPE_NULL
                 )
-                typedArray.getInt(R.styleable.CustomEditText_android_maxLength, 0).takeIf { max ->
-                    max > 0
-                }?.apply {
-                    editText.filters = arrayOf(InputFilter.LengthFilter(this))
-                }
-
             }
         }
     }
@@ -73,17 +66,16 @@ class CustomEditText @JvmOverloads constructor(
         }
     }
 
-    fun validateText(userCompleteName: String, errorMessage: String) {
-        binding.apply {
-            textLayout.setErrorUserCompleteName(
-                userCompleteName,
-                errorMessage
-            )
+    fun getRadioGroup () = binding.radioGrup
+
+    fun setupVisibility(buttonId: Int) {
+
+        if(buttonId == binding.buttonYes.id && isNeedQuestion){
+            binding.textLayout.visibility = VISIBLE
+            binding.questionLabel.visibility = VISIBLE
+        } else {
+            binding.textLayout.visibility = GONE
+            binding.questionLabel.visibility = GONE
         }
     }
-
-    fun validateDocument(docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>) {
-        binding.textLayout.setErrorUserDocNumber(docNumberErrorValidationMap)
-    }
-
 }

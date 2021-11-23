@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.visible
 
-@BindingAdapter("visibility")
+@BindingAdapter("setVisibility")
 fun setVisibilityView(view: View, show: Boolean) {
     if (show) {
         view.visible()

@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.UserQuiz
-import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.isNotNull
@@ -18,9 +17,6 @@ class UserQuizViewModel(
     var editMode = false
 
     val accessOtherTransport = MutableLiveData<Boolean>()
-
-    val showOtherTransportOpenQuestion: LiveData<Boolean>
-        get() = accessOtherTransport
 
     val accessOtherTransportOpenQuestion = MutableLiveData<String>()
 

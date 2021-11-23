@@ -45,10 +45,10 @@ fun RadioGroup.setRadioGroupYesNoQuestion(newValue: Boolean?) {
     }
 }
 
-@InverseBindingAdapter(attribute = "radioGroupYesNoQuestionCheckedChanged", event = "radioGroupYesNoQuestionAttrChanged")
-fun RadioGroup.getRadioGroupYesNoQuestion(): Boolean {
-    val checkedId = this.checkedRadioButtonId
-    val button: RadioButton = this.findViewById(checkedId)
+@InverseBindingAdapter(attribute = "radioGroupYesNoQuestionCheckedChanged",  event = "radioGroupYesNoQuestionAttrChanged")
+fun getRadioGroupYesNoQuestion(group: RadioGroup): Boolean {
+    val checkedId = group.checkedRadioButtonId
+    val button: RadioButton = group.findViewById(checkedId)
 
     return when (button.text.toString().lowercase()) {
         "sim" -> true
