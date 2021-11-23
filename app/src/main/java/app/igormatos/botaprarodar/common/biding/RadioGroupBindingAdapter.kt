@@ -31,14 +31,14 @@ fun RadioGroup.setRadioGroupValue(buttonId: Int) {
 }
 
 @BindingAdapter("radioGroupYesNoQuestionCheckedChanged")
-fun RadioGroup.setRadioGroupYesNoQuestion(newValue: Boolean?) {
+fun setRadioGroupYesNoQuestion(group: RadioGroup, newValue: Boolean?) {
     newValue?.let { value ->
         val text = if (value) "sim" else "não"
 
-        this.children.forEach { child ->
+        group.children.forEach { child ->
             val button = child as RadioButton
             if (button.text.toString().lowercase() == text) {
-                this.check(button.id)
+                group.check(button.id)
                 return
             }
         }
