@@ -22,9 +22,6 @@ class UserQuizViewModel(
 
     val alreadyUseBPR = MutableLiveData<Boolean>()
 
-    val showUseBPROpenQuestion: LiveData<Boolean>
-        get() = alreadyUseBPR
-
     val alreadyUseBPROpenQuestion = MutableLiveData<String>()
 
     val motivationOpenQuestion = MutableLiveData<String>()
