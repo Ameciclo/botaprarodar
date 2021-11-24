@@ -170,6 +170,7 @@
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
+    <string name="add_user_quiz_invalid_information">Informação inválida</string>
 
     <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
     <string name="add_user_schooling_status_complete">Sim</string>
@@ -267,15 +268,17 @@
     <!-- User Quiz -->
     <string name="user_quiz_means_transport_question">Você tem acesso a outro meio de transporte?</string>
     <string name="user_quiz_which_question">Qual?</string>
+    <string name="user_quiz_which_hint">Ex: Ônibus</string>
     <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
     <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
+    <string name="user_quiz_how_much_time_hint">Tempo em messes Ex: 16</string>
     <string name="user_quiz_motivation_question_label">Qual sua motivação para utilizar a bicicleta como meio de transporte?</string>
     <string name="user_quiz_motivation_question">Motivação</string>
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?</string>
     <string name="user_quiz_problems_on_way_question_label">Quais os problemas que você mais percebe durante o seu trajeto?</string>
-    <string name="user_quiz_problems_on_way_question">Problemas</string>
+    <string name="user_quiz_problems_on_way_question">Ex: Falta de ciclovia</string>
     <string name="user_quiz_time_on_way_question_label">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?</string>
-    <string name="user_quiz_time_on_way_question">Tempo</string>
+    <string name="user_quiz_time_on_way_question">00:00</string>
 
     <!-- Trips Fragment -->
     <string name="activities_historic">Histórico de atividades</string>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
                 name="viewModel"
                 type="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel" />
@@ -21,259 +19,95 @@
                 android:animateLayoutChanges="true"
                 android:padding="@dimen/padding_medium">
 
-            <TextView
-                    android:id="@+id/userQuizMeansTransportQuestion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_means_transport_question"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
+                android:id="@+id/userQuizMeansTransportQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:label="@string/user_quiz_means_transport_question"
+                android:hint="@string/user_quiz_which_hint"
+                app:textValue="@={viewModel.accessOtherTransportOpenQuestion}"
+                app:questionLabel="@string/user_quiz_which_question"
+                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.accessOtherTransport}"
+                app:isNeedQuestion="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                    android:id="@+id/userQuizMeansTransportAnswer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMeansTransportQuestion"
-                    app:radioGroupYesNoQuestionCheckedChanged="@={viewModel.accessOtherTransport}">
+            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
+                android:id="@+id/userQuizAlreadyBicycleUserQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:inputType="number"
+                android:label="@string/user_quiz_already_bicycle_user_question"
+                android:hint="@string/user_quiz_how_much_time_hint"
+                app:textValue="@={viewModel.alreadyUseBPROpenQuestion}"
+                app:questionLabel="@string/user_quiz_how_much_time_question"
+                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
+                app:isNeedQuestion="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userQuizMeansTransportQuestion" />
 
-                <RadioButton
-                        android:id="@+id/userQuizMeansTransportYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/yes" />
+            <app.igormatos.botaprarodar.common.components.CustomEditText
+                android:id="@+id/userQuizMotivationOpenQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:hint="@string/user_quiz_motivation_question"
+                android:inputType="text"
+                android:label="@string/user_quiz_motivation_question_label"
+                app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                app:textCaptured="@{viewModel.motivationOpenQuestion}"
+                app:textValue="@={viewModel.motivationOpenQuestion}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion" />
 
-                <RadioButton
-                        android:id="@+id/userQuizMeansTransportNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/no" />
+            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
+                android:id="@+id/userQuizAccidentVictimQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:inputType="number"
+                android:label="@string/user_quiz_accident_victim_question"
+                app:textValue="@={viewModel.alreadyUseBPROpenQuestion}"
+                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}"
+                app:isNeedQuestion="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestion" />
 
-            </RadioGroup>
+            <app.igormatos.botaprarodar.common.components.CustomEditText
+                android:id="@+id/userQuizProblemsOnWayOpenQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:hint="@string/user_quiz_problems_on_way_question"
+                android:inputType="text"
+                android:label="@string/user_quiz_problems_on_way_question_label"
+                app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                app:textCaptured="@{viewModel.problemsOnWayOpenQuestion}"
+                app:textValue="@={viewModel.problemsOnWayOpenQuestion}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userQuizAccidentVictimQuestion" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/userQuizMeansTransportOpenQuestion"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_minimum"
-                    android:hint="@string/user_quiz_which_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMeansTransportAnswer"
-                    app:visibility="@{viewModel.showOtherTransportOpenQuestion}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.accessOtherTransportOpenQuestion}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                    android:id="@+id/userQuizAlreadyBicycleUserQuestion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_already_bicycle_user_question"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMeansTransportOpenQuestion" />
-
-            <RadioGroup
-                    android:id="@+id/userQuizAlreadyBicycleUserAnswer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion"
-                    app:radioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}">
-
-                <RadioButton
-                        android:id="@+id/userQuizAlreadyBicycleUserYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/yes" />
-
-                <RadioButton
-                        android:id="@+id/userQuizAlreadyBicycleUserNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/no" />
-
-            </RadioGroup>
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/userQuizAlreadyBicycleUserOpenQuestion"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_minimum"
-                    android:hint="@string/user_quiz_how_much_time_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserAnswer"
-                    app:visibility="@{viewModel.showUseBPROpenQuestion}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.alreadyUseBPROpenQuestion}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                    android:id="@+id/userQuizMotivationOpenQuestionLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_motivation_question_label"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserOpenQuestion" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/userQuizMotivationOpenQuestion"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:hint="@string/user_quiz_motivation_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestionLabel">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.motivationOpenQuestion}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                    android:id="@+id/userQuizAccidentVictimQuestion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_accident_victim_question"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestion" />
-
-            <RadioGroup
-                    android:id="@+id/userQuizAccidentVictimAnswer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizAccidentVictimQuestion"
-                    app:radioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}">
-
-                <RadioButton
-                        android:id="@+id/userQuizAccidentVictimYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/yes" />
-
-                <RadioButton
-                        android:id="@+id/userQuizAccidentVictimNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/no" />
-
-            </RadioGroup>
-
-            <TextView
-                    android:id="@+id/userQuizProblemsOnWayOpenQuestionLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_problems_on_way_question_label"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizAccidentVictimAnswer" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/userQuizProblemsOnWayOpenQuestion"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:hint="@string/user_quiz_problems_on_way_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizProblemsOnWayOpenQuestionLabel">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.problemsOnWayOpenQuestion}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                    android:id="@+id/userQuizTimeOnWayOpenQuestionLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/user_quiz_time_on_way_question_label"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizProblemsOnWayOpenQuestion" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/userQuizTimeOnWayOpenQuestion"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:hint="@string/user_quiz_time_on_way_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizTimeOnWayOpenQuestionLabel">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.timeOnWayOpenQuestion}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <app.igormatos.botaprarodar.common.components.CustomEditText
+                android:id="@+id/userQuizTimeOnWayOpenQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:hint="@string/user_quiz_time_on_way_question"
+                android:inputType="number"
+                android:label="@string/user_quiz_time_on_way_question_label"
+                app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userQuizProblemsOnWayOpenQuestion"
+                app:textCaptured="@{viewModel.timeOnWayOpenQuestion}"
+                app:textValue="@={viewModel.timeOnWayOpenQuestion}"/>
 
             <Button
                     android:id="@+id/saveButton"
