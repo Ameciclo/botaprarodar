@@ -36,7 +36,7 @@ class ReturnBikeQuizViewModelTest {
 
         viewModel.isEnabled.observeForever(observerQuizForm)
         viewModel.problemsDuringRidingRg.value = "Não"
-//        viewModel.usedBikeToMoveRg.value = "Trabalho"
+        viewModel.reason.value = "Seu local de trabalho"
         viewModel.whichDistrict.value = "Bairro qualquer"
 
         verify {
@@ -52,7 +52,7 @@ class ReturnBikeQuizViewModelTest {
         viewModel.isEnabled.observeForever(observerQuizForm)
         viewModel.problemsDuringRidingRg.value = "Não"
         viewModel.needTakeRideRg.value = "Não"
-//        viewModel.usedBikeToMoveRg.value = "Trabalho"
+        viewModel.reason.value = "Seu local de trabalho"
         viewModel.whichDistrict.value = "Bairro qualquer"
 
         verify {
@@ -116,5 +116,16 @@ class ReturnBikeQuizViewModelTest {
         verify { viewModel.quizBuilder.withAnswer4(expectedGiveRide) }
 
         Assert.assertEquals(expectedGiveRide, viewModel.needTakeRideRg.value)
+    }
+
+    @Test
+    fun `should be able to choose an option when selecting reason to use the bike`() {
+        val expectedAnswer = "Seu local de trabalho"
+
+        viewModel.setUsedBikeToMove(expectedAnswer)
+
+        verify { viewModel.quizBuilder.withAnswer1(expectedAnswer) }
+
+        assertEquals(viewModel.reason.value, expectedAnswer)
     }
 }
