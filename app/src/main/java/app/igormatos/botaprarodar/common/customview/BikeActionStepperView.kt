@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.databinding.ItemStepperBinding
 import app.igormatos.botaprarodar.databinding.LayoutBikeActionStepperBinding
 import com.google.android.material.card.MaterialCardView
 
@@ -24,7 +25,6 @@ class BikeActionStepperView @JvmOverloads constructor(
     private lateinit var binding: LayoutBikeActionStepperBinding
     private val inflater = LayoutInflater.from(context)
 
-    //attrs
     private var currentIconBackground: Int = -1
     private var previousIconBackground: Int = -1
     private var nextIconBackground: Int = -1
@@ -66,10 +66,11 @@ class BikeActionStepperView @JvmOverloads constructor(
         }
 
         binding.stepperContainer.children.forEachIndexed { index, view ->
-            val connector = view.findViewById<View>(R.id.stepperConnector)
+            val itemStepperBinding = ItemStepperBinding.bind(view)
+            val connector = itemStepperBinding.stepperConnector
             val drawable = getDrawable(items[index].icon)
 
-            view.findViewById<ImageView>(R.id.stepperImage).setImageDrawable(drawable)
+            itemStepperBinding.stepperImage.setImageDrawable(drawable)
 
             when {
                 currentPosition < index -> {
@@ -111,10 +112,11 @@ class BikeActionStepperView @JvmOverloads constructor(
 
         if (nextPosition < items.size) {
             val nextViewChild = binding.stepperContainer.getChildAt(nextPosition)
+            val nextChildBinding = ItemStepperBinding.bind(nextViewChild)
+            val cardImageContainer = nextChildBinding.stepperImageCard
+            val connector = nextChildBinding.stepperConnector
+
             val currentViewChild = binding.stepperContainer.getChildAt(currentPosition)
-            val cardImageContainer =
-                nextViewChild.findViewById<MaterialCardView>(R.id.stepperImageCard)
-            val connector = nextViewChild.findViewById<View>(R.id.stepperConnector)
 
             changeStepStyle(nextViewChild, currentIconBackground, unselectedBackground)
             changeStepStyle(currentViewChild, previousIconBackground, selectBackground)
@@ -132,10 +134,12 @@ class BikeActionStepperView @JvmOverloads constructor(
 
         if (previousPosition >= 0) {
             val previousViewChild = binding.stepperContainer.getChildAt(previousPosition)
+            val previousChildBinding = ItemStepperBinding.bind(previousViewChild)
+            val cardImageContainer = previousChildBinding.stepperImageCard
+
             val currentViewChild = binding.stepperContainer.getChildAt(currentPosition)
-            val cardImageContainer =
-                previousViewChild.findViewById<MaterialCardView>(R.id.stepperImageCard)
-            val connector = currentViewChild.findViewById<View>(R.id.stepperConnector)
+            val currentChildBinding = ItemStepperBinding.bind(currentViewChild)
+            val connector = currentChildBinding.stepperConnector
 
             changeStepStyle(currentViewChild, nextIconBackground, unselectedBackground)
             changeStepStyle(previousViewChild, currentIconBackground, unselectedBackground)
@@ -150,7 +154,8 @@ class BikeActionStepperView @JvmOverloads constructor(
 
     fun completeAllSteps() {
         binding.stepperContainer.children.forEach {
-            val connector = it.findViewById<View>(R.id.stepperConnector)
+            val itemStepperBinding = ItemStepperBinding.bind(it)
+            val connector = itemStepperBinding.stepperConnector
             changeStepStyle(it, previousIconBackground, selectBackground)
             connector.changeConnectorBackgroundColor(selectBackground)
         }
@@ -163,12 +168,14 @@ class BikeActionStepperView @JvmOverloads constructor(
 
     private fun removeLastConnector() {
         val view = binding.stepperContainer.getChildAt(binding.stepperContainer.childCount - 1)
-        view.findViewById<View>(R.id.stepperConnector).visibility = View.GONE
+        val binding = ItemStepperBinding.bind(view)
+        binding.stepperConnector.visibility = View.GONE
     }
 
     private fun changeStepStyle(view: View, iconBackground: Int, imageBackground: Int) {
-        val imageView = view.findViewById<ImageView>(R.id.stepperImage)
-        val cardImageContainer = view.findViewById<MaterialCardView>(R.id.stepperImageCard)
+        val itemStepperBinding = ItemStepperBinding.bind(view)
+        val imageView = itemStepperBinding.stepperImage
+        val cardImageContainer = itemStepperBinding.stepperImageCard
 
         cardImageContainer.setCardBackgroundColor(imageBackground)
         cardImageContainer.strokeColor = iconBackground

@@ -6,14 +6,12 @@ import android.content.Intent
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelper
+import app.igormatos.botaprarodar.databinding.ItemCellBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Item
 import app.igormatos.botaprarodar.domain.model.User
@@ -78,14 +76,15 @@ class ItemAdapter(private var activity: Activity? = null) :
         viewType: Int
     ): androidx.recyclerview.widget.RecyclerView.ViewHolder {
 
-        val view = if (viewType == 0) {
-            LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = if (viewType == 0) {
+            ItemCellBinding.bind(inflater.inflate(R.layout.bicycle_cell, parent, false))
         } else {
-            LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
+            ItemCellBinding.inflate(inflater)
         }
 
         return ItemCellViewHolder(
-            view
+            binding
         )
     }
 
@@ -101,13 +100,20 @@ class ItemAdapter(private var activity: Activity? = null) :
         return filteredList.count()
     }
 
-    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, index: Int) {
+    override fun onBindViewHolder(
+        holder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+        index: Int
+    ) {
         val item = filteredList[index]
 
         if (withdrawalInProgress == null) {
             (holder as ItemCellViewHolder).bind(item, activity)
         } else {
-            (holder as ItemCellViewHolder).bindUserSelection(item, withdrawalInProgress!!, activity!!)
+            (holder as ItemCellViewHolder).bindUserSelection(
+                item,
+                withdrawalInProgress!!,
+                activity!!
+            )
         }
 
     }
@@ -140,13 +146,14 @@ class ItemAdapter(private var activity: Activity? = null) :
         notifyDataSetChanged()
     }
 
-    class ItemCellViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class ItemCellViewHolder(val bindingItemCell: ItemCellBinding) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(bindingItemCell.root) {
 
         fun bindUserSelection(item: Item, withdrawalInProgress: Withdraw, activity: Activity) {
-            itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
-            itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
+            bindingItemCell.cellTitle.text = item.title()
+            bindingItemCell.cellSubtitle.text = item.subtitle()
 
-            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
+            val imageView = bindingItemCell.cellImageView
             Glide.with(itemView.context)
                 .load(item.iconPath())
                 .into(imageView)
@@ -199,10 +206,9 @@ class ItemAdapter(private var activity: Activity? = null) :
             item: Item,
             activity: Activity? = null
         ) {
-
-            itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
-            itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
-            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
+            bindingItemCell.cellTitle.text = item.title()
+            bindingItemCell.cellSubtitle.text = item.subtitle()
+            val imageView = bindingItemCell.cellImageView
 
             if (item !is Withdraw) {
                 itemView.setOnLongClickListener {
@@ -231,13 +237,17 @@ class ItemAdapter(private var activity: Activity? = null) :
                 val isAvailable = item.inUse?.not() ?: true
 
                 if (!isAvailable) {
-                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
-                        R.color.rent
-                    ))
+                    itemView.cellContainer.setBackgroundColor(
+                        itemView.resources.getColor(
+                            R.color.rent
+                        )
+                    )
                 } else {
-                    itemView.cellContainer.setBackgroundColor(itemView.resources.getColor(
-                        R.color.white
-                    ))
+                    itemView.cellContainer.setBackgroundColor(
+                        itemView.resources.getColor(
+                            R.color.white
+                        )
+                    )
                 }
 
                 itemView.setOnClickListener {
@@ -248,7 +258,10 @@ class ItemAdapter(private var activity: Activity? = null) :
                         withdrawalInProgress.bicycle_id = item.id
                         withdrawalInProgress.bicycle_image_path = item.photoPath
 
-                        intent.putExtra(WITHDRAWAL_EXTRA, Parcels.wrap(Withdraw::class.java, withdrawalInProgress))
+                        intent.putExtra(
+                            WITHDRAWAL_EXTRA,
+                            Parcels.wrap(Withdraw::class.java, withdrawalInProgress)
+                        )
                         intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
                         activity.startActivityForResult(intent, Activity.RESULT_OK)
                     } else {
@@ -279,14 +292,14 @@ class ItemAdapter(private var activity: Activity? = null) :
                 imageView.setImageResource(withdrawIcon)
             } else if (item is User) {
                 imageView.loadPathOnCircle(item.iconPath())
-            } else if (item is Bike && !item.isAvailable){
+            } else if (item is Bike && !item.isAvailable) {
                 Glide.with(itemView.context)
                     .load(item.iconPath())
                     .into(imageView)
 
-                val colorMatrix =  ColorMatrix()
+                val colorMatrix = ColorMatrix()
                 colorMatrix.setSaturation(0.0f)
-                val filter =  ColorMatrixColorFilter(colorMatrix)
+                val filter = ColorMatrixColorFilter(colorMatrix)
                 imageView.colorFilter = filter
 
             } else {
