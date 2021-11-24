@@ -7,9 +7,6 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +17,9 @@ import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setImagePathOrUrl
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
+import app.igormatos.botaprarodar.databinding.DialogChangeImageBinding
+import app.igormatos.botaprarodar.databinding.DialogDeleteImageBinding
+import app.igormatos.botaprarodar.databinding.DialogTipBinding
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.extensions.takePictureIntent
@@ -229,15 +229,15 @@ class UserFormFragment : Fragment() {
         subtitle: String,
         click: (Boolean) -> Unit
     ) {
-        val tipLayout = layoutInflater.inflate(R.layout.dialog_tip, null)
+        val tipDialogBinding = DialogTipBinding.inflate(layoutInflater)
 
-        tipLayout.findViewById<ImageView>(R.id.tipImage).image =
-            ContextCompat.getDrawable(requireContext(), image)
-        tipLayout.findViewById<TextView>(R.id.tipTitle).text = title
-        tipLayout.findViewById<TextView>(R.id.tipSubtitle).text = subtitle
+
+        tipDialogBinding.tipImage.image = ContextCompat.getDrawable(requireContext(), image)
+        tipDialogBinding.tipTitle.text = title
+        tipDialogBinding.tipSubtitle.text = subtitle
 
         MaterialAlertDialogBuilder(requireContext())
-            .setView(tipLayout)
+            .setView(tipDialogBinding.root)
             .setPositiveButton(getString(R.string.camera_dialog_positive_button_text)) { _, _ ->
                 click(true)
             }
@@ -246,41 +246,38 @@ class UserFormFragment : Fragment() {
     }
 
     private fun openDialogChangeImage() {
-        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_change_image, null)
+        val changeImageLayout = DialogChangeImageBinding.inflate(layoutInflater)
         val builder = MaterialAlertDialogBuilder(requireContext()).create()
-        builder.setView(changeImageLayout)
+        builder.setView(changeImageLayout.root)
         builder.show()
 
-        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setImagePathOrUrl(
-            binding.viewModel?.userImageDocumentResidence?.value.orEmpty()
-        )
-        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+        changeImageLayout.dialogImage.setImagePathOrUrl(binding.viewModel?.userImageDocumentResidence?.value.orEmpty())
+        changeImageLayout.submitButton.setOnClickListener {
             builder.cancel()
             openDialogDeleteImage()
         }
-        changeImageLayout.findViewById<ImageView>(R.id.dialogImage).setOnClickListener {
+        changeImageLayout.dialogImage.setOnClickListener {
             dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
             builder.cancel()
         }
-        changeImageLayout.findViewById<ImageView>(R.id.closeDialog)
-            .setOnClickListener { builder.cancel() }
+        changeImageLayout.closeDialog.setOnClickListener { builder.cancel() }
     }
 
     private fun openDialogDeleteImage() {
-        val changeImageLayout = layoutInflater.inflate(R.layout.dialog_delete_image, null)
+        val changeImageLayout = DialogDeleteImageBinding.inflate(layoutInflater)
         val builder = MaterialAlertDialogBuilder(requireContext()).create()
-        builder.setView(changeImageLayout)
+        builder.setView(changeImageLayout.root)
         builder.show()
 
-        changeImageLayout.findViewById<Button>(R.id.submitButton).setOnClickListener {
+        changeImageLayout.submitButton.setOnClickListener {
             binding.viewModel?.deleteProofResidenceImage()
             builder.cancel()
         }
-        changeImageLayout.findViewById<Button>(R.id.dialogImage).setOnClickListener {
+        changeImageLayout.dialogImage.setOnClickListener {
             builder.cancel()
             openDialogChangeImage()
         }
-        changeImageLayout.findViewById<ImageView>(R.id.closeDialog).setOnClickListener {
+        changeImageLayout.closeDialog.setOnClickListener {
             builder.cancel()
         }
     }

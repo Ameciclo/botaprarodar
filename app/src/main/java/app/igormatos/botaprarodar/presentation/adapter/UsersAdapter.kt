@@ -1,8 +1,6 @@
-
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -12,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.UsersItemBinding
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
+import com.brunotmgomes.ui.extensions.visible
 
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
@@ -73,21 +73,37 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
         fun onUserClicked(user: User)
     }
 
-    inner class UsersViewHolder(val binding: UsersItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class UsersViewHolder(val binding: UsersItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User) {
             binding.tvNameUserItem.text = user.title()
+            binding.tvUserPhoneNumber.text = user.telephoneHide4Chars()
             user.profilePictureThumbnail?.let { profileImage ->
                 binding.ivUserItem.loadPathOnCircle(profileImage)
             }
-            binding.tvRegisteredSinceUserItem.text = itemView.context.getString(R.string.user_created_since, user.createdDate)
 
             binding.root.setOnClickListener { listener.onUserClicked(user) }
 
+            userIsBlocked(user)
+            auxiliarText(user)
+        }
+
+        private fun userIsBlocked(user: User) {
             if (user.isBlocked)
-                binding.userBlockedIcon.visibility = View.VISIBLE
+                binding.userBlockedIcon.visible()
             else
-                binding.userBlockedIcon.visibility = View.GONE
+                binding.userBlockedIcon.gone()
+        }
+
+        private fun auxiliarText(user: User) {
+            if (user.hasActiveWithdraw) {
+                binding.tvActiveWithdraw.visible()
+                binding.tvUserPhoneNumber.gone()
+            } else {
+                binding.tvActiveWithdraw.gone()
+                binding.tvUserPhoneNumber.visible()
+            }
         }
     }
 

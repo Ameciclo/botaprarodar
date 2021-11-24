@@ -77,7 +77,7 @@ class UsersFragmentTest {
         usersFragment {
         } verify {
             checkUserName()
-            checkUserDate()
+            checkUserPhoneNumber()
         }
     }
 

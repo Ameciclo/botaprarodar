@@ -6,6 +6,7 @@ import android.view.View
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.customview.BikeActionStepperView
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.databinding.ItemStepperBinding
 import junit.framework.Assert.assertEquals
 import kotlinx.android.synthetic.main.layout_bike_action_stepper.view.*
 import org.junit.After
@@ -95,8 +96,9 @@ class BikeActionStepperViewTest {
         stepper.addItems(mock)
         val lastPositionList = mock.size - 1
         val lastView = stepper.stepperContainer.getChildAt(lastPositionList)
+        val lastViewBinding = ItemStepperBinding.bind(lastView)
+        val connectorView = lastViewBinding.stepperConnector
 
-        val connectorView = lastView.findViewById<View>(R.id.stepperConnector)
         assert(connectorView.visibility == View.GONE)
     }
 }
