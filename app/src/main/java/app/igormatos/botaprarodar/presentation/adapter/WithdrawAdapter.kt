@@ -1,12 +1,12 @@
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.databinding.ItemCellBinding
 import app.igormatos.botaprarodar.domain.model.Withdraw
 
 class WithdrawAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -18,11 +18,11 @@ class WithdrawAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         viewType: Int
     ): RecyclerView.ViewHolder {
 
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_cell, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemCellBinding.inflate(inflater)
 
         return WithdrawViewHolder(
-            view
+            binding
         )
     }
 
@@ -56,12 +56,14 @@ class WithdrawAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemChanged(index)
     }
 
-    class WithdrawViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class WithdrawViewHolder(val binding: ItemCellBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
 
         fun bind(item: Withdraw) {
-            itemView.findViewById<TextView>(R.id.cellTitle).text = item.title()
-            itemView.findViewById<TextView>(R.id.cellSubtitle).text = item.subtitle()
-            val imageView = itemView.findViewById<ImageView>(R.id.cellImageView)
+            binding.cellTitle.text = item.title()
+            binding.cellSubtitle.text = item.subtitle()
+            val imageView = binding.cellImageView
 
             val withdrawIcon = if (item.isRent())
                 R.drawable.ic_bike_left_24dp

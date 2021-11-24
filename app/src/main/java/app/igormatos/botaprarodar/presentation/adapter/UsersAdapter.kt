@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -11,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.UsersItemBinding
 import app.igormatos.botaprarodar.domain.model.User
+import com.brunotmgomes.ui.extensions.gone
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
+import com.brunotmgomes.ui.extensions.visible
 
 class UsersAdapter(private val listener: UsersAdapterListener) :
     ListAdapter<User, UsersAdapter.UsersViewHolder>(UsersDiffUtil()), Filterable {
@@ -90,18 +91,18 @@ class UsersAdapter(private val listener: UsersAdapterListener) :
 
         private fun userIsBlocked(user: User) {
             if (user.isBlocked)
-                binding.userBlockedIcon.visibility = View.VISIBLE
+                binding.userBlockedIcon.visible()
             else
-                binding.userBlockedIcon.visibility = View.GONE
+                binding.userBlockedIcon.gone()
         }
 
         private fun auxiliarText(user: User) {
             if (user.hasActiveWithdraw) {
-                binding.tvActiveWithdraw.visibility = View.VISIBLE
-                binding.tvUserPhoneNumber.visibility = View.GONE
+                binding.tvActiveWithdraw.visible()
+                binding.tvUserPhoneNumber.gone()
             } else {
-                binding.tvActiveWithdraw.visibility = View.GONE
-                binding.tvUserPhoneNumber.visibility = View.VISIBLE
+                binding.tvActiveWithdraw.gone()
+                binding.tvUserPhoneNumber.visible()
             }
         }
     }

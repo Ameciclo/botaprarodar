@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.common.components.CustomDialog
+import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserQuizBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import com.brunotmgomes.ui.extensions.createLoading
@@ -76,8 +77,6 @@ class UserQuizFragment : Fragment() {
             }
         })
 
-
-
         viewModel.lgpd.observe(viewLifecycleOwner, Observer {
             if (viewModel.editMode) {
                 viewModel.registerUser()
@@ -85,6 +84,10 @@ class UserQuizFragment : Fragment() {
                 showConfirmDialog()
             }
         })
+
+        binding.userQuizTimeOnWayOpenQuestion.addMask(
+            EditTextFormatMask.FORMAT_HOUR
+        )
     }
 
     private fun showConfirmDialog() {
