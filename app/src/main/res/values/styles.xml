@@ -55,4 +55,16 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
+    <style name="SubtitleExpandedCardConfirmation" parent="TitleExpandedCardConfirmation">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TitleExpandedCardConfirmation">
+        <item name="android:textColor">@color/text_gray</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
 </resources>

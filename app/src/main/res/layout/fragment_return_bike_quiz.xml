@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,193 +10,158 @@
     </data>
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium">
 
             <TextView
-                    android:id="@+id/usedBikeToMove"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/used_bike_to_move"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            <RadioGroup
-                    android:id="@+id/usedBikeToMoveRg"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/usedBikeToMove"
-                    app:setRadioGroupReasonCheck="@{viewModel.usedBikeToMoveRg}">
-
-                <RadioButton
-                        android:id="@+id/workplaceRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/workplaceRb)}"
-                        android:text="@string/your_workplace" />
-
-                <RadioButton
-                        android:id="@+id/studyRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/studyRb)}"
-                        android:text="@string/your_place_study" />
-
-                <RadioButton
-                        android:id="@+id/entertainmentRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/entertainmentRb)}"
-                        android:text="@string/your_place_entertainment" />
-
-                <RadioButton
-                        android:id="@+id/shoppingRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/shoppingRb)}"
-                        android:text="@string/your_place_shopping" />
-
-                <RadioButton
-                        android:id="@+id/childStudyRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/childStudyRb)}"
-                        android:text="@string/child_study_place" />
-
-                <RadioButton
-                        android:id="@+id/otherRb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setUsedBikeToMoveRb(@id/otherRb)}"
-                        android:text="@string/other_reason" />
-
-            </RadioGroup>
+                android:id="@+id/usedBikeToMove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/used_bike_to_move"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_14"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/whichDistrict"
-                    style="@style/textInputLayout"
-                    android:layout_width="0dp"
+                android:id="@+id/usedBikeToMoveDropdownLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/usedBikeToMove">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/usedBikeToMoveSelection"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:hint="@string/which_district_hint"
-                    app:errorDistrictName="@{viewModel.whichDistrict}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/usedBikeToMoveRg">
+                    android:hint="@string/hint_user_racial"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/whichDistrict"
+                style="@style/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:hint="@string/which_district_hint"
+                app:errorDistrictName="@{viewModel.whichDistrict}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/usedBikeToMoveDropdownLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@={viewModel.whichDistrict}" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:text="@={viewModel.whichDistrict}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                    android:id="@+id/problemsDuringRiding"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:lineSpacingExtra="3dp"
-                    android:text="@string/problems_during_riding"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/whichDistrict" />
+                android:id="@+id/problemsDuringRiding"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/problems_during_riding"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/whichDistrict" />
 
             <RadioGroup
-                    android:id="@+id/problemsDuringRidingRg"
-                    android:layout_width="0dp"
+                android:id="@+id/problemsDuringRidingRg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/problemsDuringRiding"
+                app:setRadioGroupReasonSufferedViolenceCheck="@{viewModel.problemsDuringRidingRg}">
+
+                <RadioButton
+                    android:id="@+id/problemsDuringRidingYes"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/problemsDuringRiding"
-                    app:setRadioGroupReasonSufferedViolenceCheck="@{viewModel.problemsDuringRidingRg}">
+                    android:onClick="@{() -> viewModel.setProblemsDuringRidingRb(@id/problemsDuringRidingYes)}"
+                    android:text="@string/yes" />
 
                 <RadioButton
-                        android:id="@+id/problemsDuringRidingYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setProblemsDuringRidingRb(@id/problemsDuringRidingYes)}"
-                        android:text="@string/yes" />
-
-                <RadioButton
-                        android:id="@+id/problemsDuringRidingNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:onClick="@{() -> viewModel.setProblemsDuringRidingRb(@id/problemsDuringRidingNo)}"
-                        android:text="@string/no" />
+                    android:id="@+id/problemsDuringRidingNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:onClick="@{() -> viewModel.setProblemsDuringRidingRb(@id/problemsDuringRidingNo)}"
+                    android:text="@string/no" />
             </RadioGroup>
 
             <TextView
-                    android:id="@+id/needTakeRide"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/need_take_ride"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/text_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/problemsDuringRidingRg" />
+                android:id="@+id/needTakeRide"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/need_take_ride"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/problemsDuringRidingRg" />
 
             <RadioGroup
-                    android:id="@+id/needTakeRideRg"
-                    android:layout_width="0dp"
+                android:id="@+id/needTakeRideRg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/needTakeRide"
+                app:setRadioGroupGiveRideCheck="@{viewModel.needTakeRideRg}">
+
+                <RadioButton
+                    android:id="@+id/needTakeRideYes"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/needTakeRide"
-                    app:setRadioGroupGiveRideCheck="@{viewModel.needTakeRideRg}">
+                    android:onClick="@{() -> viewModel.setNeedTakeRideRb(@id/needTakeRideYes)}"
+                    android:text="@string/yes" />
 
                 <RadioButton
-                        android:id="@+id/needTakeRideYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.setNeedTakeRideRb(@id/needTakeRideYes)}"
-                        android:text="@string/yes" />
-
-                <RadioButton
-                        android:id="@+id/needTakeRideNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:onClick="@{() -> viewModel.setNeedTakeRideRb(@id/needTakeRideNo)}"
-                        android:text="@string/no" />
+                    android:id="@+id/needTakeRideNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:onClick="@{() -> viewModel.setNeedTakeRideRb(@id/needTakeRideNo)}"
+                    android:text="@string/no" />
             </RadioGroup>
 
             <Button
-                    android:id="@+id/sendAnswerButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:enabled="@{viewModel.isEnabled}"
-                    android:onClick="@{() -> viewModel.finishQuiz()}"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/send_answers_button"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/needTakeRideRg" />
+                android:id="@+id/sendAnswerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:enabled="@{viewModel.isEnabled}"
+                android:onClick="@{() -> viewModel.finishQuiz()}"
+                android:padding="@dimen/padding_medium"
+                android:text="@string/send_answers_button"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/needTakeRideRg" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

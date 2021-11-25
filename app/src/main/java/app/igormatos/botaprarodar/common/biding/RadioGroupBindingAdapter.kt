@@ -7,13 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByGiveRide
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdByReason
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.getRadioButtonIdBySufferedViolence
-
-@BindingAdapter("setRadioGroupReasonCheck")
-fun RadioGroup.setRadioGroupReasonCheck(reasonId: String) {
-    this.check(getRadioButtonIdByReason(reasonId))
-}
 
 @BindingAdapter("setRadioGroupReasonSufferedViolenceCheck")
 fun RadioGroup.setRadioGroupSufferedViolenceCheck(reasonId: String) {

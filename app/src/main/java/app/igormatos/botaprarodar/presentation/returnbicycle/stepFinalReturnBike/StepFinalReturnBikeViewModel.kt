@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class StepFinalReturnBikeViewModel(
@@ -29,10 +30,16 @@ class StepFinalReturnBikeViewModel(
         get() = _restartDevolutionFlow
 
     private val date = Calendar.getInstance().time
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-    val devolutionDate = dateFormat.format(date)
+    val devolution = formattedDate("dd MMM yyyy").format(date).replace(" ", " de ")
+    private val devolutionDate = formattedDate().format(date)
 
     fun getBikeHolder() = bikeHolder.bike
+
+    val withdrawDate
+        get() =
+            formattedDate().parse(getBikeHolder()?.getLastWithdraw()?.date).let { baseDate ->
+                formattedDate("dd MMM yyyy").format(baseDate).replace(" ", " de ")
+            }
 
     fun finalizeDevolution() {
         _state.value = UiState.Loading

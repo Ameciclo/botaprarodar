@@ -4,8 +4,8 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
-import java.text.SimpleDateFormat
 import java.util.*
+import app.igormatos.botaprarodar.common.utils.formattedDate
 
 fun Bike.convertToBikeRequest(): BikeRequest {
     val withdrawsMap = this.withdraws?.map {
@@ -37,10 +37,7 @@ fun Bike.convertToBikeRequest(): BikeRequest {
 fun Bike.getLastWithdraw(): Withdraws? {
     val lastWithdraw = this.withdraws?.let { withdrawList ->
         withdrawList.mapNotNull { withdraw ->
-            val dateFormater = SimpleDateFormat(
-                "dd/MM/yyyy HH:mm:ss",
-                Locale.getDefault()
-            ).parse(withdraw.date)
+            val dateFormater = formattedDate().parse(withdraw.date)
             try {
                 Pair(withdraw, dateFormater)
             } catch (e: Exception) {
@@ -57,10 +54,7 @@ fun Bike.getLastWithdraw(): Withdraws? {
 fun Bike.getLastDevolution(): Devolution? {
     val lastDevolution = this.devolutions?.let { devolutionList ->
         devolutionList.mapNotNull { devolution ->
-            val dateFormatter = SimpleDateFormat(
-                "dd/MM/yyyy HH:mm:ss",
-                Locale.getDefault()
-            ).parse(devolution.date.orEmpty())
+            val dateFormatter = formattedDate().parse(devolution.date.orEmpty())
             try {
                 Pair(devolution, dateFormatter)
             } catch (e: Exception) {

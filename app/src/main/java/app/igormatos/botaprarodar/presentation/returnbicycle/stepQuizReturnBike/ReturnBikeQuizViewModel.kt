@@ -6,44 +6,37 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 
 class ReturnBikeQuizViewModel(
     val stepperAdapter: ReturnStepper,
     val quizBuilder: BikeDevolutionQuizBuilder
 ) : ViewModel() {
 
-    private val _clickToNextFragment = MutableLiveData<Boolean>(false)
+    private val _clickToNextFragment = MutableLiveData(false)
     val clickToNextFragment: LiveData<Boolean> = _clickToNextFragment
 
-    val usedBikeToMoveRg = MutableLiveData(RADIO_INITIAL_VALUE)
-    val problemsDuringRidingRg = MutableLiveData(RADIO_INITIAL_VALUE)
-    val needTakeRideRg = MutableLiveData(RADIO_INITIAL_VALUE)
+    val reason = MutableLiveData(INITIAL_VALUE)
+    val problemsDuringRidingRg = MutableLiveData(INITIAL_VALUE)
+    val needTakeRideRg = MutableLiveData(INITIAL_VALUE)
     val whichDistrict = MutableLiveData("")
 
     val isEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(usedBikeToMoveRg) {
-            validateQuiz()
-        }
-        addSource(problemsDuringRidingRg) {
-            validateQuiz()
-        }
-        addSource(needTakeRideRg) {
-            validateQuiz()
-        }
-        addSource(whichDistrict) {
-            validateQuiz()
-        }
+        addSource(reason) { validateQuiz() }
+        addSource(problemsDuringRidingRg) { validateQuiz() }
+        addSource(needTakeRideRg) { validateQuiz() }
+        addSource(whichDistrict) { validateQuiz() }
     }
 
     private fun validateQuiz() {
-        isEnabled.value = usedBikeToMoveRg.value.isRadioValid() &&
+        isEnabled.value = reason.value.isNotNullOrNotBlank() &&
                 problemsDuringRidingRg.value.isRadioValid() &&
                 needTakeRideRg.value.isRadioValid() &&
                 isTextValid(whichDistrict.value)
 
     }
 
-    private fun String?.isRadioValid() = this != RADIO_INITIAL_VALUE
+    private fun String?.isRadioValid() = this != INITIAL_VALUE
 
     private fun isTextValid(data: String?) = !data.isNullOrBlank()
 
@@ -60,9 +53,9 @@ class ReturnBikeQuizViewModel(
         _clickToNextFragment.postValue(true)
     }
 
-    fun setUsedBikeToMoveRb(id: Int) {
-        usedBikeToMoveRg.value = getReasonByRadioButton(id)
-        quizBuilder.withAnswer1(getReasonByRadioButton(id))
+    fun setUsedBikeToMove(reason: String) {
+        this.reason.value = reason
+        quizBuilder.withAnswer1(reason)
     }
 
     fun setProblemsDuringRidingRb(id: Int) {
@@ -76,6 +69,6 @@ class ReturnBikeQuizViewModel(
     }
 
     companion object {
-        private const val RADIO_INITIAL_VALUE = ""
+        private const val INITIAL_VALUE = ""
     }
 }
