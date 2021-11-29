@@ -27,7 +27,7 @@ class BicyclesAdapter(private val bikeListener: BicycleAdapterListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BicycleViewHolder {
         val inflater =  LayoutInflater.from(parent.context)
-        val binding = BicycleCellBinding.inflate(inflater)
+        val binding = BicycleCellBinding.inflate(inflater, parent, false)
 
         bikes = currentList
         return BicycleViewHolder(binding)

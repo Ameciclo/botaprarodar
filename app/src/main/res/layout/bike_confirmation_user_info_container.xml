@@ -23,6 +23,7 @@
             android:id="@+id/userImage"
             android:layout_width="75dp"
             android:layout_height="75dp"
+            android:contentDescription="@{@string/user_image(viewModel.userName)}"
             android:padding="@dimen/padding_small"
             android:scaleType="fitXY"
             app:imagePathOrUrlCircle="@{viewModel.userImageUrl}"
@@ -62,11 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_minimum"
-                android:textStyle="bold"
                 android:fontFamily="@font/roboto"
                 android:text="@{@string/bike_withdraw_date(viewModel.withdrawDate)}"
                 android:textColor="@color/text_gray"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 tools:text="Data de empréstimo: 15/02/2021" />
 
             <TextView

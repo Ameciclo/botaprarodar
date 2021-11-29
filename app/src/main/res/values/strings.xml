@@ -362,4 +362,9 @@
 
     <!-- Withdraw bike -->
     <string name="user_phone_number">Telefone: 11 •••• 4562</string>
+
+    <!-- Content Descriptions -->
+    <string name="bicycle_image">Imagem da Bibicleta %s</string>
+    <string name="add_bicycle_photo">Adicionar foto da bicicleta</string>
+    <string name="user_image">Imagem do usuário %s</string>
 </resources>
