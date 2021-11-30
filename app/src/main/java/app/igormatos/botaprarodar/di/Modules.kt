@@ -14,8 +14,6 @@ import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
-import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
@@ -253,10 +251,6 @@ val bprModule = module {
     }
 
     single {
-        UserRequestConvert()
-    }
-
-    single {
         BikeActionUseCase(get())
     }
 
@@ -316,7 +310,6 @@ val bprModule = module {
         UserFormUseCase(
             userRepository = get(),
             firebaseHelperRepository = get(),
-            userConverter = get(),
         )
     }
 
