@@ -224,15 +224,6 @@ class ItemAdapter(private var activity: Activity? = null) :
                 }
             }
 
-
-            if (item is User) {
-                itemView.setOnClickListener {
-                    //val intent = Intent(itemView.context, UserFormActivity::class.java)
-                    //intent.putExtra(USER_EXTRA, Parcels.wrap(User::class.java, item))
-                    //itemView.context.startActivity(intent)
-                }
-            }
-
             if (item is Bike && activity is WithdrawActivity) {
                 val isAvailable = item.inUse?.not() ?: true
 
@@ -250,27 +241,27 @@ class ItemAdapter(private var activity: Activity? = null) :
                     )
                 }
 
-                itemView.setOnClickListener {
-                    if (isAvailable) {
-                        val intent = Intent(itemView.context, ChooseUserActivity::class.java)
-                        val withdrawalInProgress = Withdraw()
-                        withdrawalInProgress.bicycle_name = item.name
-                        withdrawalInProgress.bicycle_id = item.id
-                        withdrawalInProgress.bicycle_image_path = item.photoPath
-
-                        intent.putExtra(
-                            WITHDRAWAL_EXTRA,
-                            Parcels.wrap(Withdraw::class.java, withdrawalInProgress)
-                        )
-                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
-                        activity.startActivityForResult(intent, Activity.RESULT_OK)
-                    } else {
-                        val intent = Intent(itemView.context, WithdrawActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
-                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
-                        activity.startActivityForResult(intent, Activity.RESULT_OK)
-                    }
-                }
+//                itemView.setOnClickListener {
+//                    if (isAvailable) {
+//                        val intent = Intent(itemView.context, ChooseUserActivity::class.java)
+//                        val withdrawalInProgress = Withdraw()
+//                        withdrawalInProgress.bicycle_name = item.name
+//                        withdrawalInProgress.bicycle_id = item.id
+//                        withdrawalInProgress.bicycle_image_path = item.photoPath
+//
+//                        intent.putExtra(
+//                            WITHDRAWAL_EXTRA,
+//                            Parcels.wrap(Withdraw::class.java, withdrawalInProgress)
+//                        )
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
+//                        activity.startActivityForResult(intent, Activity.RESULT_OK)
+//                    } else {
+//                        val intent = Intent(itemView.context, WithdrawActivity::class.java)
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
+//                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
+//                        activity.startActivityForResult(intent, Activity.RESULT_OK)
+//                    }
+//                }
             }
 
             if (item is Bike && activity != null && activity !is WithdrawActivity) {
