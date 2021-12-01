@@ -33,7 +33,6 @@ import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
@@ -266,10 +265,6 @@ val bprModule = module {
             adminRepository = get(),
             passwordValidator = get(named(PASSWORD_VALIDATOR_NAME))
         )
-    }
-
-    viewModel {
-        RegistrationViewModel(get())
     }
 
     viewModel {

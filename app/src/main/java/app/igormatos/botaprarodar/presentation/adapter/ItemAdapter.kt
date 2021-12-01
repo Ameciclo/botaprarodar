@@ -18,10 +18,6 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.Withdraw
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity.Companion.BIKE_EXTRA
-import app.igormatos.botaprarodar.presentation.bikewithdraw.choosebicycle.WithdrawActivity
-import app.igormatos.botaprarodar.presentation.bikewithdraw.chooseuser.ChooseUserActivity
-import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_BICYCLE
-import app.igormatos.botaprarodar.presentation.returnbicycle.WITHDRAWAL_EXTRA
 import com.brunotmgomes.ui.extensions.loadPathOnCircle
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_cell.view.*
@@ -86,14 +82,6 @@ class ItemAdapter(private var activity: Activity? = null) :
         return ItemCellViewHolder(
             binding
         )
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (itemsList[position] is Bike && activity !is WithdrawActivity) {
-            0
-        } else {
-            1
-        }
     }
 
     override fun getItemCount(): Int {
@@ -224,22 +212,7 @@ class ItemAdapter(private var activity: Activity? = null) :
                 }
             }
 
-            if (item is Bike && activity is WithdrawActivity) {
-                val isAvailable = item.inUse?.not() ?: true
 
-                if (!isAvailable) {
-                    itemView.cellContainer.setBackgroundColor(
-                        itemView.resources.getColor(
-                            R.color.rent
-                        )
-                    )
-                } else {
-                    itemView.cellContainer.setBackgroundColor(
-                        itemView.resources.getColor(
-                            R.color.white
-                        )
-                    )
-                }
 
 //                itemView.setOnClickListener {
 //                    if (isAvailable) {
@@ -262,17 +235,7 @@ class ItemAdapter(private var activity: Activity? = null) :
 //                        activity.startActivityForResult(intent, Activity.RESULT_OK)
 //                    }
 //                }
-            }
 
-            if (item is Bike && activity != null && activity !is WithdrawActivity) {
-
-                itemView.setOnClickListener {
-                    val intent = Intent(it.context, BikeFormActivity::class.java)
-                    intent.putExtra(BIKE_EXTRA, Parcels.wrap(Bike::class.java, item))
-                    activity.startActivity(intent)
-                }
-
-            }
 
             if (item is Withdraw) {
                 val withdrawIcon = if (item.isRent())
