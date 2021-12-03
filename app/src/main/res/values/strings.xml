@@ -138,8 +138,8 @@
 
     <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
 
-    <string name="user_form_user_age_label">Idade</string>
-    <string name="user_form_user_age_hint">DD/MM/AAAA</string>
+    <string name="user_form_user_birthday_label">Nascimento</string>
+    <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
 
     <string name="user_form_user_income_label">Renda Mensal</string>
 

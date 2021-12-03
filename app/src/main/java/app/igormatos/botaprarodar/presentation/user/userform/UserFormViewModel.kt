@@ -37,7 +37,7 @@ class UserFormViewModel(
     var userSchooling = MutableLiveData("")
     var userSchoolingStatus = MutableLiveData("")
     var userIncome = MutableLiveData("")
-    var userAge = MutableLiveData("")
+    var userBirthday = MutableLiveData("")
     var userTelephone = MutableLiveData("")
     var selectedSchoolingIndex = 0
     var selectedSchoolingStatusIndex = MutableLiveData(0)
@@ -58,7 +58,7 @@ class UserFormViewModel(
         addSource(userRacial) { validateUserForm() }
         addSource(userSchooling) { validateUserForm() }
         addSource(userIncome) { validateUserForm() }
-        addSource(userAge) { validateUserForm() }
+        addSource(userBirthday) { validateUserForm() }
         addSource(userTelephone) { validateUserForm() }
     }
 
@@ -101,7 +101,7 @@ class UserFormViewModel(
             userSchooling.value = this.schooling.orEmpty()
             userSchoolingStatus.value = this.schoolingStatus.orEmpty()
             userIncome.value = this.income.orEmpty()
-            userAge.value = this.age.orEmpty()
+            userBirthday.value = this.birthday.orEmpty()
             userTelephone.value = this.telephone.orEmpty()
         }
         setSelectSchoolingStatusIndex(getSelectedSchoolingStatusListIndex())
@@ -122,7 +122,7 @@ class UserFormViewModel(
                 userSchooling.value.isNotNullOrNotBlank() &&
                 userSchoolingStatus.value.isNotNullOrNotBlank() &&
                 userIncome.value.isNotNullOrNotBlank() &&
-                userAge.value.isNotNullOrNotBlank() &&
+                userBirthday.value.isNotNullOrNotBlank() &&
                 (userTelephone.value.isNullOrEmpty() || userTelephone.value.isValidTelephone()) &&
                 userGender.value.isNotNullOrNotBlank()
 
@@ -153,7 +153,7 @@ class UserFormViewModel(
             schooling = userSchooling.value
             schoolingStatus = userSchoolingStatus.value
             income = userIncome.value
-            age = userAge.value
+            birthday = userBirthday.value
             telephone = userTelephone.value
         }
     }

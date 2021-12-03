@@ -26,7 +26,7 @@ val validUser = User().apply {
     schooling = "Ensino superior completo"
     schoolingStatus = "Completo"
     income = "0"
-    age = "xx"
+    birthday = "xx"
 }
 
 val unavailableUserFake = User().apply {
@@ -48,7 +48,7 @@ val unavailableUserFake = User().apply {
     schooling = "Ensino superior completo"
     schoolingStatus = "Completo"
     income = "0"
-    age = "xx"
+    birthday = "xx"
 }
 
 val userRequest = UserRequest(
