@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.data.network.NoConnectionInterceptor
 import app.igormatos.botaprarodar.databinding.ActivityTripDetailBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
@@ -57,7 +58,11 @@ class TripDetailActivity : AppCompatActivity() {
                     setupTripDetailView(it.data)
                 }
                 is SimpleResult.Error -> {
-                    showErrorMessage(getString(R.string.unkown_error))
+                    if (it.exception is NoConnectionInterceptor.NoConnectivityException) {
+                        showErrorMessage(getString(R.string.connection_error))
+                    } else {
+                        showErrorMessage(getString(R.string.unkown_error))
+                    }
                 }
             }
         })

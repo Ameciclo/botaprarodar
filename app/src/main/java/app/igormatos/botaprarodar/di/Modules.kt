@@ -4,6 +4,7 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.data.network.AuthTokenInterceptor
+import app.igormatos.botaprarodar.data.network.NoConnectionInterceptor
 import app.igormatos.botaprarodar.data.network.api.AdminApiService
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.data.network.api.CommunityApiService
@@ -187,7 +188,7 @@ val bprModule = module {
 
     factory { AdminMapper() }
 
-    single { buildRetrofit(get()) }
+    single { buildRetrofit(get(), get()) }
 
     single<CommunityApiService> {
         get<Retrofit>().create(CommunityApiService::class.java)
@@ -252,6 +253,8 @@ val bprModule = module {
     single {
         BikeActionUseCase(get())
     }
+
+    single { NoConnectionInterceptor(get()) }
 
     viewModel {
         EmailValidationViewModel(
