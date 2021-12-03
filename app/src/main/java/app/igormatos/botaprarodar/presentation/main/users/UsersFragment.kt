@@ -9,11 +9,10 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.NoConnectionInterceptor
 import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
@@ -95,7 +94,11 @@ class UsersFragment : androidx.fragment.app.Fragment(), UsersAdapter.UsersAdapte
                     usersAdapter.submitList(it.data)
                 }
                 is SimpleResult.Error -> {
-                    showErrorMessage(getString(R.string.unkown_error))
+                    if (it.exception is NoConnectionInterceptor.NoConnectivityException) {
+                        showErrorMessage(getString(R.string.connection_error))
+                    } else {
+                        showErrorMessage(getString(R.string.unkown_error))
+                    }
                 }
             }
         })
