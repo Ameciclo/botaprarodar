@@ -27,12 +27,15 @@ class SelectUserViewHolder(
             binding.userBlockedIcon.gone()
 
         itemView.setOnClickListener {
-            if (item.hasActiveWithdraw.not())
+            if (userCanWithdrawBike(item))
                 onClick(item)
         }
 
         auxiliarText(item)
     }
+
+    private fun userCanWithdrawBike(item: User) =
+        item.hasActiveWithdraw.not() && item.isBlocked.not()
 
     private fun auxiliarText(user: User) {
         if (user.hasActiveWithdraw) {
