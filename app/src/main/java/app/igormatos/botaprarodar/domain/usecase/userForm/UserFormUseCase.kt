@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.domain.usecase.userForm
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
-import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
@@ -13,8 +12,7 @@ private const val FIREBASE_URL = "https://"
 
 class UserFormUseCase(
     private val userRepository: UserRepository,
-    private val firebaseHelperRepository: FirebaseHelperRepository,
-    private val userConverter: UserRequestConvert
+    private val firebaseHelperRepository: FirebaseHelperRepository
 ) {
 
     private var profileSimpleResult: SimpleResult<ImageUploadResponse>? = null
