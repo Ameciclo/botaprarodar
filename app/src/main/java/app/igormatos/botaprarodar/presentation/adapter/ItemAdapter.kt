@@ -212,31 +212,6 @@ class ItemAdapter(private var activity: Activity? = null) :
                 }
             }
 
-
-
-//                itemView.setOnClickListener {
-//                    if (isAvailable) {
-//                        val intent = Intent(itemView.context, ChooseUserActivity::class.java)
-//                        val withdrawalInProgress = Withdraw()
-//                        withdrawalInProgress.bicycle_name = item.name
-//                        withdrawalInProgress.bicycle_id = item.id
-//                        withdrawalInProgress.bicycle_image_path = item.photoPath
-//
-//                        intent.putExtra(
-//                            WITHDRAWAL_EXTRA,
-//                            Parcels.wrap(Withdraw::class.java, withdrawalInProgress)
-//                        )
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
-//                        activity.startActivityForResult(intent, Activity.RESULT_OK)
-//                    } else {
-//                        val intent = Intent(itemView.context, WithdrawActivity::class.java)
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
-//                        intent.putExtra(WITHDRAWAL_BICYCLE, Parcels.wrap(Bike::class.java, item))
-//                        activity.startActivityForResult(intent, Activity.RESULT_OK)
-//                    }
-//                }
-
-
             if (item is Withdraw) {
                 val withdrawIcon = if (item.isRent())
                     R.drawable.ic_bike_left_24dp
