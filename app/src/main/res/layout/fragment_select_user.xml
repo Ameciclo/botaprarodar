@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            android:visibility="gone"
+            android:visibility="visible"
             app:circularflow_defaultRadius="8dp"
             app:layout_constraintBottom_toTopOf="@id/userList"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +36,9 @@
                 android:layout_height="60dp"
                 android:background="@color/background_input_search"
                 android:fontFamily="@font/roboto"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:imeActionLabel="Procurar"
                 android:hint="@string/search_cyclist_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
