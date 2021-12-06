@@ -35,7 +35,7 @@ object Fixtures {
         schooling = "Ensino superior completo"
         schoolingStatus = "Completo"
         income = "0"
-        age = "01/01/2000"
+        birthday = "01/01/2000"
         telephone = "11 3975-4562"
     }
 }

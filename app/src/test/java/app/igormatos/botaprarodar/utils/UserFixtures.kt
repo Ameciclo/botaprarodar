@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.utils
 
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
-import app.igormatos.botaprarodar.data.model.UserRequest
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
@@ -26,7 +25,7 @@ val validUser = User().apply {
     schooling = "Ensino superior completo"
     schoolingStatus = "Completo"
     income = "0"
-    age = "xx"
+    birthday = "xx"
 }
 
 val unavailableUserFake = User().apply {
@@ -48,24 +47,8 @@ val unavailableUserFake = User().apply {
     schooling = "Ensino superior completo"
     schoolingStatus = "Completo"
     income = "0"
-    age = "xx"
+    birthday = "xx"
 }
-
-val userRequest = UserRequest(
-    name = "mock",
-    createdDate = "",
-    id = "",
-    address = "",
-    docNumber = 0,
-    docPicture = "",
-    docPictureBack = "",
-    docType = 0,
-    gender = "Outro",
-    path = "",
-    profilePicture = "",
-    profilePictureThumbnail = "",
-    residenceProofPicture = ""
-)
 
 val mockImageUploadResponse = ImageUploadResponse(
     fullImagePath = "teste",

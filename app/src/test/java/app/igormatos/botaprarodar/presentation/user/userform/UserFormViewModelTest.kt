@@ -280,7 +280,7 @@ class UserFormViewModelTest {
             userSchooling.value = testValidUser.schooling.orEmpty()
             userSchoolingStatus.value = testValidUser.schoolingStatus.orEmpty()
             userIncome.value = testValidUser.income.orEmpty()
-            userAge.value = testValidUser.age.orEmpty()
+            userBirthday.value = testValidUser.birthday.orEmpty()
             userTelephone.value = testValidUser.telephone.orEmpty()
         }
     }

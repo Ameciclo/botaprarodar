@@ -15,7 +15,6 @@ import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
-import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
@@ -35,7 +34,6 @@ import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.RegistrationViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
@@ -253,10 +251,6 @@ val bprModule = module {
     }
 
     single {
-        UserRequestConvert()
-    }
-
-    single {
         BikeActionUseCase(get())
     }
 
@@ -274,10 +268,6 @@ val bprModule = module {
             adminRepository = get(),
             passwordValidator = get(named(PASSWORD_VALIDATOR_NAME))
         )
-    }
-
-    viewModel {
-        RegistrationViewModel(get())
     }
 
     viewModel {
@@ -318,7 +308,6 @@ val bprModule = module {
         UserFormUseCase(
             userRepository = get(),
             firebaseHelperRepository = get(),
-            userConverter = get(),
         )
     }
 
