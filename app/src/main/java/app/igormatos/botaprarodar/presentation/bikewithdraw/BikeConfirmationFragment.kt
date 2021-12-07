@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.bikewithdraw
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import app.igormatos.botaprarodar.databinding.FragmentBikeConfirmationBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
+import app.igormatos.botaprarodar.presentation.components.FinishWithdraw
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,7 +53,10 @@ class BikeConfirmationFragment : Fragment() {
                 }
                 BikeWithdrawUiState.Loading -> loadingDialog.show()
 
-                is BikeWithdrawUiState.Success -> showConfirmDialog()
+                is BikeWithdrawUiState.Success -> {
+                    val intent = Intent(context, FinishWithdraw::class.java)
+                    startActivity(intent)
+                }
             }
         })
     }

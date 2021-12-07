@@ -42,7 +42,6 @@ class FinishWithdraw : ComponentActivity() {
 
 @Composable
 fun ScreenFinishWithdraw() {
-    val family = FontFamily(Font(R.font.roboto))
 
     Column(
         modifier = Modifier
@@ -65,7 +64,6 @@ fun ScreenFinishWithdraw() {
             text = stringResource(id = R.string.success_withdraw_message),
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold,
-            fontFamily = family,
             modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_xxlarge))
         )
 
@@ -78,7 +76,6 @@ fun ScreenFinishWithdraw() {
             Text(
                 text = stringResource(id = R.string.repeat_withdraw_title).uppercase(),
                 color = colorResource(id = R.color.colorPrimary),
-                fontFamily = family,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(8.dp),
 
@@ -90,7 +87,6 @@ fun ScreenFinishWithdraw() {
             Text(
                 text = stringResource(R.string.back_to_home),
                 color = colorResource(id = R.color.text_gray),
-                fontFamily = family
             )
         }
     }
