@@ -363,4 +363,5 @@
 
     <!-- Withdraw bike -->
     <string name="user_phone_number">Telefone: 11 •••• 4562</string>
+    <string name="title_activity_finish_withdraw">FinishWithdraw</string>
 </resources>
