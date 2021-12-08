@@ -42,7 +42,7 @@ class BikeConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel?.uiState?.observe(viewLifecycleOwner, Observer {
+        binding.viewModel?.uiState?.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             when (it) {
                 is BikeWithdrawUiState.Error -> {
@@ -51,30 +51,9 @@ class BikeConfirmationFragment : Fragment() {
                         show()
                     }
                 }
-                BikeWithdrawUiState.Loading -> loadingDialog.show()
-
-                is BikeWithdrawUiState.Success -> {
-                    val intent = Intent(context, FinishWithdraw::class.java)
-                    startActivity(intent)
-                }
+                is BikeWithdrawUiState.Loading -> loadingDialog.show()
+                is BikeWithdrawUiState.Success -> viewModel.navigateToNextStep()
             }
-        })
+        }
     }
-
-    private fun showConfirmDialog() {
-        val dialogModel = CustomDialogModel(
-            icon = R.drawable.ic_success,
-            title = getString(R.string.success_withdraw_message),
-            primaryButtonText = getString(R.string.back_to_init_title),
-            primaryButtonListener = View.OnClickListener {
-                requireActivity().finish()
-            }
-        )
-
-        CustomDialog.newInstance(dialogModel).apply {
-            isCancelable = false
-        }.show(requireActivity().supportFragmentManager, CustomDialog.TAG)
-
-    }
-
 }

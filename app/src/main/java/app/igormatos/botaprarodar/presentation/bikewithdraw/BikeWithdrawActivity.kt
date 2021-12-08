@@ -51,26 +51,15 @@ class BikeWithdrawActivity : AppCompatActivity() {
             )
         )
 
-        viewModel.uiState.observe(this, Observer { stepConfigType ->
+        viewModel.uiState.observe(this) { stepConfigType ->
             when (stepConfigType) {
-                StepConfigType.SELECT_BIKE -> {
-                    binding.toolbar.let { toolbar ->
-                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-                        toolbar.setNavigationOnClickListener {
-                            onBackPressed()
-                        }
-                    }
-                    navController.navigate(R.id.selectBike, null, navBuilder)
-                }
-                StepConfigType.SELECT_USER -> navController.navigate(
-                    R.id.selectUser,
-                    null,
-                    navBuilder
-                )
-                else -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
+                StepConfigType.SELECT_BIKE -> navController.navigate(R.id.selectBike, null, navBuilder)
+                StepConfigType.SELECT_USER -> navController.navigate(R.id.selectUser, null, navBuilder)
+                StepConfigType.CONFIRM_WITHDRAW -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
+                else -> navController.navigate(R.id.finishWithdraw, null, navBuilder)
             }
             binding.bikeActionStepper.setCurrentStep(stepConfigType)
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -70,7 +70,7 @@ class BikeConfirmationViewModel(
         }
     }
 
-    fun restartWithdraw() {
-        withdrawStepper.navigateToInitialStep()
+    fun navigateToNextStep() {
+        withdrawStepper.navigateToNext()
     }
 }

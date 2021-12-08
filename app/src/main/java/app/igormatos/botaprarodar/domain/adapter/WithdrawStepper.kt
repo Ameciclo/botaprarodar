@@ -11,13 +11,15 @@ class WithdrawStepper(
         listOf(
             StepConfigType.SELECT_BIKE,
             StepConfigType.SELECT_USER,
-            StepConfigType.CONFIRM_WITHDRAW
+            StepConfigType.CONFIRM_WITHDRAW,
+            StepConfigType.FINISHED_WITHDRAW
         )
 
     override fun navigateToNext() {
         val result = when (currentStep.value) {
             StepConfigType.SELECT_BIKE -> steps[1]
-            else -> steps[2]
+            StepConfigType.SELECT_USER -> steps[2]
+            else -> steps[3]
         }
         currentStep.value = result
     }
