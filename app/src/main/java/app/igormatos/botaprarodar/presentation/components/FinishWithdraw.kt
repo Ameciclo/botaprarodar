@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.components
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
+import app.igormatos.botaprarodar.presentation.main.MainActivity
 
 class FinishWithdraw : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,20 +31,40 @@ class FinishWithdraw : ComponentActivity() {
         setContent {
             BotaprarodarTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    ScreenFinishWithdraw()
+                    ScreenFinishWithdraw(
+                        mainAction = { backToHome() },
+                        withdrawAnotherBike = { withdrawAnotherBike() })
                 }
             }
         }
     }
+
+    override fun onBackPressed() {
+        backToHome()
+    }
+
+    private fun backToHome() {
+        val intentHome = Intent(this, MainActivity::class.java)
+        startActivity(intentHome)
+        finish()
+    }
+
+    private fun withdrawAnotherBike() {
+        val intentWithdraw = Intent(this, BikeWithdrawActivity::class.java)
+        startActivity(intentWithdraw)
+        finish()
+    }
 }
 
 @Composable
-fun ScreenFinishWithdraw() {
+fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.background(
-            colorResource(id = R.color.background_card_user_item_gray)
-        )
+        modifier = Modifier
+            .background(
+                colorResource(id = R.color.background_card_user_item_gray)
+            )
+            .fillMaxSize()
     ) {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xxlarge)),
@@ -68,19 +91,19 @@ fun ScreenFinishWithdraw() {
                 modifier = Modifier
                     .padding(bottom = dimensionResource(id = R.dimen.margin_medium))
                     .fillMaxWidth(),
-                onClick = { /*TODO*/ }
+                onClick = withdrawAnotherBike
             ) {
                 Text(
                     text = stringResource(id = R.string.repeat_withdraw_title).uppercase(),
                     color = colorResource(id = R.color.colorPrimary),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp),
-
-                    )
+                )
             }
 
             TextButton(
-                onClick = { /*TODO*/ }) {
+                onClick = mainAction
+            ) {
                 Text(
                     text = stringResource(R.string.back_to_home),
                     color = colorResource(id = R.color.text_gray),
@@ -94,6 +117,6 @@ fun ScreenFinishWithdraw() {
 @Composable
 fun DefaultPreview() {
     BotaprarodarTheme {
-        ScreenFinishWithdraw()
+        ScreenFinishWithdraw({}, {})
     }
 }

@@ -27,6 +27,7 @@ class WithdrawStepper(
     override fun navigateToPrevious() {
         val result = when (currentStep.value) {
             StepConfigType.CONFIRM_WITHDRAW -> steps[1]
+            StepConfigType.FINISHED_WITHDRAW -> steps[0]
             else -> steps.first()
         }
 

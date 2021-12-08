@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.bikewithdraw
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityBikeWithdrawBinding
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawViewModel
+import app.igormatos.botaprarodar.presentation.components.FinishWithdraw
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BikeWithdrawActivity : AppCompatActivity() {
@@ -56,7 +58,11 @@ class BikeWithdrawActivity : AppCompatActivity() {
                 StepConfigType.SELECT_BIKE -> navController.navigate(R.id.selectBike, null, navBuilder)
                 StepConfigType.SELECT_USER -> navController.navigate(R.id.selectUser, null, navBuilder)
                 StepConfigType.CONFIRM_WITHDRAW -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
-                else -> navController.navigate(R.id.finishWithdraw, null, navBuilder)
+                else -> {
+                    val intent = Intent(this, FinishWithdraw::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
             binding.bikeActionStepper.setCurrentStep(stepConfigType)
         }
@@ -68,7 +74,7 @@ class BikeWithdrawActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (viewModel.uiState.value == StepConfigType.SELECT_BIKE)
-            super.onBackPressed()
+            finish()
         else
             binding.viewModel?.navigateToPrevious()
     }
