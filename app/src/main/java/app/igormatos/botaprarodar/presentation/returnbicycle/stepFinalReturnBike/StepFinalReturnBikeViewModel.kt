@@ -61,8 +61,7 @@ class StepFinalReturnBikeViewModel(
 
     }
 
-    fun restartDevolution() {
-        devolutionStepper.navigateToInitialStep()
-        _restartDevolutionFlow.value = true
+    fun navigateToNextStep() {
+        devolutionStepper.navigateToNext()
     }
 }

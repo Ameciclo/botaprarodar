@@ -255,11 +255,11 @@
     <string name="confirm_return">Confirme a devolução</string>
     <string name="confirm_withdraw">Confirme o empréstimo</string>
     <string name="to_confirm_withdraw">Confirmar empréstimo</string>
-    <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
-    <string name="repeat_withdraw_title">Emprestar outra</string>
+    <string name="success_withdraw_message">Empréstimo realizado!</string>
+    <string name="repeat_withdraw_title">Emprestar outra bicicleta</string>
     <string name="back_to_init_title">Voltar para o início</string>
-    <string name="success_devolution_message">Devolução realizada com sucesso!</string>
-    <string name="repeat_devolution_title">Devolver outra</string>
+    <string name="success_devolution_message">Devolução realizada!</string>
+    <string name="repeat_devolution_title">Devolver outra bicicleta</string>
     <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
     <string name="active_withdraw">Com empréstimo ativo</string>
 
@@ -363,4 +363,6 @@
 
     <!-- Withdraw bike -->
     <string name="user_phone_number">Telefone: 11 •••• 4562</string>
+    <string name="title_activity_finish_withdraw">FinishWithdraw</string>
+    <string name="back_to_home">VOLTAR PARA O INÍCIO</string>
 </resources>

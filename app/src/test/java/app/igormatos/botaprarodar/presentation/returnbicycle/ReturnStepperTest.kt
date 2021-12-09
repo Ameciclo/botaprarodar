@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.domain
+package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
@@ -63,7 +63,7 @@ class ReturnStepperTest {
 
     @Test
     fun `when navigateToNext and current step is last step then currentStep should return CONFIRM_RETURN `() {
-        val expectedStep = CONFIRM_DEVOLUTION
+        val expectedStep = FINISHED_ACTION
 
         stepper.setCurrentStep(CONFIRM_DEVOLUTION)
         stepper.navigateToNext()

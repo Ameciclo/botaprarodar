@@ -62,9 +62,6 @@ class ReturnBikeQuizFragment : Fragment(), AdapterView.OnItemClickListener {
             if (it) {
                 returnBikeQuizViewModel.setClickToNextFragmentToFalse()
                 returnBikeQuizViewModel.navigateToNextStep()
-                val direction =
-                    ReturnBikeQuizFragmentDirections.actionReturnBikeQuizFragmentToStepFinalReturnBikeFragment()
-                navController.navigate(direction)
             }
         }
     }

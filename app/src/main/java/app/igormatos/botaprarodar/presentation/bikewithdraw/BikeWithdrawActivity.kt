@@ -1,8 +1,8 @@
 package app.igormatos.botaprarodar.presentation.bikewithdraw
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -51,26 +51,19 @@ class BikeWithdrawActivity : AppCompatActivity() {
             )
         )
 
-        viewModel.uiState.observe(this, Observer { stepConfigType ->
+        viewModel.uiState.observe(this) { stepConfigType ->
             when (stepConfigType) {
-                StepConfigType.SELECT_BIKE -> {
-                    binding.toolbar.let { toolbar ->
-                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-                        toolbar.setNavigationOnClickListener {
-                            onBackPressed()
-                        }
-                    }
-                    navController.navigate(R.id.selectBike, null, navBuilder)
+                StepConfigType.SELECT_BIKE -> navController.navigate(R.id.selectBike, null, navBuilder)
+                StepConfigType.SELECT_USER -> navController.navigate(R.id.selectUser, null, navBuilder)
+                StepConfigType.CONFIRM_WITHDRAW -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
+                else -> {
+                    val intent = Intent(this, FinishWithdrawActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
-                StepConfigType.SELECT_USER -> navController.navigate(
-                    R.id.selectUser,
-                    null,
-                    navBuilder
-                )
-                else -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
             }
             binding.bikeActionStepper.setCurrentStep(stepConfigType)
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,7 +72,7 @@ class BikeWithdrawActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (viewModel.uiState.value == StepConfigType.SELECT_BIKE)
-            super.onBackPressed()
+            finish()
         else
             binding.viewModel?.navigateToPrevious()
     }

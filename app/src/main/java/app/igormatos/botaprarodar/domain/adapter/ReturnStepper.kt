@@ -12,12 +12,14 @@ class ReturnStepper(
         listOf(
             SELECT_BIKE,
             QUIZ,
-            CONFIRM_DEVOLUTION
+            CONFIRM_DEVOLUTION,
+            FINISHED_ACTION
         )
     override fun navigateToNext() {
         val result = when (currentStep.value) {
             SELECT_BIKE -> steps[1]
-            else -> steps[2]
+            QUIZ -> steps[2]
+            else -> steps[3]
         }
         currentStep.value = result
     }

@@ -32,10 +32,6 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     private val preferencesModule: SharedPreferencesModule by inject()
     private val viewModel: StepOneReturnBikeViewModel by viewModel()
 
-    private val navController: NavController by lazy {
-        findNavController()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,8 +86,5 @@ class StepOneReturnBikeFragment : Fragment(), StepOneBikesAdapter.ReturnBikesAda
     override fun bikeOnClickListener(bike: Bike) {
         viewModel.setBike(bike)
         viewModel.navigateToNextStep()
-        val direction =
-            StepOneReturnBikeFragmentDirections.actionReturnBikeFragmentToReturnBikeQuizFragment()
-        navController.navigate(direction)
     }
 }
