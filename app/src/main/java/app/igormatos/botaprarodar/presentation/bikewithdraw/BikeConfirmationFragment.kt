@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.presentation.bikewithdraw
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.databinding.FragmentBikeConfirmationBinding
-import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
-import app.igormatos.botaprarodar.presentation.components.FinishWithdraw
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel

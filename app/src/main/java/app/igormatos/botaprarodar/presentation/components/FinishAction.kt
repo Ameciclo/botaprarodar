@@ -1,9 +1,5 @@
 package app.igormatos.botaprarodar.presentation.components
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,43 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.main.MainActivity
-
-class FinishWithdraw : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            BotaprarodarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    ScreenFinishWithdraw(
-                        mainAction = { backToHome() },
-                        withdrawAnotherBike = { withdrawAnotherBike() })
-                }
-            }
-        }
-    }
-
-    override fun onBackPressed() {
-        backToHome()
-    }
-
-    private fun backToHome() {
-        val intentHome = Intent(this, MainActivity::class.java)
-        startActivity(intentHome)
-        finish()
-    }
-
-    private fun withdrawAnotherBike() {
-        val intentWithdraw = Intent(this, BikeWithdrawActivity::class.java)
-        startActivity(intentWithdraw)
-        finish()
-    }
-}
 
 @Composable
-fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit) {
+fun FinishAction(
+    mainMessage: String,
+    mainActionText: String,
+    mainAction: () -> Unit,
+    backToHome: () -> Unit,
+) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -79,7 +47,7 @@ fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit
             )
 
             Text(
-                text = stringResource(id = R.string.success_withdraw_message),
+                text = mainMessage,
                 style = MaterialTheme.typography.h5,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_xxlarge))
@@ -91,10 +59,10 @@ fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit
                 modifier = Modifier
                     .padding(bottom = dimensionResource(id = R.dimen.margin_medium))
                     .fillMaxWidth(),
-                onClick = withdrawAnotherBike
+                onClick = mainAction
             ) {
                 Text(
-                    text = stringResource(id = R.string.repeat_withdraw_title).uppercase(),
+                    text = mainActionText.uppercase(),
                     color = colorResource(id = R.color.colorPrimary),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp),
@@ -102,7 +70,7 @@ fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit
             }
 
             TextButton(
-                onClick = mainAction
+                onClick = backToHome
             ) {
                 Text(
                     text = stringResource(R.string.back_to_home),
@@ -117,6 +85,10 @@ fun ScreenFinishWithdraw(mainAction: () -> Unit, withdrawAnotherBike: () -> Unit
 @Composable
 fun DefaultPreview() {
     BotaprarodarTheme {
-        ScreenFinishWithdraw({}, {})
+        FinishAction(
+            mainMessage = "Empréstimo realizado",
+            mainActionText = "Emprestar outra bicicleta",
+            {},
+            {})
     }
 }

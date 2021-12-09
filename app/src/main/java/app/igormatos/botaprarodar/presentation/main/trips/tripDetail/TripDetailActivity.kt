@@ -17,11 +17,9 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class TripDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTripDetailBinding

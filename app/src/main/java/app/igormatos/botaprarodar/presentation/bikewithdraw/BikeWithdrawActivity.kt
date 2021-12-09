@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.bikewithdraw
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -12,7 +11,6 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityBikeWithdrawBinding
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawViewModel
-import app.igormatos.botaprarodar.presentation.components.FinishWithdraw
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BikeWithdrawActivity : AppCompatActivity() {
@@ -59,7 +57,7 @@ class BikeWithdrawActivity : AppCompatActivity() {
                 StepConfigType.SELECT_USER -> navController.navigate(R.id.selectUser, null, navBuilder)
                 StepConfigType.CONFIRM_WITHDRAW -> navController.navigate(R.id.confirmBikeSelection, null, navBuilder)
                 else -> {
-                    val intent = Intent(this, FinishWithdraw::class.java)
+                    val intent = Intent(this, FinishWithdrawActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
