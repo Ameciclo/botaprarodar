@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 31
@@ -208,6 +208,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+    implementation 'androidx.navigation:navigation-compose:2.4.0-beta02'
+    implementation "androidx.compose.material:material-icons-extended:1.0.5"
 }
 
 apply plugin: 'com.google.gms.google-services'

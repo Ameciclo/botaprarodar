@@ -26,17 +26,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.main.HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".presentation.bikewithdraw.FinishWithdrawActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".presentation.returnbicycle.FinishReturnBikeActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".presentation.login.selectCommunity.SelectCommunityActivity" />
         <activity android:name=".presentation.login.registration.RegisterActivity" />
         <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />
