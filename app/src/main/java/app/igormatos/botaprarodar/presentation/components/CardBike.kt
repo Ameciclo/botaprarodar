@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -8,10 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,15 +22,16 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 
 @Composable
-fun CardBikeComponent(bike: Bike) {
+fun CardBikeComponent(bike: Bike, handleClick: () -> Unit) {
     val rememberBike = remember<Bike> { bike }
     val rememberImage = rememberImagePainter(data = rememberBike.photoPath)
 
     Card(
         modifier = Modifier
-            .height(96.dp)
+            .height(112.dp)
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { handleClick() },
         backgroundColor = colorResource(id = R.color.white),
         shape = RoundedCornerShape(8.dp),
         elevation = 5.dp,
@@ -84,6 +84,6 @@ private fun DefaultPreview() {
         photoPath = "https://cdn.pixabay.com/photo/2013/07/13/13/43/racing-bicycle-161449_1280.png"
     )
     BotaprarodarTheme {
-        CardBikeComponent(bike)
+        CardBikeComponent(bike, {})
     }
 }
