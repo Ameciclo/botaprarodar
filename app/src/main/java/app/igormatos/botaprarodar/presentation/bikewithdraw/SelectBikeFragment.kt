@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentSelectBikeBinding
 import app.igormatos.botaprarodar.presentation.adapter.SelectBikeListAdapter
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
+import app.igormatos.botaprarodar.presentation.components.BikeListComponent
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,8 +46,14 @@ class SelectBikeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        val bikeCard = view.findViewById<ComposeView>(R.id.bikeListCompose)
         binding.viewModel?.availableBikes?.observe(viewLifecycleOwner, Observer { bikeList ->
-            selectBikeAdapter.submitList(bikeList)
+//            selectBikeAdapter.submitList(bikeList)
+            bikeCard?.setContent {
+                BotaprarodarTheme {
+                    viewModel.availableBikes.value?.let { BikeListComponent(bikeList = bikeList) }
+                }
+            }
         })
         viewModel.setInitialStep()
     }

@@ -83,7 +83,7 @@ fun FinishAction(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     BotaprarodarTheme {
         FinishAction(
             mainMessage = "Empréstimo realizado",

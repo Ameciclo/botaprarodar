@@ -47,7 +47,8 @@ fun CardBikeComponent(bike: Bike) {
     Card(
         modifier = Modifier
             .height(96.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         backgroundColor = colorResource(id = R.color.white),
         shape = RoundedCornerShape(8.dp),
         elevation = 5.dp,

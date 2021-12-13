@@ -26,17 +26,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.components.BikeList"
+            android:exported="true"
+            android:label="@string/title_activity_bike_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.components.CardBike"
+            android:exported="true"
+            android:label="@string/title_activity_card_bike"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.bikewithdraw.FinishWithdrawActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".presentation.returnbicycle.FinishReturnBikeActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".presentation.login.selectCommunity.SelectCommunityActivity" />
         <activity android:name=".presentation.login.registration.RegisterActivity" />
         <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />

@@ -365,4 +365,6 @@
     <string name="user_phone_number">Telefone: 11 •••• 4562</string>
     <string name="title_activity_finish_withdraw">FinishWithdraw</string>
     <string name="back_to_home">VOLTAR PARA O INÍCIO</string>
+    <string name="title_activity_card_bike">CardBike</string>
+    <string name="title_activity_bike_list">BikeList</string>
 </resources>
