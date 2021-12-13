@@ -213,6 +213,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+    implementation 'io.coil-kt:coil-compose:1.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
