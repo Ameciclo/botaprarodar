@@ -37,15 +37,9 @@ class SelectBikeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         val bikeCard = view.findViewById<ComposeView>(R.id.bikeListCompose)
-        binding.viewModel?.availableBikes?.observe(viewLifecycleOwner) { bikeList ->
-            bikeCard?.setContent {
-                BotaprarodarTheme {
-                    viewModel.availableBikes.value?.let {
-                        BikeListComponent(
-                            bikeList = bikeList, vm = viewModel
-                        )
-                    }
-                }
+        bikeCard?.setContent {
+            BotaprarodarTheme {
+                    BikeListComponent()
             }
         }
         viewModel.setInitialStep()
