@@ -33,26 +33,36 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="200dp"
                 android:background="@color/background_input_search"
                 android:fontFamily="@font/roboto"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
+                android:hint="@string/search_cyclist_name"
                 android:imeActionLabel="Procurar"
-                android:hint="@string/search_cyclist_name" />
+                android:imeOptions="actionSearch"
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/userList"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/tie_user_search"-->
+<!--            app:layout_constraintVertical_weight="1"-->
+<!--            tools:listitem="@layout/users_item" />-->
+
+        <androidx.compose.ui.platform.ComposeView
             android:id="@+id/userList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tie_user_search"
+            android:layout_height="100dp"
             app:layout_constraintVertical_weight="1"
-            tools:listitem="@layout/users_item" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tie_user_search" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

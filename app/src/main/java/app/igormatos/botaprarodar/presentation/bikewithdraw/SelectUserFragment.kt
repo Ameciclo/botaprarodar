@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,8 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentSelectUserBinding
 import app.igormatos.botaprarodar.presentation.adapter.SelectUserListAdapter
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
+import app.igormatos.botaprarodar.presentation.components.CardCyclist
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,17 +49,24 @@ class SelectUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        val userListCompose = binding.userList
         binding.viewModel?.userList?.observe(viewLifecycleOwner, Observer { userList ->
-            selectUserAdapter.submitList(userList)
+//            selectUserAdapter.submitList(userList)
+            userListCompose.setContent {
+                BotaprarodarTheme {
+                    CardCyclist(user = userList.first())
+                }
+            }
+
         })
     }
 
     private fun initUI() {
         val marginTop = resources.getDimensionPixelSize(R.dimen.padding_medium)
 
-        binding.userList.layoutManager = LinearLayoutManager(context)
-        binding.userList.adapter = selectUserAdapter
-        binding.userList.addItemDecoration(UserDecoration(marginTop))
+//        binding.userList.layoutManager = LinearLayoutManager(context)
+//        binding.userList.adapter = selectUserAdapter
+//        binding.userList.addItemDecoration(UserDecoration(marginTop))
 
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id
         viewModel.getUserList(joinedCommunityId)

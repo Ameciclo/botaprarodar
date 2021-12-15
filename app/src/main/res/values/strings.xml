@@ -367,4 +367,5 @@
     <string name="back_to_home">VOLTAR PARA O INÍCIO</string>
     <string name="title_activity_card_bike">CardBike</string>
     <string name="title_activity_bike_list">BikeList</string>
+    <string name="title_activity_cyclist_card">CyclistCard</string>
 </resources>

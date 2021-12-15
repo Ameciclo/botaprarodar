@@ -26,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.components.ui.theme.CyclistCard"
+            android:exported="false"
+            android:label="@string/title_activity_cyclist_card"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.components.BikeList"
             android:exported="true"
             android:label="@string/title_activity_bike_list"
