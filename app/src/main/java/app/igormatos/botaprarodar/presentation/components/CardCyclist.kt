@@ -1,13 +1,13 @@
 package app.igormatos.botaprarodar.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,17 +26,21 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 
 @Composable
-fun CardCyclist(user: User) {
-    val rememberUser: User = remember { user }
+fun CardCyclist(user: User, handleClick: () -> Unit) {
     val rememberUserPhoto = rememberImagePainter(data = user.profilePictureThumbnail)
 
     Box(
         modifier = Modifier
-            .height(120.dp)
+            .height(96.dp)
             .fillMaxWidth()
-            .padding(top = dimensionResource(id = R.dimen.padding_small))
+            .clickable {
+                if (!user.hasActiveWithdraw && !user.isBlocked) {
+                    handleClick()
+                }
+            },
+        contentAlignment = Alignment.Center
     ) {
-        Column(verticalArrangement = Arrangement.Center) {
+        Column {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -59,7 +63,7 @@ fun CardCyclist(user: User) {
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small)),
-                        text = rememberUser.name!!,
+                        text = user.name!!,
                         fontStyle = Typography.subtitle1.fontStyle,
                         fontSize = 20.sp,
                     )
@@ -94,25 +98,27 @@ fun CardCyclist(user: User) {
                 }
             }
 
-            Divider(
-                modifier = Modifier
-                    .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
-                    .padding(
-                        top = dimensionResource(
-                            id = R.dimen.padding_medium
-                        )
-                    ),
-                color = colorResource(id = R.color.auxiliar_text_gray),
-            )
+            Box(contentAlignment = Alignment.BottomCenter) {
+                Divider(
+                    modifier = Modifier
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+                        .padding(
+                            top = dimensionResource(
+                                id = R.dimen.padding_medium
+                            )
+                        ),
+                    color = colorResource(id = R.color.auxiliar_text_gray),
+                )
+            }
         }
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
     BotaprarodarTheme {
-        CardCyclist(user)
+        CardCyclist(user, {})
     }
 }

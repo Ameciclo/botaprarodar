@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.presentation.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,16 +16,20 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 @Composable
 fun CyclistListComponent(vm: SelectUserViewModel = viewModel()) {
     val cyclistList = vm.userList.observeAsState()
-    Box {
-        LazyColumn(contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))) {
-            if (cyclistList.value != null) {
-                items(cyclistList.value!!) { cyclist ->
-                    CardCyclist(user = cyclist)
+
+    cyclistList.value?.let {
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))) {
+            items(it) { cyclist ->
+                CardCyclist(user = cyclist) {
+                    vm.setUser(cyclist)
+                    vm.navigateToNextStep()
                 }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

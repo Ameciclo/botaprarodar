@@ -58,7 +58,7 @@ class SelectUserViewModel(
     }
 
     fun filterBy(word: String) {
-       val lista = userList.value?.filter { user -> user.name!!.contains(word) }
+       val lista = userList.value?.filter { user -> user.name!!.lowercase().contains(word.lowercase()) }
         _userList.value = lista!!
     }
 }

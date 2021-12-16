@@ -36,8 +36,8 @@ class SelectBikeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        val bikeCard = view.findViewById<ComposeView>(R.id.bikeListCompose)
-        bikeCard?.setContent {
+        val bikeListComponent = view.findViewById<ComposeView>(R.id.bikeListCompose)
+        bikeListComponent?.setContent {
             BotaprarodarTheme {
                     BikeListComponent()
             }
