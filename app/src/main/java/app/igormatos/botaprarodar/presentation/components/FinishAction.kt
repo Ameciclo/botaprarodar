@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 
 @Composable
 fun FinishAction(
@@ -84,11 +83,9 @@ fun FinishAction(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    BotaprarodarTheme {
-        FinishAction(
-            mainMessage = "Empréstimo realizado",
-            mainActionText = "Emprestar outra bicicleta",
-            {},
-            {})
-    }
+    FinishAction(
+        mainMessage = "Empréstimo realizado",
+        mainActionText = "Emprestar outra bicicleta",
+        {},
+        {})
 }

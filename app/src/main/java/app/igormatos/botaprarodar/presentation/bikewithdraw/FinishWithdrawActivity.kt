@@ -9,22 +9,19 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.FinishAction
-import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.main.MainActivity
 
 class FinishWithdrawActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BotaprarodarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    FinishAction(
-                        mainMessage = stringResource(id = R.string.success_withdraw_message),
-                        mainActionText = stringResource(id = R.string.repeat_withdraw_title),
-                        backToHome = { backToHome() },
-                        mainAction = { withdrawAnotherBike() }
-                    )
-                }
+            Surface(color = MaterialTheme.colors.background) {
+                FinishAction(
+                    mainMessage = stringResource(id = R.string.success_withdraw_message),
+                    mainActionText = stringResource(id = R.string.repeat_withdraw_title),
+                    backToHome = { backToHome() },
+                    mainAction = { withdrawAnotherBike() }
+                )
             }
         }
     }

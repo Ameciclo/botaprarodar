@@ -11,22 +11,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.FinishAction
-import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.main.MainActivity
 
 class FinishReturnBikeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BotaprarodarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    FinishAction(
-                        mainMessage = stringResource(id = R.string.success_devolution_message),
-                        mainActionText = stringResource(id = R.string.repeat_devolution_title),
-                        backToHome = { backToHome() },
-                        mainAction = { returnAnotherBike() }
-                    )
-                }
+            Surface(color = MaterialTheme.colors.background) {
+                FinishAction(
+                    mainMessage = stringResource(id = R.string.success_devolution_message),
+                    mainActionText = stringResource(id = R.string.repeat_devolution_title),
+                    backToHome = { backToHome() },
+                    mainAction = { returnAnotherBike() }
+                )
             }
         }
     }
@@ -48,12 +45,10 @@ class FinishReturnBikeActivity : ComponentActivity() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    BotaprarodarTheme {
-        FinishAction(
-            mainMessage = stringResource(id = R.string.success_devolution_message),
-            mainActionText = stringResource(id = R.string.repeat_devolution_title),
-            backToHome = { },
-            mainAction = { }
-        )
-    }
+    FinishAction(
+        mainMessage = stringResource(id = R.string.success_devolution_message),
+        mainActionText = stringResource(id = R.string.repeat_devolution_title),
+        backToHome = { },
+        mainAction = { }
+    )
 }

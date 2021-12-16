@@ -14,12 +14,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
+@ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomBar(navHostController = navController)}
-    ) {
+    Scaffold(bottomBar = { BottomBar(navHostController = navController)}) {
         BottomNavGraph(navHostController = navController)
     }
 }
@@ -52,7 +51,6 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navHostController: NavHostController
 ) {
-
     val selected = currentDestination?.hierarchy?.any {
         it.route == screen.route
     } == true
@@ -77,6 +75,6 @@ fun RowScope.AddItem(
 
 @Preview
 @Composable
-fun ButtomBarPreview() {
+fun BottomBarPreview() {
     BottomBar(navHostController = rememberNavController())
 }
