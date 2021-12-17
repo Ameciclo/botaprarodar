@@ -33,10 +33,8 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
         modifier = Modifier
             .height(96.dp)
             .fillMaxWidth()
-            .clickable {
-                if (!user.hasActiveWithdraw && !user.isBlocked) {
-                    handleClick()
-                }
+            .clickable(enabled = !user.hasActiveWithdraw && !user.isBlocked) {
+                handleClick()
             },
         contentAlignment = Alignment.Center
     ) {
