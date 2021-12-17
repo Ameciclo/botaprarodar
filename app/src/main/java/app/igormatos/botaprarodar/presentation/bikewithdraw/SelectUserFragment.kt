@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.R
@@ -38,32 +36,16 @@ class SelectUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        val userListCompose = view.findViewById<ComposeView>(R.id.userList)
-        userListCompose?.setContent {
-            BotaprarodarTheme {
-                CyclistListComponent()
-            }
-        }
     }
 
     private fun initUI() {
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id
         viewModel.getUserList(joinedCommunityId)
 
-        configureUserFilter(joinedCommunityId)
-    }
-
-    private fun configureUserFilter(
-        joinedCommunityId: String,
-    ) {
-        val searchedText = binding.tieUserSearch.editText
-        (searchedText as EditText).setOnEditorActionListener { textView, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH && textView.text.toString().isNotEmpty()) {
-                viewModel.filterBy(textView.text.toString())
-                return@setOnEditorActionListener true
-            } else {
-                viewModel.getUserList(joinedCommunityId)
-                return@setOnEditorActionListener false
+        val userListCompose = view?.findViewById<ComposeView>(R.id.userList)
+        userListCompose?.setContent {
+            BotaprarodarTheme {
+                CyclistListComponent(joinedCommunityId = joinedCommunityId)
             }
         }
     }

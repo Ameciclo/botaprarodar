@@ -21,6 +21,7 @@ class SelectUserViewModel(
     private val validateUserWithdraw: ValidateUserWithdraw,
 ) : ViewModel() {
     private val _userList = MutableLiveData<List<User>>()
+    private val _originalList = arrayListOf<User>()
     val userList: LiveData<List<User>>
         get() = _userList
 
@@ -30,13 +31,17 @@ class SelectUserViewModel(
 
     fun getUserList(communityId: String) {
         viewModelScope.launch {
-            when(val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
+            when (val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
                     result.data.forEach {
                         validateUserWithdraw(it)
                     }
-                    if(!result.data.isNullOrEmpty()){
+                    if (!result.data.isNullOrEmpty()) {
                         _userList.postValue(result.data!!)
+                        _originalList.run {
+                            this.clear()
+                            this.addAll(result.data)
+                        }
                     } else {
                         _userList.postValue(arrayListOf())
                     }
@@ -57,8 +62,11 @@ class SelectUserViewModel(
         return validateUserWithdraw.execute(user)
     }
 
-    fun filterBy(word: String) {
-       val lista = userList.value?.filter { user -> user.name!!.lowercase().contains(word.lowercase()) }
+    fun filterBy(word: String, communityId: String) {
+        val lista =
+            _originalList.filter { user ->
+                user.name!!.lowercase().contains(word.lowercase())
+            }
         _userList.value = lista!!
     }
 }
