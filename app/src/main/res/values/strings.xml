@@ -369,4 +369,5 @@
     <string name="title_activity_bike_list">BikeList</string>
     <string name="title_activity_cyclist_card">CyclistCard</string>
     <string name="title_activity_cyclist_list">CyclistList</string>
+    <string name="title_activity_withdraw_confirmation">WithdrawConfirmation</string>
 </resources>
