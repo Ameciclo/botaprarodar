@@ -53,6 +53,7 @@ import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommu
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.AdminUseCase
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
 import app.igormatos.botaprarodar.presentation.main.bikes.BikesViewModel
+import app.igormatos.botaprarodar.presentation.main.homeViewModel.HomeViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
@@ -406,6 +407,7 @@ val bprModule = module {
             validateUserWithdraw = get()
         )
     }
+    viewModel { HomeViewModel(get()) }
 
     factory {
         GetAvailableBikes(get())

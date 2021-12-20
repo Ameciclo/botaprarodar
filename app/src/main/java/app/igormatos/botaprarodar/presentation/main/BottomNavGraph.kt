@@ -10,9 +10,9 @@ import app.igormatos.botaprarodar.presentation.main.home.HomeScreen
 
 @ExperimentalMaterialApi
 @Composable
-fun BottomNavGraph(navHostController: NavHostController) {
+fun BottomNavGraph(navHostController: NavHostController, uiState: HomeUiState) {
     NavHost(navController = navHostController, startDestination = BottomBarScreen.Home.route) {
-        composable(BottomBarScreen.Home.route) { HomeScreen("João") }
+        composable(BottomBarScreen.Home.route) { HomeScreen("João", uiState) }
         composable(BottomBarScreen.Activities.route) { Text(text = "Activities") }
         composable(BottomBarScreen.Users.route) { Text(text = "Users") }
         composable(BottomBarScreen.Bikes.route) { Text(text = "Bike") }

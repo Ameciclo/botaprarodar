@@ -16,10 +16,10 @@ import androidx.navigation.compose.rememberNavController
 
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen() {
+fun MainScreen(homeUiState: HomeUiState) {
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomBar(navHostController = navController)}) {
-        BottomNavGraph(navHostController = navController)
+        BottomNavGraph(navHostController = navController, uiState = homeUiState)
     }
 }
 

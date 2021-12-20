@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.main.home
 
 import android.content.Intent
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,12 +22,13 @@ import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
+import app.igormatos.botaprarodar.presentation.main.HomeUiState
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen(name: String) {
+fun HomeScreen(name: String, homeUiState: HomeUiState) {
     val columnAttributes: Modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
@@ -35,61 +37,71 @@ fun HomeScreen(name: String) {
         Text(text = "Olá $name", modifier = Modifier.padding(bottom = 16.dp))
         Cards()
         Spacer(modifier = Modifier.height(32.dp))
-        Surface(
-            modifier = Modifier
-                .border(1.dp, Color(0xFF3C3C3C), RoundedCornerShape(4.dp))
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Column(Modifier.fillMaxWidth()) {
-                Row(horizontalArrangement = SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = "Total de bicicletas".uppercase(),
-                        fontSize = 16.sp
-                    )
-                    Text(
-                        text = "50",
-                        fontSize = 16.sp
-                    )
-                }
-                Divider(Modifier.padding(vertical = 8.dp))
-                Row(horizontalArrangement = SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = "Emprestadas".uppercase(),
-                        fontSize = 16.sp
-                    )
-                    Text(
-                        text = "30",
-                        fontSize = 16.sp
-                    )
-                }
+        BikesCounter(
+            homeUiState.totalBikes,
+            homeUiState.totalBikesWithdraw,
+            homeUiState.totalBikesAvailable
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailableBikes: Int) {
+    val modifier = Modifier
+        .border(1.dp, Color(0xFF3C3C3C), RoundedCornerShape(4.dp))
+        .fillMaxWidth()
+        .padding(16.dp)
+
+    Surface(modifier) {
+        Column(Modifier.fillMaxWidth()) {
+            Row(horizontalArrangement = SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Total de bicicletas".uppercase(),
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = "$totalBikes",
+                    fontSize = 16.sp
+                )
+            }
+            Divider(Modifier.padding(vertical = 8.dp))
+            Row(horizontalArrangement = SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Emprestadas".uppercase(),
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = "$totalWithdrawBikes",
+                    fontSize = 16.sp
+                )
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
-        Card(
-            onClick = {},
-            elevation = 4.dp,
-            backgroundColor = colorResource(id = R.color.colorPrimary)
+    }
+    Spacer(modifier = Modifier.height(32.dp))
+    Card(
+        onClick = {},
+        elevation = 4.dp,
+        backgroundColor = colorResource(id = R.color.colorPrimary)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth()
         ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                    .padding(12.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Bicicletas disponíveis".uppercase(),
-                    color = Color.White,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
+            Text(
+                text = "Bicicletas disponíveis".uppercase(),
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp
+            )
 
-                Text(
-                    text = "20",
-                    color = Color.White,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
-            }
+            Text(
+                text = "$totalAvailableBikes",
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp
+            )
         }
     }
 }
@@ -151,8 +163,22 @@ fun ActionCard(title: String, icon: Painter, onClickHandler: () -> Unit = {}) {
 }
 
 @ExperimentalMaterialApi
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(name = "João")
+    HomeScreen("João", HomeUiState(50, 30, 20))
+}
+
+@ExperimentalMaterialApi
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun ActionCardPreview() {
+    ActionCard(title = "Devolver bicicleta", icon = painterResource(id = R.drawable.ic_return_bike))
+}
+
+@ExperimentalMaterialApi
+@Preview(showBackground = true)
+@Composable
+fun BikesCounterPreview() {
+    BikesCounter(50, 20, 30)
 }

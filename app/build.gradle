@@ -80,8 +80,9 @@ android {
 }
 
 dependencies {
+    def lifecycle_version = "2.4.0"
+
     implementation project(path: ':toolkit')
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 
     // Test
@@ -193,23 +194,22 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
-    // Jetpack Compose
-    // Integration with activities
+    //Jetpack Compose
     implementation 'androidx.activity:activity-compose:1.4.0'
-    // Compose Material Design
     implementation 'androidx.compose.material:material:1.0.5'
-    // Animations
     implementation 'androidx.compose.animation:animation:1.0.5'
-    // Tooling support (Previews, etc.)
     implementation 'androidx.compose.ui:ui-tooling:1.0.5'
-    // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
-    // UI Tests
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
-    implementation 'androidx.navigation:navigation-compose:2.4.0-beta02'
+    implementation "androidx.compose.runtime:runtime-livedata:1.1.0-rc01"
+    implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
     implementation "androidx.compose.material:material-icons-extended:1.0.5"
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
 }
 
 apply plugin: 'com.google.gms.google-services'
