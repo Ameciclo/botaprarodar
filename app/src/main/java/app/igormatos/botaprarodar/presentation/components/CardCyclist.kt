@@ -31,7 +31,7 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
 
     Box(
         modifier = Modifier
-            .height(96.dp)
+            .height(92.dp)
             .fillMaxWidth()
             .clickable(enabled = !user.hasActiveWithdraw && !user.isBlocked) {
                 handleClick()
@@ -42,8 +42,7 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
-                    .padding(top = dimensionResource(id = R.dimen.padding_small)),
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -94,19 +93,6 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
                         contentDescription = "User Menu"
                     )
                 }
-            }
-
-            Box(contentAlignment = Alignment.BottomCenter) {
-                Divider(
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
-                        .padding(
-                            top = dimensionResource(
-                                id = R.dimen.padding_medium
-                            )
-                        ),
-                    color = colorResource(id = R.color.auxiliar_text_gray),
-                )
             }
         }
     }

@@ -1,18 +1,17 @@
 package app.igormatos.botaprarodar.presentation.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -41,6 +40,13 @@ fun CyclistListComponent(vm: SelectUserViewModel = viewModel(), joinedCommunityI
                     CardCyclist(user = cyclist) {
                         vm.setUser(cyclist)
                         vm.navigateToNextStep()
+                    }
+                    Box(contentAlignment = Alignment.BottomCenter) {
+                        Divider(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
+                            color = colorResource(id = R.color.auxiliar_text_gray),
+                        )
                     }
                 }
             }
