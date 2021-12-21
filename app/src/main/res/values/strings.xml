@@ -370,4 +370,6 @@
     <string name="title_activity_cyclist_card">CyclistCard</string>
     <string name="title_activity_cyclist_list">CyclistList</string>
     <string name="title_activity_withdraw_confirmation">WithdrawConfirmation</string>
+    <string name="bike_in_use">EM USO</string>
+    <string name="bike_returned">DEVOLVIDO</string>
 </resources>

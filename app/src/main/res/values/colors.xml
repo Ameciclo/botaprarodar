@@ -38,4 +38,6 @@
     <color name="information_blue_color">#0063E7</color>
     <color name="background_input_search">#F0F0F0</color>
     <color name="auxiliar_text_gray">#D8D8D8</color>
+    <color name="badge_yellow">#FFCC00</color>
+    <color name="badge_green">#05A660</color>
 </resources>

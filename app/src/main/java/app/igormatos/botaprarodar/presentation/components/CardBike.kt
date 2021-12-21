@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.presentation.components.badges.BikeBadge
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 
 @Composable
-fun CardBikeComponent(bike: Bike, handleClick: () -> Unit) {
+fun CardBikeComponent(bike: Bike, showBadge: Boolean = false, handleClick: () -> Unit) {
     val rememberBike = remember<Bike> { bike }
     val rememberImage = rememberImagePainter(data = rememberBike.photoPath)
 
@@ -37,12 +38,25 @@ fun CardBikeComponent(bike: Bike, handleClick: () -> Unit) {
         elevation = 5.dp,
     ) {
         Row {
-            Image(
-                modifier = Modifier.size(width = 156.dp, height = 96.dp),
-                painter = rememberImage,
-                contentDescription = stringResource(id = R.string.bicycle_image_view_descripition),
-                contentScale = ContentScale.Crop
-            )
+
+            Box {
+                Image(
+                    modifier = Modifier.size(width = 156.dp, height = 96.dp),
+                    painter = rememberImage,
+                    contentDescription = stringResource(id = R.string.bicycle_image_view_descripition),
+                    contentScale = ContentScale.Crop
+                )
+
+                if (showBadge) {
+                    if (rememberBike.inUse) {
+                        BikeBadge(stringResource(R.string.bike_in_use),
+                            colorResource(id = R.color.badge_yellow))
+                    } else if (!rememberBike.inUse && rememberBike.devolutions?.size!! > 0) {
+                        BikeBadge(stringResource(R.string.bike_returned),
+                            colorResource(id = R.color.badge_green))
+                    }
+                }
+            }
 
 
             Box(Modifier.padding(horizontal = 16.dp)) {
@@ -81,9 +95,11 @@ private fun DefaultPreview() {
         name = "Caloi XR245",
         orderNumber = 354785,
         serialNumber = "IT127B",
-        photoPath = "https://cdn.pixabay.com/photo/2013/07/13/13/43/racing-bicycle-161449_1280.png"
+        photoPath = "https://cdn.pixabay.com/photo/2013/07/13/13/43/racing-bicycle-161449_1280.png",
+        inUse = false,
+        devolutions = mutableListOf()
     )
     BotaprarodarTheme {
-        CardBikeComponent(bike, {})
+        CardBikeComponent(bike = bike, showBadge = true, handleClick = {})
     }
 }
