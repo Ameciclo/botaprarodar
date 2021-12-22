@@ -4,29 +4,32 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
+import java.util.*
 
 @Composable
-fun CardCyclist(user: User, handleClick: () -> Unit) {
+fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Unit) {
     val rememberUserPhoto = rememberImagePainter(data = user.profilePictureThumbnail)
 
     Box(
@@ -64,21 +67,22 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
                         fontStyle = Typography.subtitle1.fontStyle,
                         fontSize = 20.sp,
                     )
-                    if (user.hasActiveWithdraw) {
-                        Text(
+                    if (bikeLastWithdraw.trim().isNotEmpty()) {
+                        TextCyclistSubtitle(
+                            stringResource(
+                                id = R.string.bike_withdraw_date,
+                                bikeLastWithdraw
+                            )
+                        )
+                    } else if (user.hasActiveWithdraw) {
+                        TextCyclistSubtitle(
                             text = stringResource(id = R.string.active_withdraw),
-                            fontStyle = Typography.subtitle1.fontStyle,
-                            fontSize = 12.sp,
-                            color = colorResource(id = R.color.information_blue_color)
-
+                            textColor = colorResource(
+                                id = R.color.information_blue_color
+                            )
                         )
                     } else {
-                        Text(
-                            text = user.telephoneHide4Chars(),
-                            fontStyle = Typography.subtitle1.fontStyle,
-                            fontSize = 12.sp,
-                            color = colorResource(id = R.color.bike_action_text_gray)
-                        )
+                        TextCyclistSubtitle(text = user.telephoneHide4Chars())
                     }
                 }
 
@@ -98,11 +102,28 @@ fun CardCyclist(user: User, handleClick: () -> Unit) {
     }
 }
 
+@Composable
+private fun TextCyclistSubtitle(
+    text: String,
+    textColor: Color = colorResource(id = R.color.gray_3)
+) {
+    Text(
+        text = text,
+        fontWeight = FontWeight.Bold,
+        fontStyle = Typography.subtitle1.fontStyle,
+        fontSize = 12.sp,
+        color = textColor
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
+    val today = Date()
+    val todayFormatted = formattedDate("dd MMM yyyy").format(today).replace(" ", " de ")
+
     BotaprarodarTheme {
-        CardCyclist(user, {})
+        CardCyclist(user = user, bikeLastWithdraw = todayFormatted, handleClick = {})
     }
 }

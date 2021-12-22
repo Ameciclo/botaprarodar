@@ -7,9 +7,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
@@ -23,9 +23,11 @@ import coil.compose.rememberImagePainter
 fun WithdrawConfirmationComponent(bike: Bike, user: User) {
     val bikeRemember = remember { bike }
     val bikePhotoRemember = rememberImagePainter(data = bike.photoPath)
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
+    ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
@@ -39,24 +41,30 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                 text = bikeRemember.name!!,
                 fontFamily = Typography.subtitle1.fontFamily,
                 fontSize = 24.sp,
+                color = colorResource(id = R.color.text_gray)
             )
 
             Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
                 Text(
                     text = "Ordem: ${bikeRemember.orderNumber}",
                     fontFamily = Typography.subtitle1.fontFamily,
+                    fontSize = 14.sp,
+                    color = colorResource(id = R.color.text_gray)
                 )
 
                 Text(
                     modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                     text = "Série: ${bikeRemember.serialNumber}",
+                    fontFamily = Typography.subtitle1.fontFamily,
+                    fontSize = 14.sp,
+                    color = colorResource(id = R.color.text_gray)
                 )
             }
         }
 
         Divider()
 
-        CardCyclist(user = user, {})
+        CardCyclist(user = user, handleClick = {})
     }
 }
 
