@@ -4,20 +4,20 @@ import android.widget.Button
 import androidx.databinding.BindingAdapter
 import app.igormatos.botaprarodar.R
 
-@BindingAdapter("app:setBikeFormButtonText")
-fun setBikeFormButtonText(view: Button, isEditModeAvailable: Boolean) {
+@BindingAdapter("setBikeFormButtonText")
+fun Button.setBikeFormButtonText(isEditModeAvailable: Boolean) {
     if (isEditModeAvailable) {
-        view.text = view.context.getString(R.string.bicycle_update_button)
+        this.text = this.context.getString(R.string.bicycle_update_button)
     } else {
-        view.text = view.context.getString(R.string.btn_register_bicycle)
+        this.text = this.context.getString(R.string.btn_register_bicycle)
     }
 }
 
-@BindingAdapter("app:setUserFormButtonText")
-fun setUserFormButtonText(view: Button, isEditModeAvailable: Boolean) {
+@BindingAdapter("setUserFormButtonText")
+fun Button.setUserFormButtonText(isEditModeAvailable: Boolean) {
     if (isEditModeAvailable) {
-        view.text = view.context.getString(R.string.btn_edit_user)
+        this.text = this.context.getString(R.string.btn_edit_user)
     } else {
-        view.text = view.context.getString(R.string.btn_add_user)
+        this.text = this.context.getString(R.string.btn_add_user)
     }
 }

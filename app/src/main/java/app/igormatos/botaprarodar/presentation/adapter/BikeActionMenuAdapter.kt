@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
+import app.igormatos.botaprarodar.databinding.ItemBikeActionMenuBinding
 import com.google.android.material.card.MaterialCardView
 
 class BikeActionMenuAdapter(
@@ -21,15 +22,15 @@ class BikeActionMenuAdapter(
         parent: ViewGroup,
         viewType: Int
     ): BikeActionMenuItemViewHolder {
-        val root = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_bike_action_menu, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        var binding = ItemBikeActionMenuBinding.inflate(inflater)
 
-        root.layoutParams = ViewGroup.LayoutParams(
+        binding.root.layoutParams = ViewGroup.LayoutParams(
             (parent.width * 0.5).toInt(),
             ViewGroup.LayoutParams.MATCH_PARENT
         )
 
-        return BikeActionMenuItemViewHolder(root)
+        return BikeActionMenuItemViewHolder(binding)
     }
 
     override fun getItemCount(): Int = itemList.size
@@ -45,12 +46,11 @@ class BikeActionMenuAdapter(
         notifyDataSetChanged()
     }
 
-    inner class BikeActionMenuItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BikeActionMenuItemViewHolder(binding: ItemBikeActionMenuBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val bikeActionTextView = itemView.findViewById<TextView>(R.id.bikeActionTextView)
-        private val actionImageView = itemView.findViewById<ImageView>(R.id.actionImageView)
-        private val bikeActionMenuContainer =
-            itemView.findViewById<MaterialCardView>(R.id.bikeActionMenuContainer)
+        private val bikeActionTextView = binding.bikeActionTextView
+        private val actionImageView = binding.actionImageView
+        private val bikeActionMenuContainer = binding.bikeActionMenuContainer
 
 
         fun bind(item: BikeActionsMenuType) {

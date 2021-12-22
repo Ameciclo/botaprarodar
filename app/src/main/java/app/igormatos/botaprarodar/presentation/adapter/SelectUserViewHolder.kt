@@ -16,21 +16,34 @@ class SelectUserViewHolder(
 
     override fun bind(item: User) {
         binding.tvNameUserItem.text = item.title()
-        binding.tvRegisteredSinceUserItem.text =
-            itemView.resources.getString(R.string.user_created_since, item.createdDate)
 
         with(binding.ivUserItem) {
             loadPathOnCircle(item.iconPath())
         }
 
-        if (item.hasActiveWithdraw)
-            binding.tvActiveWithdraw.visible()
+        if (item.isBlocked)
+            binding.userBlockedIcon.visible()
         else
-            binding.tvActiveWithdraw.gone()
+            binding.userBlockedIcon.gone()
 
         itemView.setOnClickListener {
-            if (item.hasActiveWithdraw.not())
+            if (userCanWithdrawBike(item))
                 onClick(item)
+        }
+
+        auxiliarText(item)
+    }
+
+    private fun userCanWithdrawBike(item: User) =
+        item.hasActiveWithdraw.not() && item.isBlocked.not()
+
+    private fun auxiliarText(user: User) {
+        if (user.hasActiveWithdraw) {
+            binding.tvActiveWithdraw.visible()
+            binding.tvUserPhoneNumber.gone()
+        } else {
+            binding.tvActiveWithdraw.gone()
+            binding.tvUserPhoneNumber.visible()
         }
     }
 

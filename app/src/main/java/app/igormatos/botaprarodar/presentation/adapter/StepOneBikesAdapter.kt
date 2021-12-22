@@ -50,10 +50,6 @@ class StepOneBikesAdapter(val listener: ReturnBikesAdapterClickListener) :
                 )
             binding.tvSeriesBikeItem.text =
                 itemView.context.getString(R.string.bike_series_with_label, bike.serialNumber)
-            binding.tvWithdrawUserName.apply {
-                visibility = View.VISIBLE
-                text = bike.getLastWithdraw()?.user?.name
-            }
             val imageView = binding.ivBikeItem
 
             if (!bike.isAvailable) {

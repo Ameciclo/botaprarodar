@@ -55,7 +55,6 @@ data class Bike(
     }
 
     override fun iconPath(): String {
-        return photoThumbnailPath ?: photoPath
-        ?: "https://api.adorable.io/avatars/135/abott@adorable.png"
+        return photoThumbnailPath ?: photoPath.orEmpty()
     }
 }

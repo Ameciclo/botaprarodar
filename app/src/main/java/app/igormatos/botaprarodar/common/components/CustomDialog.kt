@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.databinding.CustomDialogBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import kotlinx.android.synthetic.main.custom_dialog.*
 
@@ -21,6 +22,7 @@ class CustomDialog : DialogFragment() {
     private lateinit var iconDialog: ImageView
     private lateinit var primaryDialogButton: Button
     private lateinit var secondaryDialogButton: Button
+    private lateinit var binding: CustomDialogBinding
 
     companion object {
         const val TAG = "CUSTOM_DIALOG"
@@ -41,7 +43,9 @@ class CustomDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.custom_dialog, container, false)
+        val view = inflater.inflate(R.layout.custom_dialog, container, false)
+        binding = CustomDialogBinding.bind(view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,11 +67,11 @@ class CustomDialog : DialogFragment() {
 
     private fun initUI() {
         view?.let {
-            titleDialog = it.findViewById(R.id.tv_title_dialog)
-            messageDialog = it.findViewById(R.id.tv_message_dialog)
-            iconDialog = it.findViewById(R.id.iv_icon_dialog)
-            primaryDialogButton = it.findViewById(R.id.btn_primary_dialog)
-            secondaryDialogButton = it.findViewById(R.id.btn_secondary_dialog)
+            titleDialog = binding.tvTitleDialog
+            messageDialog = binding.tvMessageDialog
+            iconDialog = binding.ivIconDialog
+            primaryDialogButton = binding.btnPrimaryDialog
+            secondaryDialogButton = binding.btnSecondaryDialog
         }
     }
 

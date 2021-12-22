@@ -4,9 +4,8 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.fragment.app.testing.withFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.igormatos.botaprarodar.Fixtures.user
+import app.igormatos.botaprarodar.Fixtures.validUser
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.presentation.main.users.UsersFragment
@@ -19,6 +18,7 @@ import org.junit.runner.RunWith
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import java.lang.Thread.sleep
 
 @RunWith(AndroidJUnit4::class)
 class UsersFragmentTest {
@@ -77,15 +77,34 @@ class UsersFragmentTest {
         usersFragment {
         } verify {
             checkUserName()
-            checkUserDate()
+            checkUserPhoneNumber()
         }
     }
 
+    @Test
+    fun whenLoadFragment_shouldVerifyUserIconBlockedAtRecyclerIsVisible() {
+        addItemAtRecycler()
+        sleep(5000)
+        usersFragment {
+        } verify {
+            checkUserIconBlockedIsVisible(0)
+        }
+    }
+
+    @Test
+    fun whenLoadFragment_shouldVerifyUserIconBlockedAtRecyclerNotIsVisible() {
+        validUser.isBlocked = false
+        addItemAtRecycler()
+        usersFragment {
+        } verify {
+            checkUserIconBlockedNotIsVisible(0)
+        }
+    }
 
     private fun addItemAtRecycler() {
         fragmentScenario.withFragment {
-            this.usersAdapter.submitList(mutableListOf(user))
-            this.usersAdapter.filteredList = mutableListOf(user)
+            this.usersAdapter.submitList(mutableListOf(validUser))
+            this.usersAdapter.filteredList = mutableListOf(validUser)
             this.usersAdapter.notifyDataSetChanged()
         }
     }

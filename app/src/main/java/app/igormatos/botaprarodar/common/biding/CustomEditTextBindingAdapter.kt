@@ -7,12 +7,9 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.common.components.CustomEditText
-import app.igormatos.botaprarodar.common.extensions.validateTextChanged
-import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
-import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["textCaptured", "errorMessage"])
-fun CustomEditText.setErrorUserCompleteName(userCompleteName: String, errorMessage: String) {
+fun CustomEditText.setErrorUserCompleteName(userCompleteName: String?, errorMessage: String) {
     this.validateText(userCompleteName, errorMessage)
 }
 

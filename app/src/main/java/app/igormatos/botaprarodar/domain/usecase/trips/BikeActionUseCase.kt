@@ -10,10 +10,12 @@ import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+
 @ExperimentalCoroutinesApi
 class BikeActionUseCase(private val bikeRepository: BikeRepository) {
 
     fun getBikeActionsList(): List<BikeActionsMenuType> {
+
         return BikeActionsMenuType.values().toMutableList()
     }
 

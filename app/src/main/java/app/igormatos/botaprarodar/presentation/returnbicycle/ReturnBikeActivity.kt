@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,10 +14,8 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ActivityReturnBikeBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class ReturnBikeActivity : AppCompatActivity() {
 
     companion object {
@@ -64,15 +61,34 @@ class ReturnBikeActivity : AppCompatActivity() {
             )
         )
 
-        viewModel.uiState.observe(this, Observer<StepConfigType> {
+        viewModel.uiState.observe(this) {
+            when (it) {
+                StepConfigType.SELECT_BIKE -> {
+                    binding.returnBikeToolbar.let { toolbar ->
+                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+                        toolbar.setNavigationOnClickListener {
+                            onBackPressed()
+                        }
+                    }
+                    navController.navigate(R.id.returnBikeFragment)
+                }
+                StepConfigType.QUIZ -> navController.navigate(R.id.returnBikeQuizFragment)
+                StepConfigType.CONFIRM_DEVOLUTION -> navController.navigate(R.id.stepFinalReturnBikeFragment)
+                else -> {
+                    val intent = Intent(this, FinishReturnBikeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
             binding.bikeActionStepper.setCurrentStep(it)
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         checkFlowOnBackPressed()
 
-        if(flowIsDetailBikeActivityAndSecondStep(intent.getStringExtra(ORIGIN_FLOW)).not())
+        if (flowIsDetailBikeActivityAndSecondStep(intent.getStringExtra(ORIGIN_FLOW)).not())
             viewModel.navigateToPrevious()
 
         return navController.navigateUp(appBarConfiguration)

@@ -12,23 +12,23 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import java.text.SimpleDateFormat
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import java.util.*
 
 class BikeConfirmationViewModel(
-    private val bikeHolder: BikeHolder,
-    private val userHolder: UserHolder,
-    private val sendBikeWithdraw: SendBikeWithdraw,
-    private val withdrawStepper: WithdrawStepper
+        private val bikeHolder: BikeHolder,
+        private val userHolder: UserHolder,
+        private val sendBikeWithdraw: SendBikeWithdraw,
+        private val withdrawStepper: WithdrawStepper
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()
     val uiState: LiveData<BikeWithdrawUiState>
         get() = _uiState
 
-    private val date = Calendar.getInstance().time
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-    val withdrawDate = dateFormat.format(date)
+    private val date = Calendar.getInstance(Locale("pt", "BR")).time
+    val withdrawDate = formattedDate("dd MMM yyyy").format(date).replace(" ", " de ")
+    private val withdrawDateBase = formattedDate().format(date)
 
     val bikeImageUrl = MutableLiveData<String>()
     val userImageUrl = MutableLiveData<String>()
@@ -56,7 +56,7 @@ class BikeConfirmationViewModel(
 
         viewModelScope.launch {
             try {
-                when (sendBikeWithdraw.execute(withdrawDate, bikeHolder, userHolder)) {
+                when (sendBikeWithdraw.execute(withdrawDateBase, bikeHolder, userHolder)) {
                     is SimpleResult.Success -> {
                         _uiState.postValue(BikeWithdrawUiState.Success)
                     }
@@ -70,7 +70,7 @@ class BikeConfirmationViewModel(
         }
     }
 
-    fun restartWithdraw() {
-        withdrawStepper.navigateToInitialStep()
+    fun navigateToNextStep() {
+        withdrawStepper.navigateToNext()
     }
 }

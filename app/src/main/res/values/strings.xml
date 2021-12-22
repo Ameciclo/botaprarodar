@@ -112,48 +112,49 @@
     <string name="add_photo">Adicionar foto</string>
     <string name="btn_register_bicycle">Cadastrar Bicicleta</string>
     <string name="add_bicycle_title">Cadastrar Bicicleta</string>
-    <string name="bike_withdraw_date">Data de empréstimo: %s</string>
-    <string name="bike_devolution_date">Data de devolução: %s</string>
+    <string name="bike_withdraw_date">Empréstimo em: %s</string>
+    <string name="bike_devolution_date">Devolução em: %s</string>
     <string name="bike_series_number">Série: %s</string>
     <string name="bike_order_number">Ordem: %s</string>
+    <string name="search_cyclist_name">Procure a ciclista pelo nome...</string>
 
     <!-- USER -->
 
-        <!-- NEW -->
-        <string name="user_form_title">Cadastrar uma nova Usuária</string>
+    <!-- NEW -->
+    <string name="user_form_title">Cadastrar uma nova Usuária</string>
 
-        <string name="user_form_user_name_label">Nome Completo</string>
-        <string name="user_form_user_name_hint">Ex: Roberto Silva Ferreira</string>
+    <string name="user_form_user_name_label">Nome Completo</string>
+    <string name="user_form_user_name_hint">Ex: Roberto Silva Ferreira</string>
 
-        <string name="user_form_user_document_number_label">CPF ou RG</string>
-        <string name="user_form_user_document_number_hint">Insira apenas números</string>
+    <string name="user_form_user_document_number_label">CPF ou RG</string>
+    <string name="user_form_user_document_number_hint">Insira apenas números</string>
 
-        <string name="user_form_user_phone_label">Celular</string>
-        <string name="user_form_user_phone_hint">DDD + Número</string>
+    <string name="user_form_user_phone_label">Celular</string>
+    <string name="user_form_user_phone_hint">DDD + Número</string>
 
-        <string name="user_form_user_document_picture_label">Fotos do documento</string>
-        <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
-        <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
+    <string name="user_form_user_document_picture_label">Fotos do documento</string>
+    <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
+    <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
 
-        <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
+    <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
 
-        <string name="user_form_user_age_label">Idade</string>
-        <string name="user_form_user_age_hint">DD/MM/AAAA</string>
+    <string name="user_form_user_birthday_label">Nascimento</string>
+    <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
 
-        <string name="user_form_user_income_label">Renda Mensal</string>
+    <string name="user_form_user_income_label">Renda Mensal</string>
 
-        <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
+    <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
 
-        <string name="user_form_user_schooling_label">Até que grau a pessoa estudou?</string>
+    <string name="user_form_user_schooling_label">Até que grau a pessoa estudou?</string>
 
-        <string name="user_form_user_adrees_label">Endereço completo</string>
-        <string name="user_form_user_adrees_hint">Ex: Rua Marielle Franco, 123</string>
+    <string name="user_form_user_adrees_label">Endereço completo</string>
+    <string name="user_form_user_adrees_hint">Ex: Rua Marielle Franco, 123</string>
 
-        <string name="user_form_user_others_picture_label">Outros arquivos</string>
-        <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
-        <string name="user_form_user_perfil_picture_label">Foto de perfil</string>
+    <string name="user_form_user_others_picture_label">Outros arquivos</string>
+    <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
+    <string name="user_form_user_perfil_picture_label">Foto de perfil</string>
 
-        <string name="user_form_button">CRIAR USUÁRIA</string>
+    <string name="user_form_button">CRIAR USUÁRIA</string>
 
     <!-- /NEW -->
 
@@ -169,6 +170,7 @@
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
+    <string name="add_user_quiz_invalid_information">Informação inválida</string>
 
     <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
     <string name="add_user_schooling_status_complete">Sim</string>
@@ -223,7 +225,7 @@
 
     <!-- Return bike quiz -->
     <string name="which_district_hint">Qual o bairro de destino?</string>
-    <string name="used_bike_to_move">Você utilizou a bicicleta para se locomover até:</string>
+    <string name="used_bike_to_move">A bicicleta foi usada para que?</string>
     <string name="your_workplace">Seu local de trabalho</string>
     <string name="your_place_study">Seu local de estudo</string>
     <string name="your_place_entertainment">Seu local de lazer / convivência social</string>
@@ -237,20 +239,29 @@
     <string name="send_answers_button">Enviar respostas</string>
     <string name="invalid_district">Bairro inválido</string>
 
+    <string-array name="used_bike_to_move_list">
+        <item>Seu local de trabalho</item>
+        <item>Seu local de estudo</item>
+        <item>Seu local de lazer / convivência social</item>
+        <item>Seu local de compras</item>
+        <item>Local de estudo da criança</item>
+        <item>Outro motivo não especificado</item>
+    </string-array>
+
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
-    <string name="select_bike">Selecione uma bicicleta</string>
+    <string name="select_bike">Selecione a bicicleta</string>
     <string name="select_user">Selecione um usuário</string>
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
     <string name="confirm_withdraw">Confirme o empréstimo</string>
     <string name="to_confirm_withdraw">Confirmar empréstimo</string>
-    <string name="success_withdraw_message">Empréstimo realizado com sucesso!</string>
-    <string name="repeat_withdraw_title">Emprestar outra</string>
+    <string name="success_withdraw_message">Empréstimo realizado!</string>
+    <string name="repeat_withdraw_title">Emprestar outra bicicleta</string>
     <string name="back_to_init_title">Voltar para o início</string>
-    <string name="success_devolution_message">Devolução realizada com sucesso!</string>
-    <string name="repeat_devolution_title">Devolver outra</string>
+    <string name="success_devolution_message">Devolução realizada!</string>
+    <string name="repeat_devolution_title">Devolver outra bicicleta</string>
     <string name="wait_in_build">O histórico de atividades está em construção. Aguarde mais um pouco e logo estará disponível :)</string>
-    <string name="active_withdraw">Empréstimo<br>\nativo</br></string>
+    <string name="active_withdraw">Com empréstimo ativo</string>
 
     <!-- User Form -->
     <string name="user_form_step_label">Preencha os dados</string>
@@ -266,15 +277,17 @@
     <!-- User Quiz -->
     <string name="user_quiz_means_transport_question">Você tem acesso a outro meio de transporte?</string>
     <string name="user_quiz_which_question">Qual?</string>
+    <string name="user_quiz_which_hint">Ex: Ônibus</string>
     <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
     <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
+    <string name="user_quiz_how_much_time_hint">Tempo em messes Ex: 16</string>
     <string name="user_quiz_motivation_question_label">Qual sua motivação para utilizar a bicicleta como meio de transporte?</string>
     <string name="user_quiz_motivation_question">Motivação</string>
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?</string>
     <string name="user_quiz_problems_on_way_question_label">Quais os problemas que você mais percebe durante o seu trajeto?</string>
-    <string name="user_quiz_problems_on_way_question">Problemas</string>
+    <string name="user_quiz_problems_on_way_question">Ex: Falta de ciclovia</string>
     <string name="user_quiz_time_on_way_question_label">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?</string>
-    <string name="user_quiz_time_on_way_question">Tempo</string>
+    <string name="user_quiz_time_on_way_question">00:00</string>
 
     <!-- Trips Fragment -->
     <string name="activities_historic">Histórico de atividades</string>
@@ -294,6 +307,7 @@
     <string name="btn_send">Enviar</string>
     <string name="confirm_password">Repita a senha</string>
     <string name="unkown_error">Erro desconhecido</string>
+    <string name="connection_error">Sem acesso a internet, verifique seu WiFi ou dados movéis</string>
     <string name="title_recovery_link_send">Confira seu e-mail</string>
     <string name="message_password_recovery_link_send">Enviamos um link de recuperação de senha para o seu e-mail.</string>
 
@@ -319,7 +333,7 @@
     <string name="camera_dialog_positive_button_text">Tirar foto!</string>
 
     <!-- Schooling Options -->
-    <string-array name = "schooling_options">
+    <string-array name="schooling_options">
         <item> Sem instrução ou menos de 1 ano de estudo </item>
         <item> Ensino fundamental 1 </item>
         <item> Ensino fundamental 2 </item>
@@ -330,7 +344,7 @@
     </string-array>
 
     <!-- Gender Options -->
-    <string-array name = "gender_options">
+    <string-array name="gender_options">
         <item> Masculino </item>
         <item> Feminino </item>
         <item> Outro </item>
@@ -338,7 +352,7 @@
     </string-array>
 
     <!-- Schooling Status Options -->
-    <string-array name = "schooling_status_options">
+    <string-array name="schooling_status_options">
         <item> Completo </item>
         <item> Incompleto </item>
         <item> Cursando </item>
@@ -346,4 +360,9 @@
 
     <!-- Default -->
     <string name="default_custom_component_select_hint">Selecionar</string>
+
+    <!-- Withdraw bike -->
+    <string name="user_phone_number">Telefone: 11 •••• 4562</string>
+    <string name="title_activity_finish_withdraw">FinishWithdraw</string>
+    <string name="back_to_home">VOLTAR PARA O INÍCIO</string>
 </resources>
