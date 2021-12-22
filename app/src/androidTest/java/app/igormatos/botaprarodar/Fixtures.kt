@@ -16,7 +16,7 @@ object Fixtures {
         isAvailable = true
     }
 
-    val user = User().apply {
+    val validUser = User().apply {
         id = "testId"
         name = "Capitão América"
         docNumber = 1234567890
@@ -27,13 +27,15 @@ object Fixtures {
         gender = "Outro"
         docType = 1
         isAvailable = true
+        isBlocked = true
         profilePicture = "https://profile.jpeg"
         profilePictureThumbnail = "https://thumb.jpeg"
         residenceProofPicture = "https://residence.jpeg"
         racial = "Branca"
-        schooling = "Ensino superior"
+        schooling = "Ensino superior completo"
+        schoolingStatus = "Completo"
         income = "0"
-        age = "22"
+        birthday = "01/01/2000"
+        telephone = "11 3975-4562"
     }
-
 }

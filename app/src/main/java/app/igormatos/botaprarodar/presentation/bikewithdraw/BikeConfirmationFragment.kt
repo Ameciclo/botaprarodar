@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.databinding.FragmentBikeConfirmationBinding
-import app.igormatos.botaprarodar.domain.model.CustomDialogModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import com.brunotmgomes.ui.extensions.createLoading
@@ -40,7 +37,7 @@ class BikeConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel?.uiState?.observe(viewLifecycleOwner, Observer {
+        binding.viewModel?.uiState?.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             when (it) {
                 is BikeWithdrawUiState.Error -> {
@@ -49,27 +46,9 @@ class BikeConfirmationFragment : Fragment() {
                         show()
                     }
                 }
-                BikeWithdrawUiState.Loading -> loadingDialog.show()
-
-                is BikeWithdrawUiState.Success -> showConfirmDialog()
+                is BikeWithdrawUiState.Loading -> loadingDialog.show()
+                is BikeWithdrawUiState.Success -> viewModel.navigateToNextStep()
             }
-        })
+        }
     }
-
-    private fun showConfirmDialog() {
-        val dialogModel = CustomDialogModel(
-            icon = R.drawable.ic_success,
-            title = getString(R.string.success_withdraw_message),
-            primaryButtonText = getString(R.string.back_to_init_title),
-            primaryButtonListener = View.OnClickListener {
-                requireActivity().finish()
-            }
-        )
-
-        CustomDialog.newInstance(dialogModel).apply {
-            isCancelable = false
-        }.show(requireActivity().supportFragmentManager, CustomDialog.TAG)
-
-    }
-
 }

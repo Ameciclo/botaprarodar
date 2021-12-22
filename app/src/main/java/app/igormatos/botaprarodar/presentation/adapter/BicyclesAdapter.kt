@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.databinding.BicycleCellBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import com.bumptech.glide.Glide
 
@@ -25,29 +26,30 @@ class BicyclesAdapter(private val bikeListener: BicycleAdapterListener) :
     var filteredList = mutableListOf<Bike>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BicycleViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.bicycle_cell, parent, false)
+        val inflater =  LayoutInflater.from(parent.context)
+        val binding = BicycleCellBinding.inflate(inflater, parent, false)
+
         bikes = currentList
-        return BicycleViewHolder(view)
+        return BicycleViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BicycleViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class BicycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BicycleViewHolder(val binding: BicycleCellBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bike: Bike) {
-            itemView.findViewById<TextView>(R.id.tv_name_bike_item).text = bike.title()
-            itemView.findViewById<TextView>(R.id.tv_order_bike_item).text =
-                itemView.context.getString(
+
+            binding.tvNameBikeItem.text = bike.title()
+            binding.tvOrderBikeItem.text = itemView.context.getString(
                     R.string.bike_order_with_label,
                     bike.orderNumber.toString()
                 )
-            itemView.findViewById<TextView>(R.id.tv_series_bike_item).text =
-                itemView.context.getString(R.string.bike_series_with_label, bike.serialNumber)
-            val imageView = itemView.findViewById<ImageView>(R.id.iv_bike_item)
+            binding.tvSeriesBikeItem.text = itemView.context.getString(R.string.bike_series_with_label, bike.serialNumber)
+            val imageView = binding.ivBikeItem
 
-            itemView.setOnClickListener {
+            binding.root.setOnClickListener {
                 bikeListener.onBicycleClicked(bike)
             }
 

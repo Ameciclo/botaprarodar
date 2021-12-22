@@ -6,9 +6,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.ImageBindingAdapter.setImagePathOrUrl
+import app.igormatos.botaprarodar.common.biding.setImagePathOrUrl
 import app.igormatos.botaprarodar.databinding.CustomPicturePickBinding
-import kotlinx.android.synthetic.main.activity_fullscreen_image.view.*
 import kotlinx.android.synthetic.main.custom_picture_pick.view.*
 
 class CustomPicturePick @JvmOverloads constructor(
@@ -46,7 +45,7 @@ class CustomPicturePick @JvmOverloads constructor(
         imageUrlOrPath.takeIf {
             it.isNotBlank()
         }?.apply {
-            setImagePathOrUrl(picture, imageUrlOrPath)
+            picture.setImagePathOrUrl(imageUrlOrPath)
             setupIconAndLabelVisibility(INVISIBLE)
             setupImageAndLabelVisibility(VISIBLE)
         } ?: apply {

@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike
 
-import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.databinding.FragmentStepFinalReturnBikeBinding
-import app.igormatos.botaprarodar.domain.model.CustomDialogModel
-import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import com.brunotmgomes.ui.extensions.createLoading
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StepFinalReturnBikeFragment : Fragment() {
@@ -52,26 +45,25 @@ class StepFinalReturnBikeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initObserver()
     }
 
     private fun initObserver() {
-        viewModel.state.observe(viewLifecycleOwner, Observer {
+        viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 UiState.Loading -> {
                     loadingDialog.show()
                 }
                 is UiState.Success -> {
-                    showConfirmDialog()
+                    viewModel.navigateToNextStep()
                 }
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }
-        })
+        }
 
-        viewModel.restartDevolutionFlow.observe(viewLifecycleOwner, Observer {
+        viewModel.restartDevolutionFlow.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
                     navController.popBackStack(R.id.returnBikeFragment, false)
@@ -80,30 +72,4 @@ class StepFinalReturnBikeFragment : Fragment() {
         })
 
     }
-
-    @ExperimentalCoroutinesApi
-    private fun showConfirmDialog() {
-        val dialogModel = CustomDialogModel(
-            icon = R.drawable.ic_success,
-            title = getString(R.string.success_devolution_message),
-            primaryButtonText = getString(R.string.back_to_init_title),
-            primaryButtonListener = View.OnClickListener {
-
-                val originFlow = (activity as ReturnBikeActivity).intent.getStringExtra(
-                    ReturnBikeActivity.ORIGIN_FLOW
-                )
-                if (originFlow.equals(TripDetailActivity.TRIP_DETAIL_FLOW)) {
-                    requireActivity().setResult(RESULT_OK)
-                }
-
-                requireActivity().finish()
-            }
-        )
-
-        CustomDialog.newInstance(dialogModel).apply {
-            isCancelable = false
-        }.show(requireActivity().supportFragmentManager, CustomDialog.TAG)
-
-    }
-
 }

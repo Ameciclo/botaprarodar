@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.domain.usecase.userForm
 import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
-import app.igormatos.botaprarodar.domain.converter.user.UserRequestConvert
 import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.createImageFile
@@ -21,15 +20,11 @@ import java.io.File
 class UserFormUseCaseTest {
     private val userRepository = mockk<UserRepository>()
     private val firebaseHelperRepository = mockk<FirebaseHelperRepository>()
-    private val userConverter = mockk<UserRequestConvert>()
     private lateinit var userUseCase: UserFormUseCase
 
     @Before
     fun setup() {
-        userUseCase = UserFormUseCase(userRepository, firebaseHelperRepository, userConverter)
-        coEvery {
-            userConverter.convert(any())
-        } returns userRequest
+        userUseCase = UserFormUseCase(userRepository, firebaseHelperRepository)
     }
 
     @Test

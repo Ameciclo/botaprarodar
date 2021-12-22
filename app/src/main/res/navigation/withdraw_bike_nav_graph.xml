@@ -18,4 +18,8 @@
             android:id="@+id/confirmBikeSelection"
             android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.BikeConfirmationFragment"
             tools:layout="@layout/fragment_bike_confirmation" />
+    <activity
+        android:id="@+id/finishWithdraw"
+        android:name="app.igormatos.botaprarodar.presentation.bikewithdraw.FinishWithdrawActivity"
+        android:label="FinishWithdraw" />
 </navigation>

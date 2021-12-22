@@ -30,10 +30,9 @@ class SelectUserViewModel(
 
     fun getUserList(communityId: String) {
         viewModelScope.launch {
-            val result = usersUseCase.getAvailableUsersByCommunityId(communityId)
-            when(result) {
+            when(val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
-                    result.data.forEach { it ->
+                    result.data.forEach {
                         validateUserWithdraw(it)
                     }
                     if(!result.data.isNullOrEmpty()){
@@ -56,5 +55,10 @@ class SelectUserViewModel(
 
     private suspend fun validateUserWithdraw(user: User): Boolean {
         return validateUserWithdraw.execute(user)
+    }
+
+    fun filterBy(word: String) {
+       val lista = userList.value?.filter { user -> user.name!!.contains(word) }
+        _userList.value = lista!!
     }
 }

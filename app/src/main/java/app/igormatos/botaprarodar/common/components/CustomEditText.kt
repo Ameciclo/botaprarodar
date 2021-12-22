@@ -13,7 +13,6 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
 import app.igormatos.botaprarodar.common.biding.setErrorUserDocNumber
 import app.igormatos.botaprarodar.common.biding.utils.validateText
-import app.igormatos.botaprarodar.common.extensions.validateTextChanged
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.CustomEditTextBinding
 
@@ -74,7 +73,7 @@ class CustomEditText @JvmOverloads constructor(
         }
     }
 
-    fun validateText(userCompleteName: String, errorMessage: String) {
+    fun validateText(userCompleteName: String?, errorMessage: String) {
         binding.apply {
             textLayout.setErrorUserCompleteName(
                 userCompleteName,

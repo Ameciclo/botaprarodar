@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.data.network.NoConnectionInterceptor
 import app.igormatos.botaprarodar.databinding.ActivityTripDetailBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
@@ -16,11 +17,9 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 class TripDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTripDetailBinding
@@ -57,7 +56,11 @@ class TripDetailActivity : AppCompatActivity() {
                     setupTripDetailView(it.data)
                 }
                 is SimpleResult.Error -> {
-                    showErrorMessage(getString(R.string.unkown_error))
+                    if (it.exception is NoConnectionInterceptor.NoConnectivityException) {
+                        showErrorMessage(getString(R.string.connection_error))
+                    } else {
+                        showErrorMessage(getString(R.string.unkown_error))
+                    }
                 }
             }
         })
