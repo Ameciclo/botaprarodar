@@ -11,6 +11,8 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.FragmentBikeConfirmationBinding
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
+import app.igormatos.botaprarodar.presentation.components.WithdrawConfirmationComponent
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,6 +39,12 @@ class BikeConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val jetpackView = binding.confirmationComposeView
+        jetpackView.setContent {
+            BotaprarodarTheme {
+                WithdrawConfirmationComponent(bike = viewModel.bike, user = viewModel.user)
+            }
+        }
         binding.viewModel?.uiState?.observe(viewLifecycleOwner) {
             loadingDialog.dismiss()
             when (it) {

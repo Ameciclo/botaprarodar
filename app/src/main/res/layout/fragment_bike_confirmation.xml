@@ -15,6 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/confirmation_compose_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_container_step_final_return_bike"
             android:layout_width="match_parent"
@@ -23,6 +32,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:background="@drawable/top_rounded_corner"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -84,6 +94,7 @@
             android:padding="@dimen/padding_medium"
             android:text="@string/to_confirm_withdraw"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

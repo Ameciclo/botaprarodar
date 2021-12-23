@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -21,7 +22,6 @@ import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 import java.util.*
 
@@ -35,8 +35,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(500.dp)
-            .background(color = colorResource(id = R.color.gray_5))
+            .background(color = colorResource(id = R.color.background_card_user_item_gray))
     ) {
         Column(
             modifier = Modifier
@@ -55,15 +54,23 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                     Image(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(280.dp),
+                            .height(200.dp),
+                        contentScale = ContentScale.Crop,
                         painter = bikePhotoRemember,
                         contentDescription = "Bike Image",
                     )
 
-                    Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
+                            .padding(
+                                top = dimensionResource(
+                                    id = R.dimen.padding_small
+                                )
+                            )
+                    ) {
                         Text(
                             text = bikeRemember.name!!,
-                            fontFamily = Typography.subtitle1.fontFamily,
                             fontSize = 24.sp,
                             color = colorResource(id = R.color.text_gray)
                         )
@@ -71,7 +78,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                         Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
                             Text(
                                 text = "Ordem: ${bikeRemember.orderNumber}",
-                                fontFamily = Typography.subtitle1.fontFamily,
+//                                fontFamily = Typography.subtitle1.fontFamily,
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
@@ -79,7 +86,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                             Text(
                                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                                 text = "Série: ${bikeRemember.serialNumber}",
-                                fontFamily = Typography.subtitle1.fontFamily,
+//                                fontFamily = Typography.subtitle1.fontFamily,
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
@@ -103,7 +110,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
             ) {
                 Text(
                     text = stringResource(id = R.string.confirm_withdraw).uppercase(),
-                    fontStyle = Typography.subtitle1.fontStyle,
+//                    fontStyle = Typography.subtitle1.fontStyle,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = colorResource(id = R.color.gray_1)

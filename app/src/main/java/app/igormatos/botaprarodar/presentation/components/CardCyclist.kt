@@ -24,7 +24,6 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 import java.util.*
 
@@ -36,7 +35,9 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
         modifier = Modifier
             .height(92.dp)
             .fillMaxWidth()
-            .clickable(enabled = !user.hasActiveWithdraw && !user.isBlocked) {
+            .clickable(
+                enabled = clickIsEnable(user, bikeLastWithdraw)
+            ) {
                 handleClick()
             },
         contentAlignment = Alignment.Center
@@ -64,7 +65,6 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
                     Text(
                         modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small)),
                         text = user.name!!,
-                        fontStyle = Typography.subtitle1.fontStyle,
                         fontSize = 20.sp,
                     )
                     if (bikeLastWithdraw.trim().isNotEmpty()) {
@@ -103,6 +103,13 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
 }
 
 @Composable
+private fun clickIsEnable(
+    user: User,
+    bikeLastWithdraw: String
+) = ((!user.hasActiveWithdraw && !user.isBlocked)
+        && bikeLastWithdraw.isNullOrEmpty())
+
+@Composable
 private fun TextCyclistSubtitle(
     text: String,
     textColor: Color = colorResource(id = R.color.gray_3)
@@ -110,7 +117,6 @@ private fun TextCyclistSubtitle(
     Text(
         text = text,
         fontWeight = FontWeight.Bold,
-        fontStyle = Typography.subtitle1.fontStyle,
         fontSize = 12.sp,
         color = textColor
     )

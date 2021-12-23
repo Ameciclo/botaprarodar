@@ -13,13 +13,15 @@ import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import app.igormatos.botaprarodar.common.utils.formattedDate
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.User
 import java.util.*
 
 class BikeConfirmationViewModel(
-        private val bikeHolder: BikeHolder,
-        private val userHolder: UserHolder,
-        private val sendBikeWithdraw: SendBikeWithdraw,
-        private val withdrawStepper: WithdrawStepper
+    private val bikeHolder: BikeHolder,
+    private val userHolder: UserHolder,
+    private val sendBikeWithdraw: SendBikeWithdraw,
+    private val withdrawStepper: WithdrawStepper
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()
@@ -41,6 +43,9 @@ class BikeConfirmationViewModel(
             it !is BikeWithdrawUiState.Loading &&
                     it !is BikeWithdrawUiState.Success
         }
+
+    val bike: Bike = bikeHolder.bike!!
+    val user: User = userHolder.user!!
 
     init {
         bikeImageUrl.value = bikeHolder.bike?.photoPath ?: ""
