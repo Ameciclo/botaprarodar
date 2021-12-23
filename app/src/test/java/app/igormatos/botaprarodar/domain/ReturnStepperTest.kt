@@ -63,7 +63,7 @@ class ReturnStepperTest {
 
     @Test
     fun `when navigateToNext and current step is last step then currentStep should return CONFIRM_RETURN `() {
-        val expectedStep = CONFIRM_DEVOLUTION
+        val expectedStep = FINISHED_ACTION
 
         stepper.setCurrentStep(CONFIRM_DEVOLUTION)
         stepper.navigateToNext()

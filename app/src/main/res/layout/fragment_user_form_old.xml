@@ -111,14 +111,14 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ilCompleteName"
-                        app:textCaptured="@{viewModel.userAge}">
+                        app:textCaptured="@{viewModel.userBirthday}">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ietAge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:text="@={viewModel.userAge}" />
+                            android:text="@={viewModel.userBirthday}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
