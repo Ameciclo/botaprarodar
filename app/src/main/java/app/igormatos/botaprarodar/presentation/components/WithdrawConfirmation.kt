@@ -1,70 +1,115 @@
 package app.igormatos.botaprarodar.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
+import java.util.*
 
 @Composable
 fun WithdrawConfirmationComponent(bike: Bike, user: User) {
     val bikeRemember = remember { bike }
     val bikePhotoRemember = rememberImagePainter(data = bike.photoPath)
-    Column(
+    val today = Date()
+    val todayFormatted = formattedDate("dd MMM yyyy").format(today).replace(" ", " de ")
+
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
+            .height(500.dp)
+            .background(color = colorResource(id = R.color.gray_5))
     ) {
-        Image(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(280.dp),
-            painter = bikePhotoRemember,
-            contentDescription = "Bike Image",
-        )
-
-        Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-            Text(
-                text = bikeRemember.name!!,
-                fontFamily = Typography.subtitle1.fontFamily,
-                fontSize = 24.sp,
-                color = colorResource(id = R.color.text_gray)
-            )
-
-            Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
-                Text(
-                    text = "Ordem: ${bikeRemember.orderNumber}",
-                    fontFamily = Typography.subtitle1.fontFamily,
-                    fontSize = 14.sp,
-                    color = colorResource(id = R.color.text_gray)
+                .padding(
+                    horizontal = dimensionResource(id = R.dimen.padding_medium),
+                    vertical = dimensionResource(id = R.dimen.padding_small)
                 )
+        ) {
+            Box(
+                modifier = Modifier.clip(RoundedCornerShape(2))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .background(color = colorResource(id = R.color.white)),
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(280.dp),
+                        painter = bikePhotoRemember,
+                        contentDescription = "Bike Image",
+                    )
 
+                    Column(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))) {
+                        Text(
+                            text = bikeRemember.name!!,
+                            fontFamily = Typography.subtitle1.fontFamily,
+                            fontSize = 24.sp,
+                            color = colorResource(id = R.color.text_gray)
+                        )
+
+                        Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
+                            Text(
+                                text = "Ordem: ${bikeRemember.orderNumber}",
+                                fontFamily = Typography.subtitle1.fontFamily,
+                                fontSize = 14.sp,
+                                color = colorResource(id = R.color.text_gray)
+                            )
+
+                            Text(
+                                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
+                                text = "Série: ${bikeRemember.serialNumber}",
+                                fontFamily = Typography.subtitle1.fontFamily,
+                                fontSize = 14.sp,
+                                color = colorResource(id = R.color.text_gray)
+                            )
+                        }
+                    }
+
+                    Divider()
+
+                    CardCyclist(user = user, bikeLastWithdraw = todayFormatted, handleClick = {})
+                }
+            }
+
+            Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small)))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.height_48)),
+                onClick = { /*TODO*/ },
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
+            ) {
                 Text(
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
-                    text = "Série: ${bikeRemember.serialNumber}",
-                    fontFamily = Typography.subtitle1.fontFamily,
-                    fontSize = 14.sp,
-                    color = colorResource(id = R.color.text_gray)
+                    text = stringResource(id = R.string.confirm_withdraw).uppercase(),
+                    fontStyle = Typography.subtitle1.fontStyle,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.gray_1)
                 )
             }
         }
-
-        Divider()
-
-        CardCyclist(user = user, handleClick = {})
     }
 }
 
