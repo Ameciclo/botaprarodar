@@ -23,7 +23,7 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 import coil.compose.rememberImagePainter
 
 @Composable
-fun CardBikeComponent(bike: Bike, showBadge: Boolean = true, handleClick: () -> Unit) {
+fun CardBikeComponent(bike: Bike, showBadge: Boolean = false, handleClick: () -> Unit) {
     val rememberBike = remember<Bike> { bike }
     val rememberImage = rememberImagePainter(data = rememberBike.photoPath)
 
