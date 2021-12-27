@@ -49,11 +49,17 @@ fun CardBikeComponent(bike: Bike, showBadge: Boolean = false, handleClick: () ->
 
                 if (showBadge) {
                     if (rememberBike.inUse) {
-                        BikeBadge(stringResource(R.string.bike_in_use),
-                            colorResource(id = R.color.badge_yellow))
+                        BikeBadge(
+                            stringResource(R.string.bike_in_use),
+                            colorResource(id = R.color.badge_yellow),
+                            colorResource(id = R.color.text_gray)
+                        )
                     } else if (!rememberBike.inUse && rememberBike.devolutions?.size!! > 0) {
-                        BikeBadge(stringResource(R.string.bike_returned),
-                            colorResource(id = R.color.badge_green))
+                        BikeBadge(
+                            stringResource(R.string.bike_returned),
+                            colorResource(id = R.color.badge_green),
+                            colorResource(id = R.color.white)
+                        )
                     }
                 }
             }

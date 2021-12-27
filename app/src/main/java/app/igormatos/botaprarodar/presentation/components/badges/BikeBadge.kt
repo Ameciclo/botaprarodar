@@ -18,7 +18,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 
 @Composable
-fun BikeBadge(text: String, backgroundColor: Color) {
+fun BikeBadge(text: String, backgroundColor: Color, textColor: Color) {
     Box(
         modifier = Modifier
             .size(width = 104.dp, height = 40.dp)
@@ -35,6 +35,7 @@ fun BikeBadge(text: String, backgroundColor: Color) {
             fontStyle = Typography.subtitle1.fontStyle,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
+            color = textColor
         )
     }
 }
