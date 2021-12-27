@@ -21,10 +21,10 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.Typography
 fun BikeBadge(text: String, backgroundColor: Color, textColor: Color) {
     Box(
         modifier = Modifier
-            .size(width = 104.dp, height = 40.dp)
+            .size(width = 92.dp, height = 32.dp)
             .padding(
-                top = dimensionResource(id = R.dimen.padding_medium),
-                start = dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(id = R.dimen.padding_small),
+                start = dimensionResource(id = R.dimen.padding_small),
             )
             .background(shape = RoundedCornerShape(20),
                 color = backgroundColor),
