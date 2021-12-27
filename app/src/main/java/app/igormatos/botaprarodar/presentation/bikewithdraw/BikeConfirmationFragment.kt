@@ -42,7 +42,11 @@ class BikeConfirmationFragment : Fragment() {
         val jetpackView = binding.confirmationComposeView
         jetpackView.setContent {
             BotaprarodarTheme {
-                WithdrawConfirmationComponent(bike = viewModel.bike, user = viewModel.user)
+                WithdrawConfirmationComponent(
+                    bike = viewModel.bike,
+                    user = viewModel.user,
+                    handleClick = { viewModel.confirmBikeWithdraw() }
+                )
             }
         }
         binding.viewModel?.uiState?.observe(viewLifecycleOwner) {

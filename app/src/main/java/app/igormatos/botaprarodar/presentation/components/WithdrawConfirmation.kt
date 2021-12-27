@@ -26,7 +26,7 @@ import coil.compose.rememberImagePainter
 import java.util.*
 
 @Composable
-fun WithdrawConfirmationComponent(bike: Bike, user: User) {
+fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Unit) {
     val bikeRemember = remember { bike }
     val bikePhotoRemember = rememberImagePainter(data = bike.photoPath)
     val today = Date()
@@ -78,7 +78,6 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                         Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
                             Text(
                                 text = "Ordem: ${bikeRemember.orderNumber}",
-//                                fontFamily = Typography.subtitle1.fontFamily,
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
@@ -86,7 +85,6 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                             Text(
                                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
                                 text = "Série: ${bikeRemember.serialNumber}",
-//                                fontFamily = Typography.subtitle1.fontFamily,
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
@@ -105,12 +103,11 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.height_48)),
-                onClick = { /*TODO*/ },
+                onClick = handleClick,
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
             ) {
                 Text(
                     text = stringResource(id = R.string.confirm_withdraw).uppercase(),
-//                    fontStyle = Typography.subtitle1.fontStyle,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = colorResource(id = R.color.gray_1)
@@ -132,6 +129,6 @@ private fun WithdrawConfirmationPreview() {
 
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
     BotaprarodarTheme {
-        WithdrawConfirmationComponent(bike, user)
+        WithdrawConfirmationComponent(bike, user, {})
     }
 }
