@@ -26,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.components.WithdrawStepper"
+            android:exported="false"
+            android:label="@string/title_activity_withdraw_stepper"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.components.WithdrawConfirmation"
             android:exported="false"
             android:label="@string/title_activity_withdraw_confirmation"

@@ -372,4 +372,5 @@
     <string name="title_activity_withdraw_confirmation">WithdrawConfirmation</string>
     <string name="bike_in_use">EM USO</string>
     <string name="bike_returned">DEVOLVIDO</string>
+    <string name="title_activity_withdraw_stepper">WithdrawStepper</string>
 </resources>
