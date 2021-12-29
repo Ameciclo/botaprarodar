@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +27,6 @@ import app.igormatos.botaprarodar.presentation.main.HomeUiState
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 
-@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(name: String, homeUiState: HomeUiState) {
     val columnAttributes: Modifier = Modifier
@@ -45,7 +45,6 @@ fun HomeScreen(name: String, homeUiState: HomeUiState) {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailableBikes: Int) {
     val modifier = Modifier
@@ -80,7 +79,6 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
     }
     Spacer(modifier = Modifier.height(32.dp))
     Card(
-        onClick = {},
         elevation = 4.dp,
         backgroundColor = colorResource(id = R.color.colorPrimary)
     ) {
@@ -106,7 +104,6 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun Cards() {
     val context = LocalContext.current
@@ -132,13 +129,15 @@ private fun Cards() {
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 fun ActionCard(title: String, icon: Painter, onClickHandler: () -> Unit = {}) {
     Card(
         elevation = 3.dp,
-        modifier = Modifier.width(170.dp),
-        onClick = onClickHandler
+        modifier = Modifier
+            .width(170.dp)
+            .clickable {
+                onClickHandler()
+            }
     ) {
         Column(
             Modifier
@@ -162,21 +161,18 @@ fun ActionCard(title: String, icon: Painter, onClickHandler: () -> Unit = {}) {
     }
 }
 
-@ExperimentalMaterialApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen("João", HomeUiState(50, 30, 20))
 }
 
-@ExperimentalMaterialApi
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun ActionCardPreview() {
     ActionCard(title = "Devolver bicicleta", icon = painterResource(id = R.drawable.ic_return_bike))
 }
 
-@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 fun BikesCounterPreview() {

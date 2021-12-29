@@ -29,7 +29,6 @@ import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterialApi
 @Composable
 fun MainScreen(homeUiState: HomeUiState) {
     val navController = rememberNavController()
@@ -39,12 +38,8 @@ fun MainScreen(homeUiState: HomeUiState) {
         topBar = { TopBar(onClickMenuHandler = suspend { scaffoldState.drawerState.open() }) },
         bottomBar = { BottomBar(navHostController = navController) },
         scaffoldState = scaffoldState,
-        drawerContent = {
-            Text("Menu")
-        }
-    ) {
-        BottomNavGraph(navHostController = navController, uiState = homeUiState)
-    }
+        drawerContent = { Text("Menu") }
+    ) { BottomNavGraph(navHostController = navController, uiState = homeUiState) }
 }
 
 @Composable

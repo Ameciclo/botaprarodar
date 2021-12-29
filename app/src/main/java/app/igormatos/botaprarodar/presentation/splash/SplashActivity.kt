@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel: SplashViewModel by viewModel()
@@ -21,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
 
 
         observeEvents()
-        Handler(Looper.getMainLooper()).postDelayed(Runnable { observeEvents()
+        Handler(Looper.getMainLooper()).postDelayed({ observeEvents()
             viewModel.verifyUserLoginState()
         }, 0)
 
@@ -32,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
         viewModel.userloginState.observe(this) { userLoginState ->
             val intent = when (userLoginState) {
                 SplashViewModel.UserLoginState.LoggedIn ->
-                    MainActivity.getStartIntent(this)
+                    HomeActivity.getStartIntent(this)
                 SplashViewModel.UserLoginState.PartiallyLoggedIn ->
                     SelectCommunityActivity.getStartIntent(this)
                 SplashViewModel.UserLoginState.NotLoggedIn ->
