@@ -12,11 +12,13 @@ import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityActivity
 import app.igormatos.botaprarodar.presentation.login.BaseAuthActivity
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import app.igormatos.botaprarodar.presentation.welcome.CommunityAdapter
 import com.brunotmgomes.ui.extensions.visible
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
 class SelectCommunityActivity : BaseAuthActivity() {
 
     private lateinit var binding: ActivitySelectCommunityBinding
@@ -55,11 +57,11 @@ class SelectCommunityActivity : BaseAuthActivity() {
 
     private fun clickCommunity(community: Community) {
         viewModel.saveJoinedCommmunity(community)
-        navigatoToMainAcitivity()
+        toMainActivity()
     }
 
-    private fun navigatoToMainAcitivity() {
-        val intent = MainActivity.getStartIntent(this)
+    private fun toMainActivity() {
+        val intent = HomeActivity.getStartIntent(this)
         startActivity(intent)
         finish()
     }
