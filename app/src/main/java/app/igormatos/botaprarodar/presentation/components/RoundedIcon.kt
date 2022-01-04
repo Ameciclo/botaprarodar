@@ -12,9 +12,14 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet
 
 
@@ -42,6 +47,7 @@ fun ItemStepperComponent(
     Box(
         modifier = Modifier
             .size(40.dp)
+            .clip(shape = CircleShape)
             .border(
                 border = BorderStroke(1.dp, color = iconStyle.lineColor),
                 shape = CircleShape
@@ -56,6 +62,21 @@ fun ItemStepperComponent(
             painter = iconStyle.icon,
             tint = iconStyle.iconColor,
             contentDescription = "Icon Description",
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RoundedIconStepperPreview() {
+    BotaprarodarTheme {
+        ItemStepperComponent(
+            iconStyle = IconStyle(
+                icon = painterResource(id = R.drawable.ic_bike),
+                iconColor = ColorPalet.GreenTeal,
+                lineColor = ColorPalet.GreenTeal,
+                backgroundColor = ColorPalet.GreenTeal,
+            )
         )
     }
 }

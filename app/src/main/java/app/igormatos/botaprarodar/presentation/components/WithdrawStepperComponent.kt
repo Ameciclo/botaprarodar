@@ -118,19 +118,7 @@ class WithdrawStepper : ComponentActivity() {
                             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)),
                             text = stringResource(id = R.string.borrow_bike)
                         )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            ItemLineSetStepperComponent(
-                                IconStyle(
-                                    icon = painterResource(id = R.drawable.ic_bike),
-                                    iconColor = colorResource(id = R.color.green_teal),
-                                    lineColor = colorResource(id = R.color.green_teal)
-                                )
-                            )
-                            ItemLineSetStepperComponent(
-                                IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
-                            )
-                            ItemStepperComponent(IconStyle(icon = painterResource(id = R.drawable.ic_confirm)))
-                        }
+                        stepperComponents()
                     }
                 }
             }
@@ -141,6 +129,62 @@ class WithdrawStepper : ComponentActivity() {
             ) {
                 SelectedView()
             }
+        }
+    }
+
+    @Composable
+    private fun stepperComponents(
+    ) {
+        var iconStyleFirst: IconStyle = IconStyle(
+            icon = painterResource(id = R.drawable.ic_bike),
+            iconColor = ColorPalet.GreenTeal,
+            lineColor = ColorPalet.GreenTeal,
+        )
+        var iconStyleSecond: IconStyle =
+            IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
+        var iconStyleThird: IconStyle =
+            IconStyle(icon = painterResource(id = R.drawable.ic_confirm))
+        val selectedView = stepperViewModel.uiState.observeAsState()
+        when (selectedView.value) {
+            StepConfigType.SELECT_USER -> {
+                iconStyleFirst = iconStyleFirst.copy(
+                    backgroundColor = ColorPalet.GreenTeal,
+                    iconColor = Color.White
+                )
+
+                iconStyleSecond = iconStyleSecond.copy(
+                    iconColor = ColorPalet.GreenTeal,
+                    lineColor = ColorPalet.GreenTeal
+                )
+
+                iconStyleThird = iconStyleThird
+            }
+            StepConfigType.CONFIRM_WITHDRAW -> {
+                iconStyleFirst = iconStyleFirst.copy(
+                    backgroundColor = ColorPalet.GreenTeal,
+                    iconColor = Color.White
+                )
+
+                iconStyleSecond = iconStyleSecond.copy(
+                    iconColor = Color.White,
+                    lineColor = ColorPalet.GreenTeal,
+                    backgroundColor = ColorPalet.GreenTeal,
+                )
+
+                iconStyleThird = iconStyleThird.copy(
+                    iconColor = ColorPalet.GreenTeal,
+                    lineColor = ColorPalet.GreenTeal
+                )
+            }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ItemLineSetStepperComponent(
+                iconStyleFirst
+            )
+            ItemLineSetStepperComponent(
+                iconStyleSecond
+            )
+            ItemStepperComponent(iconStyleThird)
         }
     }
 
