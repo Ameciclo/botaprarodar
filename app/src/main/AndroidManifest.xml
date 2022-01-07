@@ -56,9 +56,6 @@
         </activity>
         <activity android:name=".presentation.main.trips.tripDetail.TripDetailActivity" />
         <activity android:name=".presentation.createcommunity.AddCommunityActivity" />
-        <activity
-            android:name=".presentation.main.MainActivity"
-            android:label="@string/app_name" />
         <activity android:name=".presentation.user.UserActivity" />
 
         <provider

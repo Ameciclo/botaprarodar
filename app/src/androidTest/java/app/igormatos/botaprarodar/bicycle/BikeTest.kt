@@ -13,11 +13,12 @@ import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -28,11 +29,12 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @LargeTest
 class BikeTest {
-    private lateinit var scenario: ActivityScenario<MainActivity>
+    private lateinit var scenario: ActivityScenario<HomeActivity>
     private lateinit var testModule: Module
     private lateinit var bikeActionUseCase: BikeActionUseCase
     private lateinit var bikesUseCase: BikesUseCase
