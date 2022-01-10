@@ -1,10 +1,7 @@
-package app.igormatos.botaprarodar.presentation.main.home
+package app.igormatos.botaprarodar.presentation.main.screens
 
 import android.content.Intent
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -24,17 +20,17 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
 import app.igormatos.botaprarodar.presentation.main.HomeUiState
+import app.igormatos.botaprarodar.presentation.components.ActionCard
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 
 @Composable
-fun HomeScreen(name: String, homeUiState: HomeUiState) {
+fun HomeScreen(homeUiState: HomeUiState) {
     val columnAttributes: Modifier = Modifier
         .fillMaxSize()
         .padding(16.dp)
 
     Column(modifier = columnAttributes) {
-        Text(text = "Olá $name", modifier = Modifier.padding(bottom = 16.dp))
         Cards()
         Spacer(modifier = Modifier.height(32.dp))
         BikesCounter(
@@ -108,19 +104,16 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
 private fun Cards() {
     val context = LocalContext.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        ActionCard(
-            title = "Emprestar\nBicleta",
-            painterResource(id = R.drawable.ic_withdraw_bike)
-        ) {
+        ActionCard(title = "Emprestar\nBicicleta", painterResource(id = R.drawable.ic_withdraw_bike)) {
             context.startActivity(Intent(context, BikeWithdrawActivity::class.java))
         }
-        ActionCard(title = "Devolver\nBicleta", painterResource(id = R.drawable.ic_return_bike)) {
+        ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
             context.startActivity(Intent(context, ReturnBikeActivity::class.java))
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        ActionCard(title = "Cadastrar\nBicleta", painterResource(id = R.drawable.ic_add_bike)) {
+        ActionCard(title = "Cadastrar\nBicicleta", painterResource(id = R.drawable.ic_add_bike)) {
             context.startActivity(Intent(context, BikeFormActivity::class.java))
         }
         ActionCard(title = "Cadastrar\nUsuária", painterResource(id = R.drawable.ic_add_user)) {
@@ -129,48 +122,10 @@ private fun Cards() {
     }
 }
 
-@Composable
-fun ActionCard(title: String, icon: Painter, onClickHandler: () -> Unit = {}) {
-    Card(
-        elevation = 3.dp,
-        modifier = Modifier
-            .width(170.dp)
-            .clickable {
-                onClickHandler()
-            }
-    ) {
-        Column(
-            Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-        ) {
-            Image(
-                painter = icon,
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .size(40.dp)
-            )
-            Text(
-                text = title.uppercase(),
-                fontSize = 18.sp,
-                color = colorResource(id = R.color.text_gray),
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-    }
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen("João", HomeUiState(50, 30, 20))
-}
-
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun ActionCardPreview() {
-    ActionCard(title = "Devolver bicicleta", icon = painterResource(id = R.drawable.ic_return_bike))
+    HomeScreen( HomeUiState(50, 30, 20))
 }
 
 @Preview(showBackground = true)

@@ -17,6 +17,7 @@ import app.igormatos.botaprarodar.databinding.FragmentTripsBinding
 import app.igormatos.botaprarodar.presentation.adapter.BikeActionMenuAdapter
 import app.igormatos.botaprarodar.presentation.adapter.TripsAdapter
 import app.igormatos.botaprarodar.presentation.decoration.BikeActionDecoration
+import app.igormatos.botaprarodar.presentation.main.viewModel.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.createLoading
@@ -80,7 +81,7 @@ class TripsFragment : Fragment(), TripsAdapter.TripsAdapterClickListener {
     }
 
     private fun observerTrips() {
-        tripsViewModel.trips.observe(viewLifecycleOwner, Observer {
+        tripsViewModel.trips.observe(viewLifecycleOwner) {
             when (it) {
                 is SimpleResult.Success -> {
                     tripsAdapter.submitList(it.data)
@@ -89,7 +90,7 @@ class TripsFragment : Fragment(), TripsAdapter.TripsAdapterClickListener {
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }
-        })
+        }
 
         tripsViewModel.uiState.observe(viewLifecycleOwner, { uiState ->
             when (uiState) {

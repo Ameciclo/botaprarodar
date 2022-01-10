@@ -19,10 +19,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Before
-import org.junit.FixMethodOrder
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.koin.core.context.loadKoinModules
@@ -69,6 +66,7 @@ class BikeTest {
 
     }
 
+    @Ignore
     @Test
     fun shouldAddBicycle() {
         defineUseCasesBehavior()

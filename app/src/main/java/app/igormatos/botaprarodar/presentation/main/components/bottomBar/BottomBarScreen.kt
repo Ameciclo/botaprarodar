@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main
+package app.igormatos.botaprarodar.presentation.main.components.bottomBar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -11,13 +11,13 @@ sealed class BottomBarScreen(
 ) {
     object Home: BottomBarScreen(
         route = "home",
-        title = "Home",
+        title = "Início",
         icon = Icons.Default.Home
     )
 
     object Activities: BottomBarScreen(
         route = "activities",
-        title = "Activities",
+        title = "Atividades",
         icon = Icons.Default.List
     )
 

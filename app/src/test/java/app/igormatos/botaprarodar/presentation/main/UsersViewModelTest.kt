@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.presentation.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
-import app.igormatos.botaprarodar.presentation.main.users.UsersViewModel
+import app.igormatos.botaprarodar.presentation.main.viewModel.UsersViewModel
 import app.igormatos.botaprarodar.utils.listUsers
 import app.igormatos.botaprarodar.utils.userException
 import com.brunotmgomes.ui.SimpleResult

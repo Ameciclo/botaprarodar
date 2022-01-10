@@ -20,6 +20,7 @@ import app.igormatos.botaprarodar.databinding.FragmentBikesBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.adapter.BicyclesAdapter
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
+import app.igormatos.botaprarodar.presentation.main.viewModel.BikesViewModel
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -130,7 +131,7 @@ class BikesFragment : Fragment(), BicyclesAdapter.BicycleAdapterListener {
             val message = getSuccessMessage(it)
             snackBarMaker(message, binding.clBikes).apply {
                 setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.green))
-                anchorView = activity?.findViewById(R.id.navigation)
+//                anchorView = activity?.findViewById(R.id.navigation)
                 show()
             }
         }

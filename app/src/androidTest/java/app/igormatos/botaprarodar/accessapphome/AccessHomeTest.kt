@@ -15,6 +15,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.loadKoinModules
@@ -51,6 +52,7 @@ class AccessHomeTest {
         loadKoinModules(testModule)
     }
 
+    @Ignore
     @Test
     fun access_home_as_admin() {
         defineUseCasesBehavior()
