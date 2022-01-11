@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main.users
+package app.igormatos.botaprarodar.presentation.main.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

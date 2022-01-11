@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.main.trips
+package app.igormatos.botaprarodar.presentation.main.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.common.extensions.convertToBikeList
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
+import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi

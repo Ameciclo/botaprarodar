@@ -375,4 +375,5 @@
     <string name="title_activity_withdraw_stepper">WithdrawStepper</string>
     <string name="withdraw_finish_action_message">finish_message</string>
     <string name="withdraw_finish_action_text">finish_action_text</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

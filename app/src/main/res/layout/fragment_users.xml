@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.main.users.UsersViewModel" />
+                type="app.igormatos.botaprarodar.presentation.main.viewModel.UsersViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

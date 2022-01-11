@@ -17,6 +17,7 @@ import app.igormatos.botaprarodar.databinding.FragmentUsersBinding
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.adapter.UsersAdapter
 import app.igormatos.botaprarodar.presentation.decoration.UserDecoration
+import app.igormatos.botaprarodar.presentation.main.viewModel.UsersViewModel
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.snackBarMaker

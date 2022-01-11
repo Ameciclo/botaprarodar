@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 
 class FinishReturnBikeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class FinishReturnBikeActivity : ComponentActivity() {
     }
 
     private fun backToHome() {
-        val intentHome = Intent(this, MainActivity::class.java)
+        val intentHome = HomeActivity.getStartIntent(this)
         startActivity(intentHome)
         finish()
     }
