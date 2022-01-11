@@ -28,8 +28,8 @@ import coil.compose.rememberImagePainter
 import java.util.*
 
 @Composable
-fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Unit) {
-    val rememberUserPhoto = rememberImagePainter(data = user.profilePictureThumbnail)
+fun CardCyclist(user: User?, bikeLastWithdraw: String = "", handleClick: () -> Unit) {
+    val rememberUserPhoto = rememberImagePainter(data = user?.profilePictureThumbnail)
 
     Box(
         modifier = Modifier
@@ -64,7 +64,7 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_small)),
-                        text = user.name!!,
+                        text = "${user?.name}",
                         fontSize = 20.sp,
                     )
                     if (bikeLastWithdraw.trim().isNotEmpty()) {
@@ -74,7 +74,7 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
                                 bikeLastWithdraw
                             )
                         )
-                    } else if (user.hasActiveWithdraw) {
+                    } else if (user != null && user.hasActiveWithdraw) {
                         TextCyclistSubtitle(
                             text = stringResource(id = R.string.active_withdraw),
                             textColor = colorResource(
@@ -82,7 +82,7 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
                             )
                         )
                     } else {
-                        TextCyclistSubtitle(text = user.telephoneHide4Chars())
+                        TextCyclistSubtitle(text = "${user?.telephoneHide4Chars()}")
                     }
                 }
 
@@ -104,9 +104,10 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: () -> Un
 
 @Composable
 private fun clickIsEnable(
-    user: User,
+    user: User?,
     bikeLastWithdraw: String
-) = ((!user.hasActiveWithdraw && !user.isBlocked)
+) = (user != null &&
+        (!user.hasActiveWithdraw && !user.isBlocked)
         && bikeLastWithdraw.isNullOrEmpty())
 
 @Composable

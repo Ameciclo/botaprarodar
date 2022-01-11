@@ -36,10 +36,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailVal
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.*
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.LoginViewModel
@@ -393,9 +390,6 @@ val bprModule = module {
         BikeWithdrawViewModel(get())
     }
     viewModel {
-        BikeConfirmationViewModel(get(), get(), get(), get())
-    }
-    viewModel {
         SelectBikeViewModel(get(), get(), get())
     }
     viewModel {
@@ -405,6 +399,13 @@ val bprModule = module {
             usersUseCase = get(),
             validateUserWithdraw = get()
         )
+    }
+    viewModel {
+        BikeConfirmationViewModel(get(), get(), get(), get())
+    }
+
+    viewModel {
+        WithdrawViewModel(get(), get(), get(), get(), get(), get(), get())
     }
 
     factory {

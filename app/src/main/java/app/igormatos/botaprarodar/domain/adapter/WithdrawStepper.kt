@@ -19,7 +19,9 @@ class WithdrawStepper(
         val result = when (currentStep.value) {
             StepConfigType.SELECT_BIKE -> steps[1]
             StepConfigType.SELECT_USER -> steps[2]
-            else -> steps[3]
+            StepConfigType.CONFIRM_WITHDRAW -> steps[3]
+            StepConfigType.FINISHED_ACTION -> steps[3]
+            else -> steps[0]
         }
         currentStep.value = result
     }

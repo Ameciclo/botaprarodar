@@ -4,9 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -17,18 +20,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import coil.compose.rememberImagePainter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalCoroutinesApi
 @Composable
-fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Unit) {
-    val bikeRemember = remember { bike }
-    val bikePhotoRemember = rememberImagePainter(data = bike.photoPath)
+fun WithdrawConfirmationComponent(vm: WithdrawViewModel = viewModel(), handleClick: () -> Unit) {
+    val bike = vm.bike.observeAsState()
+    val user = vm.user.observeAsState()
+    val bikePhoto = rememberImagePainter(data = bike.value?.photoPath)
     val today = Date()
     val todayFormatted = formattedDate("dd MMM yyyy").format(today).replace(" ", " de ")
 
@@ -56,7 +64,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Uni
                             .fillMaxWidth()
                             .height(200.dp),
                         contentScale = ContentScale.Crop,
-                        painter = bikePhotoRemember,
+                        painter = bikePhoto,
                         contentDescription = "Bike Image",
                     )
 
@@ -70,21 +78,21 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Uni
                             )
                     ) {
                         Text(
-                            text = bikeRemember.name!!,
+                            text = "${bike.value?.name}",
                             fontSize = 24.sp,
                             color = colorResource(id = R.color.text_gray)
                         )
 
                         Row(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small))) {
                             Text(
-                                text = "Ordem: ${bikeRemember.orderNumber}",
+                                text = "Ordem: ${bike.value?.orderNumber}",
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
 
                             Text(
                                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
-                                text = "Série: ${bikeRemember.serialNumber}",
+                                text = "Série: ${bike.value?.serialNumber}",
                                 fontSize = 14.sp,
                                 color = colorResource(id = R.color.text_gray)
                             )
@@ -93,7 +101,10 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Uni
 
                     Divider()
 
-                    CardCyclist(user = user, bikeLastWithdraw = todayFormatted, handleClick = {})
+                    CardCyclist(
+                        user = user.value,
+                        bikeLastWithdraw = todayFormatted,
+                        handleClick = {})
                 }
             }
 
@@ -117,6 +128,7 @@ fun WithdrawConfirmationComponent(bike: Bike, user: User, handleClick: () -> Uni
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun WithdrawConfirmationPreview() {
@@ -129,6 +141,6 @@ private fun WithdrawConfirmationPreview() {
 
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
     BotaprarodarTheme {
-        WithdrawConfirmationComponent(bike, user, {})
+        WithdrawConfirmationComponent {}
     }
 }

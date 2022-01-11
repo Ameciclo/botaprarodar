@@ -23,21 +23,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 @Composable
-fun CyclistListComponent(vm: SelectUserViewModel = viewModel(), joinedCommunityId: String) {
+fun CyclistListComponent(
+    vm: WithdrawViewModel = viewModel(),
+    joinedCommunityId: String,
+    handleClick: () -> Unit = {}
+) {
+    vm.getUserList(joinedCommunityId)
     val cyclistList = vm.userList.observeAsState()
     Column {
         SearchTextField(vm, joinedCommunityId)
 
         cyclistList.value?.let {
             LazyColumn(
-                contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))) {
+                contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))
+            ) {
                 items(it) { cyclist ->
                     CardCyclist(user = cyclist) {
+                        handleClick()
                         vm.setUser(cyclist)
                         vm.navigateToNextStep()
                     }
@@ -57,7 +66,7 @@ fun CyclistListComponent(vm: SelectUserViewModel = viewModel(), joinedCommunityI
 
 @Composable
 private fun SearchTextField(
-    vm: SelectUserViewModel,
+    vm: WithdrawViewModel,
     joinedCommunityId: String,
 ) {
     var cyclistName by remember { mutableStateOf("") }
@@ -71,12 +80,16 @@ private fun SearchTextField(
             vm.filterBy(cyclistName, joinedCommunityId)
         },
         leadingIcon = {
-            Icon(painter = painterResource(id = R.drawable.ic_search),
-                contentDescription = "Image search")
+            Icon(
+                painter = painterResource(id = R.drawable.ic_search),
+                contentDescription = "Image search"
+            )
         },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
 
         label = {
             BasicText(

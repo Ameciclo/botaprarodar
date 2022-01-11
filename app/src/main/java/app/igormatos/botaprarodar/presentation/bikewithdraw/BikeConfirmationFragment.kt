@@ -43,8 +43,6 @@ class BikeConfirmationFragment : Fragment() {
         jetpackView.setContent {
             BotaprarodarTheme {
                 WithdrawConfirmationComponent(
-                    bike = viewModel.bike,
-                    user = viewModel.user,
                     handleClick = { viewModel.confirmBikeWithdraw() }
                 )
             }

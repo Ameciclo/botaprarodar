@@ -39,7 +39,7 @@ class SelectBikeFragment : Fragment() {
         val bikeListComponent = view.findViewById<ComposeView>(R.id.bikeListCompose)
         bikeListComponent?.setContent {
             BotaprarodarTheme {
-                    BikeListComponent()
+                BikeListComponent()
             }
         }
         viewModel.setInitialStep()

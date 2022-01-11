@@ -15,9 +15,10 @@ import java.lang.Exception
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
-class BikeConfirmationViewModel(
+class BikeConfirmationViewModel @ExperimentalCoroutinesApi constructor(
     private val bikeHolder: BikeHolder,
     private val userHolder: UserHolder,
     private val sendBikeWithdraw: SendBikeWithdraw,
@@ -44,8 +45,10 @@ class BikeConfirmationViewModel(
                     it !is BikeWithdrawUiState.Success
         }
 
-    val bike: Bike = bikeHolder.bike!!
-    val user: User = userHolder.user!!
+    private val _bike: MutableLiveData<Bike> = MutableLiveData<Bike>()
+    private val _user: MutableLiveData<User> = MutableLiveData<User>()
+    var bike: LiveData<Bike?> = _bike
+    var user: LiveData<User?> = _user
 
     init {
         bikeImageUrl.value = bikeHolder.bike?.photoPath ?: ""
@@ -54,6 +57,8 @@ class BikeConfirmationViewModel(
         bikeOrderNumber.value = bikeHolder.bike?.orderNumber?.toString() ?: ""
         bikeSeriesNumber.value = bikeHolder.bike?.serialNumber ?: ""
         bikeName.value = bikeHolder.bike?.name ?: ""
+        _bike.value = bikeHolder.bike
+        _user.value = userHolder.user
     }
 
     fun confirmBikeWithdraw() {
