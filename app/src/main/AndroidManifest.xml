@@ -71,8 +71,8 @@
         </provider>
 
         <activity android:name=".presentation.bikeForm.BikeFormActivity" />
-        <activity android:name=".presentation.bikewithdraw.BikeWithdrawActivity" />
         <activity android:name=".presentation.returnbicycle.ReturnBikeActivity" />
+        <activity android:name=".presentation.components.WithdrawStepper"/>
 
         <meta-data
             android:name="preloaded_fonts"
