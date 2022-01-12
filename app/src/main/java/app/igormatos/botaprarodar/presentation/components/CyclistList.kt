@@ -35,7 +35,6 @@ fun CyclistListComponent(
     joinedCommunityId: String,
     handleClick: () -> Unit = {}
 ) {
-    vm.getUserList(joinedCommunityId)
     val cyclistList = vm.userList.observeAsState()
     Column {
         SearchTextField(vm, joinedCommunityId)
@@ -64,6 +63,7 @@ fun CyclistListComponent(
 
 }
 
+@ExperimentalCoroutinesApi
 @Composable
 private fun SearchTextField(
     vm: WithdrawViewModel,
@@ -106,6 +106,7 @@ private fun SearchTextField(
 }
 
 
+@ExperimentalCoroutinesApi
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {

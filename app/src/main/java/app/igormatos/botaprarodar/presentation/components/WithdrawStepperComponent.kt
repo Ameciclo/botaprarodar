@@ -186,11 +186,10 @@ class WithdrawStepper : ComponentActivity() {
             StepConfigType.SELECT_BIKE -> withdrawNavController.navigate(WithdrawScreen.WithdrawSelectUser.route)
             StepConfigType.SELECT_USER -> withdrawNavController.navigate(WithdrawScreen.WithdrawConfirmation.route)
             StepConfigType.CONFIRM_WITHDRAW -> {
-                lifecycleScope.launch {
-                    viewModel.confirmBikeWithdraw()
+                viewModel.confirmBikeWithdraw {
+                    viewModel.setFinishAction()
+                    withdrawNavController.navigate(WithdrawScreen.WithdrawFinishAction.route)
                 }
-                viewModel.setFinishAction()
-                withdrawNavController.navigate(WithdrawScreen.WithdrawFinishAction.route)
             }
             StepConfigType.FINISHED_ACTION -> {
                 loadData()
@@ -226,8 +225,6 @@ class WithdrawStepper : ComponentActivity() {
                     iconColor = ColorPalet.GreenTeal,
                     lineColor = ColorPalet.GreenTeal
                 )
-
-                iconStyleThird = iconStyleThird
             }
             StepConfigType.CONFIRM_WITHDRAW -> {
                 iconStyleFirst = iconStyleFirst.copy(

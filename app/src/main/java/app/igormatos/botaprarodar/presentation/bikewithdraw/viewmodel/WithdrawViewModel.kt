@@ -139,7 +139,7 @@ class WithdrawViewModel(
         _user.value = userHolder.user
     }
 
-    fun confirmBikeWithdraw() {
+    fun confirmBikeWithdraw(onFinished: () -> Unit) {
         _uiState.value = BikeWithdrawUiState.Loading
 
         viewModelScope.launch {
@@ -147,6 +147,7 @@ class WithdrawViewModel(
                 when (sendBikeWithdraw.execute(withdrawDateBase, bikeHolder, userHolder)) {
                     is SimpleResult.Success -> {
                         _uiState.postValue(BikeWithdrawUiState.Success)
+                        onFinished()
                     }
                     is SimpleResult.Error -> {
                         _uiState.postValue(BikeWithdrawUiState.Error(DEFAULT_WITHDRAW_ERROR_MESSAGE))
