@@ -98,7 +98,7 @@ val bprModule = module {
     }
 
     viewModel {
-        HomeViewModel(bikesUseCase = get())
+        HomeViewModel(bikesUseCase = get(), usersUseCase = get())
     }
 
     factory {

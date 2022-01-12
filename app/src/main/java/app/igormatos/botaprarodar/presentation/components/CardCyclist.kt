@@ -28,7 +28,7 @@ import coil.compose.rememberImagePainter
 import java.util.*
 
 @Composable
-fun CardCyclist(user: User?, bikeLastWithdraw: String = "", handleClick: () -> Unit) {
+fun CardCyclist(user: User?, bikeLastWithdraw: String = "", handleClick: () -> Unit = {}) {
     val rememberUserPhoto = rememberImagePainter(data = user?.profilePictureThumbnail)
 
     Box(

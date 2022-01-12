@@ -167,7 +167,6 @@ class WithdrawStepper : ComponentActivity() {
             ) {
                 WithdrawNaviationComponent(
                     vm = viewModel,
-                    joinedCommunityId = joinedCommunityId,
                     navController = withdrawNavController,
                     handleClick = { selectStepperClick() },
                     backToHome = { finish() }

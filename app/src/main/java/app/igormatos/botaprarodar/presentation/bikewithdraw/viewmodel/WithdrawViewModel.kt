@@ -93,7 +93,7 @@ class WithdrawViewModel(
         return validateUserWithdraw.execute(user)
     }
 
-    fun filterBy(word: String, communityId: String) {
+    fun filterBy(word: String) {
         val lista =
             _originalList.filter { user ->
                 user.name!!.lowercase().contains(word.lowercase())

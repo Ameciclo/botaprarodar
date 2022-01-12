@@ -6,21 +6,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
-import app.igormatos.botaprarodar.presentation.components.BikeListComponent
-import app.igormatos.botaprarodar.presentation.components.CyclistListComponent
-import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
-import app.igormatos.botaprarodar.presentation.components.WithdrawConfirmationComponent
+import app.igormatos.botaprarodar.presentation.components.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
 fun WithdrawNaviationComponent(
     vm: WithdrawViewModel,
-    joinedCommunityId: String,
+    cyclistList: List<User> = listOf(),
     navController: NavHostController,
     handleClick: () -> Unit,
     backToHome: () -> Unit,
+    handleFilterCyclist: (cyclistName: String) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -33,11 +32,7 @@ fun WithdrawNaviationComponent(
             )
         }
         composable(WithdrawScreen.WithdrawSelectUser.route) {
-            CyclistListComponent(
-                vm = vm,
-                joinedCommunityId = joinedCommunityId,
-                handleClick = handleClick
-            )
+            CyclistListComponent(cyclistList = cyclistList)
         }
         composable(WithdrawScreen.WithdrawConfirmation.route) {
             WithdrawConfirmationComponent(

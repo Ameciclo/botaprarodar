@@ -10,6 +10,7 @@ import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.databinding.FragmentSelectUserBinding
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
+import app.igormatos.botaprarodar.presentation.components.CyclistActions
 import app.igormatos.botaprarodar.presentation.components.CyclistListComponent
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import org.koin.android.ext.android.inject
@@ -45,7 +46,7 @@ class SelectUserFragment : Fragment() {
         val userListCompose = view?.findViewById<ComposeView>(R.id.userList)
         userListCompose?.setContent {
             BotaprarodarTheme {
-                CyclistListComponent(joinedCommunityId = joinedCommunityId)
+                CyclistListComponent()
             }
         }
     }
