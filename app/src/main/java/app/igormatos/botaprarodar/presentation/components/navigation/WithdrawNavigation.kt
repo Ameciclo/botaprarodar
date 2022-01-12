@@ -19,7 +19,7 @@ fun WithdrawNaviationComponent(
     navController: NavHostController,
     handleClick: () -> Unit,
     backToHome: () -> Unit,
-    handleFilterCyclist: (cyclistName: String) -> Unit = {}
+    handleFilterCyclist: (cyclistName:String) -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -32,7 +32,7 @@ fun WithdrawNaviationComponent(
             )
         }
         composable(WithdrawScreen.WithdrawSelectUser.route) {
-            CyclistListComponent(cyclistList = cyclistList)
+            CyclistListComponent(cyclistList = cyclistList, handleFilter = handleFilterCyclist)
         }
         composable(WithdrawScreen.WithdrawConfirmation.route) {
             WithdrawConfirmationComponent(

@@ -12,6 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.R
@@ -38,7 +38,6 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -110,6 +109,7 @@ class WithdrawStepper : ComponentActivity() {
 
     @Composable
     fun WithdrawStepperComponent() {
+        val cyclistList by viewModel.userList.observeAsState()
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -168,7 +168,9 @@ class WithdrawStepper : ComponentActivity() {
                 WithdrawNaviationComponent(
                     vm = viewModel,
                     navController = withdrawNavController,
+                    cyclistList = cyclistList ?: listOf(),
                     handleClick = { selectStepperClick() },
+                    handleFilterCyclist = filterCyclist,
                     backToHome = { finish() }
                 )
             }
@@ -199,6 +201,10 @@ class WithdrawStepper : ComponentActivity() {
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }
         }
+    }
+
+    private val filterCyclist: (cyclistName: String) -> Unit = { cyclistName: String ->
+        viewModel.filterBy(cyclistName)
     }
 
     @Composable

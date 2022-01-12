@@ -3,6 +3,8 @@ package app.igormatos.botaprarodar.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -23,16 +25,35 @@ class HomeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        viewModel.getBikes(joinedCommunityId)
-        viewModel.getUserList(joinedCommunityId)
         setContent {
             val uiState by viewModel.uiState.observeAsState(HomeUiState())
-            MainScreen(uiState)
+            MainScreen(uiState, loadCyclistActions())
         }
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        initUI()
+        return super.onCreateView(name, context, attrs)
     }
 
     companion object {
         fun getStartIntent(context: Context) = Intent(context, HomeActivity::class.java)
     }
+
+    private fun initUI() {
+        joinedCommunityId = preferencesModule.getJoinedCommunity().id
+        viewModel.getBikes(joinedCommunityId)
+        viewModel.getUserList(joinedCommunityId)
+    }
+
+    @Composable
+    private fun loadCyclistActions(): CyclistActions {
+        val users by viewModel.userList.observeAsState()
+        return CyclistActions(cyclistList = users ?: listOf(), handleFilter = filterCyclist)
+    }
+
+    private val filterCyclist: (cyclistName: String) -> Unit = { cyclistName: String ->
+        viewModel.filterBy(cyclistName)
+    }
+
 }

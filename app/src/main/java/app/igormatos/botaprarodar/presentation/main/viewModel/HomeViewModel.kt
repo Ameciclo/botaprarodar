@@ -41,19 +41,14 @@ class HomeViewModel(
 
     fun getUserList(communityId: String) {
         viewModelScope.launch {
-            when (val usersList = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
+            when (val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
-                    _uiState.value = uiState.value?.let {
-                        HomeUiState(
-                            totalBikes = it.totalBikes,
-                            totalBikesAvailable = it.totalBikesAvailable,
-                            totalBikesWithdraw = it.totalBikesWithdraw,
-                            users = usersList.data
-                        )
+                    if (!result.data.isNullOrEmpty()) {
+                        _userList.postValue(result.data!!)
+                        _originalUserList = result.data
+                    } else {
+                        _userList.postValue(arrayListOf())
                     }
-                }
-                is SimpleResult.Error -> {
-                    throw Exception()
                 }
             }
         }

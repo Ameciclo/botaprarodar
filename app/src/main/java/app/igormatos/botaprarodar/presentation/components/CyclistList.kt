@@ -18,23 +18,19 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class CyclistActions(
     val cyclistList: List<User> = listOf(),
     val handleClick: () -> Unit = {},
-    val handleFilter: (cyclistName: String) -> List<User> = { listOf<User>() }
+    val handleFilter: (cyclistName: String) -> Unit = { }
 )
 
 @ExperimentalCoroutinesApi
 @Composable
 fun CyclistListComponent(
-    cyclistList: List<User> = listOf()
+    cyclistList: List<User> = listOf(),
+    handleFilter: (cyclistName: String) -> Unit = {}
 ) {
-    var auxiliarCyclistList by remember { mutableStateOf(cyclistList) }
-
     Column {
-        SearchTextField { cyclistName ->
-            auxiliarCyclistList =
-                cyclistList.filter { it.name?.lowercase() == cyclistName.lowercase() }
-        }
+        SearchTextField(handleFilter = handleFilter)
 
-        UsersList(auxiliarCyclistList)
+        UsersList(cyclistList)
     }
 
 }
