@@ -51,10 +51,7 @@ import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.Admin
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
-import app.igormatos.botaprarodar.presentation.main.viewModel.BikesViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.TripDetailViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.TripsViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.UsersViewModel
+import app.igormatos.botaprarodar.presentation.main.viewModel.*
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
@@ -98,6 +95,10 @@ val bprModule = module {
             loginUseCase = get(),
             resendEmailUseCase = get()
         )
+    }
+
+    viewModel {
+        HomeViewModel(bikesUseCase = get())
     }
 
     factory {

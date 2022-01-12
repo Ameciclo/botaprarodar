@@ -230,6 +230,8 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     // Navigation
     implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
+
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
