@@ -49,7 +49,10 @@ fun UsersList(
         contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))
     ) {
         items(users) { cyclist ->
-            CardCyclist(user = cyclist, handleClick = handleClick)
+            CardCyclist(
+                user = cyclist,
+                handleClick = handleClick
+            )
             Box(contentAlignment = Alignment.BottomCenter) {
                 Divider(
                     modifier = Modifier

@@ -195,10 +195,12 @@ class WithdrawStepper : ComponentActivity() {
                 viewModel.navigateToNextStep()
             }
             StepConfigType.SELECT_USER -> {
-                withdrawNavController.navigate(WithdrawScreen.WithdrawConfirmation.route)
                 val user = data as User
-                viewModel.setUser(user)
-                viewModel.navigateToNextStep()
+                if (clickIsEnable(user)) {
+                    withdrawNavController.navigate(WithdrawScreen.WithdrawConfirmation.route)
+                    viewModel.setUser(user)
+                    viewModel.navigateToNextStep()
+                }
             }
             StepConfigType.CONFIRM_WITHDRAW -> {
                 viewModel.confirmBikeWithdraw {
@@ -215,10 +217,6 @@ class WithdrawStepper : ComponentActivity() {
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }
         }
-    }
-
-    private val filterCyclist: (cyclistName: String) -> Unit = { cyclistName: String ->
-        viewModel.filterBy(cyclistName)
     }
 
     @Composable
@@ -311,6 +309,10 @@ class WithdrawStepper : ComponentActivity() {
             }
         }
     }
+
+    private fun clickIsEnable(
+        user: User
+    ) = (!user.hasActiveWithdraw && !user.isBlocked)
 
     @Preview(showBackground = true, showSystemUi = true)
     @Composable

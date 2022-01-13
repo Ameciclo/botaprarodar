@@ -28,18 +28,18 @@ import coil.compose.rememberImagePainter
 import java.util.*
 
 @Composable
-fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: (User) -> Unit) {
+fun CardCyclist(
+    user: User,
+    bikeLastWithdraw: String = "",
+    handleClick: (User) -> Unit
+) {
     val rememberUserPhoto = rememberImagePainter(data = user.profilePictureThumbnail)
 
     Box(
         modifier = Modifier
             .height(92.dp)
             .fillMaxWidth()
-            .clickable(
-                enabled = clickIsEnable(user, bikeLastWithdraw)
-            ) {
-                handleClick(user)
-            },
+            .clickable { handleClick(user) },
         contentAlignment = Alignment.Center
     ) {
         Column {
@@ -101,13 +101,6 @@ fun CardCyclist(user: User, bikeLastWithdraw: String = "", handleClick: (User) -
         }
     }
 }
-
-@Composable
-private fun clickIsEnable(
-    user: User,
-    bikeLastWithdraw: String
-) = ((!user.hasActiveWithdraw && !user.isBlocked)
-        && bikeLastWithdraw.isEmpty())
 
 @Composable
 private fun TextCyclistSubtitle(
