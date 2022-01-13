@@ -43,11 +43,12 @@ class FinishAction : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun FinishActionComponent(
     mainMessage: String,
     mainActionText: String,
-    mainAction: () -> Unit,
+    mainAction: (Any?) -> Unit,
     backToHome: () -> Unit,
 ) {
     Box(
@@ -83,7 +84,7 @@ fun FinishActionComponent(
                 modifier = Modifier
                     .padding(bottom = dimensionResource(id = R.dimen.margin_medium))
                     .fillMaxWidth(),
-                onClick = mainAction
+                onClick = { mainAction(null) }
             ) {
                 Text(
                     text = mainActionText.uppercase(),

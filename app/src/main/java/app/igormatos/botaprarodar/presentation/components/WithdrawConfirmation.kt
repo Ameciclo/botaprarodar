@@ -33,7 +33,10 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @Composable
-fun WithdrawConfirmationComponent(vm: WithdrawViewModel = viewModel(), handleClick: () -> Unit) {
+fun WithdrawConfirmationComponent(
+    vm: WithdrawViewModel = viewModel(),
+    handleClick: (Any?) -> Unit
+) {
     val bike = vm.bike.observeAsState()
     val user = vm.user.observeAsState()
     val bikePhoto = rememberImagePainter(data = bike.value?.photoPath)
@@ -114,7 +117,7 @@ fun WithdrawConfirmationComponent(vm: WithdrawViewModel = viewModel(), handleCli
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.height_48)),
-                onClick = handleClick,
+                onClick = { handleClick(null) },
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
             ) {
                 Text(

@@ -29,6 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
@@ -37,6 +39,7 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
+import kotlinx.android.synthetic.main.fragment_select_bike.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -110,6 +113,7 @@ class WithdrawStepper : ComponentActivity() {
     @Composable
     fun WithdrawStepperComponent() {
         val cyclistList by viewModel.userList.observeAsState()
+        val bikeList by viewModel.availableBikes.observeAsState()
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -168,9 +172,9 @@ class WithdrawStepper : ComponentActivity() {
                 WithdrawNaviationComponent(
                     vm = viewModel,
                     navController = withdrawNavController,
+                    bikeList = bikeList ?: listOf(),
                     cyclistList = cyclistList ?: listOf(),
-                    handleClick = { selectStepperClick() },
-                    handleFilterCyclist = filterCyclist,
+                    handleClick = selectStepperClick,
                     backToHome = { finish() }
                 )
             }
@@ -182,10 +186,20 @@ class WithdrawStepper : ComponentActivity() {
         viewModel.navigateToPrevious()
     }
 
-    private fun selectStepperClick() {
+    private val selectStepperClick: (data: Any?) -> Unit = { data: Any? ->
         when (viewModel.uiStepConfig.value) {
-            StepConfigType.SELECT_BIKE -> withdrawNavController.navigate(WithdrawScreen.WithdrawSelectUser.route)
-            StepConfigType.SELECT_USER -> withdrawNavController.navigate(WithdrawScreen.WithdrawConfirmation.route)
+            StepConfigType.SELECT_BIKE -> {
+                withdrawNavController.navigate(WithdrawScreen.WithdrawSelectUser.route)
+                val bike = data as Bike
+                viewModel.setBike(bike)
+                viewModel.navigateToNextStep()
+            }
+            StepConfigType.SELECT_USER -> {
+                withdrawNavController.navigate(WithdrawScreen.WithdrawConfirmation.route)
+                val user = data as User
+                viewModel.setUser(user)
+                viewModel.navigateToNextStep()
+            }
             StepConfigType.CONFIRM_WITHDRAW -> {
                 viewModel.confirmBikeWithdraw {
                     viewModel.setFinishAction()

@@ -117,11 +117,6 @@ class WithdrawViewModel(
     val bikeOrderNumber = MutableLiveData<String>()
     val bikeSeriesNumber = MutableLiveData<String>()
     val bikeName = MutableLiveData<String>()
-    val confirmButtonEnabled: LiveData<Boolean>
-        get() = Transformations.map(uiState) {
-            it !is BikeWithdrawUiState.Loading &&
-                    it !is BikeWithdrawUiState.Success
-        }
 
     private val _bike: MutableLiveData<Bike> = MutableLiveData<Bike>()
     private val _user: MutableLiveData<User> = MutableLiveData<User>()

@@ -25,7 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun BikeListComponent(bikeList: List<Bike>, handleClick: () -> Unit = {}) {
+fun BikeListComponent(bikeList: List<Bike>, handleClick: (Bike) -> Unit = {}) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -40,9 +40,7 @@ fun BikeListComponent(bikeList: List<Bike>, handleClick: () -> Unit = {}) {
         ) {
             items(bikeList) { bike ->
                 CardBikeComponent(bike = bike) {
-                    handleClick()
-//                        vm.setBike(bike)
-//                        vm.navigateToNextStep()
+                    handleClick(bike)
                 }
             }
         }
