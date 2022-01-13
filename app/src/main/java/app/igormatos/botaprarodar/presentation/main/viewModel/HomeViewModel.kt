@@ -18,7 +18,7 @@ class HomeViewModel(
     private val usersUseCase: UsersUseCase
 ) : ViewModel() {
 
-    private var _uiState = MutableLiveData(HomeUiState())
+    private var _uiState = MutableLiveData(HomeUiState(bikes = emptyList()))
     val uiState: LiveData<HomeUiState>
         get() = _uiState
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
@@ -24,8 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun BikeListComponent(vm: WithdrawViewModel = viewModel(), handleClick: () -> Unit={}) {
-    val bikeList = vm.availableBikes.observeAsState()
+fun BikeListComponent(bikeList: List<Bike>, handleClick: () -> Unit = {}) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -38,13 +38,11 @@ fun BikeListComponent(vm: WithdrawViewModel = viewModel(), handleClick: () -> Un
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
-            if (bikeList.value != null) {
-                items(bikeList.value!!) { bike ->
-                    CardBikeComponent(bike = bike) {
-                        handleClick()
-                        vm.setBike(bike)
-                        vm.navigateToNextStep()
-                    }
+            items(bikeList) { bike ->
+                CardBikeComponent(bike = bike) {
+                    handleClick()
+//                        vm.setBike(bike)
+//                        vm.navigateToNextStep()
                 }
             }
         }
@@ -55,6 +53,6 @@ fun BikeListComponent(vm: WithdrawViewModel = viewModel(), handleClick: () -> Un
 @Composable
 private fun DefaultPreview() {
     BotaprarodarTheme {
-        BikeListComponent()
+        BikeListComponent(listOf())
     }
 }

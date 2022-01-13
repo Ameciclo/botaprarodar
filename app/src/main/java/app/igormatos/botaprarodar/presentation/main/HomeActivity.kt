@@ -26,7 +26,7 @@ class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val uiState by viewModel.uiState.observeAsState(HomeUiState())
+            val uiState by viewModel.uiState.observeAsState(HomeUiState(bikes = emptyList()))
             MainScreen(uiState, loadCyclistActions())
         }
     }
@@ -55,5 +55,4 @@ class HomeActivity : ComponentActivity() {
     private val filterCyclist: (cyclistName: String) -> Unit = { cyclistName: String ->
         viewModel.filterBy(cyclistName)
     }
-
 }

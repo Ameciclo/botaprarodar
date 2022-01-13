@@ -27,7 +27,7 @@ fun WithdrawNaviationComponent(
     ) {
         composable(WithdrawScreen.WithdrawSelectBike.route) {
             BikeListComponent(
-                vm = vm,
+                emptyList(), // TODO
                 handleClick = handleClick
             )
         }

@@ -9,6 +9,7 @@ data class HomeUiState(
     var totalBikesAvailable: Int = 0,
     var totalBikesWithdraw: Int = 0,
     var users: List<User> = listOf(),
+    val bikes: List<Bike>,
     val cyclistActions: CyclistActions = CyclistActions()
 ) {
     companion object {
@@ -17,7 +18,12 @@ data class HomeUiState(
             val totalBikesWithdraw = bikes.filter { it.inUse }.count()
             val totalBikesAvailable = totalBikes.minus(totalBikesWithdraw)
 
-            return HomeUiState(totalBikes, totalBikesAvailable, totalBikesWithdraw)
+            return HomeUiState(
+                totalBikes = totalBikes,
+                totalBikesAvailable = totalBikesAvailable,
+                totalBikesWithdraw = totalBikesWithdraw,
+                bikes = bikes
+            )
         }
     }
 }

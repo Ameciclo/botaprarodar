@@ -109,7 +109,10 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
 private fun Cards() {
     val context = LocalContext.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        ActionCard(title = "Emprestar\nBicicleta", painterResource(id = R.drawable.ic_withdraw_bike)) {
+        ActionCard(
+            title = "Emprestar\nBicicleta",
+            painterResource(id = R.drawable.ic_withdraw_bike)
+        ) {
             context.startActivity(Intent(context, WithdrawStepper::class.java))
         }
         ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
@@ -130,7 +133,7 @@ private fun Cards() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen( HomeUiState(50, 30, 20))
+    HomeScreen(HomeUiState(50, 30, 20, bikes = emptyList()))
 }
 
 @Preview(showBackground = true)

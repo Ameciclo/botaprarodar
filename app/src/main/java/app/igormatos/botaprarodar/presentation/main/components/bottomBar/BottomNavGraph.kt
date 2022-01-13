@@ -1,11 +1,10 @@
 package app.igormatos.botaprarodar.presentation.main.components.bottomBar
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.components.BikeListComponent
 import app.igormatos.botaprarodar.presentation.components.CyclistActions
 import app.igormatos.botaprarodar.presentation.components.CyclistListComponent
 import app.igormatos.botaprarodar.presentation.main.HomeUiState
@@ -27,6 +26,6 @@ fun BottomNavGraph(
                 handleFilter = cyclistActions.handleFilter
             )
         }
-        composable(BottomBarScreen.Bikes.route) { Text(text = "Bike") }
+        composable(BottomBarScreen.Bikes.route) { BikeListComponent(uiState.bikes) }
     }
 }
