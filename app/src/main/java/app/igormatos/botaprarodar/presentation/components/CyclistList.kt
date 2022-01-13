@@ -17,33 +17,39 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class CyclistActions(
     val cyclistList: List<User> = listOf(),
-    val handleClick: () -> Unit = {},
-    val handleFilter: (cyclistName: String) -> Unit = { }
+    val handleClick: (User) -> Unit = {}
 )
 
 @ExperimentalCoroutinesApi
 @Composable
 fun CyclistListComponent(
     cyclistList: List<User> = listOf(),
-    handleFilter: (cyclistName: String) -> Unit = {}
+    handleClick: (User) -> Unit,
 ) {
+    var filteredList by remember { mutableStateOf(cyclistList) }
     Column {
-        SearchTextField(handleFilter = handleFilter)
+        SearchTextField(handleFilter = { name ->
+            filteredList =
+                cyclistList.filter { user ->
+                    user.name!!.lowercase().contains(name.lowercase())
+                }
+        })
 
-        UsersList(cyclistList)
+        UsersList(filteredList, handleClick = handleClick)
     }
-
 }
+
 
 @Composable
 fun UsersList(
-    users: List<User>
+    users: List<User>,
+    handleClick: (User) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))
     ) {
         items(users) { cyclist ->
-            CardCyclist(user = cyclist)
+            CardCyclist(user = cyclist, handleClick = handleClick)
             Box(contentAlignment = Alignment.BottomCenter) {
                 Divider(
                     modifier = Modifier
@@ -60,6 +66,6 @@ fun UsersList(
 @Composable
 private fun DefaultPreview() {
     BotaprarodarTheme {
-        CyclistListComponent()
+        CyclistListComponent(handleClick = {})
     }
 }

@@ -102,7 +102,7 @@ fun WithdrawConfirmationComponent(vm: WithdrawViewModel = viewModel(), handleCli
                     Divider()
 
                     CardCyclist(
-                        user = user.value,
+                        user = user.value!!,
                         bikeLastWithdraw = todayFormatted,
                         handleClick = {})
                 }

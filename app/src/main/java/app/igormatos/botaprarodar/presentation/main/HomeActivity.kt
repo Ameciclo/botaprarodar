@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.CyclistActions
 import app.igormatos.botaprarodar.presentation.main.viewModel.HomeViewModel
+import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,10 +51,12 @@ class HomeActivity : ComponentActivity() {
     @Composable
     private fun loadCyclistActions(): CyclistActions {
         val users by viewModel.userList.observeAsState()
-        return CyclistActions(cyclistList = users ?: listOf(), handleFilter = filterCyclist)
+        return CyclistActions(cyclistList = users ?: listOf(), handleClick = clickCyclist)
     }
 
-    private val filterCyclist: (cyclistName: String) -> Unit = { cyclistName: String ->
-        viewModel.filterBy(cyclistName)
+    private val clickCyclist: (user: User) -> Unit = { user: User ->
+        val intent =
+            UserActivity.setupActivity(this, user, currentCommunityUserList = arrayListOf())
+        startActivity(intent)
     }
 }

@@ -23,7 +23,7 @@ fun BottomNavGraph(
         composable(BottomBarScreen.Users.route) {
             CyclistListComponent(
                 cyclistList = cyclistActions.cyclistList,
-                handleFilter = cyclistActions.handleFilter
+                handleClick = cyclistActions.handleClick
             )
         }
         composable(BottomBarScreen.Bikes.route) { BikeListComponent(uiState.bikes) }
