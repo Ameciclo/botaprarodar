@@ -26,7 +26,7 @@ fun SearchTextField(handleFilter: (cyclistName:String) -> Unit) {
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
+            .padding(all = dimensionResource(id = R.dimen.padding_medium)),
         value = cyclistName,
         onValueChange = { newText ->
             cyclistName = newText
