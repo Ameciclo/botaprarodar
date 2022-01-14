@@ -287,10 +287,6 @@ val bprModule = module {
         BikesUseCase(get<BikeRepository>())
     }
 
-    viewModel {
-        BikesViewModel(get<BikesUseCase>())
-    }
-
     factory {
         UserFormUseCase(
             userRepository = get(),
@@ -317,10 +313,6 @@ val bprModule = module {
 
     single {
         ValidateUserWithdraw(get(), get())
-    }
-
-    viewModel {
-        UsersViewModel(get())
     }
 
     single { BikeHolder() }
@@ -374,24 +366,6 @@ val bprModule = module {
 
     single {
         ReturnBikeViewModel(stepper = get())
-    }
-
-    viewModel {
-        BikeWithdrawViewModel(get())
-    }
-    viewModel {
-        SelectBikeViewModel(get(), get(), get())
-    }
-    viewModel {
-        SelectUserViewModel(
-            userHolder = get(),
-            stepperAdapter = get(),
-            usersUseCase = get(),
-            validateUserWithdraw = get()
-        )
-    }
-    viewModel {
-        BikeConfirmationViewModel(get(), get(), get(), get())
     }
 
     viewModel {
