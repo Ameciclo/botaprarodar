@@ -75,7 +75,7 @@ class BikeTest {
 
         bicycle {
             clickBicycleNavigation()
-            addBicycle()
+//            addBicycle()
             hideKeyboard()
             simulateCallbackFromCameraIntent(intentsTestRule, ::clickTakeBicyclePhoto)
             sleep(500)

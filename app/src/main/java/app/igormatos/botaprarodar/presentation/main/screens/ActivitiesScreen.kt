@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
-import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Composable
 fun ActivitiesScreen() {
@@ -54,6 +55,7 @@ fun ActivitiesDate(date: String) {
     )
 }
 
+@ExperimentalCoroutinesApi
 @Composable
 private fun CardsRow() {
     val context = LocalContext.current
@@ -62,7 +64,7 @@ private fun CardsRow() {
         modifier = Modifier.fillMaxWidth()
     ) {
         Card(modifier = Modifier.padding(16.dp).clickable {
-            context.startActivity(Intent(context, BikeWithdrawActivity::class.java))
+            context.startActivity(Intent(context, WithdrawStepper::class.java))
         }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_withdraw_bike),

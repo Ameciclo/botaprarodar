@@ -21,7 +21,6 @@ import androidx.navigation.compose.rememberNavController
 fun BottomBar(navHostController: NavHostController) {
     val screens = listOf(
         BottomBarScreen.Home,
-        BottomBarScreen.Activities,
         BottomBarScreen.Users,
         BottomBarScreen.Bikes
     )

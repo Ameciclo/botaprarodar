@@ -36,10 +36,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailVal
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
 import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeConfirmationViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectUserViewModel
+import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.*
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.LoginViewModel
@@ -52,13 +49,9 @@ import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommu
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.AdminUseCase
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
-import app.igormatos.botaprarodar.presentation.main.viewModel.BikesViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.HomeViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.TripsViewModel
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
-import app.igormatos.botaprarodar.presentation.main.viewModel.TripDetailViewModel
-import app.igormatos.botaprarodar.presentation.main.viewModel.UsersViewModel
+import app.igormatos.botaprarodar.presentation.main.viewModel.*
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
@@ -102,6 +95,10 @@ val bprModule = module {
             loginUseCase = get(),
             resendEmailUseCase = get()
         )
+    }
+
+    viewModel {
+        HomeViewModel(bikesUseCase = get(), usersUseCase = get())
     }
 
     factory {
@@ -383,9 +380,6 @@ val bprModule = module {
         BikeWithdrawViewModel(get())
     }
     viewModel {
-        BikeConfirmationViewModel(get(), get(), get(), get())
-    }
-    viewModel {
         SelectBikeViewModel(get(), get(), get())
     }
     viewModel {
@@ -396,7 +390,13 @@ val bprModule = module {
             validateUserWithdraw = get()
         )
     }
-    viewModel { HomeViewModel(get()) }
+    viewModel {
+        BikeConfirmationViewModel(get(), get(), get(), get())
+    }
+
+    viewModel {
+        WithdrawViewModel(get(), get(), get(), get(), get(), get(), get())
+    }
 
     factory {
         GetAvailableBikes(get())

@@ -8,7 +8,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.components.FinishAction
+import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -17,13 +19,15 @@ class FinishWithdrawActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Surface(color = MaterialTheme.colors.background) {
-                FinishAction(
-                    mainMessage = stringResource(id = R.string.success_withdraw_message),
-                    mainActionText = stringResource(id = R.string.repeat_withdraw_title),
-                    backToHome = { backToHome() },
-                    mainAction = { withdrawAnotherBike() }
-                )
+            BotaprarodarTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    FinishActionComponent(
+                        mainMessage = stringResource(id = R.string.success_withdraw_message),
+                        mainActionText = stringResource(id = R.string.repeat_withdraw_title),
+                        backToHome = { backToHome() },
+                        mainAction = { withdrawAnotherBike() }
+                    )
+                }
             }
         }
     }
@@ -39,7 +43,7 @@ class FinishWithdrawActivity : ComponentActivity() {
     }
 
     private fun withdrawAnotherBike() {
-        val intentWithdraw = Intent(this, BikeWithdrawActivity::class.java)
+        val intentWithdraw = Intent(this, WithdrawStepper::class.java)
         startActivity(intentWithdraw)
         finish()
     }

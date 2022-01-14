@@ -1,13 +1,17 @@
 package app.igormatos.botaprarodar.presentation.main
 
 import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore
+
+@Ignore("Reason: It asks for a launcher activity and right now i don't know how to fix it")
+@ExperimentalCoroutinesApi
 class MainScreenTest {
 
     @get:Rule
@@ -15,7 +19,13 @@ class MainScreenTest {
 
     @Before
     fun setup() {
-        composeTestRule.setContent { MainScreen(homeUiState = HomeUiState()) }
+        composeTestRule.setContent {
+            MainScreen(
+                homeUiState = HomeUiState(),
+                users = emptyList(),
+                bikes = emptyList()
+            )
+        }
     }
 
     @Test

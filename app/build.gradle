@@ -41,8 +41,9 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 
     buildFeatures {
@@ -52,11 +53,13 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = '1.8'
+        useIR = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion '1.0.5'
+        kotlinCompilerVersion '1.5.21'
     }
 
     defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -81,6 +84,7 @@ android {
 
 dependencies {
     def lifecycle_version = "2.4.0"
+    def kotlin_version = "1.5.31"
 
     implementation project(path: ':toolkit')
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
@@ -194,22 +198,39 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
 
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
 
-    //Jetpack Compose
+    // Lifecycles
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.4.0"
+
+    // Jetpack Compose
+    // Integration with activities
     implementation 'androidx.activity:activity-compose:1.4.0'
+    // Compose Material Design
     implementation 'androidx.compose.material:material:1.0.5'
+    // Animations
     implementation 'androidx.compose.animation:animation:1.0.5'
+    // Tooling support (Previews, etc.)
     implementation 'androidx.compose.ui:ui-tooling:1.0.5'
+    // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
-    implementation "androidx.compose.runtime:runtime-livedata:1.1.0-rc01"
-    implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
-    implementation "androidx.compose.material:material-icons-extended:1.0.5"
+    // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+    implementation 'io.coil-kt:coil-compose:1.4.0'
 
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // LiveData with Compose
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    // Navigation
+    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
+
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

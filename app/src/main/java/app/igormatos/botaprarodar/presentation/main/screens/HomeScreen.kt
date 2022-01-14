@@ -5,7 +5,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,12 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
-import app.igormatos.botaprarodar.presentation.bikewithdraw.BikeWithdrawActivity
-import app.igormatos.botaprarodar.presentation.main.HomeUiState
 import app.igormatos.botaprarodar.presentation.components.ActionCard
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
+import app.igormatos.botaprarodar.presentation.main.HomeUiState
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
 fun HomeScreen(homeUiState: HomeUiState) {
     val columnAttributes: Modifier = Modifier
@@ -100,12 +105,16 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
     }
 }
 
+@ExperimentalCoroutinesApi
 @Composable
 private fun Cards() {
     val context = LocalContext.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        ActionCard(title = "Emprestar\nBicicleta", painterResource(id = R.drawable.ic_withdraw_bike)) {
-            context.startActivity(Intent(context, BikeWithdrawActivity::class.java))
+        ActionCard(
+            title = "Emprestar\nBicicleta",
+            painterResource(id = R.drawable.ic_withdraw_bike)
+        ) {
+            context.startActivity(Intent(context, WithdrawStepper::class.java))
         }
         ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
             context.startActivity(Intent(context, ReturnBikeActivity::class.java))
@@ -122,10 +131,17 @@ private fun Cards() {
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen( HomeUiState(50, 30, 20))
+    HomeScreen(
+        HomeUiState(
+            totalBikes = 50,
+            totalBikesAvailable = 30,
+            totalBikesWithdraw = 20,
+        )
+    )
 }
 
 @Preview(showBackground = true)
