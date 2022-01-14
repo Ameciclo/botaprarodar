@@ -27,13 +27,13 @@ fun WithdrawNaviationComponent(
         startDestination = WithdrawScreen.WithdrawSelectBike.route
     ) {
         composable(WithdrawScreen.WithdrawSelectBike.route) {
-            BikeListComponent(
-                bikeList = bikeList,
+            BikeList(
+                bikes = bikeList,
                 handleClick = handleClick
             )
         }
         composable(WithdrawScreen.WithdrawSelectUser.route) {
-            CyclistListComponent(cyclistList = cyclistList, handleClick = handleClick)
+            UsersListWithFilter(users = cyclistList, handleClick = handleClick)
         }
         composable(WithdrawScreen.WithdrawConfirmation.route) {
             WithdrawConfirmationComponent(

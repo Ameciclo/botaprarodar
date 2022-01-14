@@ -3,18 +3,16 @@ package app.igormatos.botaprarodar.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.components.CyclistActions
 import app.igormatos.botaprarodar.presentation.main.viewModel.HomeViewModel
-import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,35 +26,32 @@ class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val uiState by viewModel.uiState.observeAsState(HomeUiState(bikes = emptyList()))
-            MainScreen(uiState, loadCyclistActions())
+            val users by viewModel.users.observeAsState(emptyList())
+            val bikes by viewModel.bikes.observeAsState(emptyList())
+            var uiState by remember { mutableStateOf(HomeUiState()) }
+
+            uiState = HomeUiState.fromBikes(bikes)
+
+            MainScreen(
+                homeUiState = uiState,
+                users = users,
+                bikes = bikes
+            )
         }
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+    override fun onResume() {
+        super.onResume()
         initUI()
-        return super.onCreateView(name, context, attrs)
-    }
-
-    companion object {
-        fun getStartIntent(context: Context) = Intent(context, HomeActivity::class.java)
     }
 
     private fun initUI() {
         joinedCommunityId = preferencesModule.getJoinedCommunity().id
         viewModel.getBikes(joinedCommunityId)
-        viewModel.getUserList(joinedCommunityId)
+        viewModel.getUsers(joinedCommunityId)
     }
 
-    @Composable
-    private fun loadCyclistActions(): CyclistActions {
-        val users by viewModel.userList.observeAsState()
-        return CyclistActions(cyclistList = users ?: listOf(), handleClick = clickCyclist)
-    }
-
-    private val clickCyclist: (user: User) -> Unit = { user: User ->
-        val intent =
-            UserActivity.setupActivity(this, user, currentCommunityUserList = arrayListOf())
-        startActivity(intent)
+    companion object {
+        fun getStartIntent(context: Context) = Intent(context, HomeActivity::class.java)
     }
 }

@@ -8,24 +8,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.SelectBikeViewModel
-import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun BikeListComponent(bikeList: List<Bike>, handleClick: (Bike) -> Unit = {}) {
+fun BikeList(bikes: List<Bike>, handleClick: (Bike) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -38,7 +34,7 @@ fun BikeListComponent(bikeList: List<Bike>, handleClick: (Bike) -> Unit = {}) {
         LazyColumn(
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
-            items(bikeList) { bike ->
+            items(bikes) { bike ->
                 CardBikeComponent(bike = bike) {
                     handleClick(bike)
                 }
@@ -47,10 +43,11 @@ fun BikeListComponent(bikeList: List<Bike>, handleClick: (Bike) -> Unit = {}) {
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview(showBackground = true)
 @Composable
 private fun DefaultPreview() {
     BotaprarodarTheme {
-        BikeListComponent(listOf())
+        BikeList(bikes = emptyList(), handleClick = {})
     }
 }

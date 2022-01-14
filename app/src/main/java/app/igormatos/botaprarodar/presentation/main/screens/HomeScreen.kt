@@ -28,6 +28,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
 fun HomeScreen(homeUiState: HomeUiState) {
     val columnAttributes: Modifier = Modifier
@@ -130,10 +131,17 @@ private fun Cards() {
     }
 }
 
+@ExperimentalCoroutinesApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(HomeUiState(50, 30, 20, bikes = emptyList()))
+    HomeScreen(
+        HomeUiState(
+            totalBikes = 50,
+            totalBikesAvailable = 30,
+            totalBikesWithdraw = 20,
+        )
+    )
 }
 
 @Preview(showBackground = true)

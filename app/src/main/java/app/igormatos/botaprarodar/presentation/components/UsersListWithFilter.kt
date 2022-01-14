@@ -15,22 +15,14 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class CyclistActions(
-    val cyclistList: List<User> = listOf(),
-    val handleClick: (User) -> Unit = {}
-)
-
 @ExperimentalCoroutinesApi
 @Composable
-fun CyclistListComponent(
-    cyclistList: List<User> = listOf(),
-    handleClick: (User) -> Unit,
-) {
-    var filteredList by remember { mutableStateOf(cyclistList) }
+fun UsersListWithFilter(users: List<User>, handleClick: (User) -> Unit) {
+    var filteredList by remember { mutableStateOf(users) }
     Column {
         SearchTextField(handleFilter = { name ->
             filteredList =
-                cyclistList.filter { user ->
+                users.filter { user ->
                     user.name!!.lowercase().contains(name.lowercase())
                 }
         })
@@ -41,22 +33,17 @@ fun CyclistListComponent(
 
 
 @Composable
-fun UsersList(
-    users: List<User>,
-    handleClick: (User) -> Unit,
-) {
+fun UsersList(users: List<User>, handleClick: (User) -> Unit) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))
     ) {
-        items(users) { cyclist ->
-            CardCyclist(
-                user = cyclist,
-                handleClick = handleClick
-            )
+        items(users) { user ->
+            CardCyclist(user = user, handleClick = handleClick)
             Box(contentAlignment = Alignment.BottomCenter) {
                 Divider(
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
+                    modifier = Modifier.padding(
+                        horizontal = dimensionResource(id = R.dimen.padding_small)
+                    ),
                     color = colorResource(id = R.color.auxiliar_text_gray),
                 )
             }
@@ -69,6 +56,6 @@ fun UsersList(
 @Composable
 private fun DefaultPreview() {
     BotaprarodarTheme {
-        CyclistListComponent(handleClick = {})
+        UsersListWithFilter(users = emptyList(), handleClick = {})
     }
 }

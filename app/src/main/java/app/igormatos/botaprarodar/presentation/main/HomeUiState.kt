@@ -1,16 +1,11 @@
 package app.igormatos.botaprarodar.presentation.main
 
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.components.CyclistActions
 
 data class HomeUiState(
     var totalBikes: Int = 0,
     var totalBikesAvailable: Int = 0,
     var totalBikesWithdraw: Int = 0,
-    var users: List<User> = listOf(),
-    val bikes: List<Bike>,
-    val cyclistActions: CyclistActions = CyclistActions()
 ) {
     companion object {
         fun fromBikes(bikes: List<Bike>): HomeUiState {
@@ -22,7 +17,6 @@ data class HomeUiState(
                 totalBikes = totalBikes,
                 totalBikesAvailable = totalBikesAvailable,
                 totalBikesWithdraw = totalBikesWithdraw,
-                bikes = bikes
             )
         }
     }

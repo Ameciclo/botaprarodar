@@ -87,7 +87,6 @@ dependencies {
     def kotlin_version = "1.5.31"
 
     implementation project(path: ':toolkit')
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.security:security-crypto:1.1.0-alpha03'
 
     // Test

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
@@ -18,47 +19,39 @@ class HomeViewModel(
     private val usersUseCase: UsersUseCase
 ) : ViewModel() {
 
-    private var _uiState = MutableLiveData(HomeUiState(bikes = emptyList()))
+    private var _uiState = MutableLiveData(HomeUiState())
     val uiState: LiveData<HomeUiState>
         get() = _uiState
 
-    private var _originalUserList = listOf<User>()
-    private val _userList = MutableLiveData<List<User>>()
-    val userList: LiveData<List<User>>
-        get() = _userList
+    private var _users = MutableLiveData(emptyList<User>())
+    val users: LiveData<List<User>>
+        get() = _users
+
+    private var _bikes = MutableLiveData(emptyList<Bike>())
+    val bikes: LiveData<List<Bike>>
+        get() = _bikes
 
     @ExperimentalCoroutinesApi
     fun getBikes(communityId: String) {
         viewModelScope.launch {
-            when (val bikeslist = bikesUseCase.getBikes(communityId)) {
+            when (val bikes = bikesUseCase.getBikes(communityId)) {
                 is SimpleResult.Success -> {
-                    _uiState.value = HomeUiState.fromBikes(bikeslist.data)
+                    _uiState.value = HomeUiState.fromBikes(bikes.data)
+                    _bikes.value = bikes.data
                 }
                 is SimpleResult.Error -> {}
             }
         }
     }
 
-    fun getUserList(communityId: String) {
+    fun getUsers(communityId: String) {
         viewModelScope.launch {
-            when (val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
+            when (val users = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
-                    if (!result.data.isNullOrEmpty()) {
-                        _userList.postValue(result.data!!)
-                        _originalUserList = result.data
-                    } else {
-                        _userList.postValue(arrayListOf())
-                    }
+                    _users.value = users.data
                 }
+                else -> {}
             }
         }
-    }
-
-    fun filterBy(word: String) {
-        val lista =
-            _originalUserList.filter { user ->
-                user.name!!.lowercase().contains(word.lowercase())
-            }
-        _userList.value = lista!!
     }
 }
