@@ -20,13 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet
+import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 
 
 data class IconStyle(
     var icon: Painter,
-    var iconColor: Color = ColorPalet.AuxiliarGray,
-    var lineColor: Color = ColorPalet.AuxiliarGray,
+    var iconColor: Color = ColorPallet.AuxiliarGray,
+    var lineColor: Color = ColorPallet.AuxiliarGray,
     var backgroundColor: Color = Color.White
 )
 
@@ -73,9 +73,9 @@ fun RoundedIconStepperPreview() {
         ItemStepperComponent(
             iconStyle = IconStyle(
                 icon = painterResource(id = R.drawable.ic_bike),
-                iconColor = ColorPalet.GreenTeal,
-                lineColor = ColorPalet.GreenTeal,
-                backgroundColor = ColorPalet.GreenTeal,
+                iconColor = ColorPallet.GreenTeal,
+                lineColor = ColorPallet.GreenTeal,
+                backgroundColor = ColorPallet.GreenTeal,
             )
         )
     }

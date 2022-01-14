@@ -19,13 +19,6 @@
                 app:destination="@id/tripDetailActivity" />
     </fragment>
 
-    <fragment
-            android:id="@+id/navigationUsers"
-            android:name="app.igormatos.botaprarodar.presentation.main.users.UsersFragment" />
-    <fragment
-            android:id="@+id/navigationBicycles"
-            android:name="app.igormatos.botaprarodar.presentation.main.bikes.BikesFragment" />
-
     <activity
             android:id="@+id/returnBikeActivity"
             android:name="app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity"

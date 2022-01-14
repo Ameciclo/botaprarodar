@@ -5,18 +5,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet.*
 
 private val DarkColorPalette = darkColors(
-    primary = ColorPalet.Purple200,
-    primaryVariant = ColorPalet.Purple700,
-    secondary = ColorPalet.Teal200
+    primary = ColorPallet.Purple200,
+    primaryVariant = ColorPallet.Purple700,
+    secondary = ColorPallet.Teal200
 )
 
 private val LightColorPalette = lightColors(
-    primary = ColorPalet.Purple500,
-    primaryVariant = ColorPalet.Purple700,
-    secondary = ColorPalet.Teal200
+    primary = ColorPallet.Purple500,
+    primaryVariant = ColorPallet.Purple700,
+    secondary = ColorPallet.Teal200
 
     /* Other default colors to override
     background = Color.White,

@@ -36,10 +36,9 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawVi
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPalet
+import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
-import kotlinx.android.synthetic.main.fragment_select_bike.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -121,7 +120,7 @@ class WithdrawStepper : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .height(152.dp)
-                    .padding(top = dimensionResource(id = R.dimen.padding_minimun))
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_minimun))
                     .fillMaxSize()
                     .background(Color.White)
             ) {
@@ -166,7 +165,7 @@ class WithdrawStepper : ComponentActivity() {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .background(ColorPalet.BackgroundGray)
+                    .background(ColorPallet.BackgroundGray)
                     .padding(top = dimensionResource(id = R.dimen.padding_medium))
             ) {
                 WithdrawNaviationComponent(
@@ -222,60 +221,59 @@ class WithdrawStepper : ComponentActivity() {
     @Composable
     private fun StepperComponents(
     ) {
-        var iconStyleFirst: IconStyle = IconStyle(
+        var iconStyleFirst = IconStyle(
             icon = painterResource(id = R.drawable.ic_bike),
-            iconColor = ColorPalet.GreenTeal,
-            lineColor = ColorPalet.GreenTeal,
+            iconColor = ColorPallet.GreenTeal,
+            lineColor = ColorPallet.GreenTeal,
         )
-        var iconStyleSecond: IconStyle =
-            IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
-        var iconStyleThird: IconStyle =
-            IconStyle(icon = painterResource(id = R.drawable.ic_confirm))
+        var iconStyleSecond = IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
+        var iconStyleThird = IconStyle(icon = painterResource(id = R.drawable.ic_confirm))
         val selectedView = viewModel.uiStepConfig.observeAsState()
+
         when (selectedView.value) {
             StepConfigType.SELECT_USER -> {
                 iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPalet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                     iconColor = Color.White
                 )
                 iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = ColorPalet.GreenTeal,
-                    lineColor = ColorPalet.GreenTeal
+                    iconColor = ColorPallet.GreenTeal,
+                    lineColor = ColorPallet.GreenTeal
                 )
             }
             StepConfigType.CONFIRM_WITHDRAW -> {
                 iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPalet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                     iconColor = Color.White
                 )
 
                 iconStyleSecond = iconStyleSecond.copy(
                     iconColor = Color.White,
-                    lineColor = ColorPalet.GreenTeal,
-                    backgroundColor = ColorPalet.GreenTeal,
+                    lineColor = ColorPallet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                 )
 
                 iconStyleThird = iconStyleThird.copy(
-                    iconColor = ColorPalet.GreenTeal,
-                    lineColor = ColorPalet.GreenTeal
+                    iconColor = ColorPallet.GreenTeal,
+                    lineColor = ColorPallet.GreenTeal
                 )
             }
             StepConfigType.FINISHED_ACTION -> {
                 iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPalet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                     iconColor = Color.White
                 )
 
                 iconStyleSecond = iconStyleSecond.copy(
                     iconColor = Color.White,
-                    lineColor = ColorPalet.GreenTeal,
-                    backgroundColor = ColorPalet.GreenTeal,
+                    lineColor = ColorPallet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                 )
 
                 iconStyleThird = iconStyleThird.copy(
                     iconColor = Color.White,
-                    lineColor = ColorPalet.GreenTeal,
-                    backgroundColor = ColorPalet.GreenTeal,
+                    lineColor = ColorPallet.GreenTeal,
+                    backgroundColor = ColorPallet.GreenTeal,
                 )
             }
         }
