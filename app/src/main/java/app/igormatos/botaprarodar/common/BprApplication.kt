@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.common
 
 import android.app.Application
 import app.igormatos.botaprarodar.di.bprModule
+import app.igormatos.botaprarodar.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -11,7 +12,12 @@ class BprApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@BprApplication)
-            modules(bprModule)
+            modules(
+                listOf(
+                    bprModule,
+                    viewModelModule
+                )
+            )
         }
     }
 
