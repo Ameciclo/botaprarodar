@@ -15,58 +15,25 @@ import app.igormatos.botaprarodar.data.repository.*
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
-import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
-import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
-import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.GetAvailableBikes
-import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
-import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
-import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.authentication.EmailValidator
 import app.igormatos.botaprarodar.presentation.authentication.PasswordValidator
 import app.igormatos.botaprarodar.presentation.authentication.Validator
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.EmailValidationViewModel
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.PasswordRecoveryViewModel
-import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInViewModel
-import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
-import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.presentation.login.LoginUseCase
-import app.igormatos.botaprarodar.presentation.login.LoginViewModel
-import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryUseCase
-import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPasswordViewModel
-import app.igormatos.botaprarodar.presentation.login.registration.RegisterUseCase
-import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
-import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
-import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityUseCase
-import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
-import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.AdminUseCase
-import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailRepository
-import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
-import app.igormatos.botaprarodar.presentation.splash.SplashViewModel
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
-import app.igormatos.botaprarodar.presentation.user.UserViewModel
-import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
-import app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel
 import com.brunotmgomes.ui.SnackbarModule
 import com.brunotmgomes.ui.SnackbarModuleImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -78,54 +45,6 @@ val bprModule = module {
     single<FirebaseAuthModule> { FirebaseAuthModuleImpl() }
     single<FirebaseHelperModule> { FirebaseHelperModuleImpl() }
     single<SnackbarModule> { SnackbarModuleImpl() }
-
-    factory {
-        LoginUseCase(
-            emailValidator = get(named(EMAIL_VALIDATOR_NAME)),
-            passwordValidator = get(named(PASSWORD_VALIDATOR_NAME)),
-            adminRepository = get()
-        )
-    }
-
-    factory {
-        ResendEmailUseCase(
-            adminRepository = get()
-        )
-    }
-
-    factory {
-        PasswordRecoveryUseCase(
-            adminRepository = get(),
-            emailValidator = get(named(EMAIL_VALIDATOR_NAME))
-        )
-    }
-
-    factory {
-        RegisterUseCase(
-            adminRepository = get(),
-            emailValidator = get(named(EMAIL_VALIDATOR_NAME)),
-            passwordValidator = get(named(PASSWORD_VALIDATOR_NAME))
-        )
-    }
-
-    factory {
-        SelectCommunityUseCase(
-            adminUseCase = get(),
-            communityUseCase = get()
-        )
-    }
-
-    factory {
-        CommunityUseCase(
-            communityRepository = get()
-        )
-    }
-
-    factory {
-        AdminUseCase(
-            adminRepository = get()
-        )
-    }
 
     factory<AdminApiService> {
         get<Retrofit>().create(AdminApiService::class.java)
@@ -146,8 +65,6 @@ val bprModule = module {
             communityMapper = get()
         )
     }
-
-    single { AddCommunityUseCase(communityRepository = get()) }
 
     single<BicycleApi> {
         get<Retrofit>().create(BicycleApi::class.java)
@@ -185,32 +102,14 @@ val bprModule = module {
         )
     }
 
-    single {
-        BikeActionUseCase(get())
-    }
-
     single { NoConnectionInterceptor(get()) }
-
-    single {
-        BikeFormUseCase(
-            bikeRepository = get<BikeRepository>(),
-            firebaseHelperRepository = get<FirebaseHelperRepository>()
-        )
-    }
 
     single {
         BikeRepository(get<BicycleApi>())
     }
 
     single {
-        BikesUseCase(get<BikeRepository>())
-    }
-    single {
         UserRepository(userApi = get())
-    }
-
-    single {
-        UsersUseCase(get<UserRepository>())
     }
 
     single {
@@ -226,10 +125,6 @@ val bprModule = module {
     single { DevolutionBikeRepository(bikeApi = get()) }
 
     single { WithdrawBikeRepository(bikeApi = get()) }
-
-    single {
-        StepOneReturnBikeUseCase(bikeRepository = get())
-    }
 
     single {
         providesReturnStepperAdapter()
@@ -263,10 +158,6 @@ val bprModule = module {
         TripDetailRepository(get())
     }
 
-    factory {
-        TripDetailUseCase(get())
-    }
-
     factory<Validator<String?>>(named(EMAIL_VALIDATOR_NAME)) {
         EmailValidator()
     }
@@ -278,49 +169,6 @@ val bprModule = module {
     single { FirebaseSessionManager(firebaseAuth = get(), sharedPreferencesModule = get()) }
 
     single { AuthTokenInterceptor(firebaseSessionManager = get()) }
-
-
-
-    factory {
-        UserFormUseCase(
-            userRepository = get(),
-            firebaseHelperRepository = get(),
-        )
-    }
-}
-
-val viewModelModule = module {
-    viewModel { (communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>) ->
-        UserFormViewModel(
-            community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            stepper = get(),
-            communityUsers = communityUsers,
-            mapOptions = mapOptions
-        )
-    }
-
-    viewModel { (communityBikesSerialNumbers: ArrayList<String>) ->
-        BikeFormViewModel(
-            bikeFormUseCase = get(),
-            community = get<SharedPreferencesModule>().getJoinedCommunity(),
-            communityBikesSerialNumbers = communityBikesSerialNumbers
-        )
-    }
-
-    viewModel { PasswordRecoveryViewModel(get(named(EMAIL_VALIDATOR_NAME)), get()) }
-    viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
-    viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }
-    viewModel { StepFinalReturnBikeViewModel(get(), get(), get(), get()) }
-    viewModel { StepOneReturnBikeViewModel(get(), get(), get()) }
-    viewModel { SelectCommunityViewModel(get(), get(), get()) }
-    viewModel { ReturnBikeQuizViewModel(get(), get()) }
-    viewModel { SplashViewModel(get(), get(), get()) }
-    viewModel { RecoveryPasswordViewModel(get()) }
-    viewModel { LoginViewModel(get(), get()) }
-    viewModel { AddCommunityViewModel(get()) }
-    viewModel { UserQuizViewModel(get()) }
-    viewModel { RegisterViewModel(get()) }
-    viewModel { UserViewModel(get()) }
 }
 
 const val EMAIL_VALIDATOR_NAME = "email_validator"
