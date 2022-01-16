@@ -11,6 +11,7 @@ import app.igormatos.botaprarodar.presentation.login.LoginViewModel
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPasswordViewModel
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
@@ -18,10 +19,12 @@ import app.igormatos.botaprarodar.presentation.splash.SplashViewModel
 import app.igormatos.botaprarodar.presentation.user.UserViewModel
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+@ExperimentalCoroutinesApi
 val viewModelModule = module {
     viewModel { (communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>) ->
         UserFormViewModel(
@@ -53,5 +56,6 @@ val viewModelModule = module {
     viewModel { AddCommunityViewModel(get()) }
     viewModel { UserQuizViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { ReturnBikeViewModel(get()) }
     viewModel { UserViewModel(get()) }
 }
