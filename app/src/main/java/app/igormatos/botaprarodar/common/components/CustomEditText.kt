@@ -73,7 +73,7 @@ class CustomEditText @JvmOverloads constructor(
         }
     }
 
-    fun validateText(userCompleteName: String, errorMessage: String) {
+    fun validateText(userCompleteName: String?, errorMessage: String) {
         binding.apply {
             textLayout.setErrorUserCompleteName(
                 userCompleteName,

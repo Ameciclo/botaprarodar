@@ -63,7 +63,15 @@ class ReturnBikeActivity : AppCompatActivity() {
 
         viewModel.uiState.observe(this) {
             when (it) {
-                StepConfigType.SELECT_BIKE -> navController.navigate(R.id.returnBikeFragment )
+                StepConfigType.SELECT_BIKE -> {
+                    binding.returnBikeToolbar.let { toolbar ->
+                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+                        toolbar.setNavigationOnClickListener {
+                            onBackPressed()
+                        }
+                    }
+                    navController.navigate(R.id.returnBikeFragment)
+                }
                 StepConfigType.QUIZ -> navController.navigate(R.id.returnBikeQuizFragment)
                 StepConfigType.CONFIRM_DEVOLUTION -> navController.navigate(R.id.stepFinalReturnBikeFragment)
                 else -> {
@@ -80,7 +88,7 @@ class ReturnBikeActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         checkFlowOnBackPressed()
 
-        if(flowIsDetailBikeActivityAndSecondStep(intent.getStringExtra(ORIGIN_FLOW)).not())
+        if (flowIsDetailBikeActivityAndSecondStep(intent.getStringExtra(ORIGIN_FLOW)).not())
             viewModel.navigateToPrevious()
 
         return navController.navigateUp(appBarConfiguration)
