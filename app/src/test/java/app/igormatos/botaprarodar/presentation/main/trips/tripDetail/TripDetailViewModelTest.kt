@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.common.extensions.convertToBike
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.presentation.main.viewModel.TripDetailViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult

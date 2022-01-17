@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.components.FinishAction
+import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 
 class FinishReturnBikeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class FinishReturnBikeActivity : ComponentActivity() {
         setContent {
             BotaprarodarTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    FinishAction(
+                    FinishActionComponent(
                         mainMessage = stringResource(id = R.string.success_devolution_message),
                         mainActionText = stringResource(id = R.string.repeat_devolution_title),
                         backToHome = { backToHome() },
@@ -32,7 +32,7 @@ class FinishReturnBikeActivity : ComponentActivity() {
     }
 
     private fun backToHome() {
-        val intentHome = Intent(this, MainActivity::class.java)
+        val intentHome = HomeActivity.getStartIntent(this)
         startActivity(intentHome)
         finish()
     }
@@ -49,7 +49,7 @@ class FinishReturnBikeActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     BotaprarodarTheme {
-        FinishAction(
+        FinishActionComponent(
             mainMessage = stringResource(id = R.string.success_devolution_message),
             mainActionText = stringResource(id = R.string.repeat_devolution_title),
             backToHome = { },

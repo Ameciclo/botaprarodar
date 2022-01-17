@@ -8,17 +8,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.components.FinishAction
+import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
-import app.igormatos.botaprarodar.presentation.main.MainActivity
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class FinishWithdrawActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             BotaprarodarTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    FinishAction(
+                    FinishActionComponent(
                         mainMessage = stringResource(id = R.string.success_withdraw_message),
                         mainActionText = stringResource(id = R.string.repeat_withdraw_title),
                         backToHome = { backToHome() },
@@ -34,13 +37,13 @@ class FinishWithdrawActivity : ComponentActivity() {
     }
 
     private fun backToHome() {
-        val intentHome = Intent(this, MainActivity::class.java)
+        val intentHome  = HomeActivity.getStartIntent(this)
         startActivity(intentHome)
         finish()
     }
 
     private fun withdrawAnotherBike() {
-        val intentWithdraw = Intent(this, BikeWithdrawActivity::class.java)
+        val intentWithdraw = Intent(this, WithdrawStepper::class.java)
         startActivity(intentWithdraw)
         finish()
     }

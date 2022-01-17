@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.presentation.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.BikeActionsMenuType
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
-import app.igormatos.botaprarodar.presentation.main.trips.TripsViewModel
+import app.igormatos.botaprarodar.presentation.main.viewModel.TripsViewModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before

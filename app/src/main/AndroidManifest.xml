@@ -26,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.main.HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.bikewithdraw.FinishWithdrawActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
@@ -53,9 +58,6 @@
         </activity>
         <activity android:name=".presentation.main.trips.tripDetail.TripDetailActivity" />
         <activity android:name=".presentation.createcommunity.AddCommunityActivity" />
-        <activity
-            android:name=".presentation.main.MainActivity"
-            android:label="@string/app_name" />
         <activity android:name=".presentation.user.UserActivity" />
 
         <provider
@@ -69,8 +71,8 @@
         </provider>
 
         <activity android:name=".presentation.bikeForm.BikeFormActivity" />
-        <activity android:name=".presentation.bikewithdraw.BikeWithdrawActivity" />
         <activity android:name=".presentation.returnbicycle.ReturnBikeActivity" />
+        <activity android:name=".presentation.components.WithdrawStepper"/>
 
         <meta-data
             android:name="preloaded_fonts"
