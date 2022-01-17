@@ -1,10 +1,11 @@
 package app.igormatos.botaprarodar.common.biding.utils
 
 import androidx.lifecycle.MediatorLiveData
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.google.android.material.textfield.TextInputLayout
 
-fun validateText(data: String, view: TextInputLayout, errorMessageId: Int) {
-    if (data.isNotBlank()) {
+fun validateText(data: String?, view: TextInputLayout, errorMessageId: Int) {
+    if (data.isNotNullOrNotBlank()) {
         clearError(view)
     } else {
         displayError(view, errorMessageId)
@@ -13,7 +14,7 @@ fun validateText(data: String, view: TextInputLayout, errorMessageId: Int) {
 
 fun validateField(
     validationErrorMap: MediatorLiveData<MutableMap<Int, Boolean>>,
-    view: TextInputLayout
+    view: TextInputLayout,
 ) {
     validationErrorMap.value?.forEach {
         if (it.value) {
@@ -26,7 +27,7 @@ fun validateField(
 
 private fun displayError(
     view: TextInputLayout,
-    errorMessageId: Int
+    errorMessageId: Int,
 ) {
     view.isErrorEnabled = true
     view.error = view.context.getString(errorMessageId)

@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 fun EditText.validateTextInFocusChange(
     view: TextInputLayout,
-    inputText: String,
+    inputText: String?,
     errorMessageId: Int
 ) {
     onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->

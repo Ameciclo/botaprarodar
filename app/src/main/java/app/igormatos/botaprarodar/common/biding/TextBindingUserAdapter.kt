@@ -9,7 +9,7 @@ import app.igormatos.botaprarodar.common.extensions.validateTextInFocusChange
 import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["textCaptured", "errorMessage"])
-fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String, errorMessage: String) {
+fun TextInputLayout.setErrorUserCompleteName(userCompleteName: String?, errorMessage: String) {
     val errorMessageId = this.resources.getIdentifier(errorMessage, "string", this.context.packageName)
 
     this.editText?.validateTextInFocusChange(
