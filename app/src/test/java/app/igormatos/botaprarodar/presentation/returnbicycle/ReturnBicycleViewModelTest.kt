@@ -10,13 +10,14 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 
 @ExperimentalCoroutinesApi
-class ResturnBicycleViewModelTest {
+class ReturnBicycleViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -25,13 +26,17 @@ class ResturnBicycleViewModelTest {
     private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: ReturnBicycleViewModel
 
-    @Test
-    fun `when viewModel getBikesInUseToReturn return then sets _bikesAvailableToReturn`() {
+    @Before
+    fun setup() {
         viewModel = ReturnBicycleViewModel(
             stepperAdapter = stepperAdapter,
             bikeHolder = bikeHolder,
             stepOneReturnBikeUseCase = stepOneReturnBikeUseCase
         )
+    }
+
+    @Test
+    fun `when viewModel getBikesInUseToReturn return then sets _bikesAvailableToReturn`() {
         coEvery {
             stepOneReturnBikeUseCase.getBikesInUseToReturn(any())
         } returns SimpleResult.Success(listBikes)
@@ -40,4 +45,14 @@ class ResturnBicycleViewModelTest {
         assertTrue(viewModel.bikesAvailableToReturn.value is SimpleResult.Success)
         assertEquals(bikesReturned, listBikes)
     }
+
+    @Test
+    fun `when viewModel getBikesInUseToReturn with community in blank should be return error`() {
+        coEvery {
+            stepOneReturnBikeUseCase.getBikesInUseToReturn("")
+        } returns SimpleResult.Error(Exception("Error"))
+        viewModel.getBikesInUseToReturn("")
+        assertTrue(viewModel.bikesAvailableToReturn.value is SimpleResult.Error)
+    }
+
 }
