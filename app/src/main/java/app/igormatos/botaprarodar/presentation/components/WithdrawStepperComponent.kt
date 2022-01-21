@@ -10,7 +10,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -33,6 +35,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
+import app.igormatos.botaprarodar.presentation.components.button.BackButtom
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
@@ -128,29 +131,7 @@ class WithdrawStepper : ComponentActivity() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    IconButton(
-                        modifier = Modifier.width(112.dp),
-                        onClick = { backAction() },
-                        content = {
-                            Row(
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Spacer(Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
-                                Icon(
-                                    modifier = Modifier
-                                        .size(16.dp),
-                                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                                    contentDescription = "Voltar"
-                                )
-                                Spacer(Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
-                                Text(
-                                    text = "VOLTAR",
-                                    textAlign = TextAlign.Left
-                                )
-                            }
-                        }
-                    )
+                    BackButtom(handleClick = { backAction() })
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Divider()
