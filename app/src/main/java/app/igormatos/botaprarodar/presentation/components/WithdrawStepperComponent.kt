@@ -116,6 +116,7 @@ class WithdrawStepper : ComponentActivity() {
     fun WithdrawStepperComponent() {
         val cyclistList by viewModel.userList.observeAsState()
         val bikeList by viewModel.availableBikes.observeAsState()
+        val uiStepConfig by viewModel.uiStepConfig.observeAsState()
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -139,7 +140,10 @@ class WithdrawStepper : ComponentActivity() {
                             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)),
                             text = stringResource(id = R.string.borrow_bike)
                         )
-                        StepperComponents()
+                        ThreeStepper(
+                            uiStepConfig,
+                            painterResource(id = R.drawable.ic_user_step_icon)
+                        )
                     }
                 }
             }
@@ -196,76 +200,6 @@ class WithdrawStepper : ComponentActivity() {
             else -> {
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }
-        }
-    }
-
-    @Composable
-    private fun StepperComponents(
-    ) {
-        var iconStyleFirst = IconStyle(
-            icon = painterResource(id = R.drawable.ic_bike),
-            iconColor = ColorPallet.GreenTeal,
-            lineColor = ColorPallet.GreenTeal,
-        )
-        var iconStyleSecond = IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
-        var iconStyleThird = IconStyle(icon = painterResource(id = R.drawable.ic_confirm))
-        val selectedView = viewModel.uiStepConfig.observeAsState()
-
-        when (selectedView.value) {
-            StepConfigType.SELECT_USER -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = ColorPallet.GreenTeal,
-                    lineColor = ColorPallet.GreenTeal
-                )
-            }
-            StepConfigType.CONFIRM_WITHDRAW -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-
-                iconStyleThird = iconStyleThird.copy(
-                    iconColor = ColorPallet.GreenTeal,
-                    lineColor = ColorPallet.GreenTeal
-                )
-            }
-            StepConfigType.FINISHED_ACTION -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-
-                iconStyleThird = iconStyleThird.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-            }
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ItemLineSetStepperComponent(
-                iconStyleFirst
-            )
-            ItemLineSetStepperComponent(
-                iconStyleSecond
-            )
-            ItemStepperComponent(iconStyleThird)
         }
     }
 
