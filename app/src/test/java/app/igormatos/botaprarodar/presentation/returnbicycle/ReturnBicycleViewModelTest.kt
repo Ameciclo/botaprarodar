@@ -4,11 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.utils.bike
+import app.igormatos.botaprarodar.utils.bike2
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -53,6 +56,15 @@ class ReturnBicycleViewModelTest {
         } returns SimpleResult.Error(Exception("Error"))
         viewModel.getBikesInUseToReturn("")
         assertTrue(viewModel.bikesAvailableToReturn.value is SimpleResult.Error)
+    }
+
+    @Test
+    fun `when viewModel call nextStep, currentStep should be QUIZ`() {
+        viewModel.setInitialStep()
+        verify { viewModel.setInitialStep() }
+        viewModel.navigateToNextStep()
+        verify { viewModel.navigateToNextStep() }
+        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
     }
 
 }

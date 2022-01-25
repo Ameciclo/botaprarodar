@@ -36,4 +36,8 @@ class ReturnBicycleViewModel(
             _bikesAvailableToReturn.value = value
         }
     }
+
+    fun setBike(bike: Bike) {
+        bikeHolder.bike = bike
+    }
 }
