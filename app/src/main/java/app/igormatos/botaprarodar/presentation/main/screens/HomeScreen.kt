@@ -24,7 +24,7 @@ import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.components.ActionCard
 import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
 import app.igormatos.botaprarodar.presentation.main.HomeUiState
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -117,7 +117,7 @@ private fun Cards() {
             context.startActivity(Intent(context, WithdrawStepper::class.java))
         }
         ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
-            context.startActivity(Intent(context, ReturnBikeActivity::class.java))
+            context.startActivity(Intent(context, ReturnBicycleActivity::class.java))
         }
     }
     Spacer(modifier = Modifier.height(16.dp))

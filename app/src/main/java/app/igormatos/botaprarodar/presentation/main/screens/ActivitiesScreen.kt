@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -39,7 +39,9 @@ fun SectionTitle() {
         textAlign = TextAlign.Center,
         fontSize = 16.sp,
         color = colorResource(id = R.color.text_gray),
-        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
     )
 }
 
@@ -63,36 +65,44 @@ private fun CardsRow() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Card(modifier = Modifier.padding(16.dp).clickable {
-            context.startActivity(Intent(context, WithdrawStepper::class.java))
-        }) {
+        Card(modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                context.startActivity(Intent(context, WithdrawStepper::class.java))
+            }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_withdraw_bike),
                 contentDescription = null,
                 modifier = Modifier.padding(8.dp)
             )
         }
-        Card(modifier = Modifier.padding(16.dp).clickable {
-            context.startActivity(Intent(context, ReturnBikeActivity::class.java))
-        })  {
+        Card(modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                context.startActivity(Intent(context, ReturnBicycleActivity::class.java))
+            }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_return_bike),
                 contentDescription = null,
                 modifier = Modifier.padding(8.dp)
             )
         }
-        Card(modifier = Modifier.padding(16.dp).clickable {
-            context.startActivity(Intent(context, BikeFormActivity::class.java))
-        }) {
+        Card(modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                context.startActivity(Intent(context, BikeFormActivity::class.java))
+            }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_add_bike),
                 contentDescription = null,
                 modifier = Modifier.padding(8.dp)
             )
         }
-        Card(modifier = Modifier.padding(16.dp).clickable {
-            context.startActivity(Intent(context, UserActivity::class.java))
-        }) {
+        Card(modifier = Modifier
+            .padding(16.dp)
+            .clickable {
+                context.startActivity(Intent(context, UserActivity::class.java))
+            }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_add_user),
                 contentDescription = null,
