@@ -1,4 +1,4 @@
-package app.igormatos.botaprarodar.presentation.components.navigation
+package app.igormatos.botaprarodar.presentation.components.navigation.withdraw
 
 sealed class WithdrawScreen(val route: String) {
     object WithdrawSelectBike : WithdrawScreen("withdraw_select_bike")

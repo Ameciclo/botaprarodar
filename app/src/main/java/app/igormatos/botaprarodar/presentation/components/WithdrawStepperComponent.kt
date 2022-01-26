@@ -37,7 +37,7 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdr
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.button.BackButtom
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
-import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawScreen
+import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import com.brunotmgomes.ui.extensions.createLoading
