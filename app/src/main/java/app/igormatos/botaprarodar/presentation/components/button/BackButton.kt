@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
@@ -32,7 +33,7 @@ fun BackButtom(handleClick: () -> Unit) {
                 )
                 Spacer(Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
                 Text(
-                    text = "VOLTAR",
+                    text = stringResource(R.string.topbar_back_button_text),
                     textAlign = TextAlign.Left
                 )
             }

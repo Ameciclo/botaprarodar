@@ -377,4 +377,5 @@
     <string name="withdraw_finish_action_text">finish_action_text</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_return_bicycle">ReturnBicycleActivity</string>
+    <string name="topbar_back_button_text">VOLTAR</string>
 </resources>
