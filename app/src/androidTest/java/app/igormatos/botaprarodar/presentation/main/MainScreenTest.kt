@@ -58,7 +58,6 @@ class MainScreenTest {
     @Test
     fun shouldShowUsersScreenWhenUsersBottomBarItemClicked() {
         composeTestRule.onNodeWithText("Usuárias").performClick()
-        Thread.sleep(4000)
         composeTestRule.onNodeWithText("Capitão América").assertIsDisplayed()
     }
 

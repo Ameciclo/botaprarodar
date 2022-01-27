@@ -35,7 +35,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
-import app.igormatos.botaprarodar.presentation.components.button.BackButtom
+import app.igormatos.botaprarodar.presentation.components.button.BackButton
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
 import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
@@ -132,7 +132,7 @@ class WithdrawStepper : ComponentActivity() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    BackButtom(handleClick = { backAction() })
+                    BackButton(handleClick = { backAction() })
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Divider()

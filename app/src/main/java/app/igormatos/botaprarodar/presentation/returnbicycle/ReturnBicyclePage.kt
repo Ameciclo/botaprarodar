@@ -16,16 +16,16 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.components.BikeList
 import app.igormatos.botaprarodar.presentation.components.ThreeStepper
-import app.igormatos.botaprarodar.presentation.components.button.BackButtom
+import app.igormatos.botaprarodar.presentation.components.button.BackButton
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import app.igormatos.botaprarodar.presentation.returnbicycle.ui.theme.BotaprarodarTheme
 import java.util.*
 
 @Composable
-fun ReturnBicyclePage(bikes: List<Bike>, handleClick: (Bike) -> Unit) {
+fun ReturnBicyclePage(bikes: List<Bike>, handleClick: (Any?) -> Unit, backAction: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            BackButtom {}
+            BackButton(handleClick = backAction)
             Divider()
             Column(
                 modifier = Modifier
@@ -81,6 +81,6 @@ private fun ReturnBicycleActivityPreview() {
     )
 
     BotaprarodarTheme {
-        ReturnBicyclePage(bikes = listBikes, handleClick = {})
+        ReturnBicyclePage(bikes = listBikes, handleClick = {}, {})
     }
 }

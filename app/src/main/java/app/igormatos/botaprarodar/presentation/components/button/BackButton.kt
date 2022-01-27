@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
 
 @Composable
-fun BackButtom(handleClick: () -> Unit) {
+fun BackButton(handleClick: () -> Unit) {
     IconButton(
         modifier = Modifier.width(112.dp),
         onClick = handleClick,

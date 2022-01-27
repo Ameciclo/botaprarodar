@@ -1,9 +1,6 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
@@ -22,12 +19,23 @@ class ReturnBicycleViewModel(
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>>
         get() = _bikesAvailableToReturn
 
+    val _uiStep = MutableLiveData<StepConfigType>()
+    val uiStep: LiveData<StepConfigType>
+        get() = _uiStep
+
     fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
+        _uiStep.value = stepperAdapter.currentStep.value
     }
 
     fun navigateToNextStep() {
         stepperAdapter.navigateToNext()
+        _uiStep.value = stepperAdapter.currentStep.value
+    }
+
+    fun navigateToPrevious() {
+        stepperAdapter.navigateToPrevious()
+        _uiStep.value = stepperAdapter.currentStep.value
     }
 
     fun getBikesInUseToReturn(communityId: String) {
