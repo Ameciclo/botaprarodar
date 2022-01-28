@@ -6,6 +6,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.Fixtures.bike
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicyclePage
@@ -25,6 +27,8 @@ class ReturnBicycleTest {
     fun setup() {
         composeTestRule.setContent {
             ReturnBicyclePage(
+                viewModel = viewModel(),
+                navHostController = rememberNavController(),
                 bikes = listOf(bike),
                 handleClick = {},
                 backAction = { Log.i("backAction", "backAction executed") }
@@ -46,7 +50,7 @@ class ReturnBicycleTest {
         composeTestRule.onNodeWithText(ReturnBicycleFixures.TOPBAR_HOME_TITLE).assertIsDisplayed()
     }
 
-    @Ignore("Reason: We'll implements this functions to click on the bicycle")
+//    @Ignore("Reason: We'll implements this functions to click on the bicycle")
     @Test
     fun whenSelectABikeShouldGetToQuizStep() {
         val bikeButton =

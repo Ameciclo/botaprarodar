@@ -11,6 +11,7 @@ import app.igormatos.botaprarodar.presentation.components.BikeList
 import app.igormatos.botaprarodar.presentation.components.FinishAction
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
 import app.igormatos.botaprarodar.presentation.components.WithdrawConfirmationComponent
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleQuizPage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.internals.AnkoInternals.createAnkoContext
 
@@ -28,8 +29,7 @@ fun ReturnNavigationComponent(
         }
 
         composable(ReturnScreen.ReturnQuiz.route) {
-            // TODO - Criar o componente de Formulário
-//            QuizFormPage()
+            ReturnBicycleQuizPage()
         }
 
         composable(ReturnScreen.ReturnConfirmation.route) {
