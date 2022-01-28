@@ -1,6 +1,8 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
@@ -63,8 +65,39 @@ class ReturnBicycleViewModelTest {
         viewModel.setInitialStep()
         viewModel.navigateToNextStep()
         verify { stepperAdapter.navigateToNext() }
-        assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
+        assertEquals(StepConfigType.QUIZ, viewModel.stepperAdapter.currentStep.value)
     }
 
+    @Test
+    fun `when fill the form fields the QUIZ should be valid`() {
+        val observerQuizForm = mockk<Observer<Boolean>>(relaxed = true)
+
+        viewModel.formIsEnable.observeForever(observerQuizForm)
+        viewModel.problemsDuringRidingRg.value = "Não"
+        viewModel.needTakeRideRg.value = "Não"
+        viewModel.reason.value = "Seu local de trabalho"
+        viewModel.whichDistrict.value = "Pirituba"
+
+        verify {
+            observerQuizForm.onChanged(true)
+        }
+        assertEquals(true, viewModel.formIsEnable.value)
+    }
+
+    @Test
+    fun `when fill the form fields the QUIZ should be invalid`() {
+        val observerQuizForm = mockk<Observer<Boolean>>(relaxed = true)
+
+        viewModel.formIsEnable.observeForever(observerQuizForm)
+        viewModel.problemsDuringRidingRg.value = "Não"
+        viewModel.needTakeRideRg.value = "Não"
+        viewModel.reason.value = ""
+        viewModel.whichDistrict.value = "Pirituba"
+
+        verify {
+            observerQuizForm.onChanged(false)
+        }
+        assertEquals(false, viewModel.formIsEnable.value)
+    }
 
 }

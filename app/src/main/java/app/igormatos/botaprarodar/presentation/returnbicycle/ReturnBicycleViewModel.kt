@@ -5,7 +5,9 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -15,6 +17,7 @@ class ReturnBicycleViewModel(
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val bikeHolder: BikeHolder
 ) : ViewModel() {
+    private val INITIAL_VALUE: String = ""
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>>
         get() = _bikesAvailableToReturn
@@ -22,6 +25,18 @@ class ReturnBicycleViewModel(
     val _uiStep = MutableLiveData<StepConfigType>()
     val uiStep: LiveData<StepConfigType>
         get() = _uiStep
+
+    val reason = MutableLiveData(INITIAL_VALUE)
+    val problemsDuringRidingRg = MutableLiveData(INITIAL_VALUE)
+    val needTakeRideRg = MutableLiveData(INITIAL_VALUE)
+    val whichDistrict = MutableLiveData(INITIAL_VALUE)
+
+    val formIsEnable = MediatorLiveData<Boolean>().apply {
+        addSource(reason) { validateForm() }
+        addSource(problemsDuringRidingRg) { validateForm() }
+        addSource(needTakeRideRg) { validateForm() }
+        addSource(whichDistrict) { validateForm() }
+    }
 
     fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
@@ -48,4 +63,16 @@ class ReturnBicycleViewModel(
     fun setBike(bike: Bike) {
         bikeHolder.bike = bike
     }
+
+    private fun validateForm() {
+        formIsEnable.value = reason.value.isNotNullOrNotBlank() &&
+                problemsDuringRidingRg.value.isRadioValid() &&
+                needTakeRideRg.value.isRadioValid() &&
+                isTextValid(whichDistrict.value)
+
+    }
+
+    private fun String?.isRadioValid() = this != INITIAL_VALUE
+
+    private fun isTextValid(data: String?) = !data.isNullOrBlank()
 }
