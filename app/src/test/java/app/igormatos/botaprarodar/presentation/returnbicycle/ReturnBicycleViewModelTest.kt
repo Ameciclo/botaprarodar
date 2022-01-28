@@ -61,10 +61,10 @@ class ReturnBicycleViewModelTest {
     @Test
     fun `when viewModel call nextStep, currentStep should be QUIZ`() {
         viewModel.setInitialStep()
-        verify { viewModel.setInitialStep() }
         viewModel.navigateToNextStep()
-        verify { viewModel.navigateToNextStep() }
+        verify { stepperAdapter.navigateToNext() }
         assertEquals(viewModel.stepperAdapter.currentStep.value, StepConfigType.QUIZ)
     }
+
 
 }
