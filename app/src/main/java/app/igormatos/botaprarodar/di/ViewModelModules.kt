@@ -43,7 +43,7 @@ val viewModelModule = module {
     viewModel { StepFinalReturnBikeViewModel(get(), get(), get(), get()) }
     viewModel { ReturnBikeQuizViewModel(get(), get()) }
     viewModel { WithdrawViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    single { ReturnBikeViewModel(get()) }
+//    single { ReturnBikeViewModel(get()) }
     viewModel { UserViewModel(get()) }
     viewModel { UserQuizViewModel(get()) }
     viewModel { TripDetailViewModel(get()) }

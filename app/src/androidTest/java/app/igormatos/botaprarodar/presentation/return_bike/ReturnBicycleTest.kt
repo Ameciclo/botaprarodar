@@ -3,41 +3,46 @@ package app.igormatos.botaprarodar.presentation.return_bike
 import android.util.Log
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.Fixtures.bike
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivity
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicyclePage
-import io.mockk.internalSubstitute
-import io.mockk.verify
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleViewModel
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class ReturnBicycleTest {
+    private lateinit var returnBicycleViewModel: ReturnBicycleViewModel
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
+        returnBicycleViewModel = ReturnBicycleViewModel(
+            stepperAdapter = ReturnStepper(StepConfigType.SELECT_BIKE),
+            stepOneReturnBikeUseCase = mockk(relaxed = true),
+            bikeHolder = mockk(relaxed = true)
+        )
         composeTestRule.setContent {
             ReturnBicyclePage(
-                viewModel = viewModel(),
-                navHostController = rememberNavController(),
-                bikes = listOf(bike),
-                handleClick = {},
-                backAction = { Log.i("backAction", "backAction executed") }
+                viewModel = returnBicycleViewModel,
+                finish = { Log.i("backAction", "backAction executed") },
+                communityId = "1234",
             )
         }
     }
 
     @Test
     fun shouldShowBackButtonOnTopBar() {
+        Thread.sleep(3000)
         composeTestRule.onNodeWithText(ReturnBicycleFixures.TOPBAR_BACK_BUTTON_TITLE).assertExists()
     }
 
@@ -50,9 +55,9 @@ class ReturnBicycleTest {
         composeTestRule.onNodeWithText(ReturnBicycleFixures.TOPBAR_HOME_TITLE).assertIsDisplayed()
     }
 
-//    @Ignore("Reason: We'll implements this functions to click on the bicycle")
     @Test
     fun whenSelectABikeShouldGetToQuizStep() {
+        returnBicycleViewModel.bikesAvailable.postValue(listOf(bike))
         val bikeButton =
             composeTestRule.onNodeWithText("name mock")
         bikeButton.performClick()

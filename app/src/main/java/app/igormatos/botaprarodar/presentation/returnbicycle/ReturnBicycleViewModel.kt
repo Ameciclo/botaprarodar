@@ -21,6 +21,9 @@ class ReturnBicycleViewModel(
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>>
         get() = _bikesAvailableToReturn
+    private val _bikesAvailable: MutableLiveData<List<Bike>> = MutableLiveData<List<Bike>>()
+    val bikesAvailable
+        get() = _bikesAvailable
 
     val _uiStep = MutableLiveData<StepConfigType>()
     val uiStep: LiveData<StepConfigType>
@@ -57,6 +60,14 @@ class ReturnBicycleViewModel(
         viewModelScope.launch {
             val value = stepOneReturnBikeUseCase.getBikesInUseToReturn(communityId = communityId)
             _bikesAvailableToReturn.value = value
+            when (value) {
+                is SimpleResult.Success -> {
+                    bikesAvailable.value = value.data
+                }
+                is SimpleResult.Error -> {
+                    value.exception
+                }
+            }
         }
     }
 
