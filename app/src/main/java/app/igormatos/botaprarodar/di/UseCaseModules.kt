@@ -2,15 +2,12 @@ package app.igormatos.botaprarodar.di
 
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
-import app.igormatos.botaprarodar.domain.usecase.bikes.GetAvailableBikes
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
-import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.login.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryUseCase
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterUseCase
@@ -44,14 +41,11 @@ val useCasesModule = module {
     factory { PasswordRecoveryUseCase(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     single { StepFinalReturnBikeUseCase(get(), get()) }
     factory { SelectCommunityUseCase(get(), get()) }
-    single { ValidateUserWithdraw(get(), get()) }
     single { StepOneReturnBikeUseCase(get()) }
-    factory { SendBikeWithdraw(get(), get()) }
     factory { UserFormUseCase(get(), get()) }
     single { BikeFormUseCase(get(), get()) }
     factory { ResendEmailUseCase(get()) }
     single { AddCommunityUseCase(get()) }
-    factory { GetAvailableBikes(get()) }
     factory { TripDetailUseCase(get()) }
     single { BikeActionUseCase(get()) }
     factory { CommunityUseCase(get()) }

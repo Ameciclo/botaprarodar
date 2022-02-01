@@ -15,7 +15,7 @@ class BprApplication : Application() {
         viewModelModule,
         firebaseModule,
         useCasesModule,
-        BPRModule,
+        bprModule,
         APIModule,
     )
 

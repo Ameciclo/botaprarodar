@@ -1,18 +1,17 @@
 package app.igormatos.botaprarodar.di
 
-import app.igormatos.botaprarodar.data.network.firebase.*
-import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModuleImpl
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
+import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModuleImpl
+import com.brunotmgomes.ui.SnackbarModule
+import com.brunotmgomes.ui.SnackbarModuleImpl
 import org.koin.dsl.module
 
 val firebaseModule = module {
-    single<FirebaseHelperModule> { FirebaseHelperModuleImpl() }
+    single { SharedPreferencesModule(appContext = get()) }
     single<FirebaseAuthModule> { FirebaseAuthModuleImpl() }
-    single { FirebaseSessionManager(get(), get()) }
-    single { FirebaseHelperRepository(get()) }
-    single { FirebaseDatabase.getInstance() }
-    single { FirebaseStorage.getInstance() }
-    single { FirebaseAuth.getInstance() }
+    single<FirebaseHelperModule> { FirebaseHelperModuleImpl() }
+    single<SnackbarModule> { SnackbarModuleImpl() }
 }
