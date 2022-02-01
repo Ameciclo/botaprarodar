@@ -55,9 +55,11 @@ class StepFinalReturnBikeFragment : Fragment() {
                     loadingDialog.show()
                 }
                 is UiState.Success -> {
+                    loadingDialog.dismiss()
                     viewModel.navigateToNextStep()
                 }
                 is UiState.Error -> {
+                    loadingDialog.dismiss()
                     Toast.makeText(requireContext(), "ERRO", Toast.LENGTH_SHORT).show()
                 }
             }

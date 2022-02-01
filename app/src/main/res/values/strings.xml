@@ -365,4 +365,15 @@
     <string name="user_phone_number">Telefone: 11 •••• 4562</string>
     <string name="title_activity_finish_withdraw">FinishWithdraw</string>
     <string name="back_to_home">VOLTAR PARA O INÍCIO</string>
+    <string name="title_activity_card_bike">CardBike</string>
+    <string name="title_activity_bike_list">BikeList</string>
+    <string name="title_activity_cyclist_card">CyclistCard</string>
+    <string name="title_activity_cyclist_list">CyclistList</string>
+    <string name="title_activity_withdraw_confirmation">WithdrawConfirmation</string>
+    <string name="bike_in_use">EM USO</string>
+    <string name="bike_returned">DEVOLVIDO</string>
+    <string name="title_activity_withdraw_stepper">WithdrawStepper</string>
+    <string name="withdraw_finish_action_message">finish_message</string>
+    <string name="withdraw_finish_action_text">finish_action_text</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

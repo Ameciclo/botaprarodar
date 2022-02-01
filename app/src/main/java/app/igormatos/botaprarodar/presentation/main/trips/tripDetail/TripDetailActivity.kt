@@ -13,6 +13,7 @@ import app.igormatos.botaprarodar.databinding.ActivityTripDetailBinding
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Devolution
 import app.igormatos.botaprarodar.domain.model.Withdraws
+import app.igormatos.botaprarodar.presentation.main.viewModel.TripDetailViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeActivity
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.UiState
 import com.brunotmgomes.ui.SimpleResult
