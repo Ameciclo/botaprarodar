@@ -5,7 +5,6 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,17 +42,17 @@ class ReturnBicycleViewModel(
 
     fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
-        _uiStep.value = stepperAdapter.currentStep.value
+        _uiStep.postValue(stepperAdapter.currentStep.value)
     }
 
     fun navigateToNextStep() {
         stepperAdapter.navigateToNext()
-        _uiStep.value = stepperAdapter.currentStep.value
+        _uiStep.postValue(stepperAdapter.currentStep.value)
     }
 
     fun navigateToPrevious() {
         stepperAdapter.navigateToPrevious()
-        _uiStep.value = stepperAdapter.currentStep.value
+        _uiStep.postValue(stepperAdapter.currentStep.value)
     }
 
     fun getBikesInUseToReturn(communityId: String) {

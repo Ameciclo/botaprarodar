@@ -379,4 +379,5 @@
     <string name="title_activity_return_bicycle">ReturnBicycleActivity</string>
     <string name="topbar_back_button_text">VOLTAR</string>
     <string name="return_bicycle_quiz_page_answer_quiz">Responda ao questionário</string>
+    <string name="icon_arrow_down_description">Descrição: icone flexa inferior</string>
 </resources>
