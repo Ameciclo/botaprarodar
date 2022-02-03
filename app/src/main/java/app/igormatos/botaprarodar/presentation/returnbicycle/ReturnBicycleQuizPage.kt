@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -14,16 +15,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Composable
-fun ReturnBicycleQuizPage() {
+fun ReturnBicycleQuizPage(viewModel: ReturnBicycleViewModel) {
     val usedBikeToMoveList = stringArrayResource(id = R.array.used_bike_to_move_list)
-    var usedBikeToMoveSelected by
-    remember { mutableStateOf("Selecione") }
+    val usedBikeToMoveSelected by viewModel.reason.observeAsState()
     var expanded by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .background(ColorPallet.BackgroundGray)
@@ -67,7 +72,7 @@ fun ReturnBicycleQuizPage() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = usedBikeToMoveSelected,
+                            text = setDropdownTextValue(usedBikeToMoveSelected),
                             style = TextStyle(
                                 color = ColorPallet.TextGray,
                                 fontWeight = FontWeight(500)
@@ -91,7 +96,7 @@ fun ReturnBicycleQuizPage() {
                     ) {
                         usedBikeToMoveList.forEach { item ->
                             DropdownMenuItem(onClick = {
-                                usedBikeToMoveSelected = item
+                                viewModel.reason.postValue(item)
                                 expanded = false
                             }) {
                                 Text(text = item)
@@ -105,10 +110,17 @@ fun ReturnBicycleQuizPage() {
 
 }
 
+@Composable
+private fun setDropdownTextValue(value: String?): String {
+    return if (value.isNotNullOrNotBlank())
+        value!!
+    else "Selecione"
+}
+
 @Preview(showSystemUi = true)
 @Composable
 private fun ReturnBicycleQuizPagePreview() {
     BotaprarodarTheme {
-        ReturnBicycleQuizPage()
+        ReturnBicycleQuizPage(viewModel = viewModel())
     }
 }

@@ -79,7 +79,6 @@ class ReturnBicycleViewModel(
                 problemsDuringRidingRg.value.isRadioValid() &&
                 needTakeRideRg.value.isRadioValid() &&
                 isTextValid(whichDistrict.value)
-
     }
 
     private fun String?.isRadioValid() = this != INITIAL_VALUE

@@ -12,12 +12,14 @@ import app.igormatos.botaprarodar.presentation.components.FinishAction
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
 import app.igormatos.botaprarodar.presentation.components.WithdrawConfirmationComponent
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleQuizPage
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.jetbrains.anko.internals.AnkoInternals.createAnkoContext
 
 @ExperimentalCoroutinesApi
 @Composable
 fun ReturnNavigationComponent(
+    vm: ReturnBicycleViewModel,
     bikeList: List<Bike>,
     navController: NavHostController,
     handleClick: (Any?) -> Unit,
@@ -29,7 +31,7 @@ fun ReturnNavigationComponent(
         }
 
         composable(ReturnScreen.ReturnQuiz.route) {
-            ReturnBicycleQuizPage()
+            ReturnBicycleQuizPage(viewModel = vm)
         }
 
         composable(ReturnScreen.ReturnConfirmation.route) {
