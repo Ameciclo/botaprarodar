@@ -56,11 +56,9 @@ class WithdrawStepper : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BotaprarodarTheme {
-                withdrawNavController = rememberNavController()
-                Surface(color = MaterialTheme.colors.background) {
-                    WithdrawStepperComponent()
-                }
+            withdrawNavController = rememberNavController()
+            Surface(color = MaterialTheme.colors.background) {
+                WithdrawStepperComponent()
             }
         }
     }
