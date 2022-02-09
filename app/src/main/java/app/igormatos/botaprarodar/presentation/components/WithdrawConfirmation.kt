@@ -3,7 +3,9 @@ package app.igormatos.botaprarodar.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
@@ -54,6 +56,7 @@ fun WithdrawConfirmationComponent(
                     horizontal = dimensionResource(id = R.dimen.padding_medium),
                     vertical = dimensionResource(id = R.dimen.padding_small)
                 )
+                .verticalScroll(rememberScrollState())
         ) {
             Box(
                 modifier = Modifier.clip(RoundedCornerShape(2))
