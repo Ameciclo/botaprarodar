@@ -77,6 +77,7 @@ class ReturnBicycleViewModelTest {
         viewModel.needTakeRideRg.value = "Não"
         viewModel.reason.value = "Seu local de trabalho"
         viewModel.whichDistrict.value = "Pirituba"
+        //TODO: criar nova variavel para armazenar se a bicicleta apresentou algum problema
 
         verify {
             observerQuizForm.onChanged(true)

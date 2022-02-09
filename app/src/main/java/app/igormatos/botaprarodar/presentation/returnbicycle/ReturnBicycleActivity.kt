@@ -13,8 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.model.Bike
-import app.igormatos.botaprarodar.presentation.returnbicycle.ui.theme.BotaprarodarTheme
-import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,14 +29,12 @@ class ReturnBicycleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BotaprarodarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    ReturnBicyclePage(
-                        viewModel = returnBicycleViewModel,
-                        finish = { finish() },
-                        communityId = joinedCommunityId
-                    )
-                }
+            Surface(color = MaterialTheme.colors.background) {
+                ReturnBicyclePage(
+                    viewModel = returnBicycleViewModel,
+                    finish = { finish() },
+                    communityId = joinedCommunityId
+                )
             }
         }
     }

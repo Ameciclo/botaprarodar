@@ -26,8 +26,8 @@ import app.igormatos.botaprarodar.presentation.components.ThreeStepper
 import app.igormatos.botaprarodar.presentation.components.button.BackButton
 import app.igormatos.botaprarodar.presentation.components.navigation.return_bike.ReturnNavigationComponent
 import app.igormatos.botaprarodar.presentation.components.navigation.return_bike.ReturnScreen
+import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
-import app.igormatos.botaprarodar.presentation.returnbicycle.ui.theme.BotaprarodarTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
@@ -38,7 +38,6 @@ fun ReturnBicyclePage(
     finish: () -> Unit,
     communityId: String
 ) {
-    viewModel.setInitialStep()
     var returnBicycleNavController: NavHostController = rememberNavController()
     val uiStepConfig by viewModel.uiStep.observeAsState()
 

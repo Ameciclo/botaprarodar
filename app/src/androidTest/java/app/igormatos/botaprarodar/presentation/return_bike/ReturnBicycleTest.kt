@@ -31,6 +31,7 @@ class ReturnBicycleTest {
             stepOneReturnBikeUseCase = mockk(relaxed = true),
             bikeHolder = mockk(relaxed = true)
         )
+        returnBicycleViewModel.setInitialStep()
         composeTestRule.setContent {
             ReturnBicyclePage(
                 viewModel = returnBicycleViewModel,
@@ -42,7 +43,6 @@ class ReturnBicycleTest {
 
     @Test
     fun shouldShowBackButtonOnTopBar() {
-        Thread.sleep(3000)
         composeTestRule.onNodeWithText(ReturnBicycleFixures.TOPBAR_BACK_BUTTON_TITLE).assertExists()
     }
 
@@ -60,7 +60,9 @@ class ReturnBicycleTest {
         returnBicycleViewModel.bikesAvailable.postValue(listOf(bike))
         val bikeButton =
             composeTestRule.onNodeWithText("name mock")
+        Thread.sleep(3000)
         bikeButton.performClick()
+        Thread.sleep(3000)
         composeTestRule.onNodeWithText("Responda ao questionário").assertIsDisplayed()
     }
 
