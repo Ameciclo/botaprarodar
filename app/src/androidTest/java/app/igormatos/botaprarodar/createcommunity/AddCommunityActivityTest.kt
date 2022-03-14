@@ -1,6 +1,9 @@
 package app.igormatos.botaprarodar.createcommunity
 
+import android.content.Intent
+import android.os.Bundle
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -58,7 +61,11 @@ class AddCommunityActivityTest {
         val communities: MutableList<Community> = mutableListOf()
         defineUseCasesBehavior(communities)
 
-        scenario = launchActivity()
+        val intent = Intent(ApplicationProvider.getApplicationContext(), SelectCommunityActivity::class.java)
+            .putExtra("adminId", "any_id")
+            .putExtra("adminEmail", "any_email")
+
+        scenario = launchActivity(intent)
 
         val communityName = appendTimestamp("Comunidade")
         selectCommunityActivity {

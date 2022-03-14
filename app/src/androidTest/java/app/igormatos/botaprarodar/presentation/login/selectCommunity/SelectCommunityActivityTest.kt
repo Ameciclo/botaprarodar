@@ -1,7 +1,9 @@
 package app.igormatos.botaprarodar.presentation.login.selectCommunity
 
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
@@ -48,7 +50,7 @@ internal class SelectCommunityActivityTest {
         val successAdminState = SelectCommunityState.Success(UserInfoState.Admin(listOf()))
         defineLiveDataState(successAdminState)
 
-        scenario = launchActivity()
+        scenario = launchActivity(makeScenarioIntent())
 
         selectCommunityActivity {
             sleep(200)
@@ -62,7 +64,7 @@ internal class SelectCommunityActivityTest {
         val successNotAdminState = SelectCommunityState.Success(UserInfoState.NotAdmin(listOf()))
         defineLiveDataState(successNotAdminState)
 
-        scenario = launchActivity()
+        scenario = launchActivity(makeScenarioIntent())
 
         selectCommunityActivity {
             sleep(200)
@@ -76,7 +78,7 @@ internal class SelectCommunityActivityTest {
         val errorNetworkState = SelectCommunityState.Error(BprErrorType.NETWORK)
         defineLiveDataState(errorNetworkState)
 
-        scenario = launchActivity()
+        scenario = launchActivity(makeScenarioIntent())
 
         selectCommunityActivity {
             sleep(200)
@@ -90,7 +92,7 @@ internal class SelectCommunityActivityTest {
         val errorUnknownState = SelectCommunityState.Error(BprErrorType.UNKNOWN)
         defineLiveDataState(errorUnknownState)
 
-        scenario = launchActivity()
+        scenario = launchActivity(makeScenarioIntent())
 
         selectCommunityActivity {
             sleep(200)
@@ -105,7 +107,7 @@ internal class SelectCommunityActivityTest {
             SelectCommunityState.Success(UserInfoState.NotAdminWithoutCommunities)
         defineLiveDataState(successNotAdminWithoutCommunitiesState)
 
-        scenario = launchActivity()
+        scenario = launchActivity(makeScenarioIntent())
 
         selectCommunityActivity {
             sleep(200)
@@ -123,5 +125,11 @@ internal class SelectCommunityActivityTest {
         every {
             viewModel.selectCommunityState
         } returns liveData
+    }
+
+    private fun makeScenarioIntent(): Intent {
+        return Intent(ApplicationProvider.getApplicationContext(), SelectCommunityActivity::class.java)
+            .putExtra("adminId", "any_id")
+            .putExtra("adminEmail", "any_email")
     }
 }
