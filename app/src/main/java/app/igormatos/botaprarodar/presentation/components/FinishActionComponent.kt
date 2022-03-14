@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -29,16 +27,14 @@ class FinishAction : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BotaprarodarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    FinishActionComponent(
-                        mainMessage = stringResource(id = R.string.success_withdraw_message),
-                        mainActionText = stringResource(id = R.string.repeat_withdraw_title),
-                        mainAction = {
-                            startActivity(Intent(this, WithdrawStepper::class.java))
-                        },
-                        backToHome = { finish() })
-                }
+            Surface(color = MaterialTheme.colors.background) {
+                FinishActionComponent(
+                    mainMessage = stringResource(id = R.string.success_withdraw_message),
+                    mainActionText = stringResource(id = R.string.repeat_withdraw_title),
+                    mainAction = {
+                        startActivity(Intent(this, WithdrawStepper::class.java))
+                    },
+                    backToHome = { finish() })
             }
         }
     }
@@ -60,7 +56,9 @@ fun FinishActionComponent(
             .fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_xxlarge)),
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.padding_xlarge))
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
@@ -74,6 +72,7 @@ fun FinishActionComponent(
             Text(
                 text = mainMessage,
                 style = MaterialTheme.typography.h5,
+                color = colorResource(id = R.color.text_gray),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_xxlarge))
             )

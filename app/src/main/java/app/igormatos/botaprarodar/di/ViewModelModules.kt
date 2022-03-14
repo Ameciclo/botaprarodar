@@ -49,7 +49,7 @@ val viewModelModule = module {
     viewModel { TripDetailViewModel(get()) }
 
     single { ReturnBicycleViewModel(get(), get(), get()) }
-
+    
     viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }
     viewModel { PasswordRecoveryViewModel(get(named(EMAIL_VALIDATOR_NAME)), get()) }
