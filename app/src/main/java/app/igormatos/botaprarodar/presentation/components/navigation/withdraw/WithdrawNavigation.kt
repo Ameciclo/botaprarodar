@@ -10,6 +10,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.*
+import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

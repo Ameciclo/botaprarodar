@@ -53,7 +53,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities()
+        viewModel.loadCommunities("any_uid", "any_email")
 
         // assert
         verifyOrder {
@@ -78,7 +78,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities()
+        viewModel.loadCommunities("any_uid", "any_email")
 
         // assert
         verifyOrder {
@@ -103,7 +103,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities()
+        viewModel.loadCommunities("any_uid", "any_email")
 
         // assert
         verifyOrder {

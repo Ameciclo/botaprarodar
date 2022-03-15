@@ -26,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".presentation.returnbicycle.ReturnBicycleActivity"
+            android:exported="false"
+            android:label="@string/title_activity_return_bicycle"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.main.HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
@@ -35,13 +40,11 @@
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".presentation.returnbicycle.FinishReturnBikeActivity"
             android:exported="true"
             android:label="@string/title_activity_finish_withdraw"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".presentation.login.selectCommunity.SelectCommunityActivity" />
         <activity android:name=".presentation.login.registration.RegisterActivity" />
         <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />
@@ -72,7 +75,7 @@
 
         <activity android:name=".presentation.bikeForm.BikeFormActivity" />
         <activity android:name=".presentation.returnbicycle.ReturnBikeActivity" />
-        <activity android:name=".presentation.components.WithdrawStepper"/>
+        <activity android:name=".presentation.components.WithdrawStepper" />
 
         <meta-data
             android:name="preloaded_fonts"

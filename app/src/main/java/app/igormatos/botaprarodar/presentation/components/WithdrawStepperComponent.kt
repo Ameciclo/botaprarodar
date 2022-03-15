@@ -10,7 +10,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -33,8 +35,9 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
+import app.igormatos.botaprarodar.presentation.components.button.BackButton
 import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
-import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawScreen
+import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import com.brunotmgomes.ui.extensions.createLoading
@@ -111,6 +114,7 @@ class WithdrawStepper : ComponentActivity() {
     fun WithdrawStepperComponent() {
         val cyclistList by viewModel.userList.observeAsState()
         val bikeList by viewModel.availableBikes.observeAsState()
+        val uiStepConfig by viewModel.uiStepConfig.observeAsState()
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -126,29 +130,7 @@ class WithdrawStepper : ComponentActivity() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    IconButton(
-                        modifier = Modifier.width(112.dp),
-                        onClick = { backAction() },
-                        content = {
-                            Row(
-                                horizontalArrangement = Arrangement.Start,
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Spacer(Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
-                                Icon(
-                                    modifier = Modifier
-                                        .size(16.dp),
-                                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                                    contentDescription = "Voltar"
-                                )
-                                Spacer(Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
-                                Text(
-                                    text = "VOLTAR",
-                                    textAlign = TextAlign.Left
-                                )
-                            }
-                        }
-                    )
+                    BackButton(handleClick = { backAction() })
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Divider()
@@ -156,7 +138,10 @@ class WithdrawStepper : ComponentActivity() {
                             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)),
                             text = stringResource(id = R.string.borrow_bike)
                         )
-                        StepperComponents()
+                        ThreeStepper(
+                            uiStepConfig,
+                            painterResource(id = R.drawable.ic_user_step_icon)
+                        )
                     }
                 }
             }
@@ -213,76 +198,6 @@ class WithdrawStepper : ComponentActivity() {
             else -> {
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }
-        }
-    }
-
-    @Composable
-    private fun StepperComponents(
-    ) {
-        var iconStyleFirst = IconStyle(
-            icon = painterResource(id = R.drawable.ic_bike),
-            iconColor = ColorPallet.GreenTeal,
-            lineColor = ColorPallet.GreenTeal,
-        )
-        var iconStyleSecond = IconStyle(icon = painterResource(id = R.drawable.ic_user_step_icon))
-        var iconStyleThird = IconStyle(icon = painterResource(id = R.drawable.ic_confirm))
-        val selectedView = viewModel.uiStepConfig.observeAsState()
-
-        when (selectedView.value) {
-            StepConfigType.SELECT_USER -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = ColorPallet.GreenTeal,
-                    lineColor = ColorPallet.GreenTeal
-                )
-            }
-            StepConfigType.CONFIRM_WITHDRAW -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-
-                iconStyleThird = iconStyleThird.copy(
-                    iconColor = ColorPallet.GreenTeal,
-                    lineColor = ColorPallet.GreenTeal
-                )
-            }
-            StepConfigType.FINISHED_ACTION -> {
-                iconStyleFirst = iconStyleFirst.copy(
-                    backgroundColor = ColorPallet.GreenTeal,
-                    iconColor = Color.White
-                )
-
-                iconStyleSecond = iconStyleSecond.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-
-                iconStyleThird = iconStyleThird.copy(
-                    iconColor = Color.White,
-                    lineColor = ColorPallet.GreenTeal,
-                    backgroundColor = ColorPallet.GreenTeal,
-                )
-            }
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ItemLineSetStepperComponent(
-                iconStyleFirst
-            )
-            ItemLineSetStepperComponent(
-                iconStyleSecond
-            )
-            ItemStepperComponent(iconStyleThird)
         }
     }
 

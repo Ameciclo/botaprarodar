@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
+import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.databinding.ActivityLoginBinding
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryActivity
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterActivity
@@ -65,7 +66,7 @@ class LoginActivity : BaseAuthActivity() {
                 LoginState.Loading -> loadingDialog.show()
                 is LoginState.Success -> {
                     loadingDialog.hide()
-                    navigateToMainActivity()
+                    navigateToMainActivity(loginState.admin)
                 }
             }
         })
@@ -109,8 +110,10 @@ class LoginActivity : BaseAuthActivity() {
             }.show()
     }
 
-    private fun navigateToMainActivity() {
+    private fun navigateToMainActivity(admin: Admin) {
         val intent = SelectCommunityActivity.getStartIntent(this)
+        intent.putExtra("adminId", admin.id)
+        intent.putExtra("adminEmail", admin.email)
         startActivity(intent)
         finish()
     }

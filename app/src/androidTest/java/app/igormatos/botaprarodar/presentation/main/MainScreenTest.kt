@@ -1,16 +1,17 @@
 package app.igormatos.botaprarodar.presentation.main
 
-import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import app.igormatos.botaprarodar.Fixtures.bike
+import app.igormatos.botaprarodar.Fixtures.validUser
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-
-@Ignore("Reason: It asks for a launcher activity and right now i don't know how to fix it")
 @ExperimentalCoroutinesApi
 class MainScreenTest {
 
@@ -22,8 +23,8 @@ class MainScreenTest {
         composeTestRule.setContent {
             MainScreen(
                 homeUiState = HomeUiState(),
-                users = emptyList(),
-                bikes = emptyList()
+                users = listOf(validUser),
+                bikes = listOf(bike)
             )
         }
     }
@@ -55,23 +56,15 @@ class MainScreenTest {
     }
 
     @Test
-    fun shouldShowActivitiesScreenWhenActivitiesBottomBarItemClicked() {
-        composeTestRule.onNodeWithText("Atividades").performClick()
-
-        composeTestRule.onNodeWithText("Histórico de Atividades").assertIsDisplayed()
-    }
-
-    @Test
     fun shouldShowUsersScreenWhenUsersBottomBarItemClicked() {
         composeTestRule.onNodeWithText("Usuárias").performClick()
-
-        composeTestRule.onNodeWithText("Users").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Capitão América").assertIsDisplayed()
     }
 
     @Test
     fun shouldShowBikesScreenWhenBikesBottomBarItemClicked() {
         composeTestRule.onNodeWithText("Bicicletas").performClick()
 
-        composeTestRule.onNodeWithText("Bikes").assertIsDisplayed()
+        composeTestRule.onNodeWithText("name mock").assertIsDisplayed()
     }
 }
