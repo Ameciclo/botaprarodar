@@ -46,7 +46,9 @@ class SelectCommunityActivity : BaseAuthActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadCommunities()
+        val uid = this.intent.getStringExtra("adminId")
+        val email = this.intent.getStringExtra("adminEmail")
+        viewModel.loadCommunities(uid, email)
     }
 
     private fun setupAdapter() {

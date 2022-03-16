@@ -23,7 +23,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 val bprModule = module {
     factory { AdminMapper() }
     single { CommunityMapper() }
@@ -88,5 +88,3 @@ fun providesAdminDataSource(firebaseAuth: FirebaseAuth): AdminDataSource {
 fun providesReturnStepperAdapter() = ReturnStepper(StepConfigType.SELECT_BIKE)
 
 fun providesWithdrawStepperAdapter() = WithdrawStepper(StepConfigType.SELECT_BIKE)
-
-

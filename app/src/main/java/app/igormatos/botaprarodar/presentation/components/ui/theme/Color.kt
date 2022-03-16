@@ -11,5 +11,6 @@ class ColorPallet {
         val AuxiliarGray = Color(0xFFD8D8D8)
         val BackgroundGray = Color(0xFFF5F5F5)
         val GreenTeal = Color(0xFF018786)
+        val TextGray = Color(0xFF515151)
     }
 }

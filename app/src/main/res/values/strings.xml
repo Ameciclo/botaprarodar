@@ -376,4 +376,8 @@
     <string name="withdraw_finish_action_message">finish_message</string>
     <string name="withdraw_finish_action_text">finish_action_text</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_return_bicycle">ReturnBicycleActivity</string>
+    <string name="topbar_back_button_text">VOLTAR</string>
+    <string name="return_bicycle_quiz_page_answer_quiz">Responda ao questionário</string>
+    <string name="icon_arrow_down_description">Descrição: icone flexa inferior</string>
 </resources>

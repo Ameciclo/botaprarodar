@@ -10,12 +10,12 @@ import org.koin.core.context.GlobalContext.startKoin
 class BprApplication : Application() {
 
     private val modules = listOf(
+        firebaseModule,
+        bprModule,
+        viewModelModule,
         presentationModule,
         repositoryModule,
-        viewModelModule,
-        firebaseModule,
         useCasesModule,
-        bprModule,
         APIModule,
     )
 
