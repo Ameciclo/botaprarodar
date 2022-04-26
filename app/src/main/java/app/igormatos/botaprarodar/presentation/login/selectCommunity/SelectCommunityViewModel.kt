@@ -17,20 +17,20 @@ class SelectCommunityViewModel(
 ) : ViewModel() {
 
     private val _selectCommunityState = MutableLiveData<SelectCommunityState>()
-    val selectCommunityState: LiveData<SelectCommunityState>
-        get() = _selectCommunityState
+    val selectCommunityState: LiveData<SelectCommunityState> = _selectCommunityState
 
-    fun loadCommunities(uid: String?, email: String?) {
+    fun loadCommunities() {
         _selectCommunityState.value = SelectCommunityState.Loading
         viewModelScope.launch {
-            if(uid != null){
+            val userLogged = firebaseAuthModule.getCurrentUser()
+            if (userLogged != null) {
                 val selectCommunityState: SelectCommunityState =
                     selectCommunityUseCase.loadCommunitiesByAdmin(
-                        uid,
-                        email
+                        userLogged.uid,
+                        userLogged.email
                     )
                 _selectCommunityState.postValue(selectCommunityState)
-            }else{
+            } else {
                 _selectCommunityState.postValue(SelectCommunityState.Error(BprErrorType.UNKNOWN))
             }
         }

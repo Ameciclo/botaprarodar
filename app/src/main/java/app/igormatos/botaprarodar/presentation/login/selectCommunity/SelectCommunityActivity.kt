@@ -46,9 +46,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
 
     override fun onResume() {
         super.onResume()
-        val uid = this.intent.getStringExtra("adminId")
-        val email = this.intent.getStringExtra("adminEmail")
-        viewModel.loadCommunities(uid, email)
+        viewModel.loadCommunities()
     }
 
     private fun setupAdapter() {
@@ -76,7 +74,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
     }
 
     private fun observeEvents() {
-        viewModel.selectCommunityState.observe(this, { selectCommunityState ->
+        viewModel.selectCommunityState.observe(this) { selectCommunityState ->
             when (selectCommunityState) {
                 is SelectCommunityState.Error -> {
                     loadingDialog.hide()
@@ -88,7 +86,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
                     notifySuccessEvents(selectCommunityState)
                 }
             }
-        })
+        }
     }
 
     private fun notifyErrorEvents(errorType: BprErrorType) {
