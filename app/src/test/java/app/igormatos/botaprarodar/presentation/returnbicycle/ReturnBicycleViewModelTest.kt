@@ -1,13 +1,11 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.utils.bike
-import app.igormatos.botaprarodar.utils.bike2
+import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
@@ -28,6 +26,8 @@ class ReturnBicycleViewModelTest {
 
     private val stepperAdapter = spyk(ReturnStepper(StepConfigType.SELECT_BIKE))
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
+    private val stepFinalReturnBikeUseCase = mockk<StepFinalReturnBikeUseCase>()
+    private val getUserByIdUseCase = mockk<GetUserByIdUseCase>()
     private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: ReturnBicycleViewModel
 
@@ -35,8 +35,9 @@ class ReturnBicycleViewModelTest {
     fun setup() {
         viewModel = ReturnBicycleViewModel(
             stepperAdapter = stepperAdapter,
-            bikeHolder = bikeHolder,
-            stepOneReturnBikeUseCase = stepOneReturnBikeUseCase
+            stepOneReturnBikeUseCase = stepOneReturnBikeUseCase,
+            stepFinalReturnBikeUseCase = stepFinalReturnBikeUseCase,
+            getUserByIdUseCase = getUserByIdUseCase
         )
     }
 
@@ -67,38 +68,4 @@ class ReturnBicycleViewModelTest {
         verify { stepperAdapter.navigateToNext() }
         assertEquals(StepConfigType.QUIZ, viewModel.stepperAdapter.currentStep.value)
     }
-
-    @Test
-    fun `when fill the form fields the QUIZ should be valid`() {
-        val observerQuizForm = mockk<Observer<Boolean>>(relaxed = true)
-
-        viewModel.formIsEnable.observeForever(observerQuizForm)
-        viewModel.problemsDuringRidingRg.value = "Não"
-        viewModel.needTakeRideRg.value = "Não"
-        viewModel.reason.value = "Seu local de trabalho"
-        viewModel.whichDistrict.value = "Pirituba"
-        //TODO: criar nova variavel para armazenar se a bicicleta apresentou algum problema
-
-        verify {
-            observerQuizForm.onChanged(true)
-        }
-        assertEquals(true, viewModel.formIsEnable.value)
-    }
-
-    @Test
-    fun `when fill the form fields the QUIZ should be invalid`() {
-        val observerQuizForm = mockk<Observer<Boolean>>(relaxed = true)
-
-        viewModel.formIsEnable.observeForever(observerQuizForm)
-        viewModel.problemsDuringRidingRg.value = "Não"
-        viewModel.needTakeRideRg.value = "Não"
-        viewModel.reason.value = ""
-        viewModel.whichDistrict.value = "Pirituba"
-
-        verify {
-            observerQuizForm.onChanged(false)
-        }
-        assertEquals(false, viewModel.formIsEnable.value)
-    }
-
 }

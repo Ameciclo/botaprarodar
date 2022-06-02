@@ -1,6 +1,8 @@
 package app.igormatos.botaprarodar.presentation.components.navigation.return_bike
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,16 +10,15 @@ import androidx.navigation.compose.composable
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.components.BikeList
-import app.igormatos.botaprarodar.presentation.components.FinishAction
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
-import app.igormatos.botaprarodar.presentation.components.WithdrawConfirmationComponent
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleQuizPage
+import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleResume
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.jetbrains.anko.internals.AnkoInternals.createAnkoContext
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
-@Composable
+@Composable()
 fun ReturnNavigationComponent(
     vm: ReturnBicycleViewModel,
     bikeList: List<Bike>,
@@ -31,12 +32,22 @@ fun ReturnNavigationComponent(
         }
 
         composable(ReturnScreen.ReturnQuiz.route) {
-            ReturnBicycleQuizPage(viewModel = vm)
+            ReturnBicycleQuizPage(handleClick = handleClick)
         }
 
         composable(ReturnScreen.ReturnConfirmation.route) {
-            // TODO - Refatorar e transformar em um componente generico
-            WithdrawConfirmationComponent(handleClick = handleClick)
+            val bike = vm.bikeHolder.value
+            val user = vm.userHolder.value
+            if (bike != null && user != null) {
+                ReturnBicycleResume(
+                    vm.loadingState.observeAsState(initial = false), bike, user
+                ) {
+                    vm.addDevolution {
+                        vm.navigateToFinishedStep()
+                        navController.navigate(ReturnScreen.ReturnFinishAction.route)
+                    }
+                }
+            }
         }
 
         composable(ReturnScreen.ReturnFinishAction.route) {

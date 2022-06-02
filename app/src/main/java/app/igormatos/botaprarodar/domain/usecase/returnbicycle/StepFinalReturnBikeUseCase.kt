@@ -3,17 +3,13 @@ package app.igormatos.botaprarodar.domain.usecase.returnbicycle
 import app.igormatos.botaprarodar.common.extensions.convertToBikeRequest
 import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.common.utils.generateRandomAlphanumeric
-import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
-import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
 import app.igormatos.botaprarodar.data.repository.DevolutionBikeRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
-import app.igormatos.botaprarodar.domain.model.AddDataResponse
-import app.igormatos.botaprarodar.domain.model.Devolution
-import app.igormatos.botaprarodar.domain.model.Quiz
-import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
+import app.igormatos.botaprarodar.domain.model.*
 import com.brunotmgomes.ui.SimpleResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class StepFinalReturnBikeUseCase(
     private val devolutionRepository: DevolutionBikeRepository,
     private val userRepository: UserRepository
@@ -21,13 +17,12 @@ class StepFinalReturnBikeUseCase(
 
     suspend fun addDevolution(
         devolutionDate: String,
-        bikeHolder: BikeHolder,
-        quizBuilder: BikeDevolutionQuizBuilder
+        bikeHolder: Bike,
+        devolutionQuiz: Quiz
     ): SimpleResult<AddDataResponse> {
-        val quiz = quizToSend(quizBuilder)
-        val devolution = devolutionToSend(bikeHolder, devolutionDate, quiz)
+        val devolution = devolutionToSend(bikeHolder, devolutionDate, devolutionQuiz)
         updateBikeToSend(bikeHolder, devolution)
-        val bikeRequest = bikeHolder.bike?.convertToBikeRequest()!!
+        val bikeRequest = bikeHolder.convertToBikeRequest()
 
         val addDevolutionResponse: SimpleResult<AddDataResponse> =
             devolutionRepository.addDevolution(bikeRequest)
@@ -39,10 +34,10 @@ class StepFinalReturnBikeUseCase(
     }
 
     private fun updateBikeToSend(
-        bikeHolder: BikeHolder,
+        bikeHolder: Bike,
         devolution: Devolution
     ) {
-        with(bikeHolder.bike!!) {
+        with(bikeHolder) {
             if (this.devolutions == null) {
                 this.devolutions = mutableListOf(devolution)
             } else {
@@ -54,38 +49,17 @@ class StepFinalReturnBikeUseCase(
     }
 
     private fun devolutionToSend(
-        bikeHolder: BikeHolder,
+        bikeHolder: Bike,
         devolutionDate: String,
         quiz: Quiz
     ): Devolution {
         return Devolution(
             id = "-" + generateRandomAlphanumeric(),
-            withdrawId = bikeHolder.bike?.getLastWithdraw()?.id.orEmpty(),
+            withdrawId = bikeHolder.getLastWithdraw()?.id.orEmpty(),
             date = devolutionDate,
-            user = bikeHolder.bike?.getLastWithdraw()?.user,
+            user = bikeHolder.getLastWithdraw()?.user,
             quiz = quiz
         )
-    }
-
-    private fun quizToSend(quizBuilder: BikeDevolutionQuizBuilder): Quiz {
-        val quiz = Quiz()
-        quizBuilder.build().answerList.map {
-            when (it.quizName) {
-                DevolutionQuizAnswerName.REASON -> {
-                    quiz.reason = it.value.toString()
-                }
-                DevolutionQuizAnswerName.DESTINATION -> {
-                    quiz.destination = it.value.toString()
-                }
-                DevolutionQuizAnswerName.GIVE_RIDE -> {
-                    quiz.giveRide = it.value.toString()
-                }
-                DevolutionQuizAnswerName.SUFFERED_VIOLENCE -> {
-                    quiz.problemsDuringRiding = it.value.toString()
-                }
-            }
-        }
-        return quiz
     }
 
     private suspend fun updateUserWithInactiveWithdraw(devolution: Devolution): SimpleResult<AddDataResponse> {

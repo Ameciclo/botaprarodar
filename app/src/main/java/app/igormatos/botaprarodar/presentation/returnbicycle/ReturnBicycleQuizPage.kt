@@ -1,33 +1,50 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
+import app.igormatos.botaprarodar.domain.model.Quiz
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
-import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
-fun ReturnBicycleQuizPage(viewModel: ReturnBicycleViewModel) {
-    val usedBikeToMoveList = stringArrayResource(id = R.array.used_bike_to_move_list)
-    val usedBikeToMoveSelected by viewModel.reason.observeAsState()
-    var expanded by remember { mutableStateOf(false) }
+fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit) {
+    var reason by remember { mutableStateOf("") }
+    var neighborhood by remember { mutableStateOf("") }
+    var hasIssues by remember { mutableStateOf("Não") }
+    var gaveRide by remember { mutableStateOf("Não") }
+
+    val purposesOfTheBicycle = stringArrayResource(id = R.array.return_bike_purpose_list)
 
     Box(
         modifier = Modifier
@@ -44,66 +61,51 @@ fun ReturnBicycleQuizPage(viewModel: ReturnBicycleViewModel) {
                 Text(text = stringResource(R.string.return_bicycle_quiz_page_answer_quiz))
             }
 
-            Text(
-                modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.padding_large),
-                    bottom = dimensionResource(id = R.dimen.padding_small)
-                ),
-                text = stringResource(id = R.string.used_bike_to_move),
-                style = TextStyle(color = ColorPallet.TextGray)
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .wrapContentSize(Alignment.TopStart)
+            QuizDropDownMenu(
+                title = stringResource(id = R.string.return_bike_used_bike_to_move),
+                items = purposesOfTheBicycle
             ) {
-                OutlinedButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = ColorPallet.BackgroundGray),
-                    onClick = { expanded = true },
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = setDropdownTextValue(usedBikeToMoveSelected),
-                            style = TextStyle(
-                                color = ColorPallet.TextGray,
-                                fontWeight = FontWeight(500)
-                            )
-                        )
-                        Spacer(modifier = Modifier.width(1.dp))
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_down),
-                            contentDescription = stringResource(R.string.icon_arrow_down_description),
-                            tint = ColorPallet.TextGray
-                        )
-                    }
-                }
+                reason = it
+            }
 
-                Box(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))) {
-                    DropdownMenu(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        usedBikeToMoveList.forEach { item ->
-                            DropdownMenuItem(onClick = {
-                                viewModel.reason.postValue(item)
-                                expanded = false
-                            }) {
-                                Text(text = item)
-                            }
-                        }
-                    }
-                }
+            QuizTextField(
+                title = stringResource(id = R.string.return_bike_neighborhood_hint)
+            ) {
+                neighborhood = it
+            }
+
+            QuizYesOrNoRadioGroup(title = stringResource(id = R.string.problems_during_riding)) {
+                hasIssues = it
+            }
+
+            QuizYesOrNoRadioGroup(title = stringResource(id = R.string.need_take_ride)) {
+                gaveRide = it
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            val hasValidData = reason.isNotEmpty()
+                    && neighborhood.isNotEmpty()
+                    && hasIssues.isNotEmpty()
+                    && gaveRide.isNotEmpty()
+
+            Button(
+                enabled = hasValidData,
+                modifier = Modifier
+                    .padding(vertical = dimensionResource(id = R.dimen.padding_medium))
+                    .fillMaxWidth()
+                    .height(dimensionResource(id = R.dimen.height_48)),
+                onClick = {
+                    handleClick(Quiz(neighborhood, reason, hasIssues, gaveRide))
+                },
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
+            ) {
+                Text(
+                    text = stringResource(id = R.string.confirm_return),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.gray_1)
+                )
             }
         }
     }
@@ -111,16 +113,170 @@ fun ReturnBicycleQuizPage(viewModel: ReturnBicycleViewModel) {
 }
 
 @Composable
-private fun setDropdownTextValue(value: String?): String {
-    return if (value.isNotNullOrNotBlank())
-        value!!
-    else "Selecione"
+private fun QuizYesOrNoRadioGroup(title: String, onSelectedItem: (String) -> Unit) {
+    var selected by remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.padding_medium),
+                bottom = dimensionResource(id = R.dimen.padding_small)
+            ),
+            text = title,
+            style = TextStyle(color = ColorPallet.TextGray, fontSize = 14.sp)
+        )
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            val yes = stringResource(id = R.string.yes)
+            val no = stringResource(id = R.string.no)
+            RadioButton(
+                selected = selected,
+                onClick = {
+                    selected = !selected
+                    onSelectedItem(yes)
+                }, colors = RadioButtonDefaults.colors(
+                    selectedColor = colorResource(id = R.color.green_teal)
+                )
+            )
+            Spacer(modifier = Modifier.width(2.dp))
+            Text(
+                text = yes,
+                style = TextStyle(color = ColorPallet.TextGray, fontWeight = FontWeight(500))
+            )
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)))
+            RadioButton(
+                selected = !selected,
+                onClick = {
+                    selected = !selected
+                    onSelectedItem(no)
+                },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = colorResource(id = R.color.green_teal)
+                )
+            )
+            Spacer(modifier = Modifier.width(2.dp))
+            Text(
+                text = no,
+                style = TextStyle(color = ColorPallet.TextGray, fontWeight = FontWeight(500))
+            )
+        }
+    }
+
 }
 
-@Preview(showSystemUi = true)
+@ExperimentalComposeUiApi
 @Composable
-private fun ReturnBicycleQuizPagePreview() {
-    BotaprarodarTheme {
-        ReturnBicycleQuizPage(viewModel = viewModel())
+private fun QuizTextField(title: String, onValueChanged: (String) -> Unit) {
+    var neighborhoodName by rememberSaveable { mutableStateOf(String()) }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    Text(
+        modifier = Modifier.padding(
+            top = dimensionResource(id = R.dimen.padding_medium),
+            bottom = dimensionResource(id = R.dimen.padding_small)
+        ),
+        text = title,
+        style = TextStyle(color = ColorPallet.TextGray)
+    )
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = neighborhoodName,
+        onValueChange = {
+            neighborhoodName = it
+            onValueChanged(neighborhoodName)
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color(0xFFD8D8D8),
+            unfocusedBorderColor = Color(0xFFD8D8D8)
+        ),
+        placeholder = {
+            Text(
+                text = "Digite o destino",
+                style = TextStyle(
+                    color = ColorPallet.TextGray,
+                    fontWeight = FontWeight(500)
+                )
+            )
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            capitalization = KeyboardCapitalization.Words,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(onDone = {
+            keyboardController?.hide()
+        })
+    )
+}
+
+@Composable
+private fun QuizDropDownMenu(
+    title: String,
+    items: Array<String>,
+    onSelectedItem: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val select = stringResource(id = R.string.return_bike_survey_select)
+    var currentItem by remember { mutableStateOf(select) }
+    var dropMenuSize by remember { mutableStateOf(Size.Zero) }
+    val rotateIconAnimation by animateFloatAsState(targetValue = if (expanded) 180f else 0f)
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.padding_medium),
+                bottom = dimensionResource(id = R.dimen.padding_small)
+            ),
+            text = title,
+            style = TextStyle(color = ColorPallet.TextGray)
+        )
+
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .onGloballyPositioned { coordinates ->
+                    dropMenuSize = coordinates.size.toSize()
+                },
+            colors = ButtonDefaults.buttonColors(backgroundColor = ColorPallet.BackgroundGray),
+            onClick = { expanded = true },
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = currentItem,
+                    style = TextStyle(
+                        color = ColorPallet.TextGray,
+                        fontWeight = FontWeight(500)
+                    )
+                )
+                Spacer(modifier = Modifier.width(1.dp))
+                Icon(
+                    imageVector = Icons.Filled.ArrowDropDown,
+                    contentDescription = stringResource(R.string.icon_arrow_down_description),
+                    tint = ColorPallet.TextGray,
+                    modifier = Modifier.graphicsLayer { rotationZ = rotateIconAnimation }
+                )
+            }
+        }
+
+        DropdownMenu(
+            modifier = Modifier.width(with(LocalDensity.current) { dropMenuSize.width.toDp() }),
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            items.forEach { item ->
+                DropdownMenuItem(onClick = {
+                    onSelectedItem(item)
+                    currentItem = item
+                    expanded = false
+                }) {
+                    Text(text = item)
+                }
+            }
+        }
     }
 }

@@ -16,7 +16,6 @@ import app.igormatos.botaprarodar.presentation.main.viewModel.HomeViewModel
 import app.igormatos.botaprarodar.presentation.main.viewModel.TripDetailViewModel
 import app.igormatos.botaprarodar.presentation.main.viewModel.TripsViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleViewModel
-import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.StepFinalReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.StepOneReturnBikeViewModel
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
@@ -48,7 +47,7 @@ val viewModelModule = module {
     viewModel { UserQuizViewModel(get()) }
     viewModel { TripDetailViewModel(get()) }
 
-    single { ReturnBicycleViewModel(get(), get(), get()) }
+    single { ReturnBicycleViewModel(get(), get(), get(), get()) }
     
     viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }

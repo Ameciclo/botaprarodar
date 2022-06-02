@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBi
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import app.igormatos.botaprarodar.presentation.login.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryUseCase
@@ -52,4 +53,5 @@ val useCasesModule = module {
     factory { AdminUseCase(get()) }
     single { BikesUseCase(get()) }
     single { UsersUseCase(get()) }
+    single { GetUserByIdUseCase(get()) }
 }

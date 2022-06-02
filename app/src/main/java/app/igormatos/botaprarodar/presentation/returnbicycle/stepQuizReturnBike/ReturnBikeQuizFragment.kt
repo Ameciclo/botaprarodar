@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import app.igormatos.botaprarodar.R
@@ -43,7 +42,7 @@ class ReturnBikeQuizFragment : Fragment(), AdapterView.OnItemClickListener {
 
         val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
             layoutInflater.context,
-            R.array.used_bike_to_move_list,
+            R.array.return_bike_purpose_list,
             R.layout.used_bike_items
         )
         (binding.usedBikeToMoveDropdownLayout.editText as? MaterialAutoCompleteTextView)?.setAdapter(adapter)
