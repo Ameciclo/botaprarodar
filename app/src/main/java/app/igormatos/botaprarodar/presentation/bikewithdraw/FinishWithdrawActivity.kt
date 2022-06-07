@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
@@ -14,6 +15,7 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class FinishWithdrawActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
