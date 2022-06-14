@@ -1,7 +1,10 @@
 package app.igormatos.botaprarodar.common.extensions
 
+import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
+import app.igormatos.botaprarodar.data.local.quiz.QuizBuilder
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.BikeRequest
+import app.igormatos.botaprarodar.domain.model.Quiz
 
 fun <T, E> Map<in T, E>.convertToList(): MutableList<E> {
     return this.values.toMutableList()
@@ -27,6 +30,7 @@ fun Map<String, BikeRequest>.convertMapperToBikeList(): MutableList<Bike> {
             photoThumbnailPath = bikeRequest.photoThumbnailPath
             id = bikeRequest.id
             isAvailable = bikeRequest.isAvailable
+            withdrawToUser = bikeRequest.withdrawToUser
         }
         bikeRequest.withdraws?.let { withdraws ->
             val listWithdraws = withdraws.convertToList()
@@ -39,4 +43,25 @@ fun Map<String, BikeRequest>.convertMapperToBikeList(): MutableList<Bike> {
         listToReturn.add(bike)
     }
     return listToReturn
+}
+
+fun QuizBuilder.toQuiz(): Quiz {
+    val quiz = Quiz()
+    this.build().answerList.map {
+        when (it.quizName) {
+            DevolutionQuizAnswerName.REASON -> {
+                quiz.reason = it.value.toString()
+            }
+            DevolutionQuizAnswerName.DESTINATION -> {
+                quiz.destination = it.value.toString()
+            }
+            DevolutionQuizAnswerName.GIVE_RIDE -> {
+                quiz.giveRide = it.value.toString()
+            }
+            DevolutionQuizAnswerName.SUFFERED_VIOLENCE -> {
+                quiz.problemsDuringRiding = it.value.toString()
+            }
+        }
+    }
+    return quiz
 }

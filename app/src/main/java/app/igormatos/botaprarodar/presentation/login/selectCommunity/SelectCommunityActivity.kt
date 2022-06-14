@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
@@ -18,6 +19,7 @@ import com.brunotmgomes.ui.extensions.visible
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class SelectCommunityActivity : BaseAuthActivity() {
 

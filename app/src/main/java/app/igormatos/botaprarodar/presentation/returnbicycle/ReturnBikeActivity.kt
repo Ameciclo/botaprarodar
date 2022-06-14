@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +17,7 @@ import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalComposeUiApi
 class ReturnBikeActivity : AppCompatActivity() {
 
     companion object {
@@ -65,7 +67,7 @@ class ReturnBikeActivity : AppCompatActivity() {
             when (it) {
                 StepConfigType.SELECT_BIKE -> {
                     binding.returnBikeToolbar.let { toolbar ->
-                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+                        toolbar.setNavigationIcon(R.drawable.ic_back_arrow)
                         toolbar.setNavigationOnClickListener {
                             onBackPressed()
                         }

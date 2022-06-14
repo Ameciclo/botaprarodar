@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 
@@ -24,9 +25,7 @@ fun ThreeStepper(uiStepConfig: StepConfigType?, secondIcon: Painter) {
 
 
     when (uiStepConfig) {
-        StepConfigType.SELECT_USER,
-        StepConfigType.QUIZ,
-        -> {
+        SELECT_USER, QUIZ -> {
             iconStyleFirst = iconStyleFirst.copy(
                 backgroundColor = ColorPallet.GreenTeal,
                 iconColor = Color.White
@@ -36,7 +35,7 @@ fun ThreeStepper(uiStepConfig: StepConfigType?, secondIcon: Painter) {
                 lineColor = ColorPallet.GreenTeal
             )
         }
-        StepConfigType.CONFIRM_WITHDRAW -> {
+        CONFIRM_WITHDRAW, CONFIRM_DEVOLUTION -> {
             iconStyleFirst = iconStyleFirst.copy(
                 backgroundColor = ColorPallet.GreenTeal,
                 iconColor = Color.White
@@ -53,7 +52,7 @@ fun ThreeStepper(uiStepConfig: StepConfigType?, secondIcon: Painter) {
                 lineColor = ColorPallet.GreenTeal
             )
         }
-        StepConfigType.FINISHED_ACTION -> {
+        FINISHED_ACTION -> {
             iconStyleFirst = iconStyleFirst.copy(
                 backgroundColor = ColorPallet.GreenTeal,
                 iconColor = Color.White
@@ -87,6 +86,6 @@ fun ThreeStepper(uiStepConfig: StepConfigType?, secondIcon: Painter) {
 @Composable
 private fun ThreeStepperPreview() {
     BotaprarodarTheme {
-        ThreeStepper(StepConfigType.SELECT_USER, painterResource(id = R.drawable.ic_quiz))
+        ThreeStepper(SELECT_USER, painterResource(id = R.drawable.ic_quiz))
     }
 }

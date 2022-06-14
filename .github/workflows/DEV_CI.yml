@@ -77,7 +77,7 @@ jobs:
           name: app-debug-androidTest
 
       - name: Login to Google Cloud
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@main
         with:
           version: '270.0.0'
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
@@ -90,6 +90,6 @@ jobs:
           --type instrumentation
           --test app-debug-androidTest/app-debug-androidTest.apk
           --app botaprarodar/botaprarodar.apk
-          --device model=flame,version=29,locale=pt_BR,orientation=portrait
+          --device model=redfin,version=30,locale=pt_BR,orientation=portrait
           --use-orchestrator
           --environment-variables clearPackageData=true
