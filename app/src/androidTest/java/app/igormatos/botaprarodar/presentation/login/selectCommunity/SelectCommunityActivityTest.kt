@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.login.selectCommunity
 
 import android.content.Intent
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -20,6 +21,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalComposeUiApi
 @RunWith(AndroidJUnit4::class)
 internal class SelectCommunityActivityTest {
 

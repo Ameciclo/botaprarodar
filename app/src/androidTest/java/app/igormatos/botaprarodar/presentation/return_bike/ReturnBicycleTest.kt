@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.return_bike
 
 import android.util.Log
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -17,6 +18,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class ReturnBicycleTest {
     private lateinit var returnBicycleViewModel: ReturnBicycleViewModel
@@ -29,7 +31,8 @@ class ReturnBicycleTest {
         returnBicycleViewModel = ReturnBicycleViewModel(
             stepperAdapter = ReturnStepper(StepConfigType.SELECT_BIKE),
             stepOneReturnBikeUseCase = mockk(relaxed = true),
-            bikeHolder = mockk(relaxed = true)
+            stepFinalReturnBikeUseCase = mockk(relaxed = true),
+            getUserByIdUseCase = mockk(relaxed = true)
         )
         returnBicycleViewModel.setInitialStep()
         composeTestRule.setContent {

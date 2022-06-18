@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.utils
 
+import app.igormatos.botaprarodar.common.extensions.toQuiz
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 
 val bikeDevolutionQuizBuilder = BikeDevolutionQuizBuilder().apply {
@@ -7,4 +8,4 @@ val bikeDevolutionQuizBuilder = BikeDevolutionQuizBuilder().apply {
     withAnswer2("resposta 2")
     withAnswer3("resposta 3")
     withAnswer4("resposta 4")
-}
+}.toQuiz()

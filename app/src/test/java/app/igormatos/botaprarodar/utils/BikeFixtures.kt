@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.utils
 import app.igormatos.botaprarodar.domain.model.*
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.main.trips.TripsItemType
-import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.flow.flowOf
 import java.util.*
@@ -111,11 +110,7 @@ val bikeSimpleError = SimpleResult.Error(Exception())
 
 val bikeSimpleSuccessEdit = SimpleResult.Success(addDataResponseEditBike)
 
-fun generateBikeHolder(): BikeHolder {
-    return BikeHolder().apply {
-        bike = bikeWithWithdraws
-    }
-}
+fun generateBikeHolder() = bikeWithWithdraws
 
 fun generateBikeInUse(nameBicycle: String): BikeRequest {
     return BikeRequest().apply {

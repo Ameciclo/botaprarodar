@@ -1,6 +1,7 @@
 package app.igormatos.botaprarodar.presentation.main.components.bottomBar
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import app.igormatos.botaprarodar.presentation.main.screens.HomeScreen
 import app.igormatos.botaprarodar.presentation.main.screens.UsersScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun BottomNavGraph(

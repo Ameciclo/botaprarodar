@@ -1,44 +1,54 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.Quiz
+import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
+import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
+import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.DEFAULT_RETURNS_ERROR_MESSAGE
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class ReturnBicycleViewModel(
     val stepperAdapter: ReturnStepper,
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
-    private val bikeHolder: BikeHolder
+    private val stepFinalReturnBikeUseCase: StepFinalReturnBikeUseCase,
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : ViewModel() {
-    private val INITIAL_VALUE: String = ""
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
-    val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>>
-        get() = _bikesAvailableToReturn
-    private val _bikesAvailable: MutableLiveData<List<Bike>> = MutableLiveData<List<Bike>>()
-    val bikesAvailable
-        get() = _bikesAvailable
+    val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>> = _bikesAvailableToReturn
 
-    val _uiStep = MutableLiveData<StepConfigType>()
-    val uiStep: LiveData<StepConfigType>
-        get() = _uiStep
+    private val _bikesAvailable: MutableLiveData<List<Bike>?> = MutableLiveData<List<Bike>?>()
+    val bikesAvailable: MutableLiveData<List<Bike>?> = _bikesAvailable
 
-    val reason = MutableLiveData(INITIAL_VALUE)
-    val problemsDuringRidingRg = MutableLiveData(INITIAL_VALUE)
-    val needTakeRideRg = MutableLiveData(INITIAL_VALUE)
-    val whichDistrict = MutableLiveData(INITIAL_VALUE)
+    private val _devolutionQuiz: MutableLiveData<Quiz> = MutableLiveData<Quiz>()
+    val devolutionQuiz: LiveData<Quiz> = _devolutionQuiz
 
-    val formIsEnable = MediatorLiveData<Boolean>().apply {
-        addSource(reason) { validateForm() }
-        addSource(problemsDuringRidingRg) { validateForm() }
-        addSource(needTakeRideRg) { validateForm() }
-        addSource(whichDistrict) { validateForm() }
-    }
+    private val _bikeHolder: MutableLiveData<Bike> = MutableLiveData<Bike>()
+    val bikeHolder: LiveData<Bike> = _bikeHolder
+
+    private val _userHolder: MutableLiveData<User> = MutableLiveData<User>()
+    val userHolder: LiveData<User> = _userHolder
+
+    private val _uiStep = MutableLiveData<StepConfigType>()
+    val uiStep: LiveData<StepConfigType> = _uiStep
+
+    private val _loadingState = MutableLiveData<Boolean>()
+    val loadingState: LiveData<Boolean> = _loadingState
+
+    private val _errorState = MutableLiveData<String>()
+    val errorState: LiveData<String> = _errorState
 
     fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
@@ -55,13 +65,18 @@ class ReturnBicycleViewModel(
         _uiStep.postValue(stepperAdapter.currentStep.value)
     }
 
+    fun navigateToFinishedStep() {
+        stepperAdapter.setCurrentStep(StepConfigType.FINISHED_ACTION)
+        _uiStep.postValue(stepperAdapter.currentStep.value)
+    }
+
     fun getBikesInUseToReturn(communityId: String) {
         viewModelScope.launch {
             val value = stepOneReturnBikeUseCase.getBikesInUseToReturn(communityId = communityId)
             _bikesAvailableToReturn.value = value
             when (value) {
                 is SimpleResult.Success -> {
-                    bikesAvailable.value = value.data
+                    _bikesAvailable.value = value.data
                 }
                 is SimpleResult.Error -> {
                     value.exception
@@ -70,18 +85,41 @@ class ReturnBicycleViewModel(
         }
     }
 
+    fun addDevolution(onFinished: () -> Unit) {
+        viewModelScope.launch {
+            _loadingState.postValue(true)
+            val response = stepFinalReturnBikeUseCase.addDevolution(
+                getCurrentTime(),
+                bikeHolder.value!!,
+                devolutionQuiz.value!!
+            )
+            when (response) {
+                is SimpleResult.Success -> {
+                    onFinished()
+                }
+                is SimpleResult.Error -> {
+                    _errorState.postValue(DEFAULT_RETURNS_ERROR_MESSAGE)
+                }
+            }
+            _loadingState.postValue(false)
+        }
+    }
+
+    private fun getCurrentTime(): String {
+        return formattedDate().format(Calendar.getInstance(Locale("pt", "BR")).time)
+    }
+
+    fun setQuiz(quiz: Quiz) {
+        _devolutionQuiz.value = quiz
+    }
+
     fun setBike(bike: Bike) {
-        bikeHolder.bike = bike
+        _bikeHolder.value = bike
     }
 
-    private fun validateForm() {
-        formIsEnable.value = reason.value.isNotNullOrNotBlank() &&
-                problemsDuringRidingRg.value.isRadioValid() &&
-                needTakeRideRg.value.isRadioValid() &&
-                isTextValid(whichDistrict.value)
+    fun getUserBy(userId: String) = viewModelScope.launch {
+        getUserByIdUseCase.execute(userId)?.let { user ->
+            _userHolder.value = user
+        }
     }
-
-    private fun String?.isRadioValid() = this != INITIAL_VALUE
-
-    private fun isTextValid(data: String?) = !data.isNullOrBlank()
 }

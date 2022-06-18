@@ -10,6 +10,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +29,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivi
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun HomeScreen(homeUiState: HomeUiState) {
@@ -105,6 +107,7 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 private fun Cards() {
@@ -131,6 +134,7 @@ private fun Cards() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalCoroutinesApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

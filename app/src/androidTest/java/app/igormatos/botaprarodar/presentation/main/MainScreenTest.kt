@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.main
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -12,6 +13,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class MainScreenTest {
 

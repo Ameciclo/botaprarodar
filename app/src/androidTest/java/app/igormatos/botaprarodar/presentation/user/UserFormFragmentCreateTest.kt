@@ -16,6 +16,7 @@ import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -101,6 +102,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldOpenRacialDialog_whenClickToSelectRacial() {
         userFormFragment {
@@ -110,6 +112,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldListRacialOptions_whenClickToSelectRacial() {
         userFormFragment {
@@ -119,6 +122,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldShowSelectedOption_whenRacialOptionIsSelected() {
         val racialSelectedIndex = 2
