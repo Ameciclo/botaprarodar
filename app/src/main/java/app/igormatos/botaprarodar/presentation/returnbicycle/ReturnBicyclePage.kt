@@ -39,9 +39,9 @@ import java.util.*
 fun ReturnBicyclePage(
     viewModel: ReturnBicycleViewModel = viewModel(),
     finish: () -> Unit,
-    communityId: String
 ) {
-    var returnBicycleNavController: NavHostController = rememberNavController()
+    val returnBicycleNavController: NavHostController = rememberNavController()
+
     val uiStepConfig by viewModel.uiStep.observeAsState()
 
     val bikes by viewModel.bikesAvailable.observeAsState()
@@ -188,6 +188,6 @@ private fun ReturnBicycleActivityPreview() {
     )
 
     BotaprarodarTheme {
-        ReturnBicyclePage(finish = {}, communityId = "")
+        ReturnBicyclePage(finish = {})
     }
 }
