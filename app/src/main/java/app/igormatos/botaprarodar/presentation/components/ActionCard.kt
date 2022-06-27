@@ -7,6 +7,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -17,17 +18,30 @@ import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 
 @Composable
-fun ActionCard(title: String, icon: Painter, onClickHandler: () -> Unit = {}) {
+fun ActionCard(
+    title: String,
+    icon: Painter,
+    isEnable: Boolean = true,
+    onClickHandler: () -> Unit = {}
+) {
     Card(
         elevation = 3.dp,
-        modifier = Modifier.width(170.dp).clickable { onClickHandler() }
+        modifier = Modifier
+            .width(170.dp)
+            .clickable(enabled = isEnable) { onClickHandler() }
     ) {
-        Column(Modifier.padding(12.dp).fillMaxWidth()
+        Column(
+            Modifier
+                .padding(12.dp)
+                .fillMaxWidth()
+                .alpha(if (!isEnable) 0.6f else 1f)
         ) {
             Image(
                 painter = icon,
                 contentDescription = "",
-                modifier = Modifier.padding(bottom = 16.dp).size(40.dp)
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .size(40.dp)
             )
             Text(
                 text = title.uppercase(),

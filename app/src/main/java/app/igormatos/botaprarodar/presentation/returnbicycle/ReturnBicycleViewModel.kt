@@ -1,11 +1,9 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.common.utils.formattedDate
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Quiz
@@ -24,8 +22,9 @@ class ReturnBicycleViewModel(
     val stepperAdapter: ReturnStepper,
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val stepFinalReturnBikeUseCase: StepFinalReturnBikeUseCase,
+    private val preferencesModule: SharedPreferencesModule,
     private val getUserByIdUseCase: GetUserByIdUseCase
-) : ViewModel() {
+) : ViewModel(), DefaultLifecycleObserver {
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>> = _bikesAvailableToReturn
 
@@ -68,6 +67,13 @@ class ReturnBicycleViewModel(
     fun navigateToFinishedStep() {
         stepperAdapter.setCurrentStep(StepConfigType.FINISHED_ACTION)
         _uiStep.postValue(stepperAdapter.currentStep.value)
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        setInitialStep()
+        val communityId = preferencesModule.getJoinedCommunity().id
+        _bikesAvailable.value = emptyList()
+        getBikesInUseToReturn(communityId)
     }
 
     fun getBikesInUseToReturn(communityId: String) {
