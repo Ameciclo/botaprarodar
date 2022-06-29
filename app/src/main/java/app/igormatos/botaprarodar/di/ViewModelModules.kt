@@ -41,7 +41,7 @@ val viewModelModule = module {
     viewModel { StepOneReturnBikeViewModel(get(), get(), get()) }
     viewModel { StepFinalReturnBikeViewModel(get(), get(), get(), get()) }
     viewModel { ReturnBikeQuizViewModel(get(), get()) }
-    viewModel { WithdrawViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { WithdrawViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 //    single { ReturnBikeViewModel(get()) }
     viewModel { UserViewModel(get()) }
     viewModel { UserQuizViewModel(get()) }

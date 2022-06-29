@@ -38,6 +38,7 @@ import java.util.*
 @Composable
 fun ReturnBicyclePage(
     viewModel: ReturnBicycleViewModel = viewModel(),
+
     finish: () -> Unit,
 ) {
     val returnBicycleNavController: NavHostController = rememberNavController()
@@ -45,8 +46,6 @@ fun ReturnBicyclePage(
     val uiStepConfig by viewModel.uiStep.observeAsState()
 
     val bikes by viewModel.bikesAvailable.observeAsState()
-
-    val user by viewModel.userHolder.observeAsState()
 
     val localContext = LocalContext.current
 
@@ -83,6 +82,15 @@ fun ReturnBicyclePage(
                         selectClickStepper(
                             viewModel = viewModel,
                             navController = returnBicycleNavController,
+                            onFinishedAction = {
+                                finish()
+                                localContext.startActivity(
+                                    Intent(
+                                        localContext,
+                                        ReturnBicycleActivity::class.java
+                                    )
+                                )
+                            },
                             data = it
                         )
                     },
@@ -97,6 +105,7 @@ fun ReturnBicyclePage(
 private fun selectClickStepper(
     viewModel: ReturnBicycleViewModel,
     navController: NavHostController,
+    onFinishedAction: () -> Unit = {},
     data: Any?
 ): Unit {
     when (viewModel.uiStep.value) {
@@ -119,8 +128,7 @@ private fun selectClickStepper(
         }
 
         StepConfigType.FINISHED_ACTION -> {
-            navController.navigate(ReturnScreen.ReturnSelectBike.route)
-            //viewModel.setInitialStep()
+            onFinishedAction()
         }
     }
 }
