@@ -9,18 +9,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.ExperimentalComposeUiApi
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import com.brunotmgomes.ui.extensions.createLoading
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class ReturnBicycleActivity : ComponentActivity() {
     private val returnBicycleViewModel: ReturnBicycleViewModel by viewModel()
-    private val preferencesModule: SharedPreferencesModule by inject()
-    private lateinit var joinedCommunityId: String
 
     private val loadingDialog: AlertDialog by lazy {
         createLoading(R.layout.loading_dialog_animation)

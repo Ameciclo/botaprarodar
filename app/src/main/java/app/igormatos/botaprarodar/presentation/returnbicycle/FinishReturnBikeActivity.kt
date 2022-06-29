@@ -41,7 +41,7 @@ class FinishReturnBikeActivity : ComponentActivity() {
 
 
     private fun returnAnotherBike() {
-        val intent = Intent(this, ReturnBikeActivity::class.java)
+        val intent = Intent(this, ReturnBicycleActivity::class.java)
         startActivity(intent)
         finish()
     }

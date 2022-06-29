@@ -14,6 +14,7 @@ import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.DEFAULT_RETURNS_ERROR_MESSAGE
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -77,7 +78,7 @@ class ReturnBicycleViewModel(
     }
 
     fun getBikesInUseToReturn(communityId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(NonCancellable) {
             val value = stepOneReturnBikeUseCase.getBikesInUseToReturn(communityId = communityId)
             _bikesAvailableToReturn.value = value
             when (value) {
@@ -92,7 +93,7 @@ class ReturnBicycleViewModel(
     }
 
     fun addDevolution(onFinished: () -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(NonCancellable) {
             _loadingState.postValue(true)
             val response = stepFinalReturnBikeUseCase.addDevolution(
                 getCurrentTime(),
