@@ -43,7 +43,7 @@ private fun configureLoggingInterceptor(httpClientBuilder: OkHttpClient.Builder)
     val logging = HttpLoggingInterceptor()
 
     if (BuildConfig.DEBUG) {
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = HttpLoggingInterceptor.Level.BASIC
         httpClientBuilder.addInterceptor(logging)
     }
 }
@@ -70,7 +70,7 @@ class AuthTokenInterceptor(private val firebaseSessionManager: FirebaseSessionMa
             firebaseSessionManager.saveRenewStatusToken(shouldRenew = true)
         }
 
-        return response;
+        return response
     }
 
     private fun proceedWithAuthRequest(

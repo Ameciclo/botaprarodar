@@ -1,7 +1,6 @@
 package app.igormatos.botaprarodar.domain.model
 
 import android.os.Parcelable
-import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -21,12 +20,6 @@ data class User(
     var gender: String? = null,
     @SerializedName("profilePicture")
     var profilePicture: String? = null,
-    @SerializedName("residenceProofPicture")
-    var residenceProofPicture: String? = null,
-    @SerializedName("docPicture")
-    var docPicture: String? = null,
-    @SerializedName("docPictureBack")
-    var docPictureBack: String? = null,
     @SerializedName("docType")
     var docType: Int = 0,
     @SerializedName("docNumber")
@@ -69,7 +62,11 @@ data class User(
 
     override fun title(): String {
         val names = name?.split(" ")
-        return names?.first()?.capitalize().orEmpty() + " " + names?.last()?.capitalize().orEmpty()
+        return names?.first()
+            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            .orEmpty() + " " + names?.last()
+            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            .orEmpty()
     }
 
     override fun iconPath(): String {

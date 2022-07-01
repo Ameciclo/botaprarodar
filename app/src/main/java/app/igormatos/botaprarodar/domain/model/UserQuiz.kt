@@ -8,10 +8,6 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Parcelize
 data class UserQuiz(
-    @SerializedName("accessOtherTransport")
-    var accessOtherTransport: Boolean? = null,
-    @SerializedName("accessOtherTransportOpenQuestion")
-    var accessOtherTransportOpenQuestion: String? = null,
     @SerializedName("alreadyUseBPR")
     var alreadyUseBPR: Boolean? = null,
     @SerializedName("alreadyUseBPROpenQuestion")

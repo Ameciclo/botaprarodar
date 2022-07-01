@@ -52,16 +52,6 @@ class UserFormFragmentCreateTest {
     }
 
     @Test
-    fun givenDocNumber_shouldHaveMaxLength() {
-        userFormFragment {
-            val longDocNumber = "12345678901"
-            fillUserDocNumber(longDocNumber)
-        } verify {
-            checkDocNumberMaxLength()
-        }
-    }
-
-    @Test
     fun shouldOpenGenderDialog_whenClickToSelectGender() {
         userFormFragment {
             clickGenderEditText()
