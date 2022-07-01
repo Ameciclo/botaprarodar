@@ -62,11 +62,7 @@ data class User(
 
     override fun title(): String {
         val names = name?.split(" ")
-        return names?.first()
-            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-            .orEmpty() + " " + names?.last()
-            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-            .orEmpty()
+        return names?.first()?.capitalize().orEmpty() + " " + names?.last()?.capitalize().orEmpty()
     }
 
     override fun iconPath(): String {
