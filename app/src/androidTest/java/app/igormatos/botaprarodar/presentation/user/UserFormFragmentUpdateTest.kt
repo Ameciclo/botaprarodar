@@ -12,7 +12,6 @@ import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import io.mockk.mockk
 import org.junit.After
 import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -32,28 +31,6 @@ class UserFormFragmentUpdateTest {
         )
 
         Intents.init()
-    }
-
-    @Test
-    fun shouldShowDialogWhenClickOnImageResidence_whenThereIsResidenceProofImage() {
-
-        userFormFragment {
-
-            clickResidenceProofImage()
-
-        } verify {
-            verifyDialogEditResidenceImageIsShowing()
-        }
-    }
-
-    @Test
-    fun shouldShowDialogWhenClickDeleteButton_whenTryToDeleteResidenceProofImage() {
-        userFormFragment {
-            clickResidenceProofImage()
-            clickDeleteButtonOnDialogImage()
-        } verify {
-            verifyDialogDeleteResidenceImageIsShowing()
-        }
     }
 
     @After

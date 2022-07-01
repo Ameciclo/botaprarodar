@@ -3,9 +3,11 @@ package app.igormatos.botaprarodar.domain.usecase.userForm
 import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
-import app.igormatos.botaprarodar.utils.*
+import app.igormatos.botaprarodar.utils.mockImageUploadResponse
+import app.igormatos.botaprarodar.utils.userSimpleSuccess
+import app.igormatos.botaprarodar.utils.userSimpleSuccessEdit
+import app.igormatos.botaprarodar.utils.validUser
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.createImageFile
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -81,10 +83,12 @@ class UserFormUseCaseTest {
         }
 
     @Test
-    fun `when 'deleteImage' from repository should return simple result without exception`() =
+    fun `when 'deleteImage' profilePicture from repository should return simple result without exception`() =
         runBlocking {
-            val imagePath = validUser.residenceProofPicture.orEmpty()
-            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(Unit)
+            val imagePath = validUser.profilePicture.orEmpty()
+            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(
+                Unit
+            )
 
             val responseResult = userUseCase.deleteImageFromRepository(imagePath)
 

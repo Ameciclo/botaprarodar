@@ -15,10 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.setImagePathOrUrl
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
-import app.igormatos.botaprarodar.databinding.DialogChangeImageBinding
-import app.igormatos.botaprarodar.databinding.DialogDeleteImageBinding
 import app.igormatos.botaprarodar.databinding.DialogTipBinding
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
@@ -49,9 +46,6 @@ class UserFormFragment : Fragment() {
 
     companion object {
         private const val REQUEST_PROFILE_PHOTO = 1
-        private const val REQUEST_ID_PHOTO = 2
-        private const val REQUEST_RESIDENCE_PHOTO = 3
-        private const val REQUEST_ID_PHOTO_BACK = 4
     }
 
     override fun onCreateView(
@@ -137,19 +131,8 @@ class UserFormFragment : Fragment() {
     }
 
     private fun updateViewModelLiveData(whichImageCode: Int, path: String) {
-        when (whichImageCode) {
-            REQUEST_PROFILE_PHOTO -> {
-                binding.viewModel?.setProfileImage(path)
-            }
-            REQUEST_ID_PHOTO -> {
-                binding.viewModel?.setDocumentImageFront(path)
-            }
-            REQUEST_ID_PHOTO_BACK -> {
-                binding.viewModel?.setDocumentImageBack(path)
-            }
-            REQUEST_RESIDENCE_PHOTO -> {
-                binding.viewModel?.setResidenceImage(path)
-            }
+        if (whichImageCode == REQUEST_PROFILE_PHOTO) {
+            binding.viewModel?.setProfileImage(path)
         }
     }
 
@@ -265,43 +248,6 @@ class UserFormFragment : Fragment() {
 
     }
 
-    private fun openDialogChangeImage() {
-        val changeImageLayout = DialogChangeImageBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext()).create()
-        builder.setView(changeImageLayout.root)
-        builder.show()
-
-        changeImageLayout.dialogImage.setImagePathOrUrl(binding.viewModel?.userImageDocumentResidence?.value.orEmpty())
-        changeImageLayout.submitButton.setOnClickListener {
-            builder.cancel()
-            openDialogDeleteImage()
-        }
-        changeImageLayout.dialogImage.setOnClickListener {
-            dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
-            builder.cancel()
-        }
-        changeImageLayout.closeDialog.setOnClickListener { builder.cancel() }
-    }
-
-    private fun openDialogDeleteImage() {
-        val changeImageLayout = DialogDeleteImageBinding.inflate(layoutInflater)
-        val builder = MaterialAlertDialogBuilder(requireContext()).create()
-        builder.setView(changeImageLayout.root)
-        builder.show()
-
-        changeImageLayout.submitButton.setOnClickListener {
-            binding.viewModel?.deleteProofResidenceImage()
-            builder.cancel()
-        }
-        changeImageLayout.dialogImage.setOnClickListener {
-            builder.cancel()
-            openDialogChangeImage()
-        }
-        changeImageLayout.closeDialog.setOnClickListener {
-            builder.cancel()
-        }
-    }
-
     private fun setupListeners() {
         binding.cetUserBirthday.addMask(
             EditTextFormatMask.FORMAT_DATE
@@ -319,38 +265,6 @@ class UserFormFragment : Fragment() {
                     currentPhotoId = REQUEST_PROFILE_PHOTO
                     dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
                 }
-            }
-        }
-
-        binding.cppDocumentFrontPicture.setupClick {
-            showTipDialog(
-                R.drawable.id_front,
-                getString(R.string.warning),
-                getString(R.string.id_picture_tip)
-            ) {
-                if (it) {
-                    dispatchTakePictureIntent(REQUEST_ID_PHOTO)
-                }
-            }
-        }
-
-        binding.cppDocumentBackPicture.setupClick {
-            showTipDialog(
-                R.drawable.id_back,
-                getString(R.string.warning),
-                getString(R.string.id_picture_tip)
-            ) {
-                if (it) {
-                    dispatchTakePictureIntent(REQUEST_ID_PHOTO_BACK)
-                }
-            }
-        }
-
-        binding.cppResidenceProofPicture.setupClick {
-            if (binding.viewModel?.userImageDocumentResidence?.value.isNullOrBlank()) {
-                dispatchTakePictureIntent(REQUEST_RESIDENCE_PHOTO)
-            } else {
-                openDialogChangeImage()
             }
         }
 

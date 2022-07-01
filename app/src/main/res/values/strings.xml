@@ -152,9 +152,9 @@
 
     <string name="user_form_user_others_picture_label">Outros arquivos</string>
     <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
-    <string name="user_form_user_perfil_picture_label">Foto de perfil</string>
+    <string name="user_form_user_perfil_picture_label">Foto de perfil\n (Opcional)</string>
 
-    <string name="user_form_button">CRIAR USUÁRIA</string>
+    <string name="user_form_button">ADICIONAR USUÁRIO</string>
 
     <!-- /NEW -->
 
