@@ -25,6 +25,22 @@ val validUser = User().apply {
     birthday = "xx"
 }
 
+val validUserWithNoImages = User().apply {
+    id = "testId"
+    name = "Capitã Marvel"
+    address = "Polo Norte - 433La 092Lg"
+    createdDate = "01/01/2021"
+    gender = "Outro"
+    docType = 1
+    isAvailable = true
+    isBlocked = false
+    racial = "Branca"
+    schooling = "Ensino superior completo"
+    schoolingStatus = "Completo"
+    income = "0"
+    birthday = "xx"
+}
+
 val unavailableUserFake = User().apply {
     id = "testId"
     name = "Capitão América"

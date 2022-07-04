@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import java.io.File
 
 private const val FIREBASE_URL = "https://"
@@ -18,10 +19,14 @@ class UserFormUseCase(
     private var profileSimpleResult: SimpleResult<ImageUploadResponse>? = null
 
     suspend fun addUser(user: User): SimpleResult<AddDataResponse> {
-        uploadImages(user)
-        if (!checkAllImagesSuccess()) {
-            return SimpleResult.Error(Exception(""))
+
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            uploadImages(user)
+            if (!checkAllImagesSuccess()) {
+                return SimpleResult.Error(Exception(""))
+            }
         }
+
         return saveUser(user) {
             registerUser(it)
         }
@@ -31,9 +36,11 @@ class UserFormUseCase(
         user: User,
         deleteImagesPath: List<String> = emptyList()
     ): SimpleResult<AddDataResponse> {
-        uploadImages(user)
-        if (!checkAllImagesSuccess()) {
-            return SimpleResult.Error(Exception(""))
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            uploadImages(user)
+            if (!checkAllImagesSuccess()) {
+                return SimpleResult.Error(Exception(""))
+            }
         }
         val responseAction = saveUser(user) {
             val response = updateUser(it)
@@ -49,7 +56,7 @@ class UserFormUseCase(
         return responseAction
     }
 
-    suspend fun deleteImages(imagePathsToDelete: List<String>){
+    private fun deleteImages(imagePathsToDelete: List<String>) {
         for (path in imagePathsToDelete) {
             if (path.contains(FIREBASE_URL)) {
                 deleteImageFromRepository(path)
@@ -113,10 +120,12 @@ class UserFormUseCase(
     }
 
     private fun setUserImages(user: User) {
-        val profile = (profileSimpleResult as SimpleResult.Success).data
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            val profile = (profileSimpleResult as SimpleResult.Success).data
 
-        user.profilePicture = profile.fullImagePath
-        user.profilePictureThumbnail = profile.thumbPath
+            user.profilePicture = profile.fullImagePath
+            user.profilePictureThumbnail = profile.thumbPath
+        }
     }
 
     private suspend fun checkFirebaseUrl(
