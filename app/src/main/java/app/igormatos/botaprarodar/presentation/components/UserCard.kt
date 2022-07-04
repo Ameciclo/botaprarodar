@@ -25,6 +25,7 @@ import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import coil.compose.rememberImagePainter
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import java.util.*
 
 @Composable
@@ -33,7 +34,17 @@ fun CardCyclist(
     bikeLastWithdraw: String = "",
     handleClick: (User) -> Unit
 ) {
-    val rememberUserPhoto = rememberImagePainter(data = user.profilePictureThumbnail)
+    fun getProfilePicture(): Any {
+        var profilePicture: Any = R.drawable.default_user_avatar
+
+        if (user.profilePictureThumbnail.isNotNullOrNotBlank()) {
+            profilePicture = user.profilePictureThumbnail!!
+        }
+
+        return profilePicture
+    }
+
+    val rememberUserPhoto = rememberImagePainter(data = getProfilePicture())
 
     Box(
         modifier = Modifier
