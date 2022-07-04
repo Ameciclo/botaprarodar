@@ -35,7 +35,7 @@ fun CardCyclist(
     handleClick: (User) -> Unit
 ) {
     fun getProfilePicture(): Any {
-        var profilePicture: Any = R.drawable.default_user_avatar
+        var profilePicture: Any = R.drawable.default_user_avatar_picture
 
         if (user.profilePictureThumbnail.isNotNullOrNotBlank()) {
             profilePicture = user.profilePictureThumbnail!!
