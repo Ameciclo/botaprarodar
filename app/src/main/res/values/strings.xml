@@ -288,7 +288,7 @@
     <string name="user_quiz_which_hint">Ex: Ônibus</string>
     <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
     <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
-    <string name="user_quiz_how_much_time_hint">Tempo em messes Ex: 16</string>
+    <string name="user_quiz_how_much_time_hint">Tempo em meses Ex: 16</string>
     <string name="user_quiz_motivation_question_label">Qual sua motivação para utilizar a bicicleta como meio de transporte?</string>
     <string name="user_quiz_motivation_question">Motivação</string>
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?</string>
