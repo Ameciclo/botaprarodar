@@ -3,10 +3,7 @@ package app.igormatos.botaprarodar.domain.usecase.userForm
 import androidx.test.platform.app.InstrumentationRegistry
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
-import app.igormatos.botaprarodar.utils.mockImageUploadResponse
-import app.igormatos.botaprarodar.utils.userSimpleSuccess
-import app.igormatos.botaprarodar.utils.userSimpleSuccessEdit
-import app.igormatos.botaprarodar.utils.validUser
+import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -40,6 +37,16 @@ class UserFormUseCaseTest {
             assertEquals("User registered", responseResult.data.name)
         }
 
+    @Test
+    fun `when 'addUser' without images, should create new user and return simple result with string`() =
+        runBlocking {
+            mockTestWithoutImagesSuccess()
+
+            val responseResult =
+                userUseCase.addUser(validUserWithNoImages) as SimpleResult.Success
+
+            assertEquals("User registered", responseResult.data.name)
+        }
 
     @Test
     fun `when 'addUser' should return simple result with exception`() =
@@ -63,6 +70,17 @@ class UserFormUseCaseTest {
 
             val responseResult =
                 userUseCase.startUpdateUser(validUser) as SimpleResult.Success
+
+            assertEquals("User edited", responseResult.data.name)
+        }
+
+    @Test
+    fun `when 'updateUser' without images, should update the user and return simple result with string`() =
+        runBlocking {
+            mockUpdateTestWithoutImagesSuccess()
+
+            val responseResult =
+                userUseCase.startUpdateUser(validUserWithNoImages) as SimpleResult.Success
 
             assertEquals("User edited", responseResult.data.name)
         }
@@ -118,6 +136,12 @@ class UserFormUseCaseTest {
         } returns SimpleResult.Success(mockImageUploadResponse)
     }
 
+    private fun mockTestWithoutImagesSuccess() {
+        coEvery {
+            userRepository.addNewUser(any())
+        } returns userSimpleSuccess
+    }
+
     private fun mockUpdateTestSuccess() {
         coEvery {
             userRepository.updateUser(any())
@@ -128,6 +152,12 @@ class UserFormUseCaseTest {
         coEvery {
             firebaseHelperRepository.uploadOnlyImage(any(), any())
         } returns SimpleResult.Success(mockImageUploadResponse)
+    }
+
+    private fun mockUpdateTestWithoutImagesSuccess() {
+        coEvery {
+            userRepository.updateUser(any())
+        } returns userSimpleSuccessEdit
     }
 
     private fun mockTestException(exceptionResult: Exception) {
