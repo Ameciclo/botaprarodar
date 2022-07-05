@@ -29,7 +29,7 @@ class LoginUseCase(
         }
     }
 
-    fun isEmailValid(email: String?) = emailValidator.validate(email)
+    fun isEmailValid(email: String?) = emailValidator.validate(email?.trim())
 
     fun isPasswordValid(password: String?) = passwordValidator.validate(password)
 
