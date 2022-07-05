@@ -20,4 +20,8 @@ data class HomeUiState(
             )
         }
     }
+
+    fun hasBikesToWithdraw() = totalBikesAvailable > 0
+
+    fun hasBikesToReturns() = totalBikesWithdraw > 0
 }

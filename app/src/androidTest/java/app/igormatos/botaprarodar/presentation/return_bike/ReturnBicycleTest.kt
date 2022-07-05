@@ -32,14 +32,14 @@ class ReturnBicycleTest {
             stepperAdapter = ReturnStepper(StepConfigType.SELECT_BIKE),
             stepOneReturnBikeUseCase = mockk(relaxed = true),
             stepFinalReturnBikeUseCase = mockk(relaxed = true),
-            getUserByIdUseCase = mockk(relaxed = true)
+            getUserByIdUseCase = mockk(relaxed = true),
+            preferencesModule = mockk(relaxed = true),
         )
         returnBicycleViewModel.setInitialStep()
         composeTestRule.setContent {
             ReturnBicyclePage(
                 viewModel = returnBicycleViewModel,
                 finish = { Log.i("backAction", "backAction executed") },
-                communityId = "1234",
             )
         }
     }

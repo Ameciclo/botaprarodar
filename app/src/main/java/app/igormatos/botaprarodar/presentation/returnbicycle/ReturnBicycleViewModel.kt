@@ -1,11 +1,9 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.common.utils.formattedDate
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Quiz
@@ -16,6 +14,7 @@ import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.DEFAULT_RETURNS_ERROR_MESSAGE
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -24,8 +23,9 @@ class ReturnBicycleViewModel(
     val stepperAdapter: ReturnStepper,
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val stepFinalReturnBikeUseCase: StepFinalReturnBikeUseCase,
+    private val preferencesModule: SharedPreferencesModule,
     private val getUserByIdUseCase: GetUserByIdUseCase
-) : ViewModel() {
+) : ViewModel(), DefaultLifecycleObserver {
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>> = _bikesAvailableToReturn
 
@@ -70,8 +70,15 @@ class ReturnBicycleViewModel(
         _uiStep.postValue(stepperAdapter.currentStep.value)
     }
 
+    override fun onStart(owner: LifecycleOwner) {
+        setInitialStep()
+        val communityId = preferencesModule.getJoinedCommunity().id
+        _bikesAvailable.value = emptyList()
+        getBikesInUseToReturn(communityId)
+    }
+
     fun getBikesInUseToReturn(communityId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(NonCancellable) {
             val value = stepOneReturnBikeUseCase.getBikesInUseToReturn(communityId = communityId)
             _bikesAvailableToReturn.value = value
             when (value) {
@@ -86,7 +93,7 @@ class ReturnBicycleViewModel(
     }
 
     fun addDevolution(onFinished: () -> Unit) {
-        viewModelScope.launch {
+        viewModelScope.launch(NonCancellable) {
             _loadingState.postValue(true)
             val response = stepFinalReturnBikeUseCase.addDevolution(
                 getCurrentTime(),
