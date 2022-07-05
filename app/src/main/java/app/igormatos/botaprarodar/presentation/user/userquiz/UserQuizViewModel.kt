@@ -16,10 +16,6 @@ class UserQuizViewModel(
 
     var editMode = false
 
-    val accessOtherTransport = MutableLiveData<Boolean>()
-
-    val accessOtherTransportOpenQuestion = MutableLiveData<String>()
-
     val alreadyUseBPR = MutableLiveData<Boolean>()
 
     val alreadyUseBPROpenQuestion = MutableLiveData<String>()
@@ -43,8 +39,6 @@ class UserQuizViewModel(
     val lgpd: LiveData<Boolean> = _lgpd
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(accessOtherTransport) { validateQuestions() }
-        addSource(accessOtherTransportOpenQuestion) { validateQuestions() }
         addSource(alreadyUseBPR) { validateQuestions() }
         addSource(alreadyUseBPROpenQuestion) { validateQuestions() }
         addSource(motivationOpenQuestion) { validateQuestions() }
@@ -64,8 +58,6 @@ class UserQuizViewModel(
 
     private fun fillUserQuiz() {
         user.userQuiz?.let {
-            accessOtherTransport.value = it.accessOtherTransport ?: false
-            accessOtherTransportOpenQuestion.value = it.accessOtherTransportOpenQuestion.orEmpty()
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
             alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
             motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
@@ -76,8 +68,6 @@ class UserQuizViewModel(
     }
 
     fun createUserQuiz() = UserQuiz(
-        accessOtherTransport = accessOtherTransport.value,
-        accessOtherTransportOpenQuestion = accessOtherTransportOpenQuestion.value,
         alreadyUseBPR = alreadyUseBPR.value,
         alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
         motivationOpenQuestion = motivationOpenQuestion.value,
@@ -132,7 +122,6 @@ class UserQuizViewModel(
 
     private fun validateQuestions() {
         isButtonEnabled.value =
-            isQuestionValid(accessOtherTransport, accessOtherTransportOpenQuestion) &&
                     isQuestionValid(alreadyUseBPR, alreadyUseBPROpenQuestion) &&
                     motivationOpenQuestion.isNotNullOrBlank() &&
                     alreadyAccidentVictim.isNotNull() &&

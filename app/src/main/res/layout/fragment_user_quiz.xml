@@ -20,21 +20,6 @@
                 android:padding="@dimen/padding_medium">
 
             <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
-                android:id="@+id/userQuizMeansTransportQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:label="@string/user_quiz_means_transport_question"
-                android:hint="@string/user_quiz_which_hint"
-                app:textValue="@={viewModel.accessOtherTransportOpenQuestion}"
-                app:questionLabel="@string/user_quiz_which_question"
-                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.accessOtherTransport}"
-                app:isNeedQuestion="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
                 android:id="@+id/userQuizAlreadyBicycleUserQuestion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -48,7 +33,7 @@
                 app:isNeedQuestion="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userQuizMeansTransportQuestion" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <app.igormatos.botaprarodar.common.components.CustomEditText
                 android:id="@+id/userQuizMotivationOpenQuestion"
@@ -119,6 +104,7 @@
                     android:onClick="@{() -> viewModel.onSaveClick()}"
                     android:padding="@dimen/padding_medium"
                     android:textStyle="bold"
+                    android:text="@string/user_form_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
