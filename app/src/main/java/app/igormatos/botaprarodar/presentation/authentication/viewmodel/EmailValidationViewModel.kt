@@ -42,7 +42,7 @@ class EmailValidationViewModel(
             try {
                 emailField.value?.let {
                     if (emailValidator.validate(it)) {
-                        val isRegistered = adminRepository.isAdminRegistered(it)
+                        val isRegistered = adminRepository.isAdminRegistered(it.trim())
                         _viewState.value = SendSuccess(isAdminRegisted = isRegistered)
                     }
                 }

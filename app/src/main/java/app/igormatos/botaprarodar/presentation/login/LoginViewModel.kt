@@ -28,7 +28,7 @@ class LoginViewModel(
 
     private fun validateLoginForm() {
         isButtonLoginEnable.value = loginUseCase.isLoginFormValid(
-            email = email.value,
+            email = email.value?.trim(),
             password = password.value,
         )
     }
@@ -36,7 +36,7 @@ class LoginViewModel(
     fun login(email: String, password: String) {
         _loginState.value = LoginState.Loading
         viewModelScope.launch {
-            _loginState.value = loginUseCase.authenticateAdmin(email, password)
+            _loginState.value = loginUseCase.authenticateAdmin(email.trim(), password)
         }
     }
 

@@ -11,7 +11,7 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataS
         password: String
     ): Admin {
         val result = firebaseAuth
-            .createUserWithEmailAndPassword(email?.trim(), password)
+            .createUserWithEmailAndPassword(email, password)
             .await()
             .user
         return assembleAdmin(result?.uid.orEmpty(), email, password)
@@ -19,7 +19,7 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataS
 
     override suspend fun authenticateAdmin(email: String, password: String): Admin {
         val result = firebaseAuth
-            .signInWithEmailAndPassword(email?.trim(), password)
+            .signInWithEmailAndPassword(email, password)
             .await()
             .user
 
@@ -31,7 +31,7 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataS
 
     override suspend fun sendPasswordRecoverEmail(email: String) {
         firebaseAuth
-            .sendPasswordResetEmail(email?.trim())
+            .sendPasswordResetEmail(email)
             .await()
     }
 
@@ -43,7 +43,7 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataS
     }
 
     override suspend fun isAdminRegistered(email: String): Boolean = firebaseAuth
-        .fetchSignInMethodsForEmail(email?.trim())
+        .fetchSignInMethodsForEmail(email)
         .await().signInMethods.isNullOrEmpty().not()
 
     private fun assembleAdmin(
