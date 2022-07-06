@@ -15,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun WithdrawNaviationComponent(
+fun WithdrawNavigationComponent(
     vm: WithdrawViewModel,
     navController: NavHostController,
     bikeList: List<Bike>,
