@@ -16,6 +16,7 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.GetAvailableBikesExc
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -34,7 +35,7 @@ class WithdrawViewModel(
     val availableBikes: LiveData<List<Bike>>
         get() = _availableBikes
 
-    fun setInitialStep() {
+    private fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
     }
 
@@ -42,8 +43,8 @@ class WithdrawViewModel(
         stepperAdapter.navigateToNext()
     }
 
-    fun getBikeList(communityId: String) {
-        viewModelScope.launch {
+    private fun getBikeList(communityId: String) {
+        viewModelScope.launch(NonCancellable) {
             try {
                 _availableBikes.value = getAvailableBikes.execute(communityId)
             } catch (e: GetAvailableBikesException) {
@@ -52,11 +53,17 @@ class WithdrawViewModel(
         }
     }
 
-    override fun onStart(owner: LifecycleOwner) {
+    private fun getFirstStepListsData() {
         val joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        setInitialStep()
+        _userList.value = emptyList()
+        _availableBikes.value = emptyList()
         getBikeList(joinedCommunityId)
         getUserList(joinedCommunityId)
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        setInitialStep()
+        getFirstStepListsData()
     }
 
     fun setBike(bike: Bike) {
@@ -69,8 +76,8 @@ class WithdrawViewModel(
     val userList: LiveData<List<User>>
         get() = _userList
 
-    fun getUserList(communityId: String) {
-        viewModelScope.launch {
+    private fun getUserList(communityId: String) {
+        viewModelScope.launch(NonCancellable) {
             when (val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
                     result.data.forEach {
@@ -168,6 +175,7 @@ class WithdrawViewModel(
     }
 
     fun backToInitialState() {
+        getFirstStepListsData()
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
     }
 
