@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.common.utils.formattedDate
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.model.Bike
@@ -27,7 +28,8 @@ class WithdrawViewModel(
     private val usersUseCase: UsersUseCase,
     private val validateUserWithdraw: ValidateUserWithdraw,
     private val sendBikeWithdraw: SendBikeWithdraw,
-) : ViewModel() {
+    private val preferencesModule: SharedPreferencesModule,
+) : ViewModel(), DefaultLifecycleObserver {
     private val _availableBikes = MutableLiveData<List<Bike>>()
     val availableBikes: LiveData<List<Bike>>
         get() = _availableBikes
@@ -50,6 +52,13 @@ class WithdrawViewModel(
         }
     }
 
+    override fun onStart(owner: LifecycleOwner) {
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
+        setInitialStep()
+        getBikeList(joinedCommunityId)
+        getUserList(joinedCommunityId)
+    }
+
     fun setBike(bike: Bike) {
         bikeHolder.bike = bike
         _bike.value = bike
@@ -68,7 +77,7 @@ class WithdrawViewModel(
                         validateUserWithdraw(it)
                     }
                     if (!result.data.isNullOrEmpty()) {
-                        _userList.postValue(result.data!!)
+                        _userList.postValue(result.data)
                         _originalList.run {
                             this.clear()
                             this.addAll(result.data)
@@ -98,7 +107,7 @@ class WithdrawViewModel(
             _originalList.filter { user ->
                 user.name!!.lowercase().contains(word.lowercase())
             }
-        _userList.value = lista!!
+        _userList.value = lista
     }
 
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()

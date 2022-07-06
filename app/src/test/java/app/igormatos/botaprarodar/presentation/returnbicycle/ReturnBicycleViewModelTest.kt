@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.returnbicycle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
@@ -28,6 +29,7 @@ class ReturnBicycleViewModelTest {
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
     private val stepFinalReturnBikeUseCase = mockk<StepFinalReturnBikeUseCase>()
     private val getUserByIdUseCase = mockk<GetUserByIdUseCase>()
+    private val preferencesModule = mockk<SharedPreferencesModule>()
     private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: ReturnBicycleViewModel
 
@@ -37,6 +39,7 @@ class ReturnBicycleViewModelTest {
             stepperAdapter = stepperAdapter,
             stepOneReturnBikeUseCase = stepOneReturnBikeUseCase,
             stepFinalReturnBikeUseCase = stepFinalReturnBikeUseCase,
+            preferencesModule = preferencesModule,
             getUserByIdUseCase = getUserByIdUseCase
         )
     }

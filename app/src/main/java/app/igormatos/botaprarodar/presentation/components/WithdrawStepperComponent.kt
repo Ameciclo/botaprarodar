@@ -64,6 +64,8 @@ class WithdrawStepper : ComponentActivity() {
                 WithdrawStepperComponent()
             }
         }
+
+        lifecycle.addObserver(viewModel)
     }
 
     override fun onCreateView(
@@ -72,16 +74,8 @@ class WithdrawStepper : ComponentActivity() {
         context: Context,
         attrs: AttributeSet
     ): View? {
-        loadData()
         showLoading(parent)
         return super.onCreateView(parent, name, context, attrs)
-    }
-
-    private fun loadData() {
-        joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        viewModel.setInitialStep()
-        viewModel.getBikeList(joinedCommunityId)
-        viewModel.getUserList(joinedCommunityId)
     }
 
     private fun showLoading(view: View?) {
@@ -191,7 +185,6 @@ class WithdrawStepper : ComponentActivity() {
                 }
             }
             StepConfigType.FINISHED_ACTION -> {
-                loadData()
                 viewModel.backToInitialState()
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }

@@ -3,6 +3,8 @@ name: Run UI and Unit tests
 on:
   pull_request:
     branches: [ main, development ]
+  push: 
+    branches: [ development ]
 
 jobs:
   build:

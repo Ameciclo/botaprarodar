@@ -38,7 +38,7 @@ fun HomeScreen(homeUiState: HomeUiState) {
         .padding(16.dp)
 
     Column(modifier = columnAttributes) {
-        Cards()
+        Cards(homeUiState.hasBikesToWithdraw(), homeUiState.hasBikesToReturns())
         Spacer(modifier = Modifier.height(32.dp))
         BikesCounter(
             homeUiState.totalBikes,
@@ -110,16 +110,21 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
-private fun Cards() {
+private fun Cards(isEnableWithdraws: Boolean = true, isEnableReturns: Boolean = true) {
     val context = LocalContext.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         ActionCard(
             title = "Emprestar\nBicicleta",
-            painterResource(id = R.drawable.ic_withdraw_bike)
+            icon = painterResource(id = R.drawable.ic_withdraw_bike),
+            isEnable = isEnableWithdraws
         ) {
             context.startActivity(Intent(context, WithdrawStepper::class.java))
         }
-        ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
+        ActionCard(
+            title = "Devolver\nBicicleta",
+            icon = painterResource(id = R.drawable.ic_return_bike),
+            isEnable = isEnableReturns
+        ) {
             context.startActivity(Intent(context, ReturnBicycleActivity::class.java))
         }
     }
