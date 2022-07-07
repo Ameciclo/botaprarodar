@@ -96,10 +96,13 @@ class LoginActivity : BaseAuthActivity() {
         when (errorType) {
             BprErrorType.NETWORK -> showMessage(R.string.network_error_message)
             BprErrorType.UNKNOWN -> showMessage(R.string.login_error)
-            BprErrorType.INVALID_ACCOUNT -> binding.ilEmail.error =
-                getString(R.string.sign_in_email_error)
-            BprErrorType.INVALID_PASSWORD -> binding.ilPassword.error =
-                getString(R.string.sign_in_password_error)
+            BprErrorType.INVALID_ACCOUNT, BprErrorType.INVALID_PASSWORD -> {
+                binding.apply {
+                    ilEmail.error = getString(R.string.sign_in_incorrect_email_password_error)
+                    ilPassword.error = getString(R.string.sign_in_incorrect_email_password_error)
+                }
+            }
+
             BprErrorType.EMAIL_NOT_VERIFIED -> showMessageEmailNotVerified()
         }
     }

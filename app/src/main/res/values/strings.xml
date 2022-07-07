@@ -323,6 +323,7 @@
     <string name="registration_toolbar_title">Cadastrar-se</string>
     <string name="btn_register">Cadastrar</string>
     <string name="sign_in_email_error">E-mail não encontrado</string>
+    <string name="sign_in_incorrect_email_password_error">E-mail e/ou senha incorretos</string>
     <string name="title_register_completed">Cadastro realizado com sucesso</string>
     <string name="message_register_completed">Enviamos um e-mail de confirmação para concluir o seu cadastro.</string>
     <string name="email_already_registered_error">Email já cadastrado</string>
