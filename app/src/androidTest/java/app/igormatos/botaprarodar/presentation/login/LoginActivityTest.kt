@@ -94,7 +94,7 @@ internal class LoginActivityTest {
     }
 
     @Test
-    fun shouldShowEmailNotFoundError_whenUnregisteredEmailIsInformedToLogin() {
+    fun shouldShowEmailAndPasswordGenericError_whenEmailIsWrong() {
         val loginRequest: LoginRequest = loginRequestValid
         defineLoginUseCaseBehavior(
             loginRequest,
@@ -112,7 +112,7 @@ internal class LoginActivityTest {
     }
 
     @Test
-    fun shouldShowPasswordError_whenRegisteredEmailAndWrongPasswordAreInformedToLogin() {
+    fun shouldShowEmailAndPasswordGenericError_whenPasswordIsWrong() {
         val loginRequest: LoginRequest = loginRequestValid
         defineLoginUseCaseBehavior(
             loginRequest,
