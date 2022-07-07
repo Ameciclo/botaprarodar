@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.ExperimentalComposeUiApi
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.Admin
@@ -13,9 +14,9 @@ import app.igormatos.botaprarodar.presentation.login.registration.RegisterActivi
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailState
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
 import com.brunotmgomes.ui.extensions.hideKeyboard
-import com.google.firebase.crashlytics.internal.common.CommonUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalComposeUiApi
 class LoginActivity : BaseAuthActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -95,10 +96,13 @@ class LoginActivity : BaseAuthActivity() {
         when (errorType) {
             BprErrorType.NETWORK -> showMessage(R.string.network_error_message)
             BprErrorType.UNKNOWN -> showMessage(R.string.login_error)
-            BprErrorType.INVALID_ACCOUNT -> binding.ilEmail.error =
-                getString(R.string.sign_in_email_error)
-            BprErrorType.INVALID_PASSWORD -> binding.ilPassword.error =
-                getString(R.string.sign_in_password_error)
+            BprErrorType.INVALID_ACCOUNT, BprErrorType.INVALID_PASSWORD -> {
+                binding.apply {
+                    ilEmail.error = getString(R.string.sign_in_incorrect_email_password_error)
+                    ilPassword.error = getString(R.string.sign_in_incorrect_email_password_error)
+                }
+            }
+
             BprErrorType.EMAIL_NOT_VERIFIED -> showMessageEmailNotVerified()
         }
     }

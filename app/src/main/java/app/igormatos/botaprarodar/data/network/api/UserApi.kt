@@ -20,4 +20,7 @@ interface UserApi {
     suspend fun getUsersByCommunityId(
         @Query("equalTo") communityId: String
     ): Map<String, User>
+
+    @GET("/users/{userId}.json")
+    suspend fun getUserBy(@Path("userId") userId: String): User
 }

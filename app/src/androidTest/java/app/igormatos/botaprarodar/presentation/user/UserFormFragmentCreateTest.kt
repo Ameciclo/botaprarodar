@@ -16,6 +16,7 @@ import io.mockk.mockk
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -47,16 +48,6 @@ class UserFormFragmentCreateTest {
             clickConfirmDialog()
         } verify {
             intended(hasAction(equalTo(MediaStore.ACTION_IMAGE_CAPTURE)))
-        }
-    }
-
-    @Test
-    fun givenDocNumber_shouldHaveMaxLength() {
-        userFormFragment {
-            val longDocNumber = "12345678901"
-            fillUserDocNumber(longDocNumber)
-        } verify {
-            checkDocNumberMaxLength()
         }
     }
 
@@ -101,6 +92,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldOpenRacialDialog_whenClickToSelectRacial() {
         userFormFragment {
@@ -110,6 +102,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldListRacialOptions_whenClickToSelectRacial() {
         userFormFragment {
@@ -119,6 +112,7 @@ class UserFormFragmentCreateTest {
         }
     }
 
+    @Ignore("Unused")
     @Test
     fun shouldShowSelectedOption_whenRacialOptionIsSelected() {
         val racialSelectedIndex = 2

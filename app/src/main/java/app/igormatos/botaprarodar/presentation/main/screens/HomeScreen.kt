@@ -10,6 +10,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +29,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivi
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun HomeScreen(homeUiState: HomeUiState) {
@@ -36,7 +38,7 @@ fun HomeScreen(homeUiState: HomeUiState) {
         .padding(16.dp)
 
     Column(modifier = columnAttributes) {
-        Cards()
+        Cards(homeUiState.hasBikesToWithdraw(), homeUiState.hasBikesToReturns())
         Spacer(modifier = Modifier.height(32.dp))
         BikesCounter(
             homeUiState.totalBikes,
@@ -105,18 +107,24 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
-private fun Cards() {
+private fun Cards(isEnableWithdraws: Boolean = true, isEnableReturns: Boolean = true) {
     val context = LocalContext.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
         ActionCard(
             title = "Emprestar\nBicicleta",
-            painterResource(id = R.drawable.ic_withdraw_bike)
+            icon = painterResource(id = R.drawable.ic_withdraw_bike),
+            isEnable = isEnableWithdraws
         ) {
             context.startActivity(Intent(context, WithdrawStepper::class.java))
         }
-        ActionCard(title = "Devolver\nBicicleta", painterResource(id = R.drawable.ic_return_bike)) {
+        ActionCard(
+            title = "Devolver\nBicicleta",
+            icon = painterResource(id = R.drawable.ic_return_bike),
+            isEnable = isEnableReturns
+        ) {
             context.startActivity(Intent(context, ReturnBicycleActivity::class.java))
         }
     }
@@ -131,6 +139,7 @@ private fun Cards() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @ExperimentalCoroutinesApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

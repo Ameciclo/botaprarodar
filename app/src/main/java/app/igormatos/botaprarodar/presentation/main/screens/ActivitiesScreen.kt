@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -23,6 +24,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivi
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalComposeUiApi
 @Composable
 fun ActivitiesScreen() {
     Column {
@@ -57,6 +59,7 @@ fun ActivitiesDate(date: String) {
     )
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 private fun CardsRow() {
@@ -112,6 +115,7 @@ private fun CardsRow() {
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
 fun ActivitiesScreenPreview() {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
@@ -18,6 +19,7 @@ import com.brunotmgomes.ui.extensions.visible
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class SelectCommunityActivity : BaseAuthActivity() {
 
@@ -46,9 +48,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
 
     override fun onResume() {
         super.onResume()
-        val uid = this.intent.getStringExtra("adminId")
-        val email = this.intent.getStringExtra("adminEmail")
-        viewModel.loadCommunities(uid, email)
+        viewModel.loadCommunities()
     }
 
     private fun setupAdapter() {
@@ -76,7 +76,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
     }
 
     private fun observeEvents() {
-        viewModel.selectCommunityState.observe(this, { selectCommunityState ->
+        viewModel.selectCommunityState.observe(this) { selectCommunityState ->
             when (selectCommunityState) {
                 is SelectCommunityState.Error -> {
                     loadingDialog.hide()
@@ -88,7 +88,7 @@ class SelectCommunityActivity : BaseAuthActivity() {
                     notifySuccessEvents(selectCommunityState)
                 }
             }
-        })
+        }
     }
 
     private fun notifyErrorEvents(errorType: BprErrorType) {

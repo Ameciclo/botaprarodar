@@ -13,10 +13,8 @@ class FirebaseSessionManager(
     private val sharedPreferencesModule: SharedPreferencesModule,
     private val firebaseAuth: FirebaseAuth
 ) {
-
-
     fun fetchAuthToken(): String? {
-        return fetchAuthTokenFromSession() ?: return fetchAuthTokenFromApi()
+        return fetchAuthTokenFromSession() ?: fetchAuthTokenFromApi()
     }
 
     fun fetchAuthTokenFromApi(): String? {
@@ -28,7 +26,7 @@ class FirebaseSessionManager(
         return sharedPreferencesModule.getAuthTokenRenovationStatus()
     }
 
-    fun saveRenewStatusToken(shouldRenew : Boolean) {
+    fun saveRenewStatusToken(shouldRenew: Boolean) {
         sharedPreferencesModule.saveAuthTokenRenovationStatus(shouldRenew)
     }
 

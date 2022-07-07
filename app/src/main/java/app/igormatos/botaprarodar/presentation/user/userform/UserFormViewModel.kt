@@ -1,16 +1,18 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
-import kotlinx.coroutines.launch
 
 class UserFormViewModel(
     private val community: Community,
@@ -24,14 +26,9 @@ class UserFormViewModel(
 
     var userCompleteName = MutableLiveData("")
     var userAddress = MutableLiveData("")
-    var userDocument = MutableLiveData("")
     var userImageProfile = MutableLiveData("")
-    private var _userImageDocumentResidence = MutableLiveData("")
-    val userImageDocumentResidence: LiveData<String> = _userImageDocumentResidence
     private var _deleteImagePaths = MutableLiveData(ArrayList<String>())
     val deleteImagePaths: LiveData<ArrayList<String>> = _deleteImagePaths
-    var userImageDocumentFront = MutableLiveData("")
-    var userImageDocumentBack = MutableLiveData("")
     var userGender = MutableLiveData("")
     var userRacial = MutableLiveData("")
     var userSchooling = MutableLiveData("")
@@ -50,10 +47,7 @@ class UserFormViewModel(
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
         addSource(userAddress) { validateUserForm() }
-        addSource(userDocument) { validateUserForm() }
         addSource(userImageProfile) { validateUserForm() }
-        addSource(userImageDocumentFront) { validateUserForm() }
-        addSource(userImageDocumentBack) { validateUserForm() }
         addSource(userGender) { validateUserForm() }
         addSource(userRacial) { validateUserForm() }
         addSource(userSchooling) { validateUserForm() }
@@ -62,40 +56,11 @@ class UserFormViewModel(
         addSource(userTelephone) { validateUserForm() }
     }
 
-    val docNumberErrorValidationMap = MediatorLiveData<MutableMap<Int, Boolean>>().apply {
-        value = mutableMapOf()
-
-        addSource(userDocument) {
-            validateDocNumber()
-        }
-    }
-
-    private fun validateDocNumber() {
-        with(docNumberErrorValidationMap.value) {
-            this?.set(
-                DOC_NUMBER_INVALID_ERROR,
-                userDocument.value.isNullOrEmpty()
-            )
-
-            this?.set(
-                DOC_NUMBER_ALREADY_REGISTERED_ERROR,
-                communityUsersHasDocNumber(userDocument.value)
-            )
-        }
-    }
-
-    private fun communityUsersHasDocNumber(docNumber: String?) =
-        communityUsers.any { it.docNumber.toString() == docNumber }
-
     fun updateUserValues(currentUser: User) {
         user = currentUser.apply {
             userCompleteName.value = this.name.orEmpty()
             userAddress.value = this.address.orEmpty()
-            userDocument.value = this.docNumber.toString()
             userImageProfile.value = this.profilePicture.orEmpty()
-            _userImageDocumentResidence.value = this.residenceProofPicture.orEmpty()
-            userImageDocumentFront.value = this.docPicture.orEmpty()
-            userImageDocumentBack.value = this.docPictureBack.orEmpty()
             userGender.value = this.gender.orEmpty()
             userRacial.value = this.racial.orEmpty()
             userSchooling.value = this.schooling.orEmpty()
@@ -114,10 +79,6 @@ class UserFormViewModel(
     private fun validateUserForm() {
         val validated = userCompleteName.value.isNotNullOrNotBlank() &&
                 userAddress.value.isNotNullOrNotBlank() &&
-                isDocNumberValid() &&
-                userImageProfile.value.isNotNullOrNotBlank() &&
-                userImageDocumentFront.value.isNotNullOrNotBlank() &&
-                userImageDocumentBack.value.isNotNullOrNotBlank() &&
                 userRacial.value.isNotNullOrNotBlank() &&
                 userSchooling.value.isNotNullOrNotBlank() &&
                 userSchoolingStatus.value.isNotNullOrNotBlank() &&
@@ -129,24 +90,11 @@ class UserFormViewModel(
         isButtonEnabled.value = validated
     }
 
-
-    private fun isDocNumberValid(): Boolean {
-        val existsDocNumberError = docNumberErrorValidationMap.value?.containsValue(true)
-        if (existsDocNumberError != null) {
-            return !existsDocNumberError
-        }
-        return true
-    }
-
     private fun createUser() {
         user.apply {
             name = userCompleteName.value
             address = userAddress.value
-            docNumber = userDocument.value?.toLong() ?: 0L
             profilePicture = userImageProfile.value
-            residenceProofPicture = _userImageDocumentResidence.value
-            docPicture = userImageDocumentFront.value
-            docPictureBack = userImageDocumentBack.value
             gender = userGender.value
             communityId = community.id
             racial = userRacial.value
@@ -160,18 +108,6 @@ class UserFormViewModel(
 
     fun setProfileImage(path: String) {
         userImageProfile.value = path
-    }
-
-    fun setDocumentImageFront(path: String) {
-        userImageDocumentFront.value = path
-    }
-
-    fun setDocumentImageBack(path: String) {
-        userImageDocumentBack.value = path
-    }
-
-    fun setResidenceImage(path: String) {
-        _userImageDocumentResidence.value = path
     }
 
     fun confirmUserGender() {
@@ -268,37 +204,10 @@ class UserFormViewModel(
         return mapOptions["incomeOptions"].orEmpty()
     }
 
-    fun getPathUserImageDocumentResidence(): String {
-        return userImageDocumentResidence.value.orEmpty()
-    }
-
-    fun setUserImageDocumentResidence(value: String){
-        _userImageDocumentResidence.value = value
-    }
-
-    fun deleteProofResidenceImage() {
-        viewModelScope.launch {
-            userImageDocumentResidence.value?.apply {
-                _deleteImagePaths.value?.add(_userImageDocumentResidence.value.orEmpty() )
-                _userImageDocumentResidence.value = ""
-                _statusDeleteImage.value = ViewModelStatus.Success(Unit)
-            }
-        }
-    }
-    
     fun navigateToNextStep() {
         stepper.navigateToNext()
         createUser()
 
         openQuiz.value = ViewEvent(Triple(user, isEditableAvailable, deleteImagePaths.value?.toList() ?: listOf()))
-    }
-
-    companion object {
-        private const val GENDER_INITIAL_VALUE = -1
-        private const val DOC_NUMBER_ALREADY_REGISTERED_ERROR =
-            R.string.add_user_doc_number_already_registered
-
-        private const val DOC_NUMBER_INVALID_ERROR =
-            R.string.add_user_invalid_doc_number
     }
 }

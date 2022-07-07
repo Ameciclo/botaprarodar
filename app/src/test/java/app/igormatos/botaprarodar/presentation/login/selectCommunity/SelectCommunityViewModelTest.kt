@@ -6,9 +6,9 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
-import io.mockk.coEvery
-import io.mockk.mockk
-import io.mockk.verifyOrder
+import io.mockk.*
+import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,23 +17,36 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class SelectCommunityViewModelTest {
 
     private lateinit var viewModel: SelectCommunityViewModel
+
+    @RelaxedMockK
     private lateinit var firebaseAuthModule: FirebaseAuthModule
+
+    @MockK
     private lateinit var preferencesModule: SharedPreferencesModule
+
+    @MockK
     private lateinit var selectCommunityUseCase: SelectCommunityUseCase
 
-    private val observerSelectCommunityStateMock =
-        mockk<Observer<SelectCommunityState>>(relaxed = true)
+    @RelaxedMockK
+    private lateinit var observerSelectCommunityStateMock: Observer<SelectCommunityState>
 
     @BeforeEach
     fun setup() {
-        firebaseAuthModule = mockk(relaxed = true)
-        preferencesModule = mockk()
-        selectCommunityUseCase = mockk()
+        MockKAnnotations.init(this)
         viewModel = SelectCommunityViewModel(
             firebaseAuthModule,
             preferencesModule,
             selectCommunityUseCase
         )
+    }
+
+    private fun setupCredentialsToCurrentUser(id : String, userEmail : String){
+        every {
+            firebaseAuthModule.getCurrentUser()
+        } returns mockk{
+            every { uid } returns id
+            every { email } returns userEmail
+        }
     }
 
     @Test
@@ -42,6 +55,8 @@ internal class SelectCommunityViewModelTest {
         val communities = listOf<Community>()
         val expectedSelectCommunityState =
             SelectCommunityState.Success(UserInfoState.Admin(communities))
+
+        setupCredentialsToCurrentUser("123","teste@email")
 
         coEvery {
             selectCommunityUseCase.loadCommunitiesByAdmin(
@@ -53,7 +68,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities("any_uid", "any_email")
+        viewModel.loadCommunities()
 
         // assert
         verifyOrder {
@@ -68,6 +83,8 @@ internal class SelectCommunityViewModelTest {
         val expectedSelectCommunityState =
             SelectCommunityState.Error(BprErrorType.NETWORK)
 
+        setupCredentialsToCurrentUser("123","teste@email")
+
         coEvery {
             selectCommunityUseCase.loadCommunitiesByAdmin(
                 any(),
@@ -78,7 +95,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities("any_uid", "any_email")
+        viewModel.loadCommunities()
 
         // assert
         verifyOrder {
@@ -93,6 +110,8 @@ internal class SelectCommunityViewModelTest {
         val expectedSelectCommunityState =
             SelectCommunityState.Error(BprErrorType.UNKNOWN)
 
+        setupCredentialsToCurrentUser("123","teste@email")
+
         coEvery {
             selectCommunityUseCase.loadCommunitiesByAdmin(
                 any(),
@@ -103,7 +122,7 @@ internal class SelectCommunityViewModelTest {
         viewModel.selectCommunityState.observeForever(observerSelectCommunityStateMock)
 
         // action
-        viewModel.loadCommunities("any_uid", "any_email")
+        viewModel.loadCommunities()
 
         // assert
         verifyOrder {

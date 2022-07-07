@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.login
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -23,6 +24,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalComposeUiApi
 @RunWith(AndroidJUnit4::class)
 internal class LoginActivityTest {
 
@@ -92,7 +94,7 @@ internal class LoginActivityTest {
     }
 
     @Test
-    fun shouldShowEmailNotFoundError_whenUnregisteredEmailIsInformedToLogin() {
+    fun shouldShowEmailAndPasswordGenericError_whenEmailIsWrong() {
         val loginRequest: LoginRequest = loginRequestValid
         defineLoginUseCaseBehavior(
             loginRequest,
@@ -110,7 +112,7 @@ internal class LoginActivityTest {
     }
 
     @Test
-    fun shouldShowPasswordError_whenRegisteredEmailAndWrongPasswordAreInformedToLogin() {
+    fun shouldShowEmailAndPasswordGenericError_whenPasswordIsWrong() {
         val loginRequest: LoginRequest = loginRequestValid
         defineLoginUseCaseBehavior(
             loginRequest,

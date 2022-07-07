@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.ExperimentalComposeUiApi
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.login.LoginActivity
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
@@ -12,6 +13,7 @@ import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 class SplashActivity : AppCompatActivity() {
 

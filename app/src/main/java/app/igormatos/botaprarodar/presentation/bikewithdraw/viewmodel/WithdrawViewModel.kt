@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.common.utils.formattedDate
+import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.UserHolder
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.model.Bike
@@ -15,6 +16,7 @@ import app.igormatos.botaprarodar.presentation.bikewithdraw.GetAvailableBikesExc
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -27,12 +29,13 @@ class WithdrawViewModel(
     private val usersUseCase: UsersUseCase,
     private val validateUserWithdraw: ValidateUserWithdraw,
     private val sendBikeWithdraw: SendBikeWithdraw,
-) : ViewModel() {
+    private val preferencesModule: SharedPreferencesModule,
+) : ViewModel(), DefaultLifecycleObserver {
     private val _availableBikes = MutableLiveData<List<Bike>>()
     val availableBikes: LiveData<List<Bike>>
         get() = _availableBikes
 
-    fun setInitialStep() {
+    private fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
     }
 
@@ -40,14 +43,27 @@ class WithdrawViewModel(
         stepperAdapter.navigateToNext()
     }
 
-    fun getBikeList(communityId: String) {
-        viewModelScope.launch {
+    private fun getBikeList(communityId: String) {
+        viewModelScope.launch(NonCancellable) {
             try {
                 _availableBikes.value = getAvailableBikes.execute(communityId)
             } catch (e: GetAvailableBikesException) {
 
             }
         }
+    }
+
+    private fun getFirstStepListsData() {
+        val joinedCommunityId = preferencesModule.getJoinedCommunity().id
+        _userList.value = emptyList()
+        _availableBikes.value = emptyList()
+        getBikeList(joinedCommunityId)
+        getUserList(joinedCommunityId)
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        setInitialStep()
+        getFirstStepListsData()
     }
 
     fun setBike(bike: Bike) {
@@ -60,15 +76,15 @@ class WithdrawViewModel(
     val userList: LiveData<List<User>>
         get() = _userList
 
-    fun getUserList(communityId: String) {
-        viewModelScope.launch {
+    private fun getUserList(communityId: String) {
+        viewModelScope.launch(NonCancellable) {
             when (val result = usersUseCase.getAvailableUsersByCommunityId(communityId)) {
                 is SimpleResult.Success -> {
                     result.data.forEach {
                         validateUserWithdraw(it)
                     }
                     if (!result.data.isNullOrEmpty()) {
-                        _userList.postValue(result.data!!)
+                        _userList.postValue(result.data)
                         _originalList.run {
                             this.clear()
                             this.addAll(result.data)
@@ -98,7 +114,7 @@ class WithdrawViewModel(
             _originalList.filter { user ->
                 user.name!!.lowercase().contains(word.lowercase())
             }
-        _userList.value = lista!!
+        _userList.value = lista
     }
 
     private val _uiState = MutableLiveData<BikeWithdrawUiState>()
@@ -159,6 +175,7 @@ class WithdrawViewModel(
     }
 
     fun backToInitialState() {
+        getFirstStepListsData()
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
     }
 

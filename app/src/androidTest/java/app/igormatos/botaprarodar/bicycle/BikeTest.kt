@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.bicycle
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.intent.rule.IntentsTestRule
@@ -26,6 +27,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

@@ -30,27 +30,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
-import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.BikeWithdrawUiState
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.components.button.BackButton
-import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNaviationComponent
+import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNavigationComponent
 import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
 class WithdrawStepper : ComponentActivity() {
-    private lateinit var joinedCommunityId: String
     private val viewModel: WithdrawViewModel by viewModel()
-    private val preferencesModule: SharedPreferencesModule by inject()
     lateinit var withdrawNavController: NavHostController
     private val loadingDialog: AlertDialog by lazy {
         createLoading(R.layout.loading_dialog_animation)
@@ -64,6 +60,8 @@ class WithdrawStepper : ComponentActivity() {
                 WithdrawStepperComponent()
             }
         }
+
+        lifecycle.addObserver(viewModel)
     }
 
     override fun onCreateView(
@@ -72,16 +70,8 @@ class WithdrawStepper : ComponentActivity() {
         context: Context,
         attrs: AttributeSet
     ): View? {
-        loadData()
         showLoading(parent)
         return super.onCreateView(parent, name, context, attrs)
-    }
-
-    private fun loadData() {
-        joinedCommunityId = preferencesModule.getJoinedCommunity().id
-        viewModel.setInitialStep()
-        viewModel.getBikeList(joinedCommunityId)
-        viewModel.getUserList(joinedCommunityId)
     }
 
     private fun showLoading(view: View?) {
@@ -151,7 +141,7 @@ class WithdrawStepper : ComponentActivity() {
                     .background(ColorPallet.BackgroundGray)
                     .padding(top = dimensionResource(id = R.dimen.padding_medium))
             ) {
-                WithdrawNaviationComponent(
+                WithdrawNavigationComponent(
                     vm = viewModel,
                     navController = withdrawNavController,
                     bikeList = bikeList ?: listOf(),
@@ -191,7 +181,6 @@ class WithdrawStepper : ComponentActivity() {
                 }
             }
             StepConfigType.FINISHED_ACTION -> {
-                loadData()
                 viewModel.backToInitialState()
                 withdrawNavController.navigate(WithdrawScreen.WithdrawSelectBike.route)
             }

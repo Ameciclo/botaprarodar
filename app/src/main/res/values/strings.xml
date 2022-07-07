@@ -116,7 +116,7 @@
     <string name="bike_devolution_date">Devolução em: %s</string>
     <string name="bike_series_number">Série: %s</string>
     <string name="bike_order_number">Ordem: %s</string>
-    <string name="search_cyclist_name">Procure a ciclista pelo nome...</string>
+    <string name="search_cyclist_name">Procure a ciclista pelo nome…</string>
 
     <!-- USER -->
 
@@ -152,9 +152,9 @@
 
     <string name="user_form_user_others_picture_label">Outros arquivos</string>
     <string name="user_form_user_residence_proof_picture_label">Comprovante de residência (Opcional)</string>
-    <string name="user_form_user_perfil_picture_label">Foto de perfil</string>
+    <string name="user_form_user_perfil_picture_label">Foto de perfil\n (Opcional)</string>
 
-    <string name="user_form_button">CRIAR USUÁRIA</string>
+    <string name="user_form_button">ADICIONAR USUÁRIO</string>
 
     <!-- /NEW -->
 
@@ -239,7 +239,15 @@
     <string name="send_answers_button">Enviar respostas</string>
     <string name="invalid_district">Bairro inválido</string>
 
-    <string-array name="used_bike_to_move_list">
+    <!-- Return Bike Quiz -->
+    <string name="return_bike_survey_select">Selecione</string>
+    <string name="return_bike_used_bike_to_move">A bicicleta foi usada para que?</string>
+    <string name="return_bike_which_district_hint">Qual o bairro de destino?</string>
+    <string name="return_bike_reasons">Qual foi o motivo da sua viagem?</string>
+    <string name="return_bike_neighborhood_hint">Qual foi o bairro de destino?</string>
+    <string name="return_bike_confirm_devolution">Confirmar devolução</string>
+
+    <string-array name="return_bike_purpose_list">
         <item>Seu local de trabalho</item>
         <item>Seu local de estudo</item>
         <item>Seu local de lazer / convivência social</item>
@@ -280,7 +288,7 @@
     <string name="user_quiz_which_hint">Ex: Ônibus</string>
     <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
     <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
-    <string name="user_quiz_how_much_time_hint">Tempo em messes Ex: 16</string>
+    <string name="user_quiz_how_much_time_hint">Tempo em meses Ex: 16</string>
     <string name="user_quiz_motivation_question_label">Qual sua motivação para utilizar a bicicleta como meio de transporte?</string>
     <string name="user_quiz_motivation_question">Motivação</string>
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?</string>
@@ -315,6 +323,7 @@
     <string name="registration_toolbar_title">Cadastrar-se</string>
     <string name="btn_register">Cadastrar</string>
     <string name="sign_in_email_error">E-mail não encontrado</string>
+    <string name="sign_in_incorrect_email_password_error">E-mail e/ou senha incorretos</string>
     <string name="title_register_completed">Cadastro realizado com sucesso</string>
     <string name="message_register_completed">Enviamos um e-mail de confirmação para concluir o seu cadastro.</string>
     <string name="email_already_registered_error">Email já cadastrado</string>
