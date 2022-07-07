@@ -30,9 +30,9 @@ class PasswordRecoveryViewModel(
     fun sendPasswordResetEmail() {
         _viewState.value = SendPasswordRecoveryViewState.SendLoading
         viewModelScope.launch {
-            usernameField.value?.let {
+            usernameField.value?.trim()?.let {
                 try {
-                    val result = adminRepository.sendPasswordResetEmail(it.trim())
+                    val result = adminRepository.sendPasswordResetEmail(it)
                     updateViewState(result)
                 } catch (e: UserAdminErrorException.AdminNetwork) {
                     _viewState.value =

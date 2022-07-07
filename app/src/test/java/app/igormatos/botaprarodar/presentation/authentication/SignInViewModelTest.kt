@@ -30,6 +30,7 @@ class SignInViewModelTest {
     private val fakeValidPassword = "123456"
     private val fakeInvalidPassword = "12345"
     private val fakeEmail = "fake@fake.com"
+    private val fakeTrailingSpacesEmail = " fake@fake.com "
 
     @Before
     fun setup() {
@@ -53,6 +54,22 @@ class SignInViewModelTest {
         viewModel.passwordField.value = fakeInvalidPassword
 
         assertEquals(false, viewModel.signInButtonEnabled.getOrAwaitValue())
+    }
+
+    @Test
+    fun `When send form, then trim email`() {
+        val mockAdmin = mockk<Admin>()
+
+        coEvery {
+            adminRepository.authenticateAdmin(
+                fakeEmail,
+                fakeValidPassword
+            )
+        } returns mockAdmin
+
+        viewModel.sendForm(fakeTrailingSpacesEmail)
+
+        coVerify { adminRepository.authenticateAdmin(fakeEmail, any()) }
     }
 
     @Test
