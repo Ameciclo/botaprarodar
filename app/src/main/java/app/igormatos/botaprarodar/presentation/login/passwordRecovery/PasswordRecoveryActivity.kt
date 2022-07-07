@@ -54,7 +54,7 @@ class PasswordRecoveryActivity : BaseAuthActivity() {
     private fun setupEventListeners() {
         binding.btnSend.setOnClickListener {
             resetFormErrors()
-            val email = binding.ietEmail.text.toString().trim()
+            val email = binding.ietEmail.text.toString()
             viewModel.recoveryPassword(email)
         }
     }
