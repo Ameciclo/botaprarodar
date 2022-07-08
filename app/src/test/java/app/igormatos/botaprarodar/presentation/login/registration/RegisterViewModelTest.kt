@@ -118,10 +118,25 @@ internal class RegisterViewModelTest {
         }
     }
 
-    private fun invokePrivateMethod(name: String) {
-        viewModel.javaClass.getDeclaredMethod(name).apply {
-            isAccessible = true
-            invoke(viewModel)
+    @Test
+    fun `should change isButtonEnable to true when email (with trailing spaces), password and confirm password are valid`() {
+        every {
+            useCase.isRegisterFormValid(
+                email = loginRequestValid.email,
+                password = loginEmailTrailingSpacesRequestValid.password,
+                confirmPassword = loginEmailTrailingSpacesRequestValid.confirmPassword
+            )
+        } returns true
+
+        viewModel.email.value = loginEmailTrailingSpacesRequestValid.email
+        viewModel.password.value = loginEmailTrailingSpacesRequestValid.password
+        viewModel.confirmPassword.value = loginEmailTrailingSpacesRequestValid.confirmPassword
+        viewModel.isButtonRegisterEnable.observeForever(observerButtonRegisterEnableMock)
+
+        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+
+        verify {
+            observerButtonRegisterEnableMock.onChanged(true)
         }
     }
 
@@ -212,6 +227,36 @@ internal class RegisterViewModelTest {
         verifyOrder {
             observerRegisterStateMock.onChanged(RegisterState.Loading)
             observerRegisterStateMock.onChanged(expectedState)
+        }
+    }
+
+    @Test
+    fun `when register, should trim email parameter`() {
+        coEvery {
+            useCase.register(
+                email = loginRequestValid.email,
+                password = loginRequestValid.password
+            )
+        } returns RegisterState.Success
+
+        viewModel.email.value = loginEmailTrailingSpacesRequestValid.email
+        viewModel.password.value = loginEmailTrailingSpacesRequestValid.password
+        viewModel.registerState.observeForever(observerRegisterStateMock)
+
+        viewModel.register()
+
+        verifyOrder {
+            observerRegisterStateMock.onChanged(RegisterState.Loading)
+            observerRegisterStateMock.onChanged(RegisterState.Success)
+        }
+
+        coVerify { useCase.register(loginRequestValid.email, any()) }
+    }
+
+    private fun invokePrivateMethod(name: String) {
+        viewModel.javaClass.getDeclaredMethod(name).apply {
+            isAccessible = true
+            invoke(viewModel)
         }
     }
 

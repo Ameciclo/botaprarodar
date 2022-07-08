@@ -7,12 +7,19 @@ class LoginRequest(
 )
 
 const val EMAIL_VALID = "test@teste.com"
+const val EMAIL_TRAILING_SPACES_VALID = "   test@teste.com  "
 const val EMAIL_INVALID = "test@teste"
 const val PASSWORD_VALID = "123456"
 const val PASSWORD_INVALID = "123"
 
 val loginRequestValid = LoginRequest(
     email = EMAIL_VALID,
+    password = PASSWORD_VALID,
+    confirmPassword = PASSWORD_VALID
+)
+
+val loginEmailTrailingSpacesRequestValid = LoginRequest(
+    email = EMAIL_TRAILING_SPACES_VALID,
     password = PASSWORD_VALID,
     confirmPassword = PASSWORD_VALID
 )

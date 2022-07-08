@@ -12,14 +12,16 @@ class AdminRemoteDataSource(private val firebaseAuth: FirebaseAuth) : AdminDataS
     ): Admin {
         val result = firebaseAuth
             .createUserWithEmailAndPassword(email, password)
-            .await().user
+            .await()
+            .user
         return assembleAdmin(result?.uid.orEmpty(), email, password)
     }
 
     override suspend fun authenticateAdmin(email: String, password: String): Admin {
         val result = firebaseAuth
             .signInWithEmailAndPassword(email, password)
-            .await().user
+            .await()
+            .user
 
         if (result?.isEmailVerified?.not() == true)
             throw UserAdminErrorException.AdminEmailNotVerified

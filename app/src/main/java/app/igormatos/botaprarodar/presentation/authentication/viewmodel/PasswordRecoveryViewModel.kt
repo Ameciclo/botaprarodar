@@ -6,7 +6,6 @@ import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class PasswordRecoveryViewModel(
     private val emailValidator: Validator<String?>,
@@ -31,7 +30,7 @@ class PasswordRecoveryViewModel(
     fun sendPasswordResetEmail() {
         _viewState.value = SendPasswordRecoveryViewState.SendLoading
         viewModelScope.launch {
-            usernameField.value?.let {
+            usernameField.value?.trim()?.let {
                 try {
                     val result = adminRepository.sendPasswordResetEmail(it)
                     updateViewState(result)

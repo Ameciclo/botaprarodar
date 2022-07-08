@@ -32,7 +32,7 @@ class SignInViewModel(
             _viewState.value = SignInViewState.SendLoading
             try {
                 passwordField.value?.let {
-                    val result = adminRepository.authenticateAdmin(email, it)
+                    val result = adminRepository.authenticateAdmin(email.trim(), it)
                     _viewState.value = SignInViewState.SendSuccess(result)
                 }
             } catch (e: UserAdminErrorException.AdminNetwork) {

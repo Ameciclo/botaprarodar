@@ -4,13 +4,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.igormatos.botaprarodar.LoginRequest
+import app.igormatos.botaprarodar.*
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.loginRequestValid
-import app.igormatos.botaprarodar.loginRequestWithInvalidEmail
-import app.igormatos.botaprarodar.loginRequestWithInvalidPassword
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityState
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityUseCase
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.UserInfoState
