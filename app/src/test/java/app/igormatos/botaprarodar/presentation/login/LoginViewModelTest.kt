@@ -98,8 +98,6 @@ internal class LoginViewModelTest {
 
     @Test
     fun `should change isButtonLoginEnable to true when valid password and email has trailing spaces`() {
-        val expectedResult = true
-
         every {
             loginUseCase.isLoginFormValid(loginRequestValid.email, any())
         } returns true
@@ -108,10 +106,8 @@ internal class LoginViewModelTest {
         viewModel.email.value = loginEmailTrailingSpacesRequestValid.email
         viewModel.password.value = loginEmailTrailingSpacesRequestValid.password
 
-        // action
         invokePrivateMethod(name = VALIDATE_FORM_METHOD)
 
-        // assert
         verify {
             observerButtonLoginEnableMock.onChanged(true)
         }

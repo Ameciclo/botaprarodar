@@ -133,10 +133,8 @@ internal class RegisterViewModelTest {
         viewModel.confirmPassword.value = loginEmailTrailingSpacesRequestValid.confirmPassword
         viewModel.isButtonRegisterEnable.observeForever(observerButtonRegisterEnableMock)
 
-        // action
         invokePrivateMethod(name = VALIDATE_FORM_METHOD)
 
-        // assert
         verify {
             observerButtonRegisterEnableMock.onChanged(true)
         }
