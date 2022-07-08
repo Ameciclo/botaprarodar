@@ -22,11 +22,6 @@ val loginRequestValid = LoginRequest(
     password = PASSWORD_VALID
 )
 
-val loginRequestTrailingSpacesValid = LoginRequest(
-    email = EMAIL_TRAILING_SPACES_VALID,
-    password = PASSWORD_VALID
-)
-
 val loginRequestWithInvalidEmail = LoginRequest(
     email = EMAIL_INVALID,
     password = PASSWORD_VALID

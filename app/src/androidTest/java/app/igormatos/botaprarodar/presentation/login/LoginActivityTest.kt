@@ -91,19 +91,6 @@ internal class LoginActivityTest {
     }
 
     @Test
-    fun shouldButtonSignInEnable_whenEmailWithTrailingSpacesAndPasswordAreValid() {
-        val loginRequest: LoginRequest = loginRequestTrailingSpacesValid
-        defineLoginUseCaseBehavior(loginRequest, true)
-
-        loginActivity {
-            fillEmailField(loginRequest.email)
-            fillPasswordField(loginRequest.password)
-        } verify {
-            checkBtnSignInIsEnable()
-        }
-    }
-
-    @Test
     fun shouldShowEmailAndPasswordGenericError_whenEmailIsWrong() {
         val loginRequest: LoginRequest = loginRequestValid
         defineLoginUseCaseBehavior(
