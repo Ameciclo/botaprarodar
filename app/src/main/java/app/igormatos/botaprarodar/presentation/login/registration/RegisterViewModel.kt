@@ -23,7 +23,7 @@ class RegisterViewModel(
 
     private fun validateForm() {
         isButtonRegisterEnable.value = registerUseCase.isRegisterFormValid(
-            email = email.value,
+            email = email.value?.trim(),
             password = password.value,
             confirmPassword = confirmPassword.value
         )
@@ -33,7 +33,7 @@ class RegisterViewModel(
         _registerState.value = RegisterState.Loading
         viewModelScope.launch {
             _registerState.value = registerUseCase.register(
-                email = email.value.toString(),
+                email = email.value.toString().trim(),
                 password = password.value.toString()
             )
         }

@@ -12,6 +12,7 @@ class RegisterRequest(
 )
 
 const val EMAIL_VALID = "test@teste.com"
+const val EMAIL_TRAILING_SPACES_VALID = " test@test.com   "
 const val EMAIL_INVALID = "test@teste"
 const val PASSWORD_VALID = "123456"
 const val PASSWORD_INVALID = "123"

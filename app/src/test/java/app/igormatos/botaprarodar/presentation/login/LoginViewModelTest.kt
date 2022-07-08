@@ -5,10 +5,7 @@ import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailState
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
-import app.igormatos.botaprarodar.utils.InstantExecutorExtension
-import app.igormatos.botaprarodar.utils.loginRequestValid
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidPassword
+import app.igormatos.botaprarodar.utils.*
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -96,6 +93,23 @@ internal class LoginViewModelTest {
         // assert
         verify {
             observerButtonLoginEnableMock.onChanged(expectedResult)
+        }
+    }
+
+    @Test
+    fun `should change isButtonLoginEnable to true when valid password and email has trailing spaces`() {
+        every {
+            loginUseCase.isLoginFormValid(loginRequestValid.email, any())
+        } returns true
+
+        viewModel.isButtonLoginEnable.observeForever(observerButtonLoginEnableMock)
+        viewModel.email.value = loginEmailTrailingSpacesRequestValid.email
+        viewModel.password.value = loginEmailTrailingSpacesRequestValid.password
+
+        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+
+        verify {
+            observerButtonLoginEnableMock.onChanged(true)
         }
     }
 
@@ -236,6 +250,23 @@ internal class LoginViewModelTest {
             observerLoginStateMock.onChanged(LoginState.Loading)
             observerLoginStateMock.onChanged(expectedResult)
         }
+    }
+
+
+    @Test
+    fun `When login, should trim email parameter`() {
+        val email = loginEmailTrailingSpacesRequestValid.email
+        val password = loginEmailTrailingSpacesRequestValid.password
+        val admin = Admin(email, password, "123")
+        val successStateResult = LoginState.Success(admin)
+
+        coEvery {
+            loginUseCase.authenticateAdmin(loginRequestValid.email, password)
+        } returns successStateResult
+
+        viewModel.login(email, password)
+
+        coVerify { loginUseCase.authenticateAdmin(loginRequestValid.email, password) }
     }
 
     @Test

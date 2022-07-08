@@ -32,14 +32,18 @@ class EmailValidationViewModelTest {
     private lateinit var viewModel: EmailValidationViewModel
 
     private val validFakeEmail = "fake@fake.com"
+    private val validFakeTrailingEmail = "  fake@fake.com    "
     private val invalidFakeEmail = "fake.com"
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = EmailValidationViewModel(adminRepository, emailValidator)
+
         every { emailValidator.validate(validFakeEmail) } returns true
+        every { emailValidator.validate(validFakeTrailingEmail) } returns true
         every { emailValidator.validate(invalidFakeEmail) } returns false
+
         viewModel.emailField.value = validFakeEmail
     }
 
@@ -60,10 +64,27 @@ class EmailValidationViewModelTest {
     }
 
     @Test
+    fun `When email is valid and with trailing spaces, then next step button should be enabled`() {
+        viewModel.emailField.value = validFakeTrailingEmail
+
+        assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), true)
+    }
+
+    @Test
     fun `When email is invalid, then next step button should be disabled`() {
         viewModel.emailField.value = invalidFakeEmail
 
         assertEquals(viewModel.nextButtonEnabled.getOrAwaitValue(), false)
+    }
+
+    @Test
+    fun `When send form, then it should call adminRepository with trimmed email`() {
+        viewModel.emailField.value = validFakeTrailingEmail
+        coEvery { adminRepository.isAdminRegistered(validFakeEmail) } returns true
+
+        viewModel.sendForm()
+
+        coVerify { adminRepository.isAdminRegistered(validFakeEmail) }
     }
 
     @Test
