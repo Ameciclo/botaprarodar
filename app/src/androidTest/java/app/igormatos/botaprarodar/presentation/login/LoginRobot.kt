@@ -32,13 +32,13 @@ class LoginRobot : BaseRobot() {
     }
 
     fun checkInputEmailHasError() {
-        checkInputLayoutHasErrorText(R.id.ilEmail, context.getString(R.string.sign_in_email_error))
+        checkInputLayoutHasErrorText(R.id.ilEmail, context.getString(R.string.sign_in_incorrect_email_password_error))
     }
 
     fun checkInputPasswordHasError() {
         checkInputLayoutHasErrorText(
             R.id.ilPassword,
-            context.getString(R.string.sign_in_password_error)
+            context.getString(R.string.sign_in_incorrect_email_password_error)
         )
     }
 

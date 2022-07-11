@@ -30,6 +30,7 @@ class PasswordRecoveryViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private val validUsername = "fake@fake.com"
+    private val validTrailingSpacesUsername = " fake@fake.com   "
     private val invalidUsername = "fake.com"
 
     @Before
@@ -67,6 +68,16 @@ class PasswordRecoveryViewModelTest {
         viewModel.sendPasswordResetEmail()
 
         assertEquals(SendPasswordRecoveryViewState.SendSuccess, viewModel.viewState.value)
+    }
+
+    @Test
+    fun `when send reset password email with trailing spaces, then view state should be success`() {
+        viewModel.usernameField.value = validTrailingSpacesUsername
+        viewModel.sendPasswordResetEmail()
+
+        assertEquals(SendPasswordRecoveryViewState.SendSuccess, viewModel.viewState.value)
+
+        coVerify { adminRepository.sendPasswordResetEmail(validUsername) }
     }
 
     @Test

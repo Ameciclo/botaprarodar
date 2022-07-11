@@ -7,3 +7,4 @@ sealed class UiState {
 }
 
 const val DEFAULT_WITHDRAW_ERROR_MESSAGE = "Falha ao realizar devolução, tente novamente"
+const val DEFAULT_RETURNS_ERROR_MESSAGE = "Falha ao realizar devolução, tente novamente"

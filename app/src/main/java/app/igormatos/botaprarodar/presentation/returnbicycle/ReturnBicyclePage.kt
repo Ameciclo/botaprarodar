@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -22,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.Bike
+import app.igormatos.botaprarodar.domain.model.Quiz
 import app.igormatos.botaprarodar.presentation.components.ThreeStepper
 import app.igormatos.botaprarodar.presentation.components.button.BackButton
 import app.igormatos.botaprarodar.presentation.components.navigation.return_bike.ReturnNavigationComponent
@@ -31,14 +33,16 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
 fun ReturnBicyclePage(
     viewModel: ReturnBicycleViewModel = viewModel(),
+
     finish: () -> Unit,
-    communityId: String
 ) {
-    var returnBicycleNavController: NavHostController = rememberNavController()
+    val returnBicycleNavController: NavHostController = rememberNavController()
+
     val uiStepConfig by viewModel.uiStep.observeAsState()
 
     val bikes by viewModel.bikesAvailable.observeAsState()
@@ -75,9 +79,18 @@ fun ReturnBicyclePage(
                     bikeList = bikes ?: emptyList(),
                     navController = returnBicycleNavController,
                     handleClick = {
-                        selectClickSteper(
+                        selectClickStepper(
                             viewModel = viewModel,
                             navController = returnBicycleNavController,
+                            onFinishedAction = {
+                                finish()
+                                localContext.startActivity(
+                                    Intent(
+                                        localContext,
+                                        ReturnBicycleActivity::class.java
+                                    )
+                                )
+                            },
                             data = it
                         )
                     },
@@ -89,20 +102,38 @@ fun ReturnBicyclePage(
 }
 
 @ExperimentalCoroutinesApi
-private fun selectClickSteper(
+private fun selectClickStepper(
     viewModel: ReturnBicycleViewModel,
     navController: NavHostController,
+    onFinishedAction: () -> Unit = {},
     data: Any?
 ): Unit {
     when (viewModel.uiStep.value) {
         StepConfigType.SELECT_BIKE -> {
             navController.navigate(ReturnScreen.ReturnQuiz.route)
-            val bike = data as Bike
+            val bicycle = data as Bike
+            viewModel.setBike(bicycle)
+            bicycle.withdrawToUser?.let { userId -> viewModel.getUserBy(userId) }
             viewModel.navigateToNextStep()
+        }
+        StepConfigType.QUIZ -> {
+            navController.navigate(ReturnScreen.ReturnConfirmation.route)
+            viewModel.setQuiz(data as Quiz)
+            viewModel.navigateToNextStep()
+        }
+
+        StepConfigType.CONFIRM_DEVOLUTION -> {
+            navController.navigate(ReturnScreen.ReturnFinishAction.route)
+            viewModel.navigateToNextStep()
+        }
+
+        StepConfigType.FINISHED_ACTION -> {
+            onFinishedAction()
         }
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 private fun backAction(
     viewModel: ReturnBicycleViewModel,
@@ -130,6 +161,7 @@ private fun backAction(
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ReturnBicycleActivityPreview() {
@@ -164,6 +196,6 @@ private fun ReturnBicycleActivityPreview() {
     )
 
     BotaprarodarTheme {
-        ReturnBicyclePage(finish = {}, communityId = "")
+        ReturnBicyclePage(finish = {})
     }
 }

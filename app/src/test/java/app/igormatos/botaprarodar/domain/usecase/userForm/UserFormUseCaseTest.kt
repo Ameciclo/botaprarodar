@@ -5,7 +5,6 @@ import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
-import com.brunotmgomes.ui.extensions.createImageFile
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -38,6 +37,16 @@ class UserFormUseCaseTest {
             assertEquals("User registered", responseResult.data.name)
         }
 
+    @Test
+    fun `when 'addUser' without images, should create new user and return simple result with string`() =
+        runBlocking {
+            mockTestWithoutImagesSuccess()
+
+            val responseResult =
+                userUseCase.addUser(validUserWithNoImages) as SimpleResult.Success
+
+            assertEquals("User registered", responseResult.data.name)
+        }
 
     @Test
     fun `when 'addUser' should return simple result with exception`() =
@@ -66,6 +75,17 @@ class UserFormUseCaseTest {
         }
 
     @Test
+    fun `when 'updateUser' without images, should update the user and return simple result with string`() =
+        runBlocking {
+            mockUpdateTestWithoutImagesSuccess()
+
+            val responseResult =
+                userUseCase.startUpdateUser(validUserWithNoImages) as SimpleResult.Success
+
+            assertEquals("User edited", responseResult.data.name)
+        }
+
+    @Test
     fun `when 'updateUser' should return simple result with exception`() =
         runBlocking {
             val exceptionResult = Exception("")
@@ -81,10 +101,12 @@ class UserFormUseCaseTest {
         }
 
     @Test
-    fun `when 'deleteImage' from repository should return simple result without exception`() =
+    fun `when 'deleteImage' profilePicture from repository should return simple result without exception`() =
         runBlocking {
-            val imagePath = validUser.residenceProofPicture.orEmpty()
-            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(Unit)
+            val imagePath = validUser.profilePicture.orEmpty()
+            coEvery { firebaseHelperRepository.deleteImageResource(imagePath) } returns SimpleResult.Success(
+                Unit
+            )
 
             val responseResult = userUseCase.deleteImageFromRepository(imagePath)
 
@@ -114,6 +136,12 @@ class UserFormUseCaseTest {
         } returns SimpleResult.Success(mockImageUploadResponse)
     }
 
+    private fun mockTestWithoutImagesSuccess() {
+        coEvery {
+            userRepository.addNewUser(any())
+        } returns userSimpleSuccess
+    }
+
     private fun mockUpdateTestSuccess() {
         coEvery {
             userRepository.updateUser(any())
@@ -124,6 +152,12 @@ class UserFormUseCaseTest {
         coEvery {
             firebaseHelperRepository.uploadOnlyImage(any(), any())
         } returns SimpleResult.Success(mockImageUploadResponse)
+    }
+
+    private fun mockUpdateTestWithoutImagesSuccess() {
+        coEvery {
+            userRepository.updateUser(any())
+        } returns userSimpleSuccessEdit
     }
 
     private fun mockTestException(exceptionResult: Exception) {

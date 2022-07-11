@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
+import app.igormatos.botaprarodar.common.extensions.toQuiz
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.data.local.quiz.BikeDevolutionQuizBuilder
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
@@ -17,8 +18,8 @@ import java.util.*
 class StepFinalReturnBikeViewModel(
     private val bikeHolder: BikeHolder,
     val quizBuilder: BikeDevolutionQuizBuilder,
-    val stepFinalUseCase: StepFinalReturnBikeUseCase,
-    val devolutionStepper: ReturnStepper
+    private val stepFinalUseCase: StepFinalReturnBikeUseCase,
+    private val devolutionStepper: ReturnStepper
 ) : ViewModel() {
 
     private val _state = MutableLiveData<UiState>()
@@ -46,8 +47,8 @@ class StepFinalReturnBikeViewModel(
         viewModelScope.launch {
             val response = stepFinalUseCase.addDevolution(
                 devolutionDate,
-                bikeHolder,
-                quizBuilder
+                bikeHolder.bike!!,
+                quizBuilder.toQuiz(),
             )
             when (response) {
                 is SimpleResult.Success -> {

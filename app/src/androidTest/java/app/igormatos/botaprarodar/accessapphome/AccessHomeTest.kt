@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.accessapphome
 
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -22,6 +23,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalComposeUiApi
 @RunWith(AndroidJUnit4::class)
 class AccessHomeTest {
     private lateinit var scenario: ActivityScenario<SelectCommunityActivity>

@@ -40,4 +40,11 @@ class UserRepository(private val userApi: UserApi) {
     }
 
 
+    suspend fun getUserBy(userId: String): SimpleResult<User> {
+        return withContext(Dispatchers.IO) {
+            safeApiCall {
+                userApi.getUserBy(userId)
+            }
+        }
+    }
 }

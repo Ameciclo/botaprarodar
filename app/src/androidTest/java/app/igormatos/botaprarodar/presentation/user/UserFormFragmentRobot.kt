@@ -50,14 +50,6 @@ class UserFormFragmentRobot : BaseRobot() {
         clickAndScrollView(R.id.cst_user_income)
     }
 
-    fun clickResidenceProofImage() {
-        clickAndScrollView(R.id.cpp_residence_proof_picture)
-    }
-
-    fun clickDeleteButtonOnDialogImage() {
-        clickView(R.id.submitButton)
-    }
-
     fun clickSchoolingEditText() {
         clickAndScrollView(R.id.cst_user_schooling)
     }

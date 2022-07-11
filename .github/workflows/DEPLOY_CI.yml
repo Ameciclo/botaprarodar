@@ -28,7 +28,7 @@ jobs:
           FIREBASE_SECRET_RELEASE: ${{ secrets.FIREBASE_SECRET_RELEASE }}
         run: echo $FIREBASE_SECRET_RELEASE > app/google-services.json
       - name: Download Version Name File
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@main
         with:
           name: version-name
       - name: Read Version Name
@@ -58,7 +58,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       # 5 Upload apk to github action
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@main
         with:
           name: release.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Version Name File
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@main
         with:
           name: version-name
       - name: Read Version Name
@@ -94,7 +94,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Version Name file
         run: echo ${{steps.tag_version.outputs.new_tag}} > version_name.txt
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@main
         with:
           name: version-name
           path: version_name.txt
@@ -105,7 +105,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 2
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@main
         with:
           name: release.apk
       #3

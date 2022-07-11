@@ -112,72 +112,19 @@
                     app:textValue="@={viewModel.userCompleteName}" />
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_document"
+                    android:id="@+id/cet_user_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:hint="@string/user_form_user_document_number_hint"
-                    android:inputType="number"
-                    android:label="@string/user_form_user_document_number_label"
-                    app:errorUserDocNumber="@{viewModel.docNumberErrorValidationMap}"
-                    app:layout_constraintEnd_toStartOf="@+id/cet_user_phone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cet_user_name"
-                    app:textValue="@={viewModel.userDocument}" />
-
-                <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_phone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_medium"
                     android:hint="@string/user_form_user_phone_hint"
                     android:inputType="phone"
                     android:label="@string/user_form_user_phone_label"
                     android:maxLength="@integer/max_size_user_phone_number"
-                    app:layout_constraintBottom_toBottomOf="@+id/cet_user_document"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cet_user_document"
-                    app:layout_constraintTop_toTopOf="@+id/cet_user_document"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cet_user_name"
                     app:textValue="@={viewModel.userTelephone}" />
-
-                <TextView
-                    android:id="@+id/tv_document_label"
-                    style="@style/TextLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:text="@string/user_form_user_document_picture_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cet_user_document" />
-
-                <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/cpp_document_front_picture"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:src="@drawable/ic_baseline_add_a_photo"
-                    android:text="@string/user_form_user_document_picture_front_label"
-                    app:imagePathOrUrl="@{viewModel.userImageDocumentFront}"
-                    app:layout_constraintEnd_toStartOf="@+id/cpp_document_back_picture"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_document_label" />
-
-                <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/cpp_document_back_picture"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_baseline_add_a_photo"
-                    android:text="@string/user_form_user_document_picture_back_label"
-                    app:imagePathOrUrl="@{viewModel.userImageDocumentBack}"
-                    app:layout_constraintBottom_toBottomOf="@id/cpp_document_front_picture"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cpp_document_front_picture"
-                    app:layout_constraintTop_toTopOf="@id/cpp_document_front_picture" />
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
                     android:id="@+id/cet_user_birthday"
@@ -191,7 +138,7 @@
                     app:errorMessage="@{`add_user_invalid_age`}"
                     app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cpp_document_back_picture"
+                    app:layout_constraintTop_toBottomOf="@+id/cet_user_phone"
                     app:textCaptured="@{viewModel.userBirthday}"
                     app:textValue="@={viewModel.userBirthday}" />
 
@@ -276,30 +223,16 @@
                     app:layout_constraintTop_toBottomOf="@id/cet_user_adress" />
 
                 <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/cpp_residence_proof_picture"
-                    android:layout_width="0dp"
+                    android:id="@+id/cpp_perfil_picture"
+                    android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_marginHorizontal="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_small"
                     android:src="@drawable/ic_baseline_add_a_photo"
-                    android:text="@string/user_form_user_residence_proof_picture_label"
-                    app:imagePathOrUrl="@{viewModel.userImageDocumentResidence}"
-                    app:layout_constraintEnd_toStartOf="@+id/cpp_perfil_picture"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_other_pictures_label" />
-
-                <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/cpp_perfil_picture"
-                    android:layout_width="0dp"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_baseline_add_a_photo"
                     android:text="@string/user_form_user_perfil_picture_label"
                     app:imagePathOrUrl="@{viewModel.userImageProfile}"
-                    app:layout_constraintBottom_toBottomOf="@id/cpp_residence_proof_picture"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cpp_residence_proof_picture"
-                    app:layout_constraintTop_toTopOf="@id/cpp_residence_proof_picture" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_other_pictures_label" />
 
                 <Button
                     android:id="@+id/saveButton"
@@ -313,10 +246,11 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16"
                     android:textStyle="bold"
+                    android:text="@string/user_form_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cpp_residence_proof_picture"
+                    app:layout_constraintTop_toBottomOf="@id/cpp_perfil_picture"
                     app:setUserFormButtonText="@{viewModel.isEditableAvailable}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

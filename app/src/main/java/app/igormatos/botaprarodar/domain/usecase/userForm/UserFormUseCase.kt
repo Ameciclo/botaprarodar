@@ -6,6 +6,7 @@ import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
+import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import java.io.File
 
 private const val FIREBASE_URL = "https://"
@@ -16,15 +17,16 @@ class UserFormUseCase(
 ) {
 
     private var profileSimpleResult: SimpleResult<ImageUploadResponse>? = null
-    private var documentFrontSimpleResult: SimpleResult<ImageUploadResponse>? = null
-    private var documentBackSimpleResult: SimpleResult<ImageUploadResponse>? = null
-    private var residenceSimpleResult: SimpleResult<ImageUploadResponse>? = null
 
     suspend fun addUser(user: User): SimpleResult<AddDataResponse> {
-        uploadImages(user)
-        if (!checkAllImagesSuccess()) {
-            return SimpleResult.Error(Exception(""))
+
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            uploadImages(user)
+            if (!checkAllImagesSuccess()) {
+                return SimpleResult.Error(Exception(""))
+            }
         }
+
         return saveUser(user) {
             registerUser(it)
         }
@@ -34,9 +36,11 @@ class UserFormUseCase(
         user: User,
         deleteImagesPath: List<String> = emptyList()
     ): SimpleResult<AddDataResponse> {
-        uploadImages(user)
-        if (!checkAllImagesSuccess()) {
-            return SimpleResult.Error(Exception(""))
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            uploadImages(user)
+            if (!checkAllImagesSuccess()) {
+                return SimpleResult.Error(Exception(""))
+            }
         }
         val responseAction = saveUser(user) {
             val response = updateUser(it)
@@ -52,7 +56,7 @@ class UserFormUseCase(
         return responseAction
     }
 
-    suspend fun deleteImages(imagePathsToDelete: List<String>){
+    private fun deleteImages(imagePathsToDelete: List<String>) {
         for (path in imagePathsToDelete) {
             if (path.contains(FIREBASE_URL)) {
                 deleteImageFromRepository(path)
@@ -62,7 +66,7 @@ class UserFormUseCase(
         }
     }
 
-    suspend fun deleteImageFromRepository(path: String): SimpleResult<Unit>{
+    fun deleteImageFromRepository(path: String): SimpleResult<Unit> {
         return firebaseHelperRepository.deleteImageResource(path)
     }
 
@@ -95,28 +99,12 @@ class UserFormUseCase(
     }
 
     private fun checkAllImagesSuccess(): Boolean {
-        return (profileSimpleResult != null && profileSimpleResult is SimpleResult.Success
-                && documentFrontSimpleResult != null && documentFrontSimpleResult is SimpleResult.Success
-                && documentBackSimpleResult != null && documentBackSimpleResult is SimpleResult.Success
-                && residenceSimpleResult != null && residenceSimpleResult is SimpleResult.Success)
+        return (profileSimpleResult != null && profileSimpleResult is SimpleResult.Success)
     }
 
     private suspend fun uploadImages(user: User) {
         checkFirebaseUrl(user.profilePicture, user, profileSimpleResult) {
             uploadProfileImage(user)
-        }
-        checkFirebaseUrl(user.docPicture, user, documentFrontSimpleResult) {
-            uploadOnlyImages(user.docPicture, user.docNumber, documentFrontSimpleResult)
-        }
-        checkFirebaseUrl(user.docPictureBack, user, documentBackSimpleResult) {
-            uploadOnlyImages(user.docPictureBack, user.docNumber, documentBackSimpleResult)
-        }
-        checkFirebaseUrl(user.residenceProofPicture, user, residenceSimpleResult) {
-            if (user.residenceProofPicture.isNullOrEmpty()) {
-                residenceSimpleResult = SimpleResult.Success(ImageUploadResponse("", ""))
-            } else {
-                uploadOnlyImages(user.residenceProofPicture, user.docNumber, residenceSimpleResult)
-            }
         }
     }
 
@@ -131,46 +119,13 @@ class UserFormUseCase(
         }
     }
 
-    private suspend fun uploadOnlyImages(
-        pathImage: String?,
-        docNumber: Long,
-        simpleResult: SimpleResult<ImageUploadResponse>?
-    ) {
-        if (simpleResult == null || simpleResult is SimpleResult.Error) {
-            pathImage?.let { path ->
-                firebaseHelperRepository.uploadOnlyImage(
-                    path,
-                    "community/user/$docNumber"
-                ).also { updateSimpleResult(it, simpleResult) }
-            }
-        }
-    }
-
-    private fun updateSimpleResult(
-        simpleResult: SimpleResult<ImageUploadResponse>?,
-        simpleResultToUpdate: SimpleResult<ImageUploadResponse>?
-    ) {
-        when (simpleResultToUpdate) {
-            profileSimpleResult -> profileSimpleResult = simpleResult
-            documentFrontSimpleResult -> documentFrontSimpleResult = simpleResult
-            documentBackSimpleResult -> documentBackSimpleResult = simpleResult
-            residenceSimpleResult -> residenceSimpleResult = simpleResult
-            else -> {
-            }
-        }
-    }
-
     private fun setUserImages(user: User) {
-        val profile = (profileSimpleResult as SimpleResult.Success).data
-        val docFront = (documentFrontSimpleResult as SimpleResult.Success).data
-        val docBack = (documentBackSimpleResult as SimpleResult.Success).data
-        val residence = (residenceSimpleResult as SimpleResult.Success).data
+        if (user.profilePicture.isNotNullOrNotBlank()) {
+            val profile = (profileSimpleResult as SimpleResult.Success).data
 
-        user.profilePicture = profile.fullImagePath
-        user.profilePictureThumbnail = profile.thumbPath
-        user.residenceProofPicture = residence.fullImagePath
-        user.docPicture = docFront.fullImagePath
-        user.docPictureBack = docBack.fullImagePath
+            user.profilePicture = profile.fullImagePath
+            user.profilePictureThumbnail = profile.thumbPath
+        }
     }
 
     private suspend fun checkFirebaseUrl(
@@ -202,12 +157,6 @@ class UserFormUseCase(
                 user.profilePicture,
                 user.profilePictureThumbnail
             )
-            documentFrontSimpleResult ->
-                documentFrontSimpleResult = getSimpleResultSuccess(user.docPicture)
-            documentBackSimpleResult ->
-                documentBackSimpleResult = getSimpleResultSuccess(user.docPictureBack)
-            residenceSimpleResult ->
-                residenceSimpleResult = getSimpleResultSuccess(user.residenceProofPicture)
             else -> {
             }
         }
