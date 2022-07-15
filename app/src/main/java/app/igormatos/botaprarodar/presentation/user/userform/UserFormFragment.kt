@@ -34,7 +34,7 @@ class UserFormFragment : Fragment() {
 
     private val args: UserFormFragmentArgs by navArgs()
 
-    private lateinit var userFormViewModel: UserFormViewModel
+    private lateinit var userFormViewModel:  UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/stepper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingTop="24dp">
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
 
     <LinearLayout
         android:id="@+id/stepperContainer"
@@ -18,21 +18,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/stepperTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:background="@color/background_card_user_item_gray"
-        android:fontFamily="@font/roboto"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_medium"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stepperContainer"
-        tools:text="Selecione a bicicleta" />
+<!--    <TextView-->
+<!--        android:id="@+id/stepperTitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/margin_medium"-->
+<!--        android:background="@color/background_card_user_item_gray"-->
+<!--        android:fontFamily="@font/roboto"-->
+<!--        android:paddingTop="@dimen/padding_large"-->
+<!--        android:paddingBottom="@dimen/padding_medium"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/stepperContainer"-->
+<!--        tools:text="Selecione a bicicleta" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

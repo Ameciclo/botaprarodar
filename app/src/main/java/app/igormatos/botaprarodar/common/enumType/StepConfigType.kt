@@ -9,7 +9,7 @@ enum class StepConfigType(@DrawableRes val icon: Int, @StringRes val title: Int)
     QUIZ(R.drawable.ic_quiz, R.string.answer_quiz),
     CONFIRM_DEVOLUTION(R.drawable.ic_confirm, R.string.confirm_return),
     CONFIRM_WITHDRAW(R.drawable.ic_confirm, R.string.confirm_withdraw),
-    SELECT_USER(R.drawable.ic_user_step_icon, R.string.select_user),
+    SELECT_USER(R.drawable.ic_user_step_icon,   R.string.select_user),
     USER_FORM(R.drawable.ic_person, R.string.user_form_step_label),
     USER_QUIZ(R.drawable.ic_confirm, R.string.answer_quiz),
     FINISHED_ACTION(R.drawable.ic_confirm, R.string.success_withdraw_message)

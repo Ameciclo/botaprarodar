@@ -87,12 +87,12 @@ class BikeActionStepperView @JvmOverloads constructor(
                 }
             }
 
-            binding.stepperTitle.text = context.getString(items[index].title)
+//            binding.stepperTitle.text = context.getString(items[index].title)
 
         }
 
         items.firstOrNull()?.let {
-            binding.stepperTitle.text = context.getText(it.title)
+//            binding.stepperTitle.text = context.getText(it.title)
             removeLastConnector()
         }
 
@@ -125,7 +125,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             cardImageContainer.changeStrokeColor(selectBackground)
 
             currentPosition++
-            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+//            binding.stepperTitle.text = context.getText(items[currentPosition].title)
         }
     }
 
@@ -148,7 +148,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             cardImageContainer.changeStrokeColor(currentIconBackground)
 
             currentPosition--
-            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+//            binding.stepperTitle.text = context.getText(items[currentPosition].title)
         }
     }
 
@@ -162,7 +162,7 @@ class BikeActionStepperView @JvmOverloads constructor(
 
         if (binding.stepperContainer.childCount > 0) {
             currentPosition = items.size - 1
-            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+//            binding.stepperTitle.text = context.getText(items[currentPosition].title)
         }
     }
 
