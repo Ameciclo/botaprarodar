@@ -12,7 +12,7 @@ import com.brunotmgomes.ui.extensions.isValidEmail
 import com.brunotmgomes.ui.extensions.showDialogMessage
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.android.synthetic.main.activity_add_community.*
-import java.util.*
+import java.time.LocalDate
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class AddCommunityActivity : AppCompatActivity() {
@@ -56,7 +56,7 @@ class AddCommunityActivity : AppCompatActivity() {
                 address = view.communityAddressInput.text.toString(),
                 orgName = view.communityOrgNameInput.text.toString(),
                 orgEmail = view.communityOrgEmailInput.text.toString(),
-                createdDate = Calendar.getInstance().timeInMillis,
+                createdDate = LocalDate.now().toString(),
                 id = null
             )
         }

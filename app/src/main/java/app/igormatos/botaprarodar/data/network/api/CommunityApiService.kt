@@ -9,11 +9,9 @@ import retrofit2.http.POST
 interface CommunityApiService {
 
     @GET("communities.json")
-    suspend fun getCommunities(): List<CommunityRequest>
+    suspend fun getCommunities(): Map<String, CommunityRequest>
 
-    @GET("communities_preview.json")
-    suspend fun getCommunitiesPreview(): Map<String, CommunityRequest>
-
+    // TODO - should add comunity instead of community_preview
     @POST("communities_preview.json")
     suspend fun addCommunity(@Body communityBody: CommunityRequest): AddDataResponse
 

@@ -86,7 +86,7 @@ class CommunityRepositoryTest {
             val mapperReturn = mappedCommunityListStub()
 
             coEvery {
-                apiServiceMock.getCommunitiesPreview()
+                apiServiceMock.getCommunities()
             } returns apiReturn
 
             every {
@@ -99,44 +99,13 @@ class CommunityRepositoryTest {
         }
 
         @Test
-        fun `When something goes wrong in Api Service, should throws an Exception`() {
-
-            val exception = Exception()
-
-            coEvery {
-                apiServiceMock.getCommunities()
-            } throws exception
-
-            assertThrows(Exception::class.java) {
-                runBlocking { communityRepository.getCommunities() }
-            }
-        }
-
-        @Test
-        fun `When something goes wrong in Mapper, should throws an Exception`() {
-
-            val exception = Exception()
-
-            every {
-                mapperMock.mapCommunityResponseToCommunity(
-                    communityMapResponseStub()
-                )
-            } throws exception
-
-            assertThrows(Exception::class.java) {
-                runBlocking { communityRepository.getCommunities() }
-            }
-
-        }
-
-        @Test
         fun `should return Community list when communityApiService execute with success`() {
             runBlocking {
                 val communityMapResponse = communityMapResponseStub()
                 val expectedCommunityListResponse = listOf<Community>()
                 // arrange
                 coEvery {
-                    apiServiceMock.getCommunitiesPreview()
+                    apiServiceMock.getCommunities()
                 } returns communityMapResponse
 
                 every {
@@ -155,7 +124,7 @@ class CommunityRepositoryTest {
         fun `should throws UserAdminErrorException AdminNetwork exception when communityApiService throws UnknownHostException`() {
             // arrange
             coEvery {
-                apiServiceMock.getCommunitiesPreview()
+                apiServiceMock.getCommunities()
             } throws UnknownHostException()
 
             // action

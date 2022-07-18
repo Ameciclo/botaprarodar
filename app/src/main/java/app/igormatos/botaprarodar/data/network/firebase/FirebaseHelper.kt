@@ -17,7 +17,6 @@ object FirebaseHelper {
     val instance = FirebaseDatabase.getInstance()
 
     val adminsReference = instance.getReference("admins")
-    val communitiesPreview = instance.getReference("communities_preview")
     val communities = instance.getReference("communities")
 
     private var communityId: String? = null
@@ -27,11 +26,11 @@ object FirebaseHelper {
     }
 
     fun addCommunity(community: Community, listener: SingleRequestListener<Boolean>) {
-        val communityKey = communitiesPreview.push().key!!
+        val communityKey = communities.push().key!!
         community.id = communityKey
 
         listener.onStart()
-        communitiesPreview.child(communityKey).setValue(community).addOnSuccessListener {
+        communities.child(communityKey).setValue(community).addOnSuccessListener {
             listener.onCompleted(true)
         }.addOnFailureListener {
             listener.onError(RequestError.DEFAULT)
@@ -52,7 +51,7 @@ object FirebaseHelper {
                 val isAdmin = snapshot.value != null
 
                 if (isAdmin) {
-                    communitiesPreview.addListenerForSingleValueEvent(object : ValueEventListener {
+                    communities.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError) {
                             listener.onError(RequestError.DEFAULT)
                         }
@@ -67,7 +66,7 @@ object FirebaseHelper {
 
                     })
                 } else {
-                    communitiesPreview.addListenerForSingleValueEvent(object : ValueEventListener {
+                    communities.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError) {
                             listener.onError(RequestError.DEFAULT)
                         }
