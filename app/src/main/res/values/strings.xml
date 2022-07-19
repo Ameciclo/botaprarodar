@@ -260,6 +260,8 @@
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
     <string name="select_bike">Selecione a bicicleta</string>
+    <string name="user_motivation">Motivo</string>
+    <string name="user_social_info">Dados sociais</string>
     <string name="select_user">Selecione um usuário</string>
     <string name="answer_quiz">Responda o questionário</string>
     <string name="confirm_return">Confirme a devolução</string>
@@ -275,6 +277,8 @@
 
     <!-- User Form -->
     <string name="user_form_step_label">Preencha os dados</string>
+    <string name="user_personal_info">Dados pessoais</string>
+    <string name="user_finished">Pronto!</string>
 
     <string name="title_dialog_change_image">Deseja alterar o comprovante?</string>
     <string name="subtitle_dialog_change_image">Certifique que as informações estão legíveis e clique na foto abaixo.</string>

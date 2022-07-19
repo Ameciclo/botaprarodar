@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.customview
 import android.app.Activity
 import android.os.Build
 import android.view.View
-import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.customview.BikeActionStepperView
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ItemStepperBinding

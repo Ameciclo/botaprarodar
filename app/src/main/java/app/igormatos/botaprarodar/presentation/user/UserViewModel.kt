@@ -2,7 +2,7 @@ package app.igormatos.botaprarodar.presentation.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_FORM
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_PERSONAl_INFO
 
 class UserViewModel(val stepper: RegisterUserStepper) : ViewModel() {
 
@@ -15,6 +15,6 @@ class UserViewModel(val stepper: RegisterUserStepper) : ViewModel() {
     }
 
     fun backToInitialState(){
-        stepper.setCurrentStep(USER_FORM)
+        stepper.setCurrentStep(USER_PERSONAl_INFO)
     }
 }

@@ -15,6 +15,7 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ItemStepperBinding
 import app.igormatos.botaprarodar.databinding.LayoutBikeActionStepperBinding
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.item_stepper.view.*
 
 class BikeActionStepperView @JvmOverloads constructor(
     context: Context,
@@ -69,6 +70,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             val itemStepperBinding = ItemStepperBinding.bind(view)
             val connector = itemStepperBinding.stepperConnector
             val drawable = getDrawable(items[index].icon)
+            val infoStepTxt = itemStepperBinding.infoStepTxt
 
             itemStepperBinding.stepperImage.setImageDrawable(drawable)
 
@@ -88,7 +90,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             }
 
 //            binding.stepperTitle.text = context.getString(items[index].title)
-
+            infoStepTxt.text = context.getString(items[index].title)
         }
 
         items.firstOrNull()?.let {
@@ -115,6 +117,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             val nextChildBinding = ItemStepperBinding.bind(nextViewChild)
             val cardImageContainer = nextChildBinding.stepperImageCard
             val connector = nextChildBinding.stepperConnector
+            val infoStepTxt = nextChildBinding.infoStepTxt
 
             val currentViewChild = binding.stepperContainer.getChildAt(currentPosition)
 
@@ -126,6 +129,7 @@ class BikeActionStepperView @JvmOverloads constructor(
 
             currentPosition++
 //            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+            infoStepTxt.text = context.getString(items[currentPosition].title)
         }
     }
 
@@ -140,6 +144,7 @@ class BikeActionStepperView @JvmOverloads constructor(
             val currentViewChild = binding.stepperContainer.getChildAt(currentPosition)
             val currentChildBinding = ItemStepperBinding.bind(currentViewChild)
             val connector = currentChildBinding.stepperConnector
+            val infoStepTxt = currentChildBinding.infoStepTxt
 
             changeStepStyle(currentViewChild, nextIconBackground, unselectedBackground)
             changeStepStyle(previousViewChild, currentIconBackground, unselectedBackground)
@@ -149,6 +154,7 @@ class BikeActionStepperView @JvmOverloads constructor(
 
             currentPosition--
 //            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+            infoStepTxt.text = context.getString(items[currentPosition].title)
         }
     }
 
@@ -162,7 +168,11 @@ class BikeActionStepperView @JvmOverloads constructor(
 
         if (binding.stepperContainer.childCount > 0) {
             currentPosition = items.size - 1
+            val viewChild = binding.stepperContainer.getChildAt(currentPosition)
+            val itemStepperBinding = ItemStepperBinding.bind(viewChild)
+            val infoStepTxt = itemStepperBinding.infoStepTxt
 //            binding.stepperTitle.text = context.getText(items[currentPosition].title)
+            infoStepTxt.text = context.getString(items[currentPosition].title)
         }
     }
 
