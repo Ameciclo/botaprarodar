@@ -10,7 +10,7 @@ class CommunityMapper {
                 description = it.value.description ?: "",
                 org_name = it.value.orgName ?: "",
                 org_email = it.value.orgEmail ?: "",
-                id = it.key
+                id = it.value.id ?: ""
             )
         }
     }

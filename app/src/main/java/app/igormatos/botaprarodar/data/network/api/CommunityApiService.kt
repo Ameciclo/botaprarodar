@@ -11,8 +11,7 @@ interface CommunityApiService {
     @GET("communities.json")
     suspend fun getCommunities(): Map<String, CommunityRequest>
 
-    // TODO - should add comunity instead of community_preview
-    @POST("communities_preview.json")
+    @POST("communities.json")
     suspend fun addCommunity(@Body communityBody: CommunityRequest): AddDataResponse
 
 }
