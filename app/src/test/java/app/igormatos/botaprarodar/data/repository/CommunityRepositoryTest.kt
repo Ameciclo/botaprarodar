@@ -119,18 +119,5 @@ class CommunityRepositoryTest {
                 assertEquals(expectedCommunityListResponse, response)
             }
         }
-
-        @Test
-        fun `should throws UserAdminErrorException AdminNetwork exception when communityApiService throws UnknownHostException`() {
-            // arrange
-            coEvery {
-                apiServiceMock.getCommunities()
-            } throws UnknownHostException()
-
-            // action
-            assertThrows(UserAdminErrorException.AdminNetwork::class.java) {
-                runBlocking { communityRepository.getCommunitiesPreview() }
-            }
-        }
     }
 }
