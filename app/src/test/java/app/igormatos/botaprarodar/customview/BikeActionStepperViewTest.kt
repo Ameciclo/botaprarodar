@@ -3,14 +3,16 @@ package app.igormatos.botaprarodar.customview
 import android.app.Activity
 import android.os.Build
 import android.view.View
+import android.widget.TextView
 import app.igormatos.botaprarodar.common.customview.BikeActionStepperView
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.databinding.ItemStepperBinding
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
+import kotlinx.android.synthetic.main.item_stepper.view.*
 import kotlinx.android.synthetic.main.layout_bike_action_stepper.view.*
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
@@ -19,7 +21,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 
-@Ignore
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class BikeActionStepperViewTest {
@@ -50,39 +51,50 @@ class BikeActionStepperViewTest {
     }
 
     @Test
-    fun `stepper title should be the same as passed in stepConfigType enum when going next`() {
+    fun `stepper text should be the same as passed in stepConfigType enum when going next`() {
         val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_DEVOLUTION)
         stepper.addItems(mock)
-
+        val stepInfoTxt = getStepInfoTxtComponent(mock.size -1)
         stepper.setCurrentStep(StepConfigType.CONFIRM_DEVOLUTION)
-        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.CONFIRM_DEVOLUTION.title))
+        assertEquals(
+            stepInfoTxt.text,
+            activity.getString(StepConfigType.CONFIRM_DEVOLUTION.title)
+        )
     }
 
     @Test
-    fun `stepper title should be the same as passed in stepConfigType enum when go back to the previous`() {
+    fun `Stepper text should be the same as passed in stepConfigType enum when go back to the previous`() {
         val mock = arrayListOf(StepConfigType.QUIZ, StepConfigType.CONFIRM_DEVOLUTION)
         stepper.addItems(mock)
         stepper.completeAllSteps()
-
+        val stepInfoTxt = getStepInfoTxtComponent(0)
         stepper.setCurrentStep(StepConfigType.QUIZ)
-        assertEquals(stepper.stepperTitle.text, activity.getString(StepConfigType.QUIZ.title))
+        assertEquals(stepInfoTxt.text, activity.getString(StepConfigType.QUIZ.title))
     }
 
     @Test
-    fun `title text should be the same as previous if there is no next item`() {
+    fun `Stepper text should be the same as previous when there is not next item`() {
         val mock = arrayListOf(StepConfigType.QUIZ)
         stepper.addItems(mock)
 
-        assertEquals(stepper.stepperTitle.text, activity.getString(mock.first().title))
+        val stepInfoTxt = getStepInfoTxtComponent(0)
+
+        assertEquals(stepInfoTxt.text, activity.getString(mock.first().title))
         stepper.setCurrentStep(StepConfigType.QUIZ)
-        assertEquals(stepper.stepperTitle.text, activity.getString(mock.first().title))
+        assertEquals(stepInfoTxt.text, activity.getString(mock.first().title))
+    }
+
+    private fun getStepInfoTxtComponent(index:Int): TextView {
+        val stepContainer = stepper.stepperContainer.getChildAt(index)
+        return stepContainer.stepInfoTxt
     }
 
     @Test
-    fun `text title should be empty when there is no items`() {
+    fun `Container Steps aren't should be show when there is not items`() {
         val mock = arrayListOf<StepConfigType>()
         stepper.addItems(mock)
-        assertEquals("", stepper.stepperTitle.text)
+        val stepContainer = stepper.stepperContainer.getChildAt(0)
+        assertNull(stepContainer)
     }
 
     @Test

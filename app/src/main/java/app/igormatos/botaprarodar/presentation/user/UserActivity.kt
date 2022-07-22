@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
 
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
