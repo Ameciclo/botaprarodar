@@ -60,12 +60,11 @@ val viewModelModule = module {
             communityBikesSerialNumbers
         )
     }
-    viewModel { (communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>) ->
+    viewModel { (communityUsers: ArrayList<User>) ->
         UserFormViewModel(
             get<SharedPreferencesModule>().getJoinedCommunity(),
             get(),
-            communityUsers,
-            mapOptions
+            communityUsers
         )
     }
 }
