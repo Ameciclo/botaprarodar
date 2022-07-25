@@ -81,6 +81,28 @@ class UserFormFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         setupViewModelStatus()
+        setupListenerCancelButton()
+    }
+
+    private fun setupListeners() {
+        binding.cetUserBirthday.addMask(
+            EditTextFormatMask.FORMAT_DATE
+        )
+
+        binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
+
+        binding.cppPerfilPicture.setupClick {
+            showTipDialog(
+                R.drawable.iconfinder_user_profile_imagee,
+                getString(R.string.profile_picture),
+                getString(R.string.profile_picture_tip)
+            ) {
+                if (it) {
+                    currentPhotoId = REQUEST_PROFILE_PHOTO
+                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
+                }
+            }
+        }
     }
 
     private fun setupViewModelStatus() {
@@ -96,7 +118,12 @@ class UserFormFragment : Fragment() {
                 navController.navigate(direction)
             }
         }
+    }
 
+    private fun setupListenerCancelButton() {
+        binding.cancelButton.setOnClickListener {
+            activity?.finish()
+        }
     }
 
     private fun updateViewModelLiveData(whichImageCode: Int, path: String) {
@@ -149,26 +176,5 @@ class UserFormFragment : Fragment() {
                 click(true)
             }
             .show()
-    }
-
-    private fun setupListeners() {
-        binding.cetUserBirthday.addMask(
-            EditTextFormatMask.FORMAT_DATE
-        )
-
-        binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
-
-        binding.cppPerfilPicture.setupClick {
-            showTipDialog(
-                R.drawable.iconfinder_user_profile_imagee,
-                getString(R.string.profile_picture),
-                getString(R.string.profile_picture_tip)
-            ) {
-                if (it) {
-                    currentPhotoId = REQUEST_PROFILE_PHOTO
-                    dispatchTakePictureIntent(REQUEST_PROFILE_PHOTO)
-                }
-            }
-        }
     }
 }
