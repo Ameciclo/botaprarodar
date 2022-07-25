@@ -23,13 +23,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
                 app:setTitle="@{viewModel.isEditableAvailable}"
-                app:titleTextColor="@color/dark_gray" />
+                app:navigationIcon="@drawable/ic_close_black"
+                android:background="@color/white"
+                app:titleTextColor="@color/black"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

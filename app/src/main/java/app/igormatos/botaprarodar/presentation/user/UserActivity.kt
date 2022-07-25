@@ -33,6 +33,10 @@ class UserActivity : AppCompatActivity() {
 
         setupNavGraph()
 
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
         setupStepperView()
 
         setupObservers()
