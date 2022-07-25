@@ -17,7 +17,7 @@ import com.brunotmgomes.ui.extensions.isValidTelephone
 class UserFormViewModel(
     private val community: Community,
     val stepper: RegisterUserStepper,
-    val communityUsers: ArrayList<User>
+    private val communityUsers: ArrayList<User>
 ) : ViewModel() {
     val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false

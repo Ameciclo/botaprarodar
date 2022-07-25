@@ -96,11 +96,13 @@
                     android:layout_marginTop="24dp"
                     android:hint="@string/user_form_user_phone_hint"
                     android:inputType="phone"
+                    app:errorMessage="@{`add_user_invalid_telephone`}"
                     android:label="@string/user_form_user_phone_label"
                     android:maxLength="@integer/max_size_user_phone_number"
                     app:layout_constraintEnd_toStartOf="@+id/userFormGuideline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cet_name_user_adress_required"
+                    app:textCaptured="@{viewModel.userTelephone}"
                     app:textValue="@={viewModel.userTelephone}" />
 
                 <TextView
