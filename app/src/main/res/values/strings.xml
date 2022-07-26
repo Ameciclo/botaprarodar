@@ -198,7 +198,7 @@
     <string name="txt_doc_image_back">Verso</string>
     <string name="txt_doc_back">Verso do documento</string>
     <string name="add_user_toolbar_title">CADASTRAR USUÁRIO</string>
-    <string name="edit_user_toolbar_title">Editar Usuário</string>
+    <string name="edit_user_toolbar_title">EDITAR USUÁRIO</string>
     <string name="user_update_success">Usuário atualizado com sucesso</string>
     <string name="user_add_success">Usuário adicionado com sucesso</string>
     <string name="borrow_bike">EMPRESTAR BICICLETA</string>

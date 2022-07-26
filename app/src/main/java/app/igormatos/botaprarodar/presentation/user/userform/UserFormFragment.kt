@@ -82,6 +82,19 @@ class UserFormFragment : Fragment() {
         setupListeners()
         setupViewModelStatus()
         setupListenerCancelButton()
+        checkEditMode()
+    }
+
+    private fun checkEditMode() {
+        if (args.user != null) {
+            setValuesToEditUser(args.user)
+        }
+    }
+
+    private fun setValuesToEditUser(user: User?) {
+        user?.let {
+            userFormViewModel.updateUserValues(it)
+        }
     }
 
     private fun setupListeners() {
