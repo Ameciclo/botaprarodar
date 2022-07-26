@@ -25,7 +25,7 @@ class UserFormViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_FORM))
+    private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_PERSONAl_INFO))
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
 
@@ -66,7 +66,7 @@ class UserFormViewModelTest {
 
         verify { stepper.navigateToNext() }
 
-        assertEquals(formViewModel.stepper.currentStep.value, StepConfigType.USER_QUIZ)
+        assertEquals(formViewModel.stepper.currentStep.value, StepConfigType.USER_SOCIAL_INFO)
     }
 
     @Test
