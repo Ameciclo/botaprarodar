@@ -32,13 +32,8 @@ class UserActivity : AppCompatActivity() {
         viewModel.isEditableAvailable = intent.extras?.getParcelable<User>(USER_BUNDLE) != null
 
         setupNavGraph()
-
-        binding.toolbar.setNavigationOnClickListener {
-            finish()
-        }
-
         setupStepperView()
-
+        setupToolbarNavigationListener()
         setupObservers()
     }
 
@@ -55,6 +50,12 @@ class UserActivity : AppCompatActivity() {
                 USER_FINISHED
             )
         )
+    }
+
+    private fun setupToolbarNavigationListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun setupObservers() {
