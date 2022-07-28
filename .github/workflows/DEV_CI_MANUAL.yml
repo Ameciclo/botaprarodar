@@ -6,7 +6,6 @@ on:
 jobs:
   build:
     name: Unit Tests
-    when: manual
     runs-on: macos-latest
     steps:
       - name: Checkout project
