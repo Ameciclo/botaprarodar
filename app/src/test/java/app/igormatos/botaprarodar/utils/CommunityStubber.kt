@@ -51,7 +51,7 @@ fun completeCommunityRequestStub() =
         orgName = "Nome Teste",
         orgEmail = "teste@tste.com",
         createdDate = "2022-01-01",
-        id = null
+        id = "7565f0a2-959a-484b-8cc1-8a43b77a8de4"
     )
 
 fun nullCommunityResponseItemStub() =

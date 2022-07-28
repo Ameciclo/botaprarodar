@@ -43,7 +43,7 @@ class CommunityRepositoryTest {
             val apiReturn = AddDataResponse("FirebaseKey")
 
             coEvery {
-                apiServiceMock.addCommunity(any())
+                apiServiceMock.addCommunity(any(), any())
             } returns apiReturn
 
             val repositoryReturn = runBlocking {
@@ -61,7 +61,7 @@ class CommunityRepositoryTest {
             val apiExceptionReturn = Exception()
 
             coEvery {
-                apiServiceMock.addCommunity(any())
+                apiServiceMock.addCommunity(any(), any())
             } throws apiExceptionReturn
 
             assertThrows(Exception::class.java) {

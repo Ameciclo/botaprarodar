@@ -16,7 +16,7 @@ class CommunityRepository(
     }
 
     suspend fun addCommunity(community: CommunityRequest): String {
-        return communityApiService.addCommunity(community).name
+        return communityApiService.addCommunity(community, community.id!!).name
     }
 
 }
