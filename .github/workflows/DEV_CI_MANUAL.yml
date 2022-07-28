@@ -1,4 +1,4 @@
-name: Run UI and Unit tests
+name: Manual Tests
 
 on:
   pull_request:
