@@ -1,7 +1,12 @@
-name: Manual Tests
+name: Workflow Dispatch
 
 on:
   workflow_dispatch:
+    inputs:
+      input:
+        description: "Test"
+        required: false
+        default: "World"
 
 jobs:
   build:
