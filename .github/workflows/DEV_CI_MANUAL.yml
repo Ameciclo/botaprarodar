@@ -5,11 +5,11 @@ on:
     branches: [ main, development ]
   push: 
     branches: [ development ]
-  workflow_dispatch:
 
 jobs:
   build:
     name: Unit Tests
+    when: manual
     runs-on: macos-latest
     steps:
       - name: Checkout project
