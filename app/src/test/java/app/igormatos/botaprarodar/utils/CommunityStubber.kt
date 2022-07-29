@@ -6,7 +6,7 @@ import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 fun communityResponseStub() =
     CommunityRequest(
         "Rua Teste, 123",
-        12345678,
+        "2020-01-01",
         "Teste descricão",
         "1",
         "Teste",
@@ -50,8 +50,8 @@ fun completeCommunityRequestStub() =
         address = "Rua Teste, 123",
         orgName = "Nome Teste",
         orgEmail = "teste@tste.com",
-        createdDate = 12345678,
-        id = null
+        createdDate = "2022-01-01",
+        id = "7565f0a2-959a-484b-8cc1-8a43b77a8de4"
     )
 
 fun nullCommunityResponseItemStub() =
