@@ -84,3 +84,7 @@ Atualmente há dois fluxos na pipeline de CI:
 Quando o segundo workflow finaliza com sucesso, o app é enviado por email pra uma lista de usuários
 gerenciada pelo Firebase App Distribution.
 
+O segundo workflow deve ser acionado [manualmente pelo GitHub actions](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow), sempre executar esse workflow apontando para a branch main. 
+
+Antes de executar o workflow de deploy, fazer questão que a versão que será liberada está funcionando corretamente, ou seja, o ambiente de dev deve estar funcionando sem bugs impeditivos.
+
