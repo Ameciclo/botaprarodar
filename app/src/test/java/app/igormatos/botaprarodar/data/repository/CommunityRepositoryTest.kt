@@ -43,7 +43,7 @@ class CommunityRepositoryTest {
             val apiReturn = AddDataResponse("FirebaseKey")
 
             coEvery {
-                apiServiceMock.addCommunity(any())
+                apiServiceMock.addCommunity(any(), any())
             } returns apiReturn
 
             val repositoryReturn = runBlocking {
@@ -61,7 +61,7 @@ class CommunityRepositoryTest {
             val apiExceptionReturn = Exception()
 
             coEvery {
-                apiServiceMock.addCommunity(any())
+                apiServiceMock.addCommunity(any(), any())
             } throws apiExceptionReturn
 
             assertThrows(Exception::class.java) {
@@ -86,7 +86,7 @@ class CommunityRepositoryTest {
             val mapperReturn = mappedCommunityListStub()
 
             coEvery {
-                apiServiceMock.getCommunitiesPreview()
+                apiServiceMock.getCommunities()
             } returns apiReturn
 
             every {
@@ -99,44 +99,13 @@ class CommunityRepositoryTest {
         }
 
         @Test
-        fun `When something goes wrong in Api Service, should throws an Exception`() {
-
-            val exception = Exception()
-
-            coEvery {
-                apiServiceMock.getCommunities()
-            } throws exception
-
-            assertThrows(Exception::class.java) {
-                runBlocking { communityRepository.getCommunities() }
-            }
-        }
-
-        @Test
-        fun `When something goes wrong in Mapper, should throws an Exception`() {
-
-            val exception = Exception()
-
-            every {
-                mapperMock.mapCommunityResponseToCommunity(
-                    communityMapResponseStub()
-                )
-            } throws exception
-
-            assertThrows(Exception::class.java) {
-                runBlocking { communityRepository.getCommunities() }
-            }
-
-        }
-
-        @Test
         fun `should return Community list when communityApiService execute with success`() {
             runBlocking {
                 val communityMapResponse = communityMapResponseStub()
                 val expectedCommunityListResponse = listOf<Community>()
                 // arrange
                 coEvery {
-                    apiServiceMock.getCommunitiesPreview()
+                    apiServiceMock.getCommunities()
                 } returns communityMapResponse
 
                 every {
@@ -148,19 +117,6 @@ class CommunityRepositoryTest {
 
                 // assert
                 assertEquals(expectedCommunityListResponse, response)
-            }
-        }
-
-        @Test
-        fun `should throws UserAdminErrorException AdminNetwork exception when communityApiService throws UnknownHostException`() {
-            // arrange
-            coEvery {
-                apiServiceMock.getCommunitiesPreview()
-            } throws UnknownHostException()
-
-            // action
-            assertThrows(UserAdminErrorException.AdminNetwork::class.java) {
-                runBlocking { communityRepository.getCommunitiesPreview() }
             }
         }
     }

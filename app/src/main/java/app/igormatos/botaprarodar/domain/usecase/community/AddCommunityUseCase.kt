@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.domain.usecase.community
 import app.igormatos.botaprarodar.data.repository.CommunityRepository
 import app.igormatos.botaprarodar.domain.model.community.CommunityRequest
 import com.brunotmgomes.ui.SimpleResult
-import kotlin.Exception
 
 class AddCommunityUseCase(
     private val communityRepository: CommunityRepository

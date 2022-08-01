@@ -15,7 +15,6 @@ interface FirebaseHelperModule {
     val instance: FirebaseDatabase
 
     val adminsReference: DatabaseReference
-    val communitiesPreview: DatabaseReference
     val communities: DatabaseReference
 
     fun setCommunityId(communityId: String)
