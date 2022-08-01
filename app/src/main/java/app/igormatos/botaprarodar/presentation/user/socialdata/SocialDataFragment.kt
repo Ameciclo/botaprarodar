@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.databinding.FragmentSocialDataBinding
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.user.UserActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -57,15 +58,16 @@ class SocialDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupListenerCancelButton()
+        setupCancelButtonListener()
         setupListeners()
         setupViewModelStatus()
         checkEditMode()
     }
 
-    private fun setupListenerCancelButton() {
-        binding.cancelButton.setOnClickListener {
+    private fun setupCancelButtonListener() {
+        binding.backButton.setOnClickListener {
             navController.popBackStack()
+            (activity as UserActivity).navigateToPrevious()
         }
     }
 

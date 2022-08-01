@@ -84,6 +84,7 @@
     <string name="action_next">Próxima</string>
     <string name="action_next_registration">Próximo</string>
     <string name="action_cancel">Cancelar</string>
+    <string name="action_back">Voltar</string>
     <string name="action_save">Salvar</string>
     <string name="action_register">Cadastrar</string>
     <string name="prompt_password_registration">Senha (min. 6 caracteres)</string>
