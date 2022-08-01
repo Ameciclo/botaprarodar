@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.presentation.components.BikeList
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
@@ -37,10 +38,10 @@ fun ReturnNavigationComponent(
 
         composable(ReturnScreen.ReturnConfirmation.route) {
             val bike = vm.bikeHolder.value
-            val user = vm.userHolder.value
-            if (bike != null && user != null) {
+            val lastWithdraw = bike?.getLastWithdraw()
+            if (bike != null && lastWithdraw != null && lastWithdraw.user != null) {
                 ReturnBicycleResume(
-                    vm.loadingState.observeAsState(initial = false), bike, user
+                    vm.loadingState.observeAsState(initial = false), bike, lastWithdraw
                 ) {
                     vm.addDevolution {
                         vm.navigateToFinishedStep()

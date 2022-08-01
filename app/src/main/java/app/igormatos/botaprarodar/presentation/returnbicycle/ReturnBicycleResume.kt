@@ -23,10 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.components.BikeDetailsCard
 import app.igormatos.botaprarodar.presentation.components.CardCyclist
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
@@ -35,7 +35,7 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 fun ReturnBicycleResume(
     isLoading: State<Boolean>,
     bicycle: Bike,
-    user: User,
+    lastWithdraw: Withdraws,
     onConfirmDevolution: () -> Unit
 ) {
     Box(
@@ -71,8 +71,8 @@ fun ReturnBicycleResume(
                     Divider()
 
                     CardCyclist(
-                        user = user,
-                        bikeLastWithdraw = bicycle.getLastWithdraw()?.date?.formattedDate() ?: "",
+                        user = lastWithdraw.user!!,
+                        bikeLastWithdraw = lastWithdraw.date?.formattedDate() ?: "",
                         handleClick = {})
                 }
             }
@@ -112,7 +112,9 @@ fun ReturnBicycleResumePreview() {
 
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
 
+    val lastWithdraw = Withdraws("1", "01/08/2022 16:09:28", user)
+
     BotaprarodarTheme {
-        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle, user, {})
+        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle, lastWithdraw) {}
     }
 }
