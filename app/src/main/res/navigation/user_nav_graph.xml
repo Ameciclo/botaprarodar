@@ -1,51 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/user_nav_graph"
-        app:startDestination="@id/userFormFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_nav_graph"
+    app:startDestination="@id/userFormFragment">
 
     <fragment
-            android:id="@+id/userFormFragment"
-            android:name="app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment"
-            android:label="UserFormFragment"
-            tools:layout="@layout/fragment_user_form">
+        android:id="@+id/userFormFragment"
+        android:name="app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment"
+        android:label="UserFormFragment"
+        tools:layout="@layout/fragment_user_form">
 
         <argument
-                android:name="user"
-                android:defaultValue="@null"
-                app:argType="app.igormatos.botaprarodar.domain.model.User"
-                app:nullable="true" />
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="app.igormatos.botaprarodar.domain.model.User"
+            app:nullable="true" />
 
         <argument
-                android:name="communityUsers"
-                android:defaultValue="@null"
-                app:argType="app.igormatos.botaprarodar.domain.model.User[]"
-                app:nullable="true" />
+            android:name="communityUsers"
+            android:defaultValue="@null"
+            app:argType="app.igormatos.botaprarodar.domain.model.User[]"
+            app:nullable="true" />
 
         <action
-                android:id="@+id/action_userFormFragment_to_userQuizFragment"
-                app:destination="@id/userQuizFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right" />
+            android:id="@+id/action_userFormFragment_to_socialDataFragment"
+            app:destination="@id/socialDataFragment" />
+
     </fragment>
 
     <fragment
-            android:id="@+id/userQuizFragment"
-            android:name="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizFragment"
-            android:label="UserQuizFragment"
-            tools:layout="@layout/fragment_user_quiz">
+        android:id="@+id/socialDataFragment"
+        android:name="app.igormatos.botaprarodar.presentation.user.socialdata.SocialDataFragment"
+        android:label="SocialDataFragment">
+
         <argument
-                android:name="user"
-                app:argType="app.igormatos.botaprarodar.domain.model.User" />
+            android:name="user"
+            app:argType="app.igormatos.botaprarodar.domain.model.User" />
+
         <argument
-                android:name="editMode"
-                app:argType="boolean" />
+            android:name="editMode"
+            app:argType="boolean" />
+
         <argument
-                android:name="deleteImagePaths"
-                app:argType="string[]"/>
+            android:name="deleteImagePaths"
+            app:argType="string[]" />
+
+        <argument
+            android:name="communityUsers"
+            app:argType="app.igormatos.botaprarodar.domain.model.User[]" />
+
+        <action
+            android:id="@+id/action_socialDataFragment_to_userQuizFragment"
+            app:destination="@id/userQuizFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/userQuizFragment"
+        android:name="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizFragment"
+        android:label="UserQuizFragment"
+        tools:layout="@layout/fragment_user_quiz">
+        <argument
+            android:name="user"
+            app:argType="app.igormatos.botaprarodar.domain.model.User" />
+        <argument
+            android:name="editMode"
+            app:argType="boolean" />
+        <argument
+            android:name="deleteImagePaths"
+            app:argType="string[]" />
+    </fragment>
+
 
 </navigation>

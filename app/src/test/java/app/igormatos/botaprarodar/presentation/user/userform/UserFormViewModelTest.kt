@@ -2,9 +2,7 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
-import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -75,9 +73,9 @@ class UserFormViewModelTest {
         every { stepper.navigateToNext() } answers { formViewModel.user = testUser }
         formViewModel.navigateToNextStep()
 
-        val openQuiz = formViewModel.openQuiz.value
+        val openQuiz = formViewModel.openUserSocialData.value
 
-        assertNotNull(formViewModel.openQuiz.value)
+        assertNotNull(formViewModel.openUserSocialData.value)
         assertEquals(openQuiz?.peekContent()?.first, testUser)
         assertEquals(openQuiz?.peekContent()?.second, false)
     }

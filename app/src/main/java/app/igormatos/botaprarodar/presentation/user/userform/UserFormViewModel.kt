@@ -1,12 +1,8 @@
 package app.igormatos.botaprarodar.presentation.user.userform
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.ViewModelStatus
-import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
@@ -19,21 +15,16 @@ class UserFormViewModel(
     val stepper: RegisterUserStepper,
     private val communityUsers: ArrayList<User>
 ) : ViewModel() {
-    val openQuiz = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
+    val openUserSocialData = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
     var user = User()
 
     var userCompleteName = MutableLiveData("")
     var userAddress = MutableLiveData("")
     var userImageProfile = MutableLiveData("")
-    private var _deleteImagePaths = MutableLiveData(ArrayList<String>())
-    val deleteImagePaths: LiveData<ArrayList<String>> = _deleteImagePaths
 
     var userBirthday = MutableLiveData("")
     var userTelephone = MutableLiveData("")
-
-    private var _statusDeleteImage = MutableLiveData<ViewModelStatus<Unit>>()
-    val statusDeleteImage: LiveData<ViewModelStatus<Unit>> = _statusDeleteImage
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }
@@ -71,11 +62,11 @@ class UserFormViewModel(
         stepper.navigateToNext()
         createUser()
 
-        openQuiz.value = ViewEvent(
+        openUserSocialData.value = ViewEvent(
             Triple(
                 user,
                 isEditableAvailable,
-                deleteImagePaths.value?.toList() ?: listOf()
+                emptyList()
             )
         )
     }

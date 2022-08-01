@@ -138,7 +138,7 @@
     <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
     <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
 
-    <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
+    <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?*</string>
 
     <string name="user_form_user_birthday_label">Nascimento*</string>
     <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
@@ -147,7 +147,7 @@
 
     <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
 
-    <string name="user_form_user_schooling_label">Até que grau a pessoa estudou?</string>
+    <string name="user_form_user_schooling_label">Até que grau estudou?</string>
 
     <string name="user_form_user_adrees_label">Endereço completo*</string>
     <string name="user_form_user_adrees_hint">Ex: Rua Marielle Franco, 123</string>

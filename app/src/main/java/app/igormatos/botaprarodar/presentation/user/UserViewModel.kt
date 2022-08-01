@@ -14,6 +14,10 @@ class UserViewModel(val stepper: RegisterUserStepper) : ViewModel() {
         stepper.navigateToPrevious()
     }
 
+    fun navigateToNext(){
+        stepper.navigateToNext()
+    }
+
     fun backToInitialState(){
         stepper.setCurrentStep(USER_PERSONAl_INFO)
     }

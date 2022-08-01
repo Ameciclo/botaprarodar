@@ -66,7 +66,15 @@ class UserActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        navigateToPrevious()
+    }
+
+    fun navigateToPrevious() {
         viewModel.navigateToPrevious()
+    }
+
+    fun navigateToNext() {
+        viewModel.navigateToNext()
     }
 
     override fun finish() {

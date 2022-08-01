@@ -119,14 +119,15 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupViewModelStatus() {
-        userFormViewModel.openQuiz.observe(viewLifecycleOwner) {
+        userFormViewModel.openUserSocialData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { data ->
                 val (user, editMode, deleteImagePaths) = data
                 val direction =
-                    UserFormFragmentDirections.actionUserFormFragmentToUserQuizFragment(
+                    UserFormFragmentDirections.actionUserFormFragmentToSocialDataFragment(
                         user,
                         editMode,
-                        deleteImagePaths.toTypedArray()
+                        deleteImagePaths.toTypedArray(),
+                        getCommunityUsers().toTypedArray(),
                     )
                 navController.navigate(direction)
             }
