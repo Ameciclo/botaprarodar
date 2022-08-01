@@ -18,6 +18,7 @@ import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.DialogTipBinding
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.extensions.takePictureIntent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import id.zelory.compressor.Compressor
@@ -33,7 +34,7 @@ class UserFormFragment : Fragment() {
 
     private val args: UserFormFragmentArgs by navArgs()
 
-    private lateinit var userFormViewModel:  UserFormViewModel
+    private lateinit var userFormViewModel: UserFormViewModel
     private var mCurrentPhotoPath = ""
     private var currentPhotoId = 0
 
@@ -80,7 +81,7 @@ class UserFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
-        setupViewModelStatus()
+        navigateToSocialDataObserver()
         setupListenerCancelButton()
         checkEditMode()
     }
@@ -118,7 +119,7 @@ class UserFormFragment : Fragment() {
         }
     }
 
-    private fun setupViewModelStatus() {
+    private fun navigateToSocialDataObserver() {
         userFormViewModel.openUserSocialData.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { data ->
                 val (user, editMode, deleteImagePaths) = data
@@ -129,6 +130,7 @@ class UserFormFragment : Fragment() {
                         deleteImagePaths.toTypedArray(),
                         getCommunityUsers().toTypedArray(),
                     )
+                (activity as UserActivity).navigateToNext()
                 navController.navigate(direction)
             }
         }

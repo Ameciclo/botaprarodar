@@ -162,8 +162,8 @@ class SocialDataViewModel(
         selectedSchoolingStatusIndex.value = index
     }
 
-    fun navigateToNextStep(stepper: RegisterUserStepper) {
-        stepper.navigateToNext()
+    fun navigateToNextStep() {
+//        stepper.navigateToNext()
         fillWithSocialData()
 
         openQuiz.value = ViewEvent(

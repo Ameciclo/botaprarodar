@@ -5,14 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 import com.brunotmgomes.ui.extensions.isValidTelephone
 
 class UserFormViewModel(
     private val community: Community,
-    val stepper: RegisterUserStepper,
     private val communityUsers: ArrayList<User>
 ) : ViewModel() {
     val openUserSocialData = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
@@ -59,7 +57,6 @@ class UserFormViewModel(
     }
 
     fun navigateToNextStep() {
-        stepper.navigateToNext()
         createUser()
 
         openUserSocialData.value = ViewEvent(

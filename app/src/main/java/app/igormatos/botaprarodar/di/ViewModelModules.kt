@@ -64,7 +64,6 @@ val viewModelModule = module {
     viewModel { (communityUsers: ArrayList<User>) ->
         UserFormViewModel(
             get<SharedPreferencesModule>().getJoinedCommunity(),
-            get(),
             communityUsers
         )
     }
