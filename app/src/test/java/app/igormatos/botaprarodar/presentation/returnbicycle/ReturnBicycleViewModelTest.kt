@@ -6,7 +6,6 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
@@ -28,9 +27,7 @@ class ReturnBicycleViewModelTest {
     private val stepperAdapter = spyk(ReturnStepper(StepConfigType.SELECT_BIKE))
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
     private val stepFinalReturnBikeUseCase = mockk<StepFinalReturnBikeUseCase>()
-    private val getUserByIdUseCase = mockk<GetUserByIdUseCase>()
     private val preferencesModule = mockk<SharedPreferencesModule>()
-    private val bikeHolder = spyk<BikeHolder>()
     private lateinit var viewModel: ReturnBicycleViewModel
 
     @Before
@@ -40,7 +37,6 @@ class ReturnBicycleViewModelTest {
             stepOneReturnBikeUseCase = stepOneReturnBikeUseCase,
             stepFinalReturnBikeUseCase = stepFinalReturnBikeUseCase,
             preferencesModule = preferencesModule,
-            getUserByIdUseCase = getUserByIdUseCase
         )
     }
 

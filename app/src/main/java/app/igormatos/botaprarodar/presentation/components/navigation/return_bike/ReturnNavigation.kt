@@ -37,11 +37,8 @@ fun ReturnNavigationComponent(
 
         composable(ReturnScreen.ReturnConfirmation.route) {
             val bike = vm.bikeHolder.value
-            val user = vm.userHolder.value
-            if (bike != null && user != null) {
-                ReturnBicycleResume(
-                    vm.loadingState.observeAsState(initial = false), bike, user
-                ) {
+            bike?.let {
+                ReturnBicycleResume(vm.loadingState.observeAsState(initial = false), it) {
                     vm.addDevolution {
                         vm.navigateToFinishedStep()
                         navController.navigate(ReturnScreen.ReturnFinishAction.route)
