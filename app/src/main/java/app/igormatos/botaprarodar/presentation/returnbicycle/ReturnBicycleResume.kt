@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
@@ -35,9 +36,10 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 fun ReturnBicycleResume(
     isLoading: State<Boolean>,
     bicycle: Bike,
-    lastWithdraw: Withdraws,
     onConfirmDevolution: () -> Unit
 ) {
+    val lastWithdraw = bicycle.getLastWithdraw()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,10 +72,12 @@ fun ReturnBicycleResume(
 
                     Divider()
 
-                    CardCyclist(
-                        user = lastWithdraw.user!!,
-                        bikeLastWithdraw = lastWithdraw.date?.formattedDate() ?: "",
-                        handleClick = {})
+                    lastWithdraw?.user?.let {
+                        CardCyclist(
+                            user = it,
+                            bikeLastWithdraw = lastWithdraw.date?.formattedDate() ?: "",
+                            handleClick = {})
+                    }
                 }
             }
 
@@ -114,7 +118,9 @@ fun ReturnBicycleResumePreview() {
 
     val lastWithdraw = Withdraws("1", "01/08/2022 16:09:28", user)
 
+    bicycle.withdraws = mutableListOf(lastWithdraw)
+
     BotaprarodarTheme {
-        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle, lastWithdraw) {}
+        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle) {}
     }
 }
