@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.user
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +15,9 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_FORM
 import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_QUIZ
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
+import com.google.android.material.datepicker.MaterialDatePicker
+import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserActivity : AppCompatActivity() {
@@ -73,6 +77,17 @@ class UserActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.currentNavigationFragment
 
         fragment?.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun showDatePickerDialog(v: View) {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+//                .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
+                .setTitleText("Selecione uma data")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+        datePicker.show(supportFragmentManager, "datePicker")
     }
 
     companion object {
