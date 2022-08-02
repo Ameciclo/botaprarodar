@@ -15,10 +15,9 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_FORM
 import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_QUIZ
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
 import com.google.android.material.datepicker.MaterialDatePicker
-import org.jetbrains.anko.backgroundColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class UserActivity : AppCompatActivity() {
 
@@ -80,10 +79,10 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun showDatePickerDialog(v: View) {
+        // Necessário para alterar alguns textos e formatos para pt_BR, porém não foram todos
+        Locale.setDefault(Locale("pt", "BR"))
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-//                .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-                .setTitleText("Selecione uma data")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
