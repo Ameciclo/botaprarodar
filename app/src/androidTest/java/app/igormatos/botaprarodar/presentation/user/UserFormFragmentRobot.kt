@@ -14,7 +14,7 @@ class UserFormFragmentRobot : BaseRobot() {
     }
 
     fun clickProfileImage() {
-        clickAndScrollView(R.id.cpp_perfil_picture)
+        clickAndScrollView(R.id.perfilPictureCpp)
     }
 
     fun clickConfirmDialog() {

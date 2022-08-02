@@ -29,7 +29,7 @@
                 tools:context=".presentation.user.userform.UserFormFragment">
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_name"
+                    android:id="@+id/userNameCst"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
@@ -40,26 +40,13 @@
                     app:errorMessage="@{`add_user_invalid_name`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cpp_perfil_picture"
+                    app:layout_constraintTop_toBottomOf="@+id/perfilPictureCpp"
                     app:textCaptured="@{viewModel.userCompleteName}"
                     app:textValue="@={viewModel.userCompleteName}" />
 
-                <TextView
-                    android:id="@+id/cet_name_user_required"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:paddingLeft="16dp"
-                    android:text="@string/required"
-                    android:textSize="@dimen/text_size_12"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cet_user_name" />
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_adress"
+                    android:id="@+id/userAdressCet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
@@ -70,26 +57,12 @@
                     app:errorMessage="@{`add_user_invalid_address`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cet_name_user_required"
+                    app:layout_constraintTop_toBottomOf="@id/userNameCst"
                     app:textCaptured="@{viewModel.userAddress}"
                     app:textValue="@={viewModel.userAddress}" />
 
-                <TextView
-                    android:id="@+id/cet_name_user_adress_required"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:paddingLeft="16dp"
-                    android:text="@string/required"
-                    android:textSize="@dimen/text_size_12"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cet_user_adress" />
-
                 <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_phone"
+                    android:id="@+id/userPhoneCet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
@@ -101,24 +74,12 @@
                     android:maxLength="@integer/max_size_user_phone_number"
                     app:layout_constraintEnd_toStartOf="@+id/userFormGuideline"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cet_name_user_adress_required"
+                    app:layout_constraintTop_toBottomOf="@id/userAdressCet"
                     app:textCaptured="@{viewModel.userTelephone}"
                     app:textValue="@={viewModel.userTelephone}" />
 
-                <TextView
-                    android:id="@+id/cet_name_user_phone_required"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:paddingLeft="16dp"
-                    android:text="@string/required"
-                    android:textSize="@dimen/text_size_12"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cet_user_phone" />
-
                 <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/cet_user_birthday"
+                    android:id="@+id/userBirthdayCet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
@@ -129,26 +90,12 @@
                     app:errorMessage="@{`add_user_invalid_age`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/userFormGuideline"
-                    app:layout_constraintTop_toBottomOf="@+id/cet_name_user_adress_required"
+                    app:layout_constraintTop_toBottomOf="@id/userAdressCet"
                     app:textCaptured="@{viewModel.userBirthday}"
                     app:textValue="@={viewModel.userBirthday}" />
 
-                <TextView
-                    android:id="@+id/cet_name_user_birthday_required"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:paddingLeft="16dp"
-                    android:text="@string/required"
-                    android:textSize="@dimen/text_size_12"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/cet_user_birthday"
-                    app:layout_constraintTop_toBottomOf="@id/cet_user_birthday" />
-
                 <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/cpp_perfil_picture"
+                    android:id="@+id/perfilPictureCpp"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_marginHorizontal="@dimen/margin_medium"

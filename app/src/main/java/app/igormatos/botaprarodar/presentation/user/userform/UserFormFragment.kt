@@ -99,13 +99,13 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.cetUserBirthday.addMask(
+        binding.userBirthdayCet.addMask(
             EditTextFormatMask.FORMAT_DATE
         )
 
-        binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
+        binding.userPhoneCet.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
 
-        binding.cppPerfilPicture.setupClick {
+        binding.perfilPictureCpp.setupClick {
             showTipDialog(
                 R.drawable.iconfinder_user_profile_imagee,
                 getString(R.string.profile_picture),
