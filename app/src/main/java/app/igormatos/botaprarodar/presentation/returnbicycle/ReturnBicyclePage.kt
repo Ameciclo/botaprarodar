@@ -107,13 +107,12 @@ private fun selectClickStepper(
     navController: NavHostController,
     onFinishedAction: () -> Unit = {},
     data: Any?
-): Unit {
+) {
     when (viewModel.uiStep.value) {
         StepConfigType.SELECT_BIKE -> {
             navController.navigate(ReturnScreen.ReturnQuiz.route)
             val bicycle = data as Bike
             viewModel.setBike(bicycle)
-            bicycle.withdrawToUser?.let { userId -> viewModel.getUserBy(userId) }
             viewModel.navigateToNextStep()
         }
         StepConfigType.QUIZ -> {
