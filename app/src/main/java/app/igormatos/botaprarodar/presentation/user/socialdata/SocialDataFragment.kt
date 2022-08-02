@@ -66,8 +66,8 @@ class SocialDataFragment : Fragment() {
 
     private fun setupCancelButtonListener() {
         binding.backButton.setOnClickListener {
-            navController.popBackStack()
             (activity as UserActivity).navigateToPrevious()
+            navController.popBackStack()
         }
     }
 
@@ -104,6 +104,7 @@ class SocialDataFragment : Fragment() {
                         editMode,
                         deleteImagePaths.toTypedArray()
                     )
+                (activity as UserActivity).navigateToNext()
                 navController.navigate(direction)
             }
         }

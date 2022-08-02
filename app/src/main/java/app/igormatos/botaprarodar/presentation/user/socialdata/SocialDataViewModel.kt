@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.extensions.getIndexFromList
 import app.igormatos.botaprarodar.domain.model.User
-import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
 import com.brunotmgomes.ui.ViewEvent
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
 
@@ -163,7 +162,6 @@ class SocialDataViewModel(
     }
 
     fun navigateToNextStep() {
-//        stepper.navigateToNext()
         fillWithSocialData()
 
         openQuiz.value = ViewEvent(
