@@ -6,8 +6,8 @@ import app.igormatos.botaprarodar.data.repository.AdminRepository
 import app.igormatos.botaprarodar.presentation.authentication.Validator
 
 class PasswordRecoveryUseCase(
-    private val emailValidator: Validator<String?>,
-    private val adminRepository: AdminRepository
+    private val adminRepository: AdminRepository,
+    private val emailValidator: Validator<String?>
 ) {
 
     suspend fun sendPasswordResetEmail(email: String): PasswordRecoveryState {
