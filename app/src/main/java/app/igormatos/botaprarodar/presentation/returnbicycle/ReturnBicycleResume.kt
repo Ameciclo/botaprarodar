@@ -27,6 +27,7 @@ import app.igormatos.botaprarodar.common.extensions.getLastWithdraw
 import app.igormatos.botaprarodar.common.utils.formattedDate
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.model.Withdraws
 import app.igormatos.botaprarodar.presentation.components.BikeDetailsCard
 import app.igormatos.botaprarodar.presentation.components.CardCyclist
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
@@ -35,9 +36,10 @@ import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarT
 fun ReturnBicycleResume(
     isLoading: State<Boolean>,
     bicycle: Bike,
-    user: User,
     onConfirmDevolution: () -> Unit
 ) {
+    val lastWithdraw = bicycle.getLastWithdraw()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,10 +72,12 @@ fun ReturnBicycleResume(
 
                     Divider()
 
-                    CardCyclist(
-                        user = user,
-                        bikeLastWithdraw = bicycle.getLastWithdraw()?.date?.formattedDate() ?: "",
-                        handleClick = {})
+                    lastWithdraw?.user?.let {
+                        CardCyclist(
+                            user = it,
+                            bikeLastWithdraw = lastWithdraw.date?.formattedDate() ?: "",
+                            handleClick = {})
+                    }
                 }
             }
 
@@ -112,7 +116,11 @@ fun ReturnBicycleResumePreview() {
 
     val user = User(name = "Daniel Ferreira", telephone = "11 3333-1234", hasActiveWithdraw = false)
 
+    val lastWithdraw = Withdraws("1", "01/08/2022 16:09:28", user)
+
+    bicycle.withdraws = mutableListOf(lastWithdraw)
+
     BotaprarodarTheme {
-        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle, user, {})
+        ReturnBicycleResume(remember { mutableStateOf(false) }, bicycle) {}
     }
 }

@@ -7,10 +7,8 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Quiz
-import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
-import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.DEFAULT_RETURNS_ERROR_MESSAGE
 import com.brunotmgomes.ui.SimpleResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +22,6 @@ class ReturnBicycleViewModel(
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val stepFinalReturnBikeUseCase: StepFinalReturnBikeUseCase,
     private val preferencesModule: SharedPreferencesModule,
-    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : ViewModel(), DefaultLifecycleObserver {
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>> = _bikesAvailableToReturn
@@ -37,9 +34,6 @@ class ReturnBicycleViewModel(
 
     private val _bikeHolder: MutableLiveData<Bike> = MutableLiveData<Bike>()
     val bikeHolder: LiveData<Bike> = _bikeHolder
-
-    private val _userHolder: MutableLiveData<User> = MutableLiveData<User>()
-    val userHolder: LiveData<User> = _userHolder
 
     private val _uiStep = MutableLiveData<StepConfigType>()
     val uiStep: LiveData<StepConfigType> = _uiStep
@@ -122,11 +116,5 @@ class ReturnBicycleViewModel(
 
     fun setBike(bike: Bike) {
         _bikeHolder.value = bike
-    }
-
-    fun getUserBy(userId: String) = viewModelScope.launch {
-        getUserByIdUseCase.execute(userId)?.let { user ->
-            _userHolder.value = user
-        }
     }
 }
