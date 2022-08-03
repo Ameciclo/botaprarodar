@@ -1,8 +1,10 @@
 package app.igormatos.botaprarodar.presentation.user.socialdata
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.FOCUSABLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -10,9 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.biding.utils.validateText
+import app.igormatos.botaprarodar.common.extensions.validateTextChanged
 import app.igormatos.botaprarodar.databinding.FragmentSocialDataBinding
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.user.UserActivity
+import kotlinx.android.synthetic.main.custom_edit_text.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -138,8 +143,16 @@ class SocialDataFragment : Fragment() {
             ) { _, which ->
                 binding.viewModel?.setSelectGenderIndex(which)
             }
+
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserGender()
+            }
+            setOnDismissListener {
+                validateText(
+                    binding.userGenderCst.editText.text.toString(),
+                    binding.userGenderCst.textLayout,
+                    R.string.add_user_invalid_information
+                )
             }
             create().show()
         }
@@ -173,6 +186,13 @@ class SocialDataFragment : Fragment() {
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserIncome()
             }
+            setOnDismissListener {
+                validateText(
+                    binding.userIncomeCst.editText.text.toString(),
+                    binding.userIncomeCst.textLayout,
+                    R.string.add_user_invalid_income
+                )
+            }
             create().show()
         }
     }
@@ -188,6 +208,14 @@ class SocialDataFragment : Fragment() {
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserRace()
+            }
+
+            setOnDismissListener {
+                validateText(
+                    binding.userRacialCst.editText.text.toString(),
+                    binding.userRacialCst.textLayout,
+                    R.string.add_user_invalid_racial
+                )
             }
             create().show()
         }

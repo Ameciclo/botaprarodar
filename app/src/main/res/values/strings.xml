@@ -144,9 +144,9 @@
     <string name="user_form_user_birthday_label">Nascimento*</string>
     <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
 
-    <string name="user_form_user_income_label">Renda Mensal</string>
+    <string name="user_form_user_income_label">Renda Mensal*</string>
 
-    <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?</string>
+    <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?*</string>
 
     <string name="user_form_user_schooling_label">Até que grau estudou?</string>
 
@@ -173,6 +173,7 @@
     <string name="add_user_invalid_racial">Raça inválida</string>
     <string name="add_user_schooling">Qual o grau de escolaridade?</string>
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
+    <string name="add_user_invalid_information">Informação inválida</string>
     <string name="add_user_quiz_invalid_information">Informação inválida</string>
 
     <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>

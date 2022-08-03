@@ -32,8 +32,15 @@ class SocialDataViewModel(
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userGender) { validateUserForm() }
         addSource(userRacial) { validateUserForm() }
-        addSource(userSchooling) { validateUserForm() }
         addSource(userIncome) { validateUserForm() }
+    }
+
+    private fun validateUserForm() {
+        val validated = userRacial.value.isNotNullOrNotBlank() &&
+                userIncome.value.isNotNullOrNotBlank() &&
+                userGender.value.isNotNullOrNotBlank()
+
+        isButtonEnabled.value = validated
     }
 
     fun updateUserValues(currentUser: User, communityUsers: ArrayList<User>) {
@@ -48,16 +55,6 @@ class SocialDataViewModel(
         confirmUserSchoolingStatus()
         isEditableAvailable = true
         communityUsers.remove(currentUser)
-    }
-
-    private fun validateUserForm() {
-        val validated = userRacial.value.isNotNullOrNotBlank() &&
-                userSchooling.value.isNotNullOrNotBlank() &&
-                userSchoolingStatus.value.isNotNullOrNotBlank() &&
-                userIncome.value.isNotNullOrNotBlank() &&
-                userGender.value.isNotNullOrNotBlank()
-
-        isButtonEnabled.value = validated
     }
 
     fun confirmUserSchoolingStatus() {

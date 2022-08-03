@@ -37,6 +37,8 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:hint="@string/default_custom_component_select_hint"
                     android:label="@string/user_form_user_gender_label"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
