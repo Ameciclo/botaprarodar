@@ -138,6 +138,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cet_user_phone"
+                    app:textValue="@{viewModel.userBirthday}"
                     app:textCaptured="@{viewModel.userBirthday}"/>
 
                 <app.igormatos.botaprarodar.common.components.CustomSelectText

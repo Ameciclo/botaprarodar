@@ -1,28 +1,20 @@
 package app.igormatos.botaprarodar.common.components
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
 import app.igormatos.botaprarodar.common.biding.setErrorUserDocNumber
-import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.CustomDatePickerBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.android.synthetic.main.custom_edit_text.view.*
-import org.jetbrains.anko.activityManager
-import org.jetbrains.anko.appcompat.v7.Appcompat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -87,10 +79,18 @@ class CustomDatePicker @JvmOverloads constructor(
 
             Locale.setDefault((Locale("pt", "BR")));
 
-            val today = MaterialDatePicker.todayInUtcMilliseconds()
+            var pickerDate = LocalDate.now()
+
+            this.binding.editText.text?.let {
+                val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+                if (it.isNotBlank()) {
+                    pickerDate = LocalDate.from(dtf.parse(it.toString()))
+                }
+            }
 
             val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(today)
+                .setSelection(pickerDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli())
                 .setCalendarConstraints(
                     CalendarConstraints.Builder()
                         .setValidator(DateValidatorPointBackward.now())
@@ -99,6 +99,10 @@ class CustomDatePicker @JvmOverloads constructor(
                 .build()
 
             datePicker.show(supportFragmentManager, "datePicker")
+
+            datePicker.addOnCancelListener {
+                //clearEditTextValue()
+            }
 
             datePicker.addOnNegativeButtonClickListener {
                 clearEditTextValue()
@@ -112,7 +116,7 @@ class CustomDatePicker @JvmOverloads constructor(
                         .format(
                             LocalDateTime.ofInstant(
                                 Instant.ofEpochMilli(ts),
-                                ZoneId.of("UTC"))
+                                ZoneId.of(ZoneOffset.UTC.toString()))
                         )
 
                     setEditTextValue(dateTime)

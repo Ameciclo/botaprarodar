@@ -391,11 +391,13 @@
     <string name="icon_arrow_down_description">Descrição: icone flexa inferior</string>
 
     <!--  Material - values-pt-rBR.xml  -->
-    <string name="mtrl_picker_cancel" tools:override="true">Cancelar</string>
+    <string name="mtrl_picker_cancel" tools:override="true">Limpar</string>
     <string name="mtrl_picker_date_header_title" tools:override="true">Selecionar data</string>
     <string name="mtrl_picker_out_of_range" tools:override="true">Data inválida</string>
     <string name="mtrl_picker_invalid_format_example" tools:override="true">Exemplo: 31/01/1990</string>
     <string name="mtrl_picker_date_header_unselected" tools:override="true">Data selecionada</string>
     <string name="mtrl_picker_invalid_format" tools:override="true">Formato inválido, utilize: dd/mm/aaaa</string>
     <string name="mtrl_picker_text_input_year_abbr" tools:override="true">aa</string>
+    <string name="mtrl_picker_confirm" tools:override="true">Selecionar</string>
+
 </resources>
