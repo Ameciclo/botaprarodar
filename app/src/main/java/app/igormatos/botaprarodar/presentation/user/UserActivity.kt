@@ -78,17 +78,6 @@ class UserActivity : AppCompatActivity() {
         fragment?.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun showDatePickerDialog(v: View) {
-        // Necessário para alterar alguns textos e formatos para pt_BR, porém não foram todos
-        Locale.setDefault(Locale("pt", "BR"))
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
-
-        datePicker.show(supportFragmentManager, "datePicker")
-    }
-
     companion object {
         const val USER_BUNDLE = "user"
         private const val COMMUNITY_USERS_BUNDLE = "communityUsers"

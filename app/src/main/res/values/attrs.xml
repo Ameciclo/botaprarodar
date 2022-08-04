@@ -16,6 +16,11 @@
         <attr name="android:maxLength" />
     </declare-styleable>
 
+    <declare-styleable name="CustomDatePicker">
+        <attr name="android:label"/>
+        <attr name="android:hint"/>
+    </declare-styleable>
+
     <declare-styleable name="CustomEditTextWithButton">
         <attr name="android:label"/>
         <attr name="android:hint"/>
