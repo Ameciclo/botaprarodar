@@ -136,7 +136,7 @@
     <string name="user_form_user_document_picture_front_label">Fotografe a frente do documento</string>
     <string name="user_form_user_document_picture_back_label">Fotografe o verso do documento</string>
 
-    <string name="user_form_user_gender_label">Com qual genêro a pessoa se identifica?</string>
+    <string name="user_form_user_gender_label">Com qual gênero a pessoa se identifica?</string>
 
     <string name="user_form_user_birthday_label">Nascimento</string>
     <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
