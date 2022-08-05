@@ -19,7 +19,6 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
     override val instance = FirebaseDatabase.getInstance()
 
     override val adminsReference = instance.getReference("admins")
-    override val communitiesPreview = instance.getReference("communities_preview")
     override val communities = instance.getReference("communities")
 
     private var communityId: String? = null
@@ -30,11 +29,11 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
     }
 
     override suspend fun addCommunity(community: Community): SimpleResult<Boolean> {
-        val communityKey = communitiesPreview.push().key!!
+        val communityKey = communities.push().key!!
         community.id = communityKey
 
         return try {
-            communitiesPreview.child(communityKey).setValue(community).await()
+            communities.child(communityKey).setValue(community).await()
             SimpleResult.Success(true)
         } catch (storageException: StorageException) {
             SimpleResult.Error(storageException)
@@ -54,7 +53,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
                 val isAdmin = snapshot.value != null
 
                 if (isAdmin) {
-                    communitiesPreview.addListenerForSingleValueEvent(object : ValueEventListener {
+                    communities.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError) {
                             listener.onError(RequestError.DEFAULT)
                         }
@@ -69,7 +68,7 @@ class FirebaseHelperModuleImpl : FirebaseHelperModule {
 
                     })
                 } else {
-                    communitiesPreview.addListenerForSingleValueEvent(object : ValueEventListener {
+                    communities.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError) {
                             listener.onError(RequestError.DEFAULT)
                         }

@@ -6,7 +6,7 @@ data class CommunityRequest (
     @SerializedName("address")
     val address: String?,
     @SerializedName("created_date")
-    val createdDate: Long?,
+    val createdDate: String?,
     @SerializedName("description")
     val description: String?,
     @SerializedName("id")

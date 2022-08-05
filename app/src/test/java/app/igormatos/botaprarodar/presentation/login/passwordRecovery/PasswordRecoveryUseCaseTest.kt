@@ -29,7 +29,7 @@ internal class PasswordRecoveryUseCaseTest {
     fun setup() {
         adminRepository = mockk()
         emailValidator = mockk()
-        useCase = PasswordRecoveryUseCase(emailValidator, adminRepository)
+        useCase = PasswordRecoveryUseCase(adminRepository, emailValidator)
     }
 
     @Test
