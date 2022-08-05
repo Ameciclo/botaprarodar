@@ -13,7 +13,6 @@ class UserFormViewModel(
     private val community: Community,
     private val communityUsers: ArrayList<User>
 ) : ViewModel() {
-    val openUserSocialData = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
     var isEditableAvailable = false
     var user = User()
 
@@ -23,6 +22,7 @@ class UserFormViewModel(
 
     var userBirthday = MutableLiveData("")
     var userTelephone = MutableLiveData("")
+    val openUserSocialData = MutableLiveData<ViewEvent<Triple<User, Boolean, List<String>>>>()
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(userCompleteName) { validateUserForm() }

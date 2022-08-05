@@ -23,7 +23,6 @@ class UserFormViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val stepper = spyk(RegisterUserStepper(StepConfigType.USER_PERSONAl_INFO))
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
 
@@ -31,7 +30,6 @@ class UserFormViewModelTest {
     fun setup() {
         formViewModel = UserFormViewModel(
             community,
-            stepper,
             arrayListOf(validUser))
     }
 
@@ -59,25 +57,17 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when call navigateToNextStep() then the stepperAdapter should be update with the new value`() {
+    fun `when call navigateToNextStep() then the openSocialData value should be update`() {
+        formViewModel.user = validUser
+        formViewModel.isEditableAvailable = false
+
         formViewModel.navigateToNextStep()
 
-        verify { stepper.navigateToNext() }
-
-        assertEquals(formViewModel.stepper.currentStep.value, StepConfigType.USER_SOCIAL_INFO)
-    }
-
-    @Test
-    fun `when call navigateToNextStep() then the openQuiz value should be update`() {
-        val testUser = createTestValidUser()
-        every { stepper.navigateToNext() } answers { formViewModel.user = testUser }
-        formViewModel.navigateToNextStep()
-
-        val openQuiz = formViewModel.openUserSocialData.value
+        val openSocialData = formViewModel.openUserSocialData.value
 
         assertNotNull(formViewModel.openUserSocialData.value)
-        assertEquals(openQuiz?.peekContent()?.first, testUser)
-        assertEquals(openQuiz?.peekContent()?.second, false)
+        assertEquals(openSocialData?.peekContent()?.first, validUser)
+        assertEquals(openSocialData?.peekContent()?.second, false)
     }
 
     @Test
