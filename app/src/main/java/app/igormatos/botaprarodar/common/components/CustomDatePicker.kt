@@ -3,12 +3,10 @@ package app.igormatos.botaprarodar.common.components
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MediatorLiveData
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.biding.setErrorUserCompleteName
-import app.igormatos.botaprarodar.common.biding.setErrorUserDocNumber
 import app.igormatos.botaprarodar.databinding.CustomDatePickerBinding
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -23,6 +21,10 @@ class CustomDatePicker @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
+
+    companion object {
+        private const val DEFAULT_DATE_PICKER_PATTERN = "dd/MM/yyyy"
+    }
 
     private val binding = CustomDatePickerBinding.inflate(
         LayoutInflater.from(context), this, true
@@ -49,87 +51,67 @@ class CustomDatePicker @JvmOverloads constructor(
         binding.editText.setText(value)
     }
 
-    fun clearEditTextValue() {
-        binding.editText.text?.clear()
-    }
+    private fun getSelectedDate(): LocalDate {
 
-    fun validateText(userCompleteName: String?, errorMessage: String) {
-        binding.apply {
-            textLayout.setErrorUserCompleteName(
-                userCompleteName,
-                errorMessage
-            )
+        var pickerDate = LocalDate.now()
+
+        this.binding.editText.text?.let {
+            val dtf = DateTimeFormatter.ofPattern(DEFAULT_DATE_PICKER_PATTERN)
+
+            if (it.isNotBlank()) {
+                pickerDate = LocalDate.from(dtf.parse(it.toString()))
+            }
         }
-    }
 
-    fun validateDocument(docNumberErrorValidationMap: MediatorLiveData<MutableMap<Int, Boolean>>) {
-        binding.textLayout.setErrorUserDocNumber(docNumberErrorValidationMap)
+        return pickerDate
     }
 
     fun setupClick(supportFragmentManager: FragmentManager){
 
         this.editText.isFocusable = false
         this.editText.isFocusableInTouchMode = false
+        this.binding.editText.setOnClickListener(showDatePickerAction(supportFragmentManager))
 
         this.isClickable = true
         this.isFocusable = true
+        this.setOnClickListener(showDatePickerAction(supportFragmentManager))
+    }
 
+    private fun showDatePickerAction(supportFragmentManager: FragmentManager): (View) -> Unit = {
 
-        val action = {
+        Locale.setDefault((Locale("pt", "BR")));
 
-            Locale.setDefault((Locale("pt", "BR")));
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setSelection(getSelectedDate().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli())
+            .setCalendarConstraints(
+                CalendarConstraints.Builder()
+                    .setValidator(DateValidatorPointBackward.now())
+                    .build()
+            ).build()
 
-            var pickerDate = LocalDate.now()
+        datePicker.addOnNegativeButtonClickListener(onDatePickerNegativeButtonClick())
+        datePicker.addOnPositiveButtonClickListener(onDatePickerPositiveButtonClick(datePicker))
 
-            this.binding.editText.text?.let {
-                val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        datePicker.show(supportFragmentManager, "datePicker")
+    }
 
-                if (it.isNotBlank()) {
-                    pickerDate = LocalDate.from(dtf.parse(it.toString()))
-                }
-            }
+    private fun onDatePickerNegativeButtonClick(): (View) -> Unit = {
+        binding.editText.text?.clear()
+    }
 
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(pickerDate.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli())
-                .setCalendarConstraints(
-                    CalendarConstraints.Builder()
-                        .setValidator(DateValidatorPointBackward.now())
-                        .build()
+    private fun onDatePickerPositiveButtonClick(datePicker: MaterialDatePicker<Long>): (selection: Long) -> Unit = {
+
+        datePicker.selection?.let { ts ->
+
+            val dateTime = DateTimeFormatter.ofPattern(DEFAULT_DATE_PICKER_PATTERN)
+                .format(
+                    LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(ts),
+                        ZoneId.of(ZoneOffset.UTC.toString())
+                    )
                 )
-                .build()
 
-            datePicker.show(supportFragmentManager, "datePicker")
-
-            datePicker.addOnCancelListener {
-                //clearEditTextValue()
-            }
-
-            datePicker.addOnNegativeButtonClickListener {
-                clearEditTextValue()
-            }
-
-            datePicker.addOnPositiveButtonClickListener {
-
-                datePicker.selection?.let { ts ->
-
-                    val dateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                        .format(
-                            LocalDateTime.ofInstant(
-                                Instant.ofEpochMilli(ts),
-                                ZoneId.of(ZoneOffset.UTC.toString()))
-                        )
-
-                    setEditTextValue(dateTime)
-                }
-            }
-        }
-
-        this.binding.editText.setOnClickListener {
-            action.invoke()
-        }
-
-        this.setOnClickListener {
-            action.invoke()
+            setEditTextValue(dateTime)
         }
     }
 }

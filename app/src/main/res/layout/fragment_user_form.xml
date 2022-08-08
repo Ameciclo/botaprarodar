@@ -134,12 +134,10 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:hint="@string/user_form_user_birthday_hint"
                     android:label="@string/user_form_user_birthday_label"
-                    app:errorMessage="@{`add_user_invalid_age`}"
                     app:layout_constraintEnd_toStartOf="@+id/cst_user_income"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cet_user_phone"
-                    app:textValue="@{viewModel.userBirthday}"
-                    app:textCaptured="@{viewModel.userBirthday}"/>
+                    app:textValue="@{viewModel.userBirthday}"/>
 
                 <app.igormatos.botaprarodar.common.components.CustomSelectText
                     android:id="@+id/cst_user_income"
