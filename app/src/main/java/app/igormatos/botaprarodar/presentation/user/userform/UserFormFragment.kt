@@ -15,7 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.DialogTipBinding
 import app.igormatos.botaprarodar.databinding.FragmentUserFormBinding
 import app.igormatos.botaprarodar.domain.model.User
@@ -29,6 +28,7 @@ import org.jetbrains.anko.image
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
+import java.util.*
 
 class UserFormFragment : Fragment() {
 
@@ -249,9 +249,10 @@ class UserFormFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.cetUserBirthday.addMask(
-            EditTextFormatMask.FORMAT_DATE
-        )
+
+        activity?.let {
+            binding.cetUserBirthday.setupClick(it.supportFragmentManager)
+        }
 
         binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
 
