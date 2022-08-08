@@ -66,18 +66,18 @@ class CustomDatePicker @JvmOverloads constructor(
         return pickerDate
     }
 
-    fun setupClick(supportFragmentManager: FragmentManager){
+    fun setupClick(supportFragmentManager: FragmentManager, onValueChanged: (date: String) -> Unit){
 
         this.editText.isFocusable = false
         this.editText.isFocusableInTouchMode = false
-        this.binding.editText.setOnClickListener(showDatePickerAction(supportFragmentManager))
+        this.binding.editText.setOnClickListener(showDatePickerAction(supportFragmentManager, onValueChanged))
 
         this.isClickable = true
         this.isFocusable = true
-        this.setOnClickListener(showDatePickerAction(supportFragmentManager))
+        this.setOnClickListener(showDatePickerAction(supportFragmentManager, onValueChanged))
     }
 
-    private fun showDatePickerAction(supportFragmentManager: FragmentManager): (View) -> Unit = {
+    private fun showDatePickerAction(supportFragmentManager: FragmentManager, onValueChanged: (date: String) -> Unit): (View) -> Unit = {
 
         Locale.setDefault((Locale("pt", "BR")));
 
@@ -90,7 +90,7 @@ class CustomDatePicker @JvmOverloads constructor(
             ).build()
 
         datePicker.addOnNegativeButtonClickListener(onDatePickerNegativeButtonClick())
-        datePicker.addOnPositiveButtonClickListener(onDatePickerPositiveButtonClick(datePicker))
+        datePicker.addOnPositiveButtonClickListener(onDatePickerPositiveButtonClick(datePicker, onValueChanged))
 
         datePicker.show(supportFragmentManager, "datePicker")
     }
@@ -99,7 +99,7 @@ class CustomDatePicker @JvmOverloads constructor(
         binding.editText.text?.clear()
     }
 
-    private fun onDatePickerPositiveButtonClick(datePicker: MaterialDatePicker<Long>): (selection: Long) -> Unit = {
+    private fun onDatePickerPositiveButtonClick(datePicker: MaterialDatePicker<Long>, onValueChanged: (date: String) -> Unit): (selection: Long) -> Unit = {
 
         datePicker.selection?.let { ts ->
 
@@ -112,6 +112,7 @@ class CustomDatePicker @JvmOverloads constructor(
                 )
 
             setEditTextValue(dateTime)
+            onValueChanged.invoke(dateTime)
         }
     }
 }
