@@ -250,8 +250,10 @@ class UserFormFragment : Fragment() {
 
     private fun setupListeners() {
 
-        activity?.let {
-            binding.cetUserBirthday.setupClick(it.supportFragmentManager)
+        activity?.let { it ->
+            binding.cetUserBirthday.setupClick(it.supportFragmentManager) { date:String ->
+                binding.viewModel?.userBirthday?.value = date
+            }
         }
 
         binding.cetUserPhone.addEditTextListener(PhoneNumberFormattingTextWatcher("BR"))
