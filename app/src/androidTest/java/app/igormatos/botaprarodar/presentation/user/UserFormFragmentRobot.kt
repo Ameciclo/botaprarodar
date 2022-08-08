@@ -1,6 +1,5 @@
 package app.igormatos.botaprarodar.presentation.user
 
-import androidx.test.espresso.Espresso.pressBack
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
@@ -28,17 +27,5 @@ class UserFormFragmentRobot : BaseRobot() {
 
     fun checkPhoneNumberMaxLength() {
         checkViewHasLength(R.string.user_form_user_phone_hint, R.integer.max_size_user_phone_number)
-    }
-
-    fun clickOptionOnUserFormFragmentDialog(atPosition: Int){
-        clickAtPositionInList(atPosition)
-    }
-
-    fun clickPositiveButton() {
-        clickButtonByText(context.resources.getString(R.string.ok))
-    }
-
-    fun clickBackButton() {
-        pressBack()
     }
 }

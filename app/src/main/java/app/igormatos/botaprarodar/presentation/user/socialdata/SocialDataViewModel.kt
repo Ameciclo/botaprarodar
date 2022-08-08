@@ -180,7 +180,5 @@ class SocialDataViewModel(
 
         }
     }
-
-
 }
 

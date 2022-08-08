@@ -4,51 +4,42 @@ import androidx.test.espresso.Espresso.pressBack
 import app.igormatos.botaprarodar.BaseRobot
 import app.igormatos.botaprarodar.R
 
-//fun userFormFragment(executeFun: UserFormFragmentRobot.() -> Unit) =
-//    UserFormFragmentRobot().apply { executeFun() }
+fun socialDataFragment(executeFun: SocialDataFragmentRobot.() -> Unit) =
+    SocialDataFragmentRobot().apply { executeFun() }
 
 class SocialDataFragmentRobot : BaseRobot() {
 
-//    infix fun verify(executeFun: UserFormFragmentRobot.() -> Unit) {
-//        executeFun()
-//    }
-
-    fun clickProfileImage() {
-        clickAndScrollView(R.id.perfilPictureCpp)
+    infix fun verify(executeFun: SocialDataFragmentRobot.() -> Unit) {
+        executeFun()
     }
 
-    fun clickConfirmDialog() {
-        val buttonText = context.resources.getString(R.string.camera_dialog_positive_button_text)
-        clickButtonByText(buttonText)
+    fun clickRacialEditText() {
+        clickView(R.id.userRacialCst)
     }
-//
-//    fun clickRacialEditText() {
-//        clickView(R.id.cst_user_racial)
-//    }
-//
-//    fun clickGenderEditText() {
-//        clickView(R.id.cst_user_gender)
-//    }
-//
-//    fun clickIncomeEditText() {
-//        clickAndScrollView(R.id.cst_user_income)
-//    }
-//
-//    fun clickSchoolingEditText() {
-//        clickAndScrollView(R.id.cst_user_schooling)
-//    }
-//
-//    fun clickSchoolingStatusComplete() {
-//        clickAndScrollView(R.id.schoolingStatusComplete)
-//    }
-//
-//    fun clickSchoolingStatusIncomplete() {
-//        clickAndScrollView(R.id.schoolingStatusIncomplete)
-//    }
-//
-//    fun clickSchoolingStatusStudying() {
-//        clickAndScrollView(R.id.schoolingStatusStudying)
-//    }
+
+    fun clickGenderEditText() {
+        clickView(R.id.userGenderCst)
+    }
+
+    fun clickIncomeEditText() {
+        clickAndScrollView(R.id.userIncomeCst)
+    }
+
+    fun clickSchoolingEditText() {
+        clickAndScrollView(R.id.userSchoolingCst)
+    }
+
+    fun clickSchoolingStatusComplete() {
+        clickAndScrollView(R.id.schoolingStatusComplete)
+    }
+
+    fun clickSchoolingStatusIncomplete() {
+        clickAndScrollView(R.id.schoolingStatusIncomplete)
+    }
+
+    fun clickSchoolingStatusStudying() {
+        clickAndScrollView(R.id.schoolingStatusStudying)
+    }
 
     fun verifySchoolingDialogIsShowing() {
         checkMessage(context.resources.getString(R.string.add_user_schooling))
@@ -74,7 +65,7 @@ class SocialDataFragmentRobot : BaseRobot() {
         checkMessage(context.resources.getString(R.string.title_dialog_delete_image))
     }
 
-    fun clickOptionOnSchoolingDialog(atPosition: Int){
+    fun clickOptionOnSchoolingDialog(atPosition: Int) {
         clickAtPositionInList(atPosition)
     }
 
@@ -107,6 +98,7 @@ class SocialDataFragmentRobot : BaseRobot() {
             checkMessage(option)
         }
     }
+
     fun verifyRacialOptionIsShowing() {
         val options = context.resources.getStringArray(R.array.racial_options)
         for (option in options) {
@@ -114,7 +106,7 @@ class SocialDataFragmentRobot : BaseRobot() {
         }
     }
 
-    fun clickOptionOnUserFormFragmentDialog(atPosition: Int){
+    fun clickOptionOnSocialDataFragmentDialog(atPosition: Int) {
         clickAtPositionInList(atPosition)
     }
 
@@ -126,37 +118,37 @@ class SocialDataFragmentRobot : BaseRobot() {
         pressBack()
     }
 
-    fun verifyGenderEditTextIsEqualSelected(atPosition:Int){
+    fun verifyGenderEditTextIsEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.gender_options)
         checkMessage(options[atPosition])
     }
 
-    fun verifySchoolingEditTextIsEqualSelected(atPosition:Int){
+    fun verifySchoolingEditTextIsEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.schooling_options)
         checkMessage(options[atPosition])
     }
 
-    fun verifyIncomeEditTextIsEqualSelected(atPosition:Int){
+    fun verifyIncomeEditTextIsEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.income_options)
         checkMessage(options[atPosition])
     }
 
-    fun verifyRacialEditTextIsEqualSelected(atPosition:Int){
+    fun verifyRacialEditTextIsEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.racial_options)
         checkMessage(options[atPosition])
     }
 
-    fun verifySchoolingEditTextNotEqualSelected(atPosition:Int) {
+    fun verifySchoolingEditTextNotEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.schooling_options)
         checkMessageIsNotDisplayed(options[atPosition])
     }
 
-    fun verifyIncomeEditTextIsNotEqualSelected(atPosition:Int){
+    fun verifyIncomeEditTextIsNotEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.income_options)
         checkMessageIsNotDisplayed(options[atPosition])
     }
 
-    fun verifyRacialEditTextIsNotEqualSelected(atPosition:Int){
+    fun verifyRacialEditTextIsNotEqualSelected(atPosition: Int) {
         val options = context.resources.getStringArray(R.array.racial_options)
         checkMessageIsNotDisplayed(options[atPosition])
     }

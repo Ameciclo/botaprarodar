@@ -10,6 +10,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.user.socialdata.socialDataFragment
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormFragment
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import io.mockk.mockk
