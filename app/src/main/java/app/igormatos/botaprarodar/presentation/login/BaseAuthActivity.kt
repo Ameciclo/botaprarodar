@@ -69,11 +69,38 @@ abstract class BaseAuthActivity : AppCompatActivity() {
         )
     }
 
+    protected fun showAlertConfirmDialog(
+        @StringRes title: Int,
+        @StringRes message: Int,
+        onConfirm: (() -> Unit)? = null,
+        onCancel: (() -> Unit)? = null
+
+    ) {
+        showConfirmDialog(
+            R.drawable.ic_warning,
+            title,
+            message,
+            onConfirm,
+            onCancel
+        )
+    }
+
     private fun showConfirmDialog(
         @DrawableRes icon: Int,
         @StringRes title: Int,
         @StringRes message: Int,
         click: (() -> Unit)? = null
+
+    ) {
+        showConfirmDialog(icon, title, message, click, null)
+    }
+
+    private fun showConfirmDialog(
+        @DrawableRes icon: Int,
+        @StringRes title: Int,
+        @StringRes message: Int,
+        onConfirm: (() -> Unit)? = null,
+        onCancel: (() -> Unit)? = null
 
     ) {
         val dialogModel = CustomDialogModel(
@@ -82,7 +109,11 @@ abstract class BaseAuthActivity : AppCompatActivity() {
             message = getString(message),
             primaryButtonText = getString(R.string.ok),
             primaryButtonListener = {
-                click?.invoke()
+                onConfirm?.invoke()
+            },
+            secondaryButtonText = if (onCancel != null) getString(R.string.cancel) else null,
+            secondaryButtonListener = {
+                onCancel?.invoke()
             }
         )
 
