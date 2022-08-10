@@ -1,116 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-                name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel" />
+            name="viewModel"
+            type="app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
             android:id="@+id/scrollUserQuiz"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonActionsGroup">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
                 android:padding="@dimen/padding_medium">
 
-            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
-                android:id="@+id/userQuizAlreadyBicycleUserQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:inputType="number"
-                android:label="@string/user_quiz_already_bicycle_user_question"
-                android:hint="@string/user_quiz_how_much_time_hint"
-                app:textValue="@={viewModel.alreadyUseBPROpenQuestion}"
-                app:questionLabel="@string/user_quiz_how_much_time_question"
-                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
-                app:isNeedQuestion="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <app.igormatos.botaprarodar.common.components.CustomEditText
-                android:id="@+id/userQuizMotivationOpenQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/user_quiz_motivation_question"
-                android:inputType="text"
-                android:label="@string/user_quiz_motivation_question_label"
-                app:errorMessage="@{`add_user_quiz_invalid_information`}"
-                app:textCaptured="@{viewModel.motivationOpenQuestion}"
-                app:textValue="@={viewModel.motivationOpenQuestion}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion" />
-
-            <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
-                android:id="@+id/userQuizAccidentVictimQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:inputType="number"
-                android:label="@string/user_quiz_accident_victim_question"
-                app:textValue="@={viewModel.alreadyUseBPROpenQuestion}"
-                app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}"
-                app:isNeedQuestion="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestion" />
-
-            <app.igormatos.botaprarodar.common.components.CustomEditText
-                android:id="@+id/userQuizProblemsOnWayOpenQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/user_quiz_problems_on_way_question"
-                android:inputType="text"
-                android:label="@string/user_quiz_problems_on_way_question_label"
-                app:errorMessage="@{`add_user_quiz_invalid_information`}"
-                app:textCaptured="@{viewModel.problemsOnWayOpenQuestion}"
-                app:textValue="@={viewModel.problemsOnWayOpenQuestion}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userQuizAccidentVictimQuestion" />
-
-            <app.igormatos.botaprarodar.common.components.CustomEditText
-                android:id="@+id/userQuizTimeOnWayOpenQuestion"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:hint="@string/user_quiz_time_on_way_question"
-                android:inputType="number"
-                android:label="@string/user_quiz_time_on_way_question_label"
-                app:errorMessage="@{`add_user_quiz_invalid_information`}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userQuizProblemsOnWayOpenQuestion"
-                app:textCaptured="@{viewModel.timeOnWayOpenQuestion}"
-                app:textValue="@={viewModel.timeOnWayOpenQuestion}"/>
-
-            <Button
-                    android:id="@+id/saveButton"
+                <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
+                    android:id="@+id/userQuizAlreadyBicycleUserQuestion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_big"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:enabled="@{viewModel.isButtonEnabled}"
-                    android:onClick="@{() -> viewModel.onSaveClick()}"
-                    android:padding="@dimen/padding_medium"
-                    android:textStyle="bold"
-                    android:text="@string/user_form_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:hint="@string/user_quiz_how_much_time_hint"
+                    android:inputType="number"
+                    android:label="@string/user_quiz_already_bicycle_user_question"
+                    app:isNeedQuestion="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:questionLabel="@string/user_quiz_how_much_time_question"
+                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
+                    app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/userQuizMotivationOpenQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:hint="@string/user_quiz_motivation_question"
+                    android:inputType="text"
+                    android:label="@string/user_quiz_motivation_question_label"
+                    app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion"
+                    app:textCaptured="@{viewModel.motivationOpenQuestion}"
+                    app:textValue="@={viewModel.motivationOpenQuestion}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/userQuizTimeOnWayOpenQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:hint="@string/user_quiz_time_on_way_question"
+                    android:inputType="number"
+                    android:label="@string/user_quiz_time_on_way_question_label"
+                    app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestion"
+                    app:textCaptured="@{viewModel.timeOnWayOpenQuestion}"
+                    app:textValue="@={viewModel.timeOnWayOpenQuestion}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
+                    android:id="@+id/userQuizAccidentVictimQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:inputType="number"
+                    android:label="@string/user_quiz_accident_victim_question"
+                    app:isNeedQuestion="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userQuizTimeOnWayOpenQuestion"
-                    app:setUserFormButtonText="@{viewModel.editMode}" />
+                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}"
+                    app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
+
+                <app.igormatos.botaprarodar.common.components.CustomEditText
+                    android:id="@+id/userQuizProblemsOnWayOpenQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:hint="@string/user_quiz_problems_on_way_question"
+                    android:inputType="text"
+                    android:label="@string/user_quiz_problems_on_way_question_label"
+                    app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizAccidentVictimQuestion"
+                    app:textCaptured="@{viewModel.problemsOnWayOpenQuestion}"
+                    app:textValue="@={viewModel.problemsOnWayOpenQuestion}" />
+
+              
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttonActionsGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_large"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="@{() -> viewModel.onSaveClick()}"
+                android:text="@string/user_form_button"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setUserFormButtonText="@{viewModel.editMode}" />
+
+            <Button
+                android:id="@+id/backButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/action_back"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/saveButton"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
