@@ -2,21 +2,17 @@ package app.igormatos.botaprarodar.presentation.user.userform
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
-import app.igormatos.botaprarodar.presentation.user.RegisterUserStepper
-import app.igormatos.botaprarodar.utils.*
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import app.igormatos.botaprarodar.utils.validUser
+import io.mockk.*
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.jupiter.api.Assertions
 
 class UserFormViewModelTest {
 
@@ -26,11 +22,17 @@ class UserFormViewModelTest {
     private val community = mockk<Community>(relaxed = true)
     private lateinit var formViewModel: UserFormViewModel
 
+    private val observerUserResultMock = mockk<Observer<Boolean>>(relaxed = true)
+
     @Before
     fun setup() {
         formViewModel = UserFormViewModel(
             community,
-            arrayListOf(validUser))
+            arrayListOf(validUser)
+        )
+
+        formViewModel.isButtonEnabled.observeForever(observerUserResultMock)
+
     }
 
     @Test
@@ -72,17 +74,15 @@ class UserFormViewModelTest {
 
     @Test
     fun `when user is valid then button should be enabled`() {
-        val testValidUser = createTestValidUser()
-        createUserValues(testValidUser)
-        observeValidationResultFields()
 
-        doRegisterButtonAssertions(true)
-    }
+        val slotButtonEnabled = slot<Boolean>()
 
-    private fun createTestValidUser(): User {
-        val testValidUser = validUser.copy()
-        testValidUser.docNumber = 11111111111
-        return testValidUser
+        every { observerUserResultMock.onChanged(capture(slotButtonEnabled)) } just Runs
+
+        createUserValues(validUser.copy())
+
+        assertTrue(slotButtonEnabled.captured)
+
     }
 
     private fun createUserValues(testValidUser: User) {
@@ -92,19 +92,6 @@ class UserFormViewModelTest {
             userImageProfile.value = testValidUser.profilePicture.orEmpty()
             userBirthday.value = testValidUser.birthday.orEmpty()
             userTelephone.value = testValidUser.telephone.orEmpty()
-        }
-    }
-
-    private fun observeValidationResultFields() {
-        val observerUserResultMock = mockk<Observer<Boolean>>(relaxed = true)
-        formViewModel.isButtonEnabled.observeForever(observerUserResultMock)
-    }
-
-    private fun doRegisterButtonAssertions(enableStateExpected: Boolean) {
-        val isButtonEnabled = formViewModel.isButtonEnabled.value
-        assertNotNull(isButtonEnabled)
-        if (isButtonEnabled != null) {
-            assertThat(isButtonEnabled, equalTo(enableStateExpected))
         }
     }
 }
