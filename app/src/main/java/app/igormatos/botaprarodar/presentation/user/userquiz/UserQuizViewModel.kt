@@ -39,8 +39,6 @@ class UserQuizViewModel(
     val lgpd: LiveData<Boolean> = _lgpd
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(alreadyUseBPR) { validateQuestions() }
-        addSource(alreadyUseBPROpenQuestion) { validateQuestions() }
         addSource(motivationOpenQuestion) { validateQuestions() }
         addSource(alreadyAccidentVictim) { validateQuestions() }
         addSource(problemsOnWayOpenQuestion) { validateQuestions() }
@@ -122,7 +120,7 @@ class UserQuizViewModel(
 
     private fun validateQuestions() {
         isButtonEnabled.value =
-                    isQuestionValid(alreadyUseBPR, alreadyUseBPROpenQuestion) &&
+//                    isQuestionValid(alreadyUseBPR, alreadyUseBPROpenQuestion) &&
                     motivationOpenQuestion.isNotNullOrBlank() &&
                     alreadyAccidentVictim.isNotNull() &&
                     problemsOnWayOpenQuestion.isNotNullOrBlank() &&

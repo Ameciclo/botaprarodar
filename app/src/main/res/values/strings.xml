@@ -303,8 +303,10 @@
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?*</string>
     <string name="user_quiz_problems_on_way_question_label">Quais os problemas que você mais percebe durante o seu trajeto?*</string>
     <string name="user_quiz_problems_on_way_question">Ex: Falta de ciclovia</string>
-    <string name="user_quiz_time_on_way_question_label">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?</string>
+    <string name="user_quiz_time_on_way_question_label">Quanto tempo você leva no trajeto mais frequente/comum que realiza de bicicleta?*</string>
     <string name="user_quiz_time_on_way_question">00:00</string>
+    <string name="user_quiz_motivation_label">USO E MOTIVAÇÃO</string>
+    <string name="user_quiz_difficulty_problems_label">DIFICULDADES E PROBLEMAS</string>
 
     <!-- Trips Fragment -->
     <string name="activities_historic">Histórico de atividades</string>

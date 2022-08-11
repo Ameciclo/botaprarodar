@@ -9,6 +9,7 @@
     <dimen name="margin_large">24dp</dimen>
     <dimen name="margin_big">32dp</dimen>
     <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_40">40dp</dimen>
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_14">14dp</dimen>
 
@@ -25,6 +26,7 @@
 
     <dimen name="default_view_margin">8dp</dimen>
 
+    <dimen name="text_size_10">10sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="text_size_16">16sp</dimen>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -28,6 +29,18 @@
                 android:animateLayoutChanges="true"
                 android:padding="@dimen/padding_medium">
 
+                <TextView
+                    android:id="@+id/userQuizMotivationLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/user_quiz_motivation_label"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
                     android:id="@+id/userQuizAlreadyBicycleUserQuestion"
                     android:layout_width="0dp"
@@ -39,7 +52,7 @@
                     app:isNeedQuestion="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivationLabel"
                     app:questionLabel="@string/user_quiz_how_much_time_question"
                     app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
                     app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
@@ -74,6 +87,18 @@
                     app:textCaptured="@{viewModel.timeOnWayOpenQuestion}"
                     app:textValue="@={viewModel.timeOnWayOpenQuestion}" />
 
+                <TextView
+                    android:id="@+id/userQuizDifficultyProblemsLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_40"
+                    android:text="@string/user_quiz_difficulty_problems_label"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizTimeOnWayOpenQuestion" />
+
                 <app.igormatos.botaprarodar.common.components.CustomEditTextWithButton
                     android:id="@+id/userQuizAccidentVictimQuestion"
                     android:layout_width="0dp"
@@ -84,9 +109,8 @@
                     app:isNeedQuestion="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizTimeOnWayOpenQuestion"
-                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}"
-                    app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
+                    app:layout_constraintTop_toBottomOf="@id/userQuizDifficultyProblemsLabel"
+                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyAccidentVictim}" />
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
                     android:id="@+id/userQuizProblemsOnWayOpenQuestion"
@@ -125,11 +149,12 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:onClick="@{() -> viewModel.onSaveClick()}"
                 android:text="@string/user_form_button"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16"
                 android:textStyle="bold"
+                android:onClick="@{() -> viewModel.onSaveClick()}"
+                android:enabled="@{viewModel.isButtonEnabled}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
