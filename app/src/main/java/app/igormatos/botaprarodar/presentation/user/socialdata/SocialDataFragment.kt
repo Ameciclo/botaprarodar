@@ -68,7 +68,9 @@ class SocialDataFragment : Fragment() {
 
     private fun setupBackButtonListener() {
         binding.backButton.setOnClickListener {
-            (activity as UserActivity).navigateToPrevious()
+            activity?.let {
+                (it as UserActivity).navigateToPrevious()
+            }
             navController.popBackStack()
         }
     }
@@ -106,7 +108,9 @@ class SocialDataFragment : Fragment() {
                         editMode,
                         deleteImagePaths.toTypedArray()
                     )
-                (activity as UserActivity).navigateToNext()
+                activity?.let { userActivity->
+                    (userActivity as UserActivity).navigateToNext()
+                }
                 navController.navigate(direction)
             }
         }

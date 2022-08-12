@@ -35,8 +35,8 @@ class UserQuizViewModel(
     private val _status = MutableLiveData<ViewModelStatus<String>>()
     val status: LiveData<ViewModelStatus<String>> = _status
 
-    private val _lgpd = MutableLiveData<Boolean>()
-    val lgpd: LiveData<Boolean> = _lgpd
+    private val _isLgpdAgreement = MutableLiveData<Boolean>()
+    val isLgpdAgreement: LiveData<Boolean> = _isLgpdAgreement
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
         addSource(motivationOpenQuestion) { validateQuestions() }
@@ -75,7 +75,7 @@ class UserQuizViewModel(
     )
 
     fun onSaveClick() {
-        _lgpd.value = true
+        _isLgpdAgreement.value = true
     }
 
     fun registerUser() {
@@ -120,20 +120,10 @@ class UserQuizViewModel(
 
     private fun validateQuestions() {
         isButtonEnabled.value =
-//                    isQuestionValid(alreadyUseBPR, alreadyUseBPROpenQuestion) &&
                     motivationOpenQuestion.isNotNullOrBlank() &&
                     alreadyAccidentVictim.isNotNull() &&
                     problemsOnWayOpenQuestion.isNotNullOrBlank() &&
                     timeOnWayOpenQuestion.isNotNullOrBlank()
-    }
-
-    private fun isQuestionValid(
-        yesNoQuestion: MutableLiveData<Boolean>,
-        openQuestion: MutableLiveData<String>
-    ) = when (yesNoQuestion.value) {
-        null -> false
-        true -> !openQuestion.value.isNullOrBlank()
-        else -> true
     }
 
     companion object {

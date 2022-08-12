@@ -69,7 +69,7 @@ class UserQuizFragment : Fragment() {
     }
 
     private fun setupLgpdObserver() {
-        viewModel.lgpd.observe(viewLifecycleOwner, Observer {
+        viewModel.isLgpdAgreement.observe(viewLifecycleOwner, Observer {
             if (viewModel.editMode) {
                 viewModel.registerUser()
             } else if (it) {

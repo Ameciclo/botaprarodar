@@ -130,7 +130,9 @@ class UserFormFragment : Fragment() {
                         deleteImagePaths.toTypedArray(),
                         getCommunityUsers().toTypedArray(),
                     )
-                (activity as UserActivity).navigateToNext()
+                activity?.let { userActivity ->
+                    (userActivity as UserActivity).navigateToNext()
+                }
                 navController.navigate(direction)
             }
         }
