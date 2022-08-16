@@ -23,11 +23,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun BikeList(bikes: List<Bike>, handleClick: (Bike) -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.padding(
+            bottom = dimensionResource(id = R.dimen.padding_xxlarge_plus
+            )
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)),
+            modifier = Modifier.padding(
+                vertical = dimensionResource(id = R.dimen.padding_medium
+                )
+            ),
             text = stringResource(id = R.string.select_bike)
         )
 
