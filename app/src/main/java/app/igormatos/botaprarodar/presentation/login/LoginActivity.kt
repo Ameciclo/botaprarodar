@@ -118,6 +118,10 @@ class LoginActivity : BaseAuthActivity() {
         val intent = SelectCommunityActivity.getStartIntent(this)
         intent.putExtra("adminId", admin.id)
         intent.putExtra("adminEmail", admin.email)
+
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TOP
+
         startActivity(intent)
         finish()
     }

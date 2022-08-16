@@ -23,6 +23,7 @@
     <string name="login_error">Falha no login</string>
     <string name="admin_registration_error">Falha ao criar usuário administrador</string>
     <string name="add_community">Adicionar comunidade</string>
+    <string name="login_return_confirmation">Essa ação irá deslogar você. Clique OK para confirmar?</string>
     <string name="login_no_communities_allowed">Solicite o vínculo com alguma comunidade a Ameciclo</string>
     <string name="login_load_communities_error">Erro ao obter comunidades</string>
     <string name="login_retry_load_community">Tentar novamente</string>
@@ -309,6 +310,7 @@
     <string name="title_resend_email">Reenvio de email</string>
     <string name="message_resend_email">Reenviado email com sucesso</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Password Revocery Activity -->
     <string name="enter_email_to_recover_password">Insira o e-mail associado à sua conta e iremos enviar um link para recuperar a sua senha.</string>
