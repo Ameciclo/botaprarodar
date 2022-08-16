@@ -51,6 +51,19 @@ class SelectCommunityActivity : BaseAuthActivity() {
         viewModel.loadCommunities()
     }
 
+    override fun onBackPressed() {
+
+        showAlertConfirmDialog(
+            title = R.string.warning,
+            message = R.string.login_return_confirmation,
+            onConfirm = {
+                viewModel.forceUserLogout()
+                navigateToLoginActivity()
+            },
+            onCancel = {}
+        )
+    }
+
     private fun setupAdapter() {
         chooseCommunityAdapter = CommunityAdapter(arrayListOf()) { community ->
             clickCommunity(community)
