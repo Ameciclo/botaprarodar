@@ -97,15 +97,18 @@ class UserQuizFragment : Fragment() {
 
     private fun onSuccess() {
         loadingDialog.dismiss()
-        val intent = Intent().putExtra(
-            "isEditModeAvailable",
-            viewModel.editMode
-        )
+        val intent = Intent().putExtra("isEditModeAvailable", viewModel.editMode)
         activity?.let {
             (it as UserActivity).navigateToNext()
         }
         activity?.setResult(RESULT_OK, intent)
-        activity?.finish()
+        navigateToUserSuccessfullyRegistered()
+    }
+
+    private fun navigateToUserSuccessfullyRegistered() {
+        val direction =
+            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment()
+        navController.navigate(direction)
     }
 
     private fun onLoading() {

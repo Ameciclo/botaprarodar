@@ -74,7 +74,12 @@
         <argument
             android:name="deleteImagePaths"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_userQuizFragment_to_userSuccessfullyRegisteredFragment"
+            app:destination="@id/userSuccessfullyRegisteredFragment" />
     </fragment>
-
-
+    <fragment
+        android:id="@+id/userSuccessfullyRegisteredFragment"
+        android:name="app.igormatos.botaprarodar.presentation.user.UserSuccessfullyRegisteredFragment"
+        android:label="UserSuccessfullyRegisteredFragment" />
 </navigation>

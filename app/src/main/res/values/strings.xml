@@ -308,6 +308,13 @@
     <string name="user_quiz_motivation_label">USO E MOTIVAÇÃO</string>
     <string name="user_quiz_difficulty_problems_label">DIFICULDADES E PROBLEMAS</string>
 
+    <!-- User Successfully Registered -->
+    <string name="user_successfully_lend_label">Emprestar</string>
+    <string name="user_successfully_go_home_label">Ir par o início</string>
+    <string name="user_successfully_registered_label">Cadastro realizado\ncom sucesso!</string>
+    <string name="user_successfully_lend_bicycle">Agora você já pode emprestar uma das\nbicicletas disponíveis para esta pessoa!</string>
+
+
     <!-- Trips Fragment -->
     <string name="activities_historic">Histórico de atividades</string>
     <string name="trip_withdraw">Empréstimo</string>
