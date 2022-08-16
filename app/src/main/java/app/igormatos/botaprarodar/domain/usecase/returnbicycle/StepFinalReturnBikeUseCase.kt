@@ -53,11 +53,12 @@ class StepFinalReturnBikeUseCase(
         devolutionDate: String,
         quiz: Quiz
     ): Devolution {
+        val lastWithdraw = bikeHolder.getLastWithdraw()
         return Devolution(
             id = "-" + generateRandomAlphanumeric(),
-            withdrawId = bikeHolder.getLastWithdraw()?.id.orEmpty(),
+            withdrawId = lastWithdraw?.id.orEmpty(),
             date = devolutionDate,
-            user = bikeHolder.getLastWithdraw()?.user,
+            user = lastWithdraw?.user,
             quiz = quiz
         )
     }

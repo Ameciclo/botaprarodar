@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.presentation.user
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,7 +15,9 @@ import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
 
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
 import app.igormatos.botaprarodar.domain.model.User
+import com.google.android.material.datepicker.MaterialDatePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class UserActivity : AppCompatActivity() {
 

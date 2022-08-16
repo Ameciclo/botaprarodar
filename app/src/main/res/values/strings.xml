@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">Bota pra Rodar</string>
     <string name="title_home">Home</string>
@@ -23,6 +23,7 @@
     <string name="login_error">Falha no login</string>
     <string name="admin_registration_error">Falha ao criar usuário administrador</string>
     <string name="add_community">Adicionar comunidade</string>
+    <string name="login_return_confirmation">Essa ação irá deslogar você. Clique OK para confirmar?</string>
     <string name="login_no_communities_allowed">Solicite o vínculo com alguma comunidade a Ameciclo</string>
     <string name="login_load_communities_error">Erro ao obter comunidades</string>
     <string name="login_retry_load_community">Tentar novamente</string>
@@ -327,6 +328,7 @@
     <string name="title_resend_email">Reenvio de email</string>
     <string name="message_resend_email">Reenviado email com sucesso</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Password Revocery Activity -->
     <string name="enter_email_to_recover_password">Insira o e-mail associado à sua conta e iremos enviar um link para recuperar a sua senha.</string>
@@ -407,5 +409,16 @@
     <string name="topbar_back_button_text">VOLTAR</string>
     <string name="return_bicycle_quiz_page_answer_quiz">Responda ao questionário</string>
     <string name="icon_arrow_down_description">Descrição: icone flexa inferior</string>
+
+    <!--  Material - values-pt-rBR.xml  -->
+    <string name="mtrl_picker_cancel" tools:override="true">Limpar</string>
+    <string name="mtrl_picker_date_header_title" tools:override="true">Selecionar data</string>
+    <string name="mtrl_picker_out_of_range" tools:override="true">Data inválida</string>
+    <string name="mtrl_picker_invalid_format_example" tools:override="true">Exemplo: 31/01/1990</string>
+    <string name="mtrl_picker_date_header_unselected" tools:override="true">Data selecionada</string>
+    <string name="mtrl_picker_invalid_format" tools:override="true">Formato inválido, utilize: dd/mm/aaaa</string>
+    <string name="mtrl_picker_text_input_year_abbr" tools:override="true">aa</string>
+    <string name="mtrl_picker_confirm" tools:override="true">Selecionar</string>
+
     <string name="required">*Obrigatório</string>
 </resources>

@@ -83,15 +83,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_medium"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:hint="@string/user_form_user_birthday_hint"
-                    android:inputType="number"
                     android:label="@string/user_form_user_birthday_label"
-                    app:errorMessage="@{`add_user_invalid_age`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/userFormGuideline"
                     app:layout_constraintTop_toBottomOf="@id/userAdressCet"
-                    app:textCaptured="@{viewModel.userBirthday}"
                     app:textValue="@={viewModel.userBirthday}" />
 
                 <app.igormatos.botaprarodar.common.components.CustomPicturePick
