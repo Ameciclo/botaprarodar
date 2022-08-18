@@ -32,7 +32,7 @@ import java.util.*
 fun CardCyclist(
     user: User,
     bikeLastWithdraw: String = "",
-    handleClick: (User) -> Unit
+    handleClick: ((User) -> Unit)? = null
 ) {
     fun getProfilePicture(): Any {
         var profilePicture: Any = R.drawable.default_user_avatar_picture
@@ -50,7 +50,9 @@ fun CardCyclist(
         modifier = Modifier
             .height(92.dp)
             .fillMaxWidth()
-            .clickable { handleClick(user) },
+            .clickable ( enabled = handleClick != null,
+                onClick = { if (handleClick != null) { handleClick(user) } }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Column {
