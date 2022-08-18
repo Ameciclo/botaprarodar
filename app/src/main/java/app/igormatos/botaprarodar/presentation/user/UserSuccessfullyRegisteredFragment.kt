@@ -2,14 +2,12 @@ package app.igormatos.botaprarodar.presentation.user
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import app.igormatos.botaprarodar.databinding.FragmentUserSuccessfullyRegisteredBinding
-import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepperActivity
 
 class UserSuccessfullyRegisteredFragment : Fragment() {
 
@@ -37,7 +35,7 @@ class UserSuccessfullyRegisteredFragment : Fragment() {
 
     private fun setupLendButtonListener() {
         binding.lendButton.setOnClickListener {
-            context?.startActivity(Intent(context, WithdrawStepper::class.java))
+            context?.startActivity(Intent(context, WithdrawStepperActivity::class.java))
             activity?.finish()
         }
     }

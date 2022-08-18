@@ -45,7 +45,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class WithdrawStepper : ComponentActivity() {
+class WithdrawStepperActivity : ComponentActivity() {
     private val viewModel: WithdrawViewModel by viewModel()
     lateinit var withdrawNavController: NavHostController
     private val loadingDialog: AlertDialog by lazy {
@@ -205,7 +205,7 @@ class WithdrawStepper : ComponentActivity() {
             }
             StepConfigType.FINISHED_ACTION -> {
                 finish()
-                startActivity(Intent(this, WithdrawStepper::class.java))
+                startActivity(Intent(this, WithdrawStepperActivity::class.java))
             }
         }
     }

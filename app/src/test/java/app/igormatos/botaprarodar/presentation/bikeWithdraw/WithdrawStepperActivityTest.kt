@@ -6,7 +6,7 @@ import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
 
-class WithdrawStepperTest {
+class WithdrawStepperActivityTest {
 
     private lateinit var stepper: WithdrawStepper
     @Before

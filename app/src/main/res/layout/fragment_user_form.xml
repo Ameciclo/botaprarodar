@@ -78,7 +78,7 @@
                     app:textCaptured="@{viewModel.userTelephone}"
                     app:textValue="@={viewModel.userTelephone}" />
 
-                <app.igormatos.botaprarodar.common.components.CustomEditText
+                <app.igormatos.botaprarodar.common.components.CustomDatePicker
                     android:id="@+id/userBirthdayCet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -89,7 +89,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/userFormGuideline"
                     app:layout_constraintTop_toBottomOf="@id/userAdressCet"
-                    app:textValue="@={viewModel.userBirthday}" />
+                    app:textValue="@{viewModel.userBirthday}" />
+
 
                 <app.igormatos.botaprarodar.common.components.CustomPicturePick
                     android:id="@+id/perfilPictureCpp"

@@ -10,7 +10,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.FinishActionComponent
-import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepperActivity
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,7 +45,7 @@ class FinishWithdrawActivity : ComponentActivity() {
     }
 
     private fun withdrawAnotherBike() {
-        val intentWithdraw = Intent(this, WithdrawStepper::class.java)
+        val intentWithdraw = Intent(this, WithdrawStepperActivity::class.java)
         startActivity(intentWithdraw)
         finish()
     }
