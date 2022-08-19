@@ -28,6 +28,31 @@
                 android:layout_height="wrap_content"
                 tools:context=".presentation.user.userform.UserFormFragment">
 
+                <app.igormatos.botaprarodar.common.components.CustomPicturePick
+                    android:id="@+id/perfilPictureCpp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="@dimen/margin_medium"
+                    android:src="@drawable/ic_baseline_add_a_photo"
+                    android:text="@string/user_form_user_perfil_picture_label"
+                    app:imagePathOrUrl="@{viewModel.userImageProfile}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/requiredFieldsTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:text="@string/required_fields"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/perfilPictureCpp" />
+
                 <app.igormatos.botaprarodar.common.components.CustomEditText
                     android:id="@+id/userNameCst"
                     android:layout_width="0dp"
@@ -40,7 +65,7 @@
                     app:errorMessage="@{`add_user_invalid_name`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/perfilPictureCpp"
+                    app:layout_constraintTop_toBottomOf="@+id/requiredFieldsTxt"
                     app:textCaptured="@{viewModel.userCompleteName}"
                     app:textValue="@={viewModel.userCompleteName}" />
 
@@ -69,9 +94,9 @@
                     android:layout_marginTop="24dp"
                     android:hint="@string/user_form_user_phone_hint"
                     android:inputType="phone"
-                    app:errorMessage="@{`add_user_invalid_telephone`}"
                     android:label="@string/user_form_user_phone_label"
                     android:maxLength="@integer/max_size_user_phone_number"
+                    app:errorMessage="@{`add_user_invalid_telephone`}"
                     app:layout_constraintEnd_toStartOf="@+id/userFormGuideline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userAdressCet"
@@ -90,19 +115,6 @@
                     app:layout_constraintStart_toEndOf="@id/userFormGuideline"
                     app:layout_constraintTop_toBottomOf="@id/userAdressCet"
                     app:textValue="@{viewModel.userBirthday}" />
-
-
-                <app.igormatos.botaprarodar.common.components.CustomPicturePick
-                    android:id="@+id/perfilPictureCpp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="@dimen/margin_medium"
-                    android:src="@drawable/ic_baseline_add_a_photo"
-                    android:text="@string/user_form_user_perfil_picture_label"
-                    app:imagePathOrUrl="@{viewModel.userImageProfile}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/userFormGuideline"
