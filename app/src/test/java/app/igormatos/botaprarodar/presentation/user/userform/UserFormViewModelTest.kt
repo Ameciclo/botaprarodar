@@ -6,13 +6,10 @@ import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.utils.validUser
 import io.mockk.*
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.Assertions
 
 class UserFormViewModelTest {
 
@@ -30,9 +27,7 @@ class UserFormViewModelTest {
             community,
             arrayListOf(validUser)
         )
-
         formViewModel.isButtonEnabled.observeForever(observerUserResultMock)
-
     }
 
     @Test
@@ -73,16 +68,24 @@ class UserFormViewModelTest {
     }
 
     @Test
-    fun `when user is valid then button should be enabled`() {
+    fun `when user is valid then button should be enabled`()  {
 
         val slotButtonEnabled = slot<Boolean>()
 
         every { observerUserResultMock.onChanged(capture(slotButtonEnabled)) } just Runs
-
-        createUserValues(validUser.copy())
-
+        createUserValues(createUserMock())
         assertTrue(slotButtonEnabled.captured)
+    }
 
+    private fun createUserMock(): User {
+        val user = User().apply {
+            name = "Capitão América"
+            address = "Polo Norte - 433La 092Lg"
+            profilePicture = "https://profile.jpeg"
+            birthday = "xx"
+            telephone = "99 99999-999"
+        }
+        return user
     }
 
     private fun createUserValues(testValidUser: User) {
