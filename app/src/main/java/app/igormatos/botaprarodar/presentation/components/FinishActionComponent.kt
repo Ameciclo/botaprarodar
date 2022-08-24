@@ -32,7 +32,7 @@ class FinishAction : ComponentActivity() {
                     mainMessage = stringResource(id = R.string.success_withdraw_message),
                     mainActionText = stringResource(id = R.string.repeat_withdraw_title),
                     mainAction = {
-                        startActivity(Intent(this, WithdrawStepper::class.java))
+                        startActivity(Intent(this, WithdrawStepperActivity::class.java))
                     },
                     backToHome = { finish() })
             }

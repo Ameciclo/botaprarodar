@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
-                name="viewModel"
-                type="app.igormatos.botaprarodar.presentation.user.UserViewModel" />
+            name="viewModel"
+            type="app.igormatos.botaprarodar.presentation.user.UserViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background_gray">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray">
 
         <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            android:id="@+id/appBarLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white"
-                    app:setTitle="@{viewModel.isEditableAvailable}"
-                    app:titleTextColor="@color/dark_gray" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                app:navigationIcon="@drawable/ic_close_black"
+                app:setTitle="@{viewModel.isEditableAvailable}"
+                app:titleTextAppearance="@style/TextAppearanceToolbar"
+                app:titleTextColor="@color/dark_gray"
+                tools:title="@string/add_user_toolbar_title" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <app.igormatos.botaprarodar.common.customview.BikeActionStepperView
-                android:id="@+id/userActionStepper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:current_icon_color="@color/green_teal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-                app:next_icon_color="@color/gray_silver"
-                app:previous_icon_color="@color/white"
-                app:select_background="@color/green_teal"
-                app:unselect_background="@color/white" />
+            android:id="@+id/userActionStepper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:current_icon_color="@color/green_teal"
+            app:layout_constraintBottom_toTopOf="@+id/returnNavHostFragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            app:next_icon_color="@color/gray_silver"
+            app:previous_icon_color="@color/white"
+            app:select_background="@color/green_teal"
+            app:unselect_background="@color/white" />
 
         <fragment
-                android:id="@+id/returnNavHostFragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:defaultNavHost="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/userActionStepper"
-                app:navGraph="@navigation/user_nav_graph" />
+            android:id="@+id/returnNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_large"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userActionStepper"
+            app:navGraph="@navigation/user_nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

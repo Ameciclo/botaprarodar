@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormActivity
 import app.igormatos.botaprarodar.presentation.components.ActionCard
-import app.igormatos.botaprarodar.presentation.components.WithdrawStepper
+import app.igormatos.botaprarodar.presentation.components.WithdrawStepperActivity
 import app.igormatos.botaprarodar.presentation.main.HomeUiState
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleActivity
 import app.igormatos.botaprarodar.presentation.user.UserActivity
@@ -118,7 +118,7 @@ private fun Cards(isEnableWithdraws: Boolean = true, isEnableReturns: Boolean = 
             icon = painterResource(id = R.drawable.ic_withdraw_bike),
             isEnable = isEnableWithdraws
         ) {
-            context.startActivity(Intent(context, WithdrawStepper::class.java))
+            context.startActivity(Intent(context, WithdrawStepperActivity::class.java))
         }
         ActionCard(
             title = "Devolver\nBicicleta",

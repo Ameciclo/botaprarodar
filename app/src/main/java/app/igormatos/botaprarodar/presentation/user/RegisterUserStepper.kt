@@ -11,14 +11,17 @@ class RegisterUserStepper(private val initialStep: StepConfigType) : StepperAdap
 
     override val steps: List<StepConfigType> =
         listOf(
-            USER_FORM,
-            USER_QUIZ
+            USER_PERSONAl_INFO,
+            USER_SOCIAL_INFO,
+            USER_MOTIVATION,
+            USER_FINISHED
         )
 
     override fun navigateToNext() {
         val result = when (currentStep.value) {
-            USER_FORM -> steps[1]
-            else -> steps[1]
+            USER_PERSONAl_INFO -> steps[1]
+            USER_SOCIAL_INFO -> steps[2]
+            else -> steps[3]
         }
 
         currentStep.value = result
@@ -26,7 +29,8 @@ class RegisterUserStepper(private val initialStep: StepConfigType) : StepperAdap
 
     override fun navigateToPrevious() {
         val result = when (currentStep.value) {
-            USER_QUIZ -> steps[1]
+            USER_FINISHED -> steps[2]
+            USER_MOTIVATION -> steps[1]
             else -> steps.first()
         }
 

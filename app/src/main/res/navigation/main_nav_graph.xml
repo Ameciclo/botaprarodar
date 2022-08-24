@@ -26,7 +26,7 @@
             tools:layout="@layout/activity_return_bike" />
 <activity
             android:id="@+id/bikeWithdrawActivity"
-            android:name="app.igormatos.botaprarodar.presentation.components.WithdrawStepper"
+            android:name="app.igormatos.botaprarodar.presentation.components.WithdrawStepperActivity"
             android:label="@string/borrow_bike" />
     <activity
             android:id="@+id/tripDetailActivity"
