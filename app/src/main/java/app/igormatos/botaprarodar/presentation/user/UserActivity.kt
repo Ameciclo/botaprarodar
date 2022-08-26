@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_FORM
-import app.igormatos.botaprarodar.common.enumType.StepConfigType.USER_QUIZ
+import app.igormatos.botaprarodar.common.enumType.StepConfigType.*
+
 import app.igormatos.botaprarodar.databinding.ActivityUserBinding
 import app.igormatos.botaprarodar.domain.model.User
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -35,9 +35,8 @@ class UserActivity : AppCompatActivity() {
         viewModel.isEditableAvailable = intent.extras?.getParcelable<User>(USER_BUNDLE) != null
 
         setupNavGraph()
-
         setupStepperView()
-
+        setupToolbarNavigationListener()
         setupObservers()
     }
 
@@ -48,10 +47,18 @@ class UserActivity : AppCompatActivity() {
     private fun setupStepperView() {
         binding.userActionStepper.addItems(
             arrayListOf(
-                USER_FORM,
-                USER_QUIZ
+                USER_PERSONAl_INFO,
+                USER_SOCIAL_INFO,
+                USER_MOTIVATION,
+                USER_FINISHED
             )
         )
+    }
+
+    private fun setupToolbarNavigationListener() {
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun setupObservers() {
@@ -62,7 +69,15 @@ class UserActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        navigateToPrevious()
+    }
+
+    fun navigateToPrevious() {
         viewModel.navigateToPrevious()
+    }
+
+    fun navigateToNext() {
+        viewModel.navigateToNext()
     }
 
     override fun finish() {

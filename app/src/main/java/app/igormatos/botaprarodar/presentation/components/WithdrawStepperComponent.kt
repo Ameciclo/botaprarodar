@@ -39,13 +39,14 @@ import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNav
 import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-class WithdrawStepper : ComponentActivity() {
+class WithdrawStepperActivity : ComponentActivity() {
     private val viewModel: WithdrawViewModel by viewModel()
     lateinit var withdrawNavController: NavHostController
     private val loadingDialog: AlertDialog by lazy {
@@ -205,7 +206,7 @@ class WithdrawStepper : ComponentActivity() {
             }
             StepConfigType.FINISHED_ACTION -> {
                 finish()
-                startActivity(Intent(this, WithdrawStepper::class.java))
+                startActivity(Intent(this, WithdrawStepperActivity::class.java))
             }
         }
     }
@@ -220,5 +221,9 @@ class WithdrawStepper : ComponentActivity() {
         BotaprarodarTheme {
             WithdrawStepperComponent()
         }
+    }
+
+    companion object {
+        fun startIntent(context: Context) = Intent(context, WithdrawStepperActivity::class.java)
     }
 }

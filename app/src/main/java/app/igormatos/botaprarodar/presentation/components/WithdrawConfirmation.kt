@@ -109,8 +109,7 @@ fun WithdrawConfirmationComponent(
 
                     CardCyclist(
                         user = user.value!!,
-                        bikeLastWithdraw = todayFormatted,
-                        handleClick = {})
+                        bikeLastWithdraw = todayFormatted)
                 }
             }
 

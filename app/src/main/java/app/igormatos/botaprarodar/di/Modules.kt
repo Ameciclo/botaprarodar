@@ -65,7 +65,7 @@ val bprModule = module {
         SendBikeWithdraw(withdrawRepository = get(), userRepository = get())
     }
 
-    single { RegisterUserStepper(StepConfigType.USER_FORM) }
+    single { RegisterUserStepper(StepConfigType.USER_PERSONAl_INFO) }
 
     factory<Validator<String?>>(named(EMAIL_VALIDATOR_NAME)) {
         EmailValidator()

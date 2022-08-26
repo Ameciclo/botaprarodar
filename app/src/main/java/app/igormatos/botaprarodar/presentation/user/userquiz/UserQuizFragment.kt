@@ -10,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
@@ -17,6 +19,7 @@ import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserQuizBinding
 import app.igormatos.botaprarodar.domain.model.CustomDialogModel
+import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
@@ -31,6 +34,10 @@ class UserQuizFragment : Fragment() {
     private lateinit var loadingDialog: AlertDialog
 
     private val args: UserQuizFragmentArgs by navArgs()
+
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,46 +55,72 @@ class UserQuizFragment : Fragment() {
 
         loadingDialog = requireContext().createLoading(R.layout.loading_dialog_animation)
         viewModel.init(args.user, args.editMode, args.deleteImagePaths.toList())
-        setupObservables()
+        setupBackButtonListener()
+        setupLgpdObserver()
+        setupStatusObserver()
+        addMaskOnQuizTime()
     }
 
-    private fun setupObservables() {
-        viewModel.status.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is ViewModelStatus.Success -> {
-                    loadingDialog.dismiss()
-                    val intent = Intent().putExtra(
-                        "isEditModeAvailable",
-                        viewModel.editMode
-                    )
-                    activity?.setResult(RESULT_OK, intent)
-                    activity?.finish()
-                }
-                is ViewModelStatus.Loading -> {
-                    requireActivity().window.decorView.hideKeyboard()
-                    loadingDialog.show()
-                }
-                is ViewModelStatus.Error -> {
-                    snackBarMaker(it.message, binding.scrollUserQuiz).apply {
-                        setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
-                        show()
-                    }
-                    loadingDialog.dismiss()
-                }
-            }
-        })
+    private fun setupBackButtonListener() {
+        binding.backButton.setOnClickListener {
+            (activity as UserActivity).navigateToPrevious()
+            navController.popBackStack()
+        }
+    }
 
-        viewModel.lgpd.observe(viewLifecycleOwner, Observer {
+    private fun setupLgpdObserver() {
+        viewModel.isLgpdAgreement.observe(viewLifecycleOwner, Observer {
             if (viewModel.editMode) {
                 viewModel.registerUser()
             } else if (it) {
                 showConfirmDialog()
             }
         })
+    }
 
-        binding.userQuizTimeOnWayOpenQuestion.addMask(
-            EditTextFormatMask.FORMAT_HOUR
-        )
+    private fun setupStatusObserver() {
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewModelStatus.Success -> {
+                    onSuccess()
+                }
+                is ViewModelStatus.Loading -> {
+                    onLoading()
+                }
+                is ViewModelStatus.Error -> {
+                    onError(it)
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+    }
+
+    private fun onSuccess() {
+        loadingDialog.dismiss()
+        val intent = Intent().putExtra("isEditModeAvailable", viewModel.editMode)
+        activity?.let {
+            (it as UserActivity).navigateToNext()
+        }
+        activity?.setResult(RESULT_OK, intent)
+        navigateToUserSuccessfullyRegistered()
+    }
+
+    private fun navigateToUserSuccessfullyRegistered() {
+        val direction =
+            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(args.editMode)
+        navController.navigate(direction)
+    }
+
+    private fun onLoading() {
+        requireActivity().window.decorView.hideKeyboard()
+        loadingDialog.show()
+    }
+
+    private fun onError(it: ViewModelStatus.Error<String>) {
+        snackBarMaker(it.message, binding.scrollUserQuiz).apply {
+            setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
+            show()
+        }
     }
 
     private fun showConfirmDialog() {
@@ -101,5 +134,11 @@ class UserQuizFragment : Fragment() {
         )
 
         CustomDialog.newInstance(dialogModel).show(childFragmentManager, CustomDialog.TAG)
+    }
+
+    private fun addMaskOnQuizTime() {
+        binding.userQuizTimeOnWayOpenQuestion.addMask(
+            EditTextFormatMask.FORMAT_HOUR
+        )
     }
 }

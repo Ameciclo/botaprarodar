@@ -21,6 +21,7 @@ import app.igormatos.botaprarodar.presentation.returnbicycle.stepOneReturnBike.S
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepQuizReturnBike.ReturnBikeQuizViewModel
 import app.igormatos.botaprarodar.presentation.splash.SplashViewModel
 import app.igormatos.botaprarodar.presentation.user.UserViewModel
+import app.igormatos.botaprarodar.presentation.user.socialdata.SocialDataViewModel
 import app.igormatos.botaprarodar.presentation.user.userform.UserFormViewModel
 import app.igormatos.botaprarodar.presentation.user.userquiz.UserQuizViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +48,7 @@ val viewModelModule = module {
     viewModel { TripDetailViewModel(get()) }
 
     single { ReturnBicycleViewModel(get(), get(), get(), get()) }
-    
+
     viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }
     viewModel { PasswordRecoveryViewModel(get(named(EMAIL_VALIDATOR_NAME)), get()) }
@@ -59,12 +60,18 @@ val viewModelModule = module {
             communityBikesSerialNumbers
         )
     }
-    viewModel { (communityUsers: ArrayList<User>, mapOptions: Map<String, List<String>>) ->
+    viewModel { (communityUsers: ArrayList<User>) ->
         UserFormViewModel(
             get<SharedPreferencesModule>().getJoinedCommunity(),
-            get(),
-            communityUsers,
-            mapOptions
+            communityUsers
+        )
+    }
+
+    viewModel { (mapOptions: Map<String, List<String>>, user: User, isEditableAvailable: Boolean) ->
+        SocialDataViewModel(
+            mapOptions,
+            user,
+            isEditableAvailable
         )
     }
 }

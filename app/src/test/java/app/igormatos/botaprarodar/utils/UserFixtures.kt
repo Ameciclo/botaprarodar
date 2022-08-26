@@ -23,6 +23,7 @@ val validUser = User().apply {
     schoolingStatus = "Completo"
     income = "0"
     birthday = "xx"
+    telephone = "99 99999-999"
 }
 
 val validUserWithNoImages = User().apply {

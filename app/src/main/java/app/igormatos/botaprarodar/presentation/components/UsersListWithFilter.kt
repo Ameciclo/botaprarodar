@@ -35,6 +35,10 @@ fun UsersListWithFilter(users: List<User>, handleClick: (User) -> Unit) {
 @Composable
 fun UsersList(users: List<User>, handleClick: (User) -> Unit) {
     LazyColumn(
+        modifier = Modifier.padding(
+            bottom = dimensionResource(id = R.dimen.padding_xxlarge_plus
+            )
+        ),
         contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_minimun))
     ) {
         items(users) { user ->
