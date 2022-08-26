@@ -108,7 +108,7 @@ class SocialDataFragment : Fragment() {
                         editMode,
                         deleteImagePaths.toTypedArray()
                     )
-                activity?.let { userActivity->
+                activity?.let { userActivity ->
                     (userActivity as UserActivity).navigateToNext()
                 }
                 navController.navigate(direction)
@@ -147,16 +147,21 @@ class SocialDataFragment : Fragment() {
 
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserGender()
+                validateTextGenderField()
             }
             setOnDismissListener {
-                validateText(
-                    binding.userGenderCst.editText.text.toString(),
-                    binding.userGenderCst.textLayout,
-                    R.string.add_user_invalid_information
-                )
+                validateTextGenderField()
             }
             create().show()
         }
+    }
+
+    private fun validateTextGenderField() {
+        validateText(
+            binding.userGenderCst.editText.text.toString(),
+            binding.userGenderCst.textLayout,
+            R.string.add_user_invalid_information
+        )
     }
 
     private fun createDialogSchooling() {
@@ -186,16 +191,21 @@ class SocialDataFragment : Fragment() {
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserIncome()
+                validateTextIncomeField()
             }
             setOnDismissListener {
-                validateText(
-                    binding.userIncomeCst.editText.text.toString(),
-                    binding.userIncomeCst.textLayout,
-                    R.string.add_user_invalid_income
-                )
+                validateTextIncomeField()
             }
             create().show()
         }
+    }
+
+    private fun validateTextIncomeField() {
+        validateText(
+            binding.userIncomeCst.editText.text.toString(),
+            binding.userIncomeCst.textLayout,
+            R.string.add_user_invalid_income
+        )
     }
 
     private fun openDialogToSelectRace() {
@@ -209,17 +219,22 @@ class SocialDataFragment : Fragment() {
             }
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserRace()
+                validateTextRaceField()
             }
 
             setOnDismissListener {
-                validateText(
-                    binding.userRacialCst.editText.text.toString(),
-                    binding.userRacialCst.textLayout,
-                    R.string.add_user_invalid_racial
-                )
+                validateTextRaceField()
             }
             create().show()
         }
+    }
+
+    private fun validateTextRaceField() {
+        validateText(
+            binding.userRacialCst.editText.text.toString(),
+            binding.userRacialCst.textLayout,
+            R.string.add_user_invalid_racial
+        )
     }
 }
 

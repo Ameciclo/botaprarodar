@@ -39,6 +39,7 @@ import app.igormatos.botaprarodar.presentation.components.navigation.WithdrawNav
 import app.igormatos.botaprarodar.presentation.components.navigation.withdraw.WithdrawScreen
 import app.igormatos.botaprarodar.presentation.components.ui.theme.BotaprarodarTheme
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
+import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.snackBarMaker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -220,5 +221,9 @@ class WithdrawStepperActivity : ComponentActivity() {
         BotaprarodarTheme {
             WithdrawStepperComponent()
         }
+    }
+
+    companion object {
+        fun startIntent(context: Context) = Intent(context, WithdrawStepperActivity::class.java)
     }
 }
