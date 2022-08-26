@@ -81,5 +81,10 @@
     <fragment
         android:id="@+id/userSuccessfullyRegisteredFragment"
         android:name="app.igormatos.botaprarodar.presentation.user.UserSuccessfullyRegisteredFragment"
-        android:label="UserSuccessfullyRegisteredFragment" />
+        android:label="UserSuccessfullyRegisteredFragment">
+
+        <argument
+            android:name="editMode"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

@@ -107,7 +107,7 @@ class UserQuizFragment : Fragment() {
 
     private fun navigateToUserSuccessfullyRegistered() {
         val direction =
-            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment()
+            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(args.editMode)
         navController.navigate(direction)
     }
 

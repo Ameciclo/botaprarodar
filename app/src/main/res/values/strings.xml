@@ -313,6 +313,7 @@
     <string name="user_successfully_lend_label">Emprestar</string>
     <string name="user_successfully_go_home_label">Ir par o início</string>
     <string name="user_successfully_registered_label">Cadastro realizado\ncom sucesso!</string>
+    <string name="user_successfully_edited_label">Edição realizada\ncom sucesso!</string>
     <string name="user_successfully_lend_bicycle">Agora você já pode emprestar uma das\nbicicletas disponíveis para esta pessoa!</string>
 
 
