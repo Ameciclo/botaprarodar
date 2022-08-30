@@ -1,7 +1,8 @@
 package app.igormatos.botaprarodar.domain.usecase.users
 
+import app.igormatos.botaprarodar.common.enumType.UserSortFields
 import app.igormatos.botaprarodar.common.extensions.onlyAvailableUsers
-import app.igormatos.botaprarodar.common.extensions.sort
+import app.igormatos.botaprarodar.common.extensions.sortBy
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.User
 import com.brunotmgomes.ui.SimpleResult
@@ -16,7 +17,7 @@ class UsersUseCase(private val userRepository: UserRepository) {
                 SimpleResult.Success(
                     result.data.values.toList()
                         .onlyAvailableUsers()
-                        .sort()
+                        .sortBy(UserSortFields.NAME)
                 )
             }
             is SimpleResult.Error -> {
