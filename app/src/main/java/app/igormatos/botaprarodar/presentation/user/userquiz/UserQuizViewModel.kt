@@ -18,8 +18,6 @@ class UserQuizViewModel(
 
     val alreadyUseBPR = MutableLiveData<Boolean>()
 
-    val alreadyUseBPROpenQuestion = MutableLiveData<String>()
-
     val motivationOpenQuestion = MutableLiveData<String>()
 
     val alreadyAccidentVictim = MutableLiveData<Boolean>()
@@ -57,7 +55,6 @@ class UserQuizViewModel(
     private fun fillUserQuiz() {
         user.userQuiz?.let {
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
-            alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
             motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
             alreadyAccidentVictim.value = it.alreadyAccidentVictim ?: false
             problemsOnWayOpenQuestion.value = it.problemsOnWayOpenQuestion.orEmpty()
@@ -67,7 +64,6 @@ class UserQuizViewModel(
 
     fun createUserQuiz() = UserQuiz(
         alreadyUseBPR = alreadyUseBPR.value,
-        alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
         motivationOpenQuestion = motivationOpenQuestion.value,
         alreadyAccidentVictim = alreadyAccidentVictim.value,
         problemsOnWayOpenQuestion = problemsOnWayOpenQuestion.value,
