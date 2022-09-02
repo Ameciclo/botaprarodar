@@ -218,14 +218,14 @@
     </string-array>
 
     <string-array name="income_options">
-        <item>Até 150 reais</item>
-        <item>Entre 150 e 350</item>
-        <item>Entre 350 e 500</item>
-        <item>Entre 500 e 750</item>
-        <item>Entre 750 e 1100</item>
-        <item>Entre 1100 e 2000</item>
-        <item>Mais de 2000</item>
-        <item>Desejo não informar</item>
+        <item>Até R$ 150</item>
+        <item>Entre R$150 e R$350</item>
+        <item>Entre R$350 e R$500</item>
+        <item>Entre R$500 e R$750</item>
+        <item>Entre R$750 e R$1100</item>
+        <item>Entre R$1100 e R$2000</item>
+        <item>Acima de R$2000</item>
+        <item>Não deseja informar</item>
     </string-array>
 
     <!-- Return bike quiz -->
