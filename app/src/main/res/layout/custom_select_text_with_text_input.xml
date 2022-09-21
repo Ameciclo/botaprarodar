@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/label"
+        style="@style/TextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Texto qualquer" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/selectorTextLayout"
+        style="@style/textInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/selectorEditText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_48"
+            android:cursorVisible="false"
+            android:drawableEnd="@drawable/ic_arrow_down"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="textNoSuggestions"
+            android:textColor="@color/text_gray"
+            android:textColorHint="@color/gray_3"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"
+            tools:hint="Texto qualquer" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/questionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextLabel"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="Texto qualquer" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textLayout"
+        style="@style/textInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_48"
+            android:inputType="textPersonName"
+            android:textColor="@color/text_gray"
+            android:textColorHint="@color/gray_3"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"
+            tools:hint="Texto qualquer" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

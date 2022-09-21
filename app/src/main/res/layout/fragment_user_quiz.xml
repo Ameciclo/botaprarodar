@@ -57,20 +57,21 @@
                     app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
                     app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
 
-                <app.igormatos.botaprarodar.common.components.CustomEditText
+                <app.igormatos.botaprarodar.common.components.CustomSelectTextWithTextInput
                     android:id="@+id/userQuizMotivationOpenQuestion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:hint="@string/user_quiz_motivation_question"
-                    android:inputType="text"
+                    android:hint="@string/default_custom_component_select_hint"
                     android:label="@string/user_quiz_motivation_question_label"
-                    app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                    android:inputType="text"
+                    app:isNeedQuestion="true"
+                    app:questionLabel="@string/user_quiz_motivation_question_label"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion"
-                    app:textCaptured="@{viewModel.motivationOpenQuestion}"
                     app:textValue="@={viewModel.motivationOpenQuestion}" />
+
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
                     android:id="@+id/userQuizTimeOnWayOpenQuestion"
