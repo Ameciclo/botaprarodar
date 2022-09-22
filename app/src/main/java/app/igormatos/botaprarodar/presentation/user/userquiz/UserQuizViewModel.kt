@@ -20,7 +20,7 @@ class UserQuizViewModel(
 
     val alreadyUseBPROpenQuestion = MutableLiveData<String>()
 
-    val motivationOpenQuestion = MutableLiveData<String>()
+    val motivationOpenQuestion = MutableLiveData("")
 
     val alreadyAccidentVictim = MutableLiveData<Boolean>()
 

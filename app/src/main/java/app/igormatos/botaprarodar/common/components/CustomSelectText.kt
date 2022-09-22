@@ -18,6 +18,8 @@ class CustomSelectText @JvmOverloads constructor(
         LayoutInflater.from(context), this, true
     )
 
+    private var isNeedQuestion = false
+
     init {
         orientation = VERTICAL
         attrs?.let { attributes ->
@@ -29,19 +31,25 @@ class CustomSelectText @JvmOverloads constructor(
             )
             with(binding){
                 label.text = typedArray.getString(R.styleable.CustomEditText_android_label)
-                editText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
+                selectorEditText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
+                questionLabel.text = typedArray.getString(R.styleable.CustomEditTextWithButton_questionLabel)
+                isNeedQuestion = typedArray.getBoolean(R.styleable.CustomEditTextWithButton_isNeedQuestion, false)
+                editText.inputType = typedArray.getInt(
+                    R.styleable.CustomEditTextWithButton_android_inputType,
+                    EditorInfo.TYPE_NULL
+                )
             }
         }
     }
 
     fun setupClick(clickAction: () -> Unit){
-        binding.editText.setOnClickListener {
+        binding.selectorEditText.setOnClickListener {
             clickAction.invoke()
         }
     }
 
     fun setEditTextValue(value: String) {
-        binding.editText.setText(value)
+        binding.selectorEditText.setText(value)
     }
 
 }

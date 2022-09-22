@@ -57,7 +57,7 @@
                     app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
                     app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
 
-                <app.igormatos.botaprarodar.common.components.CustomSelectTextWithTextInput
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
                     android:id="@+id/userQuizMotivationOpenQuestion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion"
-                    app:textValue="@={viewModel.motivationOpenQuestion}" />
+                    app:textValue="@{viewModel.motivationOpenQuestion}" />
 
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
