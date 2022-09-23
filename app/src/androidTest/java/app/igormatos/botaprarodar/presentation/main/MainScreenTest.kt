@@ -54,7 +54,7 @@ class MainScreenTest {
         composeTestRule.onNodeWithText("Total de bicicletas".uppercase()).assertIsDisplayed()
         composeTestRule.onNodeWithText("Emprestadas".uppercase()).assertIsDisplayed()
 
-        composeTestRule.onNodeWithText("Bicicletas disponíveis".uppercase()).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Disponíveis".uppercase()).assertIsDisplayed()
     }
 
     @Test
