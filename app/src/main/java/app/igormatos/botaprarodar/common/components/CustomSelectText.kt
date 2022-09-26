@@ -34,10 +34,7 @@ class CustomSelectText @JvmOverloads constructor(
                 selectorEditText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
                 questionLabel.text = typedArray.getString(R.styleable.CustomEditTextWithButton_questionLabel)
                 isNeedQuestion = typedArray.getBoolean(R.styleable.CustomEditTextWithButton_isNeedQuestion, false)
-                editText.inputType = typedArray.getInt(
-                    R.styleable.CustomEditTextWithButton_android_inputType,
-                    EditorInfo.TYPE_NULL
-                )
+                editText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
             }
         }
     }

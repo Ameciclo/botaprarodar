@@ -20,7 +20,7 @@ class UserQuizViewModel(
 
     val alreadyUseBPROpenQuestion = MutableLiveData<String>()
 
-    val motivationOpenQuestion = MutableLiveData("")
+    val userMotivation = MutableLiveData("")
 
     val alreadyAccidentVictim = MutableLiveData<Boolean>()
 
@@ -39,26 +39,34 @@ class UserQuizViewModel(
     val isLgpdAgreement: LiveData<Boolean> = _isLgpdAgreement
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(motivationOpenQuestion) { validateQuestions() }
+        addSource(userMotivation) { validateQuestions() }
         addSource(alreadyAccidentVictim) { validateQuestions() }
         addSource(problemsOnWayOpenQuestion) { validateQuestions() }
         addSource(timeOnWayOpenQuestion) { validateQuestions() }
     }
 
+    lateinit var userMotivationList: Map<Int, String>
+    var selectedUserMotivationIndex = 0
+
     fun init(user: User, editMode: Boolean, deleteImagePaths: List<String>) {
         this.user = user
         this.editMode = editMode
         this.deleteImagePaths = deleteImagePaths
+        loadUserMotivations()
         if (editMode) {
             fillUserQuiz()
         }
+    }
+
+    private fun loadUserMotivations() {
+        userMotivationList = userUseCase.getUserMotivations()
     }
 
     private fun fillUserQuiz() {
         user.userQuiz?.let {
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
             alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
-            motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
+            userMotivation.value = it.motivationOpenQuestion.orEmpty()
             alreadyAccidentVictim.value = it.alreadyAccidentVictim ?: false
             problemsOnWayOpenQuestion.value = it.problemsOnWayOpenQuestion.orEmpty()
             timeOnWayOpenQuestion.value = it.timeOnWayOpenQuestion.orEmpty()
@@ -68,7 +76,7 @@ class UserQuizViewModel(
     fun createUserQuiz() = UserQuiz(
         alreadyUseBPR = alreadyUseBPR.value,
         alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
-        motivationOpenQuestion = motivationOpenQuestion.value,
+        motivationOpenQuestion = userMotivation.value,
         alreadyAccidentVictim = alreadyAccidentVictim.value,
         problemsOnWayOpenQuestion = problemsOnWayOpenQuestion.value,
         timeOnWayOpenQuestion = timeOnWayOpenQuestion.value
@@ -120,10 +128,23 @@ class UserQuizViewModel(
 
     private fun validateQuestions() {
         isButtonEnabled.value =
-                    motivationOpenQuestion.isNotNullOrBlank() &&
+            userMotivation.isNotNullOrBlank() &&
                     alreadyAccidentVictim.isNotNull() &&
                     problemsOnWayOpenQuestion.isNotNullOrBlank() &&
                     timeOnWayOpenQuestion.isNotNullOrBlank()
+    }
+
+    fun getSelectedUserMotivationsIndex(): Int {
+        selectedUserMotivationIndex =  userMotivationList.values.indexOf(userMotivation.value)
+        return if (selectedUserMotivationIndex == -1) 0 else selectedUserMotivationIndex
+    }
+
+    fun setSelectedUserMotivationsIndex(index: Int) {
+        selectedUserMotivationIndex = index
+    }
+
+    fun confirmUserMotivation() {
+        userMotivation.value = userMotivationList[selectedUserMotivationIndex]
     }
 
     companion object {

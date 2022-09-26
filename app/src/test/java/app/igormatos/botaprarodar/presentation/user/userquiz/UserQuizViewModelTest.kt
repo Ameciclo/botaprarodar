@@ -8,6 +8,7 @@ import app.igormatos.botaprarodar.utils.validUser
 import app.igormatos.botaprarodar.utils.userSimpleSuccess
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import junit.framework.Assert.assertTrue
@@ -23,8 +24,16 @@ class UserQuizViewModelTest {
     private val useCase = mockk<UserFormUseCase>()
     private lateinit var viewModel: UserQuizViewModel
 
+    val userMotivations: Map<Int, String> = mapOf(
+        0 to "usar bicicleta é mais barato.",
+        1 to "A bicicleta não polui o ambiente.",
+        4 to "Outro"
+    )
+
+
     @Before
     fun setup() {
+        every { useCase.getUserMotivations() } returns userMotivations
         viewModel = UserQuizViewModel(useCase)
         viewModel.init(validUser, false, listOf())
     }
@@ -74,5 +83,11 @@ class UserQuizViewModelTest {
 
         viewModel.registerUser()
         assertTrue(viewModel.status.value is ViewModelStatus.Error)
+    }
+
+    @Test
+    fun `WHEN userMotivation is empty THEN index should be zero`() {
+        viewModel.userMotivation.value = ""
+        assertTrue(viewModel.getSelectedUserMotivationsIndex() == 0)
     }
 }

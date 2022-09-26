@@ -75,7 +75,7 @@ class UserFormUseCase(
         if (File(path).isFile) {
             isFileDeleted = File(path).delete()
         }
-        return if (isFileDeleted){
+        return if (isFileDeleted) {
             SimpleResult.Success(Unit)
         } else {
             SimpleResult.Error(Exception("File not deleted"))
@@ -161,4 +161,6 @@ class UserFormUseCase(
             }
         }
     }
+
+    fun getUserMotivations(): Map<Int, String> = userRepository.getUserMotivations()
 }

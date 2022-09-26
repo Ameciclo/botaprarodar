@@ -55,9 +55,10 @@ class UserQuizFragment : Fragment() {
 
         loadingDialog = requireContext().createLoading(R.layout.loading_dialog_animation)
         viewModel.init(args.user, args.editMode, args.deleteImagePaths.toList())
-        setupBackButtonListener()
-        setupLgpdObserver()
         setupStatusObserver()
+        setupLgpdObserver()
+        setupBackButtonListener()
+        setupClick()
         addMaskOnQuizTime()
     }
 
@@ -107,7 +108,9 @@ class UserQuizFragment : Fragment() {
 
     private fun navigateToUserSuccessfullyRegistered() {
         val direction =
-            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(args.editMode)
+            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(
+                args.editMode
+            )
         navController.navigate(direction)
     }
 
@@ -134,6 +137,33 @@ class UserQuizFragment : Fragment() {
         )
 
         CustomDialog.newInstance(dialogModel).show(childFragmentManager, CustomDialog.TAG)
+    }
+
+    private fun setupClick() {
+        binding.userQuizMotivation.setupClick {
+            createUserMotivationDialog()
+        }
+    }
+
+    private fun createUserMotivationDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.user_quiz_motivation_dialog_label))
+            setSingleChoiceItems(
+                binding.viewModel?.userMotivationList?.values?.toTypedArray(),
+                binding.viewModel?.getSelectedUserMotivationsIndex() ?:0
+            ) { _, which ->
+                binding.viewModel?.setSelectedUserMotivationsIndex(which)
+            }
+
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserMotivation()
+//                validateTextGenderField()
+            }
+            setOnDismissListener {
+//                validateTextGenderField()
+            }
+            create().show()
+        }
     }
 
     private fun addMaskOnQuizTime() {
