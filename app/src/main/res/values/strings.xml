@@ -145,7 +145,7 @@
     <string name="user_form_user_birthday_label">Nascimento*</string>
     <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
 
-    <string name="user_form_user_income_label">Renda Mensal*</string>
+    <string name="user_form_user_income_label">Renda Mensal (em reais)*</string>
 
     <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?*</string>
 
