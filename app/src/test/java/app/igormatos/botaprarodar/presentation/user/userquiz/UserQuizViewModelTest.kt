@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -24,10 +25,10 @@ class UserQuizViewModelTest {
     private val useCase = mockk<UserFormUseCase>()
     private lateinit var viewModel: UserQuizViewModel
 
-    val userMotivations: Map<Int, String> = mapOf(
+    private val userMotivations: Map<Int, String> = mapOf(
         0 to "usar bicicleta é mais barato.",
         1 to "A bicicleta não polui o ambiente.",
-        4 to "Outro"
+        2 to "Outro"
     )
 
 
@@ -89,5 +90,20 @@ class UserQuizViewModelTest {
     fun `WHEN userMotivation is empty THEN index should be zero`() {
         viewModel.userMotivation.value = ""
         assertTrue(viewModel.getSelectedUserMotivationsIndex() == 0)
+    }
+
+    @Test
+    fun `WHEN set user motivation index THEN selectedUserMotivationsIndex should be updated`() {
+        val index = 1
+        viewModel.setSelectedUserMotivationsIndex(index)
+        assertEquals(index, viewModel.selectedUserMotivationIndex)
+    }
+
+    @Test
+    fun `WHEN confirmUserMotivation is call THEN userMotivation is updated with list element from index`() {
+        val index = 1
+        viewModel.setSelectedUserMotivationsIndex(index)
+        viewModel.confirmUserMotivation()
+        assertEquals(userMotivations[index], viewModel.userMotivation.value)
     }
 }
