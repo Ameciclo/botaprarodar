@@ -90,6 +90,7 @@ class UserQuizViewModelTest {
     fun `WHEN userMotivation is empty THEN index should be zero`() {
         viewModel.userMotivation.value = ""
         assertTrue(viewModel.getSelectedUserMotivationsIndex() == 0)
+        assertTrue(viewModel.selectedUserMotivationIndex == 0)
     }
 
     @Test

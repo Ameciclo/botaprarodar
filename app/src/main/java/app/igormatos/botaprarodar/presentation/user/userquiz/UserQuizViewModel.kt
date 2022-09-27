@@ -136,7 +136,10 @@ class UserQuizViewModel(
 
     fun getSelectedUserMotivationsIndex(): Int {
         selectedUserMotivationIndex =  userMotivationList.values.indexOf(userMotivation.value)
-        return if (selectedUserMotivationIndex == -1) 0 else selectedUserMotivationIndex
+        if (selectedUserMotivationIndex == -1) {
+            selectedUserMotivationIndex = 0
+        }
+        return selectedUserMotivationIndex
     }
 
     fun setSelectedUserMotivationsIndex(index: Int) {

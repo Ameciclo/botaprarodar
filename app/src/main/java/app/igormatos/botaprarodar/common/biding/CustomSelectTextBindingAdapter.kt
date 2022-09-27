@@ -8,5 +8,6 @@ import app.igormatos.botaprarodar.common.components.CustomSelectText
 fun CustomSelectText.setTextValue(value: String?) {
     value?.let {
         setEditTextValue(it)
+        setupVisibility(it)
     }
 }

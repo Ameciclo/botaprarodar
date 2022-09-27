@@ -29,17 +29,22 @@ class CustomSelectText @JvmOverloads constructor(
                 0,
                 0
             )
-            with(binding){
-                label.text = typedArray.getString(R.styleable.CustomEditText_android_label)
-                selectorEditText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
-                questionLabel.text = typedArray.getString(R.styleable.CustomEditTextWithButton_questionLabel)
-                isNeedQuestion = typedArray.getBoolean(R.styleable.CustomEditTextWithButton_isNeedQuestion, false)
-                editText.hint = typedArray.getString(R.styleable.CustomEditText_android_hint)
+            with(binding) {
+                label.text = typedArray.getString(R.styleable.CustomSelectText_android_label)
+                selectorEditText.hint =
+                    typedArray.getString(R.styleable.CustomSelectText_android_hint)
+                questionLabel.text =
+                    typedArray.getString(R.styleable.CustomSelectText_questionLabelSelectText)
+                isNeedQuestion = typedArray.getBoolean(
+                    R.styleable.CustomSelectText_isNeedQuestionSelectText,
+                    false
+                )
+                editText.hint = typedArray.getString(R.styleable.CustomSelectText_android_hint)
             }
         }
     }
 
-    fun setupClick(clickAction: () -> Unit){
+    fun setupClick(clickAction: () -> Unit) {
         binding.selectorEditText.setOnClickListener {
             clickAction.invoke()
         }
@@ -47,6 +52,16 @@ class CustomSelectText @JvmOverloads constructor(
 
     fun setEditTextValue(value: String) {
         binding.selectorEditText.setText(value)
+    }
+
+    fun setupVisibility(value: String) {
+        if (value == "Outro" && isNeedQuestion) {
+            binding.textLayout.visibility = VISIBLE
+            binding.questionLabel.visibility = VISIBLE
+        } else {
+            binding.textLayout.visibility = GONE
+            binding.questionLabel.visibility = GONE
+        }
     }
 
 }
