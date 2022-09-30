@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.biding.utils.validateText
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserQuizBinding
@@ -23,6 +24,9 @@ import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
+import kotlinx.android.synthetic.main.custom_edit_text.view.*
+import kotlinx.android.synthetic.main.custom_edit_text.view.textLayout
+import kotlinx.android.synthetic.main.custom_select_text.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserQuizFragment : Fragment() {
@@ -157,13 +161,21 @@ class UserQuizFragment : Fragment() {
 
             setPositiveButton(getString(R.string.ok)) { _, _ ->
                 binding.viewModel?.confirmUserMotivation()
-//                validateTextGenderField()
+                validateText()
             }
             setOnDismissListener {
-//                validateTextGenderField()
+                validateText()
             }
             create().show()
         }
+    }
+
+    private fun validateText() {
+        validateText(
+            binding.userQuizMotivation.selectorEditText.text.toString(),
+            binding.userQuizMotivation.selectorTextLayout,
+            R.string.add_user_quiz_invalid_motivation
+        )
     }
 
     private fun addMaskOnQuizTime() {

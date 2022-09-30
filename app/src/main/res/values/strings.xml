@@ -176,6 +176,7 @@
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
     <string name="add_user_invalid_information">Informação inválida</string>
     <string name="add_user_quiz_invalid_information">Informação inválida</string>
+    <string name="add_user_quiz_invalid_motivation">Motivação inválida</string>
 
     <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
     <string name="add_user_schooling_status_complete">Sim</string>

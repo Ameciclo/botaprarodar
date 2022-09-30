@@ -15,6 +15,9 @@ import app.igormatos.botaprarodar.databinding.FragmentSocialDataBinding
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.presentation.user.UserActivity
 import kotlinx.android.synthetic.main.custom_edit_text.view.*
+import kotlinx.android.synthetic.main.custom_edit_text.view.editText
+import kotlinx.android.synthetic.main.custom_edit_text.view.textLayout
+import kotlinx.android.synthetic.main.custom_select_text.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -158,8 +161,8 @@ class SocialDataFragment : Fragment() {
 
     private fun validateTextGenderField() {
         validateText(
-            binding.userGenderCst.editText.text.toString(),
-            binding.userGenderCst.textLayout,
+            binding.userGenderCst.selectorEditText.text.toString(),
+            binding.userGenderCst.selectorTextLayout,
             R.string.add_user_invalid_information
         )
     }
@@ -202,8 +205,8 @@ class SocialDataFragment : Fragment() {
 
     private fun validateTextIncomeField() {
         validateText(
-            binding.userIncomeCst.editText.text.toString(),
-            binding.userIncomeCst.textLayout,
+            binding.userIncomeCst.selectorEditText.text.toString(),
+            binding.userIncomeCst.selectorTextLayout,
             R.string.add_user_invalid_income
         )
     }
@@ -231,8 +234,8 @@ class SocialDataFragment : Fragment() {
 
     private fun validateTextRaceField() {
         validateText(
-            binding.userRacialCst.editText.text.toString(),
-            binding.userRacialCst.textLayout,
+            binding.userRacialCst.selectorEditText.text.toString(),
+            binding.userRacialCst.selectorTextLayout,
             R.string.add_user_invalid_racial
         )
     }

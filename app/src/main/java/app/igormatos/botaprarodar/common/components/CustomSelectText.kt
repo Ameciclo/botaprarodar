@@ -1,11 +1,13 @@
 package app.igormatos.botaprarodar.common.components
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import androidx.core.widget.doAfterTextChanged
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.biding.utils.validateText
 import app.igormatos.botaprarodar.databinding.CustomSelectTextBinding
 
 class CustomSelectText @JvmOverloads constructor(
@@ -54,6 +56,16 @@ class CustomSelectText @JvmOverloads constructor(
         binding.selectorEditText.setText(value)
     }
 
+    fun getEditTextOpenFieldValue() = binding.editText.text.toString()
+
+    fun setEditTextOpenFieldValue(value: String) {
+        binding.editText.setText(value)
+    }
+
+    fun addEditTextOpenFieldListener(textWatcher: TextWatcher){
+        binding.editText.addTextChangedListener(textWatcher)
+    }
+
     fun setupVisibility(value: String) {
         if (value == "Outro" && isNeedQuestion) {
             binding.textLayout.visibility = VISIBLE
@@ -63,5 +75,4 @@ class CustomSelectText @JvmOverloads constructor(
             binding.questionLabel.visibility = GONE
         }
     }
-
 }
