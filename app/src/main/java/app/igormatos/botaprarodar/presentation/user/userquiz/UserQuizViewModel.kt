@@ -68,7 +68,7 @@ class UserQuizViewModel(
         user.userQuiz?.let {
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
             alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
-            userMotivation.value = it.motivation.orEmpty()
+//            userMotivation.value = it.motivation.orEmpty()
             motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
             alreadyAccidentVictim.value = it.alreadyAccidentVictim ?: false
             problemsOnWayOpenQuestion.value = it.problemsOnWayOpenQuestion.orEmpty()
@@ -79,7 +79,7 @@ class UserQuizViewModel(
     fun createUserQuiz() = UserQuiz(
         alreadyUseBPR = alreadyUseBPR.value,
         alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
-        motivation = userMotivation.value,
+//        motivation = userMotivation.value,
         motivationOpenQuestion = motivationOpenQuestion.value,
         alreadyAccidentVictim = alreadyAccidentVictim.value,
         problemsOnWayOpenQuestion = problemsOnWayOpenQuestion.value,

@@ -1,7 +1,5 @@
 package app.igormatos.botaprarodar.common.enumType
 
-import app.igormatos.botaprarodar.R
-
 enum class UserMotivationType(val index: Int, val value: String) {
     TO_SAVE_MONEY(0, "Para economizar dinheiro, usar bicicleta é mais barato."),
     BECAUSE_IS_MORE_ECOLOGIC(1, "Porque é mais ecológico. A bicicleta não polui o ambiente."),

@@ -13,7 +13,7 @@ data class UserQuiz(
     @SerializedName("alreadyUseBPROpenQuestion")
     var alreadyUseBPROpenQuestion: String? = null,
     @SerializedName("motivation")
-    var motivation: String? = null,
+    var motivation: Int? = null,
     @SerializedName("motivationOpenQuestion")
     var motivationOpenQuestion: String? = null,
     @SerializedName("alreadyAccidentVictim")
