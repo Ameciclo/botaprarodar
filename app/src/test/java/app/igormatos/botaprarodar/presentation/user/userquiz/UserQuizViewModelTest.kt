@@ -37,6 +37,7 @@ class UserQuizViewModelTest {
         every { useCase.getUserMotivations() } returns userMotivations
         viewModel = UserQuizViewModel(useCase)
         viewModel.init(validUser, false, listOf())
+        every { useCase.getUserMotivationIndex(any()) } returns 0
     }
 
     @Test
