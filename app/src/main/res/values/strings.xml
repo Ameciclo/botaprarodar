@@ -145,7 +145,7 @@
     <string name="user_form_user_birthday_label">Nascimento*</string>
     <string name="user_form_user_birthday_hint">DD/MM/AAAA</string>
 
-    <string name="user_form_user_income_label">Renda Mensal*</string>
+    <string name="user_form_user_income_label">Renda Mensal (em reais)*</string>
 
     <string name="user_form_user_race_label">Com qual raça a pessoa se identifica?*</string>
 
@@ -246,19 +246,19 @@
 
     <!-- Return Bike Quiz -->
     <string name="return_bike_survey_select">Selecione</string>
-    <string name="return_bike_used_bike_to_move">A bicicleta foi usada para que?</string>
+    <string name="return_bike_used_bike_to_move">A bicicleta foi usada para qual finalidade nessa viagem?*</string>
     <string name="return_bike_which_district_hint">Qual o bairro de destino?</string>
     <string name="return_bike_reasons">Qual foi o motivo da sua viagem?</string>
-    <string name="return_bike_neighborhood_hint">Qual foi o bairro de destino?</string>
+    <string name="return_bike_neighborhood_hint">Qual foi o bairro de destino?*</string>
     <string name="return_bike_confirm_devolution">Confirmar devolução</string>
 
     <string-array name="return_bike_purpose_list">
-        <item>Seu local de trabalho</item>
-        <item>Seu local de estudo</item>
-        <item>Seu local de lazer / convivência social</item>
-        <item>Seu local de compras</item>
-        <item>Local de estudo da criança</item>
-        <item>Outro motivo não especificado</item>
+        <item>Para realizar entregas de aplicativos</item>
+        <item>Deslocar para o local de trabalho</item>
+        <item>Deslocar para o local de estudo</item>
+        <item>Levar crianças para escola ou creche</item>
+        <item>Resolver coisas do dia a dia. Ex: Mercado, lotéricas, banco</item>
+        <item>Para passear, lazer</item>
     </string-array>
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
