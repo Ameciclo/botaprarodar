@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:hint="@string/default_custom_component_select_hint"
+                    app:hintOpenField="@{@string/user_quiz_motivation_question}"
                     android:label="@string/user_quiz_motivation_question_label"
                     android:inputType="text"
                     app:isNeedQuestionSelectText="true"

@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.core.widget.doAfterTextChanged
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.biding.utils.validateText
+import app.igormatos.botaprarodar.common.enumType.UserMotivationType
 import app.igormatos.botaprarodar.databinding.CustomSelectTextBinding
 
 class CustomSelectText @JvmOverloads constructor(
@@ -54,6 +55,13 @@ class CustomSelectText @JvmOverloads constructor(
 
     fun setEditTextValue(value: String) {
         binding.selectorEditText.setText(value)
+        if(value != UserMotivationType.OTHER.value){
+            setEditTextOpenFieldValue("")
+        }
+    }
+
+    fun setHintOpenField(value: String){
+        binding. editText.hint = value
     }
 
     fun getEditTextOpenFieldValue() = binding.editText.text.toString()
@@ -67,7 +75,7 @@ class CustomSelectText @JvmOverloads constructor(
     }
 
     fun setupVisibility(value: String) {
-        if (value == "Outro" && isNeedQuestion) {
+        if (value == UserMotivationType.OTHER.value && isNeedQuestion) {
             binding.textLayout.visibility = VISIBLE
             binding.questionLabel.visibility = VISIBLE
         } else {

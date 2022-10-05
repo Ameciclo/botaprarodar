@@ -17,6 +17,13 @@ fun CustomSelectText.setTextValue(value: String?) {
         setupVisibility(it)
     }
 }
+@BindingAdapter("hintOpenField")
+fun CustomSelectText.hintOpenField(value: String?) {
+    value?.let {
+        setHintOpenField(it)
+    }
+}
+
 
 @BindingAdapter("textOpenFieldValue")
 fun CustomSelectText.setTextOpenFieldValue(value: String?) {

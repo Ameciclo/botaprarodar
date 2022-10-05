@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.utils.validUser
 import app.igormatos.botaprarodar.utils.userSimpleSuccess
+import app.igormatos.botaprarodar.utils.validUser
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
 import io.mockk.every
