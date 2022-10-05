@@ -97,6 +97,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiterVersion"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$jupiterVersion"
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
 
 
     // Test

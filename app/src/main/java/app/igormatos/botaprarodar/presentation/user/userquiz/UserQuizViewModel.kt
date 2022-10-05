@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.user.userquiz
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.enumType.UserMotivationType
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.UserQuiz
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
@@ -68,7 +69,7 @@ class UserQuizViewModel(
         user.userQuiz?.let {
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
             alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
-//            userMotivation.value = it.motivation.orEmpty()
+            userMotivation.value = userUseCase.getUserMotivationValue(it.motivation)
             motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
             alreadyAccidentVictim.value = it.alreadyAccidentVictim ?: false
             problemsOnWayOpenQuestion.value = it.problemsOnWayOpenQuestion.orEmpty()
@@ -79,7 +80,7 @@ class UserQuizViewModel(
     fun createUserQuiz() = UserQuiz(
         alreadyUseBPR = alreadyUseBPR.value,
         alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
-//        motivation = userMotivation.value,
+        motivation = userUseCase.getUserMotivationIndex(userMotivation.value!!),
         motivationOpenQuestion = motivationOpenQuestion.value,
         alreadyAccidentVictim = alreadyAccidentVictim.value,
         problemsOnWayOpenQuestion = problemsOnWayOpenQuestion.value,
