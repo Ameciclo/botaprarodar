@@ -53,7 +53,7 @@ class UserRepository(private val userApi: UserApi) {
             1 to "Porque é mais ecológico. A bicicleta não polui o ambiente.",
             2 to "Para economizar tempo. Usar a bicicleta como transporte é mais eficiente.",
             3 to "Para melhorar a saúde física e emocional.",
-            4 to  "Porque começou a trabalhar com entregas .",
+            4 to "Porque começou a trabalhar com entregas.",
             5 to "Outro"
         )
     }
