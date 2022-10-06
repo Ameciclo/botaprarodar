@@ -25,7 +25,7 @@ class UserRepositoryTest {
 
     @ParameterizedTest
     @EnumSource(UserMotivationType::class)
-    fun `WHEN call user motivations THEN should return  uer motivations with motivation equals enum type elements`(
+    fun `WHEN call user motivations THEN should return  user motivations with motivation equals enum type elements`(
         userMotivationType: UserMotivationType
     ) {
         assertTrue(userRepository.getUserMotivations().containsValue(userMotivationType.value))
