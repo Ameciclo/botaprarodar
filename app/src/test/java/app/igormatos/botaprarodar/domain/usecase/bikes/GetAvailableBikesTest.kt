@@ -24,7 +24,7 @@ class GetAvailableBikesTest {
 
     @Test
     fun `given a bikeList then result should contain only available bikes`() = runBlocking {
-        coEvery { bikeRepository.getBicycles() } returns SimpleResult.Success(
+        coEvery { bikeRepository.getBikesByCommunityId(communityFixture.id) } returns SimpleResult.Success(
             buildMapStringAndBicycleRandom(3, 2)
         )
 
@@ -36,7 +36,7 @@ class GetAvailableBikesTest {
     @Test
     fun `given a community then result should contain only available bikes in this community`() =
         runBlocking {
-            coEvery { bikeRepository.getBicycles() } returns SimpleResult.Success(
+            coEvery { bikeRepository.getBikesByCommunityId(communityFixture.id) } returns SimpleResult.Success(
                 buildMapStringAndBicycleRandom(3, 2)
             )
 
@@ -49,7 +49,7 @@ class GetAvailableBikesTest {
 
     @Test
     fun `given borrowed bike list then result should return empty list`() = runBlocking {
-        coEvery { bikeRepository.getBicycles() } returns SimpleResult.Success(
+        coEvery { bikeRepository.getBikesByCommunityId(communityFixture.id) } returns SimpleResult.Success(
             buildMapStringAndBicycleInUse(2)
         )
 
@@ -60,7 +60,7 @@ class GetAvailableBikesTest {
 
     @Test
     fun `given an error then result should return throw expected exception`() {
-        coEvery { bikeRepository.getBicycles() } returns SimpleResult.Error(Exception())
+        coEvery { bikeRepository.getBikesByCommunityId(communityFixture.id)} returns SimpleResult.Error(Exception())
 
         Assertions.assertThrows(GetAvailableBikesException::class.java) {
             runBlocking { getAvailableBikes.execute(communityFixture.id) }
