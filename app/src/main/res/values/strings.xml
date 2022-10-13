@@ -254,12 +254,12 @@
     <string name="return_bike_confirm_devolution">Confirmar devolução</string>
 
     <string-array name="return_bike_purpose_list">
-        <item>Para realizar entregas de aplicativos</item>
-        <item>Deslocar para o local de trabalho</item>
-        <item>Deslocar para o local de estudo</item>
-        <item>Levar crianças para escola ou creche</item>
-        <item>Resolver coisas do dia a dia. Ex: Mercado, lotéricas, banco</item>
-        <item>Para passear, lazer</item>
+        <item>Seu local de trabalho</item>
+        <item>Seu local de estudo</item>
+        <item>Seu local de lazer / convivência social</item>
+        <item>Seu local de compras</item>
+        <item>Local de estudo da criança</item>
+        <item>Outro motivo não especificado</item>
     </string-array>
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
