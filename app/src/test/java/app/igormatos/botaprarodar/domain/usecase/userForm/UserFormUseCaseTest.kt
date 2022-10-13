@@ -145,12 +145,14 @@ class UserFormUseCaseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["Outro",
-        "Para economizar dinheiro, usar bicicleta é mais barato.",
-        "Porque é mais ecológico. A bicicleta não polui o ambiente.",
-        "Para economizar tempo. Usar a bicicleta como transporte é mais eficiente.",
-        "Porque começou a trabalhar com entregas.",
-        "Para melhorar a saúde física e emocional."])
+    @ValueSource(
+        strings = ["Outro.",
+            "Para economizar dinheiro. Usar bicicleta é mais barato.",
+            "Porque é mais ecológico. A bicicleta não polui o ambiente.",
+            "Para economizar tempo. Usar a bicicleta como transporte é mais eficiente.",
+            "Porque começou a trabalhar com entregas.",
+            "Para melhorar a saúde física e emocional."]
+    )
     fun `WHEN user motivation value is informed THEN should return a value not empty in UserMotivationType `(
         value: String
     ) {
@@ -160,7 +162,7 @@ class UserFormUseCaseTest {
     }
 
     private fun motivationList(): Array<String> {
-       return arrayOf(
+        return arrayOf(
 
         )
     }
