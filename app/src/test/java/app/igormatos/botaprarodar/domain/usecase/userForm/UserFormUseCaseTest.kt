@@ -1,19 +1,25 @@
 package app.igormatos.botaprarodar.domain.usecase.userForm
 
 import androidx.test.platform.app.InstrumentationRegistry
+import app.igormatos.botaprarodar.common.enumType.UserMotivationType
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.utils.*
 import com.brunotmgomes.ui.SimpleResult
+import io.mockk.InternalPlatformDsl.toArray
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.io.File
 
 class UserFormUseCaseTest {
@@ -23,6 +29,10 @@ class UserFormUseCaseTest {
 
     @Before
     fun setup() {
+        initUserCase()
+    }
+
+    private fun initUserCase() {
         userUseCase = UserFormUseCase(userRepository, firebaseHelperRepository)
     }
 
@@ -124,6 +134,39 @@ class UserFormUseCaseTest {
             assertTrue(responseResult is SimpleResult.Success<Unit>)
         }
 
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2, 3, 4, 5])
+    fun `WHEN user motivation index is informed THEN should return a value not empty in UserMotivationType `(
+        index: Int
+    ) {
+        initUserCase()
+        val userMotivation = userUseCase.getUserMotivationValue(index)
+        assertNotEquals("", userMotivation)
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = ["Outro.",
+            "Para economizar dinheiro. Usar bicicleta é mais barato.",
+            "Porque é mais ecológico. A bicicleta não polui o ambiente.",
+            "Para economizar tempo. Usar a bicicleta como transporte é mais eficiente.",
+            "Porque começou a trabalhar com entregas.",
+            "Para melhorar a saúde física e emocional."]
+    )
+    fun `WHEN user motivation value is informed THEN should return a value not empty in UserMotivationType `(
+        value: String
+    ) {
+        initUserCase()
+        val userMotivation = userUseCase.getUserMotivationIndex(value)
+        assertNotNull(userMotivation)
+    }
+
+    private fun motivationList(): Array<String> {
+        return arrayOf(
+
+        )
+    }
+
     private fun mockTestSuccess() {
         coEvery {
             userRepository.addNewUser(any())
@@ -185,4 +228,6 @@ class UserFormUseCaseTest {
     }
 
     private fun getContext() = InstrumentationRegistry.getInstrumentation().context
+
+
 }

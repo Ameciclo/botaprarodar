@@ -176,6 +176,7 @@
     <string name="add_user_invalid_schooling">Escolaridade inválida</string>
     <string name="add_user_invalid_information">Informação inválida</string>
     <string name="add_user_quiz_invalid_information">Informação inválida</string>
+    <string name="add_user_quiz_invalid_motivation">Motivação inválida</string>
 
     <string name="add_user_schooling_status">A pessoa concluiu o grau acima?</string>
     <string name="add_user_schooling_status_complete">Sim</string>
@@ -253,12 +254,12 @@
     <string name="return_bike_confirm_devolution">Confirmar devolução</string>
 
     <string-array name="return_bike_purpose_list">
-        <item>Para realizar entregas de aplicativos</item>
-        <item>Deslocar para o local de trabalho</item>
-        <item>Deslocar para o local de estudo</item>
-        <item>Levar crianças para escola ou creche</item>
-        <item>Resolver coisas do dia a dia. Ex: Mercado, lotéricas, banco</item>
-        <item>Para passear, lazer</item>
+        <item>Seu local de trabalho</item>
+        <item>Seu local de estudo</item>
+        <item>Seu local de lazer / convivência social</item>
+        <item>Seu local de compras</item>
+        <item>Local de estudo da criança</item>
+        <item>Outro motivo não especificado</item>
     </string-array>
 
     <string name="return_bike_toolbar_title">DEVOLVER BICICLETA</string>
@@ -299,7 +300,9 @@
     <string name="user_quiz_already_bicycle_user_question">Já utilizava a bicicleta antes do Bota Pra Rodar?</string>
     <string name="user_quiz_how_much_time_question">Há quanto tempo?</string>
     <string name="user_quiz_how_much_time_hint">Tempo em meses Ex: 16</string>
-    <string name="user_quiz_motivation_question_label">Qual sua motivação para utilizar a bicicleta como meio de transporte?*</string>
+    <string name="user_quiz_motivation_open_field_motivation">Indique a motivação da usuária</string>
+    <string name="user_quiz_motivation_dialog_label">Por que a usuária começou a usar a bicicleta como meio de transporte?</string>
+    <string name="user_quiz_motivation_question_label">Por que a usuária começou a usar a bicicleta como meio de transporte?*</string>
     <string name="user_quiz_motivation_question">Motivação</string>
     <string name="user_quiz_accident_victim_question">Já foi vítima de colisão/atropelamento?*</string>
     <string name="user_quiz_problems_on_way_question_label">Quais os problemas que você mais percebe durante o seu trajeto?*</string>

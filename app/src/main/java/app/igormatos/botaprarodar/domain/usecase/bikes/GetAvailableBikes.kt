@@ -13,10 +13,10 @@ class GetAvailableBikes(private val bikeRepository: BikeRepository) {
 
     @Throws(GetAvailableBikesException::class)
     suspend fun execute(communityId: String): List<Bike> {
-        return when (val result = bikeRepository.getBicycles()) {
+        return when (val result = bikeRepository.getBikesByCommunityId(communityId)) {
             is SimpleResult.Success -> {
                 val bikes: MutableList<Bike> = result.data.convertMapperToBikeList()
-                val bikesNotInUse = bikes.filter { !it.inUse && it.communityId == communityId }
+                val bikesNotInUse = bikes.filter { !it.inUse }
                 bikesNotInUse.sortByOrderNumber()
 
             }

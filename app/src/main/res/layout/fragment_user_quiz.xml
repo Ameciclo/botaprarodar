@@ -52,22 +52,27 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userQuizMotivationLabel"
-                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}" />
+                    app:questionLabel="@string/user_quiz_how_much_time_question"
+                    app:setRadioGroupYesNoQuestionCheckedChanged="@={viewModel.alreadyUseBPR}"
+                    app:textValue="@={viewModel.alreadyUseBPROpenQuestion}" />
 
-                <app.igormatos.botaprarodar.common.components.CustomEditText
-                    android:id="@+id/userQuizMotivationOpenQuestion"
+                <app.igormatos.botaprarodar.common.components.CustomSelectText
+                    android:id="@+id/userQuizMotivation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:hint="@string/user_quiz_motivation_question"
-                    android:inputType="text"
+                    android:hint="@string/default_custom_component_select_hint"
+                    app:hintOpenField="@{@string/user_quiz_motivation_question}"
                     android:label="@string/user_quiz_motivation_question_label"
-                    app:errorMessage="@{`add_user_quiz_invalid_information`}"
+                    android:inputType="text"
+                    app:isNeedQuestionSelectText="true"
+                    app:questionLabelSelectText="@string/user_quiz_motivation_open_field_motivation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userQuizAlreadyBicycleUserQuestion"
-                    app:textCaptured="@{viewModel.motivationOpenQuestion}"
-                    app:textValue="@={viewModel.motivationOpenQuestion}" />
+                    app:textValue="@{viewModel.userMotivation}"
+                    app:textOpenFieldValue="@={viewModel.motivationOpenQuestion}"/>
+
 
                 <app.igormatos.botaprarodar.common.components.CustomEditText
                     android:id="@+id/userQuizTimeOnWayOpenQuestion"
@@ -80,7 +85,7 @@
                     app:errorMessage="@{`add_user_quiz_invalid_information`}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivationOpenQuestion"
+                    app:layout_constraintTop_toBottomOf="@id/userQuizMotivation"
                     app:textCaptured="@{viewModel.timeOnWayOpenQuestion}"
                     app:textValue="@={viewModel.timeOnWayOpenQuestion}" />
 

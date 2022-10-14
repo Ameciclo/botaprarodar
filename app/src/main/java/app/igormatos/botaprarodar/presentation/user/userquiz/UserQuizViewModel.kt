@@ -2,6 +2,7 @@ package app.igormatos.botaprarodar.presentation.user.userquiz
 
 import androidx.lifecycle.*
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.enumType.UserMotivationType
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.model.UserQuiz
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
@@ -18,7 +19,11 @@ class UserQuizViewModel(
 
     val alreadyUseBPR = MutableLiveData<Boolean>()
 
-    val motivationOpenQuestion = MutableLiveData<String>()
+    val alreadyUseBPROpenQuestion = MutableLiveData<String>()
+
+    val motivationOpenQuestion = MutableLiveData("")
+
+    val userMotivation = MutableLiveData("")
 
     val alreadyAccidentVictim = MutableLiveData<Boolean>()
 
@@ -37,24 +42,34 @@ class UserQuizViewModel(
     val isLgpdAgreement: LiveData<Boolean> = _isLgpdAgreement
 
     val isButtonEnabled = MediatorLiveData<Boolean>().apply {
-        addSource(motivationOpenQuestion) { validateQuestions() }
+        addSource(userMotivation) { validateQuestions() }
         addSource(alreadyAccidentVictim) { validateQuestions() }
         addSource(problemsOnWayOpenQuestion) { validateQuestions() }
         addSource(timeOnWayOpenQuestion) { validateQuestions() }
     }
 
+    lateinit var userMotivationList: Map<Int, String>
+    var selectedUserMotivationIndex = 0
+
     fun init(user: User, editMode: Boolean, deleteImagePaths: List<String>) {
         this.user = user
         this.editMode = editMode
         this.deleteImagePaths = deleteImagePaths
+        loadUserMotivations()
         if (editMode) {
             fillUserQuiz()
         }
     }
 
+    private fun loadUserMotivations() {
+        userMotivationList = userUseCase.getUserMotivations()
+    }
+
     private fun fillUserQuiz() {
         user.userQuiz?.let {
             alreadyUseBPR.value = it.alreadyUseBPR ?: false
+            alreadyUseBPROpenQuestion.value = it.alreadyUseBPROpenQuestion.orEmpty()
+            userMotivation.value = userUseCase.getUserMotivationValue(it.motivation)
             motivationOpenQuestion.value = it.motivationOpenQuestion.orEmpty()
             alreadyAccidentVictim.value = it.alreadyAccidentVictim ?: false
             problemsOnWayOpenQuestion.value = it.problemsOnWayOpenQuestion.orEmpty()
@@ -64,6 +79,8 @@ class UserQuizViewModel(
 
     fun createUserQuiz() = UserQuiz(
         alreadyUseBPR = alreadyUseBPR.value,
+        alreadyUseBPROpenQuestion = alreadyUseBPROpenQuestion.value,
+        motivation = userUseCase.getUserMotivationIndex(userMotivation.value!!),
         motivationOpenQuestion = motivationOpenQuestion.value,
         alreadyAccidentVictim = alreadyAccidentVictim.value,
         problemsOnWayOpenQuestion = problemsOnWayOpenQuestion.value,
@@ -116,10 +133,26 @@ class UserQuizViewModel(
 
     private fun validateQuestions() {
         isButtonEnabled.value =
-                    motivationOpenQuestion.isNotNullOrBlank() &&
+            userMotivation.isNotNullOrBlank() &&
                     alreadyAccidentVictim.isNotNull() &&
                     problemsOnWayOpenQuestion.isNotNullOrBlank() &&
                     timeOnWayOpenQuestion.isNotNullOrBlank()
+    }
+
+    fun getSelectedUserMotivationsIndex(): Int {
+        selectedUserMotivationIndex =  userMotivationList.values.indexOf(userMotivation.value)
+        if (selectedUserMotivationIndex == -1) {
+            selectedUserMotivationIndex = 0
+        }
+        return selectedUserMotivationIndex
+    }
+
+    fun setSelectedUserMotivationsIndex(index: Int) {
+        selectedUserMotivationIndex = index
+    }
+
+    fun confirmUserMotivation() {
+        userMotivation.value = userMotivationList[selectedUserMotivationIndex]
     }
 
     companion object {

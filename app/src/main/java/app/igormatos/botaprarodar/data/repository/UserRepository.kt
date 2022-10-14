@@ -39,12 +39,22 @@ class UserRepository(private val userApi: UserApi) {
         }
     }
 
-
     suspend fun getUserBy(userId: String): SimpleResult<User> {
         return withContext(Dispatchers.IO) {
             safeApiCall {
                 userApi.getUserBy(userId)
             }
         }
+    }
+
+    fun getUserMotivations(): Map<Int, String> {
+        return mapOf(
+            0 to "Para economizar dinheiro. Usar bicicleta é mais barato.",
+            1 to "Porque é mais ecológico. A bicicleta não polui o ambiente.",
+            2 to "Para economizar tempo. Usar a bicicleta como transporte é mais eficiente.",
+            3 to "Para melhorar a saúde física e emocional.",
+            4 to "Porque começou a trabalhar com entregas.",
+            5 to "Outro."
+        )
     }
 }

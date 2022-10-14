@@ -4,12 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.ViewModelStatus
 import app.igormatos.botaprarodar.domain.model.User
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
-import app.igormatos.botaprarodar.utils.validUser
 import app.igormatos.botaprarodar.utils.userSimpleSuccess
+import app.igormatos.botaprarodar.utils.validUser
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -23,10 +25,19 @@ class UserQuizViewModelTest {
     private val useCase = mockk<UserFormUseCase>()
     private lateinit var viewModel: UserQuizViewModel
 
+    private val userMotivations: Map<Int, String> = mapOf(
+        0 to "usar bicicleta é mais barato.",
+        1 to "A bicicleta não polui o ambiente.",
+        2 to "Outro"
+    )
+
+
     @Before
     fun setup() {
+        every { useCase.getUserMotivations() } returns userMotivations
         viewModel = UserQuizViewModel(useCase)
         viewModel.init(validUser, false, listOf())
+        every{useCase.getUserMotivationIndex(any())} returns 0
     }
 
     @Test
@@ -74,5 +85,27 @@ class UserQuizViewModelTest {
 
         viewModel.registerUser()
         assertTrue(viewModel.status.value is ViewModelStatus.Error)
+    }
+
+    @Test
+    fun `WHEN userMotivation is empty THEN index should be zero`() {
+        viewModel.userMotivation.value = ""
+        assertTrue(viewModel.getSelectedUserMotivationsIndex() == 0)
+        assertTrue(viewModel.selectedUserMotivationIndex == 0)
+    }
+
+    @Test
+    fun `WHEN set user motivation index THEN selectedUserMotivationsIndex should be updated`() {
+        val index = 1
+        viewModel.setSelectedUserMotivationsIndex(index)
+        assertEquals(index, viewModel.selectedUserMotivationIndex)
+    }
+
+    @Test
+    fun `WHEN confirmUserMotivation is call THEN userMotivation is updated with list element from index`() {
+        val index = 1
+        viewModel.setSelectedUserMotivationsIndex(index)
+        viewModel.confirmUserMotivation()
+        assertEquals(userMotivations[index], viewModel.userMotivation.value)
     }
 }
