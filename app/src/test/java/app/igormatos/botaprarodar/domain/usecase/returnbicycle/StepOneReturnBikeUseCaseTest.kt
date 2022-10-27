@@ -19,6 +19,8 @@ class StepOneReturnBikeUseCaseTest {
 
     private val repository = mockk<BikeRepository>()
     private lateinit var useCase: StepOneReturnBikeUseCase
+    private var communityId = "123"
+
 
     @Before
     fun setup() {
@@ -28,11 +30,11 @@ class StepOneReturnBikeUseCaseTest {
     @Test
     fun `when call getBikesInUseToReturn() then some bike is in use should return a success`() =
         runBlocking {
-            coEvery { repository.getBicycles() } returns SimpleResult.Success(
+            coEvery { repository.getBikesByCommunityId(communityId) } returns SimpleResult.Success(
                 buildMapStringAndBicycleInUse(3)
             )
 
-            val listResult = useCase.getBikesInUseToReturn("123")
+            val listResult = useCase.getBikesInUseToReturn(communityId)
 
             assertEquals(3, (listResult as SimpleResult.Success).data.size)
             assertEquals("bicycle 3", listResult.data[0].name)
@@ -41,25 +43,14 @@ class StepOneReturnBikeUseCaseTest {
         }
 
     @Test
-    fun `when call getBikesInUseToReturn() then some bike is in use but the communityId is different should return an error`() =
-        runBlocking {
-            coEvery { repository.getBicycles() } returns SimpleResult.Success(
-                buildMapStringAndBicycleInUse(3)
-            )
-
-            val listResult = useCase.getBikesInUseToReturn("123456")
-
-            assertTrue(listResult is SimpleResult.Error)
-        }
-
-    @Test
     fun `when call getBikesInUseToReturn() then none bike is in use should return an error`() =
         runBlocking {
-            coEvery { repository.getBicycles() } returns SimpleResult.Success(
+            communityId = "10"
+            coEvery { repository.getBikesByCommunityId(communityId) } returns SimpleResult.Success(
                 buildMapStringAndBicycle(3)
             )
 
-            val listResult = useCase.getBikesInUseToReturn("10")
+            val listResult = useCase.getBikesInUseToReturn(communityId)
 
             assertTrue(listResult is SimpleResult.Error)
         }
@@ -67,9 +58,10 @@ class StepOneReturnBikeUseCaseTest {
     @Test
     fun `when call getBikesInUseToReturn() then an error is returned should return an error`() =
         runBlocking {
-            coEvery { repository.getBicycles() } returns bikeSimpleError
+            communityId = "10"
+            coEvery { repository.getBikesByCommunityId(communityId) } returns bikeSimpleError
 
-            val listResult = useCase.getBikesInUseToReturn("10")
+            val listResult = useCase.getBikesInUseToReturn(communityId)
 
             assertTrue(listResult is SimpleResult.Error)
         }

@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.ViewModelStatus
+import app.igormatos.botaprarodar.common.biding.utils.validateText
 import app.igormatos.botaprarodar.common.components.CustomDialog
 import app.igormatos.botaprarodar.common.utils.EditTextFormatMask
 import app.igormatos.botaprarodar.databinding.FragmentUserQuizBinding
@@ -23,6 +24,9 @@ import app.igormatos.botaprarodar.presentation.user.UserActivity
 import com.brunotmgomes.ui.extensions.createLoading
 import com.brunotmgomes.ui.extensions.hideKeyboard
 import com.brunotmgomes.ui.extensions.snackBarMaker
+import kotlinx.android.synthetic.main.custom_edit_text.view.*
+import kotlinx.android.synthetic.main.custom_edit_text.view.textLayout
+import kotlinx.android.synthetic.main.custom_select_text.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserQuizFragment : Fragment() {
@@ -55,9 +59,10 @@ class UserQuizFragment : Fragment() {
 
         loadingDialog = requireContext().createLoading(R.layout.loading_dialog_animation)
         viewModel.init(args.user, args.editMode, args.deleteImagePaths.toList())
-        setupBackButtonListener()
-        setupLgpdObserver()
         setupStatusObserver()
+        setupLgpdObserver()
+        setupBackButtonListener()
+        setupClick()
         addMaskOnQuizTime()
     }
 
@@ -107,7 +112,9 @@ class UserQuizFragment : Fragment() {
 
     private fun navigateToUserSuccessfullyRegistered() {
         val direction =
-            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(args.editMode)
+            UserQuizFragmentDirections.actionUserQuizFragmentToUserSuccessfullyRegisteredFragment(
+                args.editMode
+            )
         navController.navigate(direction)
     }
 
@@ -134,6 +141,41 @@ class UserQuizFragment : Fragment() {
         )
 
         CustomDialog.newInstance(dialogModel).show(childFragmentManager, CustomDialog.TAG)
+    }
+
+    private fun setupClick() {
+        binding.userQuizMotivation.setupClick {
+            createUserMotivationDialog()
+        }
+    }
+
+    private fun createUserMotivationDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle(getString(R.string.user_quiz_motivation_dialog_label))
+            setSingleChoiceItems(
+                binding.viewModel?.userMotivationList?.values?.toTypedArray(),
+                binding.viewModel?.getSelectedUserMotivationsIndex() ?:0
+            ) { _, which ->
+                binding.viewModel?.setSelectedUserMotivationsIndex(which)
+            }
+
+            setPositiveButton(getString(R.string.ok)) { _, _ ->
+                binding.viewModel?.confirmUserMotivation()
+                validateText()
+            }
+            setOnDismissListener {
+                validateText()
+            }
+            create().show()
+        }
+    }
+
+    private fun validateText() {
+        validateText(
+            binding.userQuizMotivation.selectorEditText.text.toString(),
+            binding.userQuizMotivation.selectorTextLayout,
+            R.string.add_user_quiz_invalid_motivation
+        )
     }
 
     private fun addMaskOnQuizTime() {

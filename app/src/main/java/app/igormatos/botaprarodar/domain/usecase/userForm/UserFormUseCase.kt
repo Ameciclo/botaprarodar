@@ -1,12 +1,15 @@
 package app.igormatos.botaprarodar.domain.usecase.userForm
 
+import app.igormatos.botaprarodar.common.enumType.UserMotivationType
 import app.igormatos.botaprarodar.data.model.ImageUploadResponse
 import app.igormatos.botaprarodar.data.repository.FirebaseHelperRepository
 import app.igormatos.botaprarodar.data.repository.UserRepository
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.User
+import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
 import com.brunotmgomes.ui.SimpleResult
 import com.brunotmgomes.ui.extensions.isNotNullOrNotBlank
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.io.File
 
 private const val FIREBASE_URL = "https://"
@@ -75,7 +78,7 @@ class UserFormUseCase(
         if (File(path).isFile) {
             isFileDeleted = File(path).delete()
         }
-        return if (isFileDeleted){
+        return if (isFileDeleted) {
             SimpleResult.Success(Unit)
         } else {
             SimpleResult.Error(Exception("File not deleted"))
@@ -160,5 +163,16 @@ class UserFormUseCase(
             else -> {
             }
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun getUserMotivations(): Map<Int, String> = userRepository.getUserMotivations()
+
+    fun getUserMotivationValue(index: Int?): String {
+        return index?.let { UserMotivationType.getUserMotivationTypeByIndex(it)?.value }?:""
+    }
+
+    fun getUserMotivationIndex(value: String): Int? {
+        return UserMotivationType.getUserMotivationTypeByValue(value)?.index
     }
 }

@@ -50,6 +50,10 @@ class LoginActivity : BaseAuthActivity() {
         binding.tvSignUp.setOnClickListener {
             navigateToRegistrationActivity()
         }
+
+        binding.ietPassword.setOnFocusChangeListener { _, focus ->
+            if(focus) binding.ilPassword.error = null
+        }
     }
 
     private fun observeEvents() {
@@ -136,6 +140,10 @@ class LoginActivity : BaseAuthActivity() {
 
     private fun resetFormErrors() {
         binding.apply {
+
+            ietEmail.clearFocus()
+            ietPassword.clearFocus()
+
             ilEmail.error = null
             ilPassword.error = null
         }

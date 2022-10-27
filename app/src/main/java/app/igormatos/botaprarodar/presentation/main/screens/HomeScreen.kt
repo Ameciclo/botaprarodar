@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -78,31 +77,21 @@ private fun BikesCounter(totalBikes: Int, totalWithdrawBikes: Int, totalAvailabl
                     fontSize = 16.sp
                 )
             }
-        }
-    }
-    Spacer(modifier = Modifier.height(32.dp))
-    Card(
-        elevation = 4.dp,
-        backgroundColor = colorResource(id = R.color.colorPrimary)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = "Bicicletas disponíveis".uppercase(),
-                color = Color.White,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
-            )
-
-            Text(
-                text = "$totalAvailableBikes",
-                color = Color.White,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
-            )
+            Divider(Modifier.padding(vertical = 8.dp))
+            Row(horizontalArrangement = SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Disponíveis".uppercase(),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.colorPrimary)
+                )
+                Text(
+                    text = "$totalAvailableBikes",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.colorPrimary)
+                )
+            }
         }
     }
 }
@@ -158,3 +147,4 @@ fun HomeScreenPreview() {
 fun BikesCounterPreview() {
     BikesCounter(50, 20, 30)
 }
+

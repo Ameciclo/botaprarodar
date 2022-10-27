@@ -12,6 +12,8 @@ data class UserQuiz(
     var alreadyUseBPR: Boolean? = null,
     @SerializedName("alreadyUseBPROpenQuestion")
     var alreadyUseBPROpenQuestion: String? = null,
+    @SerializedName("motivation")
+    var motivation: Int? = null,
     @SerializedName("motivationOpenQuestion")
     var motivationOpenQuestion: String? = null,
     @SerializedName("alreadyAccidentVictim")

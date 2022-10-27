@@ -32,6 +32,8 @@
     <declare-styleable name="CustomSelectText">
         <attr name="android:label"/>
         <attr name="android:hint"/>
+        <attr name="isNeedQuestionSelectText" format="reference|boolean"/>
+        <attr name="questionLabelSelectText" format="reference|string"/>
     </declare-styleable>
 
     <declare-styleable name="CustomPicturePick">
