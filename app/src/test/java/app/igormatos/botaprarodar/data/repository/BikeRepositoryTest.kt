@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.data.repository
 
+import app.igormatos.botaprarodar.common.enumType.BicycleReturnUseType
 import app.igormatos.botaprarodar.data.network.api.BicycleApi
 import app.igormatos.botaprarodar.domain.model.AddDataResponse
 import app.igormatos.botaprarodar.domain.model.BikeRequest
@@ -21,6 +22,8 @@ import org.junit.Before
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 @ExperimentalCoroutinesApi
 @ExtendWith(MockKExtension::class)
@@ -68,7 +71,7 @@ internal class BikeRepositoryTest {
 
 
     @Test
-    fun `should return bike with withdraw by user` () =
+    fun `should return bike with withdraw by user`() =
         runBlocking {
             coEvery { api.getBikeWithWithdrawByUserId(any()) } returns mapOfBikesRequest
 
@@ -78,7 +81,7 @@ internal class BikeRepositoryTest {
         }
 
     @Test
-    fun `should return list of bikes from a community` () =
+    fun `should return list of bikes from a community`() =
         runBlocking {
             coEvery { api.getBikesByCommunityId(any()) } returns mapOfBikesRequest
 
@@ -86,4 +89,13 @@ internal class BikeRepositoryTest {
 
             assertThat(SimpleResult.Success(mapOfBikesRequest), equalTo(bikeWithWithdrawByUser))
         }
+
+    @ParameterizedTest
+    @EnumSource(BicycleReturnUseType::class)
+    fun `WHEN call bike return uses  THEN should return bike return uses with uses equals enum type elements`(
+        bicycleReturnUseType: BicycleReturnUseType
+    ) {
+        assertTrue(repository.getBicycleReturnUseMap().containsKey(bicycleReturnUseType.index))
+        assertTrue(repository.getBicycleReturnUseMap().containsValue(bicycleReturnUseType.value))
+    }
 }

@@ -9,7 +9,7 @@ data class Quiz(
     @SerializedName("destination")
     var destination: String? = "",
     @SerializedName("reason")
-    var reason: String? = "",
+    var reason: Int? = null,
     @SerializedName("problemsDuringRiding")
     var problemsDuringRiding: String? = "",
     @SerializedName("giveRide")

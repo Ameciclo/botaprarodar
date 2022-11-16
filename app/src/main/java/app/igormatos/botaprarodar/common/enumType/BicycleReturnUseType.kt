@@ -1,6 +1,6 @@
 package app.igormatos.botaprarodar.common.enumType
 
-enum class UseBikeTripType(val index: Int, val value: String) {
+enum class BicycleReturnUseType(val index: Int, val value: String) {
     DELIVERY_BY_APPS(0, "Para realizar entregas de aplicativos."),
     GO_TO_WORKPLACE(1, "Deslocar para o local de trabalho."),
     GO_TO_STUDY_PLACE(2, "Deslocar para o local de estudo."),
@@ -9,7 +9,7 @@ enum class UseBikeTripType(val index: Int, val value: String) {
     LEISURE_WALK(5, "Para passear, lazer.");
 
     companion object {
-        fun getUserMotivationTypeByIndex(index: Int): UseBikeTripType? {
+        fun getBicycleReturnUseTypeByIndex(index: Int): BicycleReturnUseType? {
             return when (index) {
                 DELIVERY_BY_APPS.index -> DELIVERY_BY_APPS
                 GO_TO_WORKPLACE.index -> GO_TO_WORKPLACE
@@ -21,7 +21,7 @@ enum class UseBikeTripType(val index: Int, val value: String) {
             }
         }
 
-        fun getUserMotivationTypeByValue(value: String): UseBikeTripType? {
+        fun getBicycleReturnUseTypeByValue(value: String): BicycleReturnUseType? {
             return when (value) {
                 DELIVERY_BY_APPS.value -> DELIVERY_BY_APPS
                 GO_TO_WORKPLACE.value -> GO_TO_WORKPLACE

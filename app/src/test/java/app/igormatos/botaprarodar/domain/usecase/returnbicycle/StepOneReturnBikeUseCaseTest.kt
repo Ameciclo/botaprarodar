@@ -6,7 +6,9 @@ import app.igormatos.botaprarodar.utils.buildMapStringAndBicycle
 import app.igormatos.botaprarodar.utils.buildMapStringAndBicycleInUse
 import com.brunotmgomes.ui.SimpleResult
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -65,4 +67,15 @@ class StepOneReturnBikeUseCaseTest {
 
             assertTrue(listResult is SimpleResult.Error)
         }
+
+    @Test
+    fun `when call getBicycleReturnUseMap then should return map does not null ou empty`() {
+        val returnUseMap = mapOf(
+            0 to "Para realizar entregas de aplicativos.",
+            1 to "Deslocar para o local de trabalho.",
+            2 to "Deslocar para o local de estudo."
+        )
+        every { repository.getBicycleReturnUseMap() } returns returnUseMap
+        assertEquals(returnUseMap, useCase.getBicycleReturnUseMap())
+    }
 }
