@@ -66,7 +66,7 @@ class ReturnBikeQuizFragment : Fragment(), AdapterView.OnItemClickListener {
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val chosenReason = parent?.getItemAtPosition(position).toString()
-        returnBikeQuizViewModel.setUsedBikeToMove(chosenReason)
+//        val chosenReason = parent?.getItemAtPosition(position).toString()
+//        returnBikeQuizViewModel.setUsedBikeToMove(chosenReason)
     }
 }
