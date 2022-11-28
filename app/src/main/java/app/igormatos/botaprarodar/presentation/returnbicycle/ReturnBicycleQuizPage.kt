@@ -21,7 +21,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BicycleReturnUseType
 import app.igormatos.botaprarodar.domain.model.Quiz
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,13 +38,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
-fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit) {
+fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleViewModel ) {
     var reason by remember { mutableStateOf("") }
     var neighborhood by remember { mutableStateOf("") }
     var hasIssues by remember { mutableStateOf("Não") }
     var gaveRide by remember { mutableStateOf("Não") }
 
-    val purposesOfTheBicycle = stringArrayResource(id = R.array.return_bike_purpose_list)
+    val purposesOfTheBicycle = viewModel.loadBicycleReturnUseArray()
 
     Box(
         modifier = Modifier
@@ -96,7 +96,8 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit) {
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.height_48)),
                 onClick = {
-                    handleClick(Quiz(neighborhood, reason, hasIssues, gaveRide))
+                    val useTripType = BicycleReturnUseType.getBicycleReturnUseTypeByValue(reason)
+                    handleClick(Quiz(neighborhood, useTripType?.index, hasIssues, gaveRide))
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
             ) {

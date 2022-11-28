@@ -75,7 +75,7 @@ fun ReturnBicyclePage(
             }
             Box(modifier = Modifier.background(ColorPallet.BackgroundGray)) {
                 ReturnNavigationComponent(
-                    vm = viewModel,
+                    viewModel = viewModel,
                     bikeList = bikes ?: emptyList(),
                     navController = returnBicycleNavController,
                     handleClick = {

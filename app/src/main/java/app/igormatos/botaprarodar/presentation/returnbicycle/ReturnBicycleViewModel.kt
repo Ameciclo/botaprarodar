@@ -117,4 +117,6 @@ class ReturnBicycleViewModel(
     fun setBike(bike: Bike) {
         _bikeHolder.value = bike
     }
+    
+    fun loadBicycleReturnUseArray(): Array<String> = stepOneReturnBikeUseCase.getBicycleReturnUseMap().values.toTypedArray()
 }

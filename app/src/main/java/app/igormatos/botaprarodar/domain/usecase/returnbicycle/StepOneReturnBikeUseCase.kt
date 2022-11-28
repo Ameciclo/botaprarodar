@@ -36,4 +36,6 @@ class StepOneReturnBikeUseCase(private val bikeRepository: BikeRepository) {
             false -> SimpleResult.Error(Exception(""))
         }
     }
+
+    fun getBicycleReturnUseMap() = bikeRepository.getBicycleReturnUseMap()
 }
