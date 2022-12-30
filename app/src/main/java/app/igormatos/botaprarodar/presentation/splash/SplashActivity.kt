@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.ExperimentalComposeUiApi
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.signin.LoginActivity
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import app.igormatos.botaprarodar.presentation.splash.SplashViewModel.UserLoginState.*

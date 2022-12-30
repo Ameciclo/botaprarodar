@@ -3,7 +3,6 @@ package app.igormatos.botaprarodar.presentation.login.passwordRecovery
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
 import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import app.igormatos.botaprarodar.presentation.authentication.Validator
 
 @ExtendWith(InstantExecutorExtension::class)
 internal class PasswordRecoveryUseCaseTest {

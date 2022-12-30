@@ -1,12 +1,21 @@
 package app.igormatos.botaprarodar.presentation.login
 
-import androidx.lifecycle.Observer
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.Admin
-import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailState
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
+import app.igormatos.botaprarodar.presentation.login.signin.SignInData
+import app.igormatos.botaprarodar.domain.usecase.signin.LoginUseCase
+import app.igormatos.botaprarodar.presentation.login.signin.LoginState
+import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
+import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
 import app.igormatos.botaprarodar.utils.*
+import com.google.common.truth.Truth.assertThat
 import io.mockk.*
+import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -14,329 +23,199 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantExecutorExtension::class)
 internal class LoginViewModelTest {
 
-    private lateinit var viewModel: LoginViewModel
+    @RelaxedMockK
     private lateinit var loginUseCase: LoginUseCase
+
+    @RelaxedMockK
     private lateinit var resendEmailUseCase: ResendEmailUseCase
 
-    private val observerLoginStateMock = mockk<Observer<LoginState>>(relaxed = true)
-    private val observerResendEmailStateMock = mockk<Observer<ResendEmailState>>(relaxed = true)
-    private val observerButtonLoginEnableMock = mockk<Observer<Boolean>>(relaxed = true)
+    private lateinit var viewModel: LoginViewModel
 
     @BeforeEach
     fun setup() {
-        loginUseCase = mockk()
-        resendEmailUseCase = mockk()
+        MockKAnnotations.init(this)
         viewModel = LoginViewModel(loginUseCase, resendEmailUseCase)
     }
 
+    @Test
+    internal fun `should update state when email changes`() = runBlocking {
+        viewModel.onEmailChanged(loginRequestValid.email)
+
+        assertThat(viewModel.state.value).isInstanceOf(LoginState.Success::class.java)
+        assertThat(viewModel.state.value.data.email).isEqualTo(loginRequestValid.email)
+    }
 
     @Test
-    fun `should change isButtonLoginEnable to false when email is invalid`() {
-        // arrange
-        val expectedResult = false
-        val invalidEmail = loginRequestWithInvalidEmail.email
-        every {
-            loginUseCase.isLoginFormValid(
-                email = invalidEmail,
-                password = any()
+    internal fun `should update state when password changes`() = runBlocking {
+        viewModel.onPasswordChanged(loginRequestValid.password)
+
+        assertThat(viewModel.state.value).isInstanceOf(LoginState.Success::class.java)
+        assertThat(viewModel.state.value.data.password).isEqualTo(loginRequestValid.password)
+    }
+
+    @Test
+    internal fun `should update state when show password changes`() = runBlocking {
+        viewModel.onShowPasswordChanged(true)
+
+        assertThat(viewModel.state.value).isInstanceOf(LoginState.Success::class.java)
+        assertThat(viewModel.state.value.data.showPassword).isTrue()
+    }
+
+    @Test
+    fun `should change LoginState to NETWORK error when execute login without network connection`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.NETWORK)
+            val expectedResult = LoginState.Error(signInDataValid, R.string.network_error_message)
+
+            viewModel.onEmailChanged(loginRequestValid.email)
+            viewModel.onPasswordChanged(loginRequestValid.password)
+
+            coEvery { loginUseCase.invoke(any(), any()) } returns error
+
+            // action
+            viewModel.login {}
+
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
+        }
+
+    @Test
+    fun `should change LoginState to INVALID_ACCOUNT error when execute login with non-existent email account`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
+            val data = SignInData(
+                emailError = R.string.sign_in_incorrect_email_password_error,
+                passwordError = R.string.sign_in_incorrect_email_password_error
             )
-        } returns false
-        viewModel.isButtonLoginEnable.observeForever(observerButtonLoginEnableMock)
+            val expectedResult = LoginState.Success(data)
 
-        // action
-        viewModel.email.value = invalidEmail
-        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+            coEvery { loginUseCase.invoke(any(), any()) } returns error
 
-        // assert
-        verify {
-            observerButtonLoginEnableMock.onChanged(expectedResult)
+            // action
+            viewModel.login {}
+
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun `should change isButtonLoginEnable to false when password is invalid`() {
-        // arrange
-        val expectedResult = false
-        val invalidPassword = loginRequestWithInvalidPassword.password
-        every {
-            loginUseCase.isLoginFormValid(
-                email = any(),
-                password = invalidPassword
+    fun `should change LoginState to INVALID_PASSWORD error when execute login with existent email account and wrong password`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
+            val data = SignInData(
+                emailError = R.string.sign_in_incorrect_email_password_error,
+                passwordError = R.string.sign_in_incorrect_email_password_error
             )
-        } returns false
-        viewModel.isButtonLoginEnable.observeForever(observerButtonLoginEnableMock)
+            val state = LoginState.Success(data)
 
-        // action
-        viewModel.password.value = invalidPassword
-        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+            coEvery { loginUseCase.invoke(any(), any()) } returns error
 
-        // assert
-        verify {
-            observerButtonLoginEnableMock.onChanged(expectedResult)
+            // action
+            viewModel.login {}
+
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(state)
         }
-    }
-
 
     @Test
-    fun `should change isButtonLoginEnable to true when email and password are valid`() {
-        // arrange
-        val expectedResult = true
+    fun `should change LoginState to EMAIL_NOT_VERIFIED error when execute login with existent email account and corret password, but unverified account`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.EMAIL_NOT_VERIFIED)
+            val expectedResult = LoginState.RetryVerifyEmail(SignInData())
 
-        every {
-            loginUseCase.isLoginFormValid(any(), any())
-        } returns true
-        viewModel.isButtonLoginEnable.observeForever(observerButtonLoginEnableMock)
+            coEvery { loginUseCase.invoke(any(), any()) } returns error
 
-        // action
-        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+            // action
+            viewModel.login {}
 
-        // assert
-        verify {
-            observerButtonLoginEnableMock.onChanged(expectedResult)
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun `should change isButtonLoginEnable to true when valid password and email has trailing spaces`() {
-        every {
-            loginUseCase.isLoginFormValid(loginRequestValid.email, any())
-        } returns true
+    fun `should change LoginState to UNKNOWN error when execute login with unmapped exception`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.UNKNOWN)
+            val expectedResult = LoginState.Error(SignInData(), R.string.login_error)
 
-        viewModel.isButtonLoginEnable.observeForever(observerButtonLoginEnableMock)
-        viewModel.email.value = loginEmailTrailingSpacesRequestValid.email
-        viewModel.password.value = loginEmailTrailingSpacesRequestValid.password
+            coEvery { loginUseCase.invoke(any(), any()) } returns error
 
-        invokePrivateMethod(name = VALIDATE_FORM_METHOD)
+            // action
+            viewModel.login {}
 
-        verify {
-            observerButtonLoginEnableMock.onChanged(true)
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun `should change LoginState to NETWORK error when execute login without network connection`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectedResult = LoginState.Error(BprErrorType.NETWORK)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
-
-        // action
-        viewModel.login(email, password)
-
-        // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change LoginState to INVALID_ACCOUNT error when execute login with non-existent email account`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectedResult = LoginState.Error(BprErrorType.INVALID_ACCOUNT)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
-
-        // action
-        viewModel.login(email, password)
-
-        // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change LoginState to INVALID_PASSWORD error when execute login with existent email account and wrong password`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectedResult = LoginState.Error(BprErrorType.INVALID_PASSWORD)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
-
-        // action
-        viewModel.login(email, password)
-
-        // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change LoginState to EMAIL_NOT_VERIFIED error when execute login with existent email account and corret password, but unverified account`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectedResult = LoginState.Error(BprErrorType.EMAIL_NOT_VERIFIED)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
-
-        // action
-        viewModel.login(email, password)
-
-        // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change LoginState to UNKNOWN error when execute login with unmapped exception`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectedResult = LoginState.Error(BprErrorType.UNKNOWN)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
-
-        // action
-        viewModel.login(email, password)
-
-        // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change LoginState to Success when execute login with success`() {
+    fun `should have an admin when execute login successfully`() {
         // arrange
         val email = loginRequestValid.email
         val password = loginRequestValid.password
         val admin = Admin(email, password, "1")
-        val expectedResult = LoginState.Success(admin)
+        val expectedResult = SignInResult.Success(admin)
+        var actualAdmin: Admin? = null
 
-        coEvery {
-            loginUseCase.authenticateAdmin(email, password)
-        } returns expectedResult
-
-        viewModel.loginState.observeForever(observerLoginStateMock)
+        coEvery { loginUseCase.invoke(any(), any()) } returns expectedResult
 
         // action
-        viewModel.login(email, password)
+        viewModel.login {
+            actualAdmin = it
+        }
 
         // assert
-        verifyOrder {
-            observerLoginStateMock.onChanged(LoginState.Loading)
-            observerLoginStateMock.onChanged(expectedResult)
-        }
-    }
-
-
-    @Test
-    fun `When login, should trim email parameter`() {
-        val email = loginEmailTrailingSpacesRequestValid.email
-        val password = loginEmailTrailingSpacesRequestValid.password
-        val admin = Admin(email, password, "123")
-        val successStateResult = LoginState.Success(admin)
-
-        coEvery {
-            loginUseCase.authenticateAdmin(loginRequestValid.email, password)
-        } returns successStateResult
-
-        viewModel.login(email, password)
-
-        coVerify { loginUseCase.authenticateAdmin(loginRequestValid.email, password) }
+        assertThat(actualAdmin).isEqualTo(admin)
     }
 
     @Test
-    fun `should change ResendEmailState to NETWORK error when execute sendEmailVerification without network connection`() {
-        // arrange
-        val expectedResult = ResendEmailState.Error(BprErrorType.NETWORK)
-        coEvery {
-            resendEmailUseCase.execute()
-        } returns expectedResult
+    fun `should change ResendEmailState to NETWORK error when execute sendEmailVerification without network connection`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.NETWORK)
+            val expectedResult = LoginState.Error(SignInData(), R.string.network_error_message)
 
-        viewModel.resendEmailState.observeForever(observerResendEmailStateMock)
+            coEvery { resendEmailUseCase.invoke() } returns error
 
-        // action
-        viewModel.sendEmailVerification()
+            // action
+            viewModel.sendEmailVerification()
 
-        // assert
-        verifyOrder {
-            observerResendEmailStateMock.onChanged(ResendEmailState.Loading)
-            observerResendEmailStateMock.onChanged(expectedResult)
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun `should change ResendEmailState to UNKNOWN error when execute sendEmailVerification with unmapped expcetion`() {
-        // arrange
-        val expectedResult = ResendEmailState.Error(BprErrorType.UNKNOWN)
-        coEvery {
-            resendEmailUseCase.execute()
-        } returns expectedResult
+    fun `should change ResendEmailState to UNKNOWN error when execute sendEmailVerification with unmapped exception`() =
+        runBlocking {
+            // arrange
+            val error = SignInResult.Failure(Exception(), BprErrorType.UNKNOWN)
+            val expectedResult = LoginState.Error(SignInData(), R.string.login_error)
 
-        viewModel.resendEmailState.observeForever(observerResendEmailStateMock)
+            coEvery { resendEmailUseCase.invoke() } returns error
 
-        // action
-        viewModel.sendEmailVerification()
+            // action
+            viewModel.sendEmailVerification()
 
-        // assert
-        verifyOrder {
-            observerResendEmailStateMock.onChanged(ResendEmailState.Loading)
-            observerResendEmailStateMock.onChanged(expectedResult)
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
 
     @Test
-    fun `should change ResendEmailState to Success when execute sendEmailVerification with success`() {
-        // arrange
-        val expectedResult = ResendEmailState.Success
-        coEvery {
-            resendEmailUseCase.execute()
-        } returns expectedResult
+    fun `should change ResendEmailState to Success when execute sendEmailVerification with success`() =
+        runBlocking {
+            // arrange
+            val expectedResult = LoginState.EmailSent(SignInData())
 
-        viewModel.resendEmailState.observeForever(observerResendEmailStateMock)
+            coEvery { resendEmailUseCase.invoke() } returns SignInResult.Success(Unit)
 
-        // action
-        viewModel.sendEmailVerification()
+            // action
+            viewModel.sendEmailVerification()
 
-        // assert
-        verifyOrder {
-            observerResendEmailStateMock.onChanged(ResendEmailState.Loading)
-            observerResendEmailStateMock.onChanged(expectedResult)
+            // assert
+            assertThat(viewModel.state.first()).isEqualTo(expectedResult)
         }
-    }
-
-    private fun invokePrivateMethod(name: String) {
-        viewModel.javaClass.getDeclaredMethod(name).apply {
-            isAccessible = true
-            invoke(viewModel)
-        }
-    }
-
-    companion object {
-        private const val VALIDATE_FORM_METHOD = "validateLoginForm"
-    }
 }

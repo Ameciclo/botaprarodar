@@ -5,9 +5,19 @@ import com.brunotmgomes.ui.extensions.*
 import io.mockk.every
 import io.mockk.mockkObject
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class CharSequenceExtensionTest {
+
+    @Before
+    fun setUp() {
+        stopKoin()
+    }
 
     @Test
     fun `when string is invalid email 'isValidEmail' should return false`() {

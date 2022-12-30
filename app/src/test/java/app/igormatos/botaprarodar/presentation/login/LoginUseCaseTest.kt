@@ -4,14 +4,13 @@ import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.authentication.Validator
+import app.igormatos.botaprarodar.domain.usecase.signin.LoginUseCase
+import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidPassword
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,39 +21,35 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantExecutorExtension::class)
 internal class LoginUseCaseTest {
 
-    private lateinit var useCase: LoginUseCase
+    @RelaxedMockK
     private lateinit var adminRepository: AdminRepository
-    private lateinit var emailValidator: Validator<String?>
-    private lateinit var passwordValidator: Validator<String?>
+    private lateinit var useCase: LoginUseCase
 
     @BeforeEach
     fun setup() {
-        adminRepository = mockk()
-        emailValidator = mockk()
-        passwordValidator = mockk()
-        useCase = LoginUseCase(adminRepository, emailValidator, passwordValidator)
+        MockKAnnotations.init(this)
+        useCase = LoginUseCase(adminRepository)
     }
 
     @Test
-    fun `should return LoginState with NETWORK error when usecase authenticateAdmin without network connection`() {
-        runBlocking {
-            // arrange
-            val expectedErrorResult = BprErrorType.NETWORK
-            val email = loginRequestValid.email
-            val password = loginRequestValid.password
+    fun `should return NETWORK error when has no network connection`() = runBlocking {
+        // arrange
+        val expectedErrorResult = BprErrorType.NETWORK
+        val email = loginRequestValid.email
+        val password = loginRequestValid.password
 
-            coEvery {
-                adminRepository.authenticateAdmin(email, password)
-            } throws UserAdminErrorException.AdminNetwork
+        coEvery {
+            adminRepository.authenticateAdmin(email,
+                password)
+        } throws UserAdminErrorException.AdminNetwork
 
-            // action
-            val result: LoginState = useCase.authenticateAdmin(email, password)
+        // action
+        val result = useCase.invoke(email, password)
 
-            // assert
-            assertTrue(result is LoginState.Error)
-            val convertedResultError = result as LoginState.Error
-            assertEquals(expectedErrorResult, convertedResultError.type)
-        }
+        // assert
+        assertTrue(result is SignInResult.Failure)
+        val convertedResultError = result as SignInResult.Failure
+        assertEquals(expectedErrorResult, convertedResultError.error)
     }
 
     @Test
@@ -70,12 +65,12 @@ internal class LoginUseCaseTest {
             } throws UserAdminErrorException.AdminAccountNotFound
 
             // action
-            val result: LoginState = useCase.authenticateAdmin(email, password)
+            val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is LoginState.Error)
-            val convertedResultError = result as LoginState.Error
-            assertEquals(expectedErrorResult, convertedResultError.type)
+            assertTrue(result is SignInResult.Failure)
+            val convertedResultError = result as SignInResult.Failure
+            assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
 
@@ -92,12 +87,12 @@ internal class LoginUseCaseTest {
             } throws UserAdminErrorException.AdminPasswordInvalid
 
             // action
-            val result: LoginState = useCase.authenticateAdmin(email, password)
+            val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is LoginState.Error)
-            val convertedResultError = result as LoginState.Error
-            assertEquals(expectedErrorResult, convertedResultError.type)
+            assertTrue(result is SignInResult.Failure)
+            val convertedResultError = result as SignInResult.Failure
+            assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
 
@@ -114,12 +109,12 @@ internal class LoginUseCaseTest {
             } throws Exception()
 
             // action
-            val result: LoginState = useCase.authenticateAdmin(email, password)
+            val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is LoginState.Error)
-            val convertedResultError = result as LoginState.Error
-            assertEquals(expectedErrorResult, convertedResultError.type)
+            assertTrue(result is SignInResult.Failure)
+            val convertedResultError = result as SignInResult.Failure
+            assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
 
@@ -136,74 +131,12 @@ internal class LoginUseCaseTest {
             } returns Admin(password, email, "1")
 
             // action
-            val result: LoginState = useCase.authenticateAdmin(email, password)
+            val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is LoginState.Success)
-            val convertedResultSuccess = result as LoginState.Success
-            assertEquals(expectedAdminResult, convertedResultSuccess.admin)
+            assertTrue(result is SignInResult.Success)
+            val convertedResultSuccess = result as SignInResult.Success
+            assertEquals(expectedAdminResult, convertedResultSuccess.data)
         }
-    }
-
-    @Test
-    fun `should return false when usecase isLoginFormValid with invalid email`() {
-        // arrange
-        val email = loginRequestWithInvalidEmail.email
-        val password = loginRequestWithInvalidEmail.password
-        val expectResponse = false
-
-        every {
-            emailValidator.validate(email)
-        } returns false
-
-        // action
-        val result: Boolean = useCase.isLoginFormValid(email, password)
-
-        // assert
-        assertEquals(expectResponse, result)
-    }
-
-    @Test
-    fun `should return false when usecase isLoginFormValid with valid email and invalid password`() {
-        // arrange
-        val email = loginRequestWithInvalidPassword.email
-        val password = loginRequestWithInvalidEmail.password
-        val expectResponse = false
-
-        every {
-            emailValidator.validate(email)
-        } returns true
-
-        every {
-            passwordValidator.validate(password)
-        } returns false
-
-        // action
-        val result: Boolean = useCase.isLoginFormValid(email, password)
-
-        // assert
-        assertEquals(expectResponse, result)
-    }
-
-    @Test
-    fun `should return true when usecase isLoginFormValid with valid email and valid password`() {
-        // arrange
-        val email = loginRequestValid.email
-        val password = loginRequestValid.password
-        val expectResponse = true
-
-        every {
-            emailValidator.validate(email)
-        } returns true
-
-        every {
-            passwordValidator.validate(password)
-        } returns true
-
-        // action
-        val result: Boolean = useCase.isLoginFormValid(email, password)
-
-        // assert
-        assertEquals(expectResponse, result)
     }
 }

@@ -10,7 +10,7 @@ import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
 import app.igormatos.botaprarodar.domain.usecase.userForm.UserFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.GetUserByIdUseCase
 import app.igormatos.botaprarodar.domain.usecase.users.UsersUseCase
-import app.igormatos.botaprarodar.presentation.login.LoginUseCase
+import app.igormatos.botaprarodar.domain.usecase.signin.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.PasswordRecoveryUseCase
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterUseCase
 import app.igormatos.botaprarodar.presentation.login.resendEmail.ResendEmailUseCase
@@ -26,9 +26,7 @@ import org.koin.dsl.module
 val useCasesModule = module {
     factory {
         LoginUseCase(
-            get(),
-            get(named(EMAIL_VALIDATOR_NAME)),
-            get(named(PASSWORD_VALIDATOR_NAME))
+            get()
         )
     }
 
