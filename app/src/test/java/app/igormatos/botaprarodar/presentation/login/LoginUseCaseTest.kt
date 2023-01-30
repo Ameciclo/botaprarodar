@@ -5,7 +5,7 @@ import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
 import app.igormatos.botaprarodar.domain.usecase.signin.LoginUseCase
-import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
 import io.mockk.MockKAnnotations
@@ -47,8 +47,8 @@ internal class LoginUseCaseTest {
         val result = useCase.invoke(email, password)
 
         // assert
-        assertTrue(result is SignInResult.Failure)
-        val convertedResultError = result as SignInResult.Failure
+        assertTrue(result is BprResult.Failure)
+        val convertedResultError = result as BprResult.Failure
         assertEquals(expectedErrorResult, convertedResultError.error)
     }
 
@@ -68,8 +68,8 @@ internal class LoginUseCaseTest {
             val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is SignInResult.Failure)
-            val convertedResultError = result as SignInResult.Failure
+            assertTrue(result is BprResult.Failure)
+            val convertedResultError = result as BprResult.Failure
             assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
@@ -90,8 +90,8 @@ internal class LoginUseCaseTest {
             val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is SignInResult.Failure)
-            val convertedResultError = result as SignInResult.Failure
+            assertTrue(result is BprResult.Failure)
+            val convertedResultError = result as BprResult.Failure
             assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
@@ -112,8 +112,8 @@ internal class LoginUseCaseTest {
             val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is SignInResult.Failure)
-            val convertedResultError = result as SignInResult.Failure
+            assertTrue(result is BprResult.Failure)
+            val convertedResultError = result as BprResult.Failure
             assertEquals(expectedErrorResult, convertedResultError.error)
         }
     }
@@ -134,8 +134,8 @@ internal class LoginUseCaseTest {
             val result = useCase.invoke(email, password)
 
             // assert
-            assertTrue(result is SignInResult.Success)
-            val convertedResultSuccess = result as SignInResult.Success
+            assertTrue(result is BprResult.Success)
+            val convertedResultSuccess = result as BprResult.Success
             assertEquals(expectedAdminResult, convertedResultSuccess.data)
         }
     }

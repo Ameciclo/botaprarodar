@@ -3,7 +3,7 @@ package app.igormatos.botaprarodar.presentation.login.resendEmail
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -39,8 +39,8 @@ internal class ResendEmailUseCaseTest {
         val response = useCase.invoke()
 
         // assert
-        assertTrue(response is SignInResult.Failure)
-        val convertedErrorResult = response as SignInResult.Failure
+        assertTrue(response is BprResult.Failure)
+        val convertedErrorResult = response as BprResult.Failure
         assertEquals(expectedErrorType, convertedErrorResult.error)
     }
 
@@ -55,15 +55,15 @@ internal class ResendEmailUseCaseTest {
             val response = useCase.invoke()
 
             // assert
-            assertTrue(response is SignInResult.Failure)
-            val convertedErrorResult = response as SignInResult.Failure
+            assertTrue(response is BprResult.Failure)
+            val convertedErrorResult = response as BprResult.Failure
             assertEquals(expectedErrorType, convertedErrorResult.error)
         }
 
     @Test
     fun `should return success when sendEmailVerification returns true`() = runBlocking {
         // arrange
-        val expectedState = SignInResult.Success(Unit)
+        val expectedState = BprResult.Success(Unit)
         coEvery { adminRepository.sendEmailVerification() } returns true
 
         // action

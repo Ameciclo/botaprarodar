@@ -3,16 +3,16 @@ package app.igormatos.botaprarodar.presentation.login.resendEmail
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 
 class ResendEmailUseCase(private val adminRepository: AdminRepository) {
     suspend operator fun invoke() = try {
         if (adminRepository.sendEmailVerification())
-            SignInResult.Success(Unit)
-        else SignInResult.Failure(RuntimeException(), BprErrorType.UNKNOWN)
+            BprResult.Success(Unit)
+        else BprResult.Failure(RuntimeException(), BprErrorType.UNKNOWN)
     } catch (e: UserAdminErrorException.AdminNetwork) {
-        SignInResult.Failure(e, BprErrorType.NETWORK)
+        BprResult.Failure(e, BprErrorType.NETWORK)
     } catch (e: Exception) {
-        SignInResult.Failure(e, BprErrorType.UNKNOWN)
+        BprResult.Failure(e, BprErrorType.UNKNOWN)
     }
 }
