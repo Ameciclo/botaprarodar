@@ -4,14 +4,12 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.igormatos.botaprarodar.common.enumType.StepConfigType
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.GetNeighborhoodsUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.utils.listBikes
 import com.brunotmgomes.ui.SimpleResult
-import io.mockk.coEvery
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -28,6 +26,7 @@ class ReturnBicycleViewModelTest {
     private val stepOneReturnBikeUseCase = mockk<StepOneReturnBikeUseCase>()
     private val stepFinalReturnBikeUseCase = mockk<StepFinalReturnBikeUseCase>()
     private val preferencesModule = mockk<SharedPreferencesModule>()
+    private val neighborhoodsUseCase = mockk<GetNeighborhoodsUseCase>()
     private lateinit var viewModel: ReturnBicycleViewModel
 
     @Before
@@ -37,7 +36,13 @@ class ReturnBicycleViewModelTest {
             stepOneReturnBikeUseCase = stepOneReturnBikeUseCase,
             stepFinalReturnBikeUseCase = stepFinalReturnBikeUseCase,
             preferencesModule = preferencesModule,
+            neighborhoodsUseCase = neighborhoodsUseCase
         )
+    }
+
+    @Test
+    fun `should request neighborhoods`() {
+        coVerify { neighborhoodsUseCase.invoke() }
     }
 
     @Test

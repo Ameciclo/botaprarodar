@@ -17,4 +17,5 @@ val repositoryModule = module {
     single { WithdrawBikeRepository(get()) }
     factory { TripDetailRepository(get()) }
     single { BikeRepository(get<BicycleApi>()) }
+    single { NeighborhoodRepository(get(), get()) }
 }

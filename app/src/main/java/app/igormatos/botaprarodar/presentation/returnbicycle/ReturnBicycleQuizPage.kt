@@ -1,6 +1,11 @@
 package app.igormatos.botaprarodar.presentation.returnbicycle
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
@@ -9,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -32,19 +38,24 @@ import androidx.compose.ui.unit.toSize
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BicycleReturnUseType
 import app.igormatos.botaprarodar.domain.model.Quiz
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.GetNeighborhoodsUseCase.Companion.OTHER_NEIGHBORHOOD
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalAnimationApi::class)
 @ExperimentalComposeUiApi
 @ExperimentalCoroutinesApi
 @Composable
-fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleViewModel ) {
+fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleViewModel) {
     var reason by remember { mutableStateOf("") }
     var neighborhood by remember { mutableStateOf("") }
+    var customNeighborhood by remember { mutableStateOf("") }
     var hasIssues by remember { mutableStateOf("Não") }
     var gaveRide by remember { mutableStateOf("Não") }
+    val customNeighborhoodSelected by derivedStateOf { neighborhood == OTHER_NEIGHBORHOOD }
 
     val purposesOfTheBicycle = viewModel.loadBicycleReturnUseArray()
+    val neighborhoods by viewModel.neighborhoods.observeAsState(emptyArray())
 
     Box(
         modifier = Modifier
@@ -68,10 +79,27 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleV
                 reason = it
             }
 
-            QuizTextField(
-                title = stringResource(id = R.string.return_bike_neighborhood_hint)
+            QuizDropDownMenu(
+                title = stringResource(id = R.string.return_bike_neighborhood_hint),
+                items = neighborhoods
             ) {
                 neighborhood = it
+            }
+
+            Spacer(Modifier.height(5.dp))
+
+            AnimatedVisibility(
+                visible = customNeighborhoodSelected,
+                enter = fadeIn(initialAlpha = 0.4f),
+                exit = fadeOut(animationSpec = tween(durationMillis = 100))
+            ) {
+                Column {
+                    QuizTextField(
+                        title = stringResource(id = R.string.return_bike_write_neighborhood_hint)
+                    ) {
+                        customNeighborhood = it
+                    }
+                }
             }
 
             QuizYesOrNoRadioGroup(title = stringResource(id = R.string.problems_during_riding)) {
@@ -86,6 +114,7 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleV
 
             val hasValidData = reason.isNotEmpty()
                     && neighborhood.isNotEmpty()
+                    && (neighborhood == OTHER_NEIGHBORHOOD && customNeighborhood.isNotEmpty())
                     && hasIssues.isNotEmpty()
                     && gaveRide.isNotEmpty()
 
@@ -96,8 +125,9 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleV
                     .fillMaxWidth()
                     .height(dimensionResource(id = R.dimen.height_48)),
                 onClick = {
+                    val selectedNeighborhood = neighborhood.takeUnless { it == OTHER_NEIGHBORHOOD } ?: customNeighborhood
                     val useTripType = BicycleReturnUseType.getBicycleReturnUseTypeByValue(reason)
-                    handleClick(Quiz(neighborhood, useTripType?.index, hasIssues, gaveRide))
+                    handleClick(Quiz(selectedNeighborhood, useTripType?.index, hasIssues, gaveRide))
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.green_teal))
             ) {
@@ -214,7 +244,7 @@ private fun QuizTextField(title: String, onValueChanged: (String) -> Unit) {
 private fun QuizDropDownMenu(
     title: String,
     items: Array<String>,
-    onSelectedItem: (String) -> Unit
+    onSelectedItem: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val select = stringResource(id = R.string.return_bike_survey_select)
