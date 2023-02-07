@@ -15,6 +15,7 @@ import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
 import app.igormatos.botaprarodar.presentation.bikewithdraw.GetAvailableBikesException
 import app.igormatos.botaprarodar.presentation.returnbicycle.BikeHolder
 import com.brunotmgomes.ui.SimpleResult
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
@@ -94,7 +95,7 @@ class WithdrawViewModel(
                     }
                 }
                 is SimpleResult.Error -> {
-                    throw Exception()
+                    FirebaseCrashlytics.getInstance().log("No users found for community id: $communityId")
                 }
             }
         }
