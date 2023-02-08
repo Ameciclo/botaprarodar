@@ -8,36 +8,34 @@ import app.igormatos.botaprarodar.data.network.firebase.FirebaseAuthModule
 import app.igormatos.botaprarodar.data.network.firebase.FirebaseHelperModule
 
 class SplashViewModel(
-    private val preferencesModule: SharedPreferencesModule,
-    private val firebaseAuthModule: FirebaseAuthModule,
-    private val firebaseHelperModule: FirebaseHelperModule
+    preferencesModule: SharedPreferencesModule,
+    firebaseAuthModule: FirebaseAuthModule,
+    firebaseHelperModule: FirebaseHelperModule
 ) : ViewModel() {
 
-    private val _userloginState = MutableLiveData<UserLoginState>()
-    val userloginState: LiveData<UserLoginState>
-        get() = _userloginState
+    private val _userLoginState = MutableLiveData<UserLoginState>()
+    val userLoginState: LiveData<UserLoginState>
+        get() = _userLoginState
 
-    fun verifyUserLoginState() {
-        if (isLogged()) {
-            if (isCommunitySelected().not()) {
-                _userloginState.postValue(UserLoginState.PartiallyLoggedIn)
+    init {
+        val isLogged = firebaseAuthModule.getCurrentUser() != null
+
+        if (isLogged) {
+            if (!preferencesModule.isCommunitySelected()) {
+                _userLoginState.postValue(UserLoginState.PartiallyLoggedIn)
             } else {
                 val community = preferencesModule.getJoinedCommunity()
                 firebaseHelperModule.setCommunityId(community.id)
-                _userloginState.postValue(UserLoginState.LoggedIn)
+                _userLoginState.postValue(UserLoginState.LoggedIn)
             }
         } else {
-            _userloginState.postValue(UserLoginState.NotLoggedIn)
+            _userLoginState.postValue(UserLoginState.LoggedOut)
         }
     }
-
-    private fun isLogged() = firebaseAuthModule.getCurrentUser() != null
-
-    private fun isCommunitySelected() = preferencesModule.isCommunitySelected()
 
     sealed class UserLoginState {
         object LoggedIn : UserLoginState()
         object PartiallyLoggedIn : UserLoginState()
-        object NotLoggedIn : UserLoginState()
+        object LoggedOut : UserLoginState()
     }
 }

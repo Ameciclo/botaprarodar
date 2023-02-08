@@ -8,7 +8,6 @@ import app.igormatos.botaprarodar.domain.model.community.Community
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,24 +20,18 @@ internal class SplashViewModelTest {
     private val firebaseAuthModule = mockk<FirebaseAuthModule>()
     private val firebaseHelperModule = mockk<FirebaseHelperModule>(relaxed = true)
 
-    private lateinit var viewmodel: SplashViewModel
-
-    @Before
-    fun setup() {
-        viewmodel = SplashViewModel(preferencesModule, firebaseAuthModule, firebaseHelperModule)
-    }
+    private lateinit var viewModel: SplashViewModel
 
     @Test
-    fun `should return NotLoggedIn when there is no current user in firebaseAuthModule`() {
+    fun `should return LoggedOut when there is no current user in firebaseAuthModule`() {
         // arrange
-        val expectedUserLoginResult = SplashViewModel.UserLoginState.NotLoggedIn
-        every {
-            firebaseAuthModule.getCurrentUser()
-        } returns null
+        val expectedUserLoginResult = SplashViewModel.UserLoginState.LoggedOut
+
+        every { firebaseAuthModule.getCurrentUser() } returns null
 
         // action
-        viewmodel.verifyUserLoginState()
-        val userLoginState: SplashViewModel.UserLoginState? = viewmodel.userloginState.value
+        viewModel = SplashViewModel(preferencesModule, firebaseAuthModule, firebaseHelperModule)
+        val userLoginState: SplashViewModel.UserLoginState? = viewModel.userLoginState.value
 
         // assert
         assertEquals(userLoginState, expectedUserLoginResult)
@@ -48,17 +41,13 @@ internal class SplashViewModelTest {
     fun `should return PartiallyLoggedIn when user is LoggedIn but Community is not selected`() {
         // arrange
         val expectedUserLoginResult = SplashViewModel.UserLoginState.PartiallyLoggedIn
-        every {
-            firebaseAuthModule.getCurrentUser()
-        } returns mockk()
 
-        every {
-            preferencesModule.isCommunitySelected()
-        } returns false
+        every { firebaseAuthModule.getCurrentUser() } returns mockk()
+        every { preferencesModule.isCommunitySelected() } returns false
 
         // action
-        viewmodel.verifyUserLoginState()
-        val userLoginState: SplashViewModel.UserLoginState? = viewmodel.userloginState.value
+        viewModel = SplashViewModel(preferencesModule, firebaseAuthModule, firebaseHelperModule)
+        val userLoginState: SplashViewModel.UserLoginState? = viewModel.userLoginState.value
 
         // assert
         assertEquals(userLoginState, expectedUserLoginResult)
@@ -68,21 +57,14 @@ internal class SplashViewModelTest {
     fun `should return LoggedIn when user is LoggedIn and Community is selected`() {
         // arrange
         val expectedUserLoginResult = SplashViewModel.UserLoginState.LoggedIn
-        every {
-            firebaseAuthModule.getCurrentUser()
-        } returns mockk()
 
-        every {
-            preferencesModule.isCommunitySelected()
-        } returns true
-
-        every {
-            preferencesModule.getJoinedCommunity()
-        } returns Community()
+        every { firebaseAuthModule.getCurrentUser() } returns mockk()
+        every { preferencesModule.isCommunitySelected() } returns true
+        every { preferencesModule.getJoinedCommunity() } returns Community()
 
         // action
-        viewmodel.verifyUserLoginState()
-        val userLoginState: SplashViewModel.UserLoginState? = viewmodel.userloginState.value
+        viewModel = SplashViewModel(preferencesModule, firebaseAuthModule, firebaseHelperModule)
+        val userLoginState: SplashViewModel.UserLoginState? = viewModel.userLoginState.value
 
         // assert
         assertEquals(userLoginState, expectedUserLoginResult)
