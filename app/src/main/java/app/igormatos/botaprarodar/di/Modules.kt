@@ -9,6 +9,7 @@ import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.adapter.WithdrawStepper
 import app.igormatos.botaprarodar.domain.model.admin.AdminMapper
 import app.igormatos.botaprarodar.domain.model.community.CommunityMapper
+import app.igormatos.botaprarodar.domain.model.neighborhood.NeighborhoodMapper
 import app.igormatos.botaprarodar.domain.usecase.bikes.GetAvailableBikes
 import app.igormatos.botaprarodar.domain.usecase.users.ValidateUserWithdraw
 import app.igormatos.botaprarodar.domain.usecase.withdraw.SendBikeWithdraw
@@ -27,6 +28,7 @@ import org.koin.dsl.module
 val bprModule = module {
     factory { AdminMapper() }
     single { CommunityMapper() }
+    factory { NeighborhoodMapper() }
 
     single {
         FirebaseStorage.getInstance()

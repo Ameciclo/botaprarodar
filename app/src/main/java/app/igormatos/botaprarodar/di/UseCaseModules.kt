@@ -3,6 +3,7 @@ package app.igormatos.botaprarodar.di
 import app.igormatos.botaprarodar.domain.usecase.bikeForm.BikeFormUseCase
 import app.igormatos.botaprarodar.domain.usecase.bikes.BikesUseCase
 import app.igormatos.botaprarodar.domain.usecase.community.AddCommunityUseCase
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.GetNeighborhoodsUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.trips.BikeActionUseCase
@@ -59,4 +60,6 @@ val useCasesModule = module {
     single { BikesUseCase(get()) }
     single { UsersUseCase(get()) }
     single { GetUserByIdUseCase(get()) }
+
+    factory { GetNeighborhoodsUseCase(get()) }
 }

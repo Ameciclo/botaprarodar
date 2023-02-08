@@ -47,7 +47,7 @@ val viewModelModule = module {
     viewModel { UserQuizViewModel(get()) }
     viewModel { TripDetailViewModel(get()) }
 
-    single { ReturnBicycleViewModel(get(), get(), get(), get()) }
+    single { ReturnBicycleViewModel(get(), get(), get(), get(), get()) }
 
     viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }

@@ -12,6 +12,7 @@ import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicyclePage
 import app.igormatos.botaprarodar.presentation.returnbicycle.ReturnBicycleViewModel
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Ignore
@@ -33,6 +34,7 @@ class ReturnBicycleTest {
             stepOneReturnBikeUseCase = mockk(relaxed = true),
             stepFinalReturnBikeUseCase = mockk(relaxed = true),
             preferencesModule = mockk(relaxed = true),
+            neighborhoodsUseCase = mockk(relaxed = true)
         )
         returnBicycleViewModel.setInitialStep()
         composeTestRule.setContent {
