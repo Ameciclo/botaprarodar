@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
@@ -56,6 +57,7 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleV
 
     val purposesOfTheBicycle = viewModel.loadBicycleReturnUseArray()
     val neighborhoods by viewModel.neighborhoods.observeAsState(emptyArray())
+    val validNeighborhoods = neighborhoods.filterNot { it == OTHER_NEIGHBORHOOD }
 
     Box(
         modifier = Modifier
@@ -113,8 +115,7 @@ fun ReturnBicycleQuizPage(handleClick: (Any?) -> Unit, viewModel: ReturnBicycleV
             Spacer(Modifier.weight(1f))
 
             val hasValidData = reason.isNotEmpty()
-                    && neighborhood.isNotEmpty()
-                    && (neighborhood == OTHER_NEIGHBORHOOD && customNeighborhood.isNotEmpty())
+                    && (validNeighborhoods.contains(neighborhood) || customNeighborhood.isNotEmpty())
                     && hasIssues.isNotEmpty()
                     && gaveRide.isNotEmpty()
 
