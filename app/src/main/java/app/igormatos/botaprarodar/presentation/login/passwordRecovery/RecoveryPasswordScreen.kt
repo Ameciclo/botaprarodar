@@ -14,8 +14,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
 import app.igormatos.botaprarodar.presentation.login.signin.composables.InputFiled
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.get
 
 @Composable
@@ -72,7 +72,7 @@ private fun ScreenContent(
             Text(
                 text = stringResource(id = R.string.enter_email_to_recover_password),
                 fontSize = 14.sp,
-                color = Color(0XFF39000000)
+                color = ColorPallet.BlackAlpha39
             )
 
             InputFiled(
