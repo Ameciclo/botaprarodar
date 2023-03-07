@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.presentation.components.ui.theme.ColorPallet
-import app.igormatos.botaprarodar.presentation.login.signin.composables.InputFiled
+import app.igormatos.botaprarodar.presentation.login.signin.composables.InputField
 import org.koin.java.KoinJavaComponent.get
 
 @Composable
@@ -75,7 +75,7 @@ private fun ScreenContent(
                 color = ColorPallet.BlackAlpha39
             )
 
-            InputFiled(
+            InputField(
                 state = state.email,
                 label = { Text(text = stringResource(id = R.string.prompt_email)) },
                 keyboardType = KeyboardType.Email,

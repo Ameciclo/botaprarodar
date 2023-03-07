@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
 
 @Composable
-fun InputFiled(
+fun InputField(
     state: String,
     label: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
