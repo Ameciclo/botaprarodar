@@ -329,7 +329,7 @@
 
     <!-- Login Activity -->
     <string name="forgot_my_password">Esqueci minha senha</string>
-    <string name="sign_up">Não tem conta? <b><u>Cadastra-se</u></b></string>
+    <string name="sign_up">Não tem conta? Cadastra-se</string>
     <string name="no_account">Não tem conta?</string>
     <string name="register">Cadastra-se</string>
     <string name="title_resend_email">Reenvio de email</string>

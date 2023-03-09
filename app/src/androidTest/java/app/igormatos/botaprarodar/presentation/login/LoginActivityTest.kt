@@ -34,12 +34,9 @@ internal class LoginActivityTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-
     private val signInButton = (hasText(app.igormatos.botaprarodar.R.string.action_sign_in.asString().uppercase()) and hasClickAction())
     private val forgotPasswordButton = (hasText(app.igormatos.botaprarodar.R.string.forgot_my_password.asString()) and hasClickAction())
-    private val registerButton = (hasText("Não tem conta? Cadastra-se") and hasClickAction())
-
-
+    private val registerButton = (hasText(app.igormatos.botaprarodar.R.string.sign_up.asString()) and hasClickAction())
 
     @Before
     fun setup() {
@@ -49,8 +46,6 @@ internal class LoginActivityTest {
             viewModel(override = true) { viewModel }
         }
         loadKoinModules(testModule)
-
-
     }
 
     @Test
