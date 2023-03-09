@@ -5,16 +5,13 @@ import app.igormatos.botaprarodar.data.model.Admin
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
 import app.igormatos.botaprarodar.presentation.authentication.Validator
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidPassword
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -32,53 +29,7 @@ internal class RegisterUseCaseTest {
         adminRepository = mockk()
         emailValidator = mockk()
         passwordValidator = mockk()
-        useCase = RegisterUseCase(adminRepository, emailValidator, passwordValidator)
-    }
-
-    @Test
-    fun `should return false when isRegisterFormValid execute with invalid email`() {
-        // arrange
-        val expectedResult = false
-        val invalidEmail = loginRequestWithInvalidEmail.email
-
-        every {
-            emailValidator.validate(invalidEmail)
-        } returns false
-
-        // action
-        val result: Boolean = useCase.isRegisterFormValid(
-            email = invalidEmail,
-            password = "",
-            confirmPassword = ""
-        )
-
-        // assert
-        assertEquals(expectedResult, result)
-    }
-
-    @Test
-    fun `should return false when isRegisterFormValid execute with invalid password`() {
-        // arrange
-        val expectedResult = false
-        val invalidPassword = loginRequestWithInvalidPassword.email
-
-        every {
-            emailValidator.validate(any())
-        } returns true
-
-        every {
-            passwordValidator.validate(invalidPassword)
-        } returns false
-
-        // action
-        val result: Boolean = useCase.isRegisterFormValid(
-            email = "",
-            password = invalidPassword,
-            confirmPassword = ""
-        )
-
-        // assert
-        assertEquals(expectedResult, result)
+        useCase = RegisterUseCase(adminRepository)
     }
 
     @Test
@@ -98,15 +49,14 @@ internal class RegisterUseCaseTest {
             } throws UserAdminErrorException.AdminNetwork
 
             // action
-            val result: RegisterState = useCase.register(
+            val result: BprResult<Unit> = useCase.invoke(
                 email = email,
                 password = password
             )
 
             // assert
-            assertTrue(result is RegisterState.Error)
-            val convertedErrorResult: RegisterState.Error = result as RegisterState.Error
-            assertEquals(expectedTypeError, convertedErrorResult.type)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedTypeError, convertedErrorResult.error)
         }
     }
 
@@ -127,15 +77,14 @@ internal class RegisterUseCaseTest {
             } throws UserAdminErrorException.AdminAccountAlreadyExists
 
             // action
-            val result: RegisterState = useCase.register(
+            val result = useCase.invoke(
                 email = existingEmail,
                 password = password
             )
 
             // assert
-            assertTrue(result is RegisterState.Error)
-            val convertedErrorResult: RegisterState.Error = result as RegisterState.Error
-            assertEquals(expectedTypeError, convertedErrorResult.type)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedTypeError, convertedErrorResult.error)
         }
     }
 
@@ -156,15 +105,14 @@ internal class RegisterUseCaseTest {
             } throws Exception()
 
             // action
-            val result: RegisterState = useCase.register(
+            val result = useCase.invoke(
                 email = email,
                 password = password
             )
 
             // assert
-            assertTrue(result is RegisterState.Error)
-            val convertedErrorResult: RegisterState.Error = result as RegisterState.Error
-            assertEquals(expectedTypeError, convertedErrorResult.type)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedTypeError, convertedErrorResult.error)
         }
     }
 
@@ -173,7 +121,7 @@ internal class RegisterUseCaseTest {
 
         runBlocking {
             // arrange
-            val expectedResultState = RegisterState.Success
+            val expectedResultState = BprResult.Success(Unit)
             val email: String = loginRequestValid.email
             val password: String = loginRequestValid.password
 
@@ -185,7 +133,7 @@ internal class RegisterUseCaseTest {
             } returns Admin(email, password, "1")
 
             // action
-            val result: RegisterState = useCase.register(
+            val result = useCase.invoke(
                 email = email,
                 password = password
             )

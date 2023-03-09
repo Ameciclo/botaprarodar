@@ -58,7 +58,7 @@ private fun ScreenContent(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            DefaultTopBar(backAction)
+            DefaultTopBar(R.string.forgot_my_password, backAction)
         },
     ) {
         Column(

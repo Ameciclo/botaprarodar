@@ -4,76 +4,58 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.common.enumType.BprErrorType
-import app.igormatos.botaprarodar.databinding.ActivityRegistrationBinding
 import app.igormatos.botaprarodar.presentation.login.BaseAuthActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import app.igormatos.botaprarodar.presentation.login.passwordRecovery.*
+import app.igormatos.botaprarodar.presentation.login.signin.composables.InputField
+import app.igormatos.botaprarodar.presentation.login.signin.composables.VisibilityButton
+import org.koin.java.KoinJavaComponent
 
 class RegisterActivity : BaseAuthActivity() {
 
-    private lateinit var binding: ActivityRegistrationBinding
-    private val viewModel: RegisterViewModel by viewModel()
-
     override val snackBarview: View
-        get() = binding.btnSend
+        get() = View(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegistrationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        setupToolbar(binding.registrationToolbar)
-        setupEventListeners()
-        observeEvents()
-    }
-
-    private fun setupEventListeners() {
-        binding.btnSend.setOnClickListener {
-            resetFormErrors()
-            viewModel.register()
-        }
-    }
-
-    private fun resetFormErrors() {
-        binding.ilEmail.error = null
-    }
-
-    private fun observeEvents() {
-        viewModel.registerState.observe(this, { registerState ->
-            when (registerState) {
-                is RegisterState.Error -> {
-                    loadingDialog.hide()
-                    notifyErrorEvents(registerState.type)
+        setContent {
+            RegisterScreen(
+                onEvent = {
+                    when(it) {
+                        is RegisterEvent.Loading -> if (it.show) loadingDialog.show() else loadingDialog.hide()
+                        RegisterEvent.Finish -> finish()
+                        RegisterEvent.RegisterSuccessful -> {
+                            showSuccessConfirmDialog(
+                                title = R.string.title_register_completed,
+                                message = R.string.message_register_completed,
+                                click = { finish() }
+                            )
+                        }
+                    }
                 }
-                RegisterState.Loading -> loadingDialog.show()
-                RegisterState.Success -> {
-                    loadingDialog.hide()
-                    showSuccessConfirmDialog(
-                        title = R.string.title_register_completed,
-                        message = R.string.message_register_completed,
-                        click = { finish() }
-                    )
-                }
-            }
-        })
-    }
-
-    private fun notifyErrorEvents(errorType: BprErrorType) {
-        when (errorType) {
-            BprErrorType.NETWORK -> showMessage(R.string.network_error_message)
-            BprErrorType.INVALID_ACCOUNT -> binding.ilEmail.error =
-                getString(R.string.email_already_registered_error)
-            else -> showMessage(R.string.unkown_error)
+            )
         }
     }
 
     companion object {
-        fun getStartIntent(context: Context): Intent {
-            return Intent(context, RegisterActivity::class.java)
-        }
+        fun getStartIntent(context: Context) = Intent(context, RegisterActivity::class.java)
     }
 }
