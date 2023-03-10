@@ -8,13 +8,12 @@ import app.igormatos.botaprarodar.presentation.login.signin.SignInData
 import app.igormatos.botaprarodar.domain.usecase.signin.LoginUseCase
 import app.igormatos.botaprarodar.presentation.login.signin.LoginState
 import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
-import app.igormatos.botaprarodar.presentation.login.signin.SignInResult
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 import app.igormatos.botaprarodar.utils.*
 import com.google.common.truth.Truth.assertThat
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,7 +64,7 @@ internal class LoginViewModelTest {
     fun `should change LoginState to NETWORK error when execute login without network connection`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.NETWORK)
+            val error = BprResult.Failure(Exception(), BprErrorType.NETWORK)
             val expectedResult = LoginState.Error(signInDataValid, R.string.network_error_message)
 
             viewModel.onEmailChanged(loginRequestValid.email)
@@ -84,7 +83,7 @@ internal class LoginViewModelTest {
     fun `should change LoginState to INVALID_ACCOUNT error when execute login with non-existent email account`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
+            val error = BprResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
             val data = SignInData(
                 emailError = R.string.sign_in_incorrect_email_password_error,
                 passwordError = R.string.sign_in_incorrect_email_password_error
@@ -104,7 +103,7 @@ internal class LoginViewModelTest {
     fun `should change LoginState to INVALID_PASSWORD error when execute login with existent email account and wrong password`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
+            val error = BprResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
             val data = SignInData(
                 emailError = R.string.sign_in_incorrect_email_password_error,
                 passwordError = R.string.sign_in_incorrect_email_password_error
@@ -124,7 +123,7 @@ internal class LoginViewModelTest {
     fun `should change LoginState to EMAIL_NOT_VERIFIED error when execute login with existent email account and corret password, but unverified account`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.EMAIL_NOT_VERIFIED)
+            val error = BprResult.Failure(Exception(), BprErrorType.EMAIL_NOT_VERIFIED)
             val expectedResult = LoginState.RetryVerifyEmail(SignInData())
 
             coEvery { loginUseCase.invoke(any(), any()) } returns error
@@ -140,7 +139,7 @@ internal class LoginViewModelTest {
     fun `should change LoginState to UNKNOWN error when execute login with unmapped exception`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.UNKNOWN)
+            val error = BprResult.Failure(Exception(), BprErrorType.UNKNOWN)
             val expectedResult = LoginState.Error(SignInData(), R.string.login_error)
 
             coEvery { loginUseCase.invoke(any(), any()) } returns error
@@ -158,7 +157,7 @@ internal class LoginViewModelTest {
         val email = loginRequestValid.email
         val password = loginRequestValid.password
         val admin = Admin(email, password, "1")
-        val expectedResult = SignInResult.Success(admin)
+        val expectedResult = BprResult.Success(admin)
         var actualAdmin: Admin? = null
 
         coEvery { loginUseCase.invoke(any(), any()) } returns expectedResult
@@ -176,7 +175,7 @@ internal class LoginViewModelTest {
     fun `should change ResendEmailState to NETWORK error when execute sendEmailVerification without network connection`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.NETWORK)
+            val error = BprResult.Failure(Exception(), BprErrorType.NETWORK)
             val expectedResult = LoginState.Error(SignInData(), R.string.network_error_message)
 
             coEvery { resendEmailUseCase.invoke() } returns error
@@ -192,7 +191,7 @@ internal class LoginViewModelTest {
     fun `should change ResendEmailState to UNKNOWN error when execute sendEmailVerification with unmapped exception`() =
         runBlocking {
             // arrange
-            val error = SignInResult.Failure(Exception(), BprErrorType.UNKNOWN)
+            val error = BprResult.Failure(Exception(), BprErrorType.UNKNOWN)
             val expectedResult = LoginState.Error(SignInData(), R.string.login_error)
 
             coEvery { resendEmailUseCase.invoke() } returns error
@@ -210,7 +209,7 @@ internal class LoginViewModelTest {
             // arrange
             val expectedResult = LoginState.EmailSent(SignInData())
 
-            coEvery { resendEmailUseCase.invoke() } returns SignInResult.Success(Unit)
+            coEvery { resendEmailUseCase.invoke() } returns BprResult.Success(Unit)
 
             // action
             viewModel.sendEmailVerification()

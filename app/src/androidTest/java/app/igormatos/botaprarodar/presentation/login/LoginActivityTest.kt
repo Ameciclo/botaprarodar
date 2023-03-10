@@ -11,7 +11,6 @@ import app.igormatos.botaprarodar.presentation.login.signin.LoginState
 import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
 import app.igormatos.botaprarodar.presentation.login.signin.SignInData
 import app.igormatos.botaprarodar.presentation.login.signin.composables.LoginScreen
-import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

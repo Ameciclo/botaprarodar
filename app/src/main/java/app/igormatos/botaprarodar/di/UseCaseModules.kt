@@ -40,8 +40,7 @@ val useCasesModule = module {
 
     factory {
         PasswordRecoveryUseCase(
-            get(),
-            get(named(EMAIL_VALIDATOR_NAME))
+            get()
         )
     }
     single { StepFinalReturnBikeUseCase(get(), get()) }

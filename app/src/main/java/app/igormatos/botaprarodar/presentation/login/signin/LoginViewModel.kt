@@ -42,8 +42,8 @@ class LoginViewModel(
             _state.value = LoginState.Loading(data)
 
             when(val result = loginUseCase.invoke(data.email, data.password)) {
-                is SignInResult.Success -> onSuccess(result.data)
-                is SignInResult.Failure -> {
+                is BprResult.Success -> onSuccess(result.data)
+                is BprResult.Failure -> {
                     when(result.error) {
                         NETWORK -> _state.value = LoginState.Error(data, R.string.network_error_message)
                         UNKNOWN -> _state.value = LoginState.Error(data, R.string.login_error)
@@ -68,8 +68,8 @@ class LoginViewModel(
 
         viewModelScope.launch {
             when(val result = resendEmailUseCase.invoke()) {
-                is SignInResult.Success -> _state.value = LoginState.EmailSent(data)
-                is SignInResult.Failure -> {
+                is BprResult.Success -> _state.value = LoginState.EmailSent(data)
+                is BprResult.Failure -> {
                     val message = when(result.error) {
                         NETWORK -> R.string.network_error_message
                         else -> R.string.login_error
