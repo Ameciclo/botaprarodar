@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.signin.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable

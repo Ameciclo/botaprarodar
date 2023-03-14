@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
-import app.igormatos.botaprarodar.presentation.login.LoginViewModel
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
+import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
 import app.igormatos.botaprarodar.presentation.main.viewModel.HomeViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every

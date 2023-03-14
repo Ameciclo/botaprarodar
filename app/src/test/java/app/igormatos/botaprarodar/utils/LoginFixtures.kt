@@ -1,5 +1,8 @@
 package app.igormatos.botaprarodar.utils
 
+import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.presentation.login.signin.SignInData
+
 class LoginRequest(
     val email: String,
     val password: String,
@@ -40,4 +43,14 @@ val loginRequestWithInvalidConfirmPassword = LoginRequest(
     email = EMAIL_VALID,
     password = PASSWORD_VALID,
     confirmPassword = PASSWORD_INVALID
+)
+
+val signInDataValid = SignInData(
+    email = EMAIL_VALID,
+    password = PASSWORD_VALID
+)
+
+val signInDataInvalidAccount = SignInData(
+    emailError = R.string.sign_in_incorrect_email_password_error,
+    passwordError = R.string.sign_in_incorrect_email_password_error
 )

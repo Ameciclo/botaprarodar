@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInVi
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.presentation.login.LoginViewModel
+import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPasswordViewModel
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel

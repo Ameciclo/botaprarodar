@@ -102,6 +102,7 @@ dependencies {
 
     // Test
     testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "com.google.truth:truth:1.1.2"
 
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation 'androidx.navigation:navigation-testing:2.3.5'

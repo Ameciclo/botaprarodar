@@ -12,7 +12,7 @@ import app.igormatos.botaprarodar.databinding.ActivitySelectCommunityBinding
 import app.igormatos.botaprarodar.domain.model.community.Community
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityActivity
 import app.igormatos.botaprarodar.presentation.login.BaseAuthActivity
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.signin.LoginActivity
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import app.igormatos.botaprarodar.presentation.welcome.CommunityAdapter
 import com.brunotmgomes.ui.extensions.visible

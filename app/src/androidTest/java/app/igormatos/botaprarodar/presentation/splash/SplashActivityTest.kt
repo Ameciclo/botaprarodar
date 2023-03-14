@@ -9,7 +9,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.signin.LoginActivity
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
 import app.igormatos.botaprarodar.presentation.splash.SplashRobot.Companion.HOME
