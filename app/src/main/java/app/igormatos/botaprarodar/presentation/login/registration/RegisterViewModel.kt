@@ -1,41 +1,61 @@
 package app.igormatos.botaprarodar.presentation.login.registration
 
 import androidx.lifecycle.*
+import app.igormatos.botaprarodar.R
+import app.igormatos.botaprarodar.common.enumType.BprErrorType
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(
-    private val registerUseCase: RegisterUseCase
-) : ViewModel() {
+class RegisterViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {
 
-    val email = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    val confirmPassword = MutableLiveData<String>()
+    val state: StateFlow<RegisterState>
+        get() = _state.asStateFlow()
 
-    val isButtonRegisterEnable = MediatorLiveData<Boolean>().apply {
-        addSource(email) { validateForm() }
-        addSource(password) { validateForm() }
-        addSource(confirmPassword) { validateForm() }
-    }
+    private val _state: MutableStateFlow<RegisterState> =
+        MutableStateFlow(RegisterState.Empty)
 
-    private val _registerState = MutableLiveData<RegisterState>()
-    val registerState: LiveData<RegisterState>
-        get() = _registerState
-
-    private fun validateForm() {
-        isButtonRegisterEnable.value = registerUseCase.isRegisterFormValid(
-            email = email.value?.trim(),
-            password = password.value,
-            confirmPassword = confirmPassword.value
-        )
-    }
-
-    fun register() {
-        _registerState.value = RegisterState.Loading
+    fun register(onSuccess: () -> Unit) {
         viewModelScope.launch {
-            _registerState.value = registerUseCase.register(
-                email = email.value.toString().trim(),
-                password = password.value.toString()
-            )
+            val data = _state.value.data
+
+            _state.value = RegisterState.Loading(data)
+
+            when(val result = registerUseCase.invoke(data.email, data.password)) {
+                is BprResult.Success -> onSuccess()
+                is BprResult.Failure -> {
+                    when (result.error) {
+                        BprErrorType.NETWORK -> _state.value = RegisterState.Error(data, R.string.network_error_message)
+                        BprErrorType.INVALID_ACCOUNT -> {
+                            val newData = data.copy(emailError = R.string.email_already_registered_error)
+                            _state.value =  RegisterState.Success(newData)
+                        }
+                        else -> _state.value = RegisterState.Error(data, R.string.unkown_error)
+                    }
+                }
+            }
         }
+    }
+
+    fun onEmailChanged(text: String) {
+        val data = _state.value.data.copy(email = text.trim(), emailError = null)
+        _state.value = RegisterState.Success(data)
+    }
+
+    fun onPasswordChange(text: String) {
+        val data = _state.value.data.copy(password = text.trim())
+        _state.value = RegisterState.Success(data)
+    }
+
+    fun onConfirmPasswordChange(text: String) {
+        val data = _state.value.data.copy(confirmPassword = text.trim())
+        _state.value = RegisterState.Success(data)
+    }
+
+    fun onShowPasswordChanged(value: Boolean) {
+        val data = _state.value.data.copy(showPassword = value)
+        _state.value = RegisterState.Success(data)
     }
 }

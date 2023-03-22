@@ -1,9 +1,13 @@
 package app.igormatos.botaprarodar.presentation.login.registration
 
-import app.igormatos.botaprarodar.common.enumType.BprErrorType
+import androidx.annotation.StringRes
 
-sealed class RegisterState() {
-    object Success : RegisterState()
-    class Error(val type: BprErrorType) : RegisterState()
-    object Loading : RegisterState()
+sealed class RegisterState(open val data: RegisterData) {
+    object Empty : RegisterState(RegisterData())
+    class Success(override val data: RegisterData) : RegisterState(data)
+    class Loading(override val data: RegisterData) : RegisterState(data)
+    class Error(
+        override val data: RegisterData,
+        @StringRes val message: Int
+    ) : RegisterState(data)
 }

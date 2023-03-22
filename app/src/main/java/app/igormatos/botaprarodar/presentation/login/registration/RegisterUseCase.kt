@@ -3,30 +3,20 @@ package app.igormatos.botaprarodar.presentation.login.registration
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
 import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.authentication.Validator
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 
-class RegisterUseCase(
-    private val adminRepository: AdminRepository,
-    private val emailValidator: Validator<String?>,
-    private val passwordValidator: Validator<String?>
-) {
+class RegisterUseCase(private val adminRepository: AdminRepository) {
 
-    suspend fun register(email: String, password: String): RegisterState {
+    suspend operator fun invoke(email: String, password: String): BprResult<Unit> {
         return try {
             adminRepository.createAdmin(email, password)
-            RegisterState.Success
+            BprResult.Success(Unit)
         } catch (e: UserAdminErrorException.AdminNetwork) {
-            RegisterState.Error(type = BprErrorType.NETWORK)
+            BprResult.Failure(e, BprErrorType.NETWORK)
         } catch (e: UserAdminErrorException.AdminAccountAlreadyExists) {
-            RegisterState.Error(type = BprErrorType.INVALID_ACCOUNT)
+            BprResult.Failure(e, BprErrorType.INVALID_ACCOUNT)
         } catch (e: Exception) {
-            RegisterState.Error(type = BprErrorType.UNKNOWN)
+            BprResult.Failure(e, BprErrorType.UNKNOWN)
         }
-    }
-
-    fun isRegisterFormValid(email: String?, password: String?, confirmPassword: String?): Boolean {
-        return emailValidator.validate(email)
-                && passwordValidator.validate(password)
-                && password == confirmPassword
     }
 }

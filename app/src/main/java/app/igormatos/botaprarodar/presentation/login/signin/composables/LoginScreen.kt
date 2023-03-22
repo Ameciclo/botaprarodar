@@ -81,7 +81,7 @@ private fun ScreenContent(
         Column(
             verticalArrangement = Arrangement.spacedBy(34.dp)
         ) {
-            InputFiled(
+            InputField(
                 state = state.email,
                 label = { Text(text = stringResource(id = R.string.prompt_email)) },
                 keyboardType = KeyboardType.Email,
@@ -90,7 +90,7 @@ private fun ScreenContent(
                 onValueChange = onEmailChange
             )
 
-            InputFiled(
+            InputField(
                 state = state.password,
                 label = { Text(text = stringResource(id = R.string.prompt_password)) },
                 keyboardType = KeyboardType.Password,

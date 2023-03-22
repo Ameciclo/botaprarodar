@@ -19,7 +19,6 @@ import app.igormatos.botaprarodar.presentation.login.selectCommunity.admin.Admin
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.community.CommunityUseCase
 import app.igormatos.botaprarodar.presentation.main.trips.tripDetail.TripDetailUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 @ExperimentalCoroutinesApi
@@ -32,9 +31,7 @@ val useCasesModule = module {
 
     factory {
         RegisterUseCase(
-            get(),
-            get(named(EMAIL_VALIDATOR_NAME)),
-            get(named(PASSWORD_VALIDATOR_NAME))
+            get()
         )
     }
 

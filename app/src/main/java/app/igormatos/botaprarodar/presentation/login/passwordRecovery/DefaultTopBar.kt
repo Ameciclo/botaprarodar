@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.presentation.login.passwordRecovery
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
@@ -14,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import app.igormatos.botaprarodar.R
 
 @Composable
-fun DefaultTopBar(backAction: () -> Unit) {
+fun DefaultTopBar(@StringRes title: Int, backAction: () -> Unit) {
     TopAppBar(
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.White
@@ -30,7 +31,7 @@ fun DefaultTopBar(backAction: () -> Unit) {
             }
 
             Text(
-                stringResource(id = R.string.forgot_my_password),
+                stringResource(id = title),
                 color = colorResource(id = R.color.dark_gray),
                 style = MaterialTheme.typography.body1
             )
