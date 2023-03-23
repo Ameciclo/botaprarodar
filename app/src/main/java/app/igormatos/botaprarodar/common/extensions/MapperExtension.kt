@@ -1,5 +1,6 @@
 package app.igormatos.botaprarodar.common.extensions
 
+import app.igormatos.botaprarodar.common.enumType.BicycleReturnUseType
 import app.igormatos.botaprarodar.data.local.quiz.DevolutionQuizAnswerName
 import app.igormatos.botaprarodar.data.local.quiz.QuizBuilder
 import app.igormatos.botaprarodar.domain.model.Bike
@@ -10,8 +11,8 @@ fun <T, E> Map<in T, E>.convertToList(): MutableList<E> {
     return this.values.toMutableList()
 }
 
-fun Map<String, List<String>>.getIndexFromList( keyMap: String, listValue: String ): Int {
-   return this[keyMap]?.indexOfLast{ listValue == it }.takeIf { it != null &&  it > -1 } ?: 0
+fun Map<String, List<String>>.getIndexFromList(keyMap: String, listValue: String): Int {
+    return this[keyMap]?.indexOfLast { listValue == it }.takeIf { it != null && it > -1 } ?: 0
 }
 
 fun Map<String, BikeRequest>.convertMapperToBikeList(): MutableList<Bike> {
@@ -50,7 +51,9 @@ fun QuizBuilder.toQuiz(): Quiz {
     this.build().answerList.map {
         when (it.quizName) {
             DevolutionQuizAnswerName.REASON -> {
-                quiz.reason = it.value.toString()
+                val bicycleReturnUseType =
+                    BicycleReturnUseType.getBicycleReturnUseTypeByValue(it.value.toString())
+                quiz.reason = bicycleReturnUseType?.index
             }
             DevolutionQuizAnswerName.DESTINATION -> {
                 quiz.destination = it.value.toString()

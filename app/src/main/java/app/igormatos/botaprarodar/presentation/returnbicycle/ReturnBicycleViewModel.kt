@@ -7,6 +7,7 @@ import app.igormatos.botaprarodar.data.local.SharedPreferencesModule
 import app.igormatos.botaprarodar.domain.adapter.ReturnStepper
 import app.igormatos.botaprarodar.domain.model.Bike
 import app.igormatos.botaprarodar.domain.model.Quiz
+import app.igormatos.botaprarodar.domain.usecase.returnbicycle.GetNeighborhoodsUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepFinalReturnBikeUseCase
 import app.igormatos.botaprarodar.domain.usecase.returnbicycle.StepOneReturnBikeUseCase
 import app.igormatos.botaprarodar.presentation.returnbicycle.stepFinalReturnBike.DEFAULT_RETURNS_ERROR_MESSAGE
@@ -22,6 +23,7 @@ class ReturnBicycleViewModel(
     private val stepOneReturnBikeUseCase: StepOneReturnBikeUseCase,
     private val stepFinalReturnBikeUseCase: StepFinalReturnBikeUseCase,
     private val preferencesModule: SharedPreferencesModule,
+    private val neighborhoodsUseCase: GetNeighborhoodsUseCase,
 ) : ViewModel(), DefaultLifecycleObserver {
     private val _bikesAvailableToReturn = MutableLiveData<SimpleResult<List<Bike>>>()
     val bikesAvailableToReturn: LiveData<SimpleResult<List<Bike>>> = _bikesAvailableToReturn
@@ -43,6 +45,15 @@ class ReturnBicycleViewModel(
 
     private val _errorState = MutableLiveData<String>()
     val errorState: LiveData<String> = _errorState
+
+    private val _neighborhoods = MutableLiveData<Array<String>>()
+    val neighborhoods: LiveData<Array<String>> = _neighborhoods
+
+    init {
+        viewModelScope.launch {
+            _neighborhoods.postValue(neighborhoodsUseCase.invoke().toTypedArray())
+        }
+    }
 
     fun setInitialStep() {
         stepperAdapter.setCurrentStep(StepConfigType.SELECT_BIKE)
@@ -117,4 +128,6 @@ class ReturnBicycleViewModel(
     fun setBike(bike: Bike) {
         _bikeHolder.value = bike
     }
+    
+    fun loadBicycleReturnUseArray(): Array<String> = stepOneReturnBikeUseCase.getBicycleReturnUseMap().values.toTypedArray()
 }

@@ -252,6 +252,7 @@
     <string name="return_bike_reasons">Qual foi o motivo da sua viagem?</string>
     <string name="return_bike_neighborhood_hint">Qual foi o bairro de destino?*</string>
     <string name="return_bike_confirm_devolution">Confirmar devolução</string>
+    <string name="return_bike_write_neighborhood_hint">Informe o bairro de destino?*</string>
 
     <string-array name="return_bike_purpose_list">
         <item>Seu local de trabalho</item>
@@ -328,11 +329,15 @@
 
     <!-- Login Activity -->
     <string name="forgot_my_password">Esqueci minha senha</string>
-    <string name="sign_up">Não tem conta? <b><u>Cadastra-se</u></b></string>
+    <string name="sign_up">Não tem conta? Cadastra-se</string>
+    <string name="no_account">Não tem conta?</string>
+    <string name="register">Cadastra-se</string>
     <string name="title_resend_email">Reenvio de email</string>
     <string name="message_resend_email">Reenviado email com sucesso</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
+    <string name="hide_password">Esconder senha</string>
+    <string name="show_password">Mostrar senha</string>
 
     <!-- Password Revocery Activity -->
     <string name="enter_email_to_recover_password">Insira o e-mail associado à sua conta e iremos enviar um link para recuperar a sua senha.</string>

@@ -1,11 +1,15 @@
 package app.igormatos.botaprarodar.presentation.login.passwordRecovery
 
-import androidx.lifecycle.Observer
+import app.igormatos.botaprarodar.R
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
+import com.google.common.truth.Truth.assertThat
 import io.mockk.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,10 +20,6 @@ internal class RecoveryPasswordViewModelTest {
     private lateinit var useCase: PasswordRecoveryUseCase
     private lateinit var viewModel: RecoveryPasswordViewModel
 
-    private val observerButtonEnableMock = mockk<Observer<Boolean>>(relaxed = true)
-    private val observerPasswordRecoveryStateMock =
-        mockk<Observer<PasswordRecoveryState>>(relaxed = true)
-
     @BeforeEach
     fun setup() {
         useCase = mockk()
@@ -27,115 +27,84 @@ internal class RecoveryPasswordViewModelTest {
     }
 
     @Test
-    fun `should change isButtonEnable to false when email is invalid`() {
-        // arrange
-        val expectedResult = false
-        val invalidEmail = loginRequestWithInvalidEmail.email
-        every {
-            useCase.isEmailValid(invalidEmail)
-        } returns false
-        viewModel.isButtonEnable.observeForever(observerButtonEnableMock)
+    internal fun `should update state when email changes`() = runBlocking {
+        viewModel.onEmailChanged(loginRequestValid.email)
 
-        // action
-        viewModel.email.value = invalidEmail
-        viewModel.javaClass.getDeclaredMethod(
-            VALIDATE_FORM_METHOD
-        ).apply {
-            isAccessible = true
-            invoke(viewModel)
-        }
-
-        // assert
-        verify {
-            observerButtonEnableMock.onChanged(expectedResult)
-        }
+        assertThat(viewModel.state.value).isInstanceOf(RecoveryPasswordState.Success::class.java)
+        assertThat(viewModel.state.value.data.email).isEqualTo(loginRequestValid.email)
     }
 
     @Test
-    fun `should change isButtonEnable to true when email is valid`() {
+    fun `should emit loading state`() = runBlocking {
         // arrange
-        val expectedResult = true
-        val validEmail = loginRequestValid.email
-        every {
-            useCase.isEmailValid(validEmail)
-        } returns true
-        viewModel.isButtonEnable.observeForever(observerButtonEnableMock)
+        coEvery { useCase.invoke(any()) } throws Exception()
 
         // action
-        viewModel.email.value = validEmail
-        viewModel.javaClass.getDeclaredMethod(
-            VALIDATE_FORM_METHOD
-        ).apply {
-            isAccessible = true
-            invoke(viewModel)
-        }
-
-        // assert
-        verify {
-            observerButtonEnableMock.onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `should change passwordRecoveryState to Success when usecase execute with success`() {
-        // arrange
-        val validEmail = loginRequestValid.email
-        coEvery {
-            useCase.sendPasswordResetEmail(validEmail)
-        } returns PasswordRecoveryState.Success
-        viewModel.passwordRecoveryState.observeForever(observerPasswordRecoveryStateMock)
-
-        // action
-        viewModel.recoveryPassword(validEmail)
+        runCatching { viewModel.recoverPassword {} }
 
         //assert
-        verifyOrder {
-            observerPasswordRecoveryStateMock.onChanged(PasswordRecoveryState.Loading)
-            observerPasswordRecoveryStateMock.onChanged(PasswordRecoveryState.Success)
-        }
+        assertThat(viewModel.state.first()).isInstanceOf(RecoveryPasswordState.Loading::class.java)
     }
 
     @Test
-    fun `should change passwordRecoveryState to NETWORK error when usecase execute with network fail`() {
+    fun `should notify password recovery changed successfully`() {
         // arrange
-        val expectedErrorType = PasswordRecoveryState.Error(BprErrorType.NETWORK)
-        val validEmail = loginRequestValid.email
-        coEvery {
-            useCase.sendPasswordResetEmail(validEmail)
-        } returns expectedErrorType
-        viewModel.passwordRecoveryState.observeForever(observerPasswordRecoveryStateMock)
+        var called = false
+
+        coEvery { useCase.invoke(any()) } returns BprResult.Success(Unit)
 
         // action
-        viewModel.recoveryPassword(validEmail)
+        viewModel.recoverPassword {
+            called = true
+        }
 
         //assert
-        verifyOrder {
-            observerPasswordRecoveryStateMock.onChanged(PasswordRecoveryState.Loading)
-            observerPasswordRecoveryStateMock.onChanged(expectedErrorType)
-        }
+        assertTrue(called)
     }
 
     @Test
-    fun `should change passwordRecoveryState to INVALID_ACCOUNT error when usecase execute with email invalid account`() {
+    fun `should change passwordRecoveryState to NETWORK error when use case execute with network fail`() = runBlocking {
         // arrange
-        val expectedErrorType = PasswordRecoveryState.Error(BprErrorType.INVALID_ACCOUNT)
-        val email = loginRequestValid.email
-        coEvery {
-            useCase.sendPasswordResetEmail(email)
-        } returns expectedErrorType
-        viewModel.passwordRecoveryState.observeForever(observerPasswordRecoveryStateMock)
+        val errorType = BprResult.Failure(Exception(), BprErrorType.NETWORK)
+
+        coEvery { useCase.invoke(any()) } returns errorType
 
         // action
-        viewModel.recoveryPassword(email)
+        viewModel.recoverPassword {}
 
         //assert
-        verifyOrder {
-            observerPasswordRecoveryStateMock.onChanged(PasswordRecoveryState.Loading)
-            observerPasswordRecoveryStateMock.onChanged(expectedErrorType)
-        }
+        assertThat(viewModel.state.first()).isInstanceOf(RecoveryPasswordState.Error::class.java)
+        assertThat((viewModel.state.first() as RecoveryPasswordState.Error).message).isEqualTo(R.string.network_error_message)
     }
 
-    companion object {
-        private const val VALIDATE_FORM_METHOD = "validateForm"
+    @Test
+    fun `should change passwordRecoveryState to INVALID_ACCOUNT error when use case execute with email invalid account`() = runBlocking {
+        // arrange
+        val errorType = BprResult.Failure(Exception(), BprErrorType.INVALID_ACCOUNT)
+        val expectedResult = RecoveryPasswordData(emailError = R.string.sign_in_email_error)
+
+        coEvery { useCase.invoke(any()) } returns errorType
+
+        // action
+        viewModel.recoverPassword {}
+
+        //assert
+        assertThat(viewModel.state.first()).isInstanceOf(RecoveryPasswordState.Success::class.java)
+        assertThat(viewModel.state.first().data).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun `should change passwordRecoveryState to UNKNOWN error when use case execute with email invalid account`() = runBlocking {
+        // arrange
+        val errorType = BprResult.Failure(Exception(), BprErrorType.UNKNOWN)
+
+        coEvery { useCase.invoke(any()) } returns errorType
+
+        // action
+        viewModel.recoverPassword {}
+
+        //assert
+        assertThat(viewModel.state.first()).isInstanceOf(RecoveryPasswordState.Error::class.java)
+        assertThat((viewModel.state.first() as RecoveryPasswordState.Error).message).isEqualTo(R.string.unkown_error)
     }
 }

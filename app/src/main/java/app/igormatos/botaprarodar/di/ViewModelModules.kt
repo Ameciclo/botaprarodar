@@ -8,7 +8,7 @@ import app.igormatos.botaprarodar.presentation.authentication.viewmodel.SignInVi
 import app.igormatos.botaprarodar.presentation.bikeForm.BikeFormViewModel
 import app.igormatos.botaprarodar.presentation.bikewithdraw.viewmodel.WithdrawViewModel
 import app.igormatos.botaprarodar.presentation.createcommunity.AddCommunityViewModel
-import app.igormatos.botaprarodar.presentation.login.LoginViewModel
+import app.igormatos.botaprarodar.presentation.login.signin.LoginViewModel
 import app.igormatos.botaprarodar.presentation.login.passwordRecovery.RecoveryPasswordViewModel
 import app.igormatos.botaprarodar.presentation.login.registration.RegisterViewModel
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityViewModel
@@ -47,7 +47,7 @@ val viewModelModule = module {
     viewModel { UserQuizViewModel(get()) }
     viewModel { TripDetailViewModel(get()) }
 
-    single { ReturnBicycleViewModel(get(), get(), get(), get()) }
+    single { ReturnBicycleViewModel(get(), get(), get(), get(), get()) }
 
     viewModel { EmailValidationViewModel(get(), get(named(EMAIL_VALIDATOR_NAME))) }
     viewModel { SignInViewModel(get(), get(named(PASSWORD_VALIDATOR_NAME))) }

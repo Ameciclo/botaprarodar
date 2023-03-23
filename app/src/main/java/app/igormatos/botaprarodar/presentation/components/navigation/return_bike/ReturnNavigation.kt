@@ -20,7 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable()
 fun ReturnNavigationComponent(
-    vm: ReturnBicycleViewModel,
+    viewModel: ReturnBicycleViewModel,
     bikeList: List<Bike>,
     navController: NavHostController,
     handleClick: (Any?) -> Unit,
@@ -32,15 +32,15 @@ fun ReturnNavigationComponent(
         }
 
         composable(ReturnScreen.ReturnQuiz.route) {
-            ReturnBicycleQuizPage(handleClick = handleClick)
+            ReturnBicycleQuizPage(handleClick = handleClick, viewModel = viewModel)
         }
 
         composable(ReturnScreen.ReturnConfirmation.route) {
-            val bike = vm.bikeHolder.value
+            val bike = viewModel.bikeHolder.value
             bike?.let {
-                ReturnBicycleResume(vm.loadingState.observeAsState(initial = false), it) {
-                    vm.addDevolution {
-                        vm.navigateToFinishedStep()
+                ReturnBicycleResume(viewModel.loadingState.observeAsState(initial = false), it) {
+                    viewModel.addDevolution {
+                        viewModel.navigateToFinishedStep()
                         navController.navigate(ReturnScreen.ReturnFinishAction.route)
                     }
                 }

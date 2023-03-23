@@ -1,35 +1,33 @@
 package app.igormatos.botaprarodar.presentation.login.passwordRecovery
 
 import app.igormatos.botaprarodar.common.enumType.BprErrorType
-import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException
+import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException.AdminAccountNotFound
+import app.igormatos.botaprarodar.data.model.error.UserAdminErrorException.AdminNetwork
 import app.igormatos.botaprarodar.data.repository.AdminRepository
-import app.igormatos.botaprarodar.presentation.authentication.Validator
 import app.igormatos.botaprarodar.utils.InstantExecutorExtension
 import app.igormatos.botaprarodar.utils.loginRequestValid
-import app.igormatos.botaprarodar.utils.loginRequestWithInvalidEmail
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import app.igormatos.botaprarodar.presentation.login.signin.BprResult
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.RelaxedMockK
 
 @ExtendWith(InstantExecutorExtension::class)
 internal class PasswordRecoveryUseCaseTest {
 
-    private lateinit var useCase: PasswordRecoveryUseCase
+    @RelaxedMockK
     private lateinit var adminRepository: AdminRepository
-    private lateinit var emailValidator: Validator<String?>
-
+    private lateinit var useCase: PasswordRecoveryUseCase
 
     @BeforeEach
     fun setup() {
-        adminRepository = mockk()
-        emailValidator = mockk()
-        useCase = PasswordRecoveryUseCase(adminRepository, emailValidator)
+        MockKAnnotations.init(this)
+        useCase = PasswordRecoveryUseCase(adminRepository)
     }
 
     @Test
@@ -37,19 +35,17 @@ internal class PasswordRecoveryUseCaseTest {
         runBlocking {
             // arrange
             val expectedErrorType = BprErrorType.NETWORK
-            val email: String = loginRequestValid.email
+            val email = loginRequestValid.email
 
-            coEvery {
-                adminRepository.sendPasswordResetEmail(email)
-            } throws UserAdminErrorException.AdminNetwork
+            coEvery { adminRepository.sendPasswordResetEmail(email) } throws AdminNetwork
 
             // action
-            val result: PasswordRecoveryState = useCase.sendPasswordResetEmail(email)
+            val result = useCase.invoke(email)
 
             // assert
-            assertTrue(result is PasswordRecoveryState.Error)
-            val convertedErrorResult = result as PasswordRecoveryState.Error
-            assertEquals(expectedErrorType, convertedErrorResult.type)
+            assertTrue(result is BprResult.Failure)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedErrorType, convertedErrorResult.error)
         }
     }
 
@@ -58,19 +54,17 @@ internal class PasswordRecoveryUseCaseTest {
         runBlocking {
             // arrange
             val expectedErrorType = BprErrorType.INVALID_ACCOUNT
-            val email: String = loginRequestValid.email
+            val email = loginRequestValid.email
 
-            coEvery {
-                adminRepository.sendPasswordResetEmail(email)
-            } throws UserAdminErrorException.AdminAccountNotFound
+            coEvery { adminRepository.sendPasswordResetEmail(email) } throws AdminAccountNotFound
 
             // action
-            val result: PasswordRecoveryState = useCase.sendPasswordResetEmail(email)
+            val result = useCase.invoke(email)
 
             // assert
-            assertTrue(result is PasswordRecoveryState.Error)
-            val convertedErrorResult = result as PasswordRecoveryState.Error
-            assertEquals(expectedErrorType, convertedErrorResult.type)
+            assertTrue(result is BprResult.Failure)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedErrorType, convertedErrorResult.error)
         }
     }
 
@@ -79,19 +73,17 @@ internal class PasswordRecoveryUseCaseTest {
         runBlocking {
             // arrange
             val expectedErrorType = BprErrorType.UNKNOWN
-            val email: String = loginRequestValid.email
+            val email = loginRequestValid.email
 
-            coEvery {
-                adminRepository.sendPasswordResetEmail(email)
-            } throws Exception()
+            coEvery { adminRepository.sendPasswordResetEmail(email) } throws Exception()
 
             // action
-            val result: PasswordRecoveryState = useCase.sendPasswordResetEmail(email)
+            val result = useCase.invoke(email)
 
             // assert
-            assertTrue(result is PasswordRecoveryState.Error)
-            val convertedErrorResult = result as PasswordRecoveryState.Error
-            assertEquals(expectedErrorType, convertedErrorResult.type)
+            assertTrue(result is BprResult.Failure)
+            val convertedErrorResult = result as BprResult.Failure
+            assertEquals(expectedErrorType, convertedErrorResult.error)
         }
     }
 
@@ -99,52 +91,16 @@ internal class PasswordRecoveryUseCaseTest {
     fun `should return PasswordRecoveryState with SUCCESS when sendPasswordResetEmail execute with success`() {
         runBlocking {
             // arrange
-            val expectedState = PasswordRecoveryState.Success
-            val email: String = loginRequestValid.email
+            val expectedState = BprResult.Success(Unit)
+            val email = loginRequestValid.email
 
-            coEvery {
-                adminRepository.sendPasswordResetEmail(email)
-            } returns true
+            coEvery { adminRepository.sendPasswordResetEmail(email) } returns true
 
             // action
-            val result: PasswordRecoveryState = useCase.sendPasswordResetEmail(email)
+            val result = useCase.invoke(email)
 
             // assert
             assertEquals(expectedState, result)
         }
-    }
-
-    @Test
-    fun `should return true when validate execute with valid email`() {
-        // arrange
-        val expectedResult = true
-        val email: String = loginRequestValid.email
-
-        every {
-            emailValidator.validate(email)
-        } returns true
-
-        // action
-        val result: Boolean = useCase.isEmailValid(email)
-
-        // assert
-        assertEquals(expectedResult, result)
-    }
-
-    @Test
-    fun `should return false when validate execute with invalid email`() {
-        // arrange
-        val expectedResult = false
-        val email: String = loginRequestWithInvalidEmail.email
-
-        every {
-            emailValidator.validate(email)
-        } returns false
-
-        // action
-        val result: Boolean = useCase.isEmailValid(email)
-
-        // assert
-        assertEquals(expectedResult, result)
     }
 }

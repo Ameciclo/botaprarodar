@@ -2,14 +2,13 @@ package app.igormatos.botaprarodar.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.ExperimentalComposeUiApi
 import app.igormatos.botaprarodar.R
-import app.igormatos.botaprarodar.presentation.login.LoginActivity
+import app.igormatos.botaprarodar.presentation.login.signin.LoginActivity
 import app.igormatos.botaprarodar.presentation.login.selectCommunity.SelectCommunityActivity
 import app.igormatos.botaprarodar.presentation.main.HomeActivity
+import app.igormatos.botaprarodar.presentation.splash.SplashViewModel.UserLoginState.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,25 +22,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-
-        observeEvents()
-        Handler(Looper.getMainLooper()).postDelayed({ observeEvents()
-            viewModel.verifyUserLoginState()
-        }, 0)
-
-
-    }
-
-    private fun observeEvents() {
-        viewModel.userloginState.observe(this) { userLoginState ->
-            val intent = when (userLoginState) {
-                SplashViewModel.UserLoginState.LoggedIn ->
-                    HomeActivity.getStartIntent(this)
-                SplashViewModel.UserLoginState.PartiallyLoggedIn ->
-                    SelectCommunityActivity.getStartIntent(this)
-                SplashViewModel.UserLoginState.NotLoggedIn ->
-                    LoginActivity.getStartIntent(this)
+        viewModel.userLoginState.observe(this) {
+            val intent = when (it) {
+                LoggedIn -> HomeActivity.getStartIntent(this)
+                PartiallyLoggedIn -> SelectCommunityActivity.getStartIntent(this)
+                LoggedOut -> LoginActivity.getStartIntent(this)
             }
+
             navigateToActivity(intent)
         }
     }
@@ -49,9 +36,6 @@ class SplashActivity : AppCompatActivity() {
     private fun navigateToActivity(intent: Intent) {
         startActivity(intent)
         finish()
-        overridePendingTransition(
-            R.anim.slide_in_bottom,
-            R.anim.slide_out_top
-        )
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top)
     }
 }

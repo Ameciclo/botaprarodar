@@ -56,4 +56,15 @@ class BikeRepository(
             }
         }
     }
+
+    //TODO  Is need get list from Firebase
+    fun getBicycleReturnUseMap() =
+        mapOf(
+            0 to "Para realizar entregas de aplicativos.",
+            1 to "Deslocar para o local de trabalho.",
+            2 to "Deslocar para o local de estudo.",
+            3 to "Levar crianças para escola ou creche.",
+            4 to "Resolver coisas do dia a dia. Ex: Mercado, lotéricas, banco.",
+            5 to "Para passear, lazer."
+        )
 }

@@ -48,7 +48,8 @@
         <activity android:name=".presentation.login.selectCommunity.SelectCommunityActivity" />
         <activity android:name=".presentation.login.registration.RegisterActivity" />
         <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />
-        <activity android:name=".presentation.login.LoginActivity" />
+        <activity android:name=".presentation.login.passwordRecovery.PasswordRecoveryActivity" />
+        <activity android:name=".presentation.login.signin.LoginActivity" />
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"
